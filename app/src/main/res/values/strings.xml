@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">mommydndn-aos</string>
+
+    <string name="social_login_label">SNS 간편 로그인</string>
 </resources>

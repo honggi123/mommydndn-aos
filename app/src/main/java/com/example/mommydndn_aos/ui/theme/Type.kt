@@ -23,7 +23,7 @@ val MommydndnTypography = Typography(
 
 val Typography.caption100: TextStyle
     @Composable get() = caption.copy(
-        fontSize = 11.sp
+        fontSize = 11.sp,
     )
 
 val Typography.caption200: TextStyle
