@@ -1,4 +1,4 @@
-package com.example.mommydndn_aos.ui.component
+package com.mommydndn.app.ui.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -12,11 +12,11 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.mommydndn_aos.R
-import com.example.mommydndn_aos.ui.theme.Grey700
-import com.example.mommydndn_aos.ui.theme.MommydndnaosTheme
-import com.example.mommydndn_aos.ui.theme.Paddings
-import com.example.mommydndn_aos.ui.theme.paragraph300
+import com.mommydndn.app.R
+import com.mommydndn.app.ui.theme.Grey700
+import com.mommydndn.app.ui.theme.MommydndnaosTheme
+import com.mommydndn.app.ui.theme.Paddings
+import com.mommydndn.app.ui.theme.paragraph300
 
 
 @Composable

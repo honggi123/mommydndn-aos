@@ -1,4 +1,4 @@
-package com.example.mommydndn_aos
+package com.mommydndn.app
 
 import org.junit.Test
 

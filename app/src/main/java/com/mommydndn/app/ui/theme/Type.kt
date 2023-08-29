@@ -1,4 +1,4 @@
-package com.example.mommydndn_aos.ui.theme
+package com.mommydndn.app.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.runtime.Composable
@@ -7,7 +7,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.example.mommydndn_aos.R
+import com.mommydndn.app.R
 
 private val notosanskr = FontFamily(
     Font(R.font.noto_sans_kr_bold, FontWeight.Bold),

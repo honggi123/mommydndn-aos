@@ -1,4 +1,4 @@
-package com.example.mommydndn_aos
+package com.mommydndn.app
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

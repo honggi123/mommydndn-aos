@@ -1,7 +1,5 @@
-package com.example.mommydndn_aos.ui.theme
+package com.mommydndn.app.ui.theme
 
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
 import androidx.compose.ui.graphics.Color
 
 val Purple200 = Color(0xFFBB86FC)
