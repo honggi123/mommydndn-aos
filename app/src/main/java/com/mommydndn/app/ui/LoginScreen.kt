@@ -1,15 +1,13 @@
-package com.example.mommydndn_aos.ui.login
+package com.mommydndn.app.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -21,7 +19,6 @@ import com.mommydndn.app.ui.theme.heading800
 import com.mommydndn.app.R
 import com.mommydndn.app.ui.theme.Paddings
 import com.mommydndn.app.ui.theme.paragraph300
-
 @Composable
 fun LoginScreen() {
     Scaffold(
