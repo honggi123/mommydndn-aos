@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,15 +28,27 @@ fun LoginScreen() {
         topBar = {
             Header(
                 rightContent = {
-                    ClickableText(
-                        modifier = Modifier.padding(end = 20.dp),
-                        text = AnnotatedString("먼저 둘러보기"),
-                        style = MaterialTheme.typography.paragraph300.copy(
-                            color = Grey500,
-                            fontWeight = FontWeight.Medium
-                        ),
-                        onClick = {}
-                    )
+                    TextButton(
+                        onClick = {},
+                        contentPadding = PaddingValues(
+                            top = 6.dp,
+                            bottom = 6.dp,
+                            start = 8.dp,
+                            end = 8.dp
+                        )
+                    ) {
+                        Text(
+                            modifier = Modifier.padding(0.dp),
+                            text = "먼저 둘러보기",
+                            style = MaterialTheme.typography.paragraph300.copy(
+                                color = Grey500,
+                                fontWeight = FontWeight.Medium,
+                                platformStyle = PlatformTextStyle(
+                                    includeFontPadding = false
+                                )
+                            )
+                        )
+                    }
                 }
             )
         }
