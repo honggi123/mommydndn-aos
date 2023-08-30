@@ -24,7 +24,6 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.primary
                 ) {
                     Greeting("Android")
-                    SocialLoginBox()
                 }
             }
         }

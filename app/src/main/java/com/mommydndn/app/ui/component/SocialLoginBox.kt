@@ -20,7 +20,11 @@ import com.mommydndn.app.ui.theme.paragraph300
 
 
 @Composable
-fun SocialLoginBox() {
+fun SocialLoginBox(
+    onClickKakao: () -> Unit,
+    onClickGoogle: () -> Unit,
+    onClickNaver: () -> Unit
+) {
     Box(modifier = Modifier.fillMaxWidth()) {
         Column(
             modifier = Modifier
@@ -40,7 +44,7 @@ fun SocialLoginBox() {
             Spacer(modifier = Modifier.height(Paddings.xlarge))
             Row {
                 IconButton(
-                    onClick = {},
+                    onClick = { onClickGoogle() },
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_logo_google),
@@ -51,7 +55,7 @@ fun SocialLoginBox() {
                 }
                 Spacer(modifier = Modifier.width(Paddings.xlarge))
                 IconButton(
-                    onClick = {},
+                    onClick = { onClickKakao() },
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_logo_kakao),
@@ -62,7 +66,7 @@ fun SocialLoginBox() {
                 }
                 Spacer(modifier = Modifier.width(Paddings.xlarge))
                 IconButton(
-                    onClick = {},
+                    onClick = { onClickNaver() },
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_logo_naver),
@@ -76,10 +80,3 @@ fun SocialLoginBox() {
     }
 }
 
-@Preview
-@Composable
-fun SocialLoginBoxPreview() {
-    MommydndnaosTheme {
-        SocialLoginBox()
-    }
-}
