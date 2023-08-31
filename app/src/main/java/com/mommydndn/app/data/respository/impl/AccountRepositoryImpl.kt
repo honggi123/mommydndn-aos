@@ -10,9 +10,9 @@ import javax.inject.Inject
 
 class AccountRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
-    private val preferences: Preferences
+    private val pref: Preferences
 ) : AccountRepository {
-    override suspend fun signIn(tokenId: String, type: LoginType) {
+    override suspend fun logIn(tokenId: String, type: LoginType) {
         val request = LoginRequest(tokenId)
         val response = when (type) {
             LoginType.GOOGLE -> apiService.loginGoogle(request)
@@ -22,8 +22,8 @@ class AccountRepositoryImpl @Inject constructor(
 
         if (response.isSuccessful) {
             val loginResponse = response.body()
-            preferences.putAccessToken(loginResponse?.accessToken)
-            preferences.putRefreshToken(loginResponse?.refreshToken)
+            pref.putAccessToken(loginResponse?.accessToken)
+            pref.putRefreshToken(loginResponse?.refreshToken)
         }
     }
 }
