@@ -8,6 +8,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface ApiService {
@@ -28,9 +29,12 @@ interface ApiService {
 
     companion object {
         private const val BASE_URL = "http://43.202.31.251"
-
         fun create(): ApiService {
+            val logger =
+                HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC }
+
             val client = OkHttpClient.Builder()
+                .addInterceptor(logger)
                 .addInterceptor(ApiInterceptor())
                 .build()
 

@@ -40,6 +40,22 @@
                     android:scheme="@string/kakao_native_app_key" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="com.navercorp.nid.oauth.NidOAuthBridgeActivity"
+            android:exported="true"
+            tools:replace="android:theme"
+            android:theme="@style/Theme.AppCompat"/>
+        <activity
+            android:name="com.navercorp.nid.oauth.activity.NidOAuthWebViewActivity"
+            android:exported="true"
+            tools:replace="android:theme"
+            android:theme="@style/Theme.AppCompat"/>
+        <activity
+            android:name="com.navercorp.nid.oauth.activity.NidOAuthCustomTabActivity"
+            android:exported="true"
+            tools:replace="android:theme"
+            android:theme="@style/Theme.AppCompat"/>
     </application>
 
 </manifest>
