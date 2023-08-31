@@ -6,7 +6,7 @@
     <string name="kakao_app_key">f95f5801ad85b99260ef83cd39341344</string>
     <string name="kakao_native_app_key">kakaof95f5801ad85b99260ef83cd39341344</string>
 
-    <string name="naver_client_id">uM69gmPTqakOjLnosboF</string>
-    <string name="naver_client_secret">6Vc9jzwQg7</string>
+    <string name="naver_client_id">EHzWp4GFU57IT3b7WHrq</string>
+    <string name="naver_client_secret">GgT0aetYFn</string>
     <string name="naver_client_name">test</string>
 </resources>
