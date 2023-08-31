@@ -10,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.mommydndn.app.ui.LoginScreen
 import com.mommydndn.app.ui.component.SocialLoginBox
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
 
@@ -18,13 +19,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MommydndnaosTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.primary
-                ) {
-                    Greeting("Android")
-                }
+                LoginScreen()
             }
         }
     }
