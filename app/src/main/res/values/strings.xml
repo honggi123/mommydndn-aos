@@ -3,4 +3,6 @@
 
     <string name="social_login_label">SNS 간편 로그인</string>
 
+    <string name="kakao_app_key">f95f5801ad85b99260ef83cd39341344</string>
+    <string name="kakao_native_app_key">kakaof95f5801ad85b99260ef83cd39341344</string>
 </resources>
