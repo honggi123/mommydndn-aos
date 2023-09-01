@@ -29,14 +29,15 @@ import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.ui.viewmodel.AccountViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kakao.sdk.common.util.Utility
-import com.mommydndn.app.data.model.SignInType
+import com.mommydndn.app.data.model.LoginType
+import com.navercorp.nid.NaverIdLoginSDK
+import com.navercorp.nid.oauth.OAuthLoginCallback
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun LoginScreen(viewModel: AccountViewModel = viewModel()) {
+    val TAG = "LoginScreen"
     val context = LocalContext.current
-    var keyHash = Utility.getKeyHash(context)
-    Log.e("hashkeyyy",keyHash)
     val kakaoCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         when {
             error != null -> {
@@ -46,6 +47,24 @@ fun LoginScreen(viewModel: AccountViewModel = viewModel()) {
             token != null -> {
                 loginWithKakaoNickName(token, viewModel)
             }
+        }
+    }
+    val naverCallback = object : OAuthLoginCallback {
+        override fun onSuccess() {
+            Log.e(TAG,"로그인 성공")
+
+            val token = NaverIdLoginSDK.getAccessToken()
+            if (token != null) {
+                viewModel.signIn(tokenId = token, LoginType.NAVER)
+            }
+        }
+        override fun onFailure(httpStatus: Int, message: String) {
+            val errorCode = NaverIdLoginSDK.getLastErrorCode().code
+            val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
+            Log.e(TAG,"errorCode:$errorCode errorDesc:$errorDescription")
+        }
+        override fun onError(errorCode: Int, message: String) {
+            onFailure(errorCode, message)
         }
     }
 
@@ -120,7 +139,7 @@ fun LoginScreen(viewModel: AccountViewModel = viewModel()) {
             SocialLoginBox(
                 onClickGoogle = { loginGoogle() },
                 onClickKakao = { loginKakao(context, kakaoCallback) },
-                onClickNaver = { loginNaver() }
+                onClickNaver = { loginNaver(context, naverCallback) }
             )
         }
     }
@@ -134,11 +153,9 @@ private fun loginWithKakaoNickName(token: OAuthToken, viewModel: AccountViewMode
             }
 
             user != null -> {
-                Log.e("Kakao","login")
-
                 viewModel.signIn(
                     tokenId = token.accessToken,
-                    type = SignInType.KAKAO
+                    type = LoginType.KAKAO
                 )
             }
         }
@@ -166,4 +183,6 @@ private fun loginKakao(context: Context, kakaoCallback: (OAuthToken?, Throwable?
 }
 
 private fun loginGoogle() {}
-private fun loginNaver() {}
+private fun loginNaver(context: Context, oAuthLoginCallback: OAuthLoginCallback) {
+    NaverIdLoginSDK.authenticate(context, oAuthLoginCallback)
+}

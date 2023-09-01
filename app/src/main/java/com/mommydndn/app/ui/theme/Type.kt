@@ -15,12 +15,9 @@ private val notosanskr = FontFamily(
     Font(R.font.noto_sans_kr_regular, FontWeight.Normal)
 )
 
-private val defaultTypography = Typography()
-
 val MommydndnTypography = Typography(
     defaultFontFamily = notosanskr,
 )
-
 val Typography.caption100: TextStyle
     @Composable get() = caption.copy(
         fontSize = 11.sp,

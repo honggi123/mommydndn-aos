@@ -1,5 +1,5 @@
 package com.mommydndn.app.data.model
 
-enum class SignInType {
+enum class LoginType {
     GOOGLE, KAKAO, NAVER
 }
