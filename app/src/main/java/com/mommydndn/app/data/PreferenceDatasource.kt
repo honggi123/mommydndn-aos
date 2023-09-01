@@ -2,6 +2,8 @@ package com.mommydndn.app.data
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -13,7 +15,22 @@ class Preferences @Inject constructor(
         return context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
     }
 
-    private val prefs = getPreference(context)
+
+    private val prefs: SharedPreferences by lazy {
+
+        val masterKeyAlias = MasterKey
+            .Builder(context, MasterKey.DEFAULT_MASTER_KEY_ALIAS)
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+            .build()
+
+        EncryptedSharedPreferences.create(
+            context,
+            PREFERENCE_NAME,
+            masterKeyAlias,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
+    }
     private val editor = prefs.edit()
 
     companion object {
@@ -32,10 +49,10 @@ class Preferences @Inject constructor(
     }
 
     fun putAccessToken(accessToken: String?) {
-        putString(ACCESS_TOKEN,accessToken)
+        putString(ACCESS_TOKEN, accessToken)
     }
 
     fun putRefreshToken(refreshToken: String?) {
-        putString(REFRESH_TOKEN,refreshToken)
+        putString(REFRESH_TOKEN, refreshToken)
     }
 }

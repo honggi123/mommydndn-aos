@@ -14,6 +14,7 @@ class AccountRepositoryImpl @Inject constructor(
 ) : AccountRepository {
     override suspend fun logIn(tokenId: String, type: LoginType) {
         val request = LoginRequest(tokenId)
+
         val response = when (type) {
             LoginType.GOOGLE -> apiService.loginGoogle(request)
             LoginType.KAKAO -> apiService.loginKakao(request)
