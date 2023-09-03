@@ -28,6 +28,7 @@ import com.mommydndn.app.ui.theme.Paddings
 import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.ui.viewmodel.AccountViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.kakao.sdk.common.util.Utility
 import com.mommydndn.app.data.model.LoginType
 import com.mommydndn.app.ui.theme.Salmon600
@@ -36,7 +37,10 @@ import com.navercorp.nid.oauth.OAuthLoginCallback
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun LoginScreen(viewModel: AccountViewModel = viewModel()) {
+fun LoginScreen(
+    viewModel: AccountViewModel = viewModel(),
+    navHostController: NavHostController
+) {
     val TAG = "LoginScreen"
     val context = LocalContext.current
     val kakaoCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->

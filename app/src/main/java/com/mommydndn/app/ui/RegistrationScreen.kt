@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.mommydndn.app.ui.component.MaintextBox
 import com.mommydndn.app.ui.component.button.SquareButton
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
@@ -25,13 +28,17 @@ import com.mommydndn.app.R
 import com.mommydndn.app.ui.component.Header
 
 @Composable
-fun RegistrationScreen() {
+fun RegistrationScreen(
+    navHostController: NavHostController
+) {
     Column(modifier = Modifier.fillMaxSize()) {
         Header(leftContent = {
-            Image(
-                painter = painterResource(id = R.drawable.arrow_left),
-                contentDescription = ""
-            )
+            IconButton(onClick = { }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.arrow_left),
+                    contentDescription = "back"
+                )
+            }
         })
         MaintextBox(
             captionText = "마미든든에 어서오세요 :)",
@@ -64,10 +71,3 @@ fun RegistrationScreen() {
     }
 }
 
-@Preview
-@Composable
-fun previewRegistrationScreen() {
-    MommydndnaosTheme {
-        RegistrationScreen()
-    }
-}
