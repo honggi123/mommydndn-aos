@@ -31,7 +31,7 @@ val Typography.caption200: TextStyle
 val Typography.paragraph300: TextStyle
     @Composable get() = TextStyle(
         fontSize = 15.sp,
-        fontFamily = notosanskr
+        fontFamily = notosanskr,
     )
 
 val Typography.paragraph400: TextStyle

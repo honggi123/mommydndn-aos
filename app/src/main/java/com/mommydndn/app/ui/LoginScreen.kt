@@ -30,6 +30,7 @@ import com.mommydndn.app.ui.viewmodel.AccountViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kakao.sdk.common.util.Utility
 import com.mommydndn.app.data.model.LoginType
+import com.mommydndn.app.ui.theme.Salmon600
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.OAuthLoginCallback
 
@@ -51,99 +52,97 @@ fun LoginScreen(viewModel: AccountViewModel = viewModel()) {
     }
     val naverCallback = object : OAuthLoginCallback {
         override fun onSuccess() {
-            Log.e(TAG,"로그인 성공")
+            Log.e(TAG, "로그인 성공")
 
             val token = NaverIdLoginSDK.getAccessToken()
             if (token != null) {
                 viewModel.signIn(tokenId = token, LoginType.NAVER)
             }
         }
+
         override fun onFailure(httpStatus: Int, message: String) {
             val errorCode = NaverIdLoginSDK.getLastErrorCode().code
             val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
-            Log.e(TAG,"errorCode:$errorCode errorDesc:$errorDescription")
+            Log.e(TAG, "errorCode:$errorCode errorDesc:$errorDescription")
         }
+
         override fun onError(errorCode: Int, message: String) {
             onFailure(errorCode, message)
         }
     }
 
-    Scaffold(
-        topBar = {
-            Header(
-                rightContent = {
-                    TextButton(
-                        onClick = {},
-                        contentPadding = PaddingValues(
-                            top = 6.dp,
-                            bottom = 6.dp,
-                            start = 8.dp,
-                            end = 8.dp
-                        )
-                    ) {
-                        Text(
-                            modifier = Modifier.padding(0.dp),
-                            text = "먼저 둘러보기",
-                            style = MaterialTheme.typography.paragraph300.copy(
-                                color = Grey500,
-                                fontWeight = FontWeight.Medium,
-                                platformStyle = PlatformTextStyle(
-                                    includeFontPadding = false
-                                )
-                            )
-                        )
-                    }
-                }
-            )
-        }
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize(),
-        ) {
-            Box(
-                modifier = Modifier.weight(1f)
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
+        Header(
+            rightContent = {
+                TextButton(
+                    onClick = {},
+                    contentPadding = PaddingValues(
+                        top = 6.dp,
+                        bottom = 6.dp,
+                        start = 8.dp,
+                        end = 8.dp
+                    )
                 ) {
-                    Image(
-                        modifier = Modifier
-                            .width(125.dp)
-                            .height(121.dp),
-                        painter = painterResource(id = R.drawable.ic_logo),
-                        contentDescription = ""
-                    )
-                    Spacer(modifier = Modifier.height(Paddings.extra))
                     Text(
-                        text = "우리 동네 엄마 찾기",
-                        style = MaterialTheme.typography.heading800.copy(
-                            color = Grey500,
-                            fontWeight = FontWeight.Bold
-                        ),
-                    )
-                    Spacer(modifier = Modifier.height(Paddings.xlarge))
-                    Text(
-                        text = "내 아이를 맡길 수 있는\n따뜻한 동네 엄마를 찾아보세요",
+                        modifier = Modifier.padding(0.dp),
+                        text = "먼저 둘러보기",
                         style = MaterialTheme.typography.paragraph300.copy(
                             color = Grey500,
-                            fontWeight = FontWeight.Medium
-                        ),
-                        textAlign = TextAlign.Center
+                            fontWeight = FontWeight.Medium,
+                            platformStyle = PlatformTextStyle(
+                                includeFontPadding = false
+                            )
+                        )
                     )
                 }
             }
-            SocialLoginBox(
-                onClickGoogle = { loginGoogle() },
-                onClickKakao = { loginKakao(context, kakaoCallback) },
-                onClickNaver = { loginNaver(context, naverCallback) }
+        )
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                modifier = Modifier
+                    .width(125.dp)
+                    .height(121.dp),
+                painter = painterResource(id = R.drawable.ic_logo),
+                contentDescription = ""
+            )
+            Spacer(modifier = Modifier.height(Paddings.extra))
+            Text(
+                text = "우리 동네 엄마 찾기",
+                style = MaterialTheme.typography.heading800.copy(
+                    color = Salmon600,
+                    fontWeight = FontWeight.Bold
+                ),
+            )
+            Spacer(modifier = Modifier.height(Paddings.large))
+            Text(
+                text = "내 아이를 맡길 수 있는\n따뜻한 동네 엄마를 찾아보세요",
+                style = MaterialTheme.typography.paragraph300.copy(
+                    color = Grey500,
+                    fontWeight = FontWeight.Medium
+                ),
+                textAlign = TextAlign.Center
             )
         }
+
+        SocialLoginBox(
+            modifier = Modifier.padding(bottom = 96.dp),
+            onClickGoogle = { loginGoogle() },
+            onClickKakao = { loginKakao(context, kakaoCallback) },
+            onClickNaver = { loginNaver(context, naverCallback) }
+        )
     }
+
 }
+
 
 private fun loginWithKakaoNickName(token: OAuthToken, viewModel: AccountViewModel) {
     UserApiClient.instance.me { user, error ->
