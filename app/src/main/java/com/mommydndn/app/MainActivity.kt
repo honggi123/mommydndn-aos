@@ -9,6 +9,7 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import com.kakao.sdk.common.KakaoSdk
 import com.mommydndn.app.ui.LoginScreen
+import com.mommydndn.app.ui.RegistrationScreen
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
 import com.navercorp.nid.NaverIdLoginSDK
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,7 +27,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.primary
                 ) {
-                    LoginScreen()
+                    RegistrationScreen()
                 }
             }
         }
