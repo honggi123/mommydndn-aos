@@ -5,9 +5,9 @@ object SignInNav : Destination {
     override val title: String = NavigationTitle.SIGN_IN
 }
 
-object MemberTypeChoiceNav : Destination {
-    override val route: String = NavigationRouteName.MEMBER_TYPE_CHOICE
-    override val title: String = NavigationTitle.MEMBER_TYPE_CHOICE
+object TypeChoiceNav : Destination {
+    override val route: String = NavigationRouteName.TYPE_CHOICE
+    override val title: String = NavigationTitle.TYPE_CHOICE
 }
 
 interface Destination {
@@ -16,10 +16,10 @@ interface Destination {
 }
 object NavigationRouteName {
     const val SIGN_IN = "로그인"
-    const val MEMBER_TYPE_CHOICE = "개인&기업선택"
+    const val TYPE_CHOICE = "개인&기업선택"
 }
 
 object NavigationTitle {
     const val SIGN_IN = "로그인"
-    const val MEMBER_TYPE_CHOICE = "개인&기업선택"
+    const val TYPE_CHOICE = "개인&기업선택"
 }

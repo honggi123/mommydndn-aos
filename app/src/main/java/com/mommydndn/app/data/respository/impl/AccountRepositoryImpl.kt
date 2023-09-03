@@ -12,7 +12,7 @@ class AccountRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
     private val pref: Preferences
 ) : AccountRepository {
-    override suspend fun logIn(tokenId: String, type: LoginType) {
+    override suspend fun signIn(tokenId: String, type: LoginType) {
         val request = LoginRequest(tokenId)
 
         val response = when (type) {

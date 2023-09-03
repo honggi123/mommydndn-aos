@@ -14,7 +14,7 @@ class AccountViewModel @Inject constructor(
 ) : ViewModel() {
     fun signIn(tokenId: String, type: LoginType) {
         viewModelScope.launch {
-            accountRepository.logIn(tokenId, type)
+            accountRepository.signIn(tokenId, type)
         }
     }
 }
