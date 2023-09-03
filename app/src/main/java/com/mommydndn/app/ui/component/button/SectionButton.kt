@@ -18,13 +18,12 @@ import com.mommydndn.app.ui.theme.*
 
 @Composable
 fun SectionButton(
-    modifier: Modifier = Modifier,
     @StringRes id: Int? = null,
     text: String = "",
     onClick: () -> Unit
 ) {
     Button(
-        modifier = modifier
+        modifier = Modifier
             .width(390.dp)
             .wrapContentHeight()
             .border(width = 1.dp, color = Grey100),
