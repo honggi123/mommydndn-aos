@@ -1,6 +1,5 @@
 package com.mommydndn.app.data.respository.impl
 
-import android.util.Log
 import com.mommydndn.app.data.Preferences
 import com.mommydndn.app.data.api.ApiService
 import com.mommydndn.app.data.api.GoogleApiService
@@ -23,6 +22,7 @@ class AccountRepositoryImpl @Inject constructor(
             LoginType.GOOGLE -> LoginRequest(accessToken = tokenId, oauthProvider = "GOOGLE")
             LoginType.KAKAO -> LoginRequest(accessToken = tokenId, oauthProvider = "KAKAO")
             LoginType.NAVER -> LoginRequest(accessToken = tokenId, oauthProvider = "NAVER")
+
         }
         val response = apiService.login(request)
 
