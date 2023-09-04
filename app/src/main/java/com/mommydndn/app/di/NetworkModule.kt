@@ -3,6 +3,7 @@ package com.mommydndn.app.di
 import com.mommydndn.app.data.api.ApiInterceptor
 import com.mommydndn.app.data.api.ApiService
 import com.mommydndn.app.data.api.GoogleApiService
+import com.skydoves.sandwich.adapters.ApiResponseCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,6 +37,7 @@ class NetworkModule {
             .client(okHttpClient)
             .baseUrl("http://43.202.31.251")
             .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
             .build()
     }
 

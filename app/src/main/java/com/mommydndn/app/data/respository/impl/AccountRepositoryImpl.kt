@@ -9,6 +9,8 @@ import com.mommydndn.app.data.model.LoginRequest
 import com.mommydndn.app.data.model.LoginType
 import com.mommydndn.app.data.respository.AccountRepository
 import retrofit2.Response
+import com.skydoves.sandwich.onSuccess
+import com.skydoves.sandwich.suspendOnSuccess
 import javax.inject.Inject
 
 class AccountRepositoryImpl @Inject constructor(
@@ -26,10 +28,9 @@ class AccountRepositoryImpl @Inject constructor(
         }
         val response = apiService.login(request)
 
-        if (response.isSuccessful) {
-            val loginResponse = response.body()
-            pref.putAccessToken(loginResponse?.accessToken)
-            pref.putRefreshToken(loginResponse?.refreshToken)
+        response.suspendOnSuccess {
+            pref.putAccessToken(data?.accessToken)
+            pref.putRefreshToken(data?.refreshToken)
         }
     }
 
