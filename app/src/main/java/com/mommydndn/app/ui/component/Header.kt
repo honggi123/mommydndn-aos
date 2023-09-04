@@ -9,7 +9,6 @@ import androidx.compose.ui.unit.dp
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.WhiteOpacity600
 
-
 @Composable
 fun Header(
     isCareTab: Boolean = false,

@@ -6,11 +6,16 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.kakao.sdk.common.KakaoSdk
-import com.mommydndn.app.ui.LoginScreen
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.mommydndn.app.ui.SignInNav
+import com.mommydndn.app.ui.TypeChoiceNav
+import com.mommydndn.app.ui.signIn.SignInScreen
+import com.mommydndn.app.ui.signUp.TypeChoiceScreen
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
-import com.navercorp.nid.NaverIdLoginSDK
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -18,17 +23,33 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         setContent {
             MommydndnaosTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.primary
                 ) {
-                    LoginScreen()
+                    MainNavigationScreen()
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun MainNavigationScreen() {
+    val navController = rememberNavController()
+
+    NavHost(navController = navController, startDestination = SignInNav.route) {
+        composable(
+            route = SignInNav.route,
+        ) {
+            SignInScreen(navHostController = navController)
+        }
+        composable(
+            route = TypeChoiceNav.route,
+        ) {
+            TypeChoiceScreen(navHostController = navController)
         }
     }
 }
