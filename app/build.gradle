@@ -89,4 +89,5 @@ dependencies {
 >>>>>>> 53e3e6b (MOM-122 auth api 상태코드에 따라 회원가입 이동 네비게이션 추가)
     implementation 'com.squareup.okhttp3:okhttp:4.9.2'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.2'
+
 }
