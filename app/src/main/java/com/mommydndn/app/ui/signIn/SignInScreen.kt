@@ -71,7 +71,8 @@ fun SignInScreen(
                 viewModel.handleGoogleSignInResult(
                     task,
                     context.getString(R.string.google_client_id),
-                    context.getString(R.string.google_client_secret)
+                    context.getString(R.string.google_client_secret),
+                    navHostController
                 )
 
             }
@@ -84,7 +85,7 @@ fun SignInScreen(
             }
 
             token != null -> {
-                loginWithKakaoNickName(token, viewModel)
+                loginWithKakaoNickName(token, viewModel, navHostController)
             }
         }
     }
@@ -94,7 +95,7 @@ fun SignInScreen(
 
             val token = NaverIdLoginSDK.getAccessToken()
             if (token != null) {
-                viewModel.signIn(tokenId = token, LoginType.NAVER)
+                viewModel.signIn(tokenId = token, type = LoginType.NAVER, navHostController)
             }
         }
 
@@ -180,7 +181,8 @@ fun SignInScreen(
     }
 }
 
-private fun loginWithKakaoNickName(token: OAuthToken, viewModel: AccountViewModel) {
+
+private fun loginWithKakaoNickName(token: OAuthToken, viewModel: AccountViewModel, navHostController: NavHostController) {
     UserApiClient.instance.me { user, error ->
         when {
             error != null -> {
@@ -190,7 +192,8 @@ private fun loginWithKakaoNickName(token: OAuthToken, viewModel: AccountViewMode
             user != null -> {
                 viewModel.signIn(
                     tokenId = token.accessToken,
-                    type = LoginType.KAKAO
+                    type = LoginType.KAKAO,
+                    navHostController
                 )
             }
         }
