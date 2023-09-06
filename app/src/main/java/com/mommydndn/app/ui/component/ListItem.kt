@@ -48,7 +48,8 @@ import com.mommydndn.app.ui.theme.paragraph300
 fun ListItem(
     checked: Boolean,
     onCheckedChange: ((Boolean) -> Unit),
-    text: String
+    text: String,
+    modifier: Modifier = Modifier
 ) {
 
     Crossfade(
@@ -57,7 +58,7 @@ fun ListItem(
         animationSpec = tween(durationMillis = 400)
     ) { isChecked ->
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .width(342.dp)
                 .wrapContentHeight()
                 .background(color = if (checked) Grey50 else White, shape = Shapes.large)
