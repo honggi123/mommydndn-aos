@@ -2,6 +2,9 @@ package com.mommydndn.app.ui.component.button
 
 import android.graphics.BlurMaskFilter
 import androidx.annotation.StringRes
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -16,6 +19,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -45,26 +52,26 @@ fun SquareButton(
     text: String = "",
     onClick: () -> Unit,
 ) {
+    var isSelected by remember { mutableStateOf(status) }
+
+    val backgroundColor by animateColorAsState(
+        targetValue = if (isSelected) Grey100 else Grey50,
+        animationSpec = tween(durationMillis = 100,easing = FastOutSlowInEasing)
+    )
+
     Box(
-        modifier = if (status) {
-            Modifier
-                .width(163.dp)
-                .background(
-                    color = Grey100,
-                    shape = Shapes.large
-                )
-                .padding(24.dp)
-                .clickable(onClick = onClick)
-        } else {
-            Modifier
-                .width(163.dp)
-                .background(
-                    color = Grey50,
-                    shape = Shapes.large
-                )
-                .padding(24.dp)
-                .clickable(onClick = onClick)
-        },
+        modifier =
+        Modifier
+            .width(163.dp)
+            .background(
+                color = backgroundColor,
+                shape = Shapes.large
+            )
+            .padding(24.dp)
+            .clickable(onClick = {
+                isSelected = !isSelected
+                onClick
+            }),
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
