@@ -2,6 +2,7 @@ package com.mommydndn.app.ui.component.button
 
 import android.graphics.BlurMaskFilter
 import androidx.annotation.StringRes
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
@@ -50,53 +51,49 @@ fun SquareButton(
     status: Boolean = false,
     imageResourceId: Int,
     text: String = "",
-    onClick: () -> Unit,
+    onClick: (Boolean) -> Unit,
 ) {
-    var isSelected by remember { mutableStateOf(status) }
-
-    val backgroundColor by animateColorAsState(
-        targetValue = if (isSelected) Grey100 else Grey50,
-        animationSpec = tween(durationMillis = 100,easing = FastOutSlowInEasing)
-    )
-
-    Box(
-        modifier =
-        Modifier
-            .width(163.dp)
-            .background(
-                color = backgroundColor,
-                shape = Shapes.large
-            )
-            .padding(24.dp)
-            .clickable(onClick = {
-                isSelected = !isSelected
-                onClick
-            }),
-    ) {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.Top),
-            horizontalAlignment = Alignment.CenterHorizontally,
+    Crossfade(targetState = status, label = "") { isSelected ->
+        Box(
+            modifier =
+            Modifier
+                .width(163.dp)
+                .background(
+                    color = if (isSelected) Grey100 else Grey50,
+                    shape = Shapes.large
+                )
+                .clickable(onClick = {
+                    onClick(!status)
+                })
+                .padding(24.dp)
+            ,
         ) {
-            Image(
-                painter = painterResource(id = imageResourceId),
-                contentDescription = "",
-                modifier = Modifier
-                    .size(72.dp)
-                    .padding(0.9.dp)
-            )
-            Text(
-                text = text,
-                style = MaterialTheme.typography.paragraph500.copy(
-                    fontWeight = FontWeight.Bold,
-                    color = Grey600,
-                    platformStyle = PlatformTextStyle(
-                        includeFontPadding = false
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.Top),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Image(
+                    painter = painterResource(id = imageResourceId),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(72.dp)
+                        .padding(0.9.dp)
+                )
+                Text(
+                    text = text,
+                    style = MaterialTheme.typography.paragraph500.copy(
+                        fontWeight = FontWeight.Bold,
+                        color = Grey600,
+                        platformStyle = PlatformTextStyle(
+                            includeFontPadding = false
+                        )
                     )
                 )
-            )
+            }
         }
     }
+
 }
 
 
@@ -104,10 +101,14 @@ fun SquareButton(
 @Composable
 fun previewSquareButton() {
     MommydndnaosTheme {
+        var state by remember { mutableStateOf(false) }
+
         SquareButton(
             status = true,
             imageResourceId = R.drawable.person_graphic,
             text = "text"
-        ) {}
+        ) {
+            state = it
+        }
     }
 }
