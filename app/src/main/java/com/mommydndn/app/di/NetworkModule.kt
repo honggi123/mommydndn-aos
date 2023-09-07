@@ -1,5 +1,6 @@
 package com.mommydndn.app.di
 
+import com.mommydndn.app.BuildConfig
 import com.mommydndn.app.data.api.ApiInterceptor
 import com.mommydndn.app.data.api.ApiService
 import com.mommydndn.app.data.api.GoogleApiService
@@ -35,7 +36,7 @@ class NetworkModule {
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
-            .baseUrl("http://43.202.31.251")
+            .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
             .build()

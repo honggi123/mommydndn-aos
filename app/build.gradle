@@ -5,6 +5,10 @@ plugins {
     id 'com.google.dagger.hilt.android'
 }
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def kakaoNativeAppKey = properties.getProperty('KAKAO_NATIVE_APP_KEY')
+
 android {
     compileSdk 34
 
@@ -19,6 +23,16 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        manifestPlaceholders = [kakaoNativeAppKey:kakaoNativeAppKey]
+
+        buildConfigField "String", "BASE_URL", properties["BASE_URL"]
+        buildConfigField "String", "NAVER_CLIENT_ID", properties["NAVER_CLIENT_ID"]
+        buildConfigField "String", "NAVER_CLIENT_SECRET", properties["NAVER_CLIENT_SECRET"]
+        buildConfigField "String", "NAVER_CLIENT_NAME", properties["NAVER_CLIENT_NAME"]
+        buildConfigField "String", "KAKAO_APP_KEY", properties["KAKAO_APP_KEY"]
+        buildConfigField "String", "GOGGLE_CLIENT_ID", properties["GOGGLE_CLIENT_ID"]
+        buildConfigField "String", "GOGGLE_CLIENT_SECRET", properties["GOGGLE_CLIENT_SECRET"]
     }
 
     buildTypes {
@@ -82,11 +96,8 @@ dependencies {
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
     implementation "com.github.skydoves:sandwich:1.2.4"
 
-<<<<<<< HEAD
     implementation 'com.google.android.gms:play-services-auth:20.4.1'
 
-=======
->>>>>>> 53e3e6b (MOM-122 auth api 상태코드에 따라 회원가입 이동 네비게이션 추가)
     implementation 'com.squareup.okhttp3:okhttp:4.9.2'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.2'
 

@@ -42,6 +42,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.Task
+import com.mommydndn.app.BuildConfig
 import com.mommydndn.app.data.model.LoginType
 import com.mommydndn.app.ui.theme.Salmon600
 import com.navercorp.nid.NaverIdLoginSDK
@@ -70,8 +71,8 @@ fun SignInScreen(
 
                 viewModel.handleGoogleSignInResult(
                     task,
-                    context.getString(R.string.google_client_id),
-                    context.getString(R.string.google_client_secret),
+                    BuildConfig.GOGGLE_CLIENT_ID,
+                    BuildConfig.GOGGLE_CLIENT_SECRET,
                     navHostController
                 )
 
