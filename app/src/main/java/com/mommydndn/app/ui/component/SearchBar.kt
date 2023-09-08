@@ -15,7 +15,6 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldColors
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -41,9 +40,9 @@ import com.mommydndn.app.ui.theme.paragraph300
 @Composable
 fun Searchbar(
     keyword: String,
+    placeHolderText: String = "",
     onValueChange: (String) -> Unit,
 ) {
-    var textFieldValue by remember { mutableStateOf(keyword) }
 
     Box(
         Modifier
@@ -75,7 +74,7 @@ fun Searchbar(
                 ),
                 placeholder = {
                     Text(
-                        text = "동명으로 검색해주세요 (ex. 서초동)",
+                        text = placeHolderText,
                         style = MaterialTheme.typography.paragraph300.copy(
                             fontWeight = FontWeight.Medium,
                             color = Grey400,
@@ -85,11 +84,8 @@ fun Searchbar(
                         )
                     )
                 },
-                value = textFieldValue,
-                onValueChange = {
-                    textFieldValue = it
-                    onValueChange
-                },
+                value = keyword,
+                onValueChange = onValueChange,
                 singleLine = true,
                 modifier = Modifier
                     .fillMaxSize()
@@ -103,9 +99,11 @@ fun Searchbar(
 @Composable
 fun previewSearchbar() {
     MommydndnaosTheme {
+        var textFieldValue by remember { mutableStateOf("") }
+
         Searchbar(
-            keyword = "",
-            onValueChange = { },
+            keyword = textFieldValue,
+            onValueChange = { textFieldValue = it },
         )
     }
 }

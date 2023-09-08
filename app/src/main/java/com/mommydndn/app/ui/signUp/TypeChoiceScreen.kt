@@ -20,6 +20,7 @@ import com.mommydndn.app.ui.component.MaintextBox
 import com.mommydndn.app.ui.component.button.SquareButton
 import com.mommydndn.app.R
 import com.mommydndn.app.ui.component.Header
+import com.mommydndn.app.ui.theme.Grey400
 
 @Composable
 fun TypeChoiceScreen(
@@ -30,7 +31,8 @@ fun TypeChoiceScreen(
             IconButton(onClick = { }) {
                 Icon(
                     painter = painterResource(id = R.drawable.arrow_left),
-                    contentDescription = "back"
+                    contentDescription = "back",
+                    tint = Grey400
                 )
             }
         })
