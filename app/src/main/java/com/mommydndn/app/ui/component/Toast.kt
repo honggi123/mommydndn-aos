@@ -33,6 +33,7 @@ import com.mommydndn.app.ui.theme.MommydndnaosTheme
 import com.mommydndn.app.ui.theme.Shapes
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
+import com.mommydndn.app.ui.theme.shadow500
 
 @Composable
 fun Toast(
@@ -48,6 +49,7 @@ fun Toast(
             )
             .width(189.dp)
             .height(48.dp)
+            .then(shadow500)
             .background(color = White, shape = Shapes.large)
             .padding(start = 18.dp, top = 12.dp, end = 18.dp, bottom = 12.dp)
     ) {
@@ -78,6 +80,10 @@ fun Toast(
 @Composable
 fun previewToast() {
     MommydndnaosTheme {
-        Toast(text = "toast")
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .background(White)) {
+            Toast(text = "toast")
+        }
     }
 }

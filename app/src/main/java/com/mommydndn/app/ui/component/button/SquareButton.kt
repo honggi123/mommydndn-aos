@@ -13,6 +13,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -44,7 +45,9 @@ import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
 import com.mommydndn.app.ui.theme.Shapes
+import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph500
+import com.mommydndn.app.ui.theme.shadow500
 
 @Composable
 fun SquareButton(
@@ -58,6 +61,7 @@ fun SquareButton(
             modifier =
             Modifier
                 .width(163.dp)
+                .then(if (isSelected) shadow500 else Modifier)
                 .background(
                     color = if (isSelected) Grey100 else Grey50,
                     shape = Shapes.large
@@ -65,8 +69,7 @@ fun SquareButton(
                 .clickable(onClick = {
                     onClick(!status)
                 })
-                .padding(24.dp)
-            ,
+                .padding(24.dp),
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
@@ -102,13 +105,18 @@ fun SquareButton(
 fun previewSquareButton() {
     MommydndnaosTheme {
         var state by remember { mutableStateOf(false) }
-
-        SquareButton(
-            status = true,
-            imageResourceId = R.drawable.person_graphic,
-            text = "text"
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(White)
         ) {
-            state = it
+            SquareButton(
+                status = true,
+                imageResourceId = R.drawable.person_graphic,
+                text = "text"
+            ) {
+                state = it
+            }
         }
     }
 }
