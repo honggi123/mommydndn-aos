@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -30,7 +28,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.ui.component.Item.CheckBoxListItem
 import com.mommydndn.app.ui.component.Item.CheckMarkListItem
-import com.mommydndn.app.ui.models.CheckListItem
 import com.mommydndn.app.ui.theme.Grey200
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
@@ -55,12 +52,12 @@ fun CheckListModal(
         contentAlignment = Alignment.TopCenter
     ) {
 
-        Divider(
+        Box(
             modifier = Modifier
                 .offset(y = 10.dp)
                 .width(64.dp)
                 .height(6.dp)
-                .background(color = Grey200, shape = RoundedCornerShape(size = 30.dp))
+                .background(color = Grey200, shape = RoundedCornerShape(size = 50.dp))
         )
 
         Column(
@@ -107,10 +104,6 @@ fun CheckListModal(
                 Button(modifier = Modifier.weight(1f), onClick = { completeAction() }) {
                     Text(text = "다음으로")
                 }
-            }
-            Spacer(modifier = Modifier.size(12.dp))
-            Button(modifier = Modifier.fillMaxWidth(), onClick = { }) {
-                Text(text = "다음에하기")
             }
         }
 
