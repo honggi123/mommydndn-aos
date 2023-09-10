@@ -53,6 +53,7 @@ fun ListBox(
             modifier = Modifier
                 .width(390.dp)
                 .height(584.dp)
+                .padding(top = 6.dp)
                 .background(White),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

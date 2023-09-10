@@ -1,15 +1,21 @@
 package com.mommydndn.app.ui.component
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -29,6 +35,8 @@ import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.mommydndn.app.R
 import com.mommydndn.app.ui.theme.Grey100
 import com.mommydndn.app.ui.theme.Grey400
@@ -42,11 +50,11 @@ fun Searchbar(
     keyword: String,
     placeHolderText: String = "",
     onValueChange: (String) -> Unit,
+    backStackAction: () -> Unit,
+    clearAction: () -> Unit,
 ) {
-
-    Box(
+    Column(
         Modifier
-            .border(width = 2.dp, color = Grey100)
             .width(390.dp)
             .height(68.dp)
             .background(color = White)
@@ -59,12 +67,17 @@ fun Searchbar(
                 ),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            IconButton(onClick = {}) {
+
+            IconButton(onClick = {
+                backStackAction()
+            }) {
                 Icon(
                     painter = painterResource(id = R.drawable.arrow_left),
-                    contentDescription = ""
+                    contentDescription = "",
+                    tint = Grey400
                 )
             }
+
             Spacer(modifier = Modifier.padding(6.dp))
 
             TextField(
@@ -88,10 +101,25 @@ fun Searchbar(
                 onValueChange = onValueChange,
                 singleLine = true,
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxSize(),
+                trailingIcon = {
+                    if (!keyword.isEmpty()) {
+                        IconButton(
+                            onClick = { clearAction() },
+                            modifier = Modifier.size(36.dp)
+                        ) {
+                            Icon(
+                                modifier = Modifier
+                                    .padding(8.dp),
+                                painter = painterResource(id = R.drawable.ic_x_circle),
+                                contentDescription = "",
+                                tint = Grey400
+                            )
+                        }
+                    }
+                }
             )
         }
-
     }
 }
 
@@ -100,10 +128,12 @@ fun Searchbar(
 fun previewSearchbar() {
     MommydndnaosTheme {
         var textFieldValue by remember { mutableStateOf("") }
-
         Searchbar(
             keyword = textFieldValue,
             onValueChange = { textFieldValue = it },
+            clearAction = { textFieldValue = "" },
+            placeHolderText = "placeholder",
+            backStackAction = {}
         )
     }
 }
