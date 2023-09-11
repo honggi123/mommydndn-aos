@@ -30,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -40,10 +41,12 @@ import androidx.navigation.compose.rememberNavController
 import com.mommydndn.app.R
 import com.mommydndn.app.ui.theme.Grey100
 import com.mommydndn.app.ui.theme.Grey400
+import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
 import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
+import com.mommydndn.app.utils.bottomBorder
 
 @Composable
 fun Searchbar(
@@ -58,6 +61,7 @@ fun Searchbar(
             .width(390.dp)
             .height(68.dp)
             .background(color = White)
+            .bottomBorder(2.dp, Grey100)
     ) {
         Row(
             modifier = Modifier
@@ -83,7 +87,17 @@ fun Searchbar(
             TextField(
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.White,
-                    cursorColor = Salmon600
+                    cursorColor = Salmon600,
+                    focusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                ),
+                textStyle = MaterialTheme.typography.paragraph300.copy(
+                    fontWeight = FontWeight.Medium,
+                    color = Grey700,
+                    platformStyle = PlatformTextStyle(
+                        includeFontPadding = false
+                    )
                 ),
                 placeholder = {
                     Text(
@@ -100,8 +114,6 @@ fun Searchbar(
                 value = keyword,
                 onValueChange = onValueChange,
                 singleLine = true,
-                modifier = Modifier
-                    .fillMaxSize(),
                 trailingIcon = {
                     if (!keyword.isEmpty()) {
                         IconButton(

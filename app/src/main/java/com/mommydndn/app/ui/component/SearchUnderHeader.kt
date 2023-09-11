@@ -30,6 +30,7 @@ import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
 import com.mommydndn.app.ui.theme.paragraph300
+import com.mommydndn.app.utils.bottomBorder
 
 @Composable
 fun SearchUnderHeader(
@@ -41,7 +42,9 @@ fun SearchUnderHeader(
             .wrapContentHeight()
     ) {
         Column(
-            modifier = Modifier.padding(start = 24.dp, top = 16.dp, end = 24.dp, bottom = 16.dp)
+            modifier = Modifier
+                .padding(start = 24.dp, top = 16.dp, end = 24.dp, bottom = 16.dp)
+                .bottomBorder(1.dp, Grey100)
         ) {
             // 버튼 컴포넌트로 변경 필요
             Button(modifier = Modifier
@@ -71,12 +74,6 @@ fun SearchUnderHeader(
                             includeFontPadding = false
                         )
                     )
-                )
-                Divider(
-                    color = Grey100,
-                    modifier = Modifier
-                        .height(1.dp)
-                        .fillMaxWidth()
                 )
             }
         }
