@@ -15,6 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mommydndn.app.ui.component.Header
 import com.kakao.sdk.auth.model.OAuthToken
@@ -74,11 +75,7 @@ fun SignInScreen(
             onFailure(errorCode, message)
         }
     }
-
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.SpaceBetween
-    ) {
+    Scaffold(topBar = {
         Header(
             rightContent = {
                 TextButton(
@@ -104,12 +101,21 @@ fun SignInScreen(
                 }
             }
         )
-
+    }, bottomBar = {
+        SocialLoginBox(
+            modifier = Modifier.padding(bottom = 96.dp),
+            onClickGoogle = { loginGoogle() },
+            onClickKakao = { loginKakao(context, kakaoCallback) },
+            onClickNaver = { loginNaver(context, naverCallback) }
+        )
+    }
+    ) { innerPadding ->
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight(),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxSize()
+                .padding(innerPadding),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
             Image(
                 modifier = Modifier
@@ -136,17 +142,8 @@ fun SignInScreen(
                 textAlign = TextAlign.Center
             )
         }
-
-        SocialLoginBox(
-            modifier = Modifier.padding(bottom = 96.dp),
-            onClickGoogle = { loginGoogle() },
-            onClickKakao = { loginKakao(context, kakaoCallback) },
-            onClickNaver = { loginNaver(context, naverCallback) }
-        )
     }
-
 }
-
 
 private fun loginWithKakaoNickName(token: OAuthToken, viewModel: AccountViewModel) {
     UserApiClient.instance.me { user, error ->
@@ -189,3 +186,4 @@ private fun loginGoogle() {}
 private fun loginNaver(context: Context, oAuthLoginCallback: OAuthLoginCallback) {
     NaverIdLoginSDK.authenticate(context, oAuthLoginCallback)
 }
+
