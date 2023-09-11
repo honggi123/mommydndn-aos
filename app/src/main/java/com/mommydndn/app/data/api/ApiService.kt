@@ -18,23 +18,5 @@ interface ApiService {
         @Body loginRequest: LoginRequest
     ): ApiResponse<LoginResponse>
 
-    companion object {
-        private const val BASE_URL = "https://dev.mommydndn.com"
-        fun create(): ApiService {
-            val logger =
-                HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC }
 
-            val client = OkHttpClient.Builder()
-                .addInterceptor(logger)
-                .addInterceptor(ApiInterceptor())
-                .build()
-
-            return Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(ApiService::class.java)
-        }
-    }
 }

@@ -11,7 +11,6 @@ import com.mommydndn.app.data.model.LoginType
 import com.mommydndn.app.data.respository.AccountRepository
 import retrofit2.Response
 import com.skydoves.sandwich.ApiResponse
-import com.skydoves.sandwich.onSuccess
 import com.skydoves.sandwich.suspendOnSuccess
 import javax.inject.Inject
 
@@ -26,8 +25,8 @@ class AccountRepositoryImpl @Inject constructor(
             LoginType.GOOGLE -> LoginRequest(accessToken = tokenId, oauthProvider = "GOOGLE")
             LoginType.KAKAO -> LoginRequest(accessToken = tokenId, oauthProvider = "KAKAO")
             LoginType.NAVER -> LoginRequest(accessToken = tokenId, oauthProvider = "NAVER")
-
         }
+
         val response = apiService.login(request)
 
         response.suspendOnSuccess {

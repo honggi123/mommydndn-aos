@@ -20,8 +20,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.mommydndn.app.ui.SignInNav
+import com.mommydndn.app.ui.TownCheckNav
 import com.mommydndn.app.ui.TypeChoiceNav
 import com.mommydndn.app.ui.signIn.SignInScreen
+import com.mommydndn.app.ui.signUp.TownCheckScreen
 import com.mommydndn.app.ui.signUp.TypeChoiceScreen
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -74,6 +76,11 @@ fun MainNavigationScreen(googleSignInClient: GoogleSignInClient) {
             }
         ) {
             TypeChoiceScreen(navHostController = navController)
+        }
+        composable(
+            route = TownCheckNav.route,
+        ) {
+            TownCheckScreen(navHostController = navController)
         }
     }
 }

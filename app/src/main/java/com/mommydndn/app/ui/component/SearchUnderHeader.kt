@@ -34,7 +34,8 @@ import com.mommydndn.app.utils.bottomBorder
 
 @Composable
 fun SearchUnderHeader(
-    headerText: String = ""
+    headerText: String = "",
+    searchAction: () -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -50,7 +51,7 @@ fun SearchUnderHeader(
             Button(modifier = Modifier
                 .width(342.dp)
                 .height(48.dp),
-                onClick = { }
+                onClick = { searchAction() }
             ) {
                 Text(text = "현재 위치로 찾기", style = TextStyle(color = Grey700))
             }
@@ -84,6 +85,6 @@ fun SearchUnderHeader(
 @Composable
 fun previewSearchUnderHeader() {
     MommydndnaosTheme {
-        SearchUnderHeader()
+        SearchUnderHeader(headerText = "근처 동네", searchAction = {})
     }
 }
