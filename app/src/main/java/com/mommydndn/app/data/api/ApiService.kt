@@ -1,5 +1,6 @@
 package com.mommydndn.app.data.api
 
+import com.mommydndn.app.data.dto.TermsItem
 import com.mommydndn.app.data.model.LoginRequest
 import com.mommydndn.app.data.model.LoginResponse
 import com.skydoves.sandwich.ApiResponse
@@ -10,6 +11,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.Header
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface ApiService {
@@ -19,4 +21,7 @@ interface ApiService {
     ): ApiResponse<LoginResponse>
 
 
+    @GET("/api/terms")
+    suspend fun fetchTermsItems(
+    ): ApiResponse<List<TermsItem>>
 }

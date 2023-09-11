@@ -24,18 +24,21 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.mommydndn.app.ui.component.ListBox
+import com.mommydndn.app.ui.component.RadioListBox
 import com.mommydndn.app.ui.component.SearchUnderHeader
 import com.mommydndn.app.ui.component.Searchbar
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
+import com.mommydndn.app.ui.viewmodel.SignUpViewModel
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun TownCheckScreen(
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    viewModel: SignUpViewModel = hiltViewModel()
 ) {
     val (textState, setTextState) = remember { mutableStateOf("") }
 
@@ -78,7 +81,7 @@ fun TownCheckScreen(
         }
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
-            ListBox(items = listOf("1", "2", "3"))
+            RadioListBox(items = listOf("1", "2", "3"))
         }
     }
 }

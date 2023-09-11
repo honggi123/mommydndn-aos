@@ -53,6 +53,15 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainNavigationScreen(googleSignInClient: GoogleSignInClient) {
     val navController = rememberNavController()
+    val slideEnterTransition = slideInHorizontally(
+        initialOffsetX = { -it },
+        animationSpec = tween(durationMillis = 400, easing = FastOutSlowInEasing)
+    )
+
+    val slideExitTransition = slideOutHorizontally(
+        targetOffsetX = { -it },
+        animationSpec = tween(durationMillis = 400, easing = FastOutSlowInEasing)
+    )
 
     NavHost(navController = navController, startDestination = SignInNav.route) {
         composable(
@@ -62,23 +71,15 @@ fun MainNavigationScreen(googleSignInClient: GoogleSignInClient) {
         }
         composable(
             route = TypeChoiceNav.route,
-            enterTransition = {
-                slideInHorizontally(
-                    initialOffsetX = { -it },
-                    animationSpec = tween(durationMillis = 400, easing = FastOutSlowInEasing)
-                )
-            },
-            exitTransition = {
-                slideOutHorizontally(
-                    targetOffsetX = { -it },
-                    animationSpec = tween(durationMillis = 400, easing = FastOutSlowInEasing)
-                )
-            }
+            enterTransition = { slideEnterTransition },
+            exitTransition = { slideExitTransition }
         ) {
             TypeChoiceScreen(navHostController = navController)
         }
         composable(
             route = TownCheckNav.route,
+            enterTransition = { slideEnterTransition },
+            exitTransition = { slideExitTransition }
         ) {
             TownCheckScreen(navHostController = navController)
         }

@@ -21,7 +21,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mommydndn.app.ui.component.Header
 import com.kakao.sdk.auth.model.OAuthToken
@@ -34,8 +33,7 @@ import com.mommydndn.app.ui.theme.heading800
 import com.mommydndn.app.R
 import com.mommydndn.app.ui.theme.Paddings
 import com.mommydndn.app.ui.theme.paragraph300
-import com.mommydndn.app.ui.viewmodel.AccountViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.mommydndn.app.ui.viewmodel.SignInViewModel
 import androidx.navigation.NavHostController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -52,7 +50,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun SignInScreen(
-    viewModel: AccountViewModel = hiltViewModel(),
+    viewModel: SignInViewModel = hiltViewModel(),
     navHostController: NavHostController,
     googleSignInClient: GoogleSignInClient
 ) {
@@ -183,7 +181,7 @@ fun SignInScreen(
 }
 
 
-private fun loginWithKakaoNickName(token: OAuthToken, viewModel: AccountViewModel, navHostController: NavHostController) {
+private fun loginWithKakaoNickName(token: OAuthToken, viewModel: SignInViewModel, navHostController: NavHostController) {
     UserApiClient.instance.me { user, error ->
         when {
             error != null -> {

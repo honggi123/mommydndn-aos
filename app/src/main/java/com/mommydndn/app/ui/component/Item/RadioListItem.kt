@@ -38,7 +38,7 @@ import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
 
 @Composable
-fun ListItem(
+fun RadioListItem(
     checked: Boolean,
     onCheckedChange: ((Boolean) -> Unit),
     text: String,
@@ -95,6 +95,6 @@ fun ListItem(
 fun previewListItem() {
     MommydndnaosTheme {
         var state by remember { mutableStateOf(false) }
-        ListItem(state, { state = it }, "리스트 아이템")
+        RadioListItem(state, { state = it }, "리스트 아이템")
     }
 }

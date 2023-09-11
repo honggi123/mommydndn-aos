@@ -58,7 +58,7 @@ fun Searchbar(
 ) {
     Column(
         Modifier
-            .width(390.dp)
+            .fillMaxWidth()
             .height(68.dp)
             .background(color = White)
             .bottomBorder(2.dp, Grey100)

@@ -39,7 +39,7 @@ fun SearchUnderHeader(
 ) {
     Box(
         modifier = Modifier
-            .width(390.dp)
+            .fillMaxWidth()
             .wrapContentHeight()
     ) {
         Column(

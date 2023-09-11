@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import com.mommydndn.app.ui.component.Item.CheckBoxListItem
 import com.mommydndn.app.ui.component.Item.CheckMarkListItem
 import com.mommydndn.app.ui.theme.Grey200
@@ -40,7 +41,6 @@ fun CheckListModal(
     closeAction: () -> Unit,
     completeAction: () -> Unit
 ) {
-
     var checkedStates by remember { mutableStateOf(List(contentList.size) { false }) }
     val (isAllChecked, setIsAllChecked) = remember { mutableStateOf(false) }
 
