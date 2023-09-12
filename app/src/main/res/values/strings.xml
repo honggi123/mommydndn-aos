@@ -9,4 +9,8 @@
     <string name="naver_client_id">EHzWp4GFU57IT3b7WHrq</string>
     <string name="naver_client_secret">GgT0aetYFn</string>
     <string name="naver_client_name">test</string>
+
+    <string name="google_client_id">71510080435-bsakn9pp02ma244cbmsip0pc9gabubnm.apps.googleusercontent.com</string>
+
+
 </resources>

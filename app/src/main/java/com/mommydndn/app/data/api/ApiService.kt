@@ -28,7 +28,7 @@ interface ApiService {
     ): Response<LoginResponse>
 
     companion object {
-        private const val BASE_URL = "http://43.202.31.251"
+        private const val BASE_URL = "https://dev.mommydndn.com"
         fun create(): ApiService {
             val logger =
                 HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC }

@@ -1,8 +1,12 @@
 package com.mommydndn.app.ui.signIn
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -31,6 +35,12 @@ import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.ui.viewmodel.AccountViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.mommydndn.app.data.model.LoginType
 import com.mommydndn.app.ui.theme.Salmon600
 import com.navercorp.nid.NaverIdLoginSDK
@@ -40,10 +50,25 @@ import com.navercorp.nid.oauth.OAuthLoginCallback
 @Composable
 fun SignInScreen(
     viewModel: AccountViewModel = hiltViewModel(),
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    googleSignInClient: GoogleSignInClient
 ) {
     val TAG = "SignInScreen"
     val context = LocalContext.current
+
+    val firebaseAuth by lazy { FirebaseAuth.getInstance() }
+
+    val startForResult = rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+        if (result.resultCode == Activity.RESULT_OK) {
+
+            val indent = result.data
+            if (indent != null) {
+                val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(indent)
+                handleSignInResult(context, task, viewModel, firebaseAuth)
+            }
+        }
+    }
+
     val kakaoCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         when {
             error != null -> {
@@ -104,7 +129,7 @@ fun SignInScreen(
     }, bottomBar = {
         SocialLoginBox(
             modifier = Modifier.padding(bottom = 96.dp),
-            onClickGoogle = { loginGoogle() },
+            onClickGoogle = {  startForResult.launch(googleSignInClient.signInIntent) },
             onClickKakao = { loginKakao(context, kakaoCallback) },
             onClickNaver = { loginNaver(context, naverCallback) }
         )
@@ -187,3 +212,25 @@ private fun loginNaver(context: Context, oAuthLoginCallback: OAuthLoginCallback)
     NaverIdLoginSDK.authenticate(context, oAuthLoginCallback)
 }
 
+private fun handleSignInResult(context: Context, accountTask: Task<GoogleSignInAccount>, viewModel: AccountViewModel, firebaseAuth: FirebaseAuth) {
+    try {
+        val account = accountTask.result ?: return
+        val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+        firebaseAuth.signInWithCredential(credential)
+            .addOnCompleteListener(context as Activity) { task ->
+                if (task.isSuccessful) {
+                    account.idToken?.let {
+                        viewModel.signIn(
+                            tokenId = it,
+                            type = LoginType.GOOGLE
+                        )
+                    }
+                } else {
+                    firebaseAuth.signOut()
+                }
+            }
+
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}
