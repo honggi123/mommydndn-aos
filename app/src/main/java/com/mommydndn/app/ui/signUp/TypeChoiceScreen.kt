@@ -31,7 +31,9 @@ fun TypeChoiceScreen(
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         Header(leftContent = {
-            IconButton(onClick = { }) {
+            IconButton(onClick = {
+                navHostController.popBackStack()
+            }) {
                 Icon(
                     painter = painterResource(id = R.drawable.arrow_left),
                     contentDescription = "back",

@@ -37,6 +37,7 @@ import com.mommydndn.app.ui.theme.shadow700
 
 @Composable
 fun CheckListModal(
+    modifier: Modifier = Modifier,
     contentList: List<String>,
     closeAction: () -> Unit,
     completeAction: () -> Unit
@@ -45,7 +46,7 @@ fun CheckListModal(
     val (isAllChecked, setIsAllChecked) = remember { mutableStateOf(false) }
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .wrapContentSize()
             .then(shadow700)
             .background(color = White, shape = RoundedCornerShape(24.dp)),
