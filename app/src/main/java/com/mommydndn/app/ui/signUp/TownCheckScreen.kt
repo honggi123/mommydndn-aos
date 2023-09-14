@@ -83,7 +83,8 @@ fun TownCheckScreen(
                     onValueChange = setTextState,
                     clearAction = { setTextState("") },
                     placeHolderText = "동명으로 검색해주세요 (ex. 서초동)",
-                    backStackAction = { navHostController.popBackStack() }
+                    backStackAction = { navHostController.popBackStack() },
+                    searchAction = {}
                 )
                 SearchUnderHeader(headerText = "근처 동네", searchAction = {
                     checkAndRequestPermissions(

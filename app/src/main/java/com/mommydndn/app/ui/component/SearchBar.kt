@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -34,6 +36,9 @@ import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -54,6 +59,7 @@ fun Searchbar(
     placeHolderText: String = "",
     onValueChange: (String) -> Unit,
     backStackAction: () -> Unit,
+    searchAction: () -> Unit,
     clearAction: () -> Unit,
 ) {
     Column(
@@ -91,6 +97,15 @@ fun Searchbar(
                     focusedIndicatorColor = Color.Transparent,
                     disabledIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
+                ),
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Search,
+                    keyboardType = KeyboardType.Text,
+                    capitalization = KeyboardCapitalization.Words,
+                    autoCorrect = true
+                ),
+                keyboardActions = KeyboardActions(
+                    onSearch = { searchAction() }
                 ),
                 textStyle = MaterialTheme.typography.paragraph300.copy(
                     fontWeight = FontWeight.Medium,
@@ -145,7 +160,8 @@ fun previewSearchbar() {
             onValueChange = { textFieldValue = it },
             clearAction = { textFieldValue = "" },
             placeHolderText = "placeholder",
-            backStackAction = {}
+            backStackAction = {},
+            searchAction = {}
         )
     }
 }

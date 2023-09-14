@@ -45,6 +45,10 @@ fun CheckListModal(
     var checkedStates by remember { mutableStateOf(List(contentList.size) { false }) }
     val (isAllChecked, setIsAllChecked) = remember { mutableStateOf(false) }
 
+    if (checkedStates.size != contentList.size) {
+        checkedStates = List(contentList.size) { false }
+    }
+
     Box(
         modifier = modifier
             .wrapContentSize()
