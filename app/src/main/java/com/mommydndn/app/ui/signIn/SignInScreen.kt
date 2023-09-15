@@ -221,7 +221,7 @@ private fun handleSignInResult(
     try {
         val account = accountTask.result ?: return
 
-        account.idToken?.let {
+        account.serverAuthCode?.let {
             viewModel.signIn(
                 tokenId = it,
                 type = LoginType.GOOGLE
