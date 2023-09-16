@@ -63,7 +63,7 @@ fun MainNavigationScreen(googleSignInClient: GoogleSignInClient) {
         animationSpec = tween(durationMillis = 400, easing = FastOutSlowInEasing)
     )
 
-    NavHost(navController = navController, startDestination = SignInNav.route) {
+    NavHost(navController = navController, startDestination = TownCheckNav.route) {
         composable(
             route = SignInNav.route,
         ) {

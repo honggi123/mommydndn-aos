@@ -13,13 +13,21 @@ import android.view.WindowManager
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
 import androidx.compose.material.rememberBottomSheetScaffoldState
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -28,9 +36,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import androidx.compose.ui.window.DialogWindowProvider
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -44,7 +57,6 @@ import com.mommydndn.app.ui.viewmodel.SignUpViewModel
 import kotlinx.coroutines.launch
 
 
-@OptIn(ExperimentalMaterialApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun TownCheckScreen(
@@ -52,7 +64,6 @@ fun TownCheckScreen(
     viewModel: SignUpViewModel = hiltViewModel()
 ) {
     val (textState, setTextState) = remember { mutableStateOf("") }
-
     val context = LocalContext.current
 
     val scope = rememberCoroutineScope()
@@ -73,9 +84,9 @@ fun TownCheckScreen(
         }
     }
 
-    val scaffoldState = rememberBottomSheetScaffoldState()
+    val scaffoldState = rememberScaffoldState()
 
-    BottomSheetScaffold(
+    Scaffold(
         topBar = {
             Column {
                 Searchbar(
@@ -84,7 +95,7 @@ fun TownCheckScreen(
                     clearAction = { setTextState("") },
                     placeHolderText = "동명으로 검색해주세요 (ex. 서초동)",
                     backStackAction = { navHostController.popBackStack() },
-                    searchAction = {}
+                    searchAction = { }
                 )
                 SearchUnderHeader(headerText = "근처 동네", searchAction = {
                     checkAndRequestPermissions(
@@ -95,22 +106,27 @@ fun TownCheckScreen(
                 })
             }
         },
-        sheetContent = {
-            CheckListModal(
-                modifier = Modifier.padding(10.dp),
-                closeAction = { scope.launch { scaffoldState.bottomSheetState.collapse() } },
-                completeAction = {},
-                contentList = listOf("a", "b", "c", "d")
-            )
-        },
-        sheetPeekHeight = 0.dp,
-        scaffoldState = scaffoldState
+        scaffoldState = scaffoldState,
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             RadioListBox(items = listOf("1", "2", "3"))
         }
     }
 
+    Dialog(
+        properties = DialogProperties(usePlatformDefaultWidth = false),
+        onDismissRequest = {}
+    ) {
+        val dialogWindowProvider = LocalView.current.parent as DialogWindowProvider
+        dialogWindowProvider.window.setGravity(Gravity.BOTTOM)
+
+        CheckListModal(
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 32.dp),
+            closeAction = {},
+            completeAction = {},
+            contentList = listOf("a", "b", "c", "d")
+        )
+    }
 
 }
 
