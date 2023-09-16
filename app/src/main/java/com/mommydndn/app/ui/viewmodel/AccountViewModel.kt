@@ -1,5 +1,6 @@
 package com.mommydndn.app.ui.viewmodel
 
+import android.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,6 +13,7 @@ import javax.inject.Inject
 class AccountViewModel @Inject constructor(
     private val accountRepository: AccountRepository
 ) : ViewModel() {
+
     fun signIn(tokenId: String, type: LoginType) {
         viewModelScope.launch {
             accountRepository.signIn(tokenId, type)

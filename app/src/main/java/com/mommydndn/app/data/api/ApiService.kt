@@ -12,18 +12,8 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface ApiService {
-    @POST("/api/auth/google")
-    suspend fun loginGoogle(
-        @Body loginRequest: LoginRequest
-    ): Response<LoginResponse>
-
-    @POST("/api/auth/kakao")
-    suspend fun loginKakao(
-        @Body loginRequest: LoginRequest
-    ): Response<LoginResponse>
-
-    @POST("/api/auth/naver")
-    suspend fun loginNaver(
+    @POST("/api/auth/login")
+    suspend fun login(
         @Body loginRequest: LoginRequest
     ): Response<LoginResponse>
 

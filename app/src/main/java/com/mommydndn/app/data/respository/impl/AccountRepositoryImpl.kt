@@ -13,13 +13,13 @@ class AccountRepositoryImpl @Inject constructor(
     private val pref: Preferences
 ) : AccountRepository {
     override suspend fun signIn(tokenId: String, type: LoginType) {
-        val request = LoginRequest(tokenId)
 
-        val response = when (type) {
-            LoginType.GOOGLE -> apiService.loginGoogle(request)
-            LoginType.KAKAO -> apiService.loginKakao(request)
-            LoginType.NAVER -> apiService.loginNaver(request)
+        val request = when (type) {
+            LoginType.GOOGLE -> LoginRequest(accessToken = tokenId, oauthProvider = "GOOGLE")
+            LoginType.KAKAO -> LoginRequest(accessToken = tokenId, oauthProvider = "KAKAO")
+            LoginType.NAVER -> LoginRequest(accessToken = tokenId, oauthProvider = "NAVER")
         }
+        val response = apiService.login(request)
 
         if (response.isSuccessful) {
             val loginResponse = response.body()

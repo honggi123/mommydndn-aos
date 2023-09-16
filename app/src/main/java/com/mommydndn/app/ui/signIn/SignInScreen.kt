@@ -46,7 +46,6 @@ import com.mommydndn.app.ui.theme.Salmon600
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.OAuthLoginCallback
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SignInScreen(
     viewModel: AccountViewModel = hiltViewModel(),
@@ -209,7 +208,6 @@ private fun loginKakao(context: Context, kakaoCallback: (OAuthToken?, Throwable?
     }
 }
 
-private fun loginGoogle() {}
 private fun loginNaver(context: Context, oAuthLoginCallback: OAuthLoginCallback) {
     NaverIdLoginSDK.authenticate(context, oAuthLoginCallback)
 }
