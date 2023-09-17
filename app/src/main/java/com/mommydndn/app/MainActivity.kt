@@ -2,6 +2,7 @@
 
 package com.mommydndn.app
 
+import android.location.Location
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -19,6 +20,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.Task
 import com.mommydndn.app.ui.SignInNav
 import com.mommydndn.app.ui.TownCheckNav
 import com.mommydndn.app.ui.TypeChoiceNav
@@ -34,8 +38,13 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var googleSignInClient: GoogleSignInClient
+
+    lateinit var fusedLocationClient: FusedLocationProviderClient
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         setContent {
             MommydndnaosTheme {
@@ -43,7 +52,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.primary
                 ) {
-                    MainNavigationScreen(googleSignInClient)
+                    MainNavigationScreen(googleSignInClient, fusedLocationClient)
                 }
             }
         }
@@ -51,7 +60,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainNavigationScreen(googleSignInClient: GoogleSignInClient) {
+fun MainNavigationScreen(googleSignInClient: GoogleSignInClient, fusedLocationClient: FusedLocationProviderClient) {
     val navController = rememberNavController()
     val slideEnterTransition = slideInHorizontally(
         initialOffsetX = { -it },
@@ -81,7 +90,10 @@ fun MainNavigationScreen(googleSignInClient: GoogleSignInClient) {
             enterTransition = { slideEnterTransition },
             exitTransition = { slideExitTransition }
         ) {
-            TownCheckScreen(navHostController = navController)
+            TownCheckScreen(
+                navHostController = navController,
+                fusedLocationClient = fusedLocationClient
+            )
         }
     }
 }

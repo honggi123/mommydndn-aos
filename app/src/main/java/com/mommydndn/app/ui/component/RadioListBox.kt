@@ -30,11 +30,16 @@ import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
 
 @Composable
-fun RadioListBox(
-    items: List<String>,
-    onItemClick: (String) -> Unit
+fun <T> RadioListBox(
+    items: List<T>,
+    onItemClick: (T) -> Unit,
+    itemNameDisplay: (T) -> String
 ) {
     var checkedStates by remember { mutableStateOf(List(items.size) { false }) }
+
+    if (checkedStates.size != items.size) {
+        checkedStates = List(items.size) { false }
+    }
 
     if (items.isEmpty()) {
         Box(
@@ -78,17 +83,10 @@ fun RadioListBox(
                             onItemClick(item)
                         }
                     },
-                    text = item
+                    text = itemNameDisplay(item)
                 )
             }
         }
     }
 
-}
-
-@Preview
-@Composable
-fun PreviewListBox() {
-    val stringList = mutableListOf<String>()
-    RadioListBox(items = stringList, onItemClick = {})
 }

@@ -1,8 +1,10 @@
 package com.mommydndn.app.di
 
 import com.mommydndn.app.data.respository.AccountRepository
+import com.mommydndn.app.data.respository.LocationRepository
 import com.mommydndn.app.data.respository.TermsRepository
 import com.mommydndn.app.data.respository.impl.AccountRepositoryImpl
+import com.mommydndn.app.data.respository.impl.LocationRepositoryImpl
 import com.mommydndn.app.data.respository.impl.TermsRepositoryImpl
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -24,4 +26,10 @@ interface DataModule {
     fun bindTermsRepository(
         termsRepository: TermsRepositoryImpl
     ) : TermsRepository
+
+    @Binds
+    @Singleton
+    fun bindLocationRepository(
+        locationRepository: LocationRepositoryImpl
+    ) : LocationRepository
 }
