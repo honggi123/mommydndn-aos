@@ -24,9 +24,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.mommydndn.app.data.dto.TermsItem
 import com.mommydndn.app.ui.component.Item.CheckBoxListItem
 import com.mommydndn.app.ui.component.Item.CheckMarkListItem
 import com.mommydndn.app.ui.theme.Grey200
@@ -38,7 +40,7 @@ import com.mommydndn.app.ui.theme.shadow700
 @Composable
 fun CheckListModal(
     modifier: Modifier = Modifier,
-    contentList: List<String>,
+    contentList: List<TermsItem>,
     closeAction: () -> Unit,
     completeAction: () -> Unit
 ) {
@@ -96,18 +98,18 @@ fun CheckListModal(
                         checkedStates = checkedStates.toMutableList().apply {
                             this[index] = isChecked
                         }
-                    }, text = item
+                    }, text = item.name
                 )
             }
 
             Spacer(modifier = Modifier.size(28.dp))
             Row(modifier = Modifier.fillMaxWidth()) {
                 Button(modifier = Modifier.weight(1f), onClick = { closeAction() }) {
-                    Text(text = "닫기")
+                    Text(text = "닫기", color = Color.Black)
                 }
                 Spacer(modifier = Modifier.size(12.dp))
                 Button(modifier = Modifier.weight(1f), onClick = { completeAction() }) {
-                    Text(text = "다음으로")
+                    Text(text = "다음으로", color = Color.Black)
                 }
             }
         }
@@ -115,15 +117,4 @@ fun CheckListModal(
     }
 }
 
-@Preview
-@Composable
-fun previewCheckListModal() {
-    MommydndnaosTheme {
-        CheckListModal(
-            closeAction = {},
-            completeAction = {},
-            contentList = listOf("a", "b", "c", "d")
-        )
-    }
-}
 

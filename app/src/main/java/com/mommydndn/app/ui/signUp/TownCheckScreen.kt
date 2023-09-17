@@ -30,6 +30,7 @@ import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -66,7 +67,8 @@ fun TownCheckScreen(
     val (textState, setTextState) = remember { mutableStateOf("") }
     val context = LocalContext.current
 
-    val scope = rememberCoroutineScope()
+    val isModalVisible by viewModel.isModalVisible.collectAsState()
+    val terms by viewModel.terms.collectAsState()
 
     val permissions = arrayOf(
         Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -109,25 +111,26 @@ fun TownCheckScreen(
         scaffoldState = scaffoldState,
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
-            RadioListBox(items = listOf("1", "2", "3"))
+            RadioListBox(items = listOf("1", "2", "3"), onItemClick = { it -> viewModel.showModal() })
         }
     }
 
-    Dialog(
-        properties = DialogProperties(usePlatformDefaultWidth = false),
-        onDismissRequest = {}
-    ) {
-        val dialogWindowProvider = LocalView.current.parent as DialogWindowProvider
-        dialogWindowProvider.window.setGravity(Gravity.BOTTOM)
+    if (isModalVisible) {
+        Dialog(
+            properties = DialogProperties(usePlatformDefaultWidth = false),
+            onDismissRequest = {}
+        ) {
+            val dialogWindowProvider = LocalView.current.parent as DialogWindowProvider
+            dialogWindowProvider.window.setGravity(Gravity.BOTTOM)
 
-        CheckListModal(
-            modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 32.dp),
-            closeAction = {},
-            completeAction = {},
-            contentList = listOf("a", "b", "c", "d")
-        )
+            CheckListModal(
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 32.dp),
+                closeAction = { viewModel.hideModal() },
+                completeAction = {},
+                contentList = terms
+            )
+        }
     }
-
 }
 
 private fun checkAndRequestPermissions(

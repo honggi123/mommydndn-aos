@@ -28,12 +28,28 @@ class SignUpViewModel @Inject constructor(
     private val termsRepository: TermsRepository
 ) : ViewModel() {
 
-    private val _terms = MutableStateFlow<List<TermsItem>>(emptyList())
+    private val _isModalVisible = MutableStateFlow(false)
+    val isModalVisible: StateFlow<Boolean> = _isModalVisible
+
+    private val _terms = MutableStateFlow<List<TermsItem>>(listOf())
     val terms: StateFlow<List<TermsItem>> = _terms
-    fun fetchAllTerms() {
+
+    init {
+        fetchAllTerms()
+    }
+
+    private fun fetchAllTerms() {
         viewModelScope.launch {
             val res = termsRepository.fetchAllTerms()
             _terms.value = res.getOrElse { emptyList() }
         }
+    }
+
+    fun showModal() {
+        _isModalVisible.value = true
+    }
+
+    fun hideModal() {
+        _isModalVisible.value = false
     }
 }

@@ -31,7 +31,8 @@ import com.mommydndn.app.ui.theme.paragraph300
 
 @Composable
 fun RadioListBox(
-    items: List<String>
+    items: List<String>,
+    onItemClick: (String) -> Unit
 ) {
     var checkedStates by remember { mutableStateOf(List(items.size) { false }) }
 
@@ -73,6 +74,9 @@ fun RadioListBox(
                         checkedStates = checkedStates.toMutableList().apply {
                             this[index] = isChecked
                         }
+                        if (isChecked) {
+                            onItemClick(item)
+                        }
                     },
                     text = item
                 )
@@ -86,5 +90,5 @@ fun RadioListBox(
 @Composable
 fun PreviewListBox() {
     val stringList = mutableListOf<String>()
-    RadioListBox(items = stringList)
+    RadioListBox(items = stringList, onItemClick = {})
 }
