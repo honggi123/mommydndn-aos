@@ -44,8 +44,18 @@ class SignUpViewModel @Inject constructor(
     private val _terms = MutableStateFlow<List<TermsItem>>(listOf())
     val terms: StateFlow<List<TermsItem>> = _terms
 
+    private val _keyword = MutableStateFlow<String>("")
+    val keyword: StateFlow<String> = _keyword
+
     init {
         fetchAllTerms()
+    }
+
+    fun updateKeyword(keyword: String) {
+        viewModelScope.launch {
+            _keyword.value = keyword
+            searchByKeyword(keyword)
+        }
     }
 
     private fun fetchAllTerms() {
@@ -55,9 +65,21 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    fun fetchNearTowns(latitude: Double, longitude: Double) {
+    fun searchByLoaction(latitude: Double, longitude: Double) {
         viewModelScope.launch {
-            val res = locationRepository.fetchNearest(latitude = latitude, longitude = longitude)
+            val res = locationRepository.fetchNearestByLocation(
+                latitude = latitude,
+                longitude = longitude
+            )
+            _nearTowns.value = res.getOrThrow().emdList
+        }
+    }
+
+    private fun searchByKeyword(keyword: String) {
+        viewModelScope.launch {
+            val res = locationRepository.fetchNearestByKeyword(
+                keyword = keyword
+            )
             _nearTowns.value = res.getOrThrow().emdList
         }
     }

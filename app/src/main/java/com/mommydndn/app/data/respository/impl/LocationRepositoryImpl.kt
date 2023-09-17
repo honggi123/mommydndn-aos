@@ -9,10 +9,17 @@ import javax.inject.Inject
 class LocationRepositoryImpl @Inject constructor(
     private val apiService: ApiService
 ) : LocationRepository {
-    override suspend fun fetchNearest(
+    override suspend fun fetchNearestByLocation(
         latitude: Double,
         longitude: Double
     ): ApiResponse<NearestResponse> =
-        apiService.fetchNearest(latitude = latitude, longitude = longitude)
+        apiService.fetchNearestByLocation(latitude = latitude, longitude = longitude)
+
+    override suspend fun fetchNearestByKeyword(
+        keyword: String
+    ): ApiResponse<NearestResponse> =
+        apiService.fetchNearestByKeyword(keyword = keyword)
+
+
 
 }

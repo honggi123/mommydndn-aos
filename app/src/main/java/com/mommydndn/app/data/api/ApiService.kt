@@ -28,9 +28,16 @@ interface ApiService {
     ): ApiResponse<List<TermsItem>>
 
     @GET("/api/map/nearest")
-    suspend fun fetchNearest(
+    suspend fun fetchNearestByLocation(
         @Query("latitude") latitude: Double,
         @Query("longitude") longitude: Double,
+        @Query("skip") skip: Int = 0,
+        @Query("limit") limit: Int = 20
+    ): ApiResponse<NearestResponse>
+
+    @GET("/api/map/search")
+    suspend fun fetchNearestByKeyword(
+        @Query("keyword") keyword: String,
         @Query("skip") skip: Int = 0,
         @Query("limit") limit: Int = 20
     ): ApiResponse<NearestResponse>

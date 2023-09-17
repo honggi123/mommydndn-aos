@@ -70,12 +70,12 @@ fun TownCheckScreen(
     viewModel: SignUpViewModel = hiltViewModel(),
     fusedLocationClient: FusedLocationProviderClient
 ) {
-    val (textState, setTextState) = remember { mutableStateOf("") }
     val context = LocalContext.current
 
     val isModalVisible by viewModel.isModalVisible.collectAsState()
     val terms by viewModel.terms.collectAsState()
     val nearTowns by viewModel.nearTowns.collectAsState()
+    val keyword by viewModel.keyword.collectAsState()
 
     val permissions = arrayOf(
         Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -88,7 +88,7 @@ fun TownCheckScreen(
         val areGranted = permissionsMap.values.reduce { acc, next -> acc && next }
         if (areGranted) {
             Log.d("TownCheckScreen", "권한이 동의되었습니다.")
-            updateNearTowns(fusedLocationClient, viewModel)
+            searchNearTowns(fusedLocationClient, viewModel)
         } else {
         }
         Log.d("TownCheckScreen", "권한이 거부되었습니다.")
@@ -100,9 +100,13 @@ fun TownCheckScreen(
         topBar = {
             Column {
                 Searchbar(
-                    keyword = textState,
-                    onValueChange = setTextState,
-                    clearAction = { setTextState("") },
+                    keyword = keyword,
+                    onValueChange = {
+                        viewModel.updateKeyword(it)
+                    },
+                    clearAction = {
+                        viewModel.updateKeyword("")
+                    },
                     placeHolderText = "동명으로 검색해주세요 (ex. 서초동)",
                     backStackAction = { navHostController.popBackStack() },
                     searchAction = { }
@@ -112,7 +116,7 @@ fun TownCheckScreen(
                         context,
                         permissions,
                         launcher,
-                        onPermissionGranted = { updateNearTowns(fusedLocationClient, viewModel) }
+                        onPermissionGranted = { searchNearTowns(fusedLocationClient, viewModel) }
                     )
                 })
             }
@@ -146,13 +150,13 @@ fun TownCheckScreen(
     }
 }
 
-private fun updateNearTowns(
+private fun searchNearTowns(
     fusedLocationClient: FusedLocationProviderClient,
     viewModel: SignUpViewModel
 ) {
     try {
         fusedLocationClient.lastLocation.addOnSuccessListener {
-            viewModel.fetchNearTowns(it.latitude, it.longitude)
+            viewModel.searchByLoaction(it.latitude, it.longitude)
         }
     } catch (e: SecurityException) {
         Log.d("TownCheckScreen", e.stackTraceToString())
