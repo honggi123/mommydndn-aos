@@ -1,8 +1,7 @@
 package com.mommydndn.app.data.respository.impl
 
 import com.mommydndn.app.data.api.ApiService
-import com.mommydndn.app.data.dto.TermsItem
-import com.mommydndn.app.data.model.LoginResponse
+import com.mommydndn.app.data.model.TermsItem
 import com.mommydndn.app.data.respository.TermsRepository
 import com.skydoves.sandwich.ApiResponse
 import javax.inject.Inject

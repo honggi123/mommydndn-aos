@@ -1,4 +1,4 @@
-package com.mommydndn.app.data.dto
+package com.mommydndn.app.data.model
 
 data class TermsItem(
     val createdAt: Long,

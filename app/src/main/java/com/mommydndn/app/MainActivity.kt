@@ -72,7 +72,7 @@ fun MainNavigationScreen(googleSignInClient: GoogleSignInClient, fusedLocationCl
         animationSpec = tween(durationMillis = 400, easing = FastOutSlowInEasing)
     )
 
-    NavHost(navController = navController, startDestination = TownCheckNav.route) {
+    NavHost(navController = navController, startDestination = TypeChoiceNav.route) {
         composable(
             route = SignInNav.route,
         ) {
@@ -86,11 +86,14 @@ fun MainNavigationScreen(googleSignInClient: GoogleSignInClient, fusedLocationCl
             TypeChoiceScreen(navHostController = navController)
         }
         composable(
-            route = TownCheckNav.route,
+            route = TownCheckNav.route + "/{userType}",
             enterTransition = { slideEnterTransition },
             exitTransition = { slideExitTransition }
-        ) {
+        ) { backStackEntry ->
+            val userType = backStackEntry.arguments?.getString("userType")
+
             TownCheckScreen(
+                userType = userType,
                 navHostController = navController,
                 fusedLocationClient = fusedLocationClient
             )

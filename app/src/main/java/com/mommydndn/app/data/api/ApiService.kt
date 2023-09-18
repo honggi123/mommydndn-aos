@@ -1,6 +1,6 @@
 package com.mommydndn.app.data.api
 
-import com.mommydndn.app.data.dto.TermsItem
+import com.mommydndn.app.data.model.TermsItem
 import com.mommydndn.app.data.model.LoginRequest
 import com.mommydndn.app.data.model.LoginResponse
 import com.mommydndn.app.data.model.NearestResponse

@@ -20,7 +20,6 @@ import com.mommydndn.app.ui.component.MaintextBox
 import com.mommydndn.app.ui.component.button.SquareButton
 import com.mommydndn.app.R
 import com.mommydndn.app.ui.TownCheckNav
-import com.mommydndn.app.ui.TypeChoiceNav
 import com.mommydndn.app.ui.component.Header
 import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.utils.NavigationUtils
@@ -60,12 +59,22 @@ fun TypeChoiceScreen(
                 SquareButton(
                     imageResourceId = R.drawable.building_graphic,
                     text = "업체 회원",
-                    onClick = { NavigationUtils.navigate(navHostController, TownCheckNav.route) }
+                    onClick = {
+                        NavigationUtils.navigate(
+                            navHostController,
+                            TownCheckNav.route + "/company"
+                        )
+                    }
                 )
                 SquareButton(
                     imageResourceId = R.drawable.person_graphic,
                     text = "개인 회원",
-                    onClick = { NavigationUtils.navigate(navHostController, TownCheckNav.route) }
+                    onClick = {
+                        NavigationUtils.navigate(
+                            navHostController,
+                            TownCheckNav.route + "/individual"
+                        )
+                    }
                 )
             }
         }

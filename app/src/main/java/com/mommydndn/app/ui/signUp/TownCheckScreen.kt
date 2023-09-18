@@ -73,6 +73,7 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun TownCheckScreen(
+    userType: String?,
     navHostController: NavHostController,
     viewModel: SignUpViewModel = hiltViewModel(),
     fusedLocationClient: FusedLocationProviderClient
