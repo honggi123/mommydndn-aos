@@ -51,17 +51,16 @@ class SignUpViewModel @Inject constructor(
         fetchAllTerms()
     }
 
-    fun updateKeyword(keyword: String) {
-        viewModelScope.launch {
-            _keyword.value = keyword
-            searchByKeyword(keyword)
-        }
-    }
-
     private fun fetchAllTerms() {
         viewModelScope.launch {
             val res = termsRepository.fetchAllTerms()
             _terms.value = res.getOrElse { emptyList() }
+        }
+    }
+
+    fun updateKeyword(keyword: String) {
+        viewModelScope.launch {
+            _keyword.value = keyword
         }
     }
 
@@ -75,7 +74,7 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    private fun searchByKeyword(keyword: String) {
+    fun searchByKeyword(keyword: String) {
         viewModelScope.launch {
             val res = locationRepository.fetchNearestByKeyword(
                 keyword = keyword

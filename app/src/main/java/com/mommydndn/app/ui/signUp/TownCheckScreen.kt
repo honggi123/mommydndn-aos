@@ -15,8 +15,15 @@ import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -102,23 +109,33 @@ fun TownCheckScreen(
                 Searchbar(
                     keyword = keyword,
                     onValueChange = {
+                        Log.e("keyword", it)
                         viewModel.updateKeyword(it)
+                        viewModel.searchByKeyword(it)
                     },
                     clearAction = {
                         viewModel.updateKeyword("")
+                        viewModel.searchByKeyword("")
                     },
                     placeHolderText = "동명으로 검색해주세요 (ex. 서초동)",
                     backStackAction = { navHostController.popBackStack() },
                     searchAction = { }
                 )
-                SearchUnderHeader(headerText = "근처 동네", searchAction = {
-                    checkAndRequestPermissions(
-                        context,
-                        permissions,
-                        launcher,
-                        onPermissionGranted = { searchNearTowns(fusedLocationClient, viewModel) }
-                    )
-                })
+                SearchUnderHeader(
+                    headerText = if (keyword == "") "근처동네" else "\'" + keyword + "\'" + " 검색결과",
+                    searchAction = {
+                        checkAndRequestPermissions(
+                            context,
+                            permissions,
+                            launcher,
+                            onPermissionGranted = {
+                                searchNearTowns(
+                                    fusedLocationClient,
+                                    viewModel
+                                )
+                            }
+                        )
+                    })
             }
         },
         scaffoldState = scaffoldState,
@@ -132,10 +149,16 @@ fun TownCheckScreen(
         }
     }
 
-    if (isModalVisible) {
+    AnimatedVisibility(
+        visible = isModalVisible,
+        enter = slideInVertically(
+            initialOffsetY = { fullHeight -> -fullHeight },
+            animationSpec = spring(stiffness = 100f, dampingRatio = Spring.DampingRatioLowBouncy)
+        )
+    ) {
         Dialog(
             properties = DialogProperties(usePlatformDefaultWidth = false),
-            onDismissRequest = {}
+            onDismissRequest = { viewModel.hideModal() }
         ) {
             val dialogWindowProvider = LocalView.current.parent as DialogWindowProvider
             dialogWindowProvider.window.setGravity(Gravity.BOTTOM)
@@ -148,6 +171,7 @@ fun TownCheckScreen(
             )
         }
     }
+
 }
 
 private fun searchNearTowns(

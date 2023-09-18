@@ -29,6 +29,7 @@ import com.mommydndn.app.ui.theme.Grey100
 import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
+import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.utils.bottomBorder
 
@@ -41,6 +42,7 @@ fun SearchUnderHeader(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
+            .background(White)
     ) {
         Column(
             modifier = Modifier

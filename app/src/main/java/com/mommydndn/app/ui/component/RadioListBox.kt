@@ -76,9 +76,13 @@ fun <T> RadioListBox(
                     modifier = Modifier.padding(bottom = 6.dp),
                     checked = checkedStates[index],
                     onCheckedChange = { isChecked ->
+
+                        checkedStates = List(items.size) { false }
+
                         checkedStates = checkedStates.toMutableList().apply {
                             this[index] = isChecked
                         }
+
                         if (isChecked) {
                             onItemClick(item)
                         }
