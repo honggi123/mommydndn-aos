@@ -60,8 +60,6 @@ fun SignInScreen(
 
     val signInIntent = googleSignInClient.signInIntent
 
-    val corroutineScope = rememberCoroutineScope()
-
     val startForResult =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             Log.e(TAG, result.resultCode.toString())
@@ -69,9 +67,13 @@ fun SignInScreen(
                 val data: Intent? = result.data
                 val task: Task<GoogleSignInAccount> =
                     GoogleSignIn.getSignedInAccountFromIntent(data)
-                corroutineScope.launch {
-                    handleSignInResult(task, viewModel, context)
-                }
+
+                viewModel.handleGoogleSignInResult(
+                    task,
+                    context.getString(R.string.google_client_id),
+                    context.getString(R.string.google_client_secret)
+                )
+
             }
         }
 
@@ -219,29 +221,3 @@ private fun loginNaver(context: Context, oAuthLoginCallback: OAuthLoginCallback)
     NaverIdLoginSDK.authenticate(context, oAuthLoginCallback)
 }
 
-private suspend fun handleSignInResult(
-    accountTask: Task<GoogleSignInAccount>,
-    viewModel: AccountViewModel,
-    context: Context
-) {
-    try {
-        val account = accountTask.result ?: return
-
-        account.serverAuthCode?.let {
-
-            viewModel.getGoogleAccessToken(
-                it,
-                context.getString(R.string.google_client_id),
-                context.getString(R.string.google_client_secret)
-            )
-
-            viewModel.signIn(
-                tokenId = it,
-                type = LoginType.GOOGLE
-            )
-        }
-
-    } catch (e: Exception) {
-        e.printStackTrace()
-    }
-}
