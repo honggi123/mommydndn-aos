@@ -11,6 +11,6 @@
     <string name="naver_client_name">test</string>
 
     <string name="google_client_id">404184861676-95pt9pvbvoebppmh21ukhe1pj62dqiul.apps.googleusercontent.com</string>
-
+    <string name="google_client_secret">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</string>
 
 </resources>

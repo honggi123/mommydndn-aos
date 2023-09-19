@@ -12,6 +12,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Modifier
@@ -45,6 +46,8 @@ import com.mommydndn.app.data.model.LoginType
 import com.mommydndn.app.ui.theme.Salmon600
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.OAuthLoginCallback
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 @Composable
 fun SignInScreen(
@@ -57,14 +60,18 @@ fun SignInScreen(
 
     val signInIntent = googleSignInClient.signInIntent
 
+    val corroutineScope = rememberCoroutineScope()
+
     val startForResult =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            Log.e(TAG,result.resultCode.toString())
+            Log.e(TAG, result.resultCode.toString())
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
                 val task: Task<GoogleSignInAccount> =
                     GoogleSignIn.getSignedInAccountFromIntent(data)
-                handleSignInResult(task, viewModel)
+                corroutineScope.launch {
+                    handleSignInResult(task, viewModel, context)
+                }
             }
         }
 
@@ -212,14 +219,22 @@ private fun loginNaver(context: Context, oAuthLoginCallback: OAuthLoginCallback)
     NaverIdLoginSDK.authenticate(context, oAuthLoginCallback)
 }
 
-private fun handleSignInResult(
+private suspend fun handleSignInResult(
     accountTask: Task<GoogleSignInAccount>,
-    viewModel: AccountViewModel
+    viewModel: AccountViewModel,
+    context: Context
 ) {
     try {
         val account = accountTask.result ?: return
 
         account.serverAuthCode?.let {
+
+            viewModel.getGoogleAccessToken(
+                it,
+                context.getString(R.string.google_client_id),
+                context.getString(R.string.google_client_secret)
+            )
+
             viewModel.signIn(
                 tokenId = it,
                 type = LoginType.GOOGLE
