@@ -7,7 +7,11 @@ import com.mommydndn.app.data.model.LoginGoogleRequest
 import com.mommydndn.app.data.model.LoginGoogleResponse
 import com.mommydndn.app.data.model.LoginRequest
 import com.mommydndn.app.data.model.LoginResponse
-import com.mommydndn.app.data.model.LoginType
+import com.mommydndn.app.data.model.OAuthType
+import com.mommydndn.app.data.model.SignUpInfo
+import com.mommydndn.app.data.model.SignUpRequest
+import com.mommydndn.app.data.model.SignUpResponse
+import com.mommydndn.app.data.model.UserType
 import com.mommydndn.app.data.respository.AccountRepository
 import retrofit2.Response
 import com.skydoves.sandwich.ApiResponse
@@ -20,22 +24,41 @@ class AccountRepositoryImpl @Inject constructor(
     private val pref: Preferences
 ) : AccountRepository {
 
-    override suspend fun signIn(tokenId: String, type: LoginType): ApiResponse<LoginResponse> {
-        val request = when (type) {
-            LoginType.GOOGLE -> LoginRequest(accessToken = tokenId, oauthProvider = "GOOGLE")
-            LoginType.KAKAO -> LoginRequest(accessToken = tokenId, oauthProvider = "KAKAO")
-            LoginType.NAVER -> LoginRequest(accessToken = tokenId, oauthProvider = "NAVER")
-        }
+    override suspend fun signIn(
+        acessToken: String,
+        oAuthType: OAuthType
+    ): ApiResponse<LoginResponse> {
+        val request = LoginRequest(
+            accessToken = acessToken,
+            oauthProvider = oAuthType.apiValue
+        )
 
-        val response = apiService.login(request)
+        val response = apiService
+            .login(request)
+            .suspendOnSuccess {
+                pref.putAccessToken(data?.accessToken)
+                pref.putRefreshToken(data?.refreshToken)
+            }
 
-        response.suspendOnSuccess {
+        return response
+    }
+
+    override suspend fun signUp(signUpInfo: SignUpInfo): ApiResponse<SignUpResponse> {
+        val response = apiService.signUp(
+            SignUpRequest(
+                accessToken = signUpInfo.accessToken ?: "",
+                oauthProvider = signUpInfo.oAuthType!!.apiValue,
+                userType = signUpInfo.userType!!.apiValue,
+                emdId = signUpInfo.emdId ?: 0
+            )
+        ).suspendOnSuccess {
             pref.putAccessToken(data?.accessToken)
             pref.putRefreshToken(data?.refreshToken)
         }
 
         return response
     }
+
 
     override suspend fun getGoogleAccesstoken(
         authCode: String,

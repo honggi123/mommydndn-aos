@@ -1,6 +1,5 @@
 package com.mommydndn.app.ui.signIn
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -12,7 +11,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Modifier
@@ -38,15 +36,12 @@ import androidx.navigation.NavHostController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.Task
 import com.mommydndn.app.BuildConfig
-import com.mommydndn.app.data.model.LoginType
+import com.mommydndn.app.data.model.OAuthType
 import com.mommydndn.app.ui.theme.Salmon600
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.OAuthLoginCallback
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 
 @Composable
 fun SignInScreen(
@@ -69,8 +64,8 @@ fun SignInScreen(
 
                 viewModel.handleGoogleSignInResult(
                     task,
-                    BuildConfig.GOGGLE_CLIENT_ID,
-                    BuildConfig.GOGGLE_CLIENT_SECRET,
+                    BuildConfig.GOOGLE_CLIENT_ID,
+                    BuildConfig.GOOGLE_CLIENT_SECRET,
                     navHostController
                 )
 
@@ -94,7 +89,7 @@ fun SignInScreen(
 
             val token = NaverIdLoginSDK.getAccessToken()
             if (token != null) {
-                viewModel.signIn(tokenId = token, type = LoginType.NAVER, navHostController)
+                viewModel.signIn(tokenId = token, type = OAuthType.NAVER, navHostController)
             }
         }
 
@@ -191,7 +186,7 @@ private fun loginWithKakaoNickName(token: OAuthToken, viewModel: SignInViewModel
             user != null -> {
                 viewModel.signIn(
                     tokenId = token.accessToken,
-                    type = LoginType.KAKAO,
+                    type = OAuthType.KAKAO,
                     navHostController
                 )
             }

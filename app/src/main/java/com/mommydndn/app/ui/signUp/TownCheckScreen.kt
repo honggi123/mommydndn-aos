@@ -60,6 +60,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.tasks.Task
 import com.mommydndn.app.data.model.EmdItem
+import com.mommydndn.app.data.model.UserType
 import com.mommydndn.app.data.model.displayName
 import com.mommydndn.app.ui.component.RadioListBox
 import com.mommydndn.app.ui.component.SearchUnderHeader
@@ -73,11 +74,11 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun TownCheckScreen(
-    userType: String?,
     navHostController: NavHostController,
     viewModel: SignUpViewModel = hiltViewModel(),
     fusedLocationClient: FusedLocationProviderClient
 ) {
+
     val context = LocalContext.current
 
     val isModalVisible by viewModel.isModalVisible.collectAsState()
@@ -110,7 +111,6 @@ fun TownCheckScreen(
                 Searchbar(
                     keyword = keyword,
                     onValueChange = {
-                        Log.e("keyword", it)
                         viewModel.updateKeyword(it)
                         viewModel.searchByKeyword(it)
                     },
@@ -144,17 +144,21 @@ fun TownCheckScreen(
         Box(modifier = Modifier.fillMaxSize()) {
             RadioListBox(
                 items = nearTowns,
-                onItemClick = { viewModel.showModal() },
+                onItemClick = { emdItem ->
+                    viewModel.showModal()
+                    viewModel.updateEmdId(emdItem.id)
+                },
                 itemNameDisplay = EmdItem::displayName
             )
         }
     }
 
+
     AnimatedVisibility(
         visible = isModalVisible,
         enter = slideInVertically(
             initialOffsetY = { fullHeight -> -fullHeight },
-            animationSpec = spring(stiffness = 100f, dampingRatio = Spring.DampingRatioLowBouncy)
+            animationSpec = spring(stiffness = 100f, dampingRatio = 0.15f)
         )
     ) {
         Dialog(
@@ -167,7 +171,7 @@ fun TownCheckScreen(
             CheckListModal(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 32.dp),
                 closeAction = { viewModel.hideModal() },
-                completeAction = { },
+                completeAction = {},
                 contentList = terms
             )
         }

@@ -3,6 +3,7 @@
 package com.mommydndn.app
 
 import android.location.Location
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,13 +17,18 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.Task
+import com.mommydndn.app.data.model.OAuthType
+import com.mommydndn.app.data.model.SignUpInfo
+import com.mommydndn.app.data.model.UserType
 import com.mommydndn.app.ui.SignInNav
 import com.mommydndn.app.ui.TownCheckNav
 import com.mommydndn.app.ui.TypeChoiceNav
@@ -60,7 +66,10 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainNavigationScreen(googleSignInClient: GoogleSignInClient, fusedLocationClient: FusedLocationProviderClient) {
+fun MainNavigationScreen(
+    googleSignInClient: GoogleSignInClient,
+    fusedLocationClient: FusedLocationProviderClient
+) {
     val navController = rememberNavController()
     val slideEnterTransition = slideInHorizontally(
         initialOffsetX = { -it },
@@ -72,28 +81,33 @@ fun MainNavigationScreen(googleSignInClient: GoogleSignInClient, fusedLocationCl
         animationSpec = tween(durationMillis = 400, easing = FastOutSlowInEasing)
     )
 
-    NavHost(navController = navController, startDestination = TypeChoiceNav.route) {
+    NavHost(navController = navController, startDestination = SignInNav.route) {
         composable(
             route = SignInNav.route,
         ) {
             SignInScreen(navHostController = navController, googleSignInClient = googleSignInClient)
         }
+
         composable(
-            route = TypeChoiceNav.route,
+            route = TypeChoiceNav.routeWithArgName(),
+            arguments = TypeChoiceNav.arguments,
+
+            enterTransition = { slideEnterTransition },
+            exitTransition = { slideExitTransition }
+        ) { it ->
+            val signUpInfo = TypeChoiceNav.findArgument(it)
+            TypeChoiceScreen(
+                signUpInfo = signUpInfo,
+                navHostController = navController
+            )
+        }
+
+        composable(
+            route = TownCheckNav.route,
             enterTransition = { slideEnterTransition },
             exitTransition = { slideExitTransition }
         ) {
-            TypeChoiceScreen(navHostController = navController)
-        }
-        composable(
-            route = TownCheckNav.route + "/{userType}",
-            enterTransition = { slideEnterTransition },
-            exitTransition = { slideExitTransition }
-        ) { backStackEntry ->
-            val userType = backStackEntry.arguments?.getString("userType")
-
             TownCheckScreen(
-                userType = userType,
                 navHostController = navController,
                 fusedLocationClient = fusedLocationClient
             )

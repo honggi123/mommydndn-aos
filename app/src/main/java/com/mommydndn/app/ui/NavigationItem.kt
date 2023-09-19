@@ -1,5 +1,15 @@
 package com.mommydndn.app.ui
 
+import androidx.navigation.NamedNavArgument
+import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavDeepLink
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
+import com.kakao.sdk.common.KakaoSdk.type
+import com.mommydndn.app.data.model.SignUpInfo
+import com.mommydndn.app.utils.GsonUtils
+
 object SignInNav : Destination {
     override val route: String = NavigationRouteName.SIGN_IN
     override val title: String = NavigationTitle.SIGN_IN
@@ -8,6 +18,23 @@ object SignInNav : Destination {
 object TypeChoiceNav : Destination {
     override val route: String = NavigationRouteName.TYPE_CHOICE
     override val title: String = NavigationTitle.TYPE_CHOICE
+    val argName: String = "signUpInfo"
+
+    val arguments: List<NamedNavArgument> = listOf(
+        navArgument(argName) { type= NavType.StringType}
+    )
+
+    fun routeWithArgName() = "$route/{$argName}"
+
+    fun navigateWithArg(item: SignUpInfo): String  {
+        val arg = GsonUtils.toJson(item)
+        return "${TypeChoiceNav.route}/$arg"
+    }
+
+    fun findArgument(navBackStackEntry: NavBackStackEntry): SignUpInfo? {
+        val signUpInfoString = navBackStackEntry.arguments?.getString(argName)
+        return GsonUtils.fromJson<SignUpInfo>(signUpInfoString)
+    }
 }
 
 object TownCheckNav : Destination {

@@ -2,8 +2,13 @@ package com.mommydndn.app.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavHostController
 import com.mommydndn.app.data.model.TermsItem
 import com.mommydndn.app.data.model.EmdItem
+import com.mommydndn.app.data.model.OAuthType
+import com.mommydndn.app.data.model.SignUpInfo
+import com.mommydndn.app.data.model.UserType
+import com.mommydndn.app.data.respository.AccountRepository
 import com.mommydndn.app.data.respository.LocationRepository
 import com.mommydndn.app.data.respository.TermsRepository
 import com.skydoves.sandwich.getOrElse
@@ -18,6 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
+    private val accountRepository: AccountRepository,
     private val termsRepository: TermsRepository,
     private val locationRepository: LocationRepository
 ) : ViewModel() {
@@ -34,9 +40,36 @@ class SignUpViewModel @Inject constructor(
     private val _keyword = MutableStateFlow<String>("")
     val keyword: StateFlow<String> = _keyword
 
+    private val _signUpInfo = MutableStateFlow<SignUpInfo>(SignUpInfo())
+    val signUpInfo: StateFlow<SignUpInfo> = _signUpInfo
+
     init {
         fetchAllTerms()
     }
+
+    fun signUp(
+        signUpInfo: SignUpInfo
+    ) {
+        viewModelScope.launch {
+            accountRepository.signUp(signUpInfo)
+        }
+    }
+
+    fun updateSignUpInfo(currentSignUpInfo: SignUpInfo?) {
+        if (currentSignUpInfo != null) {
+            _signUpInfo.value = currentSignUpInfo
+        }
+    }
+    fun updateEmdId(emdId: Int?) {
+        val currentSignUpInfo = signUpInfo.value
+        _signUpInfo.value = currentSignUpInfo.copy(emdId = emdId)
+    }
+
+    fun updateUserType(userType: UserType?) {
+        val currentSignUpInfo = signUpInfo.value
+        _signUpInfo.value = currentSignUpInfo.copy(userType = userType)
+    }
+
 
     private fun fetchAllTerms() {
         viewModelScope.launch {

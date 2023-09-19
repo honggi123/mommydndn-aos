@@ -1,19 +1,17 @@
 package com.mommydndn.app.ui.viewmodel
 
-import android.content.Context
-import android.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
-import com.mommydndn.app.R
-import com.mommydndn.app.data.model.LoginGoogleResponse
-import com.mommydndn.app.data.model.LoginType
+import com.mommydndn.app.data.model.OAuthType
 import com.mommydndn.app.data.respository.AccountRepository
 import kotlinx.coroutines.Dispatchers
 import androidx.navigation.NavHostController
 import com.mommydndn.app.data.model.LoginResponse
+import com.mommydndn.app.data.model.SignUpInfo
+import com.mommydndn.app.ui.SignInNav
 import com.mommydndn.app.ui.TypeChoiceNav
 import com.mommydndn.app.utils.NavigationUtils
 import com.skydoves.sandwich.ApiResponse
@@ -33,13 +31,18 @@ class SignInViewModel @Inject constructor(
     private val accountRepository: AccountRepository
 ) : ViewModel() {
 
+    private val _token = MutableStateFlow<String>("")
+    val token: StateFlow<String> = _token
+
+    private val _oAuthType = MutableStateFlow<OAuthType?>(null)
+    val oAuthTpe: StateFlow<OAuthType?> = _oAuthType
 
     private val _errMsg = MutableStateFlow<String>("")
     val errMsg: StateFlow<String> = _errMsg
 
     fun signIn(
         tokenId: String,
-        type: LoginType,
+        type: OAuthType,
         navHostController: NavHostController
     ) {
         viewModelScope.launch {
@@ -67,7 +70,7 @@ class SignInViewModel @Inject constructor(
                 if (accessToken != null) {
                     signIn(
                         tokenId = accessToken,
-                        type = LoginType.GOOGLE,
+                        type = OAuthType.GOOGLE,
                         navHostController = navHostController
                     )
                 }
@@ -89,12 +92,21 @@ class SignInViewModel @Inject constructor(
         navHostController: NavHostController
     ) {
         response
-            .onSuccess {}
+            .onSuccess {
+
+            }
             .onError {
                 val message = when (statusCode) {
                     StatusCode.InternalServerError -> "InternalServerError"
                     StatusCode.Forbidden -> {
-                        NavigationUtils.navigate(navHostController, TypeChoiceNav.route)
+                        NavigationUtils.navigate(
+                            navHostController, TypeChoiceNav.navigateWithArg(
+                                SignUpInfo(
+                                    accessToken = "accessToken11",
+                                    oAuthType = OAuthType.GOOGLE
+                                )
+                            )
+                        )
                         "Forbidden"
                     }
 

@@ -4,6 +4,8 @@ import com.mommydndn.app.data.model.TermsItem
 import com.mommydndn.app.data.model.LoginRequest
 import com.mommydndn.app.data.model.LoginResponse
 import com.mommydndn.app.data.model.NearestResponse
+import com.mommydndn.app.data.model.SignUpRequest
+import com.mommydndn.app.data.model.SignUpResponse
 import com.skydoves.sandwich.ApiResponse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -22,6 +24,10 @@ interface ApiService {
         @Body loginRequest: LoginRequest
     ): ApiResponse<LoginResponse>
 
+    @POST("/api/auth/signup")
+    suspend fun signUp(
+        @Body signUpRequest: SignUpRequest
+    ): ApiResponse<SignUpResponse>
 
     @GET("/api/terms")
     suspend fun fetchTermsItems(
