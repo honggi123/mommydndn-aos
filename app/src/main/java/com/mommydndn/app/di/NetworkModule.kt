@@ -1,6 +1,7 @@
 package com.mommydndn.app.di
 
 import com.mommydndn.app.data.api.ApiService
+import com.mommydndn.app.data.api.GoogleApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,8 +14,14 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideUnsplashService(): ApiService {
+    fun provideApiService(): ApiService {
         return ApiService.create()
+    }
+
+    @Singleton
+    @Provides
+    fun provideGoogleApiService(): GoogleApiService {
+        return GoogleApiService.create()
     }
 
 }

@@ -1,12 +1,18 @@
 package com.mommydndn.app.ui.signIn
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Modifier
@@ -31,19 +37,46 @@ import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.ui.viewmodel.AccountViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.tasks.Task
 import com.mommydndn.app.data.model.LoginType
 import com.mommydndn.app.ui.theme.Salmon600
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.OAuthLoginCallback
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SignInScreen(
     viewModel: AccountViewModel = hiltViewModel(),
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    googleSignInClient: GoogleSignInClient
 ) {
     val TAG = "SignInScreen"
     val context = LocalContext.current
+
+    val signInIntent = googleSignInClient.signInIntent
+
+    val startForResult =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            Log.e(TAG, result.resultCode.toString())
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+                val task: Task<GoogleSignInAccount> =
+                    GoogleSignIn.getSignedInAccountFromIntent(data)
+
+                viewModel.handleGoogleSignInResult(
+                    task,
+                    context.getString(R.string.google_client_id),
+                    context.getString(R.string.google_client_secret)
+                )
+
+            }
+        }
+
     val kakaoCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         when {
             error != null -> {
@@ -104,7 +137,9 @@ fun SignInScreen(
     }, bottomBar = {
         SocialLoginBox(
             modifier = Modifier.padding(bottom = 96.dp),
-            onClickGoogle = { loginGoogle() },
+            onClickGoogle = {
+                startForResult.launch(signInIntent)
+            },
             onClickKakao = { loginKakao(context, kakaoCallback) },
             onClickNaver = { loginNaver(context, naverCallback) }
         )
@@ -182,7 +217,6 @@ private fun loginKakao(context: Context, kakaoCallback: (OAuthToken?, Throwable?
     }
 }
 
-private fun loginGoogle() {}
 private fun loginNaver(context: Context, oAuthLoginCallback: OAuthLoginCallback) {
     NaverIdLoginSDK.authenticate(context, oAuthLoginCallback)
 }

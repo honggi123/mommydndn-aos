@@ -11,15 +11,20 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.mommydndn.app.ui.SignInNav
 import com.mommydndn.app.ui.TypeChoiceNav
 import com.mommydndn.app.ui.signIn.SignInScreen
 import com.mommydndn.app.ui.signUp.TypeChoiceScreen
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var googleSignInClient: GoogleSignInClient
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -29,7 +34,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.primary
                 ) {
-                    MainNavigationScreen()
+                    MainNavigationScreen(googleSignInClient)
                 }
             }
         }
@@ -37,14 +42,14 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainNavigationScreen() {
+fun MainNavigationScreen(googleSignInClient: GoogleSignInClient) {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = SignInNav.route) {
         composable(
             route = SignInNav.route,
         ) {
-            SignInScreen(navHostController = navController)
+            SignInScreen(navHostController = navController, googleSignInClient = googleSignInClient)
         }
         composable(
             route = TypeChoiceNav.route,
