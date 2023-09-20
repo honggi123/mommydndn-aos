@@ -1,5 +1,6 @@
 package com.mommydndn.app.data.respository.impl
 
+import android.util.Log
 import com.mommydndn.app.BuildConfig
 import com.mommydndn.app.data.Preferences
 import com.mommydndn.app.data.api.ApiService
@@ -16,6 +17,8 @@ import com.mommydndn.app.data.model.UserType
 import com.mommydndn.app.data.respository.AccountRepository
 import retrofit2.Response
 import com.skydoves.sandwich.ApiResponse
+import com.skydoves.sandwich.message
+import com.skydoves.sandwich.onError
 import com.skydoves.sandwich.suspendOnSuccess
 import javax.inject.Inject
 
@@ -46,11 +49,12 @@ class AccountRepositoryImpl @Inject constructor(
     }
 
     override suspend fun signUp(signUpInfo: SignUpInfo): ApiResponse<SignUpResponse> {
+
         val response = apiService.signUp(
             SignUpRequest(
                 accessToken = signUpInfo.accessToken ?: "",
-                oauthProvider = signUpInfo.oAuthType!!.apiValue,
-                userType = signUpInfo.userType!!.apiValue,
+                oauthProvider = signUpInfo.oAuthType?.apiValue ?: "",
+                userType = signUpInfo.userType?.apiValue ?: "",
                 emdId = signUpInfo.emdId ?: 0
             )
         ).suspendOnSuccess {

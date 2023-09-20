@@ -30,11 +30,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.rememberBottomSheetScaffoldState
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -67,11 +71,13 @@ import com.mommydndn.app.ui.component.RadioListBox
 import com.mommydndn.app.ui.component.SearchUnderHeader
 import com.mommydndn.app.ui.component.Searchbar
 import com.mommydndn.app.ui.component.modal.CheckListModal
+import com.mommydndn.app.ui.theme.GreyOpacity400
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
 import com.mommydndn.app.ui.viewmodel.SignUpViewModel
 import kotlinx.coroutines.launch
 
 
+@OptIn(ExperimentalMaterialApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun TownCheckScreen(
@@ -81,8 +87,6 @@ fun TownCheckScreen(
 ) {
 
     val context = LocalContext.current
-
-    var isModalVisible by remember { mutableStateOf(false) }
 
     val keyword by viewModel.keyword.collectAsState()
     val terms by viewModel.terms.collectAsState()
@@ -111,6 +115,16 @@ fun TownCheckScreen(
     }
 
     val scaffoldState = rememberScaffoldState()
+    val sheetState =
+        rememberModalBottomSheetState(
+            ModalBottomSheetValue.Hidden,
+            skipHalfExpanded = true,
+            animationSpec = spring(
+                dampingRatio = 0.85f,
+                stiffness = 100f
+            )
+        )
+    val scope = rememberCoroutineScope()
 
     Scaffold(
         topBar = {
@@ -152,7 +166,7 @@ fun TownCheckScreen(
             RadioListBox(
                 items = nearTowns,
                 onItemClick = { emdItem ->
-                    isModalVisible = true
+                    scope.launch { sheetState.show() }
                     viewModel.updateEmdId(emdItem.id)
                 },
                 itemNameDisplay = EmdItem::displayName
@@ -160,28 +174,28 @@ fun TownCheckScreen(
         }
     }
 
-
-    AnimatedVisibility(
-        visible = isModalVisible,
-        enter = slideInVertically(
-            initialOffsetY = { fullHeight -> -fullHeight },
-            animationSpec = spring(stiffness = 100f, dampingRatio = 0.15f)
-        )
-    ) {
-        Dialog(
-            properties = DialogProperties(usePlatformDefaultWidth = false),
-            onDismissRequest = { isModalVisible = false }
-        ) {
-            val dialogWindowProvider = LocalView.current.parent as DialogWindowProvider
-            dialogWindowProvider.window.setGravity(Gravity.BOTTOM)
-
+    ModalBottomSheetLayout(
+        sheetState = sheetState,
+        sheetContentColor = Color.Transparent,
+        sheetBackgroundColor = Color.Transparent,
+        scrimColor = GreyOpacity400,
+        sheetElevation = 0.dp,
+        sheetContent = {
             CheckListModal(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 32.dp),
-                closeAction = { isModalVisible = false },
+                closeAction = {
+                    scope.launch { sheetState.hide() }
+                },
                 completeAction = { viewModel.signUp(signUpInfo) },
                 contentList = terms
             )
         }
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Transparent)
+        )
     }
 
 }

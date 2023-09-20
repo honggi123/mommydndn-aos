@@ -1,5 +1,6 @@
 package com.mommydndn.app.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
@@ -13,8 +14,11 @@ import com.mommydndn.app.data.respository.LocationRepository
 import com.mommydndn.app.data.respository.TermsRepository
 import com.skydoves.sandwich.getOrElse
 import com.skydoves.sandwich.getOrThrow
+import com.skydoves.sandwich.message
+import com.skydoves.sandwich.onError
 import com.skydoves.sandwich.onFailure
 import com.skydoves.sandwich.onSuccess
+import com.skydoves.sandwich.suspendOnSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -41,7 +45,7 @@ class SignUpViewModel @Inject constructor(
     val signUpInfo: StateFlow<SignUpInfo> = _signUpInfo
 
 
-    suspend fun updateTerms(){
+    suspend fun updateTerms() {
         val res = termsRepository.fetchAllTerms()
         _terms.value = res.getOrElse { emptyList() }
     }
@@ -59,6 +63,7 @@ class SignUpViewModel @Inject constructor(
             _signUpInfo.value = currentSignUpInfo
         }
     }
+
     fun updateEmdId(emdId: Int?) {
         val currentSignUpInfo = signUpInfo.value
         _signUpInfo.value = currentSignUpInfo.copy(emdId = emdId)

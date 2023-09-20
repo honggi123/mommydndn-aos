@@ -3,6 +3,7 @@
 package com.mommydndn.app
 
 import android.location.Location
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -101,8 +102,10 @@ fun MainNavigationScreen(
             exitTransition = { slideExitTransition }
         ) { it ->
             val signUpInfo = TypeChoiceNav.findArgument(it)
+            val accessToken = Uri.decode(signUpInfo?.accessToken)
+
             TypeChoiceScreen(
-                signUpInfo = signUpInfo,
+                signUpInfo = signUpInfo?.copy(accessToken = accessToken),
                 navHostController = navController,
                 viewModel = signUpViewModel
             )

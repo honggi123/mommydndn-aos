@@ -1,5 +1,7 @@
 package com.mommydndn.app.ui.viewmodel
 
+import android.net.Uri
+import android.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -100,7 +102,7 @@ class SignInViewModel @Inject constructor(
                         NavigationUtils.navigate(
                             navHostController, TypeChoiceNav.navigateWithArg(
                                 SignUpInfo(
-                                    accessToken = _token.value,
+                                    accessToken = Uri.encode(_token.value),
                                     oAuthType = _oAuthType.value
                                 )
                             )
