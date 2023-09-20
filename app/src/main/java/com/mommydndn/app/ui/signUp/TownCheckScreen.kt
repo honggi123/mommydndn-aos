@@ -38,6 +38,7 @@ import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -75,21 +76,27 @@ import kotlinx.coroutines.launch
 @Composable
 fun TownCheckScreen(
     navHostController: NavHostController,
-    viewModel: SignUpViewModel = hiltViewModel(),
+    viewModel: SignUpViewModel,
     fusedLocationClient: FusedLocationProviderClient
 ) {
 
     val context = LocalContext.current
 
-    val isModalVisible by viewModel.isModalVisible.collectAsState()
+    var isModalVisible by remember { mutableStateOf(false) }
+
+    val keyword by viewModel.keyword.collectAsState()
     val terms by viewModel.terms.collectAsState()
     val nearTowns by viewModel.nearTowns.collectAsState()
-    val keyword by viewModel.keyword.collectAsState()
+    val signUpInfo by viewModel.signUpInfo.collectAsState()
 
     val permissions = arrayOf(
         Manifest.permission.ACCESS_COARSE_LOCATION,
         Manifest.permission.ACCESS_FINE_LOCATION
     )
+
+    LaunchedEffect(Unit) {
+        viewModel.updateTerms()
+    }
 
     val launcher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -145,7 +152,7 @@ fun TownCheckScreen(
             RadioListBox(
                 items = nearTowns,
                 onItemClick = { emdItem ->
-                    viewModel.showModal()
+                    isModalVisible = true
                     viewModel.updateEmdId(emdItem.id)
                 },
                 itemNameDisplay = EmdItem::displayName
@@ -163,15 +170,15 @@ fun TownCheckScreen(
     ) {
         Dialog(
             properties = DialogProperties(usePlatformDefaultWidth = false),
-            onDismissRequest = { viewModel.hideModal() }
+            onDismissRequest = { isModalVisible = false }
         ) {
             val dialogWindowProvider = LocalView.current.parent as DialogWindowProvider
             dialogWindowProvider.window.setGravity(Gravity.BOTTOM)
 
             CheckListModal(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 32.dp),
-                closeAction = { viewModel.hideModal() },
-                completeAction = {},
+                closeAction = { isModalVisible = false },
+                completeAction = { viewModel.signUp(signUpInfo) },
                 contentList = terms
             )
         }

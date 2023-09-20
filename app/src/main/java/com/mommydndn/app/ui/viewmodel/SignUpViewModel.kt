@@ -31,9 +31,6 @@ class SignUpViewModel @Inject constructor(
     private val _nearTowns = MutableStateFlow<List<EmdItem>>(listOf())
     val nearTowns: StateFlow<List<EmdItem>> = _nearTowns
 
-    private val _isModalVisible = MutableStateFlow(false)
-    val isModalVisible: StateFlow<Boolean> = _isModalVisible
-
     private val _terms = MutableStateFlow<List<TermsItem>>(listOf())
     val terms: StateFlow<List<TermsItem>> = _terms
 
@@ -43,8 +40,10 @@ class SignUpViewModel @Inject constructor(
     private val _signUpInfo = MutableStateFlow<SignUpInfo>(SignUpInfo())
     val signUpInfo: StateFlow<SignUpInfo> = _signUpInfo
 
-    init {
-        fetchAllTerms()
+
+    suspend fun updateTerms(){
+        val res = termsRepository.fetchAllTerms()
+        _terms.value = res.getOrElse { emptyList() }
     }
 
     fun signUp(
@@ -70,13 +69,6 @@ class SignUpViewModel @Inject constructor(
         _signUpInfo.value = currentSignUpInfo.copy(userType = userType)
     }
 
-
-    private fun fetchAllTerms() {
-        viewModelScope.launch {
-            val res = termsRepository.fetchAllTerms()
-            _terms.value = res.getOrElse { emptyList() }
-        }
-    }
 
     fun updateKeyword(keyword: String) {
         viewModelScope.launch {
@@ -105,11 +97,4 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    fun showModal() {
-        _isModalVisible.value = true
-    }
-
-    fun hideModal() {
-        _isModalVisible.value = false
-    }
 }

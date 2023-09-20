@@ -1,5 +1,6 @@
 package com.mommydndn.app.data.respository.impl
 
+import com.mommydndn.app.BuildConfig
 import com.mommydndn.app.data.Preferences
 import com.mommydndn.app.data.api.ApiService
 import com.mommydndn.app.data.api.GoogleApiService
@@ -28,13 +29,14 @@ class AccountRepositoryImpl @Inject constructor(
         acessToken: String,
         oAuthType: OAuthType
     ): ApiResponse<LoginResponse> {
-        val request = LoginRequest(
-            accessToken = acessToken,
-            oauthProvider = oAuthType.apiValue
-        )
 
         val response = apiService
-            .login(request)
+            .login(
+                LoginRequest(
+                    accessToken = acessToken,
+                    oauthProvider = oAuthType.apiValue
+                )
+            )
             .suspendOnSuccess {
                 pref.putAccessToken(data?.accessToken)
                 pref.putRefreshToken(data?.refreshToken)
@@ -59,16 +61,13 @@ class AccountRepositoryImpl @Inject constructor(
         return response
     }
 
-
     override suspend fun getGoogleAccesstoken(
-        authCode: String,
-        clientId: String,
-        clientSecret: String
-    ): Response<LoginGoogleResponse> = googleApiService.getAccessToken(
+        authCode: String
+    ): ApiResponse<LoginGoogleResponse> = googleApiService.getAccessToken(
         LoginGoogleRequest(
             grant_type = "authorization_code",
-            client_id = clientId,
-            client_secret = clientSecret,
+            client_id = BuildConfig.GOOGLE_CLIENT_ID,
+            client_secret = BuildConfig.GOOGLE_CLIENT_SECRET,
             code = authCode.orEmpty()
         )
     )

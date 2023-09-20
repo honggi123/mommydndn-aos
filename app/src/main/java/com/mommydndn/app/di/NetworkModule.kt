@@ -42,16 +42,23 @@ class NetworkModule {
             .build()
     }
 
+    @Provides
+    @Singleton
+    fun provideGoogleApiService(okHttpClient: OkHttpClient): GoogleApiService {
+        return Retrofit.Builder()
+            .baseUrl("https://www.googleapis.com")
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
+            .build()
+            .create(GoogleApiService::class.java)
+    }
+
     @Singleton
     @Provides
     fun provideApiService(retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
     }
 
-    @Singleton
-    @Provides
-    fun provideGoogleApiService(): GoogleApiService {
-        return GoogleApiService.create()
-    }
 
 }

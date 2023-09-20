@@ -16,6 +16,7 @@ import com.mommydndn.app.ui.TypeChoiceNav
 import com.mommydndn.app.utils.NavigationUtils
 import com.skydoves.sandwich.ApiResponse
 import com.skydoves.sandwich.StatusCode
+import com.skydoves.sandwich.getOrNull
 import com.skydoves.sandwich.message
 import com.skydoves.sandwich.onError
 import com.skydoves.sandwich.onException
@@ -32,10 +33,7 @@ class SignInViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _token = MutableStateFlow<String>("")
-    val token: StateFlow<String> = _token
-
     private val _oAuthType = MutableStateFlow<OAuthType?>(null)
-    val oAuthTpe: StateFlow<OAuthType?> = _oAuthType
 
     private val _errMsg = MutableStateFlow<String>("")
     val errMsg: StateFlow<String> = _errMsg
@@ -46,6 +44,9 @@ class SignInViewModel @Inject constructor(
         navHostController: NavHostController
     ) {
         viewModelScope.launch {
+            _token.value = tokenId
+            _oAuthType.value = type
+
             val response = accountRepository.signIn(tokenId, type)
             handleSignInResponse(response, navHostController)
         }
@@ -53,8 +54,7 @@ class SignInViewModel @Inject constructor(
 
     fun handleGoogleSignInResult(
         accountTask: Task<GoogleSignInAccount>,
-        clientId: String,
-        clientSecret: String,
+
         navHostController: NavHostController
     ) {
         viewModelScope.launch {
@@ -62,9 +62,7 @@ class SignInViewModel @Inject constructor(
 
             account.serverAuthCode?.let {
                 val accessToken = getGoogleAccessToken(
-                    it,
-                    clientId,
-                    clientSecret
+                    it
                 )
 
                 if (accessToken != null) {
@@ -80,11 +78,11 @@ class SignInViewModel @Inject constructor(
 
     private suspend fun getGoogleAccessToken(
         authCode: String,
-        clientId: String,
-        clientSecret: String
     ): String? = withContext(Dispatchers.IO) {
-        val res = accountRepository.getGoogleAccesstoken(authCode, clientId, clientSecret)
-        res.body()?.access_token
+        val data = accountRepository
+            .getGoogleAccesstoken(authCode)
+            .getOrNull()
+        data?.access_token
     }
 
     private fun handleSignInResponse(
@@ -102,8 +100,8 @@ class SignInViewModel @Inject constructor(
                         NavigationUtils.navigate(
                             navHostController, TypeChoiceNav.navigateWithArg(
                                 SignUpInfo(
-                                    accessToken = "accessToken11",
-                                    oAuthType = OAuthType.GOOGLE
+                                    accessToken = _token.value,
+                                    oAuthType = _oAuthType.value
                                 )
                             )
                         )

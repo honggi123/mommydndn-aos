@@ -20,8 +20,6 @@ interface AccountRepository {
     ): ApiResponse<SignUpResponse>
 
     suspend fun getGoogleAccesstoken(
-        authCode: String,
-        clientId: String,
-        clientSecret: String
-    ): Response<LoginGoogleResponse>
+        authCode: String
+    ): ApiResponse<LoginGoogleResponse>
 }

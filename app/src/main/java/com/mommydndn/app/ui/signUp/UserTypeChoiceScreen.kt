@@ -35,7 +35,7 @@ import com.mommydndn.app.utils.NavigationUtils
 fun TypeChoiceScreen(
     signUpInfo: SignUpInfo?,
     navHostController: NavHostController,
-    viewModel: SignUpViewModel = hiltViewModel()
+    viewModel: SignUpViewModel
 ) {
 
     LaunchedEffect(Unit) {

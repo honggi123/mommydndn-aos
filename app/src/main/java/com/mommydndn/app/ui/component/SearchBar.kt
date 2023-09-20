@@ -114,6 +114,7 @@ fun Searchbar(
                         includeFontPadding = false
                     )
                 ),
+                singleLine = true,
                 placeholder = {
                     Text(
                         text = placeHolderText,
@@ -123,12 +124,12 @@ fun Searchbar(
                             platformStyle = PlatformTextStyle(
                                 includeFontPadding = false
                             )
-                        )
+                        ),
+                        maxLines = 1
                     )
                 },
                 value = keyword,
                 onValueChange = onValueChange,
-                singleLine = true,
                 trailingIcon = {
                     if (!keyword.isEmpty()) {
                         IconButton(

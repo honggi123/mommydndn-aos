@@ -64,8 +64,6 @@ fun SignInScreen(
 
                 viewModel.handleGoogleSignInResult(
                     task,
-                    BuildConfig.GOOGLE_CLIENT_ID,
-                    BuildConfig.GOOGLE_CLIENT_SECRET,
                     navHostController
                 )
 

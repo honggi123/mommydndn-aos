@@ -17,6 +17,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -36,6 +37,7 @@ import com.mommydndn.app.ui.signIn.SignInScreen
 import com.mommydndn.app.ui.signUp.TownCheckScreen
 import com.mommydndn.app.ui.signUp.TypeChoiceScreen
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
+import com.mommydndn.app.ui.viewmodel.SignUpViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -70,6 +72,9 @@ fun MainNavigationScreen(
     googleSignInClient: GoogleSignInClient,
     fusedLocationClient: FusedLocationProviderClient
 ) {
+    val signUpViewModel = hiltViewModel<SignUpViewModel>()
+
+
     val navController = rememberNavController()
     val slideEnterTransition = slideInHorizontally(
         initialOffsetX = { -it },
@@ -98,7 +103,8 @@ fun MainNavigationScreen(
             val signUpInfo = TypeChoiceNav.findArgument(it)
             TypeChoiceScreen(
                 signUpInfo = signUpInfo,
-                navHostController = navController
+                navHostController = navController,
+                viewModel = signUpViewModel
             )
         }
 
@@ -109,7 +115,8 @@ fun MainNavigationScreen(
         ) {
             TownCheckScreen(
                 navHostController = navController,
-                fusedLocationClient = fusedLocationClient
+                fusedLocationClient = fusedLocationClient,
+                viewModel = signUpViewModel
             )
         }
     }
