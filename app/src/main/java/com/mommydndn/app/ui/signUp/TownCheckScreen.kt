@@ -49,9 +49,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -77,7 +80,7 @@ import com.mommydndn.app.ui.viewmodel.SignUpViewModel
 import kotlinx.coroutines.launch
 
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun TownCheckScreen(
@@ -87,6 +90,7 @@ fun TownCheckScreen(
 ) {
 
     val context = LocalContext.current
+    val focusManager = LocalFocusManager.current
 
     val keyword by viewModel.keyword.collectAsState()
     val terms by viewModel.terms.collectAsState()
@@ -101,6 +105,7 @@ fun TownCheckScreen(
     LaunchedEffect(Unit) {
         viewModel.updateTerms()
     }
+
 
     val launcher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -124,6 +129,7 @@ fun TownCheckScreen(
                 stiffness = 100f
             )
         )
+
     val scope = rememberCoroutineScope()
 
     Scaffold(
@@ -166,7 +172,10 @@ fun TownCheckScreen(
             RadioListBox(
                 items = nearTowns,
                 onItemClick = { emdItem ->
-                    scope.launch { sheetState.show() }
+                    scope.launch {
+                        focusManager.clearFocus()
+                        sheetState.show()
+                    }
                     viewModel.updateEmdId(emdItem.id)
                 },
                 itemNameDisplay = EmdItem::displayName
