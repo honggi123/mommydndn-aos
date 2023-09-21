@@ -71,7 +71,7 @@ fun Searchbar(
     ) {
         Row(
             modifier = Modifier
-                .fillMaxHeight()
+                .fillMaxSize()
                 .padding(
                     start = 20.dp, end = 20.dp
                 ),

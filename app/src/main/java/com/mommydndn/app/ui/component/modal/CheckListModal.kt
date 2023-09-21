@@ -37,6 +37,7 @@ import com.mommydndn.app.ui.theme.shadow700
 @Composable
 fun CheckListModal(
     modifier: Modifier = Modifier,
+    titleCheckBoxText: String = "",
     contentList: List<TermsItem>,
     closeAction: () -> Unit,
     completeAction: () -> Unit
@@ -78,8 +79,10 @@ fun CheckListModal(
                     setIsAllChecked(checked)
                     checkedStates = List(contentList.size) { checked }
                 },
-                text = "모두 동의해요"
+                text = titleCheckBoxText
             )
+
+            Spacer(modifier = Modifier.size(12.dp))
 
             Divider(
                 modifier = Modifier
@@ -87,6 +90,8 @@ fun CheckListModal(
                     .height(1.5.dp)
                     .background(Grey50)
             )
+
+            Spacer(modifier = Modifier.size(12.dp))
 
             contentList.onEachIndexed { index, item ->
                 CheckMarkListItem(
@@ -97,9 +102,13 @@ fun CheckListModal(
                         }
                     }, text = item.name
                 )
+                if (index < contentList.size - 1) {
+                    Spacer(modifier = Modifier.size(6.dp))
+                }
             }
 
             Spacer(modifier = Modifier.size(28.dp))
+
             Row(modifier = Modifier.fillMaxWidth()) {
                 Button(modifier = Modifier.weight(1f), onClick = { closeAction() }) {
                     Text(text = "닫기", color = Color.Black)

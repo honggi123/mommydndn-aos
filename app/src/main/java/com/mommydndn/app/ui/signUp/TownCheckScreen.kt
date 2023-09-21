@@ -102,11 +102,6 @@ fun TownCheckScreen(
         Manifest.permission.ACCESS_FINE_LOCATION
     )
 
-    LaunchedEffect(Unit) {
-        viewModel.updateTerms()
-    }
-
-
     val launcher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissionsMap ->
@@ -117,6 +112,22 @@ fun TownCheckScreen(
         } else {
         }
         Log.d("TownCheckScreen", "권한이 거부되었습니다.")
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.updateTerms()
+
+        checkAndRequestPermissions(
+            context,
+            permissions,
+            launcher,
+            onPermissionGranted = {
+                searchNearTowns(
+                    fusedLocationClient,
+                    viewModel
+                )
+            }
+        )
     }
 
     val scaffoldState = rememberScaffoldState()
@@ -196,7 +207,8 @@ fun TownCheckScreen(
                     scope.launch { sheetState.hide() }
                 },
                 completeAction = { viewModel.signUp(signUpInfo) },
-                contentList = terms
+                contentList = terms,
+                titleCheckBoxText = "[필수] 통합 이용약관 동의"
             )
         }
     ) {
