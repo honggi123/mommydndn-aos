@@ -5,7 +5,9 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.mommydndn.app.data.api.ApiService
 import com.mommydndn.app.data.datasource.NearestByKeywordPagingSource
+import com.mommydndn.app.data.datasource.NearestByLocationPagingSource
 import com.mommydndn.app.data.model.EmdItem
+import com.mommydndn.app.data.model.LocationInfo
 import com.mommydndn.app.data.model.NearestResponse
 import com.mommydndn.app.data.respository.LocationRepository
 import com.skydoves.sandwich.ApiResponse
@@ -15,15 +17,22 @@ import javax.inject.Inject
 class LocationRepositoryImpl @Inject constructor(
     private val apiService: ApiService
 ) : LocationRepository {
-    override suspend fun fetchNearestByLocation(
-        latitude: Double,
-        longitude: Double
-    ): ApiResponse<NearestResponse> =
-        apiService.fetchNearestByLocation(latitude = latitude, longitude = longitude)
+    override fun fetchNearestByLocation(
+        locationInfo: LocationInfo
+    ): Flow<PagingData<EmdItem>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 15, enablePlaceholders = false
+            ),
+            pagingSourceFactory = { NearestByLocationPagingSource(locationInfo, apiService) }
+        ).flow
+    }
 
     override fun fetchNearestByKeyword(keyword: String): Flow<PagingData<EmdItem>> {
         return Pager(
-            config = PagingConfig(pageSize = 10),
+            config = PagingConfig(
+                pageSize = 15, enablePlaceholders = false
+            ),
             pagingSourceFactory = { NearestByKeywordPagingSource(keyword, apiService) }
         ).flow
     }

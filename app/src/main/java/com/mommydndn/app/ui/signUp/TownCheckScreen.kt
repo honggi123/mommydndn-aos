@@ -36,6 +36,8 @@ import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.mommydndn.app.data.model.EmdItem
+import com.mommydndn.app.data.model.LocationInfo
+import com.mommydndn.app.data.model.NearestSearchType
 import com.mommydndn.app.data.model.displayName
 import com.mommydndn.app.ui.component.RadioListBox
 import com.mommydndn.app.ui.component.SearchUnderHeader
@@ -60,10 +62,11 @@ fun TownCheckScreen(
 
     val keyword by viewModel.keyword.collectAsState()
     val terms by viewModel.terms.collectAsState()
-    val nearTowns by viewModel.nearTowns.collectAsState()
     val signUpInfo by viewModel.signUpInfo.collectAsState()
+    val searchType by viewModel.searchType.collectAsState()
 
-    val pagingItems = viewModel.currentSearchResult.collectAsLazyPagingItems()
+    val pagingItemsByKeyword = viewModel.searchedTownsFlow.collectAsLazyPagingItems()
+    val pagingItemsByLocation = viewModel.searchedTownsByLocation.collectAsLazyPagingItems()
 
     val permissions = arrayOf(
         Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -83,8 +86,6 @@ fun TownCheckScreen(
     }
 
     LaunchedEffect(Unit) {
-        viewModel.updateTerms()
-
         checkAndRequestPermissions(
             context,
             permissions,
@@ -127,7 +128,7 @@ fun TownCheckScreen(
                     searchAction = { }
                 )
                 SearchUnderHeader(
-                    headerText = if (keyword == "") "근처동네" else "\'" + keyword + "\'" + " 검색결과",
+                    headerText = if (keyword == "") "근처동네를 찾아왔어요." else "\'" + keyword + "\'" + " 검색결과",
                     searchAction = {
                         checkAndRequestPermissions(
                             context,
@@ -147,7 +148,7 @@ fun TownCheckScreen(
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             RadioListBox(
-                pagingItems = pagingItems,
+                pagingItems = if (searchType == NearestSearchType.KEYWORD) pagingItemsByKeyword else pagingItemsByLocation,
                 onItemClick = { emdItem ->
                     scope.launch {
                         focusManager.clearFocus()
@@ -172,6 +173,7 @@ fun TownCheckScreen(
                 closeAction = {
                     scope.launch { sheetState.hide() }
                 },
+
                 completeAction = { viewModel.signUp(signUpInfo) },
                 contentList = terms,
                 titleCheckBoxText = "[필수] 통합 이용약관 동의"
@@ -193,7 +195,7 @@ private fun searchNearTowns(
 ) {
     try {
         fusedLocationClient.lastLocation.addOnSuccessListener {
-            viewModel.searchByLoaction(it.latitude, it.longitude)
+            viewModel.updateLocation(LocationInfo(latitude = it.latitude, longitude = it.longitude))
         }
     } catch (e: SecurityException) {
         Log.d("TownCheckScreen", e.stackTraceToString())
