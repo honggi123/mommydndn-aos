@@ -1,4 +1,4 @@
-package com.mommydndn.app.data
+package com.mommydndn.app.data.datasource
 
 import android.content.Context
 import android.content.SharedPreferences

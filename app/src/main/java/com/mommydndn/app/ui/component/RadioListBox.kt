@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -18,30 +16,34 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.items
+import androidx.paging.compose.itemsIndexed
+import com.mommydndn.app.data.model.EmdItem
 import com.mommydndn.app.ui.component.Item.RadioListItem
 import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
+import kotlin.reflect.KFunction1
 
 @Composable
-fun <T> RadioListBox(
-    items: List<T>,
-    onItemClick: (T) -> Unit,
+fun <T : Any> RadioListBox(
+    pagingItems: LazyPagingItems<T>,
+    onItemClick: (T?) -> Unit,
     itemNameDisplay: (T) -> String
 ) {
-    var checkedStates by remember { mutableStateOf(List(items.size) { false }) }
+    var checkedStates by remember { mutableStateOf(List(pagingItems.itemCount) { false }) }
 
-    if (checkedStates.size != items.size) {
-        checkedStates = List(items.size) { false }
+    if (checkedStates.size != pagingItems.itemCount) {
+        checkedStates = List(pagingItems.itemCount) { false }
     }
 
-    if (items.isEmpty()) {
+    if (pagingItems.itemCount == 0) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -71,13 +73,13 @@ fun <T> RadioListBox(
                 .background(White),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            itemsIndexed(items) { index, item ->
+            itemsIndexed(pagingItems) { index, item ->
                 RadioListItem(
                     modifier = Modifier.padding(bottom = 6.dp),
                     checked = checkedStates[index],
                     onCheckedChange = { isChecked ->
 
-                        checkedStates = List(items.size) { false }
+                        checkedStates = List(pagingItems.itemCount) { false }
 
                         checkedStates = checkedStates.toMutableList().apply {
                             this[index] = isChecked
@@ -87,7 +89,7 @@ fun <T> RadioListBox(
                             onItemClick(item)
                         }
                     },
-                    text = itemNameDisplay(item)
+                    text = item?.let { itemNameDisplay(it) } ?: ""
                 )
             }
         }

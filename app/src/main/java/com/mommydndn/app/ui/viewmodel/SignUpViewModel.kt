@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.mommydndn.app.data.model.TermsItem
 import com.mommydndn.app.data.model.EmdItem
 import com.mommydndn.app.data.model.OAuthType
@@ -20,8 +22,11 @@ import com.skydoves.sandwich.onFailure
 import com.skydoves.sandwich.onSuccess
 import com.skydoves.sandwich.suspendOnSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -35,15 +40,22 @@ class SignUpViewModel @Inject constructor(
     private val _nearTowns = MutableStateFlow<List<EmdItem>>(listOf())
     val nearTowns: StateFlow<List<EmdItem>> = _nearTowns
 
+
     private val _terms = MutableStateFlow<List<TermsItem>>(listOf())
     val terms: StateFlow<List<TermsItem>> = _terms
 
     private val _keyword = MutableStateFlow<String>("")
     val keyword: StateFlow<String> = _keyword
 
+    val currentSearchResult: Flow<PagingData<EmdItem>> =
+        locationRepository.fetchNearestByKeyword(keyword = keyword.value).cachedIn(viewModelScope)
+
     private val _signUpInfo = MutableStateFlow<SignUpInfo>(SignUpInfo())
     val signUpInfo: StateFlow<SignUpInfo> = _signUpInfo
 
+    init {
+        searchByKeyword()
+    }
 
     suspend fun updateTerms() {
         val res = termsRepository.fetchAllTerms()
@@ -92,13 +104,10 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    fun searchByKeyword(keyword: String) {
+    private fun searchByKeyword() {
         viewModelScope.launch {
-            locationRepository.fetchNearestByKeyword(
-                keyword = keyword
-            ).onSuccess {
-                _nearTowns.value = this.data.emdList
-            }
+
+
         }
     }
 
