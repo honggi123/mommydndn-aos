@@ -36,7 +36,7 @@ import com.mommydndn.app.ui.TownCheckNav
 import com.mommydndn.app.ui.TypeChoiceNav
 import com.mommydndn.app.ui.signIn.SignInScreen
 import com.mommydndn.app.ui.signUp.TownCheckScreen
-import com.mommydndn.app.ui.signUp.TypeChoiceScreen
+import com.mommydndn.app.ui.signUp.UserTypeChoiceScreen
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
 import com.mommydndn.app.ui.viewmodel.SignUpViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -104,7 +104,7 @@ fun MainNavigationScreen(
             val signUpInfo = TypeChoiceNav.findArgument(it)
             val accessToken = Uri.decode(signUpInfo?.accessToken)
 
-            TypeChoiceScreen(
+            UserTypeChoiceScreen(
                 signUpInfo = signUpInfo?.copy(accessToken = accessToken),
                 navHostController = navController,
                 viewModel = signUpViewModel

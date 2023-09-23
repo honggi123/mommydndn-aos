@@ -35,18 +35,29 @@ import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.shadow700
 
 @Composable
-fun CheckListModal(
+fun <T> CheckListModal(
     modifier: Modifier = Modifier,
     titleCheckBoxText: String = "",
-    contentList: List<TermsItem>,
+    contentList: List<T>,
     closeAction: () -> Unit,
-    completeAction: () -> Unit
+    completeAction: () -> Unit,
+
+    itemNameDisplay: (T) -> String,
+    itemCheckRequired: (T) -> Boolean
 ) {
     var checkedStates by remember { mutableStateOf(List(contentList.size) { false }) }
     val (isAllChecked, setIsAllChecked) = remember { mutableStateOf(false) }
 
     if (checkedStates.size != contentList.size) {
         checkedStates = List(contentList.size) { false }
+    }
+
+    val requiredCheckList = contentList.filter { itemCheckRequired(it) }
+
+    val isNextButtonEnabled by remember(checkedStates) {
+        mutableStateOf(requiredCheckList.all { item ->
+            checkedStates[contentList.indexOf(item)]
+        })
     }
 
     Box(
@@ -100,7 +111,7 @@ fun CheckListModal(
                         checkedStates = checkedStates.toMutableList().apply {
                             this[index] = isChecked
                         }
-                    }, text = item.name
+                    }, text = itemNameDisplay(item)
                 )
                 if (index < contentList.size - 1) {
                     Spacer(modifier = Modifier.size(6.dp))
@@ -114,7 +125,11 @@ fun CheckListModal(
                     Text(text = "닫기", color = Color.Black)
                 }
                 Spacer(modifier = Modifier.size(12.dp))
-                Button(modifier = Modifier.weight(1f), onClick = { completeAction() }) {
+                Button(
+                    modifier = Modifier.weight(1f),
+                    onClick = { completeAction() },
+                    enabled = isNextButtonEnabled
+                ) {
                     Text(text = "다음으로", color = Color.Black)
                 }
             }

@@ -21,7 +21,7 @@ val Grey900 = Color(0xFF181C23)
 val Grey1000 = Color(0xFF0E1117)
 
 val Salmon100 = Color(0xFFFFF8F8)
-val Salomon200 = Color(0xFFFFF1F0)
+val Salmon200 = Color(0xFFFFF1F0)
 val Salmon300 = Color(0xFFFFCDC9)
 val Salmon400 = Color(0xFFFFC3BF)
 val Salmon500 = Color(0xFFFC938A)

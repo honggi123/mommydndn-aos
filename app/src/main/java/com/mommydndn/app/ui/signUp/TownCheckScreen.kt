@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
@@ -37,7 +38,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.mommydndn.app.data.model.EmdItem
 import com.mommydndn.app.data.model.LocationInfo
-import com.mommydndn.app.data.model.NearestSearchType
+import com.mommydndn.app.data.model.TownSearchType
 import com.mommydndn.app.data.model.displayName
 import com.mommydndn.app.ui.component.RadioListBox
 import com.mommydndn.app.ui.component.SearchUnderHeader
@@ -148,7 +149,7 @@ fun TownCheckScreen(
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             RadioListBox(
-                pagingItems = if (searchType == NearestSearchType.KEYWORD) pagingItemsByKeyword else pagingItemsByLocation,
+                pagingItems = if (searchType == TownSearchType.KEYWORD) pagingItemsByKeyword else pagingItemsByLocation,
                 onItemClick = { emdItem ->
                     scope.launch {
                         focusManager.clearFocus()
@@ -173,10 +174,11 @@ fun TownCheckScreen(
                 closeAction = {
                     scope.launch { sheetState.hide() }
                 },
-
                 completeAction = { viewModel.signUp(signUpInfo) },
                 contentList = terms,
-                titleCheckBoxText = "[필수] 통합 이용약관 동의"
+                titleCheckBoxText = "[필수] 통합 이용약관 동의",
+                itemNameDisplay = { it.name },
+                itemCheckRequired = { it.isRequired }
             )
         }
     ) {

@@ -1,6 +1,6 @@
 package com.mommydndn.app.data.model
 
-enum class NearestSearchType() {
+enum class TownSearchType() {
     LOCATION,
     KEYWORD
 }
