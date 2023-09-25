@@ -43,7 +43,7 @@ class NetworkModule {
     @Provides
     @Singleton
     @TokenOkhttpClient
-    fun provideOkHttpClientWithToken(tokenManager: TokenManager): OkHttpClient {
+    fun provideTokenOkHttpClient(tokenManager: TokenManager): OkHttpClient {
         val logger =
             HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC }
 
@@ -56,7 +56,7 @@ class NetworkModule {
     @Provides
     @Singleton
     @TokenRetrofit
-    fun provideRetrofitWithToken(@TokenOkhttpClient okHttpClient: OkHttpClient): Retrofit {
+    fun provideTokenRetrofit(@TokenOkhttpClient okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(BuildConfig.BASE_URL)
@@ -81,7 +81,7 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideAuthService(@TokenRetrofit retrofit: Retrofit): AuthService {
+    fun provideAuthService(@DefaultRetrofit retrofit: Retrofit): AuthService {
         return retrofit.create(AuthService::class.java)
     }
 
@@ -100,7 +100,7 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideGoogleApiService(okHttpClient: OkHttpClient): GoogleApiService {
+    fun provideGoogleApiService(@DefaultOkhttpClient okHttpClient: OkHttpClient): GoogleApiService {
         return Retrofit.Builder()
             .baseUrl("https://www.googleapis.com")
             .client(okHttpClient)
