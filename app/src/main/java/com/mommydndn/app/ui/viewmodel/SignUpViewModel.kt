@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.mommydndn.app.data.model.TermsItem
-import com.mommydndn.app.data.model.EmdItem
+import com.mommydndn.app.data.api.model.EmdItem
 import com.mommydndn.app.data.model.LocationInfo
 import com.mommydndn.app.data.model.TownSearchType
 import com.mommydndn.app.data.model.SignUpInfo

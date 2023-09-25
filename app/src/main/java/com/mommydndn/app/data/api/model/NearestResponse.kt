@@ -1,4 +1,4 @@
-package com.mommydndn.app.data.model
+package com.mommydndn.app.data.api.model
 
 data class EmdItem(
     val id: Int,

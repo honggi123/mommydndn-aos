@@ -6,11 +6,9 @@ import androidx.paging.PagingData
 import com.mommydndn.app.data.api.MapService
 import com.mommydndn.app.data.datasource.NearestByKeywordPagingSource
 import com.mommydndn.app.data.datasource.NearestByLocationPagingSource
-import com.mommydndn.app.data.model.EmdItem
+import com.mommydndn.app.data.api.model.EmdItem
 import com.mommydndn.app.data.model.LocationInfo
-import com.mommydndn.app.data.model.NearestResponse
 import com.mommydndn.app.data.respository.LocationRepository
-import com.skydoves.sandwich.ApiResponse
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

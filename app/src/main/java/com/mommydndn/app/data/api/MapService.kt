@@ -1,6 +1,6 @@
 package com.mommydndn.app.data.api
 
-import com.mommydndn.app.data.model.NearestResponse
+import com.mommydndn.app.data.api.model.NearestResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

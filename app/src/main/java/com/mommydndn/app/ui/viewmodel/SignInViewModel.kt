@@ -1,7 +1,6 @@
 package com.mommydndn.app.ui.viewmodel
 
 import android.net.Uri
-import android.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,9 +10,8 @@ import com.mommydndn.app.data.model.OAuthType
 import com.mommydndn.app.data.respository.AccountRepository
 import kotlinx.coroutines.Dispatchers
 import androidx.navigation.NavHostController
-import com.mommydndn.app.data.model.LoginResponse
+import com.mommydndn.app.data.api.model.LoginResponse
 import com.mommydndn.app.data.model.SignUpInfo
-import com.mommydndn.app.ui.SignInNav
 import com.mommydndn.app.ui.TypeChoiceNav
 import com.mommydndn.app.utils.NavigationUtils
 import com.skydoves.sandwich.ApiResponse
