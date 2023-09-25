@@ -7,7 +7,7 @@ import androidx.security.crypto.MasterKey
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class Preferences @Inject constructor(
+class TokenManager @Inject constructor(
     @ApplicationContext context: Context,
 ) {
 
@@ -44,9 +44,14 @@ class Preferences @Inject constructor(
         editor.apply()
     }
 
-    private fun getString(key: String, defValue: String? = null): String? {
-        return prefs.getString(key, defValue)
+    fun getAccessToken(): String? {
+        return prefs.getString(ACCESS_TOKEN, null)
     }
+
+    fun getRefreshToken(): String? {
+        return prefs.getString(REFRESH_TOKEN, null)
+    }
+
 
     fun putAccessToken(accessToken: String?) {
         putString(ACCESS_TOKEN, accessToken)

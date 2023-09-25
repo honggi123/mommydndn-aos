@@ -1,9 +1,12 @@
 package com.mommydndn.app.di
 
 import com.mommydndn.app.BuildConfig
-import com.mommydndn.app.data.api.ApiInterceptor
-import com.mommydndn.app.data.api.ApiService
+import com.mommydndn.app.data.api.AuthService
 import com.mommydndn.app.data.api.GoogleApiService
+import com.mommydndn.app.data.api.MapService
+import com.mommydndn.app.data.api.TermsService
+import com.mommydndn.app.data.api.TokenInterceptor
+import com.mommydndn.app.data.datasource.TokenManager
 import com.skydoves.sandwich.adapters.ApiResponseCallAdapterFactory
 import dagger.Module
 import dagger.Provides
@@ -14,6 +17,12 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Qualifier
+
+@Qualifier annotation class DefaultOkhttpClient
+@Qualifier annotation class TokenOkhttpClient
+@Qualifier annotation class DefaultRetrofit
+@Qualifier annotation class TokenRetrofit
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -21,19 +30,33 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
+    @DefaultOkhttpClient
+    fun provideDefaultOkHttpClient(): OkHttpClient {
         val logger =
             HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC }
 
         return OkHttpClient.Builder()
             .addInterceptor(logger)
-            .addInterceptor(ApiInterceptor())
             .build()
     }
 
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    @TokenOkhttpClient
+    fun provideOkHttpClientWithToken(tokenManager: TokenManager): OkHttpClient {
+        val logger =
+            HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC }
+
+        return OkHttpClient.Builder()
+            .addInterceptor(logger)
+            .addInterceptor(TokenInterceptor(tokenManager = tokenManager))
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    @TokenRetrofit
+    fun provideRetrofitWithToken(@TokenOkhttpClient okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(BuildConfig.BASE_URL)
@@ -41,6 +64,39 @@ class NetworkModule {
             .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
             .build()
     }
+
+
+    @Provides
+    @Singleton
+    @DefaultRetrofit
+    fun provideDefaultRetrofit(@DefaultOkhttpClient okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .client(okHttpClient)
+            .baseUrl(BuildConfig.BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
+            .build()
+    }
+
+
+    @Singleton
+    @Provides
+    fun provideAuthService(@TokenRetrofit retrofit: Retrofit): AuthService {
+        return retrofit.create(AuthService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideMapService(@DefaultRetrofit retrofit: Retrofit): MapService {
+        return retrofit.create(MapService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideTermsService(@TokenRetrofit retrofit: Retrofit): TermsService {
+        return retrofit.create(TermsService::class.java)
+    }
+
 
     @Provides
     @Singleton
@@ -52,12 +108,6 @@ class NetworkModule {
             .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
             .build()
             .create(GoogleApiService::class.java)
-    }
-
-    @Singleton
-    @Provides
-    fun provideApiService(retrofit: Retrofit): ApiService {
-        return retrofit.create(ApiService::class.java)
     }
 
 

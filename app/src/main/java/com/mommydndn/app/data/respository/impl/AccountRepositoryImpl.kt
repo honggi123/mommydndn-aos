@@ -1,9 +1,9 @@
 package com.mommydndn.app.data.respository.impl
 
 import com.mommydndn.app.BuildConfig
-import com.mommydndn.app.data.datasource.Preferences
-import com.mommydndn.app.data.api.ApiService
+import com.mommydndn.app.data.api.AuthService
 import com.mommydndn.app.data.api.GoogleApiService
+import com.mommydndn.app.data.datasource.TokenManager
 import com.mommydndn.app.data.model.LoginGoogleRequest
 import com.mommydndn.app.data.model.LoginGoogleResponse
 import com.mommydndn.app.data.model.LoginRequest
@@ -18,9 +18,9 @@ import com.skydoves.sandwich.suspendOnSuccess
 import javax.inject.Inject
 
 class AccountRepositoryImpl @Inject constructor(
-    private val apiService: ApiService,
+    private val authService: AuthService,
     private val googleApiService: GoogleApiService,
-    private val pref: Preferences
+    private val tokenManager: TokenManager
 ) : AccountRepository {
 
     override suspend fun signIn(
@@ -28,7 +28,7 @@ class AccountRepositoryImpl @Inject constructor(
         oAuthType: OAuthType
     ): ApiResponse<LoginResponse> {
 
-        val response = apiService
+        val response = authService
             .login(
                 LoginRequest(
                     accessToken = acessToken,
@@ -36,8 +36,8 @@ class AccountRepositoryImpl @Inject constructor(
                 )
             )
             .suspendOnSuccess {
-                pref.putAccessToken(data?.accessToken)
-                pref.putRefreshToken(data?.refreshToken)
+                tokenManager.putAccessToken(data?.accessToken)
+                tokenManager.putRefreshToken(data?.refreshToken)
             }
 
         return response
@@ -45,7 +45,7 @@ class AccountRepositoryImpl @Inject constructor(
 
     override suspend fun signUp(signUpInfo: SignUpInfo): ApiResponse<SignUpResponse> {
 
-        val response = apiService.signUp(
+        val response = authService.signUp(
             SignUpRequest(
                 accessToken = signUpInfo.accessToken ?: "",
                 oauthProvider = signUpInfo.oAuthType?.apiValue ?: "",
@@ -53,8 +53,8 @@ class AccountRepositoryImpl @Inject constructor(
                 emdId = signUpInfo.emdId ?: 0
             )
         ).suspendOnSuccess {
-            pref.putAccessToken(data?.accessToken)
-            pref.putRefreshToken(data?.refreshToken)
+            tokenManager.putAccessToken(data?.accessToken)
+            tokenManager.putRefreshToken(data?.refreshToken)
         }
 
         return response
