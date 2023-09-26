@@ -1,14 +1,16 @@
 package com.mommydndn.app.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.mommydndn.app.data.model.TermsItem
+import com.mommydndn.app.data.api.model.TermsItemResponse
 import com.mommydndn.app.data.api.model.EmdItem
 import com.mommydndn.app.data.model.LocationInfo
 import com.mommydndn.app.data.model.TownSearchType
 import com.mommydndn.app.data.model.SignUpInfo
+import com.mommydndn.app.data.model.TermsItem
 import com.mommydndn.app.data.model.UserType
 import com.mommydndn.app.data.respository.AccountRepository
 import com.mommydndn.app.data.respository.LocationRepository
@@ -17,10 +19,12 @@ import com.skydoves.sandwich.getOrElse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,14 +38,20 @@ class SignUpViewModel @Inject constructor(
     private val _signUpInfo = MutableStateFlow<SignUpInfo>(SignUpInfo())
     val signUpInfo: StateFlow<SignUpInfo> = _signUpInfo
 
-    private val _terms = MutableStateFlow<List<TermsItem>>(listOf())
-    val terms: StateFlow<List<TermsItem>> = _terms
-
     private val _searchType = MutableStateFlow<TownSearchType>(TownSearchType.LOCATION)
     val searchType: StateFlow<TownSearchType> = _searchType
 
     private val _keyword = MutableStateFlow<String>("")
     val keyword: StateFlow<String> = _keyword
+
+    val terms: Flow<List<TermsItem>> = termsRepository.fetchAllTerms(
+        onComplete = {},
+        onError = { it?.let { Log.e("error", it) } }
+    ).stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(),
+        initialValue = emptyList()
+    )
 
     private val _location = MutableStateFlow<LocationInfo>(LocationInfo(0.0, 0.0))
 
@@ -59,23 +69,12 @@ class SignUpViewModel @Inject constructor(
         }.cachedIn(viewModelScope)
     val searchedTownsByLocation: Flow<PagingData<EmdItem>> = _searchedTownsByLocation
 
-    init {
-        viewModelScope.launch {
-            updateTerms()
-        }
-    }
-
     fun signUp(
         signUpInfo: SignUpInfo
     ) {
         viewModelScope.launch {
             accountRepository.signUp(signUpInfo)
         }
-    }
-
-    private suspend fun updateTerms() {
-        val res = termsRepository.fetchAllTerms()
-        _terms.value = res.getOrElse { emptyList() }
     }
 
     fun updateSignUpInfo(currentSignUpInfo: SignUpInfo?) {

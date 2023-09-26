@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.signUp
+package com.mommydndn.app.ui.signup
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -61,7 +61,7 @@ fun TownCheckScreen(
     val focusManager = LocalFocusManager.current
 
     val keyword by viewModel.keyword.collectAsState()
-    val terms by viewModel.terms.collectAsState()
+    val terms by viewModel.terms.collectAsState(emptyList())
     val signUpInfo by viewModel.signUpInfo.collectAsState()
     val searchType by viewModel.searchType.collectAsState()
 

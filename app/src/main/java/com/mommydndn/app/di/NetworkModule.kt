@@ -1,10 +1,10 @@
 package com.mommydndn.app.di
 
 import com.mommydndn.app.BuildConfig
-import com.mommydndn.app.data.api.AuthService
-import com.mommydndn.app.data.api.GoogleApiService
-import com.mommydndn.app.data.api.MapService
-import com.mommydndn.app.data.api.TermsService
+import com.mommydndn.app.data.api.service.AuthService
+import com.mommydndn.app.data.api.service.GoogleApiService
+import com.mommydndn.app.data.api.service.MapService
+import com.mommydndn.app.data.api.service.TermsService
 import com.mommydndn.app.data.api.TokenInterceptor
 import com.mommydndn.app.data.datasource.TokenManager
 import com.skydoves.sandwich.adapters.ApiResponseCallAdapterFactory

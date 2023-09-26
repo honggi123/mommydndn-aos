@@ -2,9 +2,7 @@
 
 package com.mommydndn.app
 
-import android.location.Location
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -19,24 +17,18 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.tasks.Task
-import com.mommydndn.app.data.model.OAuthType
-import com.mommydndn.app.data.model.SignUpInfo
-import com.mommydndn.app.data.model.UserType
 import com.mommydndn.app.ui.SignInNav
 import com.mommydndn.app.ui.TownCheckNav
 import com.mommydndn.app.ui.TypeChoiceNav
-import com.mommydndn.app.ui.signIn.SignInScreen
-import com.mommydndn.app.ui.signUp.TownCheckScreen
-import com.mommydndn.app.ui.signUp.UserTypeChoiceScreen
+import com.mommydndn.app.ui.signin.SignInScreen
+import com.mommydndn.app.ui.signup.TownCheckScreen
+import com.mommydndn.app.ui.signup.UserTypeChoiceScreen
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
 import com.mommydndn.app.ui.viewmodel.SignUpViewModel
 import dagger.hilt.android.AndroidEntryPoint

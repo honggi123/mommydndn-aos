@@ -2,16 +2,10 @@ package com.mommydndn.app.data.api
 
 import android.util.Log
 import com.mommydndn.app.BuildConfig
+import com.mommydndn.app.data.api.service.AuthService
 import com.mommydndn.app.data.datasource.TokenManager
 import com.skydoves.sandwich.adapters.ApiResponseCallAdapterFactory
-import com.skydoves.sandwich.getOrNull
-import com.skydoves.sandwich.onFailure
 import com.skydoves.sandwich.onSuccess
-import com.skydoves.sandwich.suspendOnSuccess
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
 import okhttp3.OkHttpClient

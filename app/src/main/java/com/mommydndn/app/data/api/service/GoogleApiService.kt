@@ -1,4 +1,4 @@
-package com.mommydndn.app.data.api
+package com.mommydndn.app.data.api.service
 
 import com.mommydndn.app.data.api.model.LoginGoogleRequest
 import com.mommydndn.app.data.api.model.LoginGoogleResponse

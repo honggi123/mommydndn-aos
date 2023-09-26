@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.signIn
+package com.mommydndn.app.ui.signin
 
 import android.app.Activity
 import android.content.Context
@@ -37,7 +37,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.tasks.Task
-import com.mommydndn.app.BuildConfig
 import com.mommydndn.app.data.model.OAuthType
 import com.mommydndn.app.ui.theme.Salmon600
 import com.navercorp.nid.NaverIdLoginSDK

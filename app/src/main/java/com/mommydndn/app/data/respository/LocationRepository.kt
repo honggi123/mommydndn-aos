@@ -6,7 +6,7 @@ import com.mommydndn.app.data.model.LocationInfo
 import kotlinx.coroutines.flow.Flow
 
 interface LocationRepository {
-     fun fetchNearestByLocation(locationInfo: LocationInfo): Flow<PagingData<EmdItem>>
+    fun fetchNearestByLocation(locationInfo: LocationInfo): Flow<PagingData<EmdItem>>
 
     fun fetchNearestByKeyword(keyword: String): Flow<PagingData<EmdItem>>
 

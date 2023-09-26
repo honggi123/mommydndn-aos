@@ -1,8 +1,8 @@
 package com.mommydndn.app.data.respository.impl
 
 import com.mommydndn.app.BuildConfig
-import com.mommydndn.app.data.api.AuthService
-import com.mommydndn.app.data.api.GoogleApiService
+import com.mommydndn.app.data.api.service.AuthService
+import com.mommydndn.app.data.api.service.GoogleApiService
 import com.mommydndn.app.data.datasource.TokenManager
 import com.mommydndn.app.data.api.model.LoginGoogleRequest
 import com.mommydndn.app.data.api.model.LoginGoogleResponse

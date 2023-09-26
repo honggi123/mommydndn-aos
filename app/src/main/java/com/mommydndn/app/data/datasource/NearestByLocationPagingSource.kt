@@ -2,7 +2,7 @@ package com.mommydndn.app.data.datasource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.mommydndn.app.data.api.MapService
+import com.mommydndn.app.data.api.service.MapService
 import com.mommydndn.app.data.api.model.EmdItem
 import com.mommydndn.app.data.model.LocationInfo
 import javax.inject.Inject
