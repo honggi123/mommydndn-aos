@@ -13,6 +13,7 @@ import com.skydoves.sandwich.onException
 import com.skydoves.sandwich.onSuccess
 import com.skydoves.sandwich.suspendOnSuccess
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onCompletion
@@ -21,11 +22,8 @@ import javax.inject.Inject
 class TermsRepositoryImpl @Inject constructor(
     private val termsService: TermsService,
 ) : TermsRepository {
-    override fun fetchAllTerms(
-        onComplete: () -> Unit,
-        onError: (String?) -> Unit,
-    ) = flow {
-        termsService.fetchTermsItems().suspendOnSuccess {
+    override suspend fun fetchAllTerms() = flow {
+       termsService.fetchTermsItems().suspendOnSuccess {
             val list = data.map {
                 TermsItem(
                     createdAt = it.createdAt,
@@ -37,15 +35,12 @@ class TermsRepositoryImpl @Inject constructor(
                     isSelected = false
                 )
             }
+           emit(list)
+        }.onError {  }
+    }
 
-            emit(list)
-        }.onError {
-            map(ErrorResponseMapper) { onError("[Code: $code]: $message") }
-        }.onException { onError(message) }
 
-    }.onCompletion { onComplete() }.flowOn(Dispatchers.IO)
-
-    override fun updateTermsCheckedStatus(termsItems: List<TermsItem>) {
+    override suspend fun updateTermsCheckedStatus(termsItems: List<TermsItem>) {
         val approvalRequestList = termsItems.map {
             TermsApprovalRequest(
                 termsId = it.termsId,

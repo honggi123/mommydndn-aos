@@ -16,9 +16,7 @@ interface AccountRepository {
 
     suspend fun signUp(
         signUpInfo: SignUpInfo,
-        onComplete: () -> Unit,
-        onError: (String?) -> Unit,
-    ): Flow<SignUpResponse>
+    ): ApiResponse<SignUpResponse>
 
     suspend fun getGoogleAccesstoken(
         authCode: String

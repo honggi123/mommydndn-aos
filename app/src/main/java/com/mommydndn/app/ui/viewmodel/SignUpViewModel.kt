@@ -7,6 +7,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.mommydndn.app.data.api.model.TermsItemResponse
 import com.mommydndn.app.data.api.model.EmdItem
+import com.mommydndn.app.data.api.model.SignUpRequest
 import com.mommydndn.app.data.model.LocationInfo
 import com.mommydndn.app.data.model.TownSearchType
 import com.mommydndn.app.data.model.SignUpInfo
@@ -15,12 +16,16 @@ import com.mommydndn.app.data.model.UserType
 import com.mommydndn.app.data.respository.AccountRepository
 import com.mommydndn.app.data.respository.LocationRepository
 import com.mommydndn.app.data.respository.TermsRepository
+import com.skydoves.sandwich.ApiResponse
 import com.skydoves.sandwich.getOrElse
+import com.skydoves.sandwich.onError
+import com.skydoves.sandwich.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
@@ -69,28 +74,25 @@ class SignUpViewModel @Inject constructor(
 
     private fun updateTerms() {
         viewModelScope.launch {
-            termsRepository.fetchAllTerms(
-                onComplete = {},
-                onError = { it?.let { Log.e("error", it) } }
-            ).collect {
-                _terms.value = it
-            }
+            termsRepository.fetchAllTerms()
+                .collectLatest { _terms.value = it }
         }
     }
 
-    private fun updateTermsCheckedStatus(termsItem: List<TermsItem>) {
-        termsRepository.updateTermsCheckedStatus(termsItem)
+    fun updateTermsCheckedStatus(termsItem: List<TermsItem>) {
+        viewModelScope.launch {
+            termsRepository.updateTermsCheckedStatus(termsItem)
+        }
     }
 
     fun signUp(
         signUpInfo: SignUpInfo
     ) {
         viewModelScope.launch {
-            accountRepository.signUp(
-                signUpInfo,
-                onComplete = { updateTermsCheckedStatus(_terms.value) },
-                onError = {}
-            )
+            accountRepository.signUp(signUpInfo)
+                .onSuccess {
+                    updateTermsCheckedStatus(_terms.value)
+                }
         }
     }
 

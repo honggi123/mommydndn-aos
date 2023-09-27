@@ -1,5 +1,6 @@
 package com.mommydndn.app.data.respository.impl
 
+import android.util.Log
 import com.mommydndn.app.BuildConfig
 import com.mommydndn.app.data.api.ErrorResponseMapper
 import com.mommydndn.app.data.api.service.AuthService
@@ -52,13 +53,8 @@ class AccountRepositoryImpl @Inject constructor(
         return response
     }
 
-    override suspend fun signUp(
-        signUpInfo: SignUpInfo,
-        onComplete: () -> Unit,
-        onError: (String?) -> Unit
-    ) = flow {
-
-        authService.signUp(
+    override suspend fun signUp(signUpInfo: SignUpInfo) =
+       authService.signUp(
             SignUpRequest(
                 accessToken = signUpInfo.accessToken ?: "",
                 oauthProvider = signUpInfo.oAuthType?.apiValue ?: "",
@@ -68,13 +64,8 @@ class AccountRepositoryImpl @Inject constructor(
         ).suspendOnSuccess {
             tokenManager.putAccessToken(data?.accessToken)
             tokenManager.putRefreshToken(data?.refreshToken)
+        }
 
-            emit(data)
-        }.onError {
-            map(ErrorResponseMapper) { onError("[Code: $code]: $message") }
-        }.onException { onError(message) }
-
-    }.onCompletion { onComplete() }.flowOn(Dispatchers.IO)
 
     override suspend fun getGoogleAccesstoken(
         authCode: String

@@ -197,7 +197,14 @@ private fun searchNearTowns(
 ) {
     try {
         fusedLocationClient.lastLocation.addOnSuccessListener {
-            viewModel.setLocation(LocationInfo(latitude = it.latitude, longitude = it.longitude))
+            it?.let {
+                viewModel.setLocation(
+                    LocationInfo(
+                        latitude = it.latitude,
+                        longitude = it.longitude
+                    )
+                )
+            }
         }
     } catch (e: SecurityException) {
         Log.d("TownCheckScreen", e.stackTraceToString())
