@@ -1,6 +1,7 @@
 package com.mommydndn.app.data.respository.impl
 
 import com.mommydndn.app.data.api.ErrorResponseMapper
+import com.mommydndn.app.data.api.model.TermsApprovalRequest
 import com.mommydndn.app.data.api.service.TermsService
 import com.mommydndn.app.data.api.model.TermsItemResponse
 import com.mommydndn.app.data.model.TermsItem
@@ -43,5 +44,15 @@ class TermsRepositoryImpl @Inject constructor(
         }.onException { onError(message) }
 
     }.onCompletion { onComplete() }.flowOn(Dispatchers.IO)
+
+    override fun updateTermsCheckedStatus(termsItems: List<TermsItem>) {
+        val approvalRequestList = termsItems.map {
+            TermsApprovalRequest(
+                termsId = it.termsId,
+                isApproved = it.isSelected
+            )
+        }
+        termsService.updateTermsApproval(approvalRequestList)
+    }
 
 }

@@ -6,6 +6,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.mommydndn.app.BuildConfig
 import com.mommydndn.app.R
+import com.mommydndn.app.data.datasource.TokenManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,6 +25,12 @@ object AppModule {
             .requestServerAuthCode(BuildConfig.GOOGLE_CLIENT_ID)
             .build()
         return GoogleSignIn.getClient(context, gso)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTokenManager(@ApplicationContext context: Context): TokenManager {
+        return TokenManager(context)
     }
 
 }

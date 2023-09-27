@@ -6,6 +6,7 @@ import com.mommydndn.app.data.model.OAuthType
 import com.mommydndn.app.data.model.SignUpInfo
 import com.mommydndn.app.data.api.model.SignUpResponse
 import com.skydoves.sandwich.ApiResponse
+import kotlinx.coroutines.flow.Flow
 
 interface AccountRepository {
     suspend fun signIn(
@@ -14,8 +15,10 @@ interface AccountRepository {
     ): ApiResponse<LoginResponse>
 
     suspend fun signUp(
-        signUpInfo: SignUpInfo
-    ): ApiResponse<SignUpResponse>
+        signUpInfo: SignUpInfo,
+        onComplete: () -> Unit,
+        onError: (String?) -> Unit,
+    ): Flow<SignUpResponse>
 
     suspend fun getGoogleAccesstoken(
         authCode: String

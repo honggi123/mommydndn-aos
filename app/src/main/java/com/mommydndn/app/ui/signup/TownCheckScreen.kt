@@ -61,7 +61,7 @@ fun TownCheckScreen(
     val focusManager = LocalFocusManager.current
 
     val keyword by viewModel.keyword.collectAsState()
-    val terms by viewModel.terms.collectAsState(emptyList())
+    val terms by viewModel.terms.collectAsState()
     val signUpInfo by viewModel.signUpInfo.collectAsState()
     val searchType by viewModel.searchType.collectAsState()
 
@@ -118,10 +118,10 @@ fun TownCheckScreen(
                 Searchbar(
                     keyword = keyword,
                     onValueChange = {
-                        viewModel.updateKeyword(it)
+                        viewModel.setKeyword(it)
                     },
                     clearAction = {
-                        viewModel.updateKeyword("")
+                        viewModel.setKeyword("")
                     },
                     placeHolderText = "동명으로 검색해주세요 (ex. 서초동)",
                     backStackAction = { navHostController.popBackStack() },
@@ -154,7 +154,7 @@ fun TownCheckScreen(
                         focusManager.clearFocus()
                         sheetState.show()
                     }
-                    viewModel.updateEmdId(emdItem?.id)
+                    viewModel.setEmdId(emdItem?.id)
                 },
                 itemNameDisplay = EmdItem::displayName
             )
@@ -170,14 +170,15 @@ fun TownCheckScreen(
         sheetContent = {
             CheckListModal(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 32.dp),
-                closeAction = {
+                onDismiss = {
                     scope.launch { sheetState.hide() }
                 },
-                completeAction = { viewModel.signUp(signUpInfo) },
-                contentList = terms,
-                titleCheckBoxText = "[필수] 통합 이용약관 동의",
-                itemNameDisplay = { it.name },
-                itemCheckRequired = { it.isRequired }
+                onItemSelected = { index, isChecked ->
+                    viewModel.setTermItemCheckedState(terms.get(index).termsId, isChecked)
+                },
+                onComplete = { viewModel.signUp(signUpInfo) },
+                itemList = terms,
+                titleCheckBoxText = "[필수] 통합 이용약관 동의"
             )
         }
     ) {
@@ -196,7 +197,7 @@ private fun searchNearTowns(
 ) {
     try {
         fusedLocationClient.lastLocation.addOnSuccessListener {
-            viewModel.updateLocation(LocationInfo(latitude = it.latitude, longitude = it.longitude))
+            viewModel.setLocation(LocationInfo(latitude = it.latitude, longitude = it.longitude))
         }
     } catch (e: SecurityException) {
         Log.d("TownCheckScreen", e.stackTraceToString())

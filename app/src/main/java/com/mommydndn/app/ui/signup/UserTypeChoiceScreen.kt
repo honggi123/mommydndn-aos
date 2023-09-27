@@ -36,7 +36,7 @@ fun UserTypeChoiceScreen(
 ) {
 
     LaunchedEffect(Unit) {
-        viewModel.updateSignUpInfo(signUpInfo)
+        viewModel.setSignUpInfo(signUpInfo)
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -71,7 +71,7 @@ fun UserTypeChoiceScreen(
                     imageResourceId = R.drawable.building_graphic,
                     text = "업체 회원",
                     onClick = {
-                        viewModel.updateUserType(UserType.COMPANY)
+                        viewModel.setUserType(UserType.COMPANY)
 
                         NavigationUtils.navigate(
                             navHostController,
@@ -83,7 +83,7 @@ fun UserTypeChoiceScreen(
                     imageResourceId = R.drawable.person_graphic,
                     text = "개인 회원",
                     onClick = {
-                        viewModel.updateUserType(UserType.INDIVIDUAL)
+                        viewModel.setUserType(UserType.INDIVIDUAL)
 
                         NavigationUtils.navigate(
                             navHostController,

@@ -1,6 +1,7 @@
 package com.mommydndn.app.data.respository.impl
 
 import com.mommydndn.app.BuildConfig
+import com.mommydndn.app.data.api.ErrorResponseMapper
 import com.mommydndn.app.data.api.service.AuthService
 import com.mommydndn.app.data.api.service.GoogleApiService
 import com.mommydndn.app.data.datasource.TokenManager
@@ -14,7 +15,15 @@ import com.mommydndn.app.data.api.model.SignUpRequest
 import com.mommydndn.app.data.api.model.SignUpResponse
 import com.mommydndn.app.data.respository.AccountRepository
 import com.skydoves.sandwich.ApiResponse
+import com.skydoves.sandwich.map
+import com.skydoves.sandwich.onError
+import com.skydoves.sandwich.onException
+import com.skydoves.sandwich.onSuccess
 import com.skydoves.sandwich.suspendOnSuccess
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onCompletion
 import javax.inject.Inject
 
 class AccountRepositoryImpl @Inject constructor(
@@ -43,9 +52,13 @@ class AccountRepositoryImpl @Inject constructor(
         return response
     }
 
-    override suspend fun signUp(signUpInfo: SignUpInfo): ApiResponse<SignUpResponse> {
+    override suspend fun signUp(
+        signUpInfo: SignUpInfo,
+        onComplete: () -> Unit,
+        onError: (String?) -> Unit
+    ) = flow {
 
-        val response = authService.signUp(
+        authService.signUp(
             SignUpRequest(
                 accessToken = signUpInfo.accessToken ?: "",
                 oauthProvider = signUpInfo.oAuthType?.apiValue ?: "",
@@ -55,10 +68,13 @@ class AccountRepositoryImpl @Inject constructor(
         ).suspendOnSuccess {
             tokenManager.putAccessToken(data?.accessToken)
             tokenManager.putRefreshToken(data?.refreshToken)
-        }
 
-        return response
-    }
+            emit(data)
+        }.onError {
+            map(ErrorResponseMapper) { onError("[Code: $code]: $message") }
+        }.onException { onError(message) }
+
+    }.onCompletion { onComplete() }.flowOn(Dispatchers.IO)
 
     override suspend fun getGoogleAccesstoken(
         authCode: String

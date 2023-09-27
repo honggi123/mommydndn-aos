@@ -9,4 +9,8 @@ interface TermsRepository {
         onComplete: () -> Unit,
         onError: (String?) -> Unit,
     ): Flow<List<TermsItem>>
+
+    fun updateTermsCheckedStatus(
+        items: List<TermsItem>
+    )
 }

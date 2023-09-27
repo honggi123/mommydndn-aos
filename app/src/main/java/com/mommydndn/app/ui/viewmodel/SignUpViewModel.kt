@@ -44,16 +44,10 @@ class SignUpViewModel @Inject constructor(
     private val _keyword = MutableStateFlow<String>("")
     val keyword: StateFlow<String> = _keyword
 
-    val terms: Flow<List<TermsItem>> = termsRepository.fetchAllTerms(
-        onComplete = {},
-        onError = { it?.let { Log.e("error", it) } }
-    ).stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(),
-        initialValue = emptyList()
-    )
+    private val _terms = MutableStateFlow<List<TermsItem>>(emptyList())
+    val terms: StateFlow<List<TermsItem>> = _terms
 
-    private val _location = MutableStateFlow<LocationInfo>(LocationInfo(0.0, 0.0))
+    private val _currentLocation = MutableStateFlow<LocationInfo>(LocationInfo(0.0, 0.0))
 
     private val _searchedTownsFlowByKeyword: Flow<PagingData<EmdItem>> = _keyword
         .debounce(200)
@@ -63,44 +57,77 @@ class SignUpViewModel @Inject constructor(
         }.cachedIn(viewModelScope)
     val searchedTownsFlow: Flow<PagingData<EmdItem>> = _searchedTownsFlowByKeyword
 
-    private val _searchedTownsByLocation: Flow<PagingData<EmdItem>> = _location
+    private val _searchedTownsByLocation: Flow<PagingData<EmdItem>> = _currentLocation
         .flatMapLatest {
             locationRepository.fetchNearestByLocation(it)
         }.cachedIn(viewModelScope)
     val searchedTownsByLocation: Flow<PagingData<EmdItem>> = _searchedTownsByLocation
 
+    init {
+        updateTerms()
+    }
+
+    private fun updateTerms() {
+        viewModelScope.launch {
+            termsRepository.fetchAllTerms(
+                onComplete = {},
+                onError = { it?.let { Log.e("error", it) } }
+            ).collect {
+                _terms.value = it
+            }
+        }
+    }
+
+    private fun updateTermsCheckedStatus(termsItem: List<TermsItem>) {
+        termsRepository.updateTermsCheckedStatus(termsItem)
+    }
+
     fun signUp(
         signUpInfo: SignUpInfo
     ) {
         viewModelScope.launch {
-            accountRepository.signUp(signUpInfo)
+            accountRepository.signUp(
+                signUpInfo,
+                onComplete = { updateTermsCheckedStatus(_terms.value) },
+                onError = {}
+            )
         }
     }
 
-    fun updateSignUpInfo(currentSignUpInfo: SignUpInfo?) {
+    fun setSignUpInfo(currentSignUpInfo: SignUpInfo?) {
         if (currentSignUpInfo != null) {
             _signUpInfo.value = currentSignUpInfo
         }
     }
 
-    fun updateEmdId(emdId: Int?) {
+    fun setEmdId(emdId: Int?) {
         val currentSignUpInfo = signUpInfo.value
         _signUpInfo.value = currentSignUpInfo.copy(emdId = emdId)
     }
 
-    fun updateUserType(userType: UserType?) {
+    fun setUserType(userType: UserType?) {
         val currentSignUpInfo = signUpInfo.value
         _signUpInfo.value = currentSignUpInfo.copy(userType = userType)
     }
 
 
-    fun updateKeyword(keyword: String) {
+    fun setKeyword(keyword: String) {
         _keyword.value = keyword
         _searchType.value = TownSearchType.KEYWORD
     }
 
-    fun updateLocation(locationInfo: LocationInfo) {
-        _location.value = locationInfo
+    fun setLocation(locationInfo: LocationInfo) {
+        _currentLocation.value = locationInfo
         _searchType.value = TownSearchType.LOCATION
+    }
+
+    fun setTermItemCheckedState(termsId: Int, isChecked: Boolean) {
+        val currentTermsList = terms.value.toMutableList()
+        val index = currentTermsList.indexOfFirst { it.termsId == termsId }
+
+        if (index != -1) {
+            currentTermsList[index] = currentTermsList[index].copy(isSelected = isChecked)
+            _terms.value = currentTermsList
+        }
     }
 }
