@@ -5,6 +5,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:name=".MainApplication"
         android:allowBackup="true"
@@ -37,7 +40,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
                     android:host="oauth"
-                    android:scheme="@string/kakao_native_app_key" />
+                    android:scheme="${kakaoNativeAppKey}" />
             </intent-filter>
         </activity>
 

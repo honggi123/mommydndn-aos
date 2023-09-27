@@ -29,17 +29,20 @@ import com.mommydndn.app.ui.theme.Grey100
 import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
+import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.utils.bottomBorder
 
 @Composable
 fun SearchUnderHeader(
-    headerText: String = ""
+    headerText: String = "",
+    searchAction: () -> Unit
 ) {
     Box(
         modifier = Modifier
-            .width(390.dp)
+            .fillMaxWidth()
             .wrapContentHeight()
+            .background(White)
     ) {
         Column(
             modifier = Modifier
@@ -50,7 +53,7 @@ fun SearchUnderHeader(
             Button(modifier = Modifier
                 .width(342.dp)
                 .height(48.dp),
-                onClick = { }
+                onClick = { searchAction() }
             ) {
                 Text(text = "현재 위치로 찾기", style = TextStyle(color = Grey700))
             }
@@ -84,6 +87,6 @@ fun SearchUnderHeader(
 @Composable
 fun previewSearchUnderHeader() {
     MommydndnaosTheme {
-        SearchUnderHeader()
+        SearchUnderHeader(headerText = "근처 동네", searchAction = {})
     }
 }

@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -34,6 +36,9 @@ import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -54,18 +59,19 @@ fun Searchbar(
     placeHolderText: String = "",
     onValueChange: (String) -> Unit,
     backStackAction: () -> Unit,
+    searchAction: () -> Unit,
     clearAction: () -> Unit,
 ) {
     Column(
         Modifier
-            .width(390.dp)
+            .fillMaxWidth()
             .height(68.dp)
             .background(color = White)
             .bottomBorder(2.dp, Grey100)
     ) {
         Row(
             modifier = Modifier
-                .fillMaxHeight()
+                .fillMaxSize()
                 .padding(
                     start = 20.dp, end = 20.dp
                 ),
@@ -92,6 +98,15 @@ fun Searchbar(
                     disabledIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
                 ),
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Search,
+                    keyboardType = KeyboardType.Text,
+                    capitalization = KeyboardCapitalization.Words,
+                    autoCorrect = true
+                ),
+                keyboardActions = KeyboardActions(
+                    onSearch = { searchAction() }
+                ),
                 textStyle = MaterialTheme.typography.paragraph300.copy(
                     fontWeight = FontWeight.Medium,
                     color = Grey700,
@@ -99,6 +114,7 @@ fun Searchbar(
                         includeFontPadding = false
                     )
                 ),
+                singleLine = true,
                 placeholder = {
                     Text(
                         text = placeHolderText,
@@ -108,12 +124,12 @@ fun Searchbar(
                             platformStyle = PlatformTextStyle(
                                 includeFontPadding = false
                             )
-                        )
+                        ),
+                        maxLines = 1
                     )
                 },
                 value = keyword,
                 onValueChange = onValueChange,
-                singleLine = true,
                 trailingIcon = {
                     if (!keyword.isEmpty()) {
                         IconButton(
@@ -145,7 +161,8 @@ fun previewSearchbar() {
             onValueChange = { textFieldValue = it },
             clearAction = { textFieldValue = "" },
             placeHolderText = "placeholder",
-            backStackAction = {}
+            backStackAction = {},
+            searchAction = {}
         )
     }
 }

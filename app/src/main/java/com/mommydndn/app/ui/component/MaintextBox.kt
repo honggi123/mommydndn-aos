@@ -3,6 +3,7 @@ package com.mommydndn.app.ui.component
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -27,7 +28,7 @@ fun MaintextBox(
 ) {
     Box(
         modifier = Modifier
-            .width(390.dp)
+            .fillMaxWidth()
             .wrapContentHeight()
             .padding(start = 32.dp, top = 16.dp, end = 32.dp, bottom = 40.dp)
     ) {

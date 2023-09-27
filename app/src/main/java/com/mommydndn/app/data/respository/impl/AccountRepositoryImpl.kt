@@ -1,47 +1,79 @@
 package com.mommydndn.app.data.respository.impl
 
 import android.util.Log
-import com.mommydndn.app.data.Preferences
-import com.mommydndn.app.data.api.ApiService
-import com.mommydndn.app.data.api.GoogleApiService
-import com.mommydndn.app.data.model.LoginGoogleRequest
-import com.mommydndn.app.data.model.LoginGoogleResponse
-import com.mommydndn.app.data.model.LoginRequest
-import com.mommydndn.app.data.model.LoginType
+import com.mommydndn.app.BuildConfig
+import com.mommydndn.app.data.api.ErrorResponseMapper
+import com.mommydndn.app.data.api.service.AuthService
+import com.mommydndn.app.data.api.service.GoogleApiService
+import com.mommydndn.app.data.datasource.TokenManager
+import com.mommydndn.app.data.api.model.LoginGoogleRequest
+import com.mommydndn.app.data.api.model.LoginGoogleResponse
+import com.mommydndn.app.data.api.model.LoginRequest
+import com.mommydndn.app.data.api.model.LoginResponse
+import com.mommydndn.app.data.model.OAuthType
+import com.mommydndn.app.data.model.SignUpInfo
+import com.mommydndn.app.data.api.model.SignUpRequest
+import com.mommydndn.app.data.api.model.SignUpResponse
 import com.mommydndn.app.data.respository.AccountRepository
-import retrofit2.Response
+import com.skydoves.sandwich.ApiResponse
+import com.skydoves.sandwich.map
+import com.skydoves.sandwich.onError
+import com.skydoves.sandwich.onException
+import com.skydoves.sandwich.onSuccess
+import com.skydoves.sandwich.suspendOnSuccess
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onCompletion
 import javax.inject.Inject
 
 class AccountRepositoryImpl @Inject constructor(
-    private val apiService: ApiService,
+    private val authService: AuthService,
     private val googleApiService: GoogleApiService,
-    private val pref: Preferences
+    private val tokenManager: TokenManager
 ) : AccountRepository {
-    override suspend fun signIn(tokenId: String, type: LoginType) {
 
-        val request = when (type) {
-            LoginType.GOOGLE -> LoginRequest(accessToken = tokenId, oauthProvider = "GOOGLE")
-            LoginType.KAKAO -> LoginRequest(accessToken = tokenId, oauthProvider = "KAKAO")
-            LoginType.NAVER -> LoginRequest(accessToken = tokenId, oauthProvider = "NAVER")
-        }
-        val response = apiService.login(request)
+    override suspend fun signIn(
+        acessToken: String,
+        oAuthType: OAuthType
+    ): ApiResponse<LoginResponse> {
 
-        if (response.isSuccessful) {
-            val loginResponse = response.body()
-            pref.putAccessToken(loginResponse?.accessToken)
-            pref.putRefreshToken(loginResponse?.refreshToken)
-        }
+        val response = authService
+            .login(
+                LoginRequest(
+                    accessToken = acessToken,
+                    oauthProvider = oAuthType.apiValue
+                )
+            )
+            .suspendOnSuccess {
+                tokenManager.putAccessToken(data?.accessToken)
+                tokenManager.putRefreshToken(data?.refreshToken)
+            }
+
+        return response
     }
 
+    override suspend fun signUp(signUpInfo: SignUpInfo) =
+       authService.signUp(
+            SignUpRequest(
+                accessToken = signUpInfo.accessToken ?: "",
+                oauthProvider = signUpInfo.oAuthType?.apiValue ?: "",
+                userType = signUpInfo.userType?.apiValue ?: "",
+                emdId = signUpInfo.emdId ?: 0
+            )
+        ).suspendOnSuccess {
+            tokenManager.putAccessToken(data?.accessToken)
+            tokenManager.putRefreshToken(data?.refreshToken)
+        }
+
+
     override suspend fun getGoogleAccesstoken(
-        authCode: String,
-        clientId: String,
-        clientSecret: String
-    ): Response<LoginGoogleResponse> = googleApiService.getAccessToken(
+        authCode: String
+    ): ApiResponse<LoginGoogleResponse> = googleApiService.getAccessToken(
         LoginGoogleRequest(
             grant_type = "authorization_code",
-            client_id = clientId,
-            client_secret = clientSecret,
+            client_id = BuildConfig.GOOGLE_CLIENT_ID,
+            client_secret = BuildConfig.GOOGLE_CLIENT_SECRET,
             code = authCode.orEmpty()
         )
     )

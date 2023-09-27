@@ -1,4 +1,4 @@
-package com.mommydndn.app.data.model
+package com.mommydndn.app.data.api.model
 
 import com.google.gson.annotations.SerializedName
 

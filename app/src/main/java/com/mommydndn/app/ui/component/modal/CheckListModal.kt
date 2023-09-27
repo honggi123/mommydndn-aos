@@ -24,28 +24,39 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.mommydndn.app.data.model.TermsItem
 import com.mommydndn.app.ui.component.Item.CheckBoxListItem
 import com.mommydndn.app.ui.component.Item.CheckMarkListItem
 import com.mommydndn.app.ui.theme.Grey200
 import com.mommydndn.app.ui.theme.Grey50
-import com.mommydndn.app.ui.theme.MommydndnaosTheme
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.shadow700
 
 @Composable
 fun CheckListModal(
-    contentList: List<String>,
-    closeAction: () -> Unit,
-    completeAction: () -> Unit
+    modifier: Modifier = Modifier,
+    titleCheckBoxText: String = "",
+    itemList: List<TermsItem>,
+
+    onItemSelected: (Int, Boolean) -> Unit,
+    onDismiss: () -> Unit,
+    onComplete: () -> Unit,
 ) {
 
-    var checkedStates by remember { mutableStateOf(List(contentList.size) { false }) }
     val (isAllChecked, setIsAllChecked) = remember { mutableStateOf(false) }
 
+    val requiredCheckList = itemList.filter { it.isRequired }
+
+    val isNextButtonEnabled by remember(requiredCheckList) {
+        mutableStateOf(requiredCheckList.all { item ->
+            item.isSelected
+        })
+    }
+
     Box(
-        modifier = Modifier
+        modifier = modifier
             .wrapContentSize()
             .then(shadow700)
             .background(color = White, shape = RoundedCornerShape(24.dp)),
@@ -71,11 +82,15 @@ fun CheckListModal(
             CheckBoxListItem(
                 checked = isAllChecked,
                 onCheckedChange = { checked ->
-                    setIsAllChecked(checked)
-                    checkedStates = List(contentList.size) { checked }
+                    itemList.onEachIndexed { index, _ ->
+                        setIsAllChecked(checked)
+                        onItemSelected(index, checked)
+                    }
                 },
-                text = "모두 동의해요"
+                text = titleCheckBoxText
             )
+
+            Spacer(modifier = Modifier.size(12.dp))
 
             Divider(
                 modifier = Modifier
@@ -84,25 +99,33 @@ fun CheckListModal(
                     .background(Grey50)
             )
 
-            contentList.onEachIndexed { index, item ->
+            Spacer(modifier = Modifier.size(12.dp))
+
+            itemList.onEachIndexed { index, item ->
                 CheckMarkListItem(
-                    checked = checkedStates[index],
+                    checked = itemList[index].isSelected,
                     onCheckedChange = { isChecked ->
-                        checkedStates = checkedStates.toMutableList().apply {
-                            this[index] = isChecked
-                        }
-                    }, text = item
+                        onItemSelected(index, isChecked)
+                    }, text = itemList[index].name
                 )
+                if (index < itemList.size - 1) {
+                    Spacer(modifier = Modifier.size(6.dp))
+                }
             }
 
             Spacer(modifier = Modifier.size(28.dp))
+
             Row(modifier = Modifier.fillMaxWidth()) {
-                Button(modifier = Modifier.weight(1f), onClick = { closeAction() }) {
-                    Text(text = "닫기")
+                Button(modifier = Modifier.weight(1f), onClick = { onDismiss() }) {
+                    Text(text = "닫기", color = Color.Black)
                 }
                 Spacer(modifier = Modifier.size(12.dp))
-                Button(modifier = Modifier.weight(1f), onClick = { completeAction() }) {
-                    Text(text = "다음으로")
+                Button(
+                    modifier = Modifier.weight(1f),
+                    onClick = { onComplete() },
+                    enabled = isNextButtonEnabled
+                ) {
+                    Text(text = "다음으로", color = Color.Black)
                 }
             }
         }
@@ -110,15 +133,4 @@ fun CheckListModal(
     }
 }
 
-@Preview
-@Composable
-fun previewCheckListModal() {
-    MommydndnaosTheme {
-        CheckListModal(
-            closeAction = {},
-            completeAction = {},
-            contentList = listOf("a", "b", "c", "d")
-        )
-    }
-}
 

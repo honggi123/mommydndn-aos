@@ -27,7 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
 import com.mommydndn.app.ui.theme.Grey200
-import com.mommydndn.app.ui.theme.Grey700
+import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
 import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.White
@@ -52,8 +52,7 @@ fun CheckMarkListItem(
     ) {
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 12.dp, top = 16.dp, end = 12.dp, bottom = 16.dp),
+                .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
@@ -70,7 +69,7 @@ fun CheckMarkListItem(
                 modifier = Modifier.fillMaxWidth(),
                 text = text, style = MaterialTheme.typography.paragraph300.copy(
                     fontWeight = FontWeight.Normal,
-                    color = Grey700,
+                    color = Grey600,
                     platformStyle = PlatformTextStyle(
                         includeFontPadding = false
                     )
