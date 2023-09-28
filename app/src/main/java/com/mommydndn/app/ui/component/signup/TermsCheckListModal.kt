@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.component.modal
+package com.mommydndn.app.ui.component.signup
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,21 +21,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.data.model.TermsItem
-import com.mommydndn.app.ui.component.Item.CheckBoxListItem
-import com.mommydndn.app.ui.component.Item.CheckMarkListItem
+import com.mommydndn.app.ui.component.common.Item.CheckBoxListItem
+import com.mommydndn.app.ui.component.common.Item.CheckMarkListItem
 import com.mommydndn.app.ui.theme.Grey200
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.shadow700
 
 @Composable
-fun CheckListModal(
+fun TermsCheckListModal(
     modifier: Modifier = Modifier,
     titleCheckBoxText: String = "",
     itemList: List<TermsItem>,

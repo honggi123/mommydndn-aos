@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.component
+package com.mommydndn.app.ui.component.common
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*

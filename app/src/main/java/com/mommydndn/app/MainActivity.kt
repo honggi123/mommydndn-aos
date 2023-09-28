@@ -57,6 +57,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
         setContent {
             val scaffoldState = rememberScaffoldState()
             val navController = rememberNavController()

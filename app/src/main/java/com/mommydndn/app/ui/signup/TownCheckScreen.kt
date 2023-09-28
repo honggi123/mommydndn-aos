@@ -39,10 +39,10 @@ import com.mommydndn.app.data.api.model.EmdItem
 import com.mommydndn.app.data.model.LocationInfo
 import com.mommydndn.app.data.model.TownSearchType
 import com.mommydndn.app.data.api.model.displayName
-import com.mommydndn.app.ui.component.RadioListBox
-import com.mommydndn.app.ui.component.SearchUnderHeader
-import com.mommydndn.app.ui.component.Searchbar
-import com.mommydndn.app.ui.component.modal.CheckListModal
+import com.mommydndn.app.ui.component.common.RadioListBox
+import com.mommydndn.app.ui.component.common.SearchUnderHeader
+import com.mommydndn.app.ui.component.common.Searchbar
+import com.mommydndn.app.ui.component.signup.TermsCheckListModal
 import com.mommydndn.app.ui.theme.GreyOpacity400
 import com.mommydndn.app.ui.viewmodel.SignUpViewModel
 import kotlinx.coroutines.launch
@@ -168,7 +168,7 @@ fun TownCheckScreen(
         scrimColor = GreyOpacity400,
         sheetElevation = 0.dp,
         sheetContent = {
-            CheckListModal(
+            TermsCheckListModal(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 32.dp),
                 onDismiss = {
                     scope.launch { sheetState.hide() }

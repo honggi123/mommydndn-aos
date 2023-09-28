@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.component
+package com.mommydndn.app.ui.component.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -22,7 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemsIndexed
-import com.mommydndn.app.ui.component.Item.RadioListItem
+import com.mommydndn.app.ui.component.common.Item.RadioListItem
 import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300

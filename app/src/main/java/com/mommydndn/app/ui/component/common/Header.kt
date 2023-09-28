@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.component
+package com.mommydndn.app.ui.component.common
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.TopAppBar

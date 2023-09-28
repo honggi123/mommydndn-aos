@@ -20,12 +20,12 @@ import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.mommydndn.app.ui.component.Header
+import com.mommydndn.app.ui.component.common.Header
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
-import com.mommydndn.app.ui.component.SocialLoginBox
+import com.mommydndn.app.ui.component.signin.SocialLoginBox
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.heading800
 import com.mommydndn.app.R
