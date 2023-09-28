@@ -22,7 +22,7 @@ import javax.inject.Inject
 class TermsRepositoryImpl @Inject constructor(
     private val termsService: TermsService,
 ) : TermsRepository {
-    override suspend fun fetchAllTerms() = flow {
+    override fun fetchAllTerms() = flow {
        termsService.fetchTermsItems().suspendOnSuccess {
             val list = data.map {
                 TermsItem(

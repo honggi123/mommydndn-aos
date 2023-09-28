@@ -5,7 +5,7 @@ import com.skydoves.sandwich.ApiResponse
 import kotlinx.coroutines.flow.Flow
 
 interface TermsRepository {
-    suspend fun fetchAllTerms(): Flow<List<TermsItem>>
+    fun fetchAllTerms(): Flow<List<TermsItem>>
 
     suspend fun updateTermsCheckedStatus(items: List<TermsItem>)
 }

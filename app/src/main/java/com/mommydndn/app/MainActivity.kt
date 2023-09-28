@@ -2,6 +2,7 @@
 
 package com.mommydndn.app
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -12,20 +13,29 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.mommydndn.app.ui.MainNav
 import com.mommydndn.app.ui.SignInNav
 import com.mommydndn.app.ui.TownCheckNav
 import com.mommydndn.app.ui.TypeChoiceNav
+import com.mommydndn.app.ui.main.MainHomeScreen
 import com.mommydndn.app.ui.signin.SignInScreen
 import com.mommydndn.app.ui.signup.TownCheckScreen
 import com.mommydndn.app.ui.signup.UserTypeChoiceScreen
@@ -42,20 +52,45 @@ class MainActivity : ComponentActivity() {
 
     lateinit var fusedLocationClient: FusedLocationProviderClient
 
+    @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-
         setContent {
+            val scaffoldState = rememberScaffoldState()
+            val navController = rememberNavController()
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
+            val currentRoute = navBackStackEntry?.destination?.route
+
             MommydndnaosTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.primary
+                Scaffold(
+                    bottomBar = {
+                        if (MainNav.isMainRoute(currentRoute)) {
+                            MainBottomNavigationBar(navController, currentRoute)
+                        }
+                    }
                 ) {
                     MainNavigationScreen(googleSignInClient, fusedLocationClient)
                 }
+
             }
+        }
+    }
+}
+
+@Composable
+fun MainBottomNavigationBar(
+    navHostController: NavHostController,
+    currentRoute: String?
+) {
+    val bottomNavigationItems = listOf(
+        MainNav.Home
+    )
+
+    BottomNavigation {
+        bottomNavigationItems.onEach { item ->
+            BottomNavigationItem(selected = currentRoute == item.route, onClick = {}, icon = {})
         }
     }
 }
@@ -114,6 +149,15 @@ fun MainNavigationScreen(
                 viewModel = signUpViewModel
             )
         }
+
+        composable(
+            route = MainNav.Home.route,
+            enterTransition = { slideEnterTransition },
+            exitTransition = { slideExitTransition }
+        ) {
+            MainHomeScreen(navHostController = navController)
+        }
+
     }
 }
 

@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import androidx.navigation.NavHostController
 import com.mommydndn.app.data.api.model.LoginResponse
 import com.mommydndn.app.data.model.SignUpInfo
+import com.mommydndn.app.ui.MainNav
 import com.mommydndn.app.ui.TypeChoiceNav
 import com.mommydndn.app.utils.NavigationUtils
 import com.skydoves.sandwich.ApiResponse
@@ -91,7 +92,7 @@ class SignInViewModel @Inject constructor(
     ) {
         response
             .onSuccess {
-
+                NavigationUtils.navigate(navHostController, MainNav.Home.route)
             }
             .onError {
                 val message = when (statusCode) {

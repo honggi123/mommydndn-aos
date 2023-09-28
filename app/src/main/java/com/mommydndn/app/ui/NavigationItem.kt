@@ -8,7 +8,20 @@ import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import com.kakao.sdk.common.KakaoSdk.type
 import com.mommydndn.app.data.model.SignUpInfo
+import com.mommydndn.app.ui.NavigationRouteName.MAIN_HOME
 import com.mommydndn.app.utils.GsonUtils
+
+sealed class MainNav(override val route: String, override val title: String) : Destination {
+    object Home : MainNav(MAIN_HOME, NavigationTitle.MAIN_HOME)
+    companion object {
+        fun isMainRoute(route: String?): Boolean {
+            return when (route) {
+                MAIN_HOME -> true
+                else -> false
+            }
+        }
+    }
+}
 
 object SignInNav : Destination {
     override val route: String = NavigationRouteName.SIGN_IN
@@ -21,12 +34,12 @@ object TypeChoiceNav : Destination {
     val argName: String = "signUpInfo"
 
     val arguments: List<NamedNavArgument> = listOf(
-        navArgument(argName) { type= NavType.StringType}
+        navArgument(argName) { type = NavType.StringType }
     )
 
     fun routeWithArgName() = "$route/{$argName}"
 
-    fun navigateWithArg(item: SignUpInfo): String  {
+    fun navigateWithArg(item: SignUpInfo): String {
         val arg = GsonUtils.toJson(item)
         return "${TypeChoiceNav.route}/$arg"
     }
@@ -46,13 +59,18 @@ interface Destination {
     val route: String
     val title: String
 }
+
 object NavigationRouteName {
+    const val MAIN_HOME = "홈"
+
     const val SIGN_IN = "로그인"
     const val TYPE_CHOICE = "개인&기업선택"
     const val TOWN_CHECK = "위치확인"
 }
 
 object NavigationTitle {
+    const val MAIN_HOME = "홈"
+
     const val SIGN_IN = "로그인"
     const val TYPE_CHOICE = "개인&기업선택"
     const val TOWN_CHECK = "위치확인"
