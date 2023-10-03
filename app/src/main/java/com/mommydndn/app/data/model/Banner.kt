@@ -1,6 +1,6 @@
 package com.mommydndn.app.data.model
 
-data class BannerItem(
+data class Banner(
     val imgUrl: String,
     val targetUrl: String
 )

@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -24,19 +23,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.mommydndn.app.data.model.BannerColorType
+import com.mommydndn.app.data.model.SitterProfile
 import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
 import com.mommydndn.app.ui.theme.caption200
 
 @Composable
 fun ProfileSitterBox(
-    profileImgUrl: String = "",
-    nameText: String = "",
-    ageAndGenderText: String = "",
-    caringTypeText: String = ""
+    item: SitterProfile
 ) {
     val profilePainter = rememberImagePainter(
-        data = profileImgUrl,
+        data = item.profileImgUrl,
         builder = {
             crossfade(true)
         }
@@ -60,7 +57,7 @@ fun ProfileSitterBox(
             Spacer(modifier = Modifier.padding(8.dp))
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = nameText,
+                text = item.name,
                 style = MaterialTheme.typography.caption200.copy(
                     fontWeight = FontWeight.Medium,
                     color = Grey600,
@@ -73,24 +70,10 @@ fun ProfileSitterBox(
             Spacer(modifier = Modifier.padding(8.dp))
 
             Row(modifier = Modifier.fillMaxWidth()) {
-                Badge(colorType = BannerColorType.GREEN, text = ageAndGenderText)
+                Badge(colorType = BannerColorType.GREEN, text = item.ageAndGender)
                 Spacer(modifier = Modifier.padding(6.dp))
-                Badge(colorType = BannerColorType.ORANGE, text = caringTypeText)
+                Badge(colorType = BannerColorType.ORANGE, text = item.caringType)
             }
         }
-
-    }
-}
-
-@Preview
-@Composable
-fun previewProfileSitterBox() {
-    MommydndnaosTheme {
-        ProfileSitterBox(
-            profileImgUrl = "",
-            nameText = "text",
-            ageAndGenderText = "20대 여성",
-            caringTypeText = "육아"
-        )
     }
 }

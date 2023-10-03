@@ -57,9 +57,9 @@ fun SubtextBox(
     )
 
     val padding = when (size) {
-        SubtextBoxSize.S -> PaddingValues(start = 28.dp, top = 24.dp, end = 24.dp, bottom = 12.dp)
-        SubtextBoxSize.M -> PaddingValues(start = 40.dp, top = 24.dp, end = 24.dp, bottom = 12.dp)
-        SubtextBoxSize.L -> PaddingValues(start = 46.dp, top = 24.dp, end = 24.dp, bottom = 12.dp)
+        SubtextBoxSize.S -> PaddingValues(start = 24.dp, top = 28.dp, end = 24.dp, bottom = 12.dp)
+        SubtextBoxSize.M -> PaddingValues(start = 24.dp, top = 40.dp, end = 24.dp, bottom = 12.dp)
+        SubtextBoxSize.L -> PaddingValues(start = 24.dp, top = 46.dp, end = 24.dp, bottom = 12.dp)
     }
 
     Box(
