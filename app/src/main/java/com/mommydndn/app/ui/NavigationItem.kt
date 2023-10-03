@@ -1,5 +1,8 @@
 package com.mommydndn.app.ui
 
+import androidx.annotation.DrawableRes
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDeepLink
@@ -7,12 +10,17 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import com.kakao.sdk.common.KakaoSdk.type
+import com.mommydndn.app.R
 import com.mommydndn.app.data.model.SignUpInfo
 import com.mommydndn.app.ui.NavigationRouteName.MAIN_HOME
 import com.mommydndn.app.utils.GsonUtils
 
-sealed class MainNav(override val route: String, override val title: String) : Destination {
-    object Home : MainNav(MAIN_HOME, NavigationTitle.MAIN_HOME)
+sealed class MainNav(
+    override val route: String,
+    @DrawableRes val iconRes: Int,
+    override val title: String
+) : Destination {
+    object Home : MainNav(MAIN_HOME, R.drawable.ic_home, NavigationTitle.MAIN_HOME)
     companion object {
         fun isMainRoute(route: String?): Boolean {
             return when (route) {
