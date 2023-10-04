@@ -34,7 +34,7 @@ import com.mommydndn.app.ui.TypeChoiceNav
 import com.mommydndn.app.ui.component.common.Header
 import com.mommydndn.app.ui.main.MainHomeScreen
 import com.mommydndn.app.ui.signin.SignInScreen
-import com.mommydndn.app.ui.signup.TownCheckScreen
+import com.mommydndn.app.ui.signup.NearestChoiceScreen
 import com.mommydndn.app.ui.signup.UserTypeChoiceScreen
 import com.mommydndn.app.ui.theme.Grey300
 import com.mommydndn.app.ui.theme.Grey800
@@ -164,7 +164,7 @@ fun MainNavigationScreen(
             enterTransition = { slideEnterTransition },
             exitTransition = { slideExitTransition }
         ) {
-            TownCheckScreen(
+            NearestChoiceScreen(
                 navHostController = navController,
                 fusedLocationClient = fusedLocationClient,
                 viewModel = signUpViewModel

@@ -59,8 +59,8 @@ object TypeChoiceNav : Destination {
 }
 
 object TownCheckNav : Destination {
-    override val route: String = NavigationRouteName.TOWN_CHECK
-    override val title: String = NavigationTitle.TOWN_CHECK
+    override val route: String = NavigationRouteName.NEAREST_CHOICE
+    override val title: String = NavigationTitle.NEAREST_CHOICE
 }
 
 interface Destination {
@@ -73,7 +73,7 @@ object NavigationRouteName {
 
     const val SIGN_IN = "로그인"
     const val TYPE_CHOICE = "개인&기업선택"
-    const val TOWN_CHECK = "위치확인"
+    const val NEAREST_CHOICE = "근처위치선택"
 }
 
 object NavigationTitle {
@@ -81,5 +81,5 @@ object NavigationTitle {
 
     const val SIGN_IN = "로그인"
     const val TYPE_CHOICE = "개인&기업선택"
-    const val TOWN_CHECK = "위치확인"
+    const val NEAREST_CHOICE = "근처위치선택"
 }

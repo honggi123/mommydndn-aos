@@ -51,7 +51,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun TownCheckScreen(
+fun NearestChoiceScreen(
     navHostController: NavHostController,
     viewModel: SignUpViewModel,
     fusedLocationClient: FusedLocationProviderClient
