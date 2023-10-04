@@ -4,9 +4,11 @@ import android.content.Context
 import com.mommydndn.app.data.datasource.TokenManager
 import com.mommydndn.app.data.respository.AccountRepository
 import com.mommydndn.app.data.respository.LocationRepository
+import com.mommydndn.app.data.respository.NoticeRepository
 import com.mommydndn.app.data.respository.TermsRepository
 import com.mommydndn.app.data.respository.impl.AccountRepositoryImpl
 import com.mommydndn.app.data.respository.impl.LocationRepositoryImpl
+import com.mommydndn.app.data.respository.impl.NoticeRespositoryIml
 import com.mommydndn.app.data.respository.impl.TermsRepositoryImpl
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -37,4 +39,10 @@ interface DataModule {
     fun bindLocationRepository(
         locationRepository: LocationRepositoryImpl
     ) : LocationRepository
+
+    @Binds
+    @Singleton
+    fun bindNoticeRepository(
+        noticeRepository: NoticeRespositoryIml
+    ) : NoticeRepository
 }

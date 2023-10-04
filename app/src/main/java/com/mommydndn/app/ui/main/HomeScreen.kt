@@ -103,7 +103,7 @@ fun MainHomeScreen(
         ),
     )
 
-    val ex4: List<MarketListItem> = listOf(
+    val ex4: List<List<MarketListItem>> = listOf(
         MarketListItem(
             productImgUrl = "https://example.com/product1.jpg",
             price = "10,000원",
@@ -153,7 +153,7 @@ fun MainHomeScreen(
             region = "부산",
             time = "1시간 전"
         ),
-    )
+    ).chunked(2)
 
     LazyColumn {
         item {
@@ -219,22 +219,14 @@ fun MainHomeScreen(
                     end = 28.dp
                 ),
             ) {
-                Row {
-                    MarketListItemBox(item = ex4[0])
-                    Spacer(modifier = Modifier.fillMaxHeight().padding(12.dp))
-                    MarketListItemBox(item = ex4[1])
-                }
-                Spacer(modifier = Modifier.fillMaxWidth().padding(24.dp))
-                Row {
-                    MarketListItemBox(item = ex4[2])
-                    Spacer(modifier = Modifier.fillMaxHeight().padding(12.dp))
-                    MarketListItemBox(item = ex4[3])
-                }
-                Spacer(modifier = Modifier.fillMaxWidth().padding(24.dp))
-                Row {
-                    MarketListItemBox(item = ex4[4])
-                    Spacer(modifier = Modifier.fillMaxHeight().padding(12.dp))
-                    MarketListItemBox(item = ex4[5])
+                ex4.forEach { rowItems ->
+                    Row {
+                        rowItems.forEach { item ->
+                            MarketListItemBox(item = item)
+                            Spacer(modifier = Modifier.fillMaxHeight().padding(12.dp))
+                        }
+                    }
+                    Spacer(modifier = Modifier.fillMaxWidth().padding(24.dp))
                 }
             }
 
