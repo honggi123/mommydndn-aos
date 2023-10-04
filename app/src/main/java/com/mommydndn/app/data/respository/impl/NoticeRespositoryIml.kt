@@ -20,7 +20,8 @@ class NoticeRespositoryIml @Inject constructor(
                 NoticeSetting(
                     isApproved = it.isApproved,
                     noticeTypeId = it.noticeTypeId,
-                    noticeTypeName = it.noticeTypeName
+                    noticeTypeName = it.noticeTypeName,
+                    isSelected = false
                 )
             }
             emit(list)

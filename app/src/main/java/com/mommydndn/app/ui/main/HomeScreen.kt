@@ -1,5 +1,6 @@
 package com.mommydndn.app.ui.main
 
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,15 +17,26 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.mommydndn.app.data.model.Banner
 import com.mommydndn.app.data.model.CommunityPost
 import com.mommydndn.app.data.model.JobOfferInfo
 import com.mommydndn.app.data.model.MarketListItem
 import com.mommydndn.app.data.model.SitterProfile
+import com.mommydndn.app.ui.component.common.NoticeSettingListModal
 import com.mommydndn.app.ui.component.common.SubtextBox
 import com.mommydndn.app.ui.component.common.SubtextBoxSize
 import com.mommydndn.app.ui.component.home.BannerList
@@ -33,12 +46,20 @@ import com.mommydndn.app.ui.component.home.JobOfferInfoBox
 import com.mommydndn.app.ui.component.home.MarketListItemBox
 import com.mommydndn.app.ui.component.home.ProfileSitterBox
 import com.mommydndn.app.ui.component.home.SubBanner
+import com.mommydndn.app.ui.component.signup.TermsCheckListModal
 import com.mommydndn.app.ui.theme.Grey50
+import com.mommydndn.app.ui.theme.GreyOpacity400
+import com.mommydndn.app.ui.viewmodel.MainViewModel
+import com.mommydndn.app.ui.viewmodel.SignInViewModel
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MainHomeScreen(
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    viewModel: MainViewModel = hiltViewModel()
 ) {
+    val noticeSettings by viewModel.noticeSettings.collectAsState()
 
     val ex: List<Banner> = listOf(
         Banner(
@@ -223,10 +244,14 @@ fun MainHomeScreen(
                     Row {
                         rowItems.forEach { item ->
                             MarketListItemBox(item = item)
-                            Spacer(modifier = Modifier.fillMaxHeight().padding(12.dp))
+                            Spacer(modifier = Modifier
+                                .fillMaxHeight()
+                                .padding(12.dp))
                         }
                     }
-                    Spacer(modifier = Modifier.fillMaxWidth().padding(24.dp))
+                    Spacer(modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(24.dp))
                 }
             }
 
@@ -236,5 +261,44 @@ fun MainHomeScreen(
             SubBanner()
             Footer() {}
         }
+    }
+
+    val sheetState =
+        rememberModalBottomSheetState(
+            ModalBottomSheetValue.Expanded,
+            skipHalfExpanded = true,
+            animationSpec = spring(
+                dampingRatio = 0.85f,
+                stiffness = 100f
+            )
+        )
+    val scope = rememberCoroutineScope()
+
+    ModalBottomSheetLayout(
+        sheetState = sheetState,
+        sheetContentColor = Color.Transparent,
+        sheetBackgroundColor = Color.Transparent,
+        scrimColor = GreyOpacity400,
+        sheetElevation = 0.dp,
+        sheetContent = {
+            NoticeSettingListModal(
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 32.dp),
+                onDismiss = {
+                    scope.launch { sheetState.hide() }
+                },
+                onItemSelected = { index, isChecked ->
+
+                },
+                onComplete = { },
+                itemList = noticeSettings,
+                titleCheckBoxText = ""
+            )
+        }
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Transparent)
+        )
     }
 }

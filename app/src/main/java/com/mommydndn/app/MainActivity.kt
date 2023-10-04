@@ -44,7 +44,6 @@ import com.mommydndn.app.ui.TypeChoiceNav
 import com.mommydndn.app.ui.component.common.Header
 import com.mommydndn.app.ui.main.MainHomeScreen
 import com.mommydndn.app.ui.signin.SignInScreen
-import com.mommydndn.app.ui.signup.TownCheckScreen
 import com.mommydndn.app.ui.signup.UserTypeChoiceScreen
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
 import com.mommydndn.app.ui.viewmodel.SignUpViewModel
