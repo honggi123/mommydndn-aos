@@ -117,7 +117,7 @@ fun NoticeSettingListModal(
                     modifier = Modifier.weight(1f),
                     onClick = { onComplete() },
                 ) {
-                    Text(text = "다음으로", color = Color.Black)
+                    Text(text = "알림 받고 시작하기", color = Color.Black)
                 }
             }
         }

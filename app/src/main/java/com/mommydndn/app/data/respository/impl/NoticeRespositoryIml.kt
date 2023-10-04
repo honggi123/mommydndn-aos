@@ -1,5 +1,6 @@
 package com.mommydndn.app.data.respository.impl
 
+import android.util.Log
 import com.mommydndn.app.data.api.service.NoticeService
 import com.mommydndn.app.data.api.service.TermsService
 import com.mommydndn.app.data.model.NoticeSetting

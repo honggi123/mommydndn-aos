@@ -1,5 +1,6 @@
 package com.mommydndn.app.data.api
 
+import android.util.Log
 import com.mommydndn.app.data.datasource.TokenManager
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -12,7 +13,7 @@ class TokenInterceptor(private val tokenManager: TokenManager) : Interceptor {
         val accessToken = tokenManager.getAccessToken()
 
         val request =
-            if (accessToken != null && !url.endsWith("api/terms")
+            if (accessToken != null && !url.endsWith("/api/terms")
                 && !url.endsWith("/api/auth/signup")
                 && !url.endsWith("/api/auth/login")
         ) {

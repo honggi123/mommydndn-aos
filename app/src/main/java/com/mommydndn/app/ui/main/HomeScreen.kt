@@ -13,15 +13,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -33,7 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.mommydndn.app.data.model.Banner
 import com.mommydndn.app.data.model.CommunityPost
-import com.mommydndn.app.data.model.JobOfferInfo
+import com.mommydndn.app.data.model.JobOffer
 import com.mommydndn.app.data.model.MarketListItem
 import com.mommydndn.app.data.model.SitterProfile
 import com.mommydndn.app.ui.component.common.NoticeSettingListModal
@@ -42,15 +38,13 @@ import com.mommydndn.app.ui.component.common.SubtextBoxSize
 import com.mommydndn.app.ui.component.home.BannerList
 import com.mommydndn.app.ui.component.home.CommunityPostBox
 import com.mommydndn.app.ui.component.home.Footer
-import com.mommydndn.app.ui.component.home.JobOfferInfoBox
+import com.mommydndn.app.ui.component.home.JobOfferBox
 import com.mommydndn.app.ui.component.home.MarketListItemBox
 import com.mommydndn.app.ui.component.home.ProfileSitterBox
 import com.mommydndn.app.ui.component.home.SubBanner
-import com.mommydndn.app.ui.component.signup.TermsCheckListModal
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.GreyOpacity400
 import com.mommydndn.app.ui.viewmodel.MainViewModel
-import com.mommydndn.app.ui.viewmodel.SignInViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -60,6 +54,8 @@ fun MainHomeScreen(
     viewModel: MainViewModel = hiltViewModel()
 ) {
     val noticeSettings by viewModel.noticeSettings.collectAsState()
+    val jobSeekers by viewModel.jobSeekers.collectAsState()
+    val jobOffers by viewModel.jobOffers.collectAsState()
 
     val ex: List<Banner> = listOf(
         Banner(
@@ -73,32 +69,6 @@ fun MainHomeScreen(
         Banner("https://example.com/banner3.jpg", "https://example.com/link3")
     )
 
-    val ex1: List<SitterProfile> = listOf(
-        SitterProfile(
-            "https://upload.wikimedia.org/wikipedia/commons/f/f9/Phoenicopterus_ruber_in_S%C3%A3o_Paulo_Zoo.jpg",
-            "John Doe",
-            "25, Male",
-            "Babysitter"
-        ),
-        SitterProfile(
-            "https://upload.wikimedia.org/wikipedia/commons/f/f9/Phoenicopterus_ruber_in_S%C3%A3o_Paulo_Zoo.jpg",
-            "Jane Smith",
-            "30, Female",
-            "Nanny"
-        ),
-        SitterProfile(
-            "https://upload.wikimedia.org/wikipedia/commons/f/f9/Phoenicopterus_ruber_in_S%C3%A3o_Paulo_Zoo.jpg",
-            "Alice Johnson",
-            "22, Female",
-            "Childminder"
-        )
-    )
-
-    val ex2: List<JobOfferInfo> = listOf(
-        JobOfferInfo("Babysitting", "New York", "$15/hr"),
-        JobOfferInfo("Nanny", "Los Angeles", "$20/hr"),
-        JobOfferInfo("Childminding", "Chicago", "$18/hr")
-    )
 
     val ex3: List<CommunityPost> = listOf(
         CommunityPost(
@@ -186,7 +156,7 @@ fun MainHomeScreen(
                 modifier = Modifier.padding(start = 32.dp, top = 28.dp, bottom = 36.dp),
                 horizontalArrangement = Arrangement.spacedBy(32.dp)
             ) {
-                items(ex1) { item ->
+                items(jobSeekers) { item ->
                     ProfileSitterBox(item = item)
                 }
             }
@@ -203,8 +173,8 @@ fun MainHomeScreen(
                 modifier = Modifier.padding(start = 32.dp, top = 28.dp, bottom = 36.dp),
                 horizontalArrangement = Arrangement.spacedBy(32.dp)
             ) {
-                items(ex2) { item ->
-                    JobOfferInfoBox(item = item)
+                items(jobOffers) { item ->
+                    JobOfferBox(item = item)
                 }
             }
             Spacer(
@@ -244,14 +214,18 @@ fun MainHomeScreen(
                     Row {
                         rowItems.forEach { item ->
                             MarketListItemBox(item = item)
-                            Spacer(modifier = Modifier
-                                .fillMaxHeight()
-                                .padding(12.dp))
+                            Spacer(
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                                    .padding(12.dp)
+                            )
                         }
                     }
-                    Spacer(modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(24.dp))
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(24.dp)
+                    )
                 }
             }
 
@@ -265,7 +239,7 @@ fun MainHomeScreen(
 
     val sheetState =
         rememberModalBottomSheetState(
-            ModalBottomSheetValue.Expanded,
+            if (noticeSettings.isEmpty()) ModalBottomSheetValue.Hidden else ModalBottomSheetValue.Expanded,
             skipHalfExpanded = true,
             animationSpec = spring(
                 dampingRatio = 0.85f,
@@ -291,7 +265,7 @@ fun MainHomeScreen(
                 },
                 onComplete = { },
                 itemList = noticeSettings,
-                titleCheckBoxText = ""
+                titleCheckBoxText = "꼭 필요한 알림만 보내드릴게요"
             )
         }
     ) {

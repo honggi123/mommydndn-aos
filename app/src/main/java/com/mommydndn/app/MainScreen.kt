@@ -135,7 +135,7 @@ fun MainNavigationScreen(
         animationSpec = tween(durationMillis = 400, easing = FastOutSlowInEasing)
     )
 
-    NavHost(navController = navController, startDestination = MainNav.Home.route) {
+    NavHost(navController = navController, startDestination = SignInNav.route) {
         composable(
             route = SignInNav.route,
         ) {
