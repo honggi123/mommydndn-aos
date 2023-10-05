@@ -35,7 +35,7 @@ fun JobOfferBox(
             modifier = Modifier.padding(start = 20.dp, top = 16.dp, end = 20.dp, bottom = 16.dp)
         ) {
             Row(modifier = Modifier.fillMaxWidth()) {
-                Badge(colorType = BannerColorType.ORANGE, text = item.caringTypeCode)
+                Badge(colorType = BannerColorType.ORANGE, text = item.caringType.value)
                 Spacer(modifier = Modifier.padding(6.dp))
                 Text(
                     text = item.title,

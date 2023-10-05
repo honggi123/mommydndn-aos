@@ -1,6 +1,7 @@
 package com.mommydndn.app.di
 
 import com.mommydndn.app.BuildConfig
+import com.mommydndn.app.data.api.NearestJobOfferConverterFactory
 import com.mommydndn.app.data.api.service.AuthService
 import com.mommydndn.app.data.api.service.GoogleApiService
 import com.mommydndn.app.data.api.service.MapService
@@ -63,6 +64,7 @@ class NetworkModule {
             .client(okHttpClient)
             .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(NearestJobOfferConverterFactory())
             .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
             .build()
     }

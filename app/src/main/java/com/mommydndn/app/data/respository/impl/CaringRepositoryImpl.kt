@@ -24,7 +24,7 @@ class CaringRepositoryImpl @Inject constructor(
                     ageAndGender = it.ageAndGender,
                     caringType = it.caringType,
                     profileImgUrl = it.profileUrl,
-                    name = ""
+                    name = it.nickname
                 )
             }
             emit(list)
@@ -38,8 +38,8 @@ class CaringRepositoryImpl @Inject constructor(
                     title = it.title,
                     neighborhood = it.neighborhood,
                     salary = it.salary.toString(),
-                    salaryTypeCode = it.salaryTypeCode,
-                    caringTypeCode = it.caringTypeCode
+                    salaryType = it.salaryType,
+                    caringType = it.caringType
                 )
             }
             emit(list)
