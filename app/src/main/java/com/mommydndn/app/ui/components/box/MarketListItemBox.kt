@@ -30,15 +30,16 @@ import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph400
 import com.mommydndn.app.R
+import com.mommydndn.app.data.model.BabyItem
 import com.mommydndn.app.data.model.MarketListItem
 import com.mommydndn.app.ui.theme.Grey500
 
 @Composable
 fun MarketListItemBox(
-    item: MarketListItem
+    item: BabyItem
 ) {
     val productPainter = rememberImagePainter(
-        data = item.productImgUrl,
+        data = item.imageUrl,
         builder = {
             crossfade(true)
         }
@@ -67,7 +68,7 @@ fun MarketListItemBox(
             }
             Spacer(modifier = Modifier.padding(8.dp))
             Text(
-                text = item.price,
+                text = item.price.toString(),
                 style = MaterialTheme.typography.paragraph400.copy(
                     fontWeight = FontWeight.Bold,
                     color = Grey800,
@@ -78,7 +79,7 @@ fun MarketListItemBox(
                 )
             )
             Text(
-                text = item.productName,
+                text = item.title,
                 style = MaterialTheme.typography.caption200.copy(
                     fontWeight = FontWeight.Normal,
                     color = Grey700,
@@ -90,7 +91,7 @@ fun MarketListItemBox(
             )
             Row {
                 Text(
-                    text = item.region,
+                    text = item.neighborhood,
                     style = MaterialTheme.typography.caption200.copy(
                         fontWeight = FontWeight.Normal,
                         color = Grey500,
@@ -109,7 +110,7 @@ fun MarketListItemBox(
                 Spacer(modifier = Modifier.padding(4.dp))
 
                 Text(
-                    text = item.time,
+                    text = item.createdAt.toString(),
                     style = MaterialTheme.typography.caption200.copy(
                         fontWeight = FontWeight.Normal,
                         color = Grey500,

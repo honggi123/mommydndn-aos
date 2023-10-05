@@ -55,6 +55,7 @@ fun MainHomeScreen(
     val banners by viewModel.banners.collectAsState()
     val jobSeekers by viewModel.jobSeekers.collectAsState()
     val jobOffers by viewModel.jobOffers.collectAsState()
+    val babyItems by viewModel.babyItems.collectAsState()
 
     val ex3: List<CommunityPost> = listOf(
         CommunityPost(
@@ -196,7 +197,7 @@ fun MainHomeScreen(
                     end = 28.dp
                 ),
             ) {
-                ex4.forEach { rowItems ->
+                babyItems.chunked(2).forEach { rowItems ->
                     Row {
                         rowItems.forEach { item ->
                             MarketListItemBox(item = item)

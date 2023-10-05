@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.mommydndn.app.data.model.NoticeSetting
 import com.mommydndn.app.data.model.TermsItem
 import com.mommydndn.app.data.respository.AccountRepository
+import com.mommydndn.app.data.respository.BabyItemRepository
 import com.mommydndn.app.data.respository.CaringRepository
 import com.mommydndn.app.data.respository.CommonRepositoy
 import com.mommydndn.app.data.respository.NoticeRepository
@@ -22,6 +23,7 @@ import kotlinx.coroutines.flow.map
 class MainViewModel @Inject constructor(
     private val noticeRepository: NoticeRepository,
     private val caringRepository: CaringRepository,
+    private val babyItemRepository: BabyItemRepository,
     private val commonRepositoy: CommonRepositoy
 ) : ViewModel() {
 
@@ -44,6 +46,12 @@ class MainViewModel @Inject constructor(
     )
 
     val jobOffers = caringRepository.fetchNearestJobOffer().stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.Lazily,
+        initialValue = emptyList()
+    )
+
+    val babyItems = babyItemRepository.fetchNearestBabyItem().stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
         initialValue = emptyList()

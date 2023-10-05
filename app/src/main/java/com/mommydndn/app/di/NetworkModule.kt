@@ -7,6 +7,7 @@ import com.mommydndn.app.data.api.service.GoogleApiService
 import com.mommydndn.app.data.api.service.MapService
 import com.mommydndn.app.data.api.service.TermsService
 import com.mommydndn.app.data.api.TokenInterceptor
+import com.mommydndn.app.data.api.service.BabyItemService
 import com.mommydndn.app.data.api.service.CaringService
 import com.mommydndn.app.data.api.service.CommonService
 import com.mommydndn.app.data.api.service.NoticeService
@@ -107,6 +108,13 @@ class NetworkModule {
     fun provideNoticeService(@TokenRetrofit retrofit: Retrofit): NoticeService {
         return retrofit.create(NoticeService::class.java)
     }
+
+    @Singleton
+    @Provides
+    fun provideBabyItemService(@TokenRetrofit retrofit: Retrofit): BabyItemService {
+        return retrofit.create(BabyItemService::class.java)
+    }
+
 
     @Singleton
     @Provides
