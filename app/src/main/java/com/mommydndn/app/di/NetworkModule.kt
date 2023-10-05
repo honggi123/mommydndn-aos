@@ -8,6 +8,7 @@ import com.mommydndn.app.data.api.service.MapService
 import com.mommydndn.app.data.api.service.TermsService
 import com.mommydndn.app.data.api.TokenInterceptor
 import com.mommydndn.app.data.api.service.CaringService
+import com.mommydndn.app.data.api.service.CommonService
 import com.mommydndn.app.data.api.service.NoticeService
 import com.mommydndn.app.data.datasource.TokenManager
 import com.skydoves.sandwich.adapters.ApiResponseCallAdapterFactory
@@ -111,6 +112,12 @@ class NetworkModule {
     @Provides
     fun provideCaringService(@TokenRetrofit retrofit: Retrofit): CaringService {
         return retrofit.create(CaringService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideCommonService(@TokenRetrofit retrofit: Retrofit): CommonService {
+        return retrofit.create(CommonService::class.java)
     }
 
     @Provides

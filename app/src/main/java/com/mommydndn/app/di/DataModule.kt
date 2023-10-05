@@ -4,11 +4,13 @@ import android.content.Context
 import com.mommydndn.app.data.datasource.TokenManager
 import com.mommydndn.app.data.respository.AccountRepository
 import com.mommydndn.app.data.respository.CaringRepository
+import com.mommydndn.app.data.respository.CommonRepositoy
 import com.mommydndn.app.data.respository.LocationRepository
 import com.mommydndn.app.data.respository.NoticeRepository
 import com.mommydndn.app.data.respository.TermsRepository
 import com.mommydndn.app.data.respository.impl.AccountRepositoryImpl
 import com.mommydndn.app.data.respository.impl.CaringRepositoryImpl
+import com.mommydndn.app.data.respository.impl.CommonRepositoryImpl
 import com.mommydndn.app.data.respository.impl.LocationRepositoryImpl
 import com.mommydndn.app.data.respository.impl.NoticeRespositoryIml
 import com.mommydndn.app.data.respository.impl.TermsRepositoryImpl
@@ -53,4 +55,10 @@ interface DataModule {
     fun bindCaringRepository(
         caringRepository: CaringRepositoryImpl
     ) : CaringRepository
+
+    @Binds
+    @Singleton
+    fun bindCommonRepository(
+        commonRepositoryImpl: CommonRepositoryImpl
+    ) : CommonRepositoy
 }

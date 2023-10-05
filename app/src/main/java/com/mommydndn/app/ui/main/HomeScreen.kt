@@ -52,21 +52,9 @@ fun MainHomeScreen(
     viewModel: MainViewModel = hiltViewModel()
 ) {
     val noticeSettings by viewModel.noticeSettings.collectAsState()
+    val banners by viewModel.banners.collectAsState()
     val jobSeekers by viewModel.jobSeekers.collectAsState()
     val jobOffers by viewModel.jobOffers.collectAsState()
-
-    val ex: List<Banner> = listOf(
-        Banner(
-            "https://upload.wikimedia.org/wikipedia/commons/f/f9/Phoenicopterus_ruber_in_S%C3%A3o_Paulo_Zoo.jpg",
-            "https://upload.wikimedia.org/wikipedia/commons/f/f9/Phoenicopterus_ruber_in_S%C3%A3o_Paulo_Zoo.jpg"
-        ),
-        Banner(
-            "https://upload.wikimedia.org/wikipedia/commons/f/f9/Phoenicopterus_ruber_in_S%C3%A3o_Paulo_Zoo.jpg",
-            "https://upload.wikimedia.org/wikipedia/commons/f/f9/Phoenicopterus_ruber_in_S%C3%A3o_Paulo_Zoo.jpg"
-        ),
-        Banner("https://example.com/banner3.jpg", "https://example.com/link3")
-    )
-
 
     val ex3: List<CommunityPost> = listOf(
         CommunityPost(
@@ -146,7 +134,7 @@ fun MainHomeScreen(
 
     LazyColumn {
         item {
-            BannerList(items = ex)
+            BannerList(items = banners)
         }
         item {
             SubtextBox(size = SubtextBoxSize.L, titleText = "가장 가까운 시터님", rightText = "전체보기")
