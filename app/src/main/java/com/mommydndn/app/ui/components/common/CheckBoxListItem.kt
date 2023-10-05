@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.component.common.Item
+package com.mommydndn.app.ui.components.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -33,9 +32,8 @@ import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
 
-
 @Composable
-fun CheckMarkListItem(
+fun CheckBoxListItem(
     checked: Boolean,
     onCheckedChange: ((Boolean) -> Unit),
     text: String,
@@ -58,7 +56,7 @@ fun CheckMarkListItem(
             Icon(
                 modifier = Modifier.size(32.dp),
                 painter = painterResource(
-                    id = if (checked) R.drawable.ic_checkmark_true else R.drawable.ic_checkmark_false
+                    id = if (checked) R.drawable.ic_checkbox_true else R.drawable.ic_checkbox_false
                 ),
                 contentDescription = "",
                 tint = if (checked) Salmon600 else Grey200
@@ -68,7 +66,7 @@ fun CheckMarkListItem(
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = text, style = MaterialTheme.typography.paragraph300.copy(
-                    fontWeight = FontWeight.Normal,
+                    fontWeight = FontWeight.Medium,
                     color = Grey600,
                     platformStyle = PlatformTextStyle(
                         includeFontPadding = false
@@ -82,9 +80,9 @@ fun CheckMarkListItem(
 
 @Preview
 @Composable
-fun previewCheckMarkListItem() {
+fun previewCheckListItem() {
     MommydndnaosTheme {
         var state by remember { mutableStateOf(false) }
-        CheckMarkListItem(state, { state = it }, "리스트 아이템")
+        CheckBoxListItem(state, { state = it }, "리스트 아이템")
     }
 }

@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.component.common
+package com.mommydndn.app.ui.components.button
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image

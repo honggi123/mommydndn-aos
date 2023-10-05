@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.component.common
+package com.mommydndn.app.ui.components.modal
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,7 +18,6 @@ import androidx.compose.material.Button
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -26,9 +25,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.data.model.NoticeSetting
-import com.mommydndn.app.data.model.TermsItem
-import com.mommydndn.app.ui.component.common.Item.CheckBoxListItem
-import com.mommydndn.app.ui.component.common.Item.CheckMarkListItem
+import com.mommydndn.app.ui.components.common.CheckBoxListItem
+import com.mommydndn.app.ui.components.common.CheckMarkListItem
 import com.mommydndn.app.ui.theme.Grey200
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.White

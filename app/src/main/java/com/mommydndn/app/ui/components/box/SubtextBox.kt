@@ -1,11 +1,9 @@
-package com.mommydndn.app.ui.component.common
+package com.mommydndn.app.ui.components.box
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -23,7 +21,6 @@ import com.mommydndn.app.ui.theme.Grey800
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.heading600
-import com.mommydndn.app.ui.theme.heading800
 import com.mommydndn.app.ui.theme.paragraph300
 
 enum class SubtextBoxSize { L, M, S }

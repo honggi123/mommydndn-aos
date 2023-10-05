@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.component.common.Item
+package com.mommydndn.app.ui.components.common
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween

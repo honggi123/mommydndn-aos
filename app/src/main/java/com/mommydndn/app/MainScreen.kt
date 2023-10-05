@@ -2,7 +2,6 @@ package com.mommydndn.app
 
 import android.annotation.SuppressLint
 import android.net.Uri
-import android.util.Log
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
@@ -13,7 +12,6 @@ import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -31,7 +29,7 @@ import com.mommydndn.app.ui.MainNav
 import com.mommydndn.app.ui.SignInNav
 import com.mommydndn.app.ui.TownCheckNav
 import com.mommydndn.app.ui.TypeChoiceNav
-import com.mommydndn.app.ui.component.common.Header
+import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.main.MainHomeScreen
 import com.mommydndn.app.ui.signin.SignInScreen
 import com.mommydndn.app.ui.signup.NearestChoiceScreen

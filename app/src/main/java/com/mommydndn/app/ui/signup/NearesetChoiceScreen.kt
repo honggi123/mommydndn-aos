@@ -39,10 +39,10 @@ import com.mommydndn.app.data.api.model.EmdItem
 import com.mommydndn.app.data.model.LocationInfo
 import com.mommydndn.app.data.model.TownSearchType
 import com.mommydndn.app.data.api.model.displayName
-import com.mommydndn.app.ui.component.common.RadioListBox
-import com.mommydndn.app.ui.component.common.SearchUnderHeader
-import com.mommydndn.app.ui.component.common.Searchbar
-import com.mommydndn.app.ui.component.signup.TermsCheckListModal
+import com.mommydndn.app.ui.components.box.RadioListBox
+import com.mommydndn.app.ui.components.box.SearchUnderHeader
+import com.mommydndn.app.ui.components.common.Searchbar
+import com.mommydndn.app.ui.components.modal.TermsCheckListModal
 import com.mommydndn.app.ui.theme.GreyOpacity400
 import com.mommydndn.app.ui.viewmodel.SignUpViewModel
 import kotlinx.coroutines.launch

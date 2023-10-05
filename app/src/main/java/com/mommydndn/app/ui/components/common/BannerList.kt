@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.component.home
+package com.mommydndn.app.ui.components.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

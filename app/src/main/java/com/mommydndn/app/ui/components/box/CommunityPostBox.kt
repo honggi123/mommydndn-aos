@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.component.home
+package com.mommydndn.app.ui.components.box
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -25,7 +25,6 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.mommydndn.app.R
@@ -34,7 +33,6 @@ import com.mommydndn.app.ui.theme.Grey300
 import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.Grey700
-import com.mommydndn.app.ui.theme.MommydndnaosTheme
 import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption100

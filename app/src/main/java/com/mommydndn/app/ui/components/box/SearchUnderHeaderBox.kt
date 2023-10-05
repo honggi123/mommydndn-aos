@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.component.common
+package com.mommydndn.app.ui.components.box
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

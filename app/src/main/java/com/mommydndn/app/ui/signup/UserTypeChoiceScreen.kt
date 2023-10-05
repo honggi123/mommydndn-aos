@@ -17,13 +17,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.mommydndn.app.ui.component.common.MaintextBox
-import com.mommydndn.app.ui.component.common.SquareButton
+import com.mommydndn.app.ui.components.box.MaintextBox
+import com.mommydndn.app.ui.components.button.SquareButton
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.SignUpInfo
 import com.mommydndn.app.data.model.UserType
 import com.mommydndn.app.ui.TownCheckNav
-import com.mommydndn.app.ui.component.common.Header
+import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.ui.viewmodel.SignUpViewModel
 import com.mommydndn.app.utils.NavigationUtils

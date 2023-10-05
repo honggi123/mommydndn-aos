@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.component.signin
+package com.mommydndn.app.ui.components.box
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*

@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.component.common
+package com.mommydndn.app.ui.components.common
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
