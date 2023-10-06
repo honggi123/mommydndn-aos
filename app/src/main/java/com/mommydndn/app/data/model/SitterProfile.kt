@@ -4,5 +4,5 @@ data class SitterProfile(
     val profileImgUrl: String,
     val name: String,
     val ageAndGender: String,
-    val caringType: String
+    val caringType: CaringType
 )

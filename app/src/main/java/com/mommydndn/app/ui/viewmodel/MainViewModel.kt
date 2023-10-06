@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mommydndn.app.data.model.NoticeSetting
 import com.mommydndn.app.data.model.TermsItem
+import com.mommydndn.app.data.model.formatSalary
 import com.mommydndn.app.data.respository.AccountRepository
 import com.mommydndn.app.data.respository.BabyItemRepository
 import com.mommydndn.app.data.respository.CaringRepository
@@ -18,6 +19,8 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
+import java.text.NumberFormat
+import java.util.Locale
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -45,7 +48,9 @@ class MainViewModel @Inject constructor(
         initialValue = emptyList()
     )
 
-    val jobOffers = caringRepository.fetchNearestJobOffer().stateIn(
+    val jobOffers = caringRepository.fetchNearestJobOffer().map { list ->
+        list.map { it.formatSalary() }
+    }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
         initialValue = emptyList()

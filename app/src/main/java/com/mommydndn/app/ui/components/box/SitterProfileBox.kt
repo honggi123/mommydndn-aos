@@ -71,7 +71,7 @@ fun ProfileSitterBox(
             Row(modifier = Modifier.fillMaxWidth()) {
                 Badge(colorType = BannerColorType.GREEN, text = item.ageAndGender)
                 Spacer(modifier = Modifier.padding(6.dp))
-                Badge(colorType = BannerColorType.ORANGE, text = item.caringType)
+                Badge(colorType = BannerColorType.ORANGE, text = item.caringType.value)
             }
         }
     }

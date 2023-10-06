@@ -1,7 +1,9 @@
 package com.mommydndn.app.data.api
 
 import com.google.gson.JsonParser
+import com.google.gson.annotations.SerializedName
 import com.mommydndn.app.data.api.model.NearestJobOfferResponse
+import com.mommydndn.app.data.api.model.NearestJobSeekerResponse
 import com.mommydndn.app.data.model.CaringType
 import com.mommydndn.app.data.model.SalaryType
 import okhttp3.ResponseBody
@@ -34,13 +36,42 @@ class NearestJobOfferConverter : Converter<ResponseBody, NearestJobOfferResponse
                 salary = salary,
                 title = title
             )
+
         } finally {
             value.close()
         }
     }
 }
 
-class NearestJobOfferConverterFactory : Converter.Factory() {
+class NearestJobSeekerConverter : Converter<ResponseBody, NearestJobSeekerResponse> {
+    @Throws(IOException::class)
+    override fun convert(value: ResponseBody): NearestJobSeekerResponse {
+        try {
+            val json = value.string()
+            val jsonObject = JsonParser.parseString(json).asJsonObject
+
+            val caringType = CaringType.valueOf(jsonObject.get("caringType").asString)
+
+            val nickname = jsonObject.get("nickname").asString
+            val profileUrl = jsonObject.get("profileUrl").asString
+            val jobSeekerId = jsonObject.get("jobSeekerId").asInt
+            val ageAndGender = jsonObject.get("ageAndGender").asString
+
+            return NearestJobSeekerResponse(
+                nickname = nickname,
+                ageAndGender = ageAndGender,
+                caringType = caringType,
+                jobSeekerId = jobSeekerId,
+                profileUrl = profileUrl
+            )
+
+        } finally {
+            value.close()
+        }
+    }
+}
+
+class CustomConverterFactory : Converter.Factory() {
     override fun responseBodyConverter(
         type: Type,
         annotations: Array<out Annotation>,
@@ -48,6 +79,8 @@ class NearestJobOfferConverterFactory : Converter.Factory() {
     ): Converter<ResponseBody, *>? {
         if (type == NearestJobOfferResponse::class.java) {
             return NearestJobOfferConverter()
+        } else if (type == NearestJobSeekerResponse::class.java) {
+            return NearestJobSeekerConverter()
         }
         return null
     }
