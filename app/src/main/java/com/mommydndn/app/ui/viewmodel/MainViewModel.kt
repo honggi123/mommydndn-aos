@@ -2,6 +2,7 @@ package com.mommydndn.app.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mommydndn.app.data.model.BabyItem
 import com.mommydndn.app.data.model.NoticeSetting
 import com.mommydndn.app.data.model.TermsItem
 import com.mommydndn.app.data.model.formatSalary
@@ -56,7 +57,9 @@ class MainViewModel @Inject constructor(
         initialValue = emptyList()
     )
 
-    val babyItems = babyItemRepository.fetchNearestBabyItem().stateIn(
+    val babyItems = babyItemRepository.fetchNearestBabyItem().map { list ->
+        list.map { it.copy(createdAt = formatTimeAgo(it.createdAt.toLong())) }
+    }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
         initialValue = emptyList()
@@ -68,5 +71,20 @@ class MainViewModel @Inject constructor(
             noticeSettings.filter { !it.isApproved }
         }
 
+    private fun formatTimeAgo(utcTimeStamp: Long): String {
+        val currentTimeMillis = System.currentTimeMillis()
+        val timeDifferenceMillis = currentTimeMillis - utcTimeStamp
+
+        val minutesDifference = timeDifferenceMillis / (1000 * 60)
+        val hoursDifference = minutesDifference / 60
+        val daysDifference = hoursDifference / 24
+
+        return when {
+            minutesDifference < 60 -> "$minutesDifference 분전"
+            hoursDifference < 24 -> "$hoursDifference 시간전"
+            daysDifference < 30 -> "$daysDifference 일전"
+            else -> ""
+        }
+    }
 
 }

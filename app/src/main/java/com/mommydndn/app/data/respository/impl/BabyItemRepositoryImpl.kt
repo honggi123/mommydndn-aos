@@ -14,10 +14,13 @@ class BabyItemRepositoryImpl @Inject constructor(
     private val babyItemService: BabyItemService
 ) : BabyItemRepository {
     override fun fetchNearestBabyItem(): Flow<List<BabyItem>> = flow {
-        babyItemService.fetchNearestBabyItem().suspendOnSuccess {
-            val list = data.map {
+        babyItemService.fetchNearestBabyItem(
+            pageSize = 6,
+            pageNum = 1
+        ).suspendOnSuccess {
+            val list = data.itemSummaryList.map {
                 BabyItem(
-                    createdAt = it.createdAt,
+                    createdAt = it.createdAt.toString(),
                     imageUrl = it.imageUrl,
                     itemId = it.itemId,
                     neighborhood = it.neighborhood,
