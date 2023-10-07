@@ -7,12 +7,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.data.model.BannerColorType
 import com.mommydndn.app.data.model.JobOffer
@@ -29,14 +31,16 @@ fun JobOfferBox(
     item: JobOffer
 ) {
     Box(
-        modifier = Modifier.background(shape = Shapes.large, color = Grey50)
+        modifier = Modifier
+            .width(216.dp)
+            .background(shape = Shapes.large, color = Grey50)
     ) {
         Column(
             modifier = Modifier.padding(start = 20.dp, top = 16.dp, end = 20.dp, bottom = 16.dp)
         ) {
             Row(modifier = Modifier.fillMaxWidth()) {
                 Badge(colorType = BannerColorType.ORANGE, text = item.caringType.value)
-                Spacer(modifier = Modifier.padding(6.dp))
+                Spacer(modifier = Modifier.padding(8.dp))
                 Text(
                     text = item.title,
                     style = MaterialTheme.typography.paragraph300.copy(
@@ -44,8 +48,10 @@ fun JobOfferBox(
                         color = Grey800,
                         platformStyle = PlatformTextStyle(
                             includeFontPadding = false
-                        )
-                    )
+                        ),
+                    ),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
             Spacer(modifier = Modifier.padding(24.dp))
@@ -60,7 +66,7 @@ fun JobOfferBox(
                 )
             )
             Text(
-                text = item.salary,
+                text = "${item.salaryType.value} ${item.salary}",
                 style = MaterialTheme.typography.paragraph300.copy(
                     fontWeight = FontWeight.Bold,
                     color = Grey800,
