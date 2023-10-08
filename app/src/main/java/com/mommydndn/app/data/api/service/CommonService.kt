@@ -9,6 +9,6 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface CommonService {
-    @GET("/api/banner")
+    @GET("/api/banner/home")
     suspend fun fetchBanners(): ApiResponse<List<BannerResponse>>
 }
