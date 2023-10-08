@@ -1,13 +1,12 @@
 package com.mommydndn.app.data.api.model
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-import com.google.gson.annotations.SerializedName
-
+@Serializable
+@SerialName("NoticeSettingResponse")
 data class NoticeSettingResponse(
-    @SerializedName("isApproved")
     val isApproved: Boolean,
-    @SerializedName("noticeTypeId")
     val noticeTypeId: Int,
-    @SerializedName("noticeTypeName")
     val noticeTypeName: String
 )

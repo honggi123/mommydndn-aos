@@ -5,6 +5,7 @@ import com.mommydndn.app.data.api.service.BabyItemService
 import com.mommydndn.app.data.model.BabyItem
 import com.mommydndn.app.data.respository.BabyItemRepository
 import com.skydoves.sandwich.onError
+import com.skydoves.sandwich.onException
 import com.skydoves.sandwich.suspendOnSuccess
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -29,6 +30,10 @@ class BabyItemRepositoryImpl @Inject constructor(
                 )
             }
             emit(list)
-        }.onError { }
+        }.onError {
+
+        }.onException {
+
+        }
     }
 }

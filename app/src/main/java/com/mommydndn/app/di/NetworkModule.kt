@@ -1,7 +1,8 @@
 package com.mommydndn.app.di
 
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.mommydndn.app.BuildConfig
-import com.mommydndn.app.data.api.CustomConverterFactory
+import com.mommydndn.app.data.api.EnumConverterFactory
 import com.mommydndn.app.data.api.service.AuthService
 import com.mommydndn.app.data.api.service.GoogleApiService
 import com.mommydndn.app.data.api.service.MapService
@@ -17,6 +18,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import javax.inject.Singleton
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -62,11 +65,13 @@ class NetworkModule {
     @Singleton
     @TokenRetrofit
     fun provideTokenRetrofit(@TokenOkhttpClient okHttpClient: OkHttpClient): Retrofit {
+        val contentType = "application/json".toMediaType()
+
         return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(BuildConfig.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .addConverterFactory(CustomConverterFactory())
+            .addConverterFactory(Json.asConverterFactory(contentType))
+            .addConverterFactory(EnumConverterFactory())
             .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
             .build()
     }
@@ -76,10 +81,12 @@ class NetworkModule {
     @Singleton
     @DefaultRetrofit
     fun provideDefaultRetrofit(@DefaultOkhttpClient okHttpClient: OkHttpClient): Retrofit {
+        val contentType = "application/json".toMediaType()
+
         return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(BuildConfig.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(Json.asConverterFactory(contentType))
             .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
             .build()
     }

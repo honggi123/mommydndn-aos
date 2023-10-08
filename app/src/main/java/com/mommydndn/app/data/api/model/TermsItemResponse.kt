@@ -1,5 +1,8 @@
 package com.mommydndn.app.data.api.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class TermsItemResponse(
     val createdAt: Long,
     val isRequired: Boolean,

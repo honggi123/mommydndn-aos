@@ -4,18 +4,14 @@ package com.mommydndn.app.data.api.model
 import com.google.gson.annotations.SerializedName
 import com.mommydndn.app.data.model.CaringType
 import com.mommydndn.app.data.model.SalaryType
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class NearestJobOfferResponse(
-    @SerializedName("caringTypeCode")
-    val caringType: CaringType,
-    @SerializedName("jobOfferId")
+    val caringTypeCode: CaringType,
     val jobOfferId: Int,
-    @SerializedName("neighborhood")
     val neighborhood: String,
-    @SerializedName("salary")
     val salary: Int,
-    @SerializedName("salaryTypeCode")
-    val salaryType: SalaryType,
-    @SerializedName("title")
+    val salaryTypeCode: SalaryType,
     val title: String
 )

@@ -1,7 +1,6 @@
 package com.mommydndn.app.data.api
 
 import com.google.gson.JsonParser
-import com.google.gson.annotations.SerializedName
 import com.mommydndn.app.data.api.model.NearestJobOfferResponse
 import com.mommydndn.app.data.api.model.NearestJobSeekerResponse
 import com.mommydndn.app.data.model.CaringType
@@ -29,8 +28,8 @@ class NearestJobOfferConverter : Converter<ResponseBody, NearestJobOfferResponse
 
 
             return NearestJobOfferResponse(
-                caringType = caringType,
-                salaryType = salaryType,
+                caringTypeCode = caringType,
+                salaryTypeCode = salaryType,
                 jobOfferId = jobOfferId,
                 neighborhood = neighborhood,
                 salary = salary,
@@ -71,7 +70,7 @@ class NearestJobSeekerConverter : Converter<ResponseBody, NearestJobSeekerRespon
     }
 }
 
-class CustomConverterFactory : Converter.Factory() {
+class EnumConverterFactory : Converter.Factory() {
     override fun responseBodyConverter(
         type: Type,
         annotations: Array<out Annotation>,

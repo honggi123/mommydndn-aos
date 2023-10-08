@@ -23,7 +23,7 @@ class TermsRepositoryImpl @Inject constructor(
     private val termsService: TermsService,
 ) : TermsRepository {
     override fun fetchAllTerms() = flow {
-       termsService.fetchTermsItems().suspendOnSuccess {
+        termsService.fetchTermsItems().suspendOnSuccess {
             val list = data.map {
                 TermsItem(
                     createdAt = it.createdAt,
@@ -35,8 +35,12 @@ class TermsRepositoryImpl @Inject constructor(
                     isSelected = false
                 )
             }
-           emit(list)
-        }.onError {  }
+            emit(list)
+        }.onError {
+
+        }.onException {
+
+        }
     }
 
 

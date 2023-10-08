@@ -9,6 +9,7 @@ import com.mommydndn.app.data.model.NoticeSetting
 import com.mommydndn.app.data.model.SitterProfile
 import com.mommydndn.app.data.respository.CaringRepository
 import com.skydoves.sandwich.onError
+import com.skydoves.sandwich.onException
 import com.skydoves.sandwich.suspendOnSuccess
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -38,11 +39,15 @@ class CaringRepositoryImpl @Inject constructor(
                     title = it.title,
                     neighborhood = it.neighborhood,
                     salary = it.salary.toString(),
-                    salaryType = it.salaryType,
-                    caringType = it.caringType
+                    salaryType = it.salaryTypeCode,
+                    caringType = it.caringTypeCode
                 )
             }
             emit(list)
-        }.onError {}
+        }.onError {
+
+        }.onException {
+
+        }
     }
 }

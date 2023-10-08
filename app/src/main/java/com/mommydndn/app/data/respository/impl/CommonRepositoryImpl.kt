@@ -5,6 +5,7 @@ import com.mommydndn.app.data.model.Banner
 import com.mommydndn.app.data.model.SitterProfile
 import com.mommydndn.app.data.respository.CommonRepositoy
 import com.skydoves.sandwich.onError
+import com.skydoves.sandwich.onException
 import com.skydoves.sandwich.suspendOnSuccess
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -22,6 +23,10 @@ class CommonRepositoryImpl @Inject constructor(
                 )
             }
             emit(list)
-        }.onError {}
+        }.onError {
+
+        }.onException {
+
+        }
     }
 }
