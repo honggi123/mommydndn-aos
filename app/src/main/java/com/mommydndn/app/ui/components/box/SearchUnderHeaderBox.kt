@@ -24,7 +24,7 @@ import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
-import com.mommydndn.app.utils.bottomBorder
+import com.mommydndn.app.ui.extensions.bottomBorder
 
 @Composable
 fun SearchUnderHeader(
