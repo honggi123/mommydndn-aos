@@ -2,8 +2,8 @@ package com.mommydndn.app.data.api
 
 import com.google.gson.JsonParser
 import com.mommydndn.app.data.api.model.NearestJobOfferResponse
-import com.mommydndn.app.data.api.model.NearestJobSeekerResponse
 import com.mommydndn.app.data.model.CaringType
+import com.mommydndn.app.data.model.JobSeeker
 import com.mommydndn.app.data.model.SalaryType
 import okhttp3.ResponseBody
 import retrofit2.Converter
@@ -42,9 +42,9 @@ class NearestJobOfferConverter : Converter<ResponseBody, NearestJobOfferResponse
     }
 }
 
-class NearestJobSeekerConverter : Converter<ResponseBody, NearestJobSeekerResponse> {
+class NearestJobSeekerConverter : Converter<ResponseBody, JobSeeker> {
     @Throws(IOException::class)
-    override fun convert(value: ResponseBody): NearestJobSeekerResponse {
+    override fun convert(value: ResponseBody): JobSeeker {
         try {
             val json = value.string()
             val jsonObject = JsonParser.parseString(json).asJsonObject
@@ -56,7 +56,7 @@ class NearestJobSeekerConverter : Converter<ResponseBody, NearestJobSeekerRespon
             val jobSeekerId = jsonObject.get("jobSeekerId").asInt
             val ageAndGender = jsonObject.get("ageAndGender").asString
 
-            return NearestJobSeekerResponse(
+            return JobSeeker(
                 nickname = nickname,
                 ageAndGender = ageAndGender,
                 caringType = caringType,
@@ -78,7 +78,7 @@ class EnumConverterFactory : Converter.Factory() {
     ): Converter<ResponseBody, *>? {
         if (type == NearestJobOfferResponse::class.java) {
             return NearestJobOfferConverter()
-        } else if (type == NearestJobSeekerResponse::class.java) {
+        } else if (type == JobSeeker::class.java) {
             return NearestJobSeekerConverter()
         }
         return null

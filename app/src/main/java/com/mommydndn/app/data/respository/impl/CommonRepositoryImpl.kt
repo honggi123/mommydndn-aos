@@ -1,5 +1,6 @@
 package com.mommydndn.app.data.respository.impl
 
+import android.util.Log
 import com.mommydndn.app.data.api.service.CommonService
 import com.mommydndn.app.data.model.Banner
 import com.mommydndn.app.data.model.SitterProfile
@@ -18,7 +19,8 @@ class CommonRepositoryImpl @Inject constructor(
         commonService.fetchBanners().suspendOnSuccess {
             val list = data.map {
                 Banner(
-                    imgUrl = it.url ?: "",
+                    bannerId = it.bannerId,
+                    url = it.url ?: "",
                     targetUrl = it.targetUrl ?: ""
                 )
             }

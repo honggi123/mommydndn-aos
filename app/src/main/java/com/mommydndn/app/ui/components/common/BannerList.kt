@@ -41,7 +41,7 @@ fun BannerList(
 
     HorizontalPager(state = pagerState, count = items.size) { page ->
         Banner(
-            imgUrl = items[page].imgUrl,
+            imgUrl = items[page].url,
             pageNum = page + 1,
             totalPageNum = items.size,
             onClick = {}

@@ -1,12 +1,8 @@
 package com.mommydndn.app.data.respository.impl
 
-import android.util.Log
 import com.mommydndn.app.data.api.service.CaringService
-import com.mommydndn.app.data.api.service.TermsService
 import com.mommydndn.app.data.model.JobOffer
-import com.mommydndn.app.data.model.NearestJobSeeker
-import com.mommydndn.app.data.model.NoticeSetting
-import com.mommydndn.app.data.model.SitterProfile
+import com.mommydndn.app.data.model.JobSeeker
 import com.mommydndn.app.data.respository.CaringRepository
 import com.skydoves.sandwich.onError
 import com.skydoves.sandwich.onException
@@ -18,18 +14,15 @@ import javax.inject.Inject
 class CaringRepositoryImpl @Inject constructor(
     private val caringService: CaringService
 ) : CaringRepository {
-    override fun fetchNearestJobSeeker(): Flow<List<SitterProfile>> = flow {
+    override fun fetchNearestJobSeeker(): Flow<List<JobSeeker>> = flow {
         caringService.fetchNearestJobSeeker().suspendOnSuccess {
-            val list = data.map {
-                SitterProfile(
-                    ageAndGender = it.ageAndGender,
-                    caringType = it.caringType,
-                    profileImgUrl = it.profileUrl,
-                    name = it.nickname
-                )
-            }
-            emit(list)
-        }.onError {}
+            emit(data)
+        }.onError {
+
+        }.onException {
+
+        }
+
     }
 
     override fun fetchNearestJobOffer(): Flow<List<JobOffer>> = flow {

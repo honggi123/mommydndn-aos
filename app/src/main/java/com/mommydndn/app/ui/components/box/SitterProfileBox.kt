@@ -22,6 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.mommydndn.app.data.model.BannerColorType
+import com.mommydndn.app.data.model.JobSeeker
 import com.mommydndn.app.data.model.SitterProfile
 import com.mommydndn.app.ui.components.common.Badge
 import com.mommydndn.app.ui.theme.Grey600
@@ -29,10 +30,10 @@ import com.mommydndn.app.ui.theme.caption200
 
 @Composable
 fun ProfileSitterBox(
-    item: SitterProfile
+    item: JobSeeker
 ) {
     val profilePainter = rememberImagePainter(
-        data = item.profileImgUrl,
+        data = item.profileUrl,
         builder = {
             crossfade(true)
         }
@@ -56,7 +57,7 @@ fun ProfileSitterBox(
             Spacer(modifier = Modifier.padding(8.dp))
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = item.name,
+                text = item.nickname,
                 style = MaterialTheme.typography.caption200.copy(
                     fontWeight = FontWeight.Medium,
                     color = Grey600,
