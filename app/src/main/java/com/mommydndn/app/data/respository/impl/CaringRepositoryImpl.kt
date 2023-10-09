@@ -7,25 +7,35 @@ import com.mommydndn.app.data.respository.CaringRepository
 import com.skydoves.sandwich.onError
 import com.skydoves.sandwich.onException
 import com.skydoves.sandwich.suspendOnSuccess
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onCompletion
 import javax.inject.Inject
 
 class CaringRepositoryImpl @Inject constructor(
     private val caringService: CaringService
 ) : CaringRepository {
-    override fun fetchNearestJobSeeker(): Flow<List<JobSeeker>> = flow {
+    override fun fetchNearestJobSeeker(
+        onComplete: () -> Unit,
+        onError: (message: String?) -> Unit
+    ): Flow<List<JobSeeker>> = flow {
         caringService.fetchNearestJobSeeker().suspendOnSuccess {
             emit(data)
         }.onError {
-
+            onError("code: $statusCode, errorBody: $errorBody")
         }.onException {
-
+            onError(message)
         }
+    }.onCompletion {
+        onComplete()
+    }.flowOn(Dispatchers.IO)
 
-    }
-
-    override fun fetchNearestJobOffer(): Flow<List<JobOffer>> = flow {
+    override fun fetchNearestJobOffer(
+        onComplete: () -> Unit,
+        onError: (message: String?) -> Unit
+    ): Flow<List<JobOffer>> = flow {
         caringService.fetchNearestJobOffer().suspendOnSuccess {
             val list = data.map {
                 JobOffer(
@@ -38,9 +48,11 @@ class CaringRepositoryImpl @Inject constructor(
             }
             emit(list)
         }.onError {
-
+            onError("code: $statusCode, errorBody: $errorBody")
         }.onException {
-
+            onError(message)
         }
-    }
+    }.onCompletion {
+        onComplete()
+    }.flowOn(Dispatchers.IO)
 }

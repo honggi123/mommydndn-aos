@@ -7,14 +7,20 @@ import com.mommydndn.app.data.respository.BabyItemRepository
 import com.skydoves.sandwich.onError
 import com.skydoves.sandwich.onException
 import com.skydoves.sandwich.suspendOnSuccess
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onCompletion
 import javax.inject.Inject
 
 class BabyItemRepositoryImpl @Inject constructor(
     private val babyItemService: BabyItemService
 ) : BabyItemRepository {
-    override fun fetchNearestBabyItem(): Flow<List<BabyItem>> = flow {
+    override fun fetchNearestBabyItem(
+        onComplete: () -> Unit,
+        onError: (message: String?) -> Unit
+    ): Flow<List<BabyItem>> = flow {
         babyItemService.fetchNearestBabyItem(
             pageSize = 6,
             pageNum = 1
@@ -31,9 +37,15 @@ class BabyItemRepositoryImpl @Inject constructor(
             }
             emit(list)
         }.onError {
-
+            onError("code: $statusCode, errorBody: $errorBody")
         }.onException {
-
+            onError(message)
         }
-    }
+    }.onCompletion {
+        onComplete()
+    }.flowOn(Dispatchers.Default)
+
+
+
+
 }

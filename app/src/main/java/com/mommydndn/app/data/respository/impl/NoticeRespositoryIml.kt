@@ -9,14 +9,20 @@ import com.mommydndn.app.data.respository.NoticeRepository
 import com.skydoves.sandwich.onError
 import com.skydoves.sandwich.onException
 import com.skydoves.sandwich.suspendOnSuccess
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onCompletion
 import javax.inject.Inject
 
 class NoticeRespositoryIml @Inject constructor(
     private val noticeService: NoticeService
 ) : NoticeRepository {
-    override fun fetchUserNoticeSettings(): Flow<List<NoticeSetting>> = flow {
+    override fun fetchUserNoticeSettings(
+        onComplete: () -> Unit,
+        onError: (message: String?) -> Unit
+    ): Flow<List<NoticeSetting>> = flow {
         noticeService.fetchUserNoticeSettings().suspendOnSuccess {
             val list = data.map {
                 NoticeSetting(
@@ -28,9 +34,11 @@ class NoticeRespositoryIml @Inject constructor(
             }
             emit(list)
         }.onError {
-
+            onError("code: $statusCode, errorBody: $errorBody")
         }.onException {
-
+            onError(message)
         }
-    }
+    }.onCompletion {
+        onComplete()
+    }.flowOn(Dispatchers.IO)
 }

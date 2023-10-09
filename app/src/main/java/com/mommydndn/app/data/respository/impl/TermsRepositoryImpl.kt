@@ -22,7 +22,10 @@ import javax.inject.Inject
 class TermsRepositoryImpl @Inject constructor(
     private val termsService: TermsService,
 ) : TermsRepository {
-    override fun fetchAllTerms() = flow {
+    override fun fetchAllTerms(
+        onComplete: () -> Unit,
+        onError: (message: String?) -> Unit
+    ) = flow {
         termsService.fetchTermsItems().suspendOnSuccess {
             val list = data.map {
                 TermsItem(
@@ -37,11 +40,13 @@ class TermsRepositoryImpl @Inject constructor(
             }
             emit(list)
         }.onError {
-
+            onError("code: $statusCode, errorBody: $errorBody")
         }.onException {
-
+            onError(message)
         }
-    }
+    }.onCompletion {
+        onComplete()
+    }.flowOn(Dispatchers.IO)
 
 
     override suspend fun updateTermsCheckedStatus(termsItems: List<TermsItem>) {

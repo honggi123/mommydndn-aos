@@ -5,8 +5,14 @@ import com.mommydndn.app.data.model.JobSeeker
 import kotlinx.coroutines.flow.Flow
 
 interface CaringRepository {
-    fun fetchNearestJobSeeker(): Flow<List<JobSeeker>>
+    fun fetchNearestJobSeeker(
+        onComplete: () -> Unit,
+        onError: (message: String?) -> Unit
+    ): Flow<List<JobSeeker>>
 
-    fun fetchNearestJobOffer(): Flow<List<JobOffer>>
+    fun fetchNearestJobOffer(
+        onComplete: () -> Unit,
+        onError: (message: String?) -> Unit
+    ): Flow<List<JobOffer>>
 
 }

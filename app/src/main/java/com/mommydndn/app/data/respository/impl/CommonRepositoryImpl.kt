@@ -8,14 +8,20 @@ import com.mommydndn.app.data.respository.CommonRepositoy
 import com.skydoves.sandwich.onError
 import com.skydoves.sandwich.onException
 import com.skydoves.sandwich.suspendOnSuccess
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onCompletion
 import javax.inject.Inject
 
 class CommonRepositoryImpl @Inject constructor(
     private val commonService: CommonService
 ) : CommonRepositoy {
-    override fun fetchBanners(): Flow<List<Banner>> = flow {
+    override fun fetchBanners(
+        onComplete: () -> Unit,
+        onError: (message: String?) -> Unit
+    ): Flow<List<Banner>> = flow {
         commonService.fetchBanners().suspendOnSuccess {
             val list = data.map {
                 Banner(
@@ -26,9 +32,11 @@ class CommonRepositoryImpl @Inject constructor(
             }
             emit(list)
         }.onError {
-
+            onError("code: $statusCode, errorBody: $errorBody")
         }.onException {
-
+            onError(message)
         }
-    }
+    }.onCompletion {
+        onComplete()
+    }.flowOn(Dispatchers.IO)
 }

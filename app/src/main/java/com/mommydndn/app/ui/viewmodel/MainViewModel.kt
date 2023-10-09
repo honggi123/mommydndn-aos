@@ -37,19 +37,28 @@ class MainViewModel @Inject constructor(
         initialValue = emptyList()
     )
 
-    val banners = commonRepositoy.fetchBanners().stateIn(
+    val banners = commonRepositoy.fetchBanners(
+        onError = {},
+        onComplete = {}
+    ).stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
         initialValue = emptyList()
     )
 
-    val jobSeekers = caringRepository.fetchNearestJobSeeker().stateIn(
+    val jobSeekers = caringRepository.fetchNearestJobSeeker(
+        onError = {},
+        onComplete = {}
+    ).stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
         initialValue = emptyList()
     )
 
-    val jobOffers = caringRepository.fetchNearestJobOffer().map { list ->
+    val jobOffers = caringRepository.fetchNearestJobOffer(
+        onError = {},
+        onComplete = {}
+    ).map { list ->
         list.map { it.formatSalary() }
     }.stateIn(
         scope = viewModelScope,
@@ -57,7 +66,10 @@ class MainViewModel @Inject constructor(
         initialValue = emptyList()
     )
 
-    val babyItems = babyItemRepository.fetchNearestBabyItem().map { list ->
+    val babyItems = babyItemRepository.fetchNearestBabyItem(
+        onError = {},
+        onComplete = {}
+    ).map { list ->
         list.map { it.copy(createdAt = formatTimeAgo(it.createdAt.toLong())) }
     }.stateIn(
         scope = viewModelScope,
@@ -67,6 +79,8 @@ class MainViewModel @Inject constructor(
 
     private fun filteredNoticeSettings(): Flow<List<NoticeSetting>> =
         noticeRepository.fetchUserNoticeSettings(
+            onError = {},
+            onComplete = {}
         ).map { noticeSettings ->
             noticeSettings.filter { !it.isApproved }
         }
