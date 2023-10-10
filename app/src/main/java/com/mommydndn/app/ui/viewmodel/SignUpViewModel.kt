@@ -74,10 +74,7 @@ class SignUpViewModel @Inject constructor(
 
     private fun updateTerms() {
         viewModelScope.launch {
-            termsRepository.fetchAllTerms(
-                onError = {},
-                onComplete = {}
-            )
+            termsRepository.fetchAllTerms()
                 .collectLatest { _terms.value = it }
         }
     }

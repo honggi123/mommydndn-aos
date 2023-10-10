@@ -17,10 +17,7 @@ import javax.inject.Inject
 class BabyItemRepositoryImpl @Inject constructor(
     private val babyItemService: BabyItemService
 ) : BabyItemRepository {
-    override fun fetchNearestBabyItem(
-        onComplete: () -> Unit,
-        onError: (message: String?) -> Unit
-    ): Flow<List<BabyItem>> = flow {
+    override fun fetchNearestBabyItem(): Flow<List<BabyItem>> = flow {
         babyItemService.fetchNearestBabyItem(
             pageSize = 6,
             pageNum = 1
@@ -36,13 +33,7 @@ class BabyItemRepositoryImpl @Inject constructor(
                 )
             }
             emit(list)
-        }.onError {
-            onError("code: $statusCode, errorBody: $errorBody")
-        }.onException {
-            onError(message)
         }
-    }.onCompletion {
-        onComplete()
     }.flowOn(Dispatchers.Default)
 
 

@@ -4,9 +4,6 @@ import com.mommydndn.app.data.model.Banner
 import kotlinx.coroutines.flow.Flow
 
 interface CommonRepositoy {
-    fun fetchBanners(
-        onComplete: () -> Unit,
-        onError: (message: String?) -> Unit,
-    ): Flow<List<Banner>>
+    fun fetchBanners(): Flow<List<Banner>>
 
 }

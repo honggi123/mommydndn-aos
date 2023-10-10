@@ -19,10 +19,7 @@ import javax.inject.Inject
 class NoticeRespositoryIml @Inject constructor(
     private val noticeService: NoticeService
 ) : NoticeRepository {
-    override fun fetchUserNoticeSettings(
-        onComplete: () -> Unit,
-        onError: (message: String?) -> Unit
-    ): Flow<List<NoticeSetting>> = flow {
+    override fun fetchUserNoticeSettings(): Flow<List<NoticeSetting>> = flow {
         noticeService.fetchUserNoticeSettings().suspendOnSuccess {
             val list = data.map {
                 NoticeSetting(
@@ -33,12 +30,6 @@ class NoticeRespositoryIml @Inject constructor(
                 )
             }
             emit(list)
-        }.onError {
-            onError("code: $statusCode, errorBody: $errorBody")
-        }.onException {
-            onError(message)
         }
-    }.onCompletion {
-        onComplete()
     }.flowOn(Dispatchers.IO)
 }

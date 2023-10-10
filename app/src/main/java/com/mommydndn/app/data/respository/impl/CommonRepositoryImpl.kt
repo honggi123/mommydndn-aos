@@ -18,10 +18,7 @@ import javax.inject.Inject
 class CommonRepositoryImpl @Inject constructor(
     private val commonService: CommonService
 ) : CommonRepositoy {
-    override fun fetchBanners(
-        onComplete: () -> Unit,
-        onError: (message: String?) -> Unit
-    ): Flow<List<Banner>> = flow {
+    override fun fetchBanners(): Flow<List<Banner>> = flow {
         commonService.fetchBanners().suspendOnSuccess {
             val list = data.map {
                 Banner(
@@ -31,12 +28,6 @@ class CommonRepositoryImpl @Inject constructor(
                 )
             }
             emit(list)
-        }.onError {
-            onError("code: $statusCode, errorBody: $errorBody")
-        }.onException {
-            onError(message)
         }
-    }.onCompletion {
-        onComplete()
     }.flowOn(Dispatchers.IO)
 }
