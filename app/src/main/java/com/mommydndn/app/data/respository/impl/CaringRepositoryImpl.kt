@@ -1,7 +1,14 @@
 package com.mommydndn.app.data.respository.impl
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.mommydndn.app.data.api.model.EmdItem
 import com.mommydndn.app.data.api.service.CaringService
+import com.mommydndn.app.data.datasource.JobOfferSummaryPagingSource
+import com.mommydndn.app.data.datasource.NearestByLocationPagingSource
 import com.mommydndn.app.data.model.JobOffer
+import com.mommydndn.app.data.model.JobOfferSummary
 import com.mommydndn.app.data.model.JobSeeker
 import com.mommydndn.app.data.respository.CaringRepository
 import com.skydoves.sandwich.onError
@@ -37,4 +44,14 @@ class CaringRepositoryImpl @Inject constructor(
             emit(list)
         }
     }.flowOn(Dispatchers.IO)
+
+    override fun fetchJobOfferSummary(): Flow<PagingData<JobOfferSummary>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 15, enablePlaceholders = false
+            ),
+            pagingSourceFactory = { JobOfferSummaryPagingSource(caringService) }
+        ).flow
+    }
+
 }

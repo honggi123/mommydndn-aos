@@ -2,7 +2,11 @@ package com.mommydndn.app.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import com.mommydndn.app.data.api.model.EmdItem
 import com.mommydndn.app.data.model.BabyItem
+import com.mommydndn.app.data.model.JobOfferSummary
 import com.mommydndn.app.data.model.NoticeSetting
 import com.mommydndn.app.data.model.TermsItem
 import com.mommydndn.app.data.model.formatSalary
@@ -19,6 +23,7 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import java.text.NumberFormat
 import java.util.Locale
@@ -64,6 +69,9 @@ class MainViewModel @Inject constructor(
         started = SharingStarted.Lazily,
         initialValue = emptyList()
     )
+
+    val searchedJobOfferSummary: Flow<PagingData<JobOfferSummary>> =
+        caringRepository.fetchJobOfferSummary().cachedIn(viewModelScope)
 
     private fun filteredNoticeSettings(): Flow<List<NoticeSetting>> =
         noticeRepository.fetchUserNoticeSettings().map { noticeSettings ->
