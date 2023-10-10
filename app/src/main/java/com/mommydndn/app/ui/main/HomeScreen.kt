@@ -63,7 +63,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun MainHomeScreen(
     navHostController: NavHostController,
-    viewModel: MainViewModel = hiltViewModel()
+    viewModel: MainViewModel
 ) {
     val noticeSettings by viewModel.noticeSettings.collectAsState()
     val banners by viewModel.banners.collectAsState()
@@ -133,43 +133,43 @@ fun MainHomeScreen(
                     .padding(20.dp)
             )
         }
-        item {
-            SubtextBox(size = SubtextBoxSize.L, titleText = "자유수다 추천글")
-            Column(
-                modifier = Modifier.padding(start = 32.dp, top = 28.dp, bottom = 36.dp),
-            ) {
-                ex3.forEach { item ->
-                    CommunityPostBox(item = item)
-                }
-            }
-            Button(
-                modifier = Modifier
-                    .border(width = 1.dp, color = Color(0xFFF0F2F4))
-                    .fillMaxWidth(),
-                onClick = {}
-            ) {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 20.dp, bottom = 20.dp),
-                    text = "더보기",
-                    style = MaterialTheme.typography.paragraph300.copy(
-                        fontWeight = FontWeight.Normal,
-                        color = Salmon600,
-                        platformStyle = PlatformTextStyle(
-                            includeFontPadding = false
-                        )
-                    ),
-                    textAlign = TextAlign.Center
-                )
-            }
-            Spacer(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(color = Grey50)
-                    .padding(20.dp)
-            )
-        }
+//        item {
+//            SubtextBox(size = SubtextBoxSize.L, titleText = "자유수다 추천글")
+//            Column(
+//                modifier = Modifier.padding(start = 32.dp, top = 28.dp, bottom = 36.dp),
+//            ) {
+//                ex3.forEach { item ->
+//                    CommunityPostBox(item = item)
+//                }
+//            }
+//            Button(
+//                modifier = Modifier
+//                    .border(width = 1.dp, color = Color(0xFFF0F2F4))
+//                    .fillMaxWidth(),
+//                onClick = {}
+//            ) {
+//                Text(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(top = 20.dp, bottom = 20.dp),
+//                    text = "더보기",
+//                    style = MaterialTheme.typography.paragraph300.copy(
+//                        fontWeight = FontWeight.Normal,
+//                        color = Salmon600,
+//                        platformStyle = PlatformTextStyle(
+//                            includeFontPadding = false
+//                        )
+//                    ),
+//                    textAlign = TextAlign.Center
+//                )
+//            }
+//            Spacer(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .background(color = Grey50)
+//                    .padding(20.dp)
+//            )
+//        }
         item {
             SubtextBox(size = SubtextBoxSize.L, titleText = "집 앞 육아용품 장터")
             Column(

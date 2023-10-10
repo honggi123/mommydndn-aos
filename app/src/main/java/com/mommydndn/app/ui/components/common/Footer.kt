@@ -54,9 +54,8 @@ fun Footer(
 
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.ic_logo),
+                    painter = painterResource(id = R.drawable.ic_logo_grey),
                     contentDescription = null,
-                    colorFilter = ColorFilter.tint(Grey400),
                     modifier = Modifier.size(24.dp)
                 )
                 Spacer(modifier = Modifier.padding(3.54.dp))

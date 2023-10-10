@@ -7,15 +7,23 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.PlatformTextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -30,13 +38,19 @@ import com.mommydndn.app.ui.SignInNav
 import com.mommydndn.app.ui.TownCheckNav
 import com.mommydndn.app.ui.TypeChoiceNav
 import com.mommydndn.app.ui.components.common.Header
+import com.mommydndn.app.ui.main.CareScreen
 import com.mommydndn.app.ui.main.MainHomeScreen
 import com.mommydndn.app.ui.signin.SignInScreen
 import com.mommydndn.app.ui.signup.NearestChoiceScreen
 import com.mommydndn.app.ui.signup.UserTypeChoiceScreen
 import com.mommydndn.app.ui.theme.Grey300
+import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.ui.theme.Grey800
+import com.mommydndn.app.ui.theme.caption100
+import com.mommydndn.app.ui.theme.caption200
+import com.mommydndn.app.ui.viewmodel.MainViewModel
 import com.mommydndn.app.ui.viewmodel.SignUpViewModel
+import com.mommydndn.app.utils.NavigationUtils
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -95,21 +109,42 @@ fun MainTopBar(
 
 @Composable
 fun MainBottomNavigationBar(
-    navHostController: NavHostController,
+    navController: NavHostController,
     currentRoute: String?
 ) {
     val bottomNavigationItems = listOf(
-        MainNav.Home
+        MainNav.Home,
+        MainNav.Care
     )
 
     BottomNavigation {
         bottomNavigationItems.onEach { item ->
-            BottomNavigationItem(selected = currentRoute == item.route, onClick = {}, icon = {
-                Icon(
-                    painterResource(id = item.iconRes),
-                    "",
-                    tint = if (currentRoute == item.route) Grey800 else Grey300
+            BottomNavigationItem(selected = currentRoute == item.route, onClick = {
+                NavigationUtils.navigate(
+                    navController, item.route,
+                    navController.graph.startDestinationRoute
                 )
+            }, icon = {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Icon(
+                        painterResource(id = item.iconRes),
+                        "",
+                        tint = if (currentRoute == item.route) Grey800 else Grey300
+                    )
+                    Text(
+                        text = item.title,
+                        style = MaterialTheme.typography.caption200.copy(
+                            fontWeight = FontWeight.Medium,
+                            color = if (currentRoute == item.route) Grey800 else Grey300,
+                            platformStyle = PlatformTextStyle(
+                                includeFontPadding = false
+                            )
+                        )
+                    )
+                }
             })
         }
     }
@@ -122,6 +157,7 @@ fun MainNavigationScreen(
     fusedLocationClient: FusedLocationProviderClient
 ) {
     val signUpViewModel = hiltViewModel<SignUpViewModel>()
+    val mainViewModel = hiltViewModel<MainViewModel>()
 
     val slideEnterTransition = slideInHorizontally(
         initialOffsetX = { -it },
@@ -174,8 +210,17 @@ fun MainNavigationScreen(
             enterTransition = { slideEnterTransition },
             exitTransition = { slideExitTransition }
         ) {
-            MainHomeScreen(navHostController = navController)
+            MainHomeScreen(navHostController = navController, viewModel = mainViewModel)
         }
+
+        composable(
+            route = MainNav.Care.route,
+            enterTransition = { slideEnterTransition },
+            exitTransition = { slideExitTransition }
+        ) {
+            CareScreen(navHostController = navController, viewModel = mainViewModel)
+        }
+
 
     }
 }

@@ -12,6 +12,7 @@ import androidx.navigation.navDeepLink
 import com.kakao.sdk.common.KakaoSdk.type
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.SignUpInfo
+import com.mommydndn.app.ui.NavigationRouteName.MAIN_CARE
 import com.mommydndn.app.ui.NavigationRouteName.MAIN_HOME
 import com.mommydndn.app.utils.GsonUtils
 
@@ -21,10 +22,12 @@ sealed class MainNav(
     override val title: String
 ) : Destination {
     object Home : MainNav(MAIN_HOME, R.drawable.ic_home, NavigationTitle.MAIN_HOME)
+    object Care : MainNav(MAIN_CARE, R.drawable.ic_baby, NavigationTitle.MAIN_CARE)
+
     companion object {
         fun isMainRoute(route: String?): Boolean {
             return when (route) {
-                MAIN_HOME -> true
+                MAIN_HOME, MAIN_CARE -> true
                 else -> false
             }
         }
@@ -70,6 +73,7 @@ interface Destination {
 
 object NavigationRouteName {
     const val MAIN_HOME = "홈"
+    const val MAIN_CARE = "돌봄"
 
     const val SIGN_IN = "로그인"
     const val TYPE_CHOICE = "개인&기업선택"
@@ -78,6 +82,7 @@ object NavigationRouteName {
 
 object NavigationTitle {
     const val MAIN_HOME = "홈"
+    const val MAIN_CARE = "돌봄"
 
     const val SIGN_IN = "로그인"
     const val TYPE_CHOICE = "개인&기업선택"
