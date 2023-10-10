@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.FabPosition
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -26,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -52,7 +54,6 @@ import com.mommydndn.app.ui.viewmodel.MainViewModel
 import com.mommydndn.app.ui.viewmodel.SignUpViewModel
 import com.mommydndn.app.utils.NavigationUtils
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreen(
     googleSignInClient: GoogleSignInClient,
@@ -62,55 +63,28 @@ fun MainScreen(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-    Scaffold(
-        topBar = {
-            if (MainNav.isMainRoute(currentRoute)) {
-                MainTopBar(navController)
-            }
-        },
-        bottomBar = {
-            if (MainNav.isMainRoute(currentRoute)) {
-                MainBottomNavigationBar(navController, currentRoute)
-            }
-        }
+    val signUpViewModel = hiltViewModel<SignUpViewModel>()
+    val mainViewModel = hiltViewModel<MainViewModel>()
+
+    NavHost(
+        navController = navController,
+        startDestination = SignInNav.route
     ) {
-        MainNavigationScreen(navController, googleSignInClient, fusedLocationClient)
-    }
-}
-
-
-@Composable
-fun MainTopBar(
-    navHostController: NavHostController
-) {
-    Header(leftContent = {
-        Image(
-            painter = painterResource(id = R.drawable.ic_logo),
-            contentDescription = "",
-            modifier = Modifier
-                .size(36.dp)
-        )
-    }, rightContent = {
-        Image(
-            painter = painterResource(id = R.drawable.ic_headset),
-            contentDescription = "",
-            modifier = Modifier
-                .size(36.dp)
-        )
-        Image(
-            painter = painterResource(id = R.drawable.ic_bell),
-            contentDescription = "",
-            modifier = Modifier
-                .size(36.dp)
+        mommydndnNavGraph(
+            navController,
+            googleSignInClient,
+            fusedLocationClient,
+            signUpViewModel,
+            mainViewModel
         )
     }
-    )
+
 }
 
 @Composable
 fun MainBottomNavigationBar(
     navController: NavHostController,
-    currentRoute: String?
+    currentRoute: String,
 ) {
     val bottomNavigationItems = listOf(
         MainNav.Home,
@@ -150,14 +124,15 @@ fun MainBottomNavigationBar(
     }
 }
 
-@Composable
-fun MainNavigationScreen(
+
+
+private fun NavGraphBuilder.mommydndnNavGraph(
     navController: NavHostController,
     googleSignInClient: GoogleSignInClient,
-    fusedLocationClient: FusedLocationProviderClient
+    fusedLocationClient: FusedLocationProviderClient,
+    signUpViewModel: SignUpViewModel,
+    mainViewModel: MainViewModel
 ) {
-    val signUpViewModel = hiltViewModel<SignUpViewModel>()
-    val mainViewModel = hiltViewModel<MainViewModel>()
 
     val slideEnterTransition = slideInHorizontally(
         initialOffsetX = { -it },
@@ -169,59 +144,57 @@ fun MainNavigationScreen(
         animationSpec = tween(durationMillis = 400, easing = FastOutSlowInEasing)
     )
 
-    NavHost(navController = navController, startDestination = SignInNav.route) {
-        composable(
-            route = SignInNav.route,
-        ) {
-            SignInScreen(navHostController = navController, googleSignInClient = googleSignInClient)
-        }
-
-        composable(
-            route = TypeChoiceNav.routeWithArgName(),
-            arguments = TypeChoiceNav.arguments,
-
-            enterTransition = { slideEnterTransition },
-            exitTransition = { slideExitTransition }
-        ) { it ->
-            val signUpInfo = TypeChoiceNav.findArgument(it)
-            val accessToken = Uri.decode(signUpInfo?.accessToken)
-
-            UserTypeChoiceScreen(
-                signUpInfo = signUpInfo?.copy(accessToken = accessToken),
-                navHostController = navController,
-                viewModel = signUpViewModel
-            )
-        }
-
-        composable(
-            route = TownCheckNav.route,
-            enterTransition = { slideEnterTransition },
-            exitTransition = { slideExitTransition }
-        ) {
-            NearestChoiceScreen(
-                navHostController = navController,
-                fusedLocationClient = fusedLocationClient,
-                viewModel = signUpViewModel
-            )
-        }
-
-        composable(
-            route = MainNav.Home.route,
-            enterTransition = { slideEnterTransition },
-            exitTransition = { slideExitTransition }
-        ) {
-            MainHomeScreen(navHostController = navController, viewModel = mainViewModel)
-        }
-
-        composable(
-            route = MainNav.Care.route,
-            enterTransition = { slideEnterTransition },
-            exitTransition = { slideExitTransition }
-        ) {
-            CareScreen(navHostController = navController, viewModel = mainViewModel)
-        }
-
-
+    composable(
+        route = SignInNav.route,
+    ) {
+        SignInScreen(navHostController = navController, googleSignInClient = googleSignInClient)
     }
+
+    composable(
+        route = TypeChoiceNav.routeWithArgName(),
+        arguments = TypeChoiceNav.arguments,
+
+        enterTransition = { slideEnterTransition },
+        exitTransition = { slideExitTransition }
+    ) { it ->
+        val signUpInfo = TypeChoiceNav.findArgument(it)
+        val accessToken = Uri.decode(signUpInfo?.accessToken)
+
+        UserTypeChoiceScreen(
+            signUpInfo = signUpInfo?.copy(accessToken = accessToken),
+            navHostController = navController,
+            viewModel = signUpViewModel
+        )
+    }
+
+    composable(
+        route = TownCheckNav.route,
+        enterTransition = { slideEnterTransition },
+        exitTransition = { slideExitTransition }
+    ) {
+        NearestChoiceScreen(
+            navHostController = navController,
+            fusedLocationClient = fusedLocationClient,
+            viewModel = signUpViewModel
+        )
+    }
+
+    composable(
+        route = MainNav.Home.route,
+        enterTransition = { slideEnterTransition },
+        exitTransition = { slideExitTransition }
+    ) {
+        MainHomeScreen(navHostController = navController, viewModel = mainViewModel)
+    }
+
+    composable(
+        route = MainNav.Care.route,
+        enterTransition = { slideEnterTransition },
+        exitTransition = { slideExitTransition }
+    ) {
+        CareScreen(navHostController = navController, viewModel = mainViewModel)
+    }
+
+
 }
 
