@@ -1,5 +1,6 @@
 package com.mommydndn.app.ui.components.box
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -30,7 +31,8 @@ fun SubtextBox(
     size: SubtextBoxSize,
     titleText: String = "",
     subtitleText: String = "",
-    rightText: String = ""
+    rightButtonText: String = "",
+    rightButtonOnClick: () -> Unit = {}
 ) {
 
     val titleTextStyle = MaterialTheme.typography.heading600.copy(
@@ -79,8 +81,11 @@ fun SubtextBox(
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                text = rightText,
-                style = rightTextStyle
+                text = rightButtonText,
+                style = rightTextStyle,
+                modifier = Modifier.clickable {
+                    rightButtonOnClick()
+                }
             )
         }
     }
@@ -94,7 +99,7 @@ fun previewSubtextBox() {
             size = SubtextBoxSize.L,
             titleText = "title",
             subtitleText = "sub",
-            rightText = "right"
+            rightButtonText = "right"
         )
     }
 }

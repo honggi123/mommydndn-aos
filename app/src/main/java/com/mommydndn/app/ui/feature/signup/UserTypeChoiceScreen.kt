@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.signup
+package com.mommydndn.app.ui.feature.signup
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,7 +22,7 @@ import com.mommydndn.app.ui.components.button.SquareButton
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.SignUpInfo
 import com.mommydndn.app.data.model.UserType
-import com.mommydndn.app.ui.TownCheckNav
+import com.mommydndn.app.ui.navigation.TownCheckNav
 import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.utils.NavigationUtils

@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.signin
+package com.mommydndn.app.ui.feature.signin
 
 import android.net.Uri
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,8 +12,8 @@ import kotlinx.coroutines.Dispatchers
 import androidx.navigation.NavHostController
 import com.mommydndn.app.data.api.model.LoginResponse
 import com.mommydndn.app.data.model.SignUpInfo
-import com.mommydndn.app.ui.MainNav
-import com.mommydndn.app.ui.TypeChoiceNav
+import com.mommydndn.app.ui.navigation.MainNav
+import com.mommydndn.app.ui.navigation.TypeChoiceNav
 import com.mommydndn.app.utils.NavigationUtils
 import com.skydoves.sandwich.ApiResponse
 import com.skydoves.sandwich.StatusCode

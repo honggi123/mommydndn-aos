@@ -1,19 +1,14 @@
-package com.mommydndn.app.ui
+package com.mommydndn.app.ui.navigation
 
 import androidx.annotation.DrawableRes
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavDeepLink
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import androidx.navigation.navDeepLink
-import com.kakao.sdk.common.KakaoSdk.type
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.SignUpInfo
-import com.mommydndn.app.ui.NavigationRouteName.MAIN_CARE
-import com.mommydndn.app.ui.NavigationRouteName.MAIN_HOME
+import com.mommydndn.app.ui.navigation.NavigationRouteName.MAIN_CARE
+import com.mommydndn.app.ui.navigation.NavigationRouteName.MAIN_HOME
 import com.mommydndn.app.utils.GsonUtils
 
 sealed class MainNav(
@@ -28,6 +23,12 @@ sealed class MainNav(
         fun isMainRoute(route: String?): Boolean {
             return when (route) {
                 MAIN_HOME, MAIN_CARE -> true
+                else -> false
+            }
+        }
+        fun isFloatingActionBarVisible(route: String?): Boolean {
+            return when (route) {
+                MAIN_CARE -> true
                 else -> false
             }
         }
@@ -52,7 +53,7 @@ object TypeChoiceNav : Destination {
 
     fun navigateWithArg(item: SignUpInfo): String {
         val arg = GsonUtils.toJson(item)
-        return "${TypeChoiceNav.route}/$arg"
+        return "$route/$arg"
     }
 
     fun findArgument(navBackStackEntry: NavBackStackEntry): SignUpInfo? {

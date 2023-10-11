@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.signup
+package com.mommydndn.app.ui.feature.signup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

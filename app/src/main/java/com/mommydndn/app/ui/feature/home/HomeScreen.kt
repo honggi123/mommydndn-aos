@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.home
+package com.mommydndn.app.ui.feature.home
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.core.spring
@@ -41,7 +41,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.mommydndn.app.MainBottomNavigationBar
 import com.mommydndn.app.R
-import com.mommydndn.app.ui.MainNav
+import com.mommydndn.app.ui.navigation.MainNav
 import com.mommydndn.app.ui.components.modal.NoticeSettingListModal
 import com.mommydndn.app.ui.components.box.SubtextBox
 import com.mommydndn.app.ui.components.box.SubtextBoxSize
@@ -52,7 +52,6 @@ import com.mommydndn.app.ui.components.box.MarketListItemBox
 import com.mommydndn.app.ui.components.box.ProfileSitterBox
 import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.components.common.SubBanner
-import com.mommydndn.app.ui.signin.SignInViewModel
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.GreyOpacity400
 import com.mommydndn.app.ui.theme.Salmon600
@@ -73,7 +72,9 @@ fun MainHomeScreen(
     val babyItems by viewModel.babyItems.collectAsState()
     val moreBabyItemClickedCount by viewModel.moreBabyItemClickedCount.collectAsState()
 
-    Scaffold(topBar = {
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
         Header(leftContent = {
             Image(
                 painter = painterResource(id = R.drawable.ic_logo),
@@ -96,18 +97,17 @@ fun MainHomeScreen(
             )
         }
         )
-    }, bottomBar = {
-        MainBottomNavigationBar(
-            navController = navHostController,
-            currentRoute = MainNav.Home.route
-        )
-    }) {
+
         LazyColumn {
             item {
                 BannerList(items = banners)
             }
             item {
-                SubtextBox(size = SubtextBoxSize.L, titleText = "가장 가까운 시터님", rightText = "전체보기")
+                SubtextBox(
+                    size = SubtextBoxSize.L,
+                    titleText = "가장 가까운 시터님",
+                    rightButtonText = "전체보기"
+                )
                 LazyRow(
                     modifier = Modifier.padding(start = 32.dp, top = 28.dp, bottom = 36.dp),
                     horizontalArrangement = Arrangement.spacedBy(32.dp)
@@ -124,7 +124,12 @@ fun MainHomeScreen(
                 )
             }
             item {
-                SubtextBox(size = SubtextBoxSize.L, titleText = "도움이 필요한 주변 이웃", rightText = "더보기")
+                SubtextBox(
+                    size = SubtextBoxSize.L,
+                    titleText = "도움이 필요한 주변 이웃",
+                    rightButtonText = "더보기",
+                    rightButtonOnClick = { }
+                )
                 LazyRow(
                     modifier = Modifier.padding(start = 32.dp, top = 28.dp, bottom = 36.dp),
                     horizontalArrangement = Arrangement.spacedBy(32.dp)
@@ -244,8 +249,8 @@ fun MainHomeScreen(
                 Footer() {}
             }
         }
-    }
 
+    }
 
     val sheetState =
         rememberModalBottomSheetState(
