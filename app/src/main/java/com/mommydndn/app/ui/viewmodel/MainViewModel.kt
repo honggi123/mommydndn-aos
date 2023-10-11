@@ -9,12 +9,13 @@ import com.mommydndn.app.data.model.BabyItem
 import com.mommydndn.app.data.model.JobOfferSummary
 import com.mommydndn.app.data.model.NoticeSetting
 import com.mommydndn.app.data.model.TermsItem
-import com.mommydndn.app.data.model.formatSalary
 import com.mommydndn.app.data.respository.AccountRepository
 import com.mommydndn.app.data.respository.BabyItemRepository
 import com.mommydndn.app.data.respository.CaringRepository
 import com.mommydndn.app.data.respository.CommonRepositoy
 import com.mommydndn.app.data.respository.NoticeRepository
+import com.mommydndn.app.utils.NumberUtils
+import com.mommydndn.app.utils.TimeUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -54,16 +55,14 @@ class MainViewModel @Inject constructor(
         initialValue = emptyList()
     )
 
-    val jobOffers = caringRepository.fetchNearestJobOffer().map { list ->
-        list.map { it.formatSalary() }
-    }.stateIn(
+    val jobOffers = caringRepository.fetchNearestJobOffer().stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
         initialValue = emptyList()
     )
 
     val babyItems = babyItemRepository.fetchNearestBabyItem().map { list ->
-        list.map { it.copy(createdAt = formatTimeAgo(it.createdAt.toLong())) }
+        list.map { it.copy(createdAt = TimeUtils.formatTimeAgo(it.createdAt.toLong())) }
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
@@ -78,20 +77,6 @@ class MainViewModel @Inject constructor(
             noticeSettings.filter { !it.isApproved }
         }
 
-    private fun formatTimeAgo(utcTimeStamp: Long): String {
-        val currentTimeMillis = System.currentTimeMillis()
-        val timeDifferenceMillis = currentTimeMillis - utcTimeStamp
 
-        val minutesDifference = timeDifferenceMillis / (1000 * 60)
-        val hoursDifference = minutesDifference / 60
-        val daysDifference = hoursDifference / 24
-
-        return when {
-            minutesDifference < 60 -> "$minutesDifference 분전"
-            hoursDifference < 24 -> "$hoursDifference 시간전"
-            daysDifference < 30 -> "$daysDifference 일전"
-            else -> ""
-        }
-    }
 
 }

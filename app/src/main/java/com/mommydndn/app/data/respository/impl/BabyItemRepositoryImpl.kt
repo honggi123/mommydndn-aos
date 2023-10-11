@@ -29,7 +29,8 @@ class BabyItemRepositoryImpl @Inject constructor(
                     itemId = it.itemId,
                     neighborhood = it.neighborhood,
                     price = it.price,
-                    title = it.title
+                    title = it.title,
+                    isLiked = it.isLiked
                 )
             }
             emit(list)

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
@@ -33,6 +34,7 @@ import com.mommydndn.app.R
 import com.mommydndn.app.data.model.BabyItem
 import com.mommydndn.app.data.model.MarketListItem
 import com.mommydndn.app.ui.theme.Grey500
+import com.mommydndn.app.utils.NumberUtils
 
 @Composable
 fun MarketListItemBox(
@@ -43,6 +45,10 @@ fun MarketListItemBox(
         builder = {
             crossfade(true)
         }
+    )
+
+    val isLikedPainter = rememberImagePainter(
+        data = if (item.isLiked) R.drawable.ic_heart_fill else R.drawable.ic_heart_fill,
     )
 
     Box(
@@ -65,10 +71,18 @@ fun MarketListItemBox(
                         .clip(RoundedCornerShape(10.dp)),
                     contentScale = ContentScale.Crop
                 )
+
+                Image(
+                    painter = isLikedPainter,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(30.dp)
+                        .align(Alignment.BottomEnd)
+                )
             }
             Spacer(modifier = Modifier.padding(8.dp))
             Text(
-                text = item.price.toString(),
+                text = NumberUtils.formatPriceString(item.price),
                 style = MaterialTheme.typography.paragraph400.copy(
                     fontWeight = FontWeight.Bold,
                     color = Grey800,
@@ -122,6 +136,8 @@ fun MarketListItemBox(
                 )
             }
         }
+
+
     }
 }
 

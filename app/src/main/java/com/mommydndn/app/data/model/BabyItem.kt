@@ -6,6 +6,7 @@ data class BabyItem(
     val itemId: Int,
     val neighborhood: String,
     val price: Int,
-    val title: String
+    val title: String,
+    val isLiked: Boolean
 )
 

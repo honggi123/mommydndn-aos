@@ -25,6 +25,7 @@ import com.mommydndn.app.ui.theme.Grey800
 import com.mommydndn.app.ui.theme.Shapes
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph300
+import com.mommydndn.app.utils.NumberUtils
 
 @Composable
 fun JobOfferBox(
@@ -66,7 +67,7 @@ fun JobOfferBox(
                 )
             )
             Text(
-                text = "${item.salaryType.value} ${item.salary}",
+                text = "${item.salaryType.value} ${NumberUtils.formatPriceString(item.salary)}",
                 style = MaterialTheme.typography.paragraph300.copy(
                     fontWeight = FontWeight.Bold,
                     color = Grey800,

@@ -36,7 +36,7 @@ class CaringRepositoryImpl @Inject constructor(
                 JobOffer(
                     title = it.title,
                     neighborhood = it.neighborhood,
-                    salary = it.salary.toString(),
+                    salary = it.salary,
                     salaryType = it.salaryTypeCode,
                     caringType = it.caringTypeCode
                 )
