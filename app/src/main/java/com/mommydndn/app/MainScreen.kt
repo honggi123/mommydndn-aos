@@ -195,7 +195,7 @@ fun MainNavigationScreen(
             enterTransition = { slideEnterTransition },
             exitTransition = { slideExitTransition }
         ) {
-            MainHomeScreen(navHostController = navController)
+            MainHomeScreen(navController = navController)
         }
 
         composable(
@@ -203,7 +203,7 @@ fun MainNavigationScreen(
             enterTransition = { slideEnterTransition },
             exitTransition = { slideExitTransition }
         ) {
-            CareScreen(navHostController = navController)
+            CareScreen(navController = navController)
         }
 
     }

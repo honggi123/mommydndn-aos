@@ -41,7 +41,7 @@ import com.mommydndn.app.ui.theme.heading800
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun CareScreen(
-    navHostController: NavHostController,
+    navController: NavHostController,
     viewModel: CareViewModel = hiltViewModel()
 ) {
     val pagingJobOfferSummary = viewModel.searchedJobOfferSummary.collectAsLazyPagingItems()

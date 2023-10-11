@@ -56,13 +56,14 @@ import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.GreyOpacity400
 import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.paragraph300
+import com.mommydndn.app.utils.NavigationUtils
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MainHomeScreen(
-    navHostController: NavHostController,
+    navController: NavHostController,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val noticeSettings by viewModel.noticeSettings.collectAsState()
@@ -128,7 +129,9 @@ fun MainHomeScreen(
                     size = SubtextBoxSize.L,
                     titleText = "도움이 필요한 주변 이웃",
                     rightButtonText = "더보기",
-                    rightButtonOnClick = { }
+                    rightButtonOnClick = {
+                        NavigationUtils.navigate(navController, MainNav.Care.route)
+                    }
                 )
                 LazyRow(
                     modifier = Modifier.padding(start = 32.dp, top = 28.dp, bottom = 36.dp),
