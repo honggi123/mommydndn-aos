@@ -71,6 +71,7 @@ fun MainHomeScreen(
     val jobSeekers by viewModel.jobSeekers.collectAsState()
     val jobOffers by viewModel.jobOffers.collectAsState()
     val babyItems by viewModel.babyItems.collectAsState()
+    val moreBabyItemClickedCount by viewModel.moreBabyItemClickedCount.collectAsState()
 
     Scaffold(topBar = {
         Header(leftContent = {
@@ -205,27 +206,32 @@ fun MainHomeScreen(
                         )
                     }
                 }
-                Button(
-                    modifier = Modifier
-                        .border(width = 1.dp, color = Color(0xFFF0F2F4))
-                        .fillMaxWidth(),
-                    onClick = {}
-                ) {
-                    Text(
+                if (moreBabyItemClickedCount <= 3) {
+                    Button(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 20.dp, bottom = 20.dp),
-                        text = "더보기",
-                        style = MaterialTheme.typography.paragraph300.copy(
-                            fontWeight = FontWeight.Normal,
-                            color = Salmon600,
-                            platformStyle = PlatformTextStyle(
-                                includeFontPadding = false
-                            )
-                        ),
-                        textAlign = TextAlign.Center
-                    )
+                            .border(width = 1.dp, color = Color(0xFFF0F2F4))
+                            .fillMaxWidth(),
+                        onClick = {
+                            viewModel.fetchMoreBabyItems(currentCount = moreBabyItemClickedCount)
+                        }
+                    ) {
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 20.dp, bottom = 20.dp),
+                            text = "더보기",
+                            style = MaterialTheme.typography.paragraph300.copy(
+                                fontWeight = FontWeight.Normal,
+                                color = Salmon600,
+                                platformStyle = PlatformTextStyle(
+                                    includeFontPadding = false
+                                )
+                            ),
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 }
+
                 Spacer(
                     modifier = Modifier
                         .fillMaxWidth()

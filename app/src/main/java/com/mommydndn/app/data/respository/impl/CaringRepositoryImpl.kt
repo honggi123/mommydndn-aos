@@ -7,6 +7,7 @@ import com.mommydndn.app.data.api.model.EmdItem
 import com.mommydndn.app.data.api.service.CaringService
 import com.mommydndn.app.data.datasource.JobOfferSummaryPagingSource
 import com.mommydndn.app.data.datasource.NearestByLocationPagingSource
+import com.mommydndn.app.data.model.CaringType
 import com.mommydndn.app.data.model.JobOffer
 import com.mommydndn.app.data.model.JobOfferSummary
 import com.mommydndn.app.data.model.JobSeeker

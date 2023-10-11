@@ -17,10 +17,12 @@ import javax.inject.Inject
 class BabyItemRepositoryImpl @Inject constructor(
     private val babyItemService: BabyItemService
 ) : BabyItemRepository {
-    override fun fetchNearestBabyItem(): Flow<List<BabyItem>> = flow {
+    override fun fetchNearestBabyItem(
+        pageNum: Int, pageSize: Int
+    ): Flow<List<BabyItem>> = flow {
         babyItemService.fetchNearestBabyItem(
-            pageSize = 6,
-            pageNum = 1
+            pageSize = pageSize,
+            pageNum = pageNum
         ).suspendOnSuccess {
             val list = data.itemSummaryList.map {
                 BabyItem(

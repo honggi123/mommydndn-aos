@@ -1,5 +1,6 @@
 package com.mommydndn.app.data.api.service
 
+import com.mommydndn.app.data.api.NearestJobSeekerConverter
 import com.mommydndn.app.data.api.model.NearestJobOfferResponse
 import com.mommydndn.app.data.api.model.NearestResponse
 import com.mommydndn.app.data.model.JobOfferSummary

@@ -11,9 +11,9 @@ object TimeUtils {
         val daysDifference = hoursDifference / 24
 
         return when {
-            minutesDifference < 60 -> "$minutesDifference 분전"
-            hoursDifference < 24 -> "$hoursDifference 시간전"
-            daysDifference < 30 -> "$daysDifference 일전"
+            minutesDifference < 60 -> "$minutesDifference"+"분전"
+            hoursDifference < 24 -> "$hoursDifference"+"시간전"
+            daysDifference < 30 -> "$daysDifference"+"일전"
             else -> ""
         }
     }

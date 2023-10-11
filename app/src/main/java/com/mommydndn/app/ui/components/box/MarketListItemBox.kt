@@ -32,7 +32,6 @@ import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph400
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.BabyItem
-import com.mommydndn.app.data.model.MarketListItem
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.utils.NumberUtils
 
@@ -48,7 +47,7 @@ fun MarketListItemBox(
     )
 
     val isLikedPainter = rememberImagePainter(
-        data = if (item.isLiked) R.drawable.ic_heart_fill else R.drawable.ic_heart_fill,
+        data = if (item.isLiked) R.drawable.ic_heart_fill_salmon else R.drawable.ic_heart_fill,
     )
 
     Box(
@@ -76,7 +75,8 @@ fun MarketListItemBox(
                     painter = isLikedPainter,
                     contentDescription = null,
                     modifier = Modifier
-                        .size(30.dp)
+                        .size(36.dp)
+                        .padding(end = 6.dp, bottom = 6.dp)
                         .align(Alignment.BottomEnd)
                 )
             }
