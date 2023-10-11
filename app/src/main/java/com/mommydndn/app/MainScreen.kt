@@ -1,21 +1,16 @@
 package com.mommydndn.app
 
-import android.annotation.SuppressLint
 import android.net.Uri
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.FabPosition
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,8 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -39,19 +32,16 @@ import com.mommydndn.app.ui.MainNav
 import com.mommydndn.app.ui.SignInNav
 import com.mommydndn.app.ui.TownCheckNav
 import com.mommydndn.app.ui.TypeChoiceNav
-import com.mommydndn.app.ui.components.common.Header
-import com.mommydndn.app.ui.main.CareScreen
-import com.mommydndn.app.ui.main.MainHomeScreen
+import com.mommydndn.app.ui.care.CareScreen
+import com.mommydndn.app.ui.home.MainHomeScreen
 import com.mommydndn.app.ui.signin.SignInScreen
 import com.mommydndn.app.ui.signup.NearestChoiceScreen
 import com.mommydndn.app.ui.signup.UserTypeChoiceScreen
 import com.mommydndn.app.ui.theme.Grey300
-import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.ui.theme.Grey800
-import com.mommydndn.app.ui.theme.caption100
 import com.mommydndn.app.ui.theme.caption200
-import com.mommydndn.app.ui.viewmodel.MainViewModel
-import com.mommydndn.app.ui.viewmodel.SignUpViewModel
+import com.mommydndn.app.ui.home.HomeViewModel
+import com.mommydndn.app.ui.signup.SignUpViewModel
 import com.mommydndn.app.utils.NavigationUtils
 
 @Composable
@@ -64,7 +54,6 @@ fun MainScreen(
     val currentRoute = navBackStackEntry?.destination?.route
 
     val signUpViewModel = hiltViewModel<SignUpViewModel>()
-    val mainViewModel = hiltViewModel<MainViewModel>()
 
     NavHost(
         navController = navController,
@@ -74,8 +63,7 @@ fun MainScreen(
             navController,
             googleSignInClient,
             fusedLocationClient,
-            signUpViewModel,
-            mainViewModel
+            signUpViewModel
         )
     }
 
@@ -131,7 +119,6 @@ private fun NavGraphBuilder.mommydndnNavGraph(
     googleSignInClient: GoogleSignInClient,
     fusedLocationClient: FusedLocationProviderClient,
     signUpViewModel: SignUpViewModel,
-    mainViewModel: MainViewModel
 ) {
 
     val slideEnterTransition = slideInHorizontally(
@@ -184,7 +171,7 @@ private fun NavGraphBuilder.mommydndnNavGraph(
         enterTransition = { slideEnterTransition },
         exitTransition = { slideExitTransition }
     ) {
-        MainHomeScreen(navHostController = navController, viewModel = mainViewModel)
+        MainHomeScreen(navHostController = navController)
     }
 
     composable(
@@ -192,7 +179,7 @@ private fun NavGraphBuilder.mommydndnNavGraph(
         enterTransition = { slideEnterTransition },
         exitTransition = { slideExitTransition }
     ) {
-        CareScreen(navHostController = navController, viewModel = mainViewModel)
+        CareScreen(navHostController = navController)
     }
 
 

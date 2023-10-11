@@ -1,13 +1,10 @@
-package com.mommydndn.app.ui.viewmodel
+package com.mommydndn.app.ui.signup
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.mommydndn.app.data.api.model.TermsItemResponse
 import com.mommydndn.app.data.api.model.EmdItem
-import com.mommydndn.app.data.api.model.SignUpRequest
 import com.mommydndn.app.data.model.LocationInfo
 import com.mommydndn.app.data.model.TownSearchType
 import com.mommydndn.app.data.model.SignUpInfo
@@ -16,20 +13,15 @@ import com.mommydndn.app.data.model.UserType
 import com.mommydndn.app.data.respository.AccountRepository
 import com.mommydndn.app.data.respository.LocationRepository
 import com.mommydndn.app.data.respository.TermsRepository
-import com.skydoves.sandwich.ApiResponse
-import com.skydoves.sandwich.getOrElse
-import com.skydoves.sandwich.onError
 import com.skydoves.sandwich.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

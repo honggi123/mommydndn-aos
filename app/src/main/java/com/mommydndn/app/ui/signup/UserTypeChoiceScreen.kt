@@ -25,7 +25,6 @@ import com.mommydndn.app.data.model.UserType
 import com.mommydndn.app.ui.TownCheckNav
 import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.theme.Grey400
-import com.mommydndn.app.ui.viewmodel.SignUpViewModel
 import com.mommydndn.app.utils.NavigationUtils
 
 @Composable

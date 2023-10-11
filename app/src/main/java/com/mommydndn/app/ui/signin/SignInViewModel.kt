@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.viewmodel
+package com.mommydndn.app.ui.signin
 
 import android.net.Uri
 import dagger.hilt.android.lifecycle.HiltViewModel

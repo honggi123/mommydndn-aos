@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.main
+package com.mommydndn.app.ui.home
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.core.spring
@@ -13,10 +13,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -32,7 +30,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -44,28 +41,22 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.mommydndn.app.MainBottomNavigationBar
 import com.mommydndn.app.R
-import com.mommydndn.app.data.model.Banner
-import com.mommydndn.app.data.model.CommunityPost
-import com.mommydndn.app.data.model.MarketListItem
 import com.mommydndn.app.ui.MainNav
 import com.mommydndn.app.ui.components.modal.NoticeSettingListModal
 import com.mommydndn.app.ui.components.box.SubtextBox
 import com.mommydndn.app.ui.components.box.SubtextBoxSize
 import com.mommydndn.app.ui.components.common.BannerList
-import com.mommydndn.app.ui.components.box.CommunityPostBox
 import com.mommydndn.app.ui.components.common.Footer
 import com.mommydndn.app.ui.components.box.JobOfferBox
 import com.mommydndn.app.ui.components.box.MarketListItemBox
 import com.mommydndn.app.ui.components.box.ProfileSitterBox
 import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.components.common.SubBanner
-import com.mommydndn.app.ui.theme.Grey400
+import com.mommydndn.app.ui.signin.SignInViewModel
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.GreyOpacity400
 import com.mommydndn.app.ui.theme.Salmon600
-import com.mommydndn.app.ui.theme.caption100
 import com.mommydndn.app.ui.theme.paragraph300
-import com.mommydndn.app.ui.viewmodel.MainViewModel
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -73,7 +64,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun MainHomeScreen(
     navHostController: NavHostController,
-    viewModel: MainViewModel
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
     val noticeSettings by viewModel.noticeSettings.collectAsState()
     val banners by viewModel.banners.collectAsState()
@@ -105,7 +96,10 @@ fun MainHomeScreen(
         }
         )
     }, bottomBar = {
-        MainBottomNavigationBar(navController = navHostController, currentRoute = MainNav.Home.route)
+        MainBottomNavigationBar(
+            navController = navHostController,
+            currentRoute = MainNav.Home.route
+        )
     }) {
         LazyColumn {
             item {

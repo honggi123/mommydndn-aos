@@ -44,7 +44,6 @@ import com.mommydndn.app.ui.components.box.SearchUnderHeader
 import com.mommydndn.app.ui.components.common.Searchbar
 import com.mommydndn.app.ui.components.modal.TermsCheckListModal
 import com.mommydndn.app.ui.theme.GreyOpacity400
-import com.mommydndn.app.ui.viewmodel.SignUpViewModel
 import kotlinx.coroutines.launch
 
 

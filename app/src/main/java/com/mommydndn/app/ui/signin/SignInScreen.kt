@@ -31,7 +31,6 @@ import com.mommydndn.app.ui.theme.heading800
 import com.mommydndn.app.R
 import com.mommydndn.app.ui.theme.Paddings
 import com.mommydndn.app.ui.theme.paragraph300
-import com.mommydndn.app.ui.viewmodel.SignInViewModel
 import androidx.navigation.NavHostController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
