@@ -18,6 +18,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.BottomDrawer
+import androidx.compose.material.BottomDrawerValue
 import androidx.compose.material.Button
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
@@ -25,6 +27,7 @@ import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.rememberBottomDrawerState
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -37,6 +40,7 @@ import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.mommydndn.app.MainBottomNavigationBar
@@ -58,6 +62,8 @@ import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.utils.NavigationUtils
 import kotlinx.coroutines.launch
+
+const val MAX_MORE_BABY_ITEM_CLICK = 3
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterialApi::class)
@@ -214,7 +220,7 @@ fun MainHomeScreen(
                         )
                     }
                 }
-                if (moreBabyItemClickedCount <= 3) {
+                if (moreBabyItemClickedCount <= MAX_MORE_BABY_ITEM_CLICK) {
                     Button(
                         modifier = Modifier
                             .border(width = 1.dp, color = Color(0xFFF0F2F4))
@@ -257,7 +263,7 @@ fun MainHomeScreen(
 
     val sheetState =
         rememberModalBottomSheetState(
-            if (noticeSettings.isEmpty()) ModalBottomSheetValue.Hidden else ModalBottomSheetValue.Expanded,
+             ModalBottomSheetValue.Expanded,
             skipHalfExpanded = true,
             animationSpec = spring(
                 dampingRatio = 0.85f,
@@ -266,31 +272,35 @@ fun MainHomeScreen(
         )
     val scope = rememberCoroutineScope()
 
-    ModalBottomSheetLayout(
-        sheetState = sheetState,
-        sheetContentColor = Color.Transparent,
-        sheetBackgroundColor = Color.Transparent,
-        scrimColor = GreyOpacity400,
-        sheetElevation = 0.dp,
-        sheetContent = {
-            NoticeSettingListModal(
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 32.dp),
-                onDismiss = {
-                    scope.launch { sheetState.hide() }
-                },
-                onItemSelected = { index, isChecked ->
+//    ModalBottomSheetLayout(
+//        modifier = Modifier
+//            .zIndex(100f),
+//        sheetState = sheetState,
+//        sheetContentColor = Color.Transparent,
+//        sheetBackgroundColor = Color.Transparent,
+//        scrimColor = GreyOpacity400,
+//        sheetElevation = 0.dp,
+//        sheetContent = {
+//            NoticeSettingListModal(
+//                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 32.dp),
+//                onDismiss = {
+//                    scope.launch { sheetState.hide() }
+//                },
+//                onItemSelected = { index, isChecked ->
+//
+//                },
+//                onComplete = { },
+//                itemList = noticeSettings,
+//                titleCheckBoxText = "꼭 필요한 알림만 보내드릴게요"
+//            )
+//        }
+//    ) {
+//        Box(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .background(Color.Transparent)
+//        )
+//    }
 
-                },
-                onComplete = { },
-                itemList = noticeSettings,
-                titleCheckBoxText = "꼭 필요한 알림만 보내드릴게요"
-            )
-        }
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Transparent)
-        )
-    }
+
 }

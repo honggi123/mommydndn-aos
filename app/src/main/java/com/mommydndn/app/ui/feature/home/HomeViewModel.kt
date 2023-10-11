@@ -23,6 +23,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
+const val INITIAL_BABY_ITEM_PAGE_SIZE = 6
+const val MORE_BABY_ITEM_PAGE_SIZE = 20
+
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val noticeRepository: NoticeRepository,
@@ -62,7 +65,10 @@ class HomeViewModel @Inject constructor(
     val moreBabyItemClickedCount: StateFlow<Int> = _moreBabyItemClickedCount
 
     init {
-        fetchBabyItems(pageNum = _moreBabyItemClickedCount.value, pageSize = 6)
+        fetchBabyItems(
+            pageNum = _moreBabyItemClickedCount.value,
+            pageSize = INITIAL_BABY_ITEM_PAGE_SIZE
+        )
     }
 
     private fun filteredNoticeSettings(): Flow<List<NoticeSetting>> =
@@ -84,7 +90,10 @@ class HomeViewModel @Inject constructor(
 
     fun fetchMoreBabyItems(currentCount: Int) {
         _moreBabyItemClickedCount.value = currentCount + 1
-        fetchBabyItems(pageNum = _moreBabyItemClickedCount.value, pageSize = 10)
+        fetchBabyItems(
+            pageNum = _moreBabyItemClickedCount.value,
+            pageSize = MORE_BABY_ITEM_PAGE_SIZE
+        )
     }
 
 
