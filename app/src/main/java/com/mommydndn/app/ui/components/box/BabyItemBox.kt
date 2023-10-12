@@ -31,9 +31,10 @@ import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph400
 import com.mommydndn.app.R
-import com.mommydndn.app.data.model.BabyItem
+import com.mommydndn.app.data.api.model.BabyItem
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.utils.NumberUtils
+import com.mommydndn.app.utils.TimeUtils
 
 @Composable
 fun MarketListItemBox(
@@ -124,7 +125,7 @@ fun MarketListItemBox(
                 Spacer(modifier = Modifier.padding(4.dp))
 
                 Text(
-                    text = item.createdAt.toString(),
+                    text = TimeUtils.formatTimeAgo(item.createdAt.toLong()),
                     style = MaterialTheme.typography.caption200.copy(
                         fontWeight = FontWeight.Normal,
                         color = Grey500,

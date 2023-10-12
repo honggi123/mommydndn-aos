@@ -1,11 +1,11 @@
 package com.mommydndn.app.data.respository
 
-import com.mommydndn.app.data.model.BabyItem
+import com.mommydndn.app.data.api.model.BabyItemSummary
 import kotlinx.coroutines.flow.Flow
 
 interface BabyItemRepository {
-    fun fetchNearestBabyItem(
+    fun fetchNearestBabyItemSummary(
         pageNum: Int, pageSize: Int
-    ): Flow<List<BabyItem>>
+    ): Flow<BabyItemSummary>
 
 }

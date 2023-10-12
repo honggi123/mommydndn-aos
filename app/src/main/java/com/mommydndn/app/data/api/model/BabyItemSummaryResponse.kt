@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class BabyItemSummary(
+data class BabyItem(
     val itemId: Int,
     val imageUrl: String,
     val price: Int,
@@ -15,8 +15,8 @@ data class BabyItemSummary(
 )
 
 @Serializable
-data class BabyItemSummaryResponse(
-    val itemSummaryList: List<BabyItemSummary>,
+data class BabyItemSummary(
+    val itemSummaryList: List<BabyItem>,
     val meta: Meta
 )
 

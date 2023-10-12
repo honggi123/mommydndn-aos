@@ -63,7 +63,7 @@ import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.utils.NavigationUtils
 import kotlinx.coroutines.launch
 
-const val MAX_MORE_BABY_ITEM_CLICK = 3
+const val MAX_MORE_BABY_ITEM_PAGE = 4
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterialApi::class)
@@ -77,7 +77,7 @@ fun MainHomeScreen(
     val jobSeekers by viewModel.jobSeekers.collectAsState()
     val jobOffers by viewModel.jobOffers.collectAsState()
     val babyItems by viewModel.babyItems.collectAsState()
-    val moreBabyItemClickedCount by viewModel.moreBabyItemClickedCount.collectAsState()
+    val babyItemsPagingMeta by viewModel.babyItemsPagingMeta.collectAsState()
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -220,13 +220,15 @@ fun MainHomeScreen(
                         )
                     }
                 }
-                if (moreBabyItemClickedCount <= MAX_MORE_BABY_ITEM_CLICK) {
+                if (babyItemsPagingMeta.currentPageNum <= MAX_MORE_BABY_ITEM_PAGE
+                    && ((babyItemsPagingMeta.currentPageNum - 1) * MORE_BABY_ITEM_PAGE_SIZE) + 6 < babyItemsPagingMeta.totalCount
+                ) {
                     Button(
                         modifier = Modifier
                             .border(width = 1.dp, color = Color(0xFFF0F2F4))
                             .fillMaxWidth(),
                         onClick = {
-                            viewModel.fetchMoreBabyItems(currentCount = moreBabyItemClickedCount)
+                            viewModel.fetchMoreBabyItems(currentCount = babyItemsPagingMeta.currentPageNum)
                         }
                     ) {
                         Text(
@@ -263,7 +265,7 @@ fun MainHomeScreen(
 
     val sheetState =
         rememberModalBottomSheetState(
-             ModalBottomSheetValue.Expanded,
+            ModalBottomSheetValue.Expanded,
             skipHalfExpanded = true,
             animationSpec = spring(
                 dampingRatio = 0.85f,

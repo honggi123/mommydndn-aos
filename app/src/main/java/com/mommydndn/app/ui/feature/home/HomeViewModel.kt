@@ -2,17 +2,13 @@ package com.mommydndn.app.ui.feature.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
-import com.mommydndn.app.data.model.BabyItem
-import com.mommydndn.app.data.model.JobOfferSummary
+import com.mommydndn.app.data.api.model.BabyItem
+import com.mommydndn.app.data.api.model.Meta
 import com.mommydndn.app.data.model.NoticeSetting
 import com.mommydndn.app.data.respository.BabyItemRepository
 import com.mommydndn.app.data.respository.CaringRepository
 import com.mommydndn.app.data.respository.CommonRepositoy
 import com.mommydndn.app.data.respository.NoticeRepository
-import com.mommydndn.app.utils.TimeUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -61,12 +57,13 @@ class HomeViewModel @Inject constructor(
     private val _babyItems: MutableStateFlow<List<BabyItem>> = MutableStateFlow(emptyList())
     val babyItems: StateFlow<List<BabyItem>> = _babyItems
 
-    private val _moreBabyItemClickedCount: MutableStateFlow<Int> = MutableStateFlow(1)
-    val moreBabyItemClickedCount: StateFlow<Int> = _moreBabyItemClickedCount
+    private val _babyItemsPagingMeta: MutableStateFlow<Meta> =
+        MutableStateFlow(Meta(totalCount = 0, currentPageNum = 1))
+    val babyItemsPagingMeta: StateFlow<Meta> = _babyItemsPagingMeta
 
     init {
         fetchBabyItems(
-            pageNum = _moreBabyItemClickedCount.value,
+            pageNum = _babyItemsPagingMeta.value.currentPageNum,
             pageSize = INITIAL_BABY_ITEM_PAGE_SIZE
         )
     }
@@ -78,20 +75,20 @@ class HomeViewModel @Inject constructor(
 
     private fun fetchBabyItems(pageNum: Int, pageSize: Int) {
         viewModelScope.launch {
-            babyItemRepository.fetchNearestBabyItem(pageNum, pageSize).map { list ->
-                list.map { it.copy(createdAt = TimeUtils.formatTimeAgo(it.createdAt.toLong())) }
-            }.collect { newItems ->
+            babyItemRepository.fetchNearestBabyItemSummary(pageNum, pageSize).collect { item ->
                 val currentItems = _babyItems.value
-                val combinedList = currentItems + newItems
+
+                val combinedList = currentItems + item.itemSummaryList
+
+                _babyItemsPagingMeta.value = item.meta
                 _babyItems.value = combinedList
             }
         }
     }
 
     fun fetchMoreBabyItems(currentCount: Int) {
-        _moreBabyItemClickedCount.value = currentCount + 1
         fetchBabyItems(
-            pageNum = _moreBabyItemClickedCount.value,
+            pageNum = currentCount + 1,
             pageSize = MORE_BABY_ITEM_PAGE_SIZE
         )
     }
