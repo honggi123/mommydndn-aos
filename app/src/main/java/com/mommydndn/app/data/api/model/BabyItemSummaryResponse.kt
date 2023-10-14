@@ -23,5 +23,6 @@ data class BabyItemSummary(
 @Serializable
 data class Meta(
     val totalCount: Int,
-    val currentPageNum: Int
+    val currentPageNum: Int,
+    val requestTimestamp: Long
 )

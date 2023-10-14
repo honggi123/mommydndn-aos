@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface BabyItemRepository {
     fun fetchNearestBabyItemSummary(
-        pageNum: Int, pageSize: Int
+        pageNum: Int, pageSize: Int, currentTimestamp: Long
     ): Flow<BabyItemSummary>
 
 }

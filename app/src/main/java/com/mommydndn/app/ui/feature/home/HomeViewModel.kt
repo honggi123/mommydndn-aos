@@ -58,7 +58,7 @@ class HomeViewModel @Inject constructor(
     val babyItems: StateFlow<List<BabyItem>> = _babyItems
 
     private val _babyItemsPagingMeta: MutableStateFlow<Meta> =
-        MutableStateFlow(Meta(totalCount = 0, currentPageNum = 1))
+        MutableStateFlow(Meta(totalCount = 0, currentPageNum = 1, requestTimestamp = 0))
     val babyItemsPagingMeta: StateFlow<Meta> = _babyItemsPagingMeta
 
     init {
@@ -75,7 +75,11 @@ class HomeViewModel @Inject constructor(
 
     private fun fetchBabyItems(pageNum: Int, pageSize: Int) {
         viewModelScope.launch {
-            babyItemRepository.fetchNearestBabyItemSummary(pageNum, pageSize).collect { item ->
+            babyItemRepository.fetchNearestBabyItemSummary(
+                pageNum,
+                pageSize,
+                System.currentTimeMillis() / 1000
+            ).collect { item ->
                 val currentItems = _babyItems.value
 
                 val combinedList = currentItems + item.itemSummaryList

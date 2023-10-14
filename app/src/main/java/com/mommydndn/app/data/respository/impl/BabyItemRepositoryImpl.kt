@@ -1,5 +1,6 @@
 package com.mommydndn.app.data.respository.impl
 
+import android.util.Log
 import com.mommydndn.app.data.api.model.BabyItemSummary
 import com.mommydndn.app.data.api.service.BabyItemService
 import com.mommydndn.app.data.respository.BabyItemRepository
@@ -14,17 +15,16 @@ class BabyItemRepositoryImpl @Inject constructor(
     private val babyItemService: BabyItemService
 ) : BabyItemRepository {
     override fun fetchNearestBabyItemSummary(
-        pageNum: Int, pageSize: Int
+        pageNum: Int, pageSize: Int, currentTimeStamp: Long
     ): Flow<BabyItemSummary> = flow {
         babyItemService.fetchNearestBabyItemSummary(
             pageSize = pageSize,
-            pageNum = pageNum
+            pageNum = pageNum,
+            requestTimestamp = currentTimeStamp
         ).suspendOnSuccess {
             emit(data)
         }
     }.flowOn(Dispatchers.Default)
-
-
 
 
 }

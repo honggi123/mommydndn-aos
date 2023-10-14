@@ -125,7 +125,7 @@ fun MarketListItemBox(
                 Spacer(modifier = Modifier.padding(4.dp))
 
                 Text(
-                    text = TimeUtils.formatTimeAgo(item.createdAt.toLong()),
+                    text = TimeUtils.formatTimeAgo(item.createdAt),
                     style = MaterialTheme.typography.caption200.copy(
                         fontWeight = FontWeight.Normal,
                         color = Grey500,

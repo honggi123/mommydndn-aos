@@ -221,6 +221,7 @@ fun MainHomeScreen(
                     }
                 }
                 if (babyItemsPagingMeta.currentPageNum <= MAX_MORE_BABY_ITEM_PAGE
+                    && babyItemsPagingMeta.totalCount > 6
                     && ((babyItemsPagingMeta.currentPageNum - 1) * MORE_BABY_ITEM_PAGE_SIZE) + 6 < babyItemsPagingMeta.totalCount
                 ) {
                     Button(

@@ -10,5 +10,6 @@ interface BabyItemService {
     suspend fun fetchNearestBabyItemSummary(
         @Query("pageSize") pageSize: Int,
         @Query("pageNum") pageNum: Int,
+        @Query("requestTimestamp") requestTimestamp: Long
     ): ApiResponse<BabyItemSummary>
 }
