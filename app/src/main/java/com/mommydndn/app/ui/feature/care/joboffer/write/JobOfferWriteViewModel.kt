@@ -52,6 +52,34 @@ class JobOfferWriteViewModel @Inject constructor(
     )
     val salaryTypes: StateFlow<List<SalaryTypeItem>> = _salaryTypes
 
+    private val _title: MutableStateFlow<String> = MutableStateFlow("")
+    val title: StateFlow<String> = _title
+
+    private val _content: MutableStateFlow<String> = MutableStateFlow("")
+    val content: StateFlow<String> = _content
+
+    private val _startDate: MutableStateFlow<String> = MutableStateFlow("")
+    val stratDate: StateFlow<String> = _startDate
+
+    private val _endDate: MutableStateFlow<String> = MutableStateFlow("")
+    val endDate: StateFlow<String> = _endDate
+
+    fun setTitle(title: String) {
+        _title.value = title
+    }
+
+    fun setContent(content: String) {
+        _content.value = content
+    }
+
+    fun setStartDate(startDate: String) {
+        _startDate.value = startDate
+    }
+
+    fun setEndDate(endDate: String) {
+        _endDate.value = endDate
+    }
+
     fun setWorkHoursType(selectedTypeItem: WorkHoursTypeItem) {
         _workHoursTypes.value = _workHoursTypes.value.map { item ->
             if (item == selectedTypeItem) item.copy(isSelected = true)

@@ -1,5 +1,8 @@
 package com.mommydndn.app.ui.feature.care.joboffer.write
 
+import android.app.DatePickerDialog
+import android.content.Context
+import android.widget.DatePicker
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,8 +27,13 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -61,6 +69,7 @@ import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.ui.theme.paragraph400
 import kotlinx.coroutines.Job
+import java.util.Calendar
 
 @Composable
 fun JobOfferWriteScreen(
@@ -70,6 +79,43 @@ fun JobOfferWriteScreen(
     val careTypes by viewModel.careTypes.collectAsState()
     val workHoursTypes by viewModel.workHoursTypes.collectAsState()
     val salaryTypes by viewModel.salaryTypes.collectAsState()
+
+    val title by viewModel.title.collectAsState()
+    val content by viewModel.content.collectAsState()
+
+    val stratDate by viewModel.stratDate.collectAsState()
+    val endDate by viewModel.endDate.collectAsState()
+
+    val context = LocalContext.current
+    val calendar = Calendar.getInstance()
+
+    val year = calendar[Calendar.YEAR]
+    val month = calendar[Calendar.MONTH]
+    val dayOfMonth = calendar[Calendar.DAY_OF_MONTH]
+
+    val datePicker1 = createDatePicker(
+        context = context,
+        year = year,
+        month = month,
+        dayOfMonth = dayOfMonth
+    ) { year, month, dayOfMonth ->
+        val selectedDateText = "$year-${month + 1}-$dayOfMonth"
+        viewModel.setStartDate(selectedDateText)
+    }
+
+    val datePicker2 = createDatePicker(
+        context = context,
+        year = year,
+        month = month,
+        dayOfMonth = dayOfMonth
+    ) { year, month, dayOfMonth ->
+        val selectedDateText = "$year-${month + 1}-$dayOfMonth"
+        viewModel.setEndDate(selectedDateText)
+    }
+
+    datePicker1.datePicker.minDate = calendar.timeInMillis
+    datePicker2.datePicker.minDate = calendar.timeInMillis
+
 
     Column(
         modifier = Modifier
@@ -114,7 +160,12 @@ fun JobOfferWriteScreen(
 
         LazyColumn {
             item {
-                PostTextFieldBox(title = "", content = "")
+                PostTextFieldBox(
+                    title = title,
+                    content = content,
+                    onTitleTextChanged = { viewModel.setTitle(it) },
+                    onContentTextChanged = { viewModel.setContent(it) }
+                )
             }
             item {
                 SubtextBox(
@@ -188,8 +239,8 @@ fun JobOfferWriteScreen(
                         label = "날짜",
                         option1Text = "오는날짜",
                         option2Text = "내일날짜",
-                        onOption1Clicked = { /*TODO*/ },
-                        onOption2Clicked = { /*TODO*/ },
+                        onOption1Clicked = { datePicker1.show() },
+                        onOption2Clicked = { datePicker2.show() },
                         isChecked = false,
                         onCheckedChange = {}
                     )
@@ -343,6 +394,22 @@ fun JobOfferWriteScreen(
             }
         }
     }
+}
+
+private fun createDatePicker(
+    year: Int,
+    month: Int,
+    dayOfMonth: Int,
+    context: Context,
+    onDateSelected: (Int, Int, Int) -> Unit
+): DatePickerDialog {
+    return DatePickerDialog(
+        context,
+        { _: DatePicker, selectedYear: Int, selectedMonth: Int, selectedDayOfMonth: Int ->
+            onDateSelected(selectedYear, selectedMonth, selectedDayOfMonth)
+        },
+        year, month, dayOfMonth
+    )
 }
 
 
