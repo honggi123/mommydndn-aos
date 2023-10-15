@@ -1,10 +1,14 @@
 package com.mommydndn.app.ui.feature.care.joboffer.write
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Button
@@ -25,6 +29,7 @@ import com.mommydndn.app.ui.components.box.SubtextBoxSize
 import com.mommydndn.app.ui.components.button.CtaButton
 import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.components.common.TextInpuField
+import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
@@ -79,26 +84,51 @@ fun JobOfferWriteScreen() {
             }
             item {
                 SubtextBox(titleText = "필요한 돌봄", subtitleText = "(필수)", size = SubtextBoxSize.S)
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color = Grey50)
+                        .padding(20.dp)
+                )
             }
             item {
                 SubtextBox(titleText = "일하는 시간", subtitleText = "(필수)", size = SubtextBoxSize.S)
-
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color = Grey50)
+                        .padding(20.dp)
+                )
             }
             item {
                 SubtextBox(titleText = "일하는 장소", subtitleText = "(필수)", size = SubtextBoxSize.S)
-
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color = Grey50)
+                        .padding(20.dp)
+                )
             }
             item {
                 SubtextBox(titleText = "임금", subtitleText = "(필수)", size = SubtextBoxSize.S)
-
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color = Grey50)
+                        .padding(20.dp)
+                )
             }
             item {
                 SubtextBox(titleText = "사진", subtitleText = "(선택)", size = SubtextBoxSize.S)
-
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color = Grey50)
+                        .padding(20.dp)
+                )
             }
             item {
                 SubtextBox(titleText = "기타조건", subtitleText = "(선택)", size = SubtextBoxSize.S)
-
             }
 
             item {

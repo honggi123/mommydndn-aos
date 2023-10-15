@@ -23,6 +23,7 @@ import com.mommydndn.app.ui.theme.caption100
 
 @Composable
 fun Badge(
+    modifier: Modifier = Modifier,
     text: String = "",
     colorType: BannerColorType
 ) {
@@ -41,7 +42,7 @@ fun Badge(
     }
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .background(shape = Shapes.large, color = backgroundColor),
         contentAlignment = Alignment.Center
     ) {
