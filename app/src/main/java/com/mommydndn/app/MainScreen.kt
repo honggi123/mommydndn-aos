@@ -38,6 +38,7 @@ import com.mommydndn.app.ui.navigation.SignInNav
 import com.mommydndn.app.ui.navigation.TownCheckNav
 import com.mommydndn.app.ui.navigation.TypeChoiceNav
 import com.mommydndn.app.ui.feature.care.CareScreen
+import com.mommydndn.app.ui.feature.care.joboffer.write.JobOfferWriteScreen
 import com.mommydndn.app.ui.feature.home.MainHomeScreen
 import com.mommydndn.app.ui.feature.signin.SignInScreen
 import com.mommydndn.app.ui.feature.signup.NearestChoiceScreen
@@ -47,6 +48,7 @@ import com.mommydndn.app.ui.theme.Grey800
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.feature.home.HomeViewModel
 import com.mommydndn.app.ui.feature.signup.SignUpViewModel
+import com.mommydndn.app.ui.navigation.JobOfferWriteNav
 import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.utils.NavigationUtils
@@ -70,7 +72,7 @@ fun MainScreen(
         floatingActionButton = {
             if (MainNav.isFloatingActionBarVisible(currentRoute)) {
                 FloatingActionButton(
-                    onClick = {},
+                    onClick = { NavigationUtils.navigate(navController, JobOfferWriteNav.route) },
                     modifier = Modifier
                         .size(72.dp),
                     backgroundColor = Salmon600
@@ -199,11 +201,17 @@ fun MainNavigationScreen(
         }
 
         composable(
-            route = MainNav.Care.route,
+            route = MainNav.Care.route
+        ) {
+            CareScreen(navController = navController)
+        }
+
+        composable(
+            route = JobOfferWriteNav.route,
             enterTransition = { slideEnterTransition },
             exitTransition = { slideExitTransition }
         ) {
-            CareScreen(navController = navController)
+            JobOfferWriteScreen(navController = navController)
         }
 
     }

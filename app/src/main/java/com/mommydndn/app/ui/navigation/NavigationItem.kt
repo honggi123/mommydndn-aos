@@ -67,6 +67,11 @@ object TownCheckNav : Destination {
     override val title: String = NavigationTitle.NEAREST_CHOICE
 }
 
+object JobOfferWriteNav : Destination {
+    override val route: String = NavigationRouteName.JOB_OFFER_WRITE
+    override val title: String = NavigationTitle.JOB_OFFER_WRITE
+}
+
 interface Destination {
     val route: String
     val title: String
@@ -75,6 +80,8 @@ interface Destination {
 object NavigationRouteName {
     const val MAIN_HOME = "홈"
     const val MAIN_CARE = "돌봄"
+
+    const val JOB_OFFER_WRITE = "구인글쓰기"
 
     const val SIGN_IN = "로그인"
     const val TYPE_CHOICE = "개인&기업선택"
@@ -85,7 +92,10 @@ object NavigationTitle {
     const val MAIN_HOME = "홈"
     const val MAIN_CARE = "돌봄"
 
+    const val JOB_OFFER_WRITE = "구인글쓰기"
+
     const val SIGN_IN = "로그인"
     const val TYPE_CHOICE = "개인&기업선택"
     const val NEAREST_CHOICE = "근처위치선택"
+
 }

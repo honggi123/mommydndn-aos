@@ -22,6 +22,8 @@ import androidx.compose.material.Chip
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -29,6 +31,7 @@ import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.CaringType
@@ -48,6 +51,7 @@ import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.components.common.ImageInputField
 import com.mommydndn.app.ui.components.common.SelectField
 import com.mommydndn.app.ui.components.common.TextInpuField
+import com.mommydndn.app.ui.feature.care.CareViewModel
 import com.mommydndn.app.ui.models.ImageInputFieldType
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
@@ -56,29 +60,16 @@ import com.mommydndn.app.ui.theme.MommydndnaosTheme
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.ui.theme.paragraph400
+import kotlinx.coroutines.Job
 
 @Composable
-fun JobOfferWriteScreen() {
-
-    val careTypes = listOf(
-        CaringTypeItem(CaringType.HOUSEKEEPING),
-        CaringTypeItem(CaringType.NURSING),
-        CaringTypeItem(CaringType.PARENTING),
-        CaringTypeItem(CaringType.SCHOOL)
-    )
-
-    val workHoursTypes = listOf(
-        WorkHoursTypeItem(WorkHoursType.SHORT),
-        WorkHoursTypeItem(WorkHoursType.REGULAR)
-    )
-    val salaryTypes = listOf(
-        SalaryTypeItem(SalaryType.HOURLY),
-        SalaryTypeItem(SalaryType.DAILY),
-        SalaryTypeItem(SalaryType.WEEKLY),
-        SalaryTypeItem(SalaryType.MONTHLY),
-        SalaryTypeItem(SalaryType.NEGOTIATION)
-    )
-
+fun JobOfferWriteScreen(
+    navController: NavHostController,
+    viewModel: JobOfferWriteViewModel = hiltViewModel()
+) {
+    val careTypes by viewModel.careTypes.collectAsState()
+    val workHoursTypes by viewModel.workHoursTypes.collectAsState()
+    val salaryTypes by viewModel.salaryTypes.collectAsState()
 
     Column(
         modifier = Modifier
@@ -147,7 +138,7 @@ fun JobOfferWriteScreen() {
                                 modifier = Modifier.height(36.dp),
                                 text = type.caringType.value,
                                 selected = type.isSelected,
-                                onClick = {}
+                                onClick = { viewModel.setCareTypes(type) }
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                         }
@@ -182,7 +173,7 @@ fun JobOfferWriteScreen() {
                                 modifier = Modifier.height(36.dp),
                                 text = type.workHoursType.value,
                                 selected = type.isSelected,
-                                onClick = {}
+                                onClick = { viewModel.setWorkHoursType(type) }
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                         }
@@ -278,7 +269,7 @@ fun JobOfferWriteScreen() {
                                 modifier = Modifier.height(36.dp),
                                 text = type.salaryType.value,
                                 selected = type.isSelected,
-                                onClick = {}
+                                onClick = { viewModel.setSalaryType(type) }
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                         }
@@ -354,12 +345,5 @@ fun JobOfferWriteScreen() {
     }
 }
 
-@Preview
-@Composable
-fun previewJobOfferWriteScreen() {
-    MommydndnaosTheme {
-        JobOfferWriteScreen()
-    }
-}
 
 
