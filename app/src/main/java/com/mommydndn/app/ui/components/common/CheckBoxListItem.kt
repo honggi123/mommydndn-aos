@@ -43,7 +43,6 @@ fun CheckBoxListItem(
         modifier = modifier
             .width(318.dp)
             .wrapContentHeight()
-            .background(color = White)
             .clickable {
                 onCheckedChange(!checked)
             }

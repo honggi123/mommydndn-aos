@@ -50,7 +50,7 @@ import com.mommydndn.app.ui.components.modal.NoticeSettingListModal
 import com.mommydndn.app.ui.components.box.SubtextBox
 import com.mommydndn.app.ui.components.box.SubtextBoxSize
 import com.mommydndn.app.ui.components.common.BannerList
-import com.mommydndn.app.ui.components.common.Footer
+import com.mommydndn.app.ui.components.box.FooterBox
 import com.mommydndn.app.ui.components.box.JobOfferBox
 import com.mommydndn.app.ui.components.box.MarketListItemBox
 import com.mommydndn.app.ui.components.box.ProfileSitterBox
@@ -258,7 +258,7 @@ fun MainHomeScreen(
             }
             item {
                 SubBanner()
-                Footer() {}
+                FooterBox{}
             }
         }
 

@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.components.common
+package com.mommydndn.app.ui.components.box
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -32,7 +32,7 @@ import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption200
 
 @Composable
-fun Footer(
+fun FooterBox(
     onInquiryClick: () -> Unit
 ) {
     Box(
@@ -215,6 +215,6 @@ fun Footer(
 @Composable
 fun previewCFooter() {
     MommydndnaosTheme {
-        Footer(onInquiryClick = {})
+        FooterBox(onInquiryClick = {})
     }
 }

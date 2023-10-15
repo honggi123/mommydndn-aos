@@ -28,7 +28,7 @@ enum class SubtextBoxSize { L, M, S }
 
 @Composable
 fun SubtextBox(
-    size: SubtextBoxSize,
+    size: SubtextBoxSize = SubtextBoxSize.M,
     titleText: String = "",
     subtitleText: String = "",
     rightButtonText: String = "",
@@ -74,6 +74,7 @@ fun SubtextBox(
                 text = titleText,
                 style = titleTextStyle
             )
+
             Spacer(modifier = Modifier.padding(4.dp))
             Text(
                 text = subtitleText,

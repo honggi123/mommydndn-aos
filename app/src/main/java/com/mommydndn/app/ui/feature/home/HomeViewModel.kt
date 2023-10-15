@@ -78,7 +78,7 @@ class HomeViewModel @Inject constructor(
             babyItemRepository.fetchNearestBabyItemSummary(
                 pageNum,
                 pageSize,
-                System.currentTimeMillis() / 1000
+                System.currentTimeMillis()
             ).collect { item ->
                 val currentItems = _babyItems.value
 

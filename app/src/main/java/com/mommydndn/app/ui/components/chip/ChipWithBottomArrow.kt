@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.components.common
+package com.mommydndn.app.ui.components.chip
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Chip
-import androidx.compose.material.ChipColors
 import androidx.compose.material.ChipDefaults
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
@@ -30,7 +29,7 @@ import com.mommydndn.app.ui.theme.caption200
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun Chip(
+fun ChipWithBottomArrow(
     selected: Boolean = true,
     text: String = "",
     onClick: () -> Unit = {}
@@ -101,8 +100,8 @@ fun Chip(
 
 @Preview
 @Composable
-fun MyChipPreview() {
-    Chip(
+fun MyChipWithArrowIconPreview() {
+    ChipWithBottomArrow(
         selected = false,
         text = "텍스트"
     )
