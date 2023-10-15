@@ -35,7 +35,7 @@ import com.mommydndn.app.ui.theme.paragraph300
 
 @Composable
 fun CheckMarkListItem(
-    checked: Boolean,
+    checked: Boolean = false,
     onCheckedChange: ((Boolean) -> Unit),
     text: String,
     modifier: Modifier = Modifier

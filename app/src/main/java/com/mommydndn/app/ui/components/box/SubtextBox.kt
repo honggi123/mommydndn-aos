@@ -28,6 +28,7 @@ enum class SubtextBoxSize { L, M, S }
 
 @Composable
 fun SubtextBox(
+    modifier: Modifier = Modifier,
     size: SubtextBoxSize = SubtextBoxSize.M,
     titleText: String = "",
     subtitleText: String = "",
@@ -62,8 +63,7 @@ fun SubtextBox(
     }
 
     Box(
-        modifier = Modifier
-            .width(390.dp)
+        modifier = modifier
             .wrapContentHeight(),
     ) {
         Row(

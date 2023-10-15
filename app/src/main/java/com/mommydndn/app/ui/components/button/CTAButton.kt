@@ -24,7 +24,6 @@ fun CtaButton(
 ) {
     Button(
         modifier = modifier
-            .width(342.dp)
             .wrapContentHeight(),
         shape = MaterialTheme.shapes.large,
         onClick = onClick,

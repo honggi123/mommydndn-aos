@@ -24,6 +24,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.mommydndn.app.R
 import com.mommydndn.app.ui.models.ImageInputFieldType
+import com.mommydndn.app.ui.theme.Grey300
+import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
@@ -42,11 +44,12 @@ fun ImageInputField(
                     .width(width = 108.dp)
                     .height(height = 96.dp)
                     .clip(shape = RoundedCornerShape(6.dp))
-                    .background(color = White)
+                    .background(color = Grey50)
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_camera),
                     contentDescription = "",
+                    tint = Grey300
                 )
                 Text(
                     text = inputType.index.toString() + "/10",

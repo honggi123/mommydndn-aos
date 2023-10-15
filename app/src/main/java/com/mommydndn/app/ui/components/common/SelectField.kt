@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -24,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
 import com.mommydndn.app.ui.theme.Grey400
+import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey800
 import com.mommydndn.app.ui.theme.White
@@ -46,7 +48,7 @@ fun SelectField(
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start),
             modifier = Modifier
-                .width(width = 342.dp)
+                .fillMaxWidth()
                 .padding(horizontal = 6.dp)
         ) {
             Text(
@@ -64,10 +66,10 @@ fun SelectField(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .width(width = 342.dp)
+                .fillMaxWidth()
                 .height(height = 56.dp)
                 .clip(shape = RoundedCornerShape(12.dp))
-                .background(color = White)
+                .background(color = Grey50)
                 .padding(
                     start = 20.dp,
                     end = 8.dp,

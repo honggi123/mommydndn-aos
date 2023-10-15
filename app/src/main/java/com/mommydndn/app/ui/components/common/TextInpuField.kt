@@ -28,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.ui.components.box.PostTextFieldBox
 import com.mommydndn.app.ui.theme.Grey400
+import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Salmon500
 import com.mommydndn.app.ui.theme.Salmon600
@@ -44,7 +45,7 @@ fun TextInpuField(
     descriptionText: String = "",
     placeHolderText: String = "",
     isError: Boolean = false,
-    isFocused: Boolean = true,
+    isFocused: Boolean = false,
     onValueChanged: (String) -> Unit = {},
 ) {
 
@@ -75,7 +76,7 @@ fun TextInpuField(
                 .focusRequester(focusRequester),
             shape = RoundedCornerShape(12.dp),
             colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = Color.White,
+                backgroundColor = Grey50,
                 focusedIndicatorColor = Salmon500,
                 disabledIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,

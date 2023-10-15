@@ -58,11 +58,10 @@ fun PostTextFieldBox(
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top),
         modifier = modifier
-            .width(width = 390.dp)
             .background(color = Color.White)
             .padding(
                 horizontal = 24.dp,
-                vertical = 6.dp
+                vertical = 8.dp
             )
     ) {
         TextField(
@@ -77,10 +76,28 @@ fun PostTextFieldBox(
                 .fillMaxWidth()
                 .padding(top = 16.dp, bottom = 16.dp, start = 6.dp, end = 6.dp),
             value = title,
+            textStyle = MaterialTheme.typography.paragraph300.copy(
+                fontWeight = FontWeight.Normal,
+                color = Grey800,
+                platformStyle = PlatformTextStyle(
+                    includeFontPadding = false
+                )
+            ),
             onValueChange = {
                 onTitleTextChanged(it)
             },
-            placeholder = { Text("(필수) 글 제목을 입력하세요") },
+            placeholder = {
+                Text(
+                    text = "(필수) 글 제목을 입력하세요",
+                    style = MaterialTheme.typography.paragraph400.copy(
+                        fontWeight = FontWeight.Bold,
+                        color = Grey400,
+                        platformStyle = PlatformTextStyle(
+                            includeFontPadding = false
+                        )
+                    )
+                )
+            },
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Text
             )
@@ -115,7 +132,18 @@ fun PostTextFieldBox(
                     onContentTextChanged(it)
                     textCount += 1
                 },
-                placeholder = { Text("(선택) 상대방을 불쾌하게 하는 공고를 올리지 말아주세요. 일정 횟수 이상 차단을 당하면 서비스 이용이 제한될 수 있어요.") },
+                placeholder = {
+                    Text(
+                        text = "(선택) 상대방을 불쾌하게 하는 공고를 올리지 말아주세요. 일정 횟수 이상 차단을 당하면 서비스 이용이 제한될 수 있어요.",
+                        style = MaterialTheme.typography.paragraph300.copy(
+                            fontWeight = FontWeight.Normal,
+                            color = Grey400,
+                            platformStyle = PlatformTextStyle(
+                                includeFontPadding = false
+                            )
+                        )
+                    )
+                },
                 modifier = Modifier.background(White),
                 keyboardOptions = KeyboardOptions.Default.copy(
                     keyboardType = KeyboardType.Text

@@ -8,3 +8,7 @@ enum class SalaryType(val value: String) {
     NEGOTIATION("협의")
 }
 
+data class SalaryTypeItem(
+    val salaryType: SalaryType,
+    var isSelected: Boolean = false
+)

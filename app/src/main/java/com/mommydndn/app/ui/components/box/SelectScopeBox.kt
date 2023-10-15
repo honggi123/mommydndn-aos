@@ -27,7 +27,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
 import com.mommydndn.app.ui.components.common.CheckBoxListItem
+import com.mommydndn.app.ui.components.common.CheckMarkListItem
 import com.mommydndn.app.ui.theme.Grey400
+import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey800
 import com.mommydndn.app.ui.theme.White
@@ -51,7 +53,7 @@ fun SelectScopeBox(
 
     Column(
         verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.Top),
-        modifier = modifier.width(316.dp)
+        modifier = modifier
     ) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start),
@@ -82,7 +84,7 @@ fun SelectScopeBox(
                 modifier = Modifier
                     .height(height = 56.dp)
                     .clip(shape = RoundedCornerShape(12.dp))
-                    .background(color = White)
+                    .background(color = Grey50)
                     .weight(1f)
                     .padding(
                         start = 20.dp,
@@ -129,7 +131,7 @@ fun SelectScopeBox(
                     .height(height = 56.dp)
                     .clip(shape = RoundedCornerShape(12.dp))
                     .weight(1f)
-                    .background(color = White)
+                    .background(color = Grey50)
                     .padding(
                         start = 20.dp,
                         end = 8.dp,
@@ -156,7 +158,9 @@ fun SelectScopeBox(
                 )
             }
         }
-        CheckBoxListItem(checked = isChecked, onCheckedChange = onCheckedChange, text = checkListText)
+        if (!checkListText.isEmpty()){
+            CheckMarkListItem(checked = isChecked, onCheckedChange = onCheckedChange, text = checkListText)
+        }
     }
 }
 

@@ -6,3 +6,10 @@ enum class CaringType(val value: String) {
     SCHOOL("등하원"),
     HOUSEKEEPING("가사")
 }
+
+data class CaringTypeItem(
+    val caringType: CaringType,
+    var isSelected: Boolean = false
+)
+
+
