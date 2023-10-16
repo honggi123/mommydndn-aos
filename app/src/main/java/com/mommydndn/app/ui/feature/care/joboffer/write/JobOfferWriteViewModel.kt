@@ -1,5 +1,6 @@
 package com.mommydndn.app.ui.feature.care.joboffer.write
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import com.mommydndn.app.data.api.model.BabyItem
 import com.mommydndn.app.data.model.CaringType
@@ -90,6 +91,8 @@ class JobOfferWriteViewModel @Inject constructor(
     private val _salary: MutableStateFlow<Int?> = MutableStateFlow(null)
     val salary: StateFlow<Int?> = _salary
 
+    private val _photos: MutableStateFlow<List<Uri>> = MutableStateFlow(listOf())
+    val photos: StateFlow<List<Uri>> = _photos
 
     fun setTitle(title: String) {
         _title.value = title
@@ -152,7 +155,11 @@ class JobOfferWriteViewModel @Inject constructor(
         }
     }
 
-    fun setSalary(salary: String) {
-        _salary.value = NumberUtils.getPrice(salary)
+    fun setSalary(curSalary: String) {
+        _salary.value = NumberUtils.getPrice(curSalary)
+    }
+
+    fun setPhotos(selectedPhotos: List<Uri>) {
+        _photos.value = selectedPhotos
     }
 }

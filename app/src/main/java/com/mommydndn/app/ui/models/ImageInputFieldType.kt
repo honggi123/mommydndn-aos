@@ -1,5 +1,6 @@
 package com.mommydndn.app.ui.models
 
+import android.net.Uri
 import java.net.URI
 
 sealed class ImageInputFieldType {
@@ -9,10 +10,10 @@ sealed class ImageInputFieldType {
     ) : ImageInputFieldType()
 
     data class Editable(
-        val imageUri: URI
+        val imageUri: Uri
     ) : ImageInputFieldType()
 
     data class Ineditable(
-        val imageUri: URI
+        val imageUri: Uri
     ) : ImageInputFieldType()
 }

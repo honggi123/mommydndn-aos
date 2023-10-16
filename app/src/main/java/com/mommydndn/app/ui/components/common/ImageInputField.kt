@@ -2,6 +2,7 @@ package com.mommydndn.app.ui.components.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -27,13 +29,14 @@ import com.mommydndn.app.ui.models.ImageInputFieldType
 import com.mommydndn.app.ui.theme.Grey300
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
+import com.mommydndn.app.ui.theme.GreyOpacity400
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
 
 @Composable
 fun ImageInputField(
     modifier: Modifier = Modifier,
-    inputType: ImageInputFieldType
+    inputType: ImageInputFieldType,
 ) {
     when (inputType) {
         is ImageInputFieldType.Add -> {
@@ -45,6 +48,7 @@ fun ImageInputField(
                     .height(height = 96.dp)
                     .clip(shape = RoundedCornerShape(6.dp))
                     .background(color = Grey50)
+                    .clickable { inputType.onClick?.let { it() } }
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_camera),
@@ -74,7 +78,8 @@ fun ImageInputField(
                     contentDescription = "",
                     modifier = Modifier
                         .fillMaxSize()
-                        .clip(shape = RoundedCornerShape(6.dp))
+                        .clip(shape = RoundedCornerShape(6.dp)),
+                    contentScale = ContentScale.Crop
                 )
                 Icon(
                     painter = painterResource(id = R.drawable.ic_x_circle),
@@ -82,7 +87,7 @@ fun ImageInputField(
                     modifier = Modifier
                         .align(alignment = Alignment.TopStart)
                         .offset(
-                            x = 88.dp,
+                            x = 98.dp,
                             y = (-5).dp
                         )
                 )
@@ -107,7 +112,6 @@ fun ImageInputField(
             }
         }
     }
-
 
 
 }

@@ -1,12 +1,18 @@
 package com.mommydndn.app.ui.feature.care.joboffer.write
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.content.Intent
+import android.provider.MediaStore
 import android.widget.DatePicker
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -15,11 +21,16 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Chip
@@ -99,6 +110,8 @@ fun JobOfferWriteScreen(
 
     val salary by viewModel.salary.collectAsState()
 
+    val photos by viewModel.photos.collectAsState()
+
     val startDatePicker = createDatePicker(
         calendar = calendar,
         context = context
@@ -129,6 +142,11 @@ fun JobOfferWriteScreen(
             viewModel.setEndTime(selectedHour, selectedMinute)
         }, hour, minute, false
     )
+
+    val takePhotoFromAlbumLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.GetMultipleContents()) { uriList ->
+            viewModel.setPhotos(uriList)
+        }
 
     startDatePicker.datePicker.minDate = calendar.timeInMillis
     endDatePicker.datePicker.minDate = calendar.timeInMillis
@@ -388,7 +406,30 @@ fun JobOfferWriteScreen(
                         end = 24.dp
                     )
                 ) {
-                    ImageInputField(inputType = ImageInputFieldType.Add(index = 0))
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(3),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(max = 700.dp)
+                            .wrapContentHeight(),
+                        verticalArrangement = Arrangement.spacedBy(4.dp),
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        item {
+                            ImageInputField(
+                                inputType = ImageInputFieldType.Add(
+                                    index = photos.size,
+                                    onClick = { takePhotoFromAlbumLauncher.launch("image/jpeg") })
+                            )
+                        }
+                        items(photos) { uri ->
+                            ImageInputField(
+                                inputType = ImageInputFieldType.Editable(
+                                    imageUri = uri
+                                )
+                            )
+                        }
+                    }
                 }
                 Spacer(
                     modifier = Modifier
