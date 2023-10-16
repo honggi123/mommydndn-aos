@@ -1,6 +1,7 @@
 package com.mommydndn.app.ui.feature.care.joboffer.write
 
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Context
 import android.widget.DatePicker
 import androidx.compose.foundation.Image
@@ -48,6 +49,7 @@ import com.mommydndn.app.data.model.SalaryTypeItem
 import com.mommydndn.app.data.model.WorkHoursType
 import com.mommydndn.app.data.model.WorkHoursTypeItem
 import com.mommydndn.app.ui.components.box.PostTextFieldBox
+import com.mommydndn.app.ui.components.box.SelectButtonScopeBox
 import com.mommydndn.app.ui.components.box.SelectScopeBox
 import com.mommydndn.app.ui.components.box.SubtextBox
 import com.mommydndn.app.ui.components.box.SubtextBoxSize
@@ -60,6 +62,7 @@ import com.mommydndn.app.ui.components.common.SelectField
 import com.mommydndn.app.ui.components.common.TextInpuField
 import com.mommydndn.app.ui.feature.care.CareViewModel
 import com.mommydndn.app.ui.models.ImageInputFieldType
+import com.mommydndn.app.ui.models.SelectButtonContent
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey700
@@ -79,6 +82,7 @@ fun JobOfferWriteScreen(
     val careTypes by viewModel.careTypes.collectAsState()
     val workHoursTypes by viewModel.workHoursTypes.collectAsState()
     val salaryTypes by viewModel.salaryTypes.collectAsState()
+    val dayOfWeekTypes by viewModel.dayOfWeekTypes.collectAsState()
 
     val title by viewModel.title.collectAsState()
     val content by viewModel.content.collectAsState()
@@ -86,26 +90,42 @@ fun JobOfferWriteScreen(
     val startDate by viewModel.stratDate.collectAsState()
     val endDate by viewModel.endDate.collectAsState()
 
+    val startTime by viewModel.startTimeText.collectAsState()
+    val endTime by viewModel.endTimeText.collectAsState()
+
     val context = LocalContext.current
     val calendar = Calendar.getInstance()
 
     val startDatePicker = createDatePicker(
-        context = context,
-        year = calendar[Calendar.YEAR],
-        month = calendar[Calendar.MONTH],
-        dayOfMonth = calendar[Calendar.DAY_OF_MONTH]
+        calendar = calendar,
+        context = context
     ) { year, month, dayOfMonth ->
         viewModel.setStartDate(year, month, dayOfMonth)
     }
 
     val endDatePicker = createDatePicker(
-        context = context,
-        year = calendar[Calendar.YEAR],
-        month = calendar[Calendar.MONTH],
-        dayOfMonth = calendar[Calendar.DAY_OF_MONTH]
+        calendar = calendar,
+        context = context
     ) { year, month, dayOfMonth ->
         viewModel.setEndDate(year, month, dayOfMonth)
     }
+
+    val hour = calendar[Calendar.HOUR_OF_DAY]
+    val minute = calendar[Calendar.MINUTE]
+
+    val startTimePicker = TimePickerDialog(
+        context,
+        { _, selectedHour: Int, selectedMinute: Int ->
+            viewModel.setStartTime(selectedHour, selectedMinute)
+        }, hour, minute, false
+    )
+
+    val endTimePicker = TimePickerDialog(
+        context,
+        { _, selectedHour: Int, selectedMinute: Int ->
+            viewModel.setEndTime(selectedHour, selectedMinute)
+        }, hour, minute, false
+    )
 
     startDatePicker.datePicker.minDate = calendar.timeInMillis
     endDatePicker.datePicker.minDate = calendar.timeInMillis
@@ -222,11 +242,22 @@ fun JobOfferWriteScreen(
                             .padding(24.dp)
                     )
                     if (workHoursTypes.find { it.isSelected }?.workHoursType == WorkHoursType.REGULAR) {
+                        SelectButtonScopeBox(
+                            label = "요일",
+                            list = dayOfWeekTypes.map {
+                                SelectButtonContent(
+                                    isSelected = it.isSelected,
+                                    text = it.type.displayingName
+                                )
+                            })
+                    } else {
                         SelectScopeBox(
                             modifier = Modifier.fillMaxWidth(),
                             label = "날짜",
-                            option1Text = startDate?.let { DateUtils.timestampToDateString(it) } ?: "오는날짜",
-                            option2Text = endDate?.let { DateUtils.timestampToDateString(it) } ?: "내일날짜",
+                            option1Text = startDate?.let { DateUtils.timestampToDateString(it) }
+                                ?: "오는날짜",
+                            option2Text = endDate?.let { DateUtils.timestampToDateString(it) }
+                                ?: "내일날짜",
                             onOption1Clicked = { startDatePicker.show() },
                             onOption2Clicked = { endDatePicker.show() },
                             isOption1Selected = startDate != null,
@@ -234,8 +265,6 @@ fun JobOfferWriteScreen(
                             isChecked = false,
                             onCheckedChange = {}
                         )
-                    } else {
-
                     }
 
                     Spacer(
@@ -246,11 +275,13 @@ fun JobOfferWriteScreen(
                     SelectScopeBox(
                         modifier = Modifier.fillMaxWidth(),
                         label = "시간",
-                        option1Text = "시작시간",
-                        option2Text = "종료시간",
-                        onOption1Clicked = { /*TODO*/ },
-                        onOption2Clicked = { /*TODO*/ },
+                        option1Text = startTime ?: "오는날짜",
+                        option2Text = endTime ?: "종료시간",
+                        onOption1Clicked = { startTimePicker.show() },
+                        onOption2Clicked = { endTimePicker.show() },
                         isChecked = false,
+                        isOption1Selected = startTime != null,
+                        isOption2Selected = endTime != null,
                         onCheckedChange = {},
                         checkListText = "협의 가능해요"
                     )
@@ -391,12 +422,14 @@ fun JobOfferWriteScreen(
 }
 
 private fun createDatePicker(
-    year: Int,
-    month: Int,
-    dayOfMonth: Int,
+    calendar: Calendar,
     context: Context,
     onDateSelected: (Int, Int, Int) -> Unit
 ): DatePickerDialog {
+    val year = calendar[Calendar.YEAR]
+    val month = calendar[Calendar.MONTH]
+    val dayOfMonth = calendar[Calendar.DAY_OF_MONTH]
+
     return DatePickerDialog(
         context,
         { _: DatePicker, selectedYear: Int, selectedMonth: Int, selectedDayOfMonth: Int ->

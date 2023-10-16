@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import com.mommydndn.app.data.api.model.BabyItem
 import com.mommydndn.app.data.model.CaringType
 import com.mommydndn.app.data.model.CaringTypeItem
+import com.mommydndn.app.data.model.DayOfWeekItem
+import com.mommydndn.app.data.model.DayOfWeekType
 import com.mommydndn.app.data.model.SalaryType
 import com.mommydndn.app.data.model.SalaryTypeItem
 import com.mommydndn.app.data.model.WorkHoursType
@@ -53,6 +55,19 @@ class JobOfferWriteViewModel @Inject constructor(
     )
     val salaryTypes: StateFlow<List<SalaryTypeItem>> = _salaryTypes
 
+    private var _daysOfWeekTypes: MutableStateFlow<List<DayOfWeekItem>> = MutableStateFlow(
+        listOf(
+            DayOfWeekItem(DayOfWeekType.MONDAY),
+            DayOfWeekItem(DayOfWeekType.TUESDAY),
+            DayOfWeekItem(DayOfWeekType.WEDNESDAY),
+            DayOfWeekItem(DayOfWeekType.THURSDAY),
+            DayOfWeekItem(DayOfWeekType.FRIDAY),
+            DayOfWeekItem(DayOfWeekType.SATURDAY),
+            DayOfWeekItem(DayOfWeekType.SUNDAY)
+        )
+    )
+    val dayOfWeekTypes: StateFlow<List<DayOfWeekItem>> = _daysOfWeekTypes
+
     private val _title: MutableStateFlow<String> = MutableStateFlow("")
     val title: StateFlow<String> = _title
 
@@ -64,6 +79,12 @@ class JobOfferWriteViewModel @Inject constructor(
 
     private val _endDate: MutableStateFlow<Long?> = MutableStateFlow(null)
     val endDate: StateFlow<Long?> = _endDate
+
+    private val _startTimeText: MutableStateFlow<String?> = MutableStateFlow(null)
+    val startTimeText: StateFlow<String?> = _startTimeText
+
+    private val _endTimeText: MutableStateFlow<String?> = MutableStateFlow(null)
+    val endTimeText: StateFlow<String?> = _endTimeText
 
     fun setTitle(title: String) {
         _title.value = title
@@ -89,6 +110,20 @@ class JobOfferWriteViewModel @Inject constructor(
     ) {
         val timestamp = DateUtils.dateToTimestamp(year, month, dayOfMonth)
         _endDate.value = timestamp
+    }
+
+    fun setStartTime(
+        hour: Int,
+        min: Int,
+    ) {
+        _startTimeText.value = "$hour:$min"
+    }
+
+    fun setEndTime(
+        hour: Int,
+        min: Int
+    ) {
+        _endTimeText.value = "$hour:$min"
     }
 
     fun setWorkHoursType(selectedTypeItem: WorkHoursTypeItem) {

@@ -36,7 +36,7 @@ object DateUtils {
     fun timestampToDateString(
         timestamp: Long
     ): String {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("yyyy:MM:dd", Locale.getDefault())
         return dateFormat.format(Date(timestamp))
     }
 }
