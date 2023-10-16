@@ -61,7 +61,7 @@ fun JobOfferBox(
                 )
             )
             Text(
-                text = "${item.salaryType.value} ${NumberUtils.formatPriceString(item.salary)}",
+                text = "${item.salaryType.value} ${NumberUtils.getPriceString(item.salary)}",
                 style = MaterialTheme.typography.paragraph300.copy(
                     fontWeight = FontWeight.Bold,
                     color = Grey800

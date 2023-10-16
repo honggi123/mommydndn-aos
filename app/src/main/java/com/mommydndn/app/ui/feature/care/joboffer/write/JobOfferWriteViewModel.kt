@@ -15,6 +15,7 @@ import com.mommydndn.app.data.respository.CaringRepository
 import com.mommydndn.app.data.respository.CommonRepositoy
 import com.mommydndn.app.data.respository.NoticeRepository
 import com.mommydndn.app.utils.DateUtils
+import com.mommydndn.app.utils.NumberUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -80,11 +81,15 @@ class JobOfferWriteViewModel @Inject constructor(
     private val _endDate: MutableStateFlow<Long?> = MutableStateFlow(null)
     val endDate: StateFlow<Long?> = _endDate
 
-    private val _startTimeText: MutableStateFlow<String?> = MutableStateFlow(null)
-    val startTimeText: StateFlow<String?> = _startTimeText
+    private val _startTime: MutableStateFlow<String?> = MutableStateFlow(null)
+    val startTime: StateFlow<String?> = _startTime
 
-    private val _endTimeText: MutableStateFlow<String?> = MutableStateFlow(null)
-    val endTimeText: StateFlow<String?> = _endTimeText
+    private val _endTime: MutableStateFlow<String?> = MutableStateFlow(null)
+    val endTime: StateFlow<String?> = _endTime
+
+    private val _salary: MutableStateFlow<Int?> = MutableStateFlow(null)
+    val salary: StateFlow<Int?> = _salary
+
 
     fun setTitle(title: String) {
         _title.value = title
@@ -116,14 +121,14 @@ class JobOfferWriteViewModel @Inject constructor(
         hour: Int,
         min: Int,
     ) {
-        _startTimeText.value = "$hour:$min"
+        _startTime.value = "$hour:$min"
     }
 
     fun setEndTime(
         hour: Int,
         min: Int
     ) {
-        _endTimeText.value = "$hour:$min"
+        _endTime.value = "$hour:$min"
     }
 
     fun setWorkHoursType(selectedTypeItem: WorkHoursTypeItem) {
@@ -145,5 +150,9 @@ class JobOfferWriteViewModel @Inject constructor(
             if (item == selectedCareType) item.copy(isSelected = true)
             else item
         }
+    }
+
+    fun setSalary(salary: String) {
+        _salary.value = NumberUtils.getPrice(salary)
     }
 }

@@ -108,7 +108,7 @@ fun TextInpuField(
                 )
             },
             keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Text
+                keyboardType = KeyboardType.Number
             ),
             isError = isError,
         )

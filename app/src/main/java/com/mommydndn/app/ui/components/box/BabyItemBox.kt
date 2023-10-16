@@ -82,7 +82,7 @@ fun MarketListItemBox(
             }
             Spacer(modifier = Modifier.padding(8.dp))
             Text(
-                text = NumberUtils.formatPriceString(item.price),
+                text = NumberUtils.getPriceString(item.price),
                 style = MaterialTheme.typography.paragraph400.copy(
                     fontWeight = FontWeight.Bold,
                     color = Grey800,

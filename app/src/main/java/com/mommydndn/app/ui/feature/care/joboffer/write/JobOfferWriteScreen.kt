@@ -71,6 +71,7 @@ import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.ui.theme.paragraph400
 import com.mommydndn.app.utils.DateUtils
+import com.mommydndn.app.utils.NumberUtils
 import kotlinx.coroutines.Job
 import java.util.Calendar
 
@@ -79,6 +80,9 @@ fun JobOfferWriteScreen(
     navController: NavHostController,
     viewModel: JobOfferWriteViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
+    val calendar = Calendar.getInstance()
+
     val careTypes by viewModel.careTypes.collectAsState()
     val workHoursTypes by viewModel.workHoursTypes.collectAsState()
     val salaryTypes by viewModel.salaryTypes.collectAsState()
@@ -90,11 +94,10 @@ fun JobOfferWriteScreen(
     val startDate by viewModel.stratDate.collectAsState()
     val endDate by viewModel.endDate.collectAsState()
 
-    val startTime by viewModel.startTimeText.collectAsState()
-    val endTime by viewModel.endTimeText.collectAsState()
+    val startTime by viewModel.startTime.collectAsState()
+    val endTime by viewModel.endTime.collectAsState()
 
-    val context = LocalContext.current
-    val calendar = Calendar.getInstance()
+    val salary by viewModel.salary.collectAsState()
 
     val startDatePicker = createDatePicker(
         calendar = calendar,
@@ -355,6 +358,8 @@ fun JobOfferWriteScreen(
 
                     TextInpuField(
                         label = salaryTypes.find { it.isSelected }?.salaryType?.value ?: "시급",
+                        value = salary?.let { NumberUtils.getPriceString(it) } ?: "",
+                        onValueChanged = { viewModel.setSalary(it) },
                         placeHolderText = "10,000",
                         descriptionText = "2023년 최저시급은 9,620원이에요"
                     )
