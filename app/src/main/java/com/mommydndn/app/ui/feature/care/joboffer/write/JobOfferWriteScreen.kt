@@ -324,7 +324,7 @@ fun JobOfferWriteScreen(
                     Spacer(modifier = Modifier.height(24.dp))
 
                     TextInpuField(
-                        label = "시급",
+                        label = salaryTypes.find { it.isSelected }?.salaryType?.value ?: "시급",
                         placeHolderText = "10,000",
                         descriptionText = "2023년 최저시급은 9,620원이에요"
                     )

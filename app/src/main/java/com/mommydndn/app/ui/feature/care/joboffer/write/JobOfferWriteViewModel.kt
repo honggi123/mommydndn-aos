@@ -83,14 +83,14 @@ class JobOfferWriteViewModel @Inject constructor(
     fun setWorkHoursType(selectedTypeItem: WorkHoursTypeItem) {
         _workHoursTypes.value = _workHoursTypes.value.map { item ->
             if (item == selectedTypeItem) item.copy(isSelected = true)
-            else item
+            else item.copy(isSelected = false)
         }
     }
 
     fun setSalaryType(selectedSalaryTypeItem: SalaryTypeItem) {
         _salaryTypes.value = _salaryTypes.value.map { item ->
             if (item == selectedSalaryTypeItem) item.copy(isSelected = true)
-            else item
+            else item.copy(isSelected = false)
         }
     }
 
