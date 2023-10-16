@@ -46,10 +46,12 @@ fun SelectScopeBox(
     onOption2Clicked: () -> Unit,
     isChecked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
-    isSelected: Boolean = false,
+    isOption1Selected: Boolean = false,
+    isOption2Selected: Boolean = false,
     checkListText: String = ""
 ) {
-    val textColor = if (isSelected) Grey800 else Grey400
+    val option1TextColor = if (isOption1Selected) Grey800 else Grey400
+    val option2TextColor = if (isOption2Selected) Grey800 else Grey400
 
     Column(
         verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.Top),
@@ -94,7 +96,7 @@ fun SelectScopeBox(
                     text = option1Text,
                     style = MaterialTheme.typography.paragraph300.copy(
                         fontWeight = FontWeight.Normal,
-                        color = textColor
+                        color = option1TextColor
                     )
                 )
                 Image(
@@ -110,7 +112,7 @@ fun SelectScopeBox(
                 text = "~",
                 style = MaterialTheme.typography.heading700.copy(
                     fontWeight = FontWeight.Normal,
-                    color = textColor
+                    color = Grey400
                 )
             )
 
@@ -134,7 +136,7 @@ fun SelectScopeBox(
                     text = option2Text,
                     style = MaterialTheme.typography.paragraph300.copy(
                         fontWeight = FontWeight.Normal,
-                        color = textColor,
+                        color = option2TextColor,
                         platformStyle = PlatformTextStyle(
                             includeFontPadding = false
                         )
@@ -166,7 +168,6 @@ fun SelectScopeBoxPreview() {
         onOption2Clicked = {},
         isChecked = true,
         onCheckedChange = {},
-        isSelected = true,
         checkListText = "Check this"
     )
 }

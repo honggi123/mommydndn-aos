@@ -67,6 +67,7 @@ import com.mommydndn.app.ui.theme.MommydndnaosTheme
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.ui.theme.paragraph400
+import com.mommydndn.app.utils.DateUtils
 import kotlinx.coroutines.Job
 import java.util.Calendar
 
@@ -82,7 +83,7 @@ fun JobOfferWriteScreen(
     val title by viewModel.title.collectAsState()
     val content by viewModel.content.collectAsState()
 
-    val stratDate by viewModel.stratDate.collectAsState()
+    val startDate by viewModel.stratDate.collectAsState()
     val endDate by viewModel.endDate.collectAsState()
 
     val context = LocalContext.current
@@ -94,8 +95,7 @@ fun JobOfferWriteScreen(
         month = calendar[Calendar.MONTH],
         dayOfMonth = calendar[Calendar.DAY_OF_MONTH]
     ) { year, month, dayOfMonth ->
-        val selectedDateText = "$year-${month + 1}-$dayOfMonth"
-        viewModel.setStartDate(selectedDateText)
+        viewModel.setStartDate(year, month, dayOfMonth)
     }
 
     val endDatePicker = createDatePicker(
@@ -104,8 +104,7 @@ fun JobOfferWriteScreen(
         month = calendar[Calendar.MONTH],
         dayOfMonth = calendar[Calendar.DAY_OF_MONTH]
     ) { year, month, dayOfMonth ->
-        val selectedDateText = "$year-${month + 1}-$dayOfMonth"
-        viewModel.setEndDate(selectedDateText)
+        viewModel.setEndDate(year, month, dayOfMonth)
     }
 
     startDatePicker.datePicker.minDate = calendar.timeInMillis
@@ -226,10 +225,12 @@ fun JobOfferWriteScreen(
                         SelectScopeBox(
                             modifier = Modifier.fillMaxWidth(),
                             label = "날짜",
-                            option1Text = "오는날짜",
-                            option2Text = "내일날짜",
+                            option1Text = startDate?.let { DateUtils.timestampToDateString(it) } ?: "오는날짜",
+                            option2Text = endDate?.let { DateUtils.timestampToDateString(it) } ?: "내일날짜",
                             onOption1Clicked = { startDatePicker.show() },
                             onOption2Clicked = { endDatePicker.show() },
+                            isOption1Selected = startDate != null,
+                            isOption2Selected = endDate != null,
                             isChecked = false,
                             onCheckedChange = {}
                         )

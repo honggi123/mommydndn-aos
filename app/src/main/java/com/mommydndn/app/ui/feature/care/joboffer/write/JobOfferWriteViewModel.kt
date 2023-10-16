@@ -12,6 +12,7 @@ import com.mommydndn.app.data.respository.BabyItemRepository
 import com.mommydndn.app.data.respository.CaringRepository
 import com.mommydndn.app.data.respository.CommonRepositoy
 import com.mommydndn.app.data.respository.NoticeRepository
+import com.mommydndn.app.utils.DateUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -58,11 +59,11 @@ class JobOfferWriteViewModel @Inject constructor(
     private val _content: MutableStateFlow<String> = MutableStateFlow("")
     val content: StateFlow<String> = _content
 
-    private val _startDate: MutableStateFlow<String> = MutableStateFlow("")
-    val stratDate: StateFlow<String> = _startDate
+    private val _startDate: MutableStateFlow<Long?> = MutableStateFlow(null)
+    val stratDate: StateFlow<Long?> = _startDate
 
-    private val _endDate: MutableStateFlow<String> = MutableStateFlow("")
-    val endDate: StateFlow<String> = _endDate
+    private val _endDate: MutableStateFlow<Long?> = MutableStateFlow(null)
+    val endDate: StateFlow<Long?> = _endDate
 
     fun setTitle(title: String) {
         _title.value = title
@@ -72,12 +73,22 @@ class JobOfferWriteViewModel @Inject constructor(
         _content.value = content
     }
 
-    fun setStartDate(startDate: String) {
-        _startDate.value = startDate
+    fun setStartDate(
+        year: Int,
+        month: Int,
+        dayOfMonth: Int
+    ) {
+        val timestamp = DateUtils.dateToTimestamp(year, month, dayOfMonth)
+        _startDate.value = timestamp
     }
 
-    fun setEndDate(endDate: String) {
-        _endDate.value = endDate
+    fun setEndDate(
+        year: Int,
+        month: Int,
+        dayOfMonth: Int
+    ) {
+        val timestamp = DateUtils.dateToTimestamp(year, month, dayOfMonth)
+        _endDate.value = timestamp
     }
 
     fun setWorkHoursType(selectedTypeItem: WorkHoursTypeItem) {

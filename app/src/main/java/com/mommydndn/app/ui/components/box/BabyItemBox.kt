@@ -20,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -34,7 +33,7 @@ import com.mommydndn.app.R
 import com.mommydndn.app.data.api.model.BabyItem
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.utils.NumberUtils
-import com.mommydndn.app.utils.TimeUtils
+import com.mommydndn.app.utils.DateUtils
 
 @Composable
 fun MarketListItemBox(
@@ -116,7 +115,7 @@ fun MarketListItemBox(
                 Spacer(modifier = Modifier.padding(4.dp))
 
                 Text(
-                    text = TimeUtils.formatTimeAgo(item.createdAt),
+                    text = DateUtils.getFormattedTimeAgo(item.createdAt),
                     style = MaterialTheme.typography.caption200.copy(
                         fontWeight = FontWeight.Normal,
                         color = Grey500,
