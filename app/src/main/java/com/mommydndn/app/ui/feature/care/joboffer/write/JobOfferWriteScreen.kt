@@ -35,7 +35,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -128,10 +127,7 @@ fun JobOfferWriteScreen(
                 text = "구인글 쓰기",
                 style = MaterialTheme.typography.paragraph400.copy(
                     fontWeight = FontWeight.Bold,
-                    color = Grey700,
-                    platformStyle = PlatformTextStyle(
-                        includeFontPadding = false
-                    )
+                    color = Grey700
                 )
             )
         }, rightContent = {
@@ -144,10 +140,7 @@ fun JobOfferWriteScreen(
                     text = "불러오기",
                     style = MaterialTheme.typography.paragraph300.copy(
                         fontWeight = FontWeight.Medium,
-                        color = Grey500,
-                        platformStyle = PlatformTextStyle(
-                            includeFontPadding = false
-                        )
+                        color = Grey500
                     )
                 )
             }
@@ -229,16 +222,21 @@ fun JobOfferWriteScreen(
                             .fillMaxWidth()
                             .padding(24.dp)
                     )
-                    SelectScopeBox(
-                        modifier = Modifier.fillMaxWidth(),
-                        label = "날짜",
-                        option1Text = "오는날짜",
-                        option2Text = "내일날짜",
-                        onOption1Clicked = { startDatePicker.show() },
-                        onOption2Clicked = { endDatePicker.show() },
-                        isChecked = false,
-                        onCheckedChange = {}
-                    )
+                    if (workHoursTypes.find { it.isSelected }?.workHoursType == WorkHoursType.REGULAR) {
+                        SelectScopeBox(
+                            modifier = Modifier.fillMaxWidth(),
+                            label = "날짜",
+                            option1Text = "오는날짜",
+                            option2Text = "내일날짜",
+                            onOption1Clicked = { startDatePicker.show() },
+                            onOption2Clicked = { endDatePicker.show() },
+                            isChecked = false,
+                            onCheckedChange = {}
+                        )
+                    } else {
+
+                    }
+
                     Spacer(
                         modifier = Modifier
                             .fillMaxWidth()

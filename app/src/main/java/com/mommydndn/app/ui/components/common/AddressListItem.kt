@@ -62,9 +62,6 @@ fun AddressListItem(
                     style = MaterialTheme.typography.paragraph300.copy(
                         fontWeight = FontWeight.Normal,
                         color = Grey700,
-                        platformStyle = PlatformTextStyle(
-                            includeFontPadding = false
-                        ),
                         textAlign = TextAlign.Center
                     )
                 )
@@ -82,10 +79,7 @@ fun AddressListItem(
                     text = roadAddressText,
                     style = MaterialTheme.typography.caption200.copy(
                         fontWeight = FontWeight.Normal,
-                        color = Grey500,
-                        platformStyle = PlatformTextStyle(
-                            includeFontPadding = false
-                        )
+                        color = Grey500
                     )
                 )
             }
@@ -103,10 +97,7 @@ fun AddressListItem(
                     text = streetAddressText,
                     style = MaterialTheme.typography.caption200.copy(
                         fontWeight = FontWeight.Normal,
-                        color = Grey500,
-                        platformStyle = PlatformTextStyle(
-                            includeFontPadding = false
-                        )
+                        color = Grey500
                     )
                 )
             }

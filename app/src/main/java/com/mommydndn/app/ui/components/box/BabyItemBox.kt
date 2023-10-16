@@ -87,9 +87,6 @@ fun MarketListItemBox(
                 style = MaterialTheme.typography.paragraph400.copy(
                     fontWeight = FontWeight.Bold,
                     color = Grey800,
-                    platformStyle = PlatformTextStyle(
-                        includeFontPadding = false
-                    ),
                     textAlign = TextAlign.Center
                 )
             )
@@ -98,9 +95,6 @@ fun MarketListItemBox(
                 style = MaterialTheme.typography.caption200.copy(
                     fontWeight = FontWeight.Normal,
                     color = Grey700,
-                    platformStyle = PlatformTextStyle(
-                        includeFontPadding = false
-                    ),
                     textAlign = TextAlign.Center
                 )
             )
@@ -110,9 +104,6 @@ fun MarketListItemBox(
                     style = MaterialTheme.typography.caption200.copy(
                         fontWeight = FontWeight.Normal,
                         color = Grey500,
-                        platformStyle = PlatformTextStyle(
-                            includeFontPadding = false
-                        ),
                         textAlign = TextAlign.Center
                     )
                 )
@@ -129,9 +120,6 @@ fun MarketListItemBox(
                     style = MaterialTheme.typography.caption200.copy(
                         fontWeight = FontWeight.Normal,
                         color = Grey500,
-                        platformStyle = PlatformTextStyle(
-                            includeFontPadding = false
-                        ),
                         textAlign = TextAlign.Center
                     )
                 )

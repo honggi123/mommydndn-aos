@@ -74,10 +74,7 @@ fun SquareButton(
                     text = text,
                     style = MaterialTheme.typography.paragraph500.copy(
                         fontWeight = FontWeight.Bold,
-                        color = Grey600,
-                        platformStyle = PlatformTextStyle(
-                            includeFontPadding = false
-                        )
+                        color = Grey600
                     )
                 )
             }

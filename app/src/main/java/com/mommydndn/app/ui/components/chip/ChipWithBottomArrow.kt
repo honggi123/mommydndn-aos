@@ -52,10 +52,7 @@ fun ChipWithBottomArrow(
                         text = text,
                         style = MaterialTheme.typography.caption200.copy(
                             fontWeight = FontWeight.Bold,
-                            color = Grey800,
-                            platformStyle = PlatformTextStyle(
-                                includeFontPadding = false
-                            )
+                            color = Grey800
                         )
                     )
                     Image(
@@ -80,10 +77,7 @@ fun ChipWithBottomArrow(
                         text = text,
                         style = MaterialTheme.typography.caption200.copy(
                             fontWeight = FontWeight.Medium,
-                            color = Grey700,
-                            platformStyle = PlatformTextStyle(
-                                includeFontPadding = false
-                            )
+                            color = Grey700
                         )
                     )
                     Image(

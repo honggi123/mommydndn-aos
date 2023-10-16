@@ -52,9 +52,6 @@ fun Badge(
             style = MaterialTheme.typography.caption100.copy(
                 fontWeight = FontWeight.Medium,
                 color = textColor,
-                platformStyle = PlatformTextStyle(
-                    includeFontPadding = false
-                ),
                 textAlign = TextAlign.Center
             )
         )

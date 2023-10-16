@@ -68,10 +68,7 @@ fun CheckMarkListItem(
                 modifier = Modifier.fillMaxWidth(),
                 text = text, style = MaterialTheme.typography.paragraph300.copy(
                     fontWeight = FontWeight.Normal,
-                    color = Grey600,
-                    platformStyle = PlatformTextStyle(
-                        includeFontPadding = false
-                    )
+                    color = Grey600
                 )
             )
         }

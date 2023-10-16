@@ -62,10 +62,7 @@ fun TextInpuField(
             text = label,
             style = MaterialTheme.typography.paragraph300.copy(
                 fontWeight = FontWeight.Bold,
-                color = Grey500,
-                platformStyle = PlatformTextStyle(
-                    includeFontPadding = false
-                )
+                color = Grey500
             )
         )
 
@@ -88,20 +85,14 @@ fun TextInpuField(
             },
             textStyle = MaterialTheme.typography.paragraph300.copy(
                 fontWeight = FontWeight.Normal,
-                color = Grey500,
-                platformStyle = PlatformTextStyle(
-                    includeFontPadding = false
-                )
+                color = Grey500
             ),
             trailingIcon = {
                 Text(
                     text = "원",
                     style = MaterialTheme.typography.paragraph300.copy(
                         fontWeight = FontWeight.Normal,
-                        color = Grey400,
-                        platformStyle = PlatformTextStyle(
-                            includeFontPadding = false
-                        )
+                        color = Grey400
                     ),
                     modifier = Modifier
                         .wrapContentHeight(align = Alignment.CenterVertically)
@@ -112,10 +103,7 @@ fun TextInpuField(
                     text = placeHolderText,
                     style = MaterialTheme.typography.paragraph300.copy(
                         fontWeight = FontWeight.Normal,
-                        color = Grey400,
-                        platformStyle = PlatformTextStyle(
-                            includeFontPadding = false
-                        )
+                        color = Grey400
                     )
                 )
             },
@@ -128,10 +116,7 @@ fun TextInpuField(
             text = descriptionText,
             style = MaterialTheme.typography.caption200.copy(
                 fontWeight = FontWeight.Normal,
-                color = Grey400,
-                platformStyle = PlatformTextStyle(
-                    includeFontPadding = false
-                )
+                color = Grey400
             )
         )
     }

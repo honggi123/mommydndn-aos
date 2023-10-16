@@ -67,10 +67,7 @@ fun SubBanner() {
                     modifier = Modifier.fillMaxWidth(),
                     text = text,
                     style = MaterialTheme.typography.caption200.copy(
-                        fontWeight = FontWeight.Bold,
-                        platformStyle = PlatformTextStyle(
-                            includeFontPadding = false
-                        )
+                        fontWeight = FontWeight.Bold
                     )
                 )
                 Spacer(modifier = Modifier.padding(14.dp))
@@ -79,10 +76,7 @@ fun SubBanner() {
                         text = "의견 남기기",
                         style = MaterialTheme.typography.paragraph300.copy(
                             fontWeight = FontWeight.Medium,
-                            color = Grey600,
-                            platformStyle = PlatformTextStyle(
-                                includeFontPadding = false
-                            )
+                            color = Grey600
                         )
                     )
                 }

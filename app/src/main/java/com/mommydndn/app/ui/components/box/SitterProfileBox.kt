@@ -61,9 +61,6 @@ fun ProfileSitterBox(
                 style = MaterialTheme.typography.caption200.copy(
                     fontWeight = FontWeight.Medium,
                     color = Grey600,
-                    platformStyle = PlatformTextStyle(
-                        includeFontPadding = false
-                    ),
                     textAlign = TextAlign.Center
                 )
             )

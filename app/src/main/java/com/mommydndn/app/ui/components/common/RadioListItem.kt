@@ -79,10 +79,7 @@ fun RadioListItem(
                     modifier = Modifier.fillMaxWidth(),
                     text = text, style = MaterialTheme.typography.paragraph300.copy(
                         fontWeight = FontWeight.Normal,
-                        color = Grey700,
-                        platformStyle = PlatformTextStyle(
-                            includeFontPadding = false
-                        )
+                        color = Grey700
                     )
                 )
             }

@@ -36,10 +36,7 @@ fun MaintextBox(
                 text = captionText,
                 style = MaterialTheme.typography.paragraph300.copy(
                     fontWeight = FontWeight.Normal,
-                    color = Grey500,
-                    platformStyle = PlatformTextStyle(
-                        includeFontPadding = false
-                    )
+                    color = Grey500
                 )
             )
             Spacer(modifier = Modifier.padding(6.dp))
@@ -47,10 +44,7 @@ fun MaintextBox(
                 text = titleText,
                 style = MaterialTheme.typography.heading800.copy(
                     fontWeight = FontWeight.Bold,
-                    color = Grey700,
-                    platformStyle = PlatformTextStyle(
-                        includeFontPadding = false
-                    )
+                    color = Grey700
                 )
             )
         }

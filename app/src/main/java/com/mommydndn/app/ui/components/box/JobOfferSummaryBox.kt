@@ -65,10 +65,7 @@ fun JobOfferSummaryBox(
                         text = item.title,
                         style = MaterialTheme.typography.caption200.copy(
                             fontWeight = FontWeight.Medium,
-                            color = Grey700,
-                            platformStyle = PlatformTextStyle(
-                                includeFontPadding = false
-                            )
+                            color = Grey700
                         )
                     )
                     Row(
@@ -78,10 +75,7 @@ fun JobOfferSummaryBox(
                             text = item.neighborhood,
                             style = MaterialTheme.typography.caption100.copy(
                                 fontWeight = FontWeight.Normal,
-                                color = Grey500,
-                                platformStyle = PlatformTextStyle(
-                                    includeFontPadding = false
-                                )
+                                color = Grey500
                             )
                         )
                         Spacer(modifier = Modifier.size(4.dp))
@@ -96,10 +90,7 @@ fun JobOfferSummaryBox(
                             text = item.createdAt,
                             style = MaterialTheme.typography.caption100.copy(
                                 fontWeight = FontWeight.Normal,
-                                color = Grey500,
-                                platformStyle = PlatformTextStyle(
-                                    includeFontPadding = false
-                                )
+                                color = Grey500
                             )
                         )
                     }
@@ -129,10 +120,7 @@ fun JobOfferSummaryBox(
                         text = "토,일",
                         style = MaterialTheme.typography.caption100.copy(
                             fontWeight = FontWeight.Normal,
-                            color = Grey500,
-                            platformStyle = PlatformTextStyle(
-                                includeFontPadding = false
-                            )
+                            color = Grey500
                         )
                     )
                     Spacer(modifier = Modifier.size(4.dp))
@@ -146,10 +134,7 @@ fun JobOfferSummaryBox(
                         text = item.startTime + "~" + item.endTime,
                         style = MaterialTheme.typography.caption100.copy(
                             fontWeight = FontWeight.Normal,
-                            color = Grey500,
-                            platformStyle = PlatformTextStyle(
-                                includeFontPadding = false
-                            )
+                            color = Grey500
                         )
                     )
                 }
@@ -160,20 +145,14 @@ fun JobOfferSummaryBox(
                         text = item.salaryTypeCode,
                         style = MaterialTheme.typography.paragraph300.copy(
                             fontWeight = FontWeight.Bold,
-                            color = Grey800,
-                            platformStyle = PlatformTextStyle(
-                                includeFontPadding = false
-                            )
+                            color = Grey800
                         )
                     )
                     Text(
                         text = item.salary.toString(),
                         style = MaterialTheme.typography.paragraph300.copy(
                             fontWeight = FontWeight.Bold,
-                            color = Grey800,
-                            platformStyle = PlatformTextStyle(
-                                includeFontPadding = false
-                            )
+                            color = Grey800
                         )
                     )
                 }

@@ -38,22 +38,19 @@ fun SubtextBox(
 
     val titleTextStyle = MaterialTheme.typography.heading600.copy(
         fontWeight = FontWeight.Bold,
-        color = Grey800,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        color = Grey800
     )
 
     val subtitleTextStyle = MaterialTheme.typography.caption200.copy(
         fontWeight = FontWeight.Normal,
-        color = Grey400,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        color = Grey400
     )
 
     val rightTextStyle = when (size) {
         SubtextBoxSize.L -> MaterialTheme.typography.paragraph300.copy(fontWeight = FontWeight.Medium)
         SubtextBoxSize.S, SubtextBoxSize.M -> MaterialTheme.typography.caption200
     }.copy(
-        color = Grey400,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        color = Grey400
     )
 
     val padding = when (size) {

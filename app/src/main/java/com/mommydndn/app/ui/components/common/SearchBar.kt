@@ -99,10 +99,7 @@ fun Searchbar(
                 ),
                 textStyle = MaterialTheme.typography.paragraph300.copy(
                     fontWeight = FontWeight.Medium,
-                    color = Grey700,
-                    platformStyle = PlatformTextStyle(
-                        includeFontPadding = false
-                    )
+                    color = Grey700
                 ),
                 singleLine = true,
                 placeholder = {
@@ -110,10 +107,7 @@ fun Searchbar(
                         text = placeHolderText,
                         style = MaterialTheme.typography.paragraph300.copy(
                             fontWeight = FontWeight.Medium,
-                            color = Grey400,
-                            platformStyle = PlatformTextStyle(
-                                includeFontPadding = false
-                            )
+                            color = Grey400
                         ),
                         maxLines = 1
                     )

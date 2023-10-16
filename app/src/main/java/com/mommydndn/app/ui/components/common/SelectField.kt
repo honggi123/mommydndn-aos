@@ -55,10 +55,7 @@ fun SelectField(
                 text = label,
                 style = MaterialTheme.typography.paragraph300.copy(
                     fontWeight = FontWeight.Bold,
-                    color = Grey500,
-                    platformStyle = PlatformTextStyle(
-                        includeFontPadding = false
-                    )
+                    color = Grey500
                 )
             )
         }
@@ -81,10 +78,7 @@ fun SelectField(
                 text = value,
                 style = MaterialTheme.typography.paragraph300.copy(
                     fontWeight = FontWeight.Normal,
-                    color = textColor,
-                    platformStyle = PlatformTextStyle(
-                        includeFontPadding = false
-                    )
+                    color = textColor
                 )
             )
             Image(

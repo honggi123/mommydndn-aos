@@ -78,10 +78,7 @@ fun PostTextFieldBox(
             value = title,
             textStyle = MaterialTheme.typography.paragraph300.copy(
                 fontWeight = FontWeight.Normal,
-                color = Grey800,
-                platformStyle = PlatformTextStyle(
-                    includeFontPadding = false
-                )
+                color = Grey800
             ),
             onValueChange = {
                 onTitleTextChanged(it)
@@ -91,10 +88,7 @@ fun PostTextFieldBox(
                     text = "(필수) 글 제목을 입력하세요",
                     style = MaterialTheme.typography.paragraph400.copy(
                         fontWeight = FontWeight.Bold,
-                        color = Grey400,
-                        platformStyle = PlatformTextStyle(
-                            includeFontPadding = false
-                        )
+                        color = Grey400
                     )
                 )
             },
@@ -137,10 +131,7 @@ fun PostTextFieldBox(
                         text = "(선택) 상대방을 불쾌하게 하는 공고를 올리지 말아주세요. 일정 횟수 이상 차단을 당하면 서비스 이용이 제한될 수 있어요.",
                         style = MaterialTheme.typography.paragraph300.copy(
                             fontWeight = FontWeight.Normal,
-                            color = Grey400,
-                            platformStyle = PlatformTextStyle(
-                                includeFontPadding = false
-                            )
+                            color = Grey400
                         )
                     )
                 },
@@ -150,10 +141,7 @@ fun PostTextFieldBox(
                 ),
                 textStyle = MaterialTheme.typography.paragraph300.copy(
                     fontWeight = FontWeight.Normal,
-                    color = Grey800,
-                    platformStyle = PlatformTextStyle(
-                        includeFontPadding = false
-                    )
+                    color = Grey800
                 )
             )
 
@@ -161,10 +149,7 @@ fun PostTextFieldBox(
                 text = "$textCount/500자",
                 style = MaterialTheme.typography.caption100.copy(
                     fontWeight = FontWeight.Normal,
-                    color = Grey500,
-                    platformStyle = PlatformTextStyle(
-                        includeFontPadding = false
-                    )
+                    color = Grey500
                 )
             )
         }

@@ -65,10 +65,7 @@ fun SelectScopeBox(
                 text = label,
                 style = MaterialTheme.typography.paragraph300.copy(
                     fontWeight = FontWeight.Bold,
-                    color = Grey500,
-                    platformStyle = PlatformTextStyle(
-                        includeFontPadding = false
-                    )
+                    color = Grey500
                 )
             )
         }
@@ -97,10 +94,7 @@ fun SelectScopeBox(
                     text = option1Text,
                     style = MaterialTheme.typography.paragraph300.copy(
                         fontWeight = FontWeight.Normal,
-                        color = textColor,
-                        platformStyle = PlatformTextStyle(
-                            includeFontPadding = false
-                        )
+                        color = textColor
                     )
                 )
                 Image(
@@ -116,10 +110,7 @@ fun SelectScopeBox(
                 text = "~",
                 style = MaterialTheme.typography.heading700.copy(
                     fontWeight = FontWeight.Normal,
-                    color = textColor,
-                    platformStyle = PlatformTextStyle(
-                        includeFontPadding = false
-                    )
+                    color = textColor
                 )
             )
 

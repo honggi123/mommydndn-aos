@@ -55,10 +55,7 @@ fun ImageInputField(
                     text = inputType.index.toString() + "/10",
                     style = MaterialTheme.typography.paragraph300.copy(
                         fontWeight = FontWeight.Normal,
-                        color = Grey500,
-                        platformStyle = PlatformTextStyle(
-                            includeFontPadding = false
-                        )
+                        color = Grey500
                     )
                 )
             }

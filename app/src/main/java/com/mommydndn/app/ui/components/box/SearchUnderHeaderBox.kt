@@ -65,10 +65,7 @@ fun SearchUnderHeader(
                     text = headerText,
                     style = MaterialTheme.typography.paragraph300.copy(
                         fontWeight = FontWeight.Bold,
-                        color = Grey700,
-                        platformStyle = PlatformTextStyle(
-                            includeFontPadding = false
-                        )
+                        color = Grey700
                     )
                 )
             }

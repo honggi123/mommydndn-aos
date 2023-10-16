@@ -71,10 +71,7 @@ fun CommunityPostBox(
                         text = item.userName,
                         style = MaterialTheme.typography.caption200.copy(
                             fontWeight = FontWeight.Bold,
-                            color = Grey600,
-                            platformStyle = PlatformTextStyle(
-                                includeFontPadding = false
-                            )
+                            color = Grey600
                         )
                     )
                     Spacer(modifier = Modifier.padding(2.dp))
@@ -82,10 +79,7 @@ fun CommunityPostBox(
                         text = item.date,
                         style = MaterialTheme.typography.caption100.copy(
                             fontWeight = FontWeight.Normal,
-                            color = Grey400,
-                            platformStyle = PlatformTextStyle(
-                                includeFontPadding = false
-                            )
+                            color = Grey400
                         )
                     )
                 }
@@ -97,10 +91,7 @@ fun CommunityPostBox(
                 text = item.title,
                 style = MaterialTheme.typography.paragraph300.copy(
                     fontWeight = FontWeight.Bold,
-                    color = Grey700,
-                    platformStyle = PlatformTextStyle(
-                        includeFontPadding = false
-                    )
+                    color = Grey700
                 )
             )
 
@@ -110,10 +101,7 @@ fun CommunityPostBox(
                 text = item.content,
                 style = MaterialTheme.typography.caption200.copy(
                     fontWeight = FontWeight.Medium,
-                    color = Grey600,
-                    platformStyle = PlatformTextStyle(
-                        includeFontPadding = false
-                    )
+                    color = Grey600
                 )
 
             )

@@ -71,10 +71,7 @@ fun FooterBox(
                 text = "(주)마미든든 주식회사",
                 style = MaterialTheme.typography.caption200.copy(
                     fontWeight = FontWeight.Bold,
-                    color = Grey500,
-                    platformStyle = PlatformTextStyle(
-                        includeFontPadding = false
-                    )
+                    color = Grey500
                 )
             )
             Spacer(modifier = Modifier.padding(24.dp))
@@ -85,10 +82,7 @@ fun FooterBox(
                     text = "대표 이종현",
                     style = MaterialTheme.typography.caption100.copy(
                         fontWeight = FontWeight.Medium,
-                        color = Grey400,
-                        platformStyle = PlatformTextStyle(
-                            includeFontPadding = false
-                        )
+                        color = Grey400
                     )
                 )
                 Spacer(modifier = Modifier.padding(6.dp))
@@ -103,10 +97,7 @@ fun FooterBox(
                     text = "사업자등록번호 740-88-00896",
                     style = MaterialTheme.typography.caption100.copy(
                         fontWeight = FontWeight.Medium,
-                        color = Grey400,
-                        platformStyle = PlatformTextStyle(
-                            includeFontPadding = false
-                        )
+                        color = Grey400
                     )
                 )
             }
@@ -118,10 +109,7 @@ fun FooterBox(
                     text = "서울시 송파구 오금로 306",
                     style = MaterialTheme.typography.caption100.copy(
                         fontWeight = FontWeight.Medium,
-                        color = Grey400,
-                        platformStyle = PlatformTextStyle(
-                            includeFontPadding = false
-                        )
+                        color = Grey400
                     )
                 )
                 Spacer(modifier = Modifier.padding(6.dp))
@@ -136,10 +124,7 @@ fun FooterBox(
                     text = "cs@mommydndn.com",
                     style = MaterialTheme.typography.caption100.copy(
                         fontWeight = FontWeight.Medium,
-                        color = Grey400,
-                        platformStyle = PlatformTextStyle(
-                            includeFontPadding = false
-                        )
+                        color = Grey400
                     )
                 )
             }
@@ -148,10 +133,7 @@ fun FooterBox(
                 text = "직업정보제공사업 서울동부 2021-20호",
                 style = MaterialTheme.typography.caption100.copy(
                     fontWeight = FontWeight.Medium,
-                    color = Grey400,
-                    platformStyle = PlatformTextStyle(
-                        includeFontPadding = false
-                    )
+                    color = Grey400
                 )
             )
 
@@ -159,10 +141,7 @@ fun FooterBox(
                 text = "통신판매신고번호 2018-서울송파-0033",
                 style = MaterialTheme.typography.caption100.copy(
                     fontWeight = FontWeight.Medium,
-                    color = Grey400,
-                    platformStyle = PlatformTextStyle(
-                        includeFontPadding = false
-                    )
+                    color = Grey400
                 )
             )
 
@@ -173,10 +152,7 @@ fun FooterBox(
                     text = "이용약관",
                     style = MaterialTheme.typography.caption100.copy(
                         fontWeight = FontWeight.Bold,
-                        color = Grey500,
-                        platformStyle = PlatformTextStyle(
-                            includeFontPadding = false
-                        )
+                        color = Grey500
                     )
                 )
                 Spacer(modifier = Modifier.padding(8.dp))
@@ -185,10 +161,7 @@ fun FooterBox(
                     text = "개인정보처리방침",
                     style = MaterialTheme.typography.caption100.copy(
                         fontWeight = FontWeight.Bold,
-                        color = Grey500,
-                        platformStyle = PlatformTextStyle(
-                            includeFontPadding = false
-                        )
+                        color = Grey500
                     )
                 )
 
@@ -200,10 +173,7 @@ fun FooterBox(
                     text = "1:1문의하기",
                     style = MaterialTheme.typography.caption100.copy(
                         fontWeight = FontWeight.Bold,
-                        color = Grey500,
-                        platformStyle = PlatformTextStyle(
-                            includeFontPadding = false
-                        )
+                        color = Grey500
                     )
                 )
             }

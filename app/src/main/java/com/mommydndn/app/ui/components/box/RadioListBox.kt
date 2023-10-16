@@ -53,9 +53,6 @@ fun <T : Any> RadioListBox(
                 style = MaterialTheme.typography.paragraph300.copy(
                     fontWeight = FontWeight.Normal,
                     color = Grey400,
-                    platformStyle = PlatformTextStyle(
-                        includeFontPadding = false
-                    ),
                     textAlign = TextAlign.Center
                 )
             )

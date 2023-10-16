@@ -51,10 +51,7 @@ fun SelectButton(
             text = content.text,
             style = MaterialTheme.typography.caption200.copy(
                 fontWeight = FontWeight.Medium,
-                color = Grey600,
-                platformStyle = PlatformTextStyle(
-                    includeFontPadding = false
-                )
+                color = Grey600
             )
         )
     }

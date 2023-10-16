@@ -46,10 +46,7 @@ fun JobOfferBox(
                     text = item.title,
                     style = MaterialTheme.typography.paragraph300.copy(
                         fontWeight = FontWeight.Bold,
-                        color = Grey800,
-                        platformStyle = PlatformTextStyle(
-                            includeFontPadding = false
-                        ),
+                        color = Grey800
                     ),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
@@ -60,20 +57,14 @@ fun JobOfferBox(
                 text = item.neighborhood,
                 style = MaterialTheme.typography.caption200.copy(
                     fontWeight = FontWeight.Medium,
-                    color = Grey400,
-                    platformStyle = PlatformTextStyle(
-                        includeFontPadding = false
-                    )
+                    color = Grey400
                 )
             )
             Text(
                 text = "${item.salaryType.value} ${NumberUtils.formatPriceString(item.salary)}",
                 style = MaterialTheme.typography.paragraph300.copy(
                     fontWeight = FontWeight.Bold,
-                    color = Grey800,
-                    platformStyle = PlatformTextStyle(
-                        includeFontPadding = false
-                    )
+                    color = Grey800
                 )
             )
         }
