@@ -89,33 +89,28 @@ fun JobOfferWriteScreen(
     val context = LocalContext.current
     val calendar = Calendar.getInstance()
 
-    val year = calendar[Calendar.YEAR]
-    val month = calendar[Calendar.MONTH]
-    val dayOfMonth = calendar[Calendar.DAY_OF_MONTH]
-
-    val datePicker1 = createDatePicker(
+    val startDatePicker = createDatePicker(
         context = context,
-        year = year,
-        month = month,
-        dayOfMonth = dayOfMonth
+        year = calendar[Calendar.YEAR],
+        month = calendar[Calendar.MONTH],
+        dayOfMonth = calendar[Calendar.DAY_OF_MONTH]
     ) { year, month, dayOfMonth ->
         val selectedDateText = "$year-${month + 1}-$dayOfMonth"
         viewModel.setStartDate(selectedDateText)
     }
 
-    val datePicker2 = createDatePicker(
+    val endDatePicker = createDatePicker(
         context = context,
-        year = year,
-        month = month,
-        dayOfMonth = dayOfMonth
+        year = calendar[Calendar.YEAR],
+        month = calendar[Calendar.MONTH],
+        dayOfMonth = calendar[Calendar.DAY_OF_MONTH]
     ) { year, month, dayOfMonth ->
         val selectedDateText = "$year-${month + 1}-$dayOfMonth"
         viewModel.setEndDate(selectedDateText)
     }
 
-    datePicker1.datePicker.minDate = calendar.timeInMillis
-    datePicker2.datePicker.minDate = calendar.timeInMillis
-
+    startDatePicker.datePicker.minDate = calendar.timeInMillis
+    endDatePicker.datePicker.minDate = calendar.timeInMillis
 
     Column(
         modifier = Modifier
@@ -239,8 +234,8 @@ fun JobOfferWriteScreen(
                         label = "날짜",
                         option1Text = "오는날짜",
                         option2Text = "내일날짜",
-                        onOption1Clicked = { datePicker1.show() },
-                        onOption2Clicked = { datePicker2.show() },
+                        onOption1Clicked = { startDatePicker.show() },
+                        onOption2Clicked = { endDatePicker.show() },
                         isChecked = false,
                         onCheckedChange = {}
                     )
