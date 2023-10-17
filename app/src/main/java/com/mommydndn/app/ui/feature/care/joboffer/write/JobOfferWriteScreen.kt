@@ -126,22 +126,19 @@ fun JobOfferWriteScreen(
         viewModel.setEndDate(year, month, dayOfMonth)
     }
 
-    val hour = calendar[Calendar.HOUR_OF_DAY]
-    val minute = calendar[Calendar.MINUTE]
+    val startTimePicker = createTimePickerDialog(
+        calendar = calendar,
+        context = context
+    ) { hour, min ->
+        viewModel.setStartTime(hour, min)
+    }
 
-    val startTimePicker = TimePickerDialog(
-        context,
-        { _, selectedHour: Int, selectedMinute: Int ->
-            viewModel.setStartTime(selectedHour, selectedMinute)
-        }, hour, minute, false
-    )
-
-    val endTimePicker = TimePickerDialog(
-        context,
-        { _, selectedHour: Int, selectedMinute: Int ->
-            viewModel.setEndTime(selectedHour, selectedMinute)
-        }, hour, minute, false
-    )
+    val endTimePicker = createTimePickerDialog(
+        calendar = calendar,
+        context = context
+    ) { hour, min ->
+        viewModel.setEndTime(hour, min)
+    }
 
     val takePhotoFromAlbumLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.GetMultipleContents()) { uriList ->
@@ -485,5 +482,20 @@ private fun createDatePicker(
     )
 }
 
+private fun createTimePickerDialog(
+    calendar: Calendar,
+    context: Context,
+    onTimeSelected: (Int, Int) -> Unit
+): TimePickerDialog {
+    val hour = calendar[Calendar.HOUR_OF_DAY]
+    val minute = calendar[Calendar.MINUTE]
+
+    return TimePickerDialog(
+        context,
+        { _, selectedHour: Int, selectedMinute: Int ->
+            onTimeSelected(selectedHour, selectedMinute)
+        }, hour, minute, false
+    )
+}
 
 
