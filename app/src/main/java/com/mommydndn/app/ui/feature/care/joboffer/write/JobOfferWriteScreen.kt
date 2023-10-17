@@ -30,6 +30,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
@@ -191,296 +193,293 @@ fun JobOfferWriteScreen(
             }
         })
 
-        LazyColumn {
-            item {
-                PostTextFieldBox(
-                    title = title,
-                    content = content,
-                    onTitleTextChanged = { viewModel.setTitle(it) },
-                    onContentTextChanged = { viewModel.setContent(it) }
+        Column(
+            modifier = Modifier.verticalScroll(rememberScrollState())
+        ) {
+            PostTextFieldBox(
+                title = title,
+                content = content,
+                onTitleTextChanged = { viewModel.setTitle(it) },
+                onContentTextChanged = { viewModel.setContent(it) }
+            )
+
+            SubtextBox(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                titleText = "필요한 돌봄",
+                subtitleText = "(필수)",
+                size = SubtextBoxSize.S
+            )
+            Box(
+                modifier = Modifier.padding(
+                    start = 24.dp,
+                    top = 16.dp,
+                    bottom = 40.dp,
+                    end = 24.dp
                 )
+            ) {
+                Row {
+                    careTypes.forEach { type ->
+                        ClickableChip(
+                            modifier = Modifier.height(36.dp),
+                            text = type.caringType.value,
+                            selected = type.isSelected,
+                            onClick = { viewModel.selectCareTypes(type) }
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                    }
+                }
             }
-            item {
-                SubtextBox(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    titleText = "필요한 돌봄",
-                    subtitleText = "(필수)",
-                    size = SubtextBoxSize.S
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = Grey50)
+                    .padding(20.dp)
+            )
+
+
+            SubtextBox(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                titleText = "일하는 시간",
+                subtitleText = "(필수)",
+                size = SubtextBoxSize.S
+            )
+            Column(
+                modifier = Modifier.padding(
+                    start = 24.dp,
+                    top = 16.dp,
+                    bottom = 40.dp,
+                    end = 24.dp
                 )
-                Box(
-                    modifier = Modifier.padding(
-                        start = 24.dp,
-                        top = 16.dp,
-                        bottom = 40.dp,
-                        end = 24.dp
-                    )
-                ) {
-                    Row {
-                        careTypes.forEach { type ->
-                            ClickableChip(
-                                modifier = Modifier.height(36.dp),
-                                text = type.caringType.value,
-                                selected = type.isSelected,
-                                onClick = { viewModel.selectCareTypes(type) }
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                        }
+            ) {
+                Row {
+                    workHoursTypes.forEach { type ->
+                        ClickableChip(
+                            modifier = Modifier.height(36.dp),
+                            text = type.workHoursType.value,
+                            selected = type.isSelected,
+                            onClick = { viewModel.selectWorkHoursType(type) }
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
                     }
                 }
                 Spacer(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(color = Grey50)
-                        .padding(20.dp)
+                        .padding(24.dp)
                 )
-            }
-            item {
-                SubtextBox(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    titleText = "일하는 시간",
-                    subtitleText = "(필수)",
-                    size = SubtextBoxSize.S
-                )
-                Column(
-                    modifier = Modifier.padding(
-                        start = 24.dp,
-                        top = 16.dp,
-                        bottom = 40.dp,
-                        end = 24.dp
-                    )
-                ) {
-                    Row {
-                        workHoursTypes.forEach { type ->
-                            ClickableChip(
-                                modifier = Modifier.height(36.dp),
-                                text = type.workHoursType.value,
-                                selected = type.isSelected,
-                                onClick = { viewModel.selectWorkHoursType(type) }
+                if (workHoursTypes.find { it.isSelected }?.workHoursType == WorkHoursType.REGULAR) {
+                    SelectButtonScopeBox(
+                        label = "요일",
+                        list = dayOfWeekTypes.map { item ->
+                            SelectButtonContent(
+                                isSelected = item.isSelected,
+                                text = item.type.displayingName,
+                                onClick = { viewModel.selectDayOfWeek(item) }
                             )
-                            Spacer(modifier = Modifier.width(8.dp))
-                        }
-                    }
-                    Spacer(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(24.dp)
-                    )
-                    if (workHoursTypes.find { it.isSelected }?.workHoursType == WorkHoursType.REGULAR) {
-                        SelectButtonScopeBox(
-                            label = "요일",
-                            list = dayOfWeekTypes.map { item ->
-                                SelectButtonContent(
-                                    isSelected = item.isSelected,
-                                    text = item.type.displayingName,
-                                    onClick = { viewModel.selectDayOfWeek(item) }
-                                )
-                            })
-                    } else {
-                        SelectScopeBox(
-                            modifier = Modifier.fillMaxWidth(),
-                            label = "날짜",
-                            option1Text = startDate?.let { DateTimeUtils.getLocalDateText(it) }
-                                ?: "오는날짜",
-                            option2Text = endDate?.let { DateTimeUtils.getLocalDateText(it) }
-                                ?: "내일날짜",
-                            onOption1Clicked = { startDatePicker.show() },
-                            onOption2Clicked = { endDatePicker.show() },
-                            isOption1Selected = startDate != null,
-                            isOption2Selected = endDate != null,
-                            isChecked = false,
-                            onCheckedChange = {}
-                        )
-                    }
-
-                    Spacer(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(24.dp)
-                    )
+                        })
+                } else {
                     SelectScopeBox(
                         modifier = Modifier.fillMaxWidth(),
-                        label = "시간",
-                        option1Text = startTime?.let { DateTimeUtils.getLocalTimeText(it) }
-                            ?: "시작시간",
-                        option2Text = endTime?.let { DateTimeUtils.getLocalTimeText(it) } ?: "종료시간",
-                        onOption1Clicked = { startTimePicker.show() },
-                        onOption2Clicked = { endTimePicker.show() },
+                        label = "날짜",
+                        option1Text = startDate?.let { DateTimeUtils.getLocalDateText(it) }
+                            ?: "오는날짜",
+                        option2Text = endDate?.let { DateTimeUtils.getLocalDateText(it) }
+                            ?: "내일날짜",
+                        onOption1Clicked = { startDatePicker.show() },
+                        onOption2Clicked = { endDatePicker.show() },
+                        isOption1Selected = startDate != null,
+                        isOption2Selected = endDate != null,
                         isChecked = false,
-                        isOption1Selected = startTime != null,
-                        isOption2Selected = endTime != null,
-                        onCheckedChange = {},
-                        checkListText = "협의 가능해요"
+                        onCheckedChange = {}
                     )
                 }
+
                 Spacer(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(color = Grey50)
-                        .padding(20.dp)
+                        .padding(24.dp)
+                )
+                SelectScopeBox(
+                    modifier = Modifier.fillMaxWidth(),
+                    label = "시간",
+                    option1Text = startTime?.let { DateTimeUtils.getLocalTimeText(it) }
+                        ?: "시작시간",
+                    option2Text = endTime?.let { DateTimeUtils.getLocalTimeText(it) } ?: "종료시간",
+                    onOption1Clicked = { startTimePicker.show() },
+                    onOption2Clicked = { endTimePicker.show() },
+                    isChecked = false,
+                    isOption1Selected = startTime != null,
+                    isOption2Selected = endTime != null,
+                    onCheckedChange = {},
+                    checkListText = "협의 가능해요"
                 )
             }
-            item {
-                SubtextBox(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    titleText = "일하는 장소",
-                    subtitleText = "(필수)",
-                    size = SubtextBoxSize.S
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = Grey50)
+                    .padding(20.dp)
+            )
+
+
+            SubtextBox(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                titleText = "일하는 장소",
+                subtitleText = "(필수)",
+                size = SubtextBoxSize.S
+            )
+            Box(
+                modifier = Modifier.padding(
+                    start = 24.dp,
+                    top = 16.dp,
+                    bottom = 40.dp,
+                    end = 24.dp
                 )
-                Box(
-                    modifier = Modifier.padding(
-                        start = 24.dp,
-                        top = 16.dp,
-                        bottom = 40.dp,
-                        end = 24.dp
-                    )
-                ) {
-                    SelectField(
-                        modifier = Modifier.fillMaxWidth(),
-                        label = "주소",
-                        value = "서초구",
-                        onClickSelection = {
-                            NavigationUtils.navigate(navController, JobOfferWriteNearestNav.route)
-                        }
-                    )
-                }
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(color = Grey50)
-                        .padding(20.dp)
-                )
-            }
-            item {
-                SubtextBox(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    titleText = "임금",
-                    subtitleText = "(필수)",
-                    size = SubtextBoxSize.S
-                )
-                Column(
-                    modifier = Modifier.padding(
-                        start = 24.dp,
-                        top = 16.dp,
-                        bottom = 40.dp,
-                        end = 24.dp
-                    )
-                ) {
-                    Row {
-                        salaryTypes.forEach { type ->
-                            ClickableChip(
-                                modifier = Modifier.height(36.dp),
-                                text = type.salaryType.value,
-                                selected = type.isSelected,
-                                onClick = { viewModel.selectSalaryType(type) }
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                        }
+            ) {
+                SelectField(
+                    modifier = Modifier.fillMaxWidth(),
+                    label = "주소",
+                    value = "서초구",
+                    onClickSelection = {
+                        NavigationUtils.navigate(navController, JobOfferWriteNearestNav.route)
                     }
-
-                    Spacer(modifier = Modifier.height(24.dp))
-
-                    TextInpuField(
-                        label = salaryTypes.find { it.isSelected }?.salaryType?.value ?: "시급",
-                        value = salary?.let { NumberUtils.getPriceString(it) } ?: "",
-                        onValueChanged = { viewModel.setSalary(it) },
-                        placeHolderText = "10,000",
-                        descriptionText = "2023년 최저시급은 9,620원이에요"
-                    )
-                }
-
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(color = Grey50)
-                        .padding(20.dp)
                 )
             }
-            item {
-                SubtextBox(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    titleText = "사진",
-                    subtitleText = "(선택)",
-                    size = SubtextBoxSize.S
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = Grey50)
+                    .padding(20.dp)
+            )
+
+
+            SubtextBox(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                titleText = "임금",
+                subtitleText = "(필수)",
+                size = SubtextBoxSize.S
+            )
+            Column(
+                modifier = Modifier.padding(
+                    start = 24.dp,
+                    top = 16.dp,
+                    bottom = 40.dp,
+                    end = 24.dp
                 )
-                Box(
-                    modifier = Modifier.padding(
-                        start = 24.dp,
-                        top = 16.dp,
-                        bottom = 40.dp,
-                        end = 24.dp
-                    )
-                ) {
-                    LazyVerticalGrid(
-                        columns = GridCells.Fixed(3),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .heightIn(max = 700.dp)
-                            .wrapContentHeight(),
-                        verticalArrangement = Arrangement.spacedBy(4.dp),
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        item {
-                            ImageInputField(
-                                inputType = ImageInputFieldType.Add(
-                                    index = photos.size,
-                                    onClick = {
-                                        PermissionUtils.checkAndRequestPermissions(
-                                            context,
-                                            permissions,
-                                            launcher,
-                                            onPermissionGranted = {
-                                                takePhotoFromAlbumLauncher.launch("image/jpeg")
-                                            }
-                                        )
-                                    })
-                            )
-                        }
-                        items(photos) { uri ->
-                            ImageInputField(
-                                inputType = ImageInputFieldType.Editable(
-                                    imageUri = uri
-                                )
-                            )
-                        }
+            ) {
+                Row {
+                    salaryTypes.forEach { type ->
+                        ClickableChip(
+                            modifier = Modifier.height(36.dp),
+                            text = type.salaryType.value,
+                            selected = type.isSelected,
+                            onClick = { viewModel.selectSalaryType(type) }
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
                     }
                 }
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(color = Grey50)
-                        .padding(20.dp)
-                )
-            }
-            item {
-                SubtextBox(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    titleText = "기타조건",
-                    subtitleText = "(선택)",
-                    size = SubtextBoxSize.S
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                TextInpuField(
+                    label = salaryTypes.find { it.isSelected }?.salaryType?.value ?: "시급",
+                    value = salary?.let { NumberUtils.getPriceString(it) } ?: "",
+                    onValueChanged = { viewModel.setSalary(it) },
+                    placeHolderText = "10,000",
+                    descriptionText = "2023년 최저시급은 9,620원이에요"
                 )
             }
 
-            item {
-                Box(
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = Grey50)
+                    .padding(20.dp)
+            )
+
+
+            SubtextBox(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                titleText = "사진",
+                subtitleText = "(선택)",
+                size = SubtextBoxSize.S
+            )
+            Box(
+                modifier = Modifier.padding(
+                    start = 24.dp,
+                    top = 16.dp,
+                    bottom = 40.dp,
+                    end = 24.dp
+                )
+            ) {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(3),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(
-                            start = 24.dp,
-                            top = 16.dp,
-                            bottom = 40.dp,
-                            end = 24.dp
-                        ),
-                    contentAlignment = Alignment.Center
+                        .heightIn(max = 700.dp)
+                        .wrapContentHeight(),
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    CtaButton(modifier = Modifier.width(342.dp), text = "다음으로") {}
+                    item {
+                        ImageInputField(
+                            inputType = ImageInputFieldType.Add(
+                                index = photos.size,
+                                onClick = {
+                                    PermissionUtils.checkAndRequestPermissions(
+                                        context,
+                                        permissions,
+                                        launcher,
+                                        onPermissionGranted = {
+                                            takePhotoFromAlbumLauncher.launch("image/jpeg")
+                                        }
+                                    )
+                                })
+                        )
+                    }
+                    items(photos) { uri ->
+                        ImageInputField(
+                            inputType = ImageInputFieldType.Editable(
+                                imageUri = uri
+                            )
+                        )
+                    }
                 }
             }
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = Grey50)
+                    .padding(20.dp)
+            )
+
+            SubtextBox(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                titleText = "기타조건",
+                subtitleText = "(선택)",
+                size = SubtextBoxSize.S
+            )
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = 24.dp,
+                        top = 16.dp,
+                        bottom = 40.dp,
+                        end = 24.dp
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                CtaButton(modifier = Modifier.width(342.dp), text = "다음으로") {}
+            }
+
         }
     }
 }
