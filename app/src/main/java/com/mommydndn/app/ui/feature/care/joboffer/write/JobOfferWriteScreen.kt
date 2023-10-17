@@ -197,10 +197,20 @@ fun JobOfferWriteScreen(
             modifier = Modifier.verticalScroll(rememberScrollState())
         ) {
             PostTextFieldBox(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp, vertical = 6.dp),
                 title = title,
                 content = content,
                 onTitleTextChanged = { viewModel.setTitle(it) },
                 onContentTextChanged = { viewModel.setContent(it) }
+            )
+
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = Grey50)
+                    .padding(20.dp)
             )
 
             SubtextBox(

@@ -7,11 +7,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
@@ -27,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -52,49 +55,45 @@ fun PostTextFieldBox(
     content: String = "",
     onContentTextChanged: (String) -> Unit = {}
 ) {
-
-    var textCount by remember { mutableStateOf(0) }
+    var titleCharCount by remember { mutableStateOf(0) }
+    var contentCharCount by remember { mutableStateOf(0) }
 
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top),
         modifier = modifier
             .background(color = Color.White)
-            .padding(
-                horizontal = 24.dp,
-                vertical = 8.dp
-            )
     ) {
-        TextField(
-            colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = Color.White,
-                cursorColor = Salmon600,
-                focusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
+        BasicTextField(
+            value = title,
+            decorationBox = {
+                if (title.isEmpty()) {
+                    Text(
+                        text = "(필수) 글 제목을 입력하세요",
+                        style = MaterialTheme.typography.paragraph400.copy(
+                            fontWeight = FontWeight.Bold,
+                            color = Grey400
+                        )
+                    )
+                }
+                it.invoke()
+            },
+            onValueChange = {
+                if (titleCharCount <= 30) {
+                    onTitleTextChanged(it)
+                    titleCharCount += 1
+                }
+            },
+            textStyle = MaterialTheme.typography.paragraph400.copy(
+                fontWeight = FontWeight.Bold,
+                color = Grey800,
+            ),
+            cursorBrush = SolidColor(Salmon600),
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Text
             ),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp, bottom = 16.dp, start = 6.dp, end = 6.dp),
-            value = title,
-            textStyle = MaterialTheme.typography.paragraph300.copy(
-                fontWeight = FontWeight.Normal,
-                color = Grey800
-            ),
-            onValueChange = {
-                onTitleTextChanged(it)
-            },
-            placeholder = {
-                Text(
-                    text = "(필수) 글 제목을 입력하세요",
-                    style = MaterialTheme.typography.paragraph400.copy(
-                        fontWeight = FontWeight.Bold,
-                        color = Grey400
-                    )
-                )
-            },
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Text
-            )
         )
         Divider(
             color = Grey50,
@@ -106,47 +105,48 @@ fun PostTextFieldBox(
             horizontalAlignment = Alignment.End,
             modifier = Modifier
                 .fillMaxWidth()
-                .requiredHeight(height = 199.dp)
+                .height(199.dp)
                 .clip(shape = RoundedCornerShape(6.dp))
                 .padding(
                     horizontal = 6.dp,
                     vertical = 8.dp
                 )
         ) {
-            TextField(
-                colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = Color.White,
-                    cursorColor = Salmon600,
-                    focusedIndicatorColor = Color.Transparent,
-                    disabledIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                ),
+            BasicTextField(
                 value = content,
-                onValueChange = {
-                    onContentTextChanged(it)
-                    textCount += 1
-                },
-                placeholder = {
-                    Text(
-                        text = "(선택) 상대방을 불쾌하게 하는 공고를 올리지 말아주세요. 일정 횟수 이상 차단을 당하면 서비스 이용이 제한될 수 있어요.",
-                        style = MaterialTheme.typography.paragraph300.copy(
-                            fontWeight = FontWeight.Normal,
-                            color = Grey400
+                decorationBox = {
+                    if (content.isEmpty()) {
+                        Text(
+                            text = "(선택) 상대방을 불쾌하게 하는 공고를 올리지 말아주세요. 일정 횟수 이상 차단을 당하면 서비스 이용이 제한될 수 있어요.",
+                            style = MaterialTheme.typography.paragraph300.copy(
+                                fontWeight = FontWeight.Normal,
+                                color = Grey400
+                            )
                         )
-                    )
+                    }
+                    it.invoke()
                 },
-                modifier = Modifier.background(White),
-                keyboardOptions = KeyboardOptions.Default.copy(
-                    keyboardType = KeyboardType.Text
-                ),
+                cursorBrush = SolidColor(Salmon600),
+                onValueChange = {
+                    if (contentCharCount <= 500) {
+                        onContentTextChanged(it)
+                        contentCharCount += 1
+                    }
+                },
                 textStyle = MaterialTheme.typography.paragraph300.copy(
                     fontWeight = FontWeight.Normal,
                     color = Grey800
-                )
+                ),
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Text
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .padding(top = 16.dp, bottom = 16.dp, start = 6.dp, end = 6.dp),
             )
-
             Text(
-                text = "$textCount/500자",
+                text = "$contentCharCount/500자",
                 style = MaterialTheme.typography.caption100.copy(
                     fontWeight = FontWeight.Normal,
                     color = Grey500
