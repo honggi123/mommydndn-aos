@@ -36,7 +36,7 @@ class JobOfferWriteViewModel @Inject constructor(
 
     private var _workHoursTypes: MutableStateFlow<List<WorkHoursTypeItem>> = MutableStateFlow(
         listOf(
-            WorkHoursTypeItem(WorkHoursType.SHORT),
+            WorkHoursTypeItem(WorkHoursType.SHORT, true),
             WorkHoursTypeItem(WorkHoursType.REGULAR)
         )
     )
@@ -45,7 +45,7 @@ class JobOfferWriteViewModel @Inject constructor(
 
     private var _salaryTypes: MutableStateFlow<List<SalaryTypeItem>> = MutableStateFlow(
         listOf(
-            SalaryTypeItem(SalaryType.HOURLY),
+            SalaryTypeItem(SalaryType.HOURLY, true),
             SalaryTypeItem(SalaryType.DAILY),
             SalaryTypeItem(SalaryType.WEEKLY),
             SalaryTypeItem(SalaryType.MONTHLY),
@@ -121,26 +121,26 @@ class JobOfferWriteViewModel @Inject constructor(
         hour: Int,
         min: Int,
     ) {
-        _startTime.value = DateTimeUtils.getLocalTime(hour,min)
+        _startTime.value = DateTimeUtils.getLocalTime(hour, min)
     }
 
     fun setEndTime(
         hour: Int,
         min: Int
     ) {
-        _endTime.value = DateTimeUtils.getLocalTime(hour,min)
+        _endTime.value = DateTimeUtils.getLocalTime(hour, min)
     }
 
     fun selectWorkHoursType(selectedTypeItem: WorkHoursTypeItem) {
         _workHoursTypes.value = _workHoursTypes.value.map { item ->
-            if (item == selectedTypeItem) item.copy(isSelected = !item.isSelected)
+            if (item == selectedTypeItem) item.copy(isSelected = true)
             else item.copy(isSelected = false)
         }
     }
 
     fun selectSalaryType(selectedSalaryTypeItem: SalaryTypeItem) {
         _salaryTypes.value = _salaryTypes.value.map { item ->
-            if (item == selectedSalaryTypeItem) item.copy(isSelected = !item.isSelected)
+            if (item == selectedSalaryTypeItem) item.copy(isSelected = true)
             else item.copy(isSelected = false)
         }
     }
