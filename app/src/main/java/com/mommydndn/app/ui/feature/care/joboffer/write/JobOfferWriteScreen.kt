@@ -1,9 +1,14 @@
 package com.mommydndn.app.ui.feature.care.joboffer.write
 
+import android.Manifest
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
+import android.util.Log
 import android.widget.DatePicker
+import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -38,6 +43,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.mommydndn.app.R
@@ -63,6 +69,7 @@ import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.ui.theme.paragraph400
 import com.mommydndn.app.utils.DateTimeUtils
 import com.mommydndn.app.utils.NumberUtils
+import com.mommydndn.app.utils.PermissionUtils
 import java.util.Calendar
 
 @Composable
@@ -126,6 +133,26 @@ fun JobOfferWriteScreen(
 
     startDatePicker.datePicker.minDate = calendar.timeInMillis
     endDatePicker.datePicker.minDate = calendar.timeInMillis
+
+
+    val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        arrayOf(Manifest.permission.READ_MEDIA_IMAGES)
+    } else {
+        arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+    }
+
+    val launcher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissionsMap ->
+        val areGranted = permissionsMap.values.reduce { acc, next -> acc && next }
+        if (areGranted) {
+            Log.d("JobOfferWriteScreen", "권한이 동의되었습니다.")
+            takePhotoFromAlbumLauncher.launch("image/jpeg")
+        } else {
+        }
+        Log.d("JobOfferWriteScreen", "권한이 거부되었습니다.")
+    }
+
 
     Column(
         modifier = Modifier
@@ -395,7 +422,16 @@ fun JobOfferWriteScreen(
                             ImageInputField(
                                 inputType = ImageInputFieldType.Add(
                                     index = photos.size,
-                                    onClick = { takePhotoFromAlbumLauncher.launch("image/jpeg") })
+                                    onClick = {
+                                        PermissionUtils.checkAndRequestPermissions(
+                                            context,
+                                            permissions,
+                                            launcher,
+                                            onPermissionGranted = {
+                                                takePhotoFromAlbumLauncher.launch("image/jpeg")
+                                            }
+                                        )
+                                    })
                             )
                         }
                         items(photos) { uri ->
@@ -442,6 +478,7 @@ fun JobOfferWriteScreen(
         }
     }
 }
+
 
 private fun createDatePicker(
     calendar: Calendar,
