@@ -1,5 +1,6 @@
 package com.mommydndn.app.data.api.service
 
+import com.mommydndn.app.data.api.model.LocationSearchResponse
 import com.mommydndn.app.data.api.model.NearestResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -15,10 +16,10 @@ interface MapService {
     ): Response<NearestResponse>
 
     @GET("/api/map/search")
-    suspend fun fetchNearestByKeyword(
+    suspend fun fetchLocationsByKeyword(
         @Query("keyword") keyword: String,
         @Query("skip") skip: Int = 0,
         @Query("limit") limit: Int = 20
-    ): Response<NearestResponse>
+    ): Response<LocationSearchResponse>
 }
 

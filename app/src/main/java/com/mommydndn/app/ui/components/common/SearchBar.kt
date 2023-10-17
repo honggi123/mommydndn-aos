@@ -45,6 +45,7 @@ import com.mommydndn.app.ui.extensions.bottomBorder
 
 @Composable
 fun Searchbar(
+    modifier: Modifier = Modifier,
     keyword: String,
     placeHolderText: String = "",
     onValueChange: (String) -> Unit,
@@ -53,7 +54,7 @@ fun Searchbar(
     clearAction: () -> Unit,
 ) {
     Column(
-        Modifier
+        modifier
             .fillMaxWidth()
             .height(68.dp)
             .background(color = White)

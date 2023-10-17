@@ -3,21 +3,30 @@ package com.mommydndn.app.ui.feature.care.joboffer.write
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.mommydndn.app.data.model.CaringType
 import com.mommydndn.app.data.model.CaringTypeItem
 import com.mommydndn.app.data.model.DayOfWeekItem
 import com.mommydndn.app.data.model.DayOfWeekType
+import com.mommydndn.app.data.model.EmdItem
 import com.mommydndn.app.data.model.SalaryType
 import com.mommydndn.app.data.model.SalaryTypeItem
+import com.mommydndn.app.data.model.TownSearchType
 import com.mommydndn.app.data.model.WorkHoursType
 import com.mommydndn.app.data.model.WorkHoursTypeItem
+import com.mommydndn.app.data.respository.LocationRepository
 import com.mommydndn.app.data.respository.UserRepository
 import com.mommydndn.app.utils.DateTimeUtils
 import com.mommydndn.app.utils.NumberUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import java.time.LocalDate
 import java.time.LocalTime
@@ -25,7 +34,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class JobOfferWriteViewModel @Inject constructor(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val locationRepository: LocationRepository
 ) : ViewModel() {
 
     val userInfo = userRepository.fetchUserInfo().stateIn(
@@ -101,6 +111,17 @@ class JobOfferWriteViewModel @Inject constructor(
     private val _photos: MutableStateFlow<List<Uri>> = MutableStateFlow(listOf())
     val photos: StateFlow<List<Uri>> = _photos
 
+    private val _keyword: MutableStateFlow<String> = MutableStateFlow("")
+    val keyword: StateFlow<String> = _keyword
+
+    private val _searchedTownsFlowByKeyword: Flow<PagingData<EmdItem>> = _keyword
+        .debounce(200)
+        .distinctUntilChanged()
+        .flatMapLatest {
+            locationRepository.fetchLocationsByKeyword(it)
+        }.cachedIn(viewModelScope)
+    val searchedTownsFlow: Flow<PagingData<EmdItem>> = _searchedTownsFlowByKeyword
+
     fun setTitle(title: String) {
         _title.value = title
     }
@@ -175,5 +196,9 @@ class JobOfferWriteViewModel @Inject constructor(
             if (item == selectedDayOfWeekItem) item.copy(isSelected = !item.isSelected)
             else item
         }
+    }
+
+    fun setKeyword(keyword: String) {
+        _keyword.value = keyword
     }
 }

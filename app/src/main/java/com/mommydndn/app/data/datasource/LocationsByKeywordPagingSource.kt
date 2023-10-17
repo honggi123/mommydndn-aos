@@ -3,11 +3,11 @@ package com.mommydndn.app.data.datasource
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.mommydndn.app.data.api.service.MapService
-import com.mommydndn.app.data.api.model.EmdItem
+import com.mommydndn.app.data.model.EmdItem
 import javax.inject.Inject
 
 private const val STARTING_PAGE_INDEX = 1
-class NearestByKeywordPagingSource @Inject constructor(
+class LocationsByKeywordPagingSource @Inject constructor(
     private val keyWord: String,
     private val mapService: MapService
 ) : PagingSource<Int, EmdItem>() {
@@ -16,7 +16,7 @@ class NearestByKeywordPagingSource @Inject constructor(
         return try {
             val position = params.key ?: STARTING_PAGE_INDEX
             val result =
-                mapService.fetchNearestByKeyword(
+                mapService.fetchLocationsByKeyword(
                     keyWord,
                     skip = (position - 1) * params.loadSize,
                     limit = params.loadSize

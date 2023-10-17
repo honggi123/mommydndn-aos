@@ -3,6 +3,7 @@ package com.mommydndn.app.ui.feature.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mommydndn.app.data.api.model.BabyItem
+import com.mommydndn.app.data.api.model.BabyItemMeta
 import com.mommydndn.app.data.api.model.Meta
 import com.mommydndn.app.data.model.NoticeSetting
 import com.mommydndn.app.data.respository.BabyItemRepository
@@ -57,9 +58,9 @@ class HomeViewModel @Inject constructor(
     private val _babyItems: MutableStateFlow<List<BabyItem>> = MutableStateFlow(emptyList())
     val babyItems: StateFlow<List<BabyItem>> = _babyItems
 
-    private val _babyItemsPagingMeta: MutableStateFlow<Meta> =
-        MutableStateFlow(Meta(totalCount = 0, currentPageNum = 1, requestTimestamp = 0))
-    val babyItemsPagingMeta: StateFlow<Meta> = _babyItemsPagingMeta
+    private val _babyItemsPagingMeta: MutableStateFlow<BabyItemMeta> =
+        MutableStateFlow(BabyItemMeta(totalCount = 0, currentPageNum = 1, requestTimestamp = 0))
+    val babyItemsPagingMeta: StateFlow<BabyItemMeta> = _babyItemsPagingMeta
 
     init {
         fetchBabyItems(

@@ -1,7 +1,6 @@
 package com.mommydndn.app.data.respository
 
 import androidx.paging.PagingData
-import com.mommydndn.app.data.api.model.EmdItem
 import com.mommydndn.app.data.model.JobOffer
 import com.mommydndn.app.data.model.JobOfferSummary
 import com.mommydndn.app.data.model.JobSeeker

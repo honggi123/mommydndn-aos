@@ -3,7 +3,6 @@ package com.mommydndn.app.data.respository.impl
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.mommydndn.app.data.api.model.EmdItem
 import com.mommydndn.app.data.api.service.CaringService
 import com.mommydndn.app.data.datasource.JobOfferSummaryPagingSource
 import com.mommydndn.app.data.datasource.NearestByLocationPagingSource

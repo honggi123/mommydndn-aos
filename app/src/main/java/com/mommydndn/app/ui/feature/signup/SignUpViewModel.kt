@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.mommydndn.app.data.api.model.EmdItem
+import com.mommydndn.app.data.model.EmdItem
 import com.mommydndn.app.data.model.LocationInfo
 import com.mommydndn.app.data.model.TownSearchType
 import com.mommydndn.app.data.model.SignUpInfo
@@ -50,7 +50,7 @@ class SignUpViewModel @Inject constructor(
         .debounce(200)
         .distinctUntilChanged()
         .flatMapLatest {
-            locationRepository.fetchNearestByKeyword(it)
+            locationRepository.fetchLocationsByKeyword(it)
         }.cachedIn(viewModelScope)
     val searchedTownsFlow: Flow<PagingData<EmdItem>> = _searchedTownsFlowByKeyword
 

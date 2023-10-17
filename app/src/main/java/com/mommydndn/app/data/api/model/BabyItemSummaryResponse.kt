@@ -17,11 +17,11 @@ data class BabyItem(
 @Serializable
 data class BabyItemSummary(
     val itemSummaryList: List<BabyItem>,
-    val meta: Meta
+    val meta: BabyItemMeta
 )
 
 @Serializable
-data class Meta(
+data class BabyItemMeta(
     val totalCount: Int,
     val currentPageNum: Int,
     val requestTimestamp: Long

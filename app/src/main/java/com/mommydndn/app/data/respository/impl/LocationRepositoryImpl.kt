@@ -4,9 +4,9 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.mommydndn.app.data.api.service.MapService
-import com.mommydndn.app.data.datasource.NearestByKeywordPagingSource
+import com.mommydndn.app.data.datasource.LocationsByKeywordPagingSource
 import com.mommydndn.app.data.datasource.NearestByLocationPagingSource
-import com.mommydndn.app.data.api.model.EmdItem
+import com.mommydndn.app.data.model.EmdItem
 import com.mommydndn.app.data.model.LocationInfo
 import com.mommydndn.app.data.respository.LocationRepository
 import kotlinx.coroutines.flow.Flow
@@ -26,12 +26,12 @@ class LocationRepositoryImpl @Inject constructor(
         ).flow
     }
 
-    override fun fetchNearestByKeyword(keyword: String): Flow<PagingData<EmdItem>> {
+    override fun fetchLocationsByKeyword(keyword: String): Flow<PagingData<EmdItem>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 15, enablePlaceholders = false
             ),
-            pagingSourceFactory = { NearestByKeywordPagingSource(keyword, mapService) }
+            pagingSourceFactory = { LocationsByKeywordPagingSource(keyword, mapService) }
         ).flow
     }
 
