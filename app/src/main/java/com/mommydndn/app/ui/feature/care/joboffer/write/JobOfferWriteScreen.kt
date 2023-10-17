@@ -61,6 +61,7 @@ import com.mommydndn.app.ui.components.common.SelectField
 import com.mommydndn.app.ui.components.common.TextInpuField
 import com.mommydndn.app.ui.models.ImageInputFieldType
 import com.mommydndn.app.ui.models.SelectButtonContent
+import com.mommydndn.app.ui.navigation.JobOfferWriteNearestNav
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey700
@@ -68,6 +69,7 @@ import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.ui.theme.paragraph400
 import com.mommydndn.app.utils.DateTimeUtils
+import com.mommydndn.app.utils.NavigationUtils
 import com.mommydndn.app.utils.NumberUtils
 import com.mommydndn.app.utils.PermissionUtils
 import java.util.Calendar
@@ -339,7 +341,9 @@ fun JobOfferWriteScreen(
                         modifier = Modifier.fillMaxWidth(),
                         label = "주소",
                         value = "서초구",
-                        onSelection = {}
+                        onClickSelection = {
+                            NavigationUtils.navigate(navController, JobOfferWriteNearestNav.route)
+                        }
                     )
                 }
                 Spacer(

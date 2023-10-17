@@ -36,7 +36,7 @@ fun SelectField(
     modifier: Modifier = Modifier,
     label: String = "",
     value: String = "",
-    onSelection: () -> Unit,
+    onClickSelection: () -> Unit,
     isSelected: Boolean = false
 ) {
     val textColor = if (isSelected) Grey800 else Grey400
@@ -86,7 +86,7 @@ fun SelectField(
                 contentDescription = "Icon/arrow-down-line",
                 modifier = Modifier
                     .size(size = 28.dp)
-                    .clickable { onSelection() }
+                    .clickable { onClickSelection() }
             )
         }
     }
@@ -95,5 +95,5 @@ fun SelectField(
 @Preview
 @Composable
 private fun SelectFieldPreview() {
-    SelectField(Modifier, label = "label", value = "value", isSelected = true, onSelection = {})
+    SelectField(Modifier, label = "label", value = "value", isSelected = true, onClickSelection = {})
 }

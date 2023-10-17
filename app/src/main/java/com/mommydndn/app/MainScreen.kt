@@ -38,6 +38,7 @@ import com.mommydndn.app.ui.navigation.SignInNav
 import com.mommydndn.app.ui.navigation.TownCheckNav
 import com.mommydndn.app.ui.navigation.TypeChoiceNav
 import com.mommydndn.app.ui.feature.care.CareScreen
+import com.mommydndn.app.ui.feature.care.joboffer.write.JobOfferWriteNearestScreen
 import com.mommydndn.app.ui.feature.care.joboffer.write.JobOfferWriteScreen
 import com.mommydndn.app.ui.feature.home.MainHomeScreen
 import com.mommydndn.app.ui.feature.signin.SignInScreen
@@ -49,6 +50,7 @@ import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.feature.home.HomeViewModel
 import com.mommydndn.app.ui.feature.signup.SignUpViewModel
 import com.mommydndn.app.ui.navigation.JobOfferWriteNav
+import com.mommydndn.app.ui.navigation.JobOfferWriteNearestNav
 import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.utils.NavigationUtils
@@ -214,6 +216,13 @@ fun MainNavigationScreen(
             JobOfferWriteScreen(navController = navController)
         }
 
+        composable(
+            route = JobOfferWriteNearestNav.route,
+            enterTransition = { slideEnterTransition },
+            exitTransition = { slideExitTransition }
+        ) {
+            JobOfferWriteNearestScreen(navController = navController)
+        }
     }
 
 }
