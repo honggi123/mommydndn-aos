@@ -84,6 +84,8 @@ fun JobOfferWriteScreen(
     val context = LocalContext.current
     val calendar = Calendar.getInstance()
 
+    val userInfo by viewModel.userInfo.collectAsState()
+
     val careTypes by viewModel.careTypes.collectAsState()
     val workHoursTypes by viewModel.workHoursTypes.collectAsState()
     val salaryTypes by viewModel.salaryTypes.collectAsState()
@@ -137,7 +139,6 @@ fun JobOfferWriteScreen(
 
     startDatePicker.datePicker.minDate = calendar.timeInMillis
     endDatePicker.datePicker.minDate = calendar.timeInMillis
-
 
     val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         arrayOf(Manifest.permission.READ_MEDIA_IMAGES)
@@ -352,7 +353,8 @@ fun JobOfferWriteScreen(
                 SelectField(
                     modifier = Modifier.fillMaxWidth(),
                     label = "주소",
-                    value = "서초구",
+                    value = userInfo?.emd?.fullName ?: "",
+                    isSelected = userInfo?.emd != null,
                     onClickSelection = {
                         NavigationUtils.navigate(navController, JobOfferWriteNearestNav.route)
                     }

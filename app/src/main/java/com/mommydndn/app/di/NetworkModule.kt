@@ -12,6 +12,7 @@ import com.mommydndn.app.data.api.service.BabyItemService
 import com.mommydndn.app.data.api.service.CaringService
 import com.mommydndn.app.data.api.service.CommonService
 import com.mommydndn.app.data.api.service.NoticeService
+import com.mommydndn.app.data.api.service.UserService
 import com.mommydndn.app.data.datasource.TokenManager
 import com.skydoves.sandwich.adapters.ApiResponseCallAdapterFactory
 import dagger.Module
@@ -53,7 +54,7 @@ class NetworkModule {
     @TokenOkhttpClient
     fun provideTokenOkHttpClient(tokenManager: TokenManager): OkHttpClient {
         val logger =
-            HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC }
+            HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
 
         return OkHttpClient.Builder()
             .addInterceptor(logger)
@@ -133,6 +134,12 @@ class NetworkModule {
     @Provides
     fun provideCommonService(@TokenRetrofit retrofit: Retrofit): CommonService {
         return retrofit.create(CommonService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideUserService(@TokenRetrofit retrofit: Retrofit): UserService {
+        return retrofit.create(UserService::class.java)
     }
 
     @Provides

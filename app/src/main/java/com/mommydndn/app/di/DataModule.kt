@@ -9,6 +9,7 @@ import com.mommydndn.app.data.respository.CommonRepositoy
 import com.mommydndn.app.data.respository.LocationRepository
 import com.mommydndn.app.data.respository.NoticeRepository
 import com.mommydndn.app.data.respository.TermsRepository
+import com.mommydndn.app.data.respository.UserRepository
 import com.mommydndn.app.data.respository.impl.AccountRepositoryImpl
 import com.mommydndn.app.data.respository.impl.BabyItemRepositoryImpl
 import com.mommydndn.app.data.respository.impl.CaringRepositoryImpl
@@ -16,6 +17,7 @@ import com.mommydndn.app.data.respository.impl.CommonRepositoryImpl
 import com.mommydndn.app.data.respository.impl.LocationRepositoryImpl
 import com.mommydndn.app.data.respository.impl.NoticeRespositoryIml
 import com.mommydndn.app.data.respository.impl.TermsRepositoryImpl
+import com.mommydndn.app.data.respository.impl.UserRepositoryImpl
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
@@ -69,4 +71,10 @@ interface DataModule {
     fun bindBabyItemRepository(
         babyItemRepository: BabyItemRepositoryImpl
     ): BabyItemRepository
+
+    @Binds
+    @Singleton
+    fun bindUserRepository(
+        userRepository: UserRepositoryImpl
+    ): UserRepository
 }

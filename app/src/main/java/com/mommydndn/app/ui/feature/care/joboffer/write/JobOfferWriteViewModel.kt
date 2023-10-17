@@ -2,6 +2,7 @@ package com.mommydndn.app.ui.feature.care.joboffer.write
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.mommydndn.app.data.model.CaringType
 import com.mommydndn.app.data.model.CaringTypeItem
 import com.mommydndn.app.data.model.DayOfWeekItem
@@ -10,19 +11,28 @@ import com.mommydndn.app.data.model.SalaryType
 import com.mommydndn.app.data.model.SalaryTypeItem
 import com.mommydndn.app.data.model.WorkHoursType
 import com.mommydndn.app.data.model.WorkHoursTypeItem
+import com.mommydndn.app.data.respository.UserRepository
 import com.mommydndn.app.utils.DateTimeUtils
 import com.mommydndn.app.utils.NumberUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
 
 @HiltViewModel
 class JobOfferWriteViewModel @Inject constructor(
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
+    val userInfo = userRepository.fetchUserInfo().stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.Lazily,
+        initialValue = null
+    )
 
     private var _careTypes: MutableStateFlow<List<CaringTypeItem>> = MutableStateFlow(
         listOf(
