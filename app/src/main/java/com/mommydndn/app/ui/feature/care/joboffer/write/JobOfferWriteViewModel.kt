@@ -156,8 +156,8 @@ class JobOfferWriteViewModel @Inject constructor(
         _salary.value = NumberUtils.getPrice(curSalary)
     }
 
-    fun setPhotos(selectedPhotos: List<Uri>) {
-        _photos.value = selectedPhotos
+    fun addSelectedPhotos(selectedPhotos: List<Uri>) {
+        _photos.value = _photos.value + selectedPhotos
     }
 
     fun selectDayOfWeek(selectedDayOfWeekItem: DayOfWeekItem) {

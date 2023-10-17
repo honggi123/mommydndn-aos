@@ -132,7 +132,7 @@ fun JobOfferWriteScreen(
 
     val takePhotoFromAlbumLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.GetMultipleContents()) { uriList ->
-            viewModel.setPhotos(uriList)
+            viewModel.addSelectedPhotos(uriList)
         }
 
     startDatePicker.datePicker.minDate = calendar.timeInMillis
