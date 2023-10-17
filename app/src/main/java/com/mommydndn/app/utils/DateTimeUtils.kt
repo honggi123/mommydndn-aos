@@ -1,11 +1,10 @@
 package com.mommydndn.app.utils
 
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
-object DateUtils {
+object DateTimeUtils {
 
     fun getFormattedTimeAgo(timeStamp: Long): String {
         val currentTimeMillis = System.currentTimeMillis()
@@ -23,20 +22,31 @@ object DateUtils {
         }
     }
 
-    fun dateToTimestamp(
+    fun getLocalDate(
         year: Int,
         month: Int,
         dayOfMonth: Int
-    ): Long {
-        val calendar = Calendar.getInstance()
-        calendar.set(year, month, dayOfMonth)
-        return calendar.timeInMillis
+    ): LocalDate {
+        return LocalDate.of(year, month, dayOfMonth)
     }
 
-    fun timestampToDateString(
-        timestamp: Long
+    fun getLocalDateText(
+        localDate: LocalDate
     ): String {
-        val dateFormat = SimpleDateFormat("yyyy:MM:dd", Locale.getDefault())
-        return dateFormat.format(Date(timestamp))
+        val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+        return localDate.format(formatter)
     }
+
+    fun getLocalTime(hour: Int, minute: Int): LocalTime {
+        return LocalTime.of(hour, minute)
+    }
+
+    fun getLocalTimeText(
+        localTime: LocalTime
+    ): String {
+        val formatter = DateTimeFormatter.ofPattern("hh:mm a")
+        return localTime.format(formatter)
+    }
+
+
 }

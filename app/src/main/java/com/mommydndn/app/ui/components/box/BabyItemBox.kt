@@ -33,7 +33,7 @@ import com.mommydndn.app.R
 import com.mommydndn.app.data.api.model.BabyItem
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.utils.NumberUtils
-import com.mommydndn.app.utils.DateUtils
+import com.mommydndn.app.utils.DateTimeUtils
 
 @Composable
 fun MarketListItemBox(
@@ -115,7 +115,7 @@ fun MarketListItemBox(
                 Spacer(modifier = Modifier.padding(4.dp))
 
                 Text(
-                    text = DateUtils.getFormattedTimeAgo(item.createdAt),
+                    text = DateTimeUtils.getFormattedTimeAgo(item.createdAt),
                     style = MaterialTheme.typography.caption200.copy(
                         fontWeight = FontWeight.Normal,
                         color = Grey500,

@@ -1,29 +1,23 @@
 package com.mommydndn.app.ui.feature.care.joboffer.write
 
-import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
-import android.content.Intent
-import android.provider.MediaStore
 import android.widget.DatePicker
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -33,57 +27,42 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Chip
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableLongStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.mommydndn.app.R
-import com.mommydndn.app.data.model.CaringType
-import com.mommydndn.app.data.model.CaringTypeItem
-import com.mommydndn.app.data.model.SalaryType
-import com.mommydndn.app.data.model.SalaryTypeItem
 import com.mommydndn.app.data.model.WorkHoursType
-import com.mommydndn.app.data.model.WorkHoursTypeItem
 import com.mommydndn.app.ui.components.box.PostTextFieldBox
 import com.mommydndn.app.ui.components.box.SelectButtonScopeBox
 import com.mommydndn.app.ui.components.box.SelectScopeBox
 import com.mommydndn.app.ui.components.box.SubtextBox
 import com.mommydndn.app.ui.components.box.SubtextBoxSize
 import com.mommydndn.app.ui.components.button.CtaButton
-import com.mommydndn.app.ui.components.button.SelectButton
 import com.mommydndn.app.ui.components.chip.ClickableChip
 import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.components.common.ImageInputField
 import com.mommydndn.app.ui.components.common.SelectField
 import com.mommydndn.app.ui.components.common.TextInpuField
-import com.mommydndn.app.ui.feature.care.CareViewModel
 import com.mommydndn.app.ui.models.ImageInputFieldType
 import com.mommydndn.app.ui.models.SelectButtonContent
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey700
-import com.mommydndn.app.ui.theme.MommydndnaosTheme
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.ui.theme.paragraph400
-import com.mommydndn.app.utils.DateUtils
+import com.mommydndn.app.utils.DateTimeUtils
 import com.mommydndn.app.utils.NumberUtils
-import kotlinx.coroutines.Job
 import java.util.Calendar
 
 @Composable
@@ -272,9 +251,9 @@ fun JobOfferWriteScreen(
                         SelectScopeBox(
                             modifier = Modifier.fillMaxWidth(),
                             label = "날짜",
-                            option1Text = startDate?.let { DateUtils.timestampToDateString(it) }
+                            option1Text = startDate?.let { DateTimeUtils.getLocalDateText(it) }
                                 ?: "오는날짜",
-                            option2Text = endDate?.let { DateUtils.timestampToDateString(it) }
+                            option2Text = endDate?.let { DateTimeUtils.getLocalDateText(it) }
                                 ?: "내일날짜",
                             onOption1Clicked = { startDatePicker.show() },
                             onOption2Clicked = { endDatePicker.show() },
@@ -293,8 +272,8 @@ fun JobOfferWriteScreen(
                     SelectScopeBox(
                         modifier = Modifier.fillMaxWidth(),
                         label = "시간",
-                        option1Text = startTime ?: "오는날짜",
-                        option2Text = endTime ?: "종료시간",
+                        option1Text = startTime?.let { DateTimeUtils.getLocalTimeText(it) } ?: "시작시간",
+                        option2Text = endTime?.let { DateTimeUtils.getLocalTimeText(it) } ?: "종료시간",
                         onOption1Clicked = { startTimePicker.show() },
                         onOption2Clicked = { endTimePicker.show() },
                         isChecked = false,

@@ -2,7 +2,6 @@ package com.mommydndn.app.ui.feature.care.joboffer.write
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
-import com.mommydndn.app.data.api.model.BabyItem
 import com.mommydndn.app.data.model.CaringType
 import com.mommydndn.app.data.model.CaringTypeItem
 import com.mommydndn.app.data.model.DayOfWeekItem
@@ -11,15 +10,13 @@ import com.mommydndn.app.data.model.SalaryType
 import com.mommydndn.app.data.model.SalaryTypeItem
 import com.mommydndn.app.data.model.WorkHoursType
 import com.mommydndn.app.data.model.WorkHoursTypeItem
-import com.mommydndn.app.data.respository.BabyItemRepository
-import com.mommydndn.app.data.respository.CaringRepository
-import com.mommydndn.app.data.respository.CommonRepositoy
-import com.mommydndn.app.data.respository.NoticeRepository
-import com.mommydndn.app.utils.DateUtils
+import com.mommydndn.app.utils.DateTimeUtils
 import com.mommydndn.app.utils.NumberUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import java.time.LocalDate
+import java.time.LocalTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -76,17 +73,17 @@ class JobOfferWriteViewModel @Inject constructor(
     private val _content: MutableStateFlow<String> = MutableStateFlow("")
     val content: StateFlow<String> = _content
 
-    private val _startDate: MutableStateFlow<Long?> = MutableStateFlow(null)
-    val stratDate: StateFlow<Long?> = _startDate
+    private val _startDate: MutableStateFlow<LocalDate?> = MutableStateFlow(null)
+    val stratDate: StateFlow<LocalDate?> = _startDate
 
-    private val _endDate: MutableStateFlow<Long?> = MutableStateFlow(null)
-    val endDate: StateFlow<Long?> = _endDate
+    private val _endDate: MutableStateFlow<LocalDate?> = MutableStateFlow(null)
+    val endDate: StateFlow<LocalDate?> = _endDate
 
-    private val _startTime: MutableStateFlow<String?> = MutableStateFlow(null)
-    val startTime: StateFlow<String?> = _startTime
+    private val _startTime: MutableStateFlow<LocalTime?> = MutableStateFlow(null)
+    val startTime: StateFlow<LocalTime?> = _startTime
 
-    private val _endTime: MutableStateFlow<String?> = MutableStateFlow(null)
-    val endTime: StateFlow<String?> = _endTime
+    private val _endTime: MutableStateFlow<LocalTime?> = MutableStateFlow(null)
+    val endTime: StateFlow<LocalTime?> = _endTime
 
     private val _salary: MutableStateFlow<Int?> = MutableStateFlow(null)
     val salary: StateFlow<Int?> = _salary
@@ -107,8 +104,8 @@ class JobOfferWriteViewModel @Inject constructor(
         month: Int,
         dayOfMonth: Int
     ) {
-        val timestamp = DateUtils.dateToTimestamp(year, month, dayOfMonth)
-        _startDate.value = timestamp
+        val localDate = DateTimeUtils.getLocalDate(year, month, dayOfMonth)
+        _startDate.value = localDate
     }
 
     fun setEndDate(
@@ -116,22 +113,22 @@ class JobOfferWriteViewModel @Inject constructor(
         month: Int,
         dayOfMonth: Int
     ) {
-        val timestamp = DateUtils.dateToTimestamp(year, month, dayOfMonth)
-        _endDate.value = timestamp
+        val localDate = DateTimeUtils.getLocalDate(year, month, dayOfMonth)
+        _endDate.value = localDate
     }
 
     fun setStartTime(
         hour: Int,
         min: Int,
     ) {
-        _startTime.value = "$hour:$min"
+        _startTime.value = DateTimeUtils.getLocalTime(hour,min)
     }
 
     fun setEndTime(
         hour: Int,
         min: Int
     ) {
-        _endTime.value = "$hour:$min"
+        _endTime.value = DateTimeUtils.getLocalTime(hour,min)
     }
 
     fun setWorkHoursType(selectedTypeItem: WorkHoursTypeItem) {
