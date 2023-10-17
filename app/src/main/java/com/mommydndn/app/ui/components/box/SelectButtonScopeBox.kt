@@ -27,7 +27,7 @@ import com.mommydndn.app.ui.theme.paragraph300
 fun SelectButtonScopeBox(
     modifier: Modifier = Modifier,
     label: String = "",
-    list : List<SelectButtonContent>
+    list: List<SelectButtonContent>
 ) {
     Column(
         modifier
@@ -47,8 +47,11 @@ fun SelectButtonScopeBox(
                 .fillMaxWidth()
                 .padding(horizontal = 4.dp, vertical = 12.dp)
         ) {
-            list.forEach {
-                SelectButton(modifier = Modifier.size(36.dp), content = it)
+            list.forEach { content ->
+                SelectButton(
+                    modifier = Modifier.size(36.dp),
+                    content = content,
+                    onClick = { content.onClick(content.isSelected) })
             }
         }
     }

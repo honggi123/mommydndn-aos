@@ -131,21 +131,21 @@ class JobOfferWriteViewModel @Inject constructor(
         _endTime.value = DateTimeUtils.getLocalTime(hour,min)
     }
 
-    fun setWorkHoursType(selectedTypeItem: WorkHoursTypeItem) {
+    fun selectWorkHoursType(selectedTypeItem: WorkHoursTypeItem) {
         _workHoursTypes.value = _workHoursTypes.value.map { item ->
             if (item == selectedTypeItem) item.copy(isSelected = true)
             else item.copy(isSelected = false)
         }
     }
 
-    fun setSalaryType(selectedSalaryTypeItem: SalaryTypeItem) {
+    fun selectSalaryType(selectedSalaryTypeItem: SalaryTypeItem) {
         _salaryTypes.value = _salaryTypes.value.map { item ->
             if (item == selectedSalaryTypeItem) item.copy(isSelected = true)
             else item.copy(isSelected = false)
         }
     }
 
-    fun setCareTypes(selectedCareType: CaringTypeItem) {
+    fun selectCareTypes(selectedCareType: CaringTypeItem) {
         _careTypes.value = _careTypes.value.map { item ->
             if (item == selectedCareType) item.copy(isSelected = true)
             else item
@@ -158,5 +158,12 @@ class JobOfferWriteViewModel @Inject constructor(
 
     fun setPhotos(selectedPhotos: List<Uri>) {
         _photos.value = selectedPhotos
+    }
+
+    fun selectDayOfWeek(selectedDayOfWeekItem: DayOfWeekItem) {
+        _daysOfWeekTypes.value = _daysOfWeekTypes.value.map { item ->
+            if (item == selectedDayOfWeekItem) item.copy(isSelected = true)
+            else item
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.mommydndn.app.ui.components.button
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -32,7 +33,8 @@ import com.mommydndn.app.ui.theme.paragraph500
 @Composable
 fun SelectButton(
     modifier: Modifier = Modifier,
-    content: SelectButtonContent
+    content: SelectButtonContent,
+    onClick: (Boolean) -> Unit
 ) {
     val borderColor = if (content.isSelected) Salmon300 else Grey200
     val backgroundColor = if (content.isSelected) Salmon200 else White
@@ -45,7 +47,9 @@ fun SelectButton(
             .border(
                 border = BorderStroke(1.dp, borderColor),
                 shape = RoundedCornerShape(40.dp)
-            )
+            ).clickable {
+                onClick(!content.isSelected)
+            }
     ) {
         Text(
             text = content.text,

@@ -220,7 +220,7 @@ fun JobOfferWriteScreen(
                                 modifier = Modifier.height(36.dp),
                                 text = type.caringType.value,
                                 selected = type.isSelected,
-                                onClick = { viewModel.setCareTypes(type) }
+                                onClick = { viewModel.selectCareTypes(type) }
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                         }
@@ -255,7 +255,7 @@ fun JobOfferWriteScreen(
                                 modifier = Modifier.height(36.dp),
                                 text = type.workHoursType.value,
                                 selected = type.isSelected,
-                                onClick = { viewModel.setWorkHoursType(type) }
+                                onClick = { viewModel.selectWorkHoursType(type) }
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                         }
@@ -268,10 +268,11 @@ fun JobOfferWriteScreen(
                     if (workHoursTypes.find { it.isSelected }?.workHoursType == WorkHoursType.REGULAR) {
                         SelectButtonScopeBox(
                             label = "요일",
-                            list = dayOfWeekTypes.map {
+                            list = dayOfWeekTypes.map { item ->
                                 SelectButtonContent(
-                                    isSelected = it.isSelected,
-                                    text = it.type.displayingName
+                                    isSelected = item.isSelected,
+                                    text = item.type.displayingName,
+                                    onClick = { viewModel.selectDayOfWeek(item) }
                                 )
                             })
                     } else {
@@ -299,7 +300,8 @@ fun JobOfferWriteScreen(
                     SelectScopeBox(
                         modifier = Modifier.fillMaxWidth(),
                         label = "시간",
-                        option1Text = startTime?.let { DateTimeUtils.getLocalTimeText(it) } ?: "시작시간",
+                        option1Text = startTime?.let { DateTimeUtils.getLocalTimeText(it) }
+                            ?: "시작시간",
                         option2Text = endTime?.let { DateTimeUtils.getLocalTimeText(it) } ?: "종료시간",
                         onOption1Clicked = { startTimePicker.show() },
                         onOption2Clicked = { endTimePicker.show() },
@@ -369,7 +371,7 @@ fun JobOfferWriteScreen(
                                 modifier = Modifier.height(36.dp),
                                 text = type.salaryType.value,
                                 selected = type.isSelected,
-                                onClick = { viewModel.setSalaryType(type) }
+                                onClick = { viewModel.selectSalaryType(type) }
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                         }
