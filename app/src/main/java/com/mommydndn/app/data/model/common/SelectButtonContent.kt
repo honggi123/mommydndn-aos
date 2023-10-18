@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.models
+package com.mommydndn.app.data.model.common
 
 data class SelectButtonContent(
     val isSelected: Boolean = false,

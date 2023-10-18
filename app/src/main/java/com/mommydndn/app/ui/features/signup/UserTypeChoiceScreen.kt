@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.feature.signup
+package com.mommydndn.app.ui.features.signup
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

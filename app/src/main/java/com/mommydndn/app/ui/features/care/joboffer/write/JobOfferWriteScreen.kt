@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.feature.care.joboffer.write
+package com.mommydndn.app.ui.features.care.joboffer.write
 
 import android.Manifest
 import android.app.DatePickerDialog
@@ -58,8 +58,8 @@ import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.components.common.ImageInputField
 import com.mommydndn.app.ui.components.common.SelectField
 import com.mommydndn.app.ui.components.common.TextInpuField
-import com.mommydndn.app.ui.models.ImageInputFieldType
-import com.mommydndn.app.ui.models.SelectButtonContent
+import com.mommydndn.app.data.model.common.ImageInputFieldType
+import com.mommydndn.app.data.model.common.SelectButtonContent
 import com.mommydndn.app.ui.navigation.LocationSearchNav
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500

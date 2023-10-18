@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.feature.signup
+package com.mommydndn.app.ui.features.signup
 
 import android.Manifest
 import android.annotation.SuppressLint

@@ -1,7 +1,6 @@
-package com.mommydndn.app.ui.models
+package com.mommydndn.app.data.model.common
 
 import android.net.Uri
-import java.net.URI
 
 sealed class ImageInputFieldType {
     data class Add(

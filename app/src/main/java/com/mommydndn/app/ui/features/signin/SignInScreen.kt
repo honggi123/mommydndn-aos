@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.feature.signin
+package com.mommydndn.app.ui.features.signin
 
 import android.app.Activity
 import android.content.Context

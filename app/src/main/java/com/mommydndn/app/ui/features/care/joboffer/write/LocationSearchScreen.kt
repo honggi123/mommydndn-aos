@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.feature.care.joboffer.write
+package com.mommydndn.app.ui.features.care.joboffer.write
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize

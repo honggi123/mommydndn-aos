@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.mommydndn.app.ui.models.SelectButtonContent
+import com.mommydndn.app.data.model.common.SelectButtonContent
 import com.mommydndn.app.ui.theme.Grey200
 import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.Salmon200

@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.feature.home
+package com.mommydndn.app.ui.features.home
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.core.spring
@@ -6,7 +6,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,16 +17,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.BottomDrawer
-import androidx.compose.material.BottomDrawerValue
 import androidx.compose.material.Button
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.rememberBottomDrawerState
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -40,13 +34,10 @@ import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.mommydndn.app.MainBottomNavigationBar
 import com.mommydndn.app.R
 import com.mommydndn.app.ui.navigation.MainNav
-import com.mommydndn.app.ui.components.modal.NoticeSettingListModal
 import com.mommydndn.app.ui.components.box.SubtextBox
 import com.mommydndn.app.ui.components.box.SubtextBoxSize
 import com.mommydndn.app.ui.components.common.BannerList
@@ -57,11 +48,9 @@ import com.mommydndn.app.ui.components.box.ProfileSitterBox
 import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.components.common.SubBanner
 import com.mommydndn.app.ui.theme.Grey50
-import com.mommydndn.app.ui.theme.GreyOpacity400
 import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.utils.NavigationUtils
-import kotlinx.coroutines.launch
 
 const val MAX_MORE_BABY_ITEM_PAGE = 4
 

@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.feature.care.joboffer.detail
+package com.mommydndn.app.ui.features.care.joboffer.detail
 
 import androidx.compose.runtime.Composable
 

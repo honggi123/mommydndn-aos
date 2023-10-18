@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.feature.care
+package com.mommydndn.app.ui.features.care
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

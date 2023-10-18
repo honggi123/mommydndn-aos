@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.feature.care
+package com.mommydndn.app.ui.features.care
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image

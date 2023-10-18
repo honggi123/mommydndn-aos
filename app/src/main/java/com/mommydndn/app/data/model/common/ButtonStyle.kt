@@ -1,7 +1,6 @@
-package com.mommydndn.app.ui.models
+package com.mommydndn.app.data.model.common
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.Dp
 import com.mommydndn.app.ui.theme.Grey100
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey600
