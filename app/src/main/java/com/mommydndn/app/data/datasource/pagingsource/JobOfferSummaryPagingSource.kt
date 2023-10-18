@@ -3,7 +3,7 @@ package com.mommydndn.app.data.datasource.pagingsource
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.mommydndn.app.data.api.service.CaringService
-import com.mommydndn.app.data.model.JobOfferSummary
+import com.mommydndn.app.data.model.care.JobOfferSummary
 import javax.inject.Inject
 
 private const val STARTING_PAGE_INDEX = 1

@@ -1,0 +1,15 @@
+package com.mommydndn.app.data.model.care
+
+enum class CaringType(val value: String) {
+    PARENTING("육아"),
+    NURSING("요양"),
+    SCHOOL("등하원"),
+    HOUSEKEEPING("가사")
+}
+
+data class CaringTypeItem(
+    val caringType: CaringType,
+    var isSelected: Boolean = false
+)
+
+

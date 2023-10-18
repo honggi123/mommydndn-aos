@@ -1,12 +1,10 @@
 package com.mommydndn.app.data.api.service
 
-import com.mommydndn.app.data.api.NearestJobSeekerConverter
-import com.mommydndn.app.data.api.model.CompanyEtcCheckItem
-import com.mommydndn.app.data.api.model.IndividualEtcCheckItem
-import com.mommydndn.app.data.api.model.NearestJobOfferResponse
-import com.mommydndn.app.data.api.model.NearestResponse
-import com.mommydndn.app.data.model.JobOfferSummary
-import com.mommydndn.app.data.model.JobSeeker
+import com.mommydndn.app.data.api.model.response.CompanyEtcCheckItem
+import com.mommydndn.app.data.api.model.response.IndividualEtcCheckItem
+import com.mommydndn.app.data.api.model.response.NearestJobOfferResponse
+import com.mommydndn.app.data.model.care.JobOfferSummary
+import com.mommydndn.app.data.model.care.JobSeeker
 import com.skydoves.sandwich.ApiResponse
 import retrofit2.Response
 import retrofit2.http.GET

@@ -1,10 +1,8 @@
 package com.mommydndn.app.data.api.service
 
-import com.mommydndn.app.data.api.model.TermsApprovalRequest
-import com.mommydndn.app.data.api.model.TermsItemResponse
+import com.mommydndn.app.data.api.model.request.TermsApprovalRequest
+import com.mommydndn.app.data.api.model.response.TermsItemResponse
 import com.skydoves.sandwich.ApiResponse
-import okhttp3.ResponseBody
-import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST

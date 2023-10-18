@@ -20,8 +20,8 @@ import androidx.navigation.NavHostController
 import com.mommydndn.app.ui.components.box.MaintextBox
 import com.mommydndn.app.ui.components.button.SquareButton
 import com.mommydndn.app.R
-import com.mommydndn.app.data.model.SignUpInfo
-import com.mommydndn.app.data.model.UserType
+import com.mommydndn.app.data.model.user.SignUpInfo
+import com.mommydndn.app.data.model.user.UserType
 import com.mommydndn.app.ui.navigation.TownCheckNav
 import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.theme.Grey400

@@ -35,10 +35,10 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.mommydndn.app.data.model.LocationInfo
-import com.mommydndn.app.data.model.TownSearchType
-import com.mommydndn.app.data.model.EmdItem
-import com.mommydndn.app.data.model.displayName
+import com.mommydndn.app.data.model.map.LocationInfo
+import com.mommydndn.app.data.model.common.TownSearchType
+import com.mommydndn.app.data.model.map.EmdItem
+import com.mommydndn.app.data.model.map.displayName
 import com.mommydndn.app.ui.components.box.RadioListBox
 import com.mommydndn.app.ui.components.box.SearchUnderHeader
 import com.mommydndn.app.ui.components.common.Searchbar

@@ -1,6 +1,6 @@
 package com.mommydndn.app.data.api.service
 
-import com.mommydndn.app.data.api.model.NoticeSettingResponse
+import com.mommydndn.app.data.api.model.response.NoticeSettingResponse
 import com.skydoves.sandwich.ApiResponse
 import retrofit2.http.GET
 

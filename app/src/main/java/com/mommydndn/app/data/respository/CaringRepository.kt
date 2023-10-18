@@ -1,14 +1,11 @@
 package com.mommydndn.app.data.respository
 
 import androidx.paging.PagingData
-import com.mommydndn.app.data.api.model.CompanyEtcCheckItem
-import com.mommydndn.app.data.api.model.IndividualEtcCheckItem
-import com.mommydndn.app.data.model.EtcCheckItem
-import com.mommydndn.app.data.model.JobOffer
-import com.mommydndn.app.data.model.JobOfferSummary
-import com.mommydndn.app.data.model.JobSeeker
-import com.mommydndn.app.data.model.LocationInfo
-import com.mommydndn.app.data.model.UserType
+import com.mommydndn.app.data.model.care.EtcCheckItem
+import com.mommydndn.app.data.model.care.JobOffer
+import com.mommydndn.app.data.model.care.JobOfferSummary
+import com.mommydndn.app.data.model.care.JobSeeker
+import com.mommydndn.app.data.model.user.UserType
 import kotlinx.coroutines.flow.Flow
 
 interface CaringRepository {

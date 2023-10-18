@@ -1,7 +1,7 @@
 package com.mommydndn.app.data.api.service
 
-import com.mommydndn.app.data.api.model.LocationSearchResponse
-import com.mommydndn.app.data.api.model.NearestResponse
+import com.mommydndn.app.data.api.model.response.LocationSearchResponse
+import com.mommydndn.app.data.api.model.response.NearestResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

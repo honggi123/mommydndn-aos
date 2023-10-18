@@ -16,14 +16,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
-import com.mommydndn.app.data.model.BannerColorType
-import com.mommydndn.app.data.model.JobSeeker
-import com.mommydndn.app.data.model.SitterProfile
+import com.mommydndn.app.data.model.banner.BannerColorType
+import com.mommydndn.app.data.model.care.JobSeeker
 import com.mommydndn.app.ui.components.common.Badge
 import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.caption200

@@ -1,6 +1,6 @@
 package com.mommydndn.app.data.api
 
-import com.mommydndn.app.data.api.model.ErrorResponse
+import com.mommydndn.app.data.api.model.response.ErrorResponse
 import com.skydoves.sandwich.ApiErrorModelMapper
 import com.skydoves.sandwich.ApiResponse
 import com.skydoves.sandwich.message

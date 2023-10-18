@@ -1,7 +1,6 @@
 package com.mommydndn.app.data.api.service
 
-import com.mommydndn.app.data.api.model.BannerResponse
-import com.mommydndn.app.data.model.Banner
+import com.mommydndn.app.data.api.model.response.BannerResponse
 import com.skydoves.sandwich.ApiResponse
 import retrofit2.http.GET
 

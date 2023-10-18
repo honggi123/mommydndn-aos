@@ -1,10 +1,10 @@
 package com.mommydndn.app.data.api.service
 
-import com.mommydndn.app.data.api.model.LoginRequest
-import com.mommydndn.app.data.api.model.LoginResponse
-import com.mommydndn.app.data.api.model.ReissueResponse
-import com.mommydndn.app.data.api.model.SignUpRequest
-import com.mommydndn.app.data.api.model.SignUpResponse
+import com.mommydndn.app.data.api.model.request.LoginRequest
+import com.mommydndn.app.data.api.model.response.LoginResponse
+import com.mommydndn.app.data.api.model.response.ReissueResponse
+import com.mommydndn.app.data.api.model.request.SignUpRequest
+import com.mommydndn.app.data.api.model.response.SignUpResponse
 import com.skydoves.sandwich.ApiResponse
 import retrofit2.http.Body
 import retrofit2.http.Header

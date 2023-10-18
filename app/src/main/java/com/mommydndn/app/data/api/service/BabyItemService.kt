@@ -1,6 +1,6 @@
 package com.mommydndn.app.data.api.service
 
-import com.mommydndn.app.data.api.model.BabyItemSummary
+import com.mommydndn.app.data.api.model.response.BabyItemSummary
 import com.skydoves.sandwich.ApiResponse
 import retrofit2.http.GET
 import retrofit2.http.Query

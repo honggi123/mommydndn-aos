@@ -1,10 +1,10 @@
 package com.mommydndn.app.data.api
 
 import com.google.gson.JsonParser
-import com.mommydndn.app.data.api.model.NearestJobOfferResponse
-import com.mommydndn.app.data.model.CaringType
-import com.mommydndn.app.data.model.JobSeeker
-import com.mommydndn.app.data.model.SalaryType
+import com.mommydndn.app.data.api.model.response.NearestJobOfferResponse
+import com.mommydndn.app.data.model.care.CaringType
+import com.mommydndn.app.data.model.care.JobSeeker
+import com.mommydndn.app.data.model.care.SalaryType
 import okhttp3.ResponseBody
 import retrofit2.Converter
 import retrofit2.Retrofit

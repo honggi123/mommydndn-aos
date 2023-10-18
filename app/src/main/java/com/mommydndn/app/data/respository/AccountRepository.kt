@@ -1,12 +1,11 @@
 package com.mommydndn.app.data.respository
 
-import com.mommydndn.app.data.api.model.LoginGoogleResponse
-import com.mommydndn.app.data.api.model.LoginResponse
-import com.mommydndn.app.data.model.OAuthType
-import com.mommydndn.app.data.model.SignUpInfo
-import com.mommydndn.app.data.api.model.SignUpResponse
+import com.mommydndn.app.data.api.model.response.LoginGoogleResponse
+import com.mommydndn.app.data.api.model.response.LoginResponse
+import com.mommydndn.app.data.model.user.OAuthType
+import com.mommydndn.app.data.model.user.SignUpInfo
+import com.mommydndn.app.data.api.model.response.SignUpResponse
 import com.skydoves.sandwich.ApiResponse
-import kotlinx.coroutines.flow.Flow
 
 interface AccountRepository {
     suspend fun signIn(

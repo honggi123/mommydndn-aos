@@ -1,6 +1,5 @@
 package com.mommydndn.app.utils
 
-import com.mommydndn.app.data.model.JobOffer
 import java.text.NumberFormat
 import java.util.Locale
 

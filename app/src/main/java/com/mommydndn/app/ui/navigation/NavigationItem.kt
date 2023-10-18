@@ -6,7 +6,7 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.mommydndn.app.R
-import com.mommydndn.app.data.model.SignUpInfo
+import com.mommydndn.app.data.model.user.SignUpInfo
 import com.mommydndn.app.ui.navigation.NavigationRouteName.MAIN_CARE
 import com.mommydndn.app.ui.navigation.NavigationRouteName.MAIN_HOME
 import com.mommydndn.app.utils.GsonUtils

@@ -1,0 +1,14 @@
+package com.mommydndn.app.data.model.care
+
+enum class SalaryType(val value: String) {
+    HOURLY("시급"),
+    DAILY("일급"),
+    WEEKLY("주급"),
+    MONTHLY("월급"),
+    NEGOTIATION("협의")
+}
+
+data class SalaryTypeItem(
+    val salaryType: SalaryType,
+    var isSelected: Boolean = false
+)

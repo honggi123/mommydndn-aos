@@ -2,10 +2,9 @@ package com.mommydndn.app.ui.feature.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mommydndn.app.data.api.model.BabyItem
-import com.mommydndn.app.data.api.model.BabyItemMeta
-import com.mommydndn.app.data.api.model.Meta
-import com.mommydndn.app.data.model.NoticeSetting
+import com.mommydndn.app.data.api.model.response.BabyItem
+import com.mommydndn.app.data.api.model.response.BabyItemMeta
+import com.mommydndn.app.data.model.notice.NoticeSetting
 import com.mommydndn.app.data.respository.BabyItemRepository
 import com.mommydndn.app.data.respository.CaringRepository
 import com.mommydndn.app.data.respository.CommonRepositoy

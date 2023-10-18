@@ -1,18 +1,13 @@
 package com.mommydndn.app.data.respository.impl
 
-import android.util.Log
 import com.mommydndn.app.data.api.service.CommonService
-import com.mommydndn.app.data.model.Banner
-import com.mommydndn.app.data.model.SitterProfile
+import com.mommydndn.app.data.model.banner.Banner
 import com.mommydndn.app.data.respository.CommonRepositoy
-import com.skydoves.sandwich.onError
-import com.skydoves.sandwich.onException
 import com.skydoves.sandwich.suspendOnSuccess
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.onCompletion
 import javax.inject.Inject
 
 class CommonRepositoryImpl @Inject constructor(

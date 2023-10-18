@@ -1,7 +1,6 @@
 package com.mommydndn.app.data.respository.impl
 
-import android.util.Log
-import com.mommydndn.app.data.api.model.BabyItemSummary
+import com.mommydndn.app.data.api.model.response.BabyItemSummary
 import com.mommydndn.app.data.api.service.BabyItemService
 import com.mommydndn.app.data.respository.BabyItemRepository
 import com.skydoves.sandwich.suspendOnSuccess

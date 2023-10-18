@@ -1,7 +1,6 @@
 package com.mommydndn.app.data.respository
 
-import com.mommydndn.app.data.model.TermsItem
-import com.skydoves.sandwich.ApiResponse
+import com.mommydndn.app.data.model.terms.TermsItem
 import kotlinx.coroutines.flow.Flow
 
 interface TermsRepository {

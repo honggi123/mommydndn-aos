@@ -1,30 +1,19 @@
 package com.mommydndn.app.data.respository.impl
 
-import android.util.Log
 import com.mommydndn.app.BuildConfig
-import com.mommydndn.app.data.api.ErrorResponseMapper
 import com.mommydndn.app.data.api.service.AuthService
 import com.mommydndn.app.data.api.service.GoogleApiService
 import com.mommydndn.app.data.datasource.TokenManager
-import com.mommydndn.app.data.api.model.LoginGoogleRequest
-import com.mommydndn.app.data.api.model.LoginGoogleResponse
-import com.mommydndn.app.data.api.model.LoginRequest
-import com.mommydndn.app.data.api.model.LoginResponse
-import com.mommydndn.app.data.model.OAuthType
-import com.mommydndn.app.data.model.SignUpInfo
-import com.mommydndn.app.data.api.model.SignUpRequest
-import com.mommydndn.app.data.api.model.SignUpResponse
+import com.mommydndn.app.data.api.model.request.LoginGoogleRequest
+import com.mommydndn.app.data.api.model.response.LoginGoogleResponse
+import com.mommydndn.app.data.api.model.request.LoginRequest
+import com.mommydndn.app.data.api.model.response.LoginResponse
+import com.mommydndn.app.data.model.user.OAuthType
+import com.mommydndn.app.data.model.user.SignUpInfo
+import com.mommydndn.app.data.api.model.request.SignUpRequest
 import com.mommydndn.app.data.respository.AccountRepository
 import com.skydoves.sandwich.ApiResponse
-import com.skydoves.sandwich.map
-import com.skydoves.sandwich.onError
-import com.skydoves.sandwich.onException
-import com.skydoves.sandwich.onSuccess
 import com.skydoves.sandwich.suspendOnSuccess
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.onCompletion
 import javax.inject.Inject
 
 class AccountRepositoryImpl @Inject constructor(
