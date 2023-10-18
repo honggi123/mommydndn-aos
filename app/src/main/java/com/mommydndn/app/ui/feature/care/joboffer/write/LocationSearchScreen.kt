@@ -18,7 +18,7 @@ import com.mommydndn.app.ui.components.common.Searchbar
 
 
 @Composable
-fun JobOfferWriteNearestScreen(
+fun LocationSearchScreen(
     navController: NavHostController,
     viewModel: JobOfferWriteViewModel = hiltViewModel()
 ) {

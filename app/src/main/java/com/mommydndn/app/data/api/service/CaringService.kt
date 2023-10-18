@@ -1,6 +1,8 @@
 package com.mommydndn.app.data.api.service
 
 import com.mommydndn.app.data.api.NearestJobSeekerConverter
+import com.mommydndn.app.data.api.model.CompanyEtcCheckItem
+import com.mommydndn.app.data.api.model.IndividualEtcCheckItem
 import com.mommydndn.app.data.api.model.NearestJobOfferResponse
 import com.mommydndn.app.data.api.model.NearestResponse
 import com.mommydndn.app.data.model.JobOfferSummary
@@ -16,6 +18,12 @@ interface CaringService {
 
     @GET("/api/caring/job-offer/nearest")
     suspend fun fetchNearestJobOffer(): ApiResponse<List<NearestJobOfferResponse>>
+
+    @GET("/api/caring/ind-other-condition")
+    suspend fun fetchIndividualEtcCheckList(): ApiResponse<List<IndividualEtcCheckItem>>
+
+    @GET("/api/caring/com-other-condition")
+    suspend fun fetchCompanyEtcCheckList(): ApiResponse<List<CompanyEtcCheckItem>>
 
     @GET("/api/map/search")
     suspend fun fetchJobOfferSummary(

@@ -5,16 +5,22 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.mommydndn.app.data.api.model.CompanyEtcCheckItem
+import com.mommydndn.app.data.api.model.IndividualEtcCheckItem
 import com.mommydndn.app.data.model.CaringType
 import com.mommydndn.app.data.model.CaringTypeItem
 import com.mommydndn.app.data.model.DayOfWeekItem
 import com.mommydndn.app.data.model.DayOfWeekType
 import com.mommydndn.app.data.model.EmdItem
+import com.mommydndn.app.data.model.EtcCheckItem
 import com.mommydndn.app.data.model.SalaryType
 import com.mommydndn.app.data.model.SalaryTypeItem
 import com.mommydndn.app.data.model.TownSearchType
+import com.mommydndn.app.data.model.UserInfo
+import com.mommydndn.app.data.model.UserType
 import com.mommydndn.app.data.model.WorkHoursType
 import com.mommydndn.app.data.model.WorkHoursTypeItem
+import com.mommydndn.app.data.respository.CaringRepository
 import com.mommydndn.app.data.respository.LocationRepository
 import com.mommydndn.app.data.respository.UserRepository
 import com.mommydndn.app.utils.DateTimeUtils
@@ -24,25 +30,23 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
 
 @HiltViewModel
 class JobOfferWriteViewModel @Inject constructor(
+    private val caringRepository: CaringRepository,
     private val userRepository: UserRepository,
     private val locationRepository: LocationRepository
 ) : ViewModel() {
-
-    val userInfo = userRepository.fetchUserInfo().stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.Lazily,
-        initialValue = null
-    )
 
     private var _careTypes: MutableStateFlow<List<CaringTypeItem>> = MutableStateFlow(
         listOf(
@@ -114,6 +118,12 @@ class JobOfferWriteViewModel @Inject constructor(
     private val _keyword: MutableStateFlow<String> = MutableStateFlow("")
     val keyword: StateFlow<String> = _keyword
 
+    private val _userInfo: MutableStateFlow<UserInfo?> = MutableStateFlow(null)
+    val userInfo: StateFlow<UserInfo?> = _userInfo
+
+    private val _etcCheckList: MutableStateFlow<List<EtcCheckItem>> = MutableStateFlow(emptyList())
+    val etcCheckList: StateFlow<List<EtcCheckItem>> = _etcCheckList
+
     private val _searchedTownsFlowByKeyword: Flow<PagingData<EmdItem>> = _keyword
         .debounce(200)
         .distinctUntilChanged()
@@ -121,6 +131,10 @@ class JobOfferWriteViewModel @Inject constructor(
             locationRepository.fetchLocationsByKeyword(it)
         }.cachedIn(viewModelScope)
     val searchedTownsFlow: Flow<PagingData<EmdItem>> = _searchedTownsFlowByKeyword
+
+    init {
+        fetchUserInfo()
+    }
 
     fun setTitle(title: String) {
         _title.value = title
@@ -201,4 +215,29 @@ class JobOfferWriteViewModel @Inject constructor(
     fun setKeyword(keyword: String) {
         _keyword.value = keyword
     }
+
+    fun checkEtcListItem(etcCheckItem: EtcCheckItem) {
+        _etcCheckList.value = _etcCheckList.value.map { item ->
+            if (item == etcCheckItem) item.copy(isChecked = !item.isChecked)
+            else item
+        }
+    }
+
+    private fun fetchUserInfo() {
+        viewModelScope.launch {
+            userRepository.fetchUserInfo().collect { info ->
+                _userInfo.value = info
+                fetchEtcCheckList(info)
+            }
+        }
+    }
+
+    private fun fetchEtcCheckList(userInfo: UserInfo) {
+        viewModelScope.launch {
+            caringRepository.fetchEtcCheckList(userInfo.userType).collect {
+                _etcCheckList.value = it
+            }
+        }
+    }
+
 }

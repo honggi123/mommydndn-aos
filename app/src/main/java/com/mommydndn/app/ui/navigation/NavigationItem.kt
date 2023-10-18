@@ -72,9 +72,9 @@ object JobOfferWriteNav : Destination {
     override val title: String = NavigationTitle.JOB_OFFER_WRITE
 }
 
-object JobOfferWriteNearestNav : Destination {
-    override val route: String = NavigationRouteName.JOB_OFFER_WRITE_NEAREST
-    override val title: String = NavigationTitle.JOB_OFFER_WRITE_NEAREST
+object LocationSearchNav : Destination {
+    override val route: String = NavigationRouteName.LOCATION_SEARCH
+    override val title: String = NavigationTitle.LOCATION_SEARCH
 }
 
 
@@ -88,7 +88,7 @@ object NavigationRouteName {
     const val MAIN_CARE = "돌봄"
 
     const val JOB_OFFER_WRITE = "구인글쓰기"
-    const val JOB_OFFER_WRITE_NEAREST = "구인글쓰기_내근처찾기"
+    const val LOCATION_SEARCH = "구인글쓰기_위치검색"
 
     const val SIGN_IN = "로그인"
     const val TYPE_CHOICE = "개인&기업선택"
@@ -100,7 +100,7 @@ object NavigationTitle {
     const val MAIN_CARE = "돌봄"
 
     const val JOB_OFFER_WRITE = "구인글쓰기"
-    const val JOB_OFFER_WRITE_NEAREST = "구인글쓰기_내근처찾기"
+    const val LOCATION_SEARCH = "구인글쓰기_위치검색"
 
     const val SIGN_IN = "로그인"
     const val TYPE_CHOICE = "개인&기업선택"

@@ -57,13 +57,14 @@ import com.mommydndn.app.ui.components.box.SubtextBox
 import com.mommydndn.app.ui.components.box.SubtextBoxSize
 import com.mommydndn.app.ui.components.button.CtaButton
 import com.mommydndn.app.ui.components.chip.ClickableChip
+import com.mommydndn.app.ui.components.common.CheckBoxListItem
 import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.components.common.ImageInputField
 import com.mommydndn.app.ui.components.common.SelectField
 import com.mommydndn.app.ui.components.common.TextInpuField
 import com.mommydndn.app.ui.models.ImageInputFieldType
 import com.mommydndn.app.ui.models.SelectButtonContent
-import com.mommydndn.app.ui.navigation.JobOfferWriteNearestNav
+import com.mommydndn.app.ui.navigation.LocationSearchNav
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey700
@@ -103,6 +104,8 @@ fun JobOfferWriteScreen(
     val salary by viewModel.salary.collectAsState()
 
     val photos by viewModel.photos.collectAsState()
+
+    val etcCheckList by viewModel.etcCheckList.collectAsState()
 
     val startDatePicker = createDatePicker(
         calendar = calendar,
@@ -356,7 +359,7 @@ fun JobOfferWriteScreen(
                     value = userInfo?.emd?.fullName ?: "",
                     isSelected = userInfo?.emd != null,
                     onClickSelection = {
-                        NavigationUtils.navigate(navController, JobOfferWriteNearestNav.route)
+                        NavigationUtils.navigate(navController, LocationSearchNav.route)
                     }
                 )
             }
@@ -477,6 +480,16 @@ fun JobOfferWriteScreen(
                 subtitleText = "(선택)",
                 size = SubtextBoxSize.S
             )
+
+            LazyVerticalGrid(columns = GridCells.Fixed(2)) {
+                items(etcCheckList.size) { index ->
+                    CheckBoxListItem(
+                        checked = etcCheckList[index].isChecked,
+                        onCheckedChange = { viewModel.checkEtcListItem(etcCheckList[index]) },
+                        text = etcCheckList[index].displayName
+                    )
+                }
+            }
 
             Box(
                 modifier = Modifier
