@@ -4,8 +4,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.mommydndn.app.data.api.service.MapService
-import com.mommydndn.app.data.datasource.LocationsByKeywordPagingSource
-import com.mommydndn.app.data.datasource.NearestByLocationPagingSource
+import com.mommydndn.app.data.datasource.pagingsource.LocationsByKeywordPagingSource
+import com.mommydndn.app.data.datasource.pagingsource.NearestByLocationPagingSource
 import com.mommydndn.app.data.model.EmdItem
 import com.mommydndn.app.data.model.LocationInfo
 import com.mommydndn.app.data.respository.LocationRepository

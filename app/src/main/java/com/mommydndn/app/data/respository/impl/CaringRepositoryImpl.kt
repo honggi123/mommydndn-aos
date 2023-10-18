@@ -3,26 +3,19 @@ package com.mommydndn.app.data.respository.impl
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.mommydndn.app.data.api.model.CompanyEtcCheckItem
-import com.mommydndn.app.data.api.model.IndividualEtcCheckItem
 import com.mommydndn.app.data.api.service.CaringService
-import com.mommydndn.app.data.datasource.JobOfferSummaryPagingSource
-import com.mommydndn.app.data.datasource.NearestByLocationPagingSource
-import com.mommydndn.app.data.model.CaringType
+import com.mommydndn.app.data.datasource.pagingsource.JobOfferSummaryPagingSource
 import com.mommydndn.app.data.model.EtcCheckItem
 import com.mommydndn.app.data.model.JobOffer
 import com.mommydndn.app.data.model.JobOfferSummary
 import com.mommydndn.app.data.model.JobSeeker
 import com.mommydndn.app.data.model.UserType
 import com.mommydndn.app.data.respository.CaringRepository
-import com.skydoves.sandwich.onError
-import com.skydoves.sandwich.onException
 import com.skydoves.sandwich.suspendOnSuccess
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.onCompletion
 import javax.inject.Inject
 
 class CaringRepositoryImpl @Inject constructor(

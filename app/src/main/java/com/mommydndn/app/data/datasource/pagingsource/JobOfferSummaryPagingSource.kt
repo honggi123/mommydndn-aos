@@ -1,9 +1,8 @@
-package com.mommydndn.app.data.datasource
+package com.mommydndn.app.data.datasource.pagingsource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.mommydndn.app.data.api.service.CaringService
-import com.mommydndn.app.data.api.service.MapService
 import com.mommydndn.app.data.model.JobOfferSummary
 import javax.inject.Inject
 
