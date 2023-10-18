@@ -21,7 +21,6 @@ object UserTypeSerializer : KSerializer<UserType> {
     }
 
     override fun deserialize(decoder: Decoder): UserType {
-        return UserType.values().find { it.apiValue == decoder.decodeString() }
-            ?: throw IllegalArgumentException("Invalid UserType value")
+        return UserType.valueOf(decoder.decodeString())
     }
 }

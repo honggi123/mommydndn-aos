@@ -477,7 +477,19 @@ fun JobOfferWriteScreen(
                 size = SubtextBoxSize.S
             )
 
-            LazyVerticalGrid(columns = GridCells.Fixed(2)) {
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = 24.dp,
+                        top = 16.dp,
+                        bottom = 40.dp,
+                        end = 24.dp
+                    )
+                    .heightIn(max = 700.dp)
+                    .wrapContentHeight(),
+            ) {
                 items(etcCheckList.size) { index ->
                     CheckBoxListItem(
                         checked = etcCheckList[index].isChecked,

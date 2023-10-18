@@ -1,6 +1,7 @@
 package com.mommydndn.app.ui.features.care.joboffer.write
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -13,9 +14,10 @@ import com.mommydndn.app.data.model.map.EmdItem
 import com.mommydndn.app.data.model.care.EtcCheckItem
 import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.SalaryTypeItem
-import com.mommydndn.app.data.model.user.UserInfo
 import com.mommydndn.app.data.model.care.WorkHoursType
 import com.mommydndn.app.data.model.care.WorkHoursTypeItem
+import com.mommydndn.app.data.model.user.UserInfo
+import com.mommydndn.app.data.model.user.UserType
 import com.mommydndn.app.data.respository.CaringRepository
 import com.mommydndn.app.data.respository.LocationRepository
 import com.mommydndn.app.data.respository.UserRepository
@@ -218,8 +220,8 @@ class JobOfferWriteViewModel @Inject constructor(
     private fun fetchUserInfo() {
         viewModelScope.launch {
             userRepository.fetchUserInfo().collect { info ->
-                _userInfo.value = info
                 fetchEtcCheckList(info)
+                _userInfo.value = info
             }
         }
     }
