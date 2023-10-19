@@ -87,7 +87,9 @@ fun ImageInputField(
                         .offset(
                             x = 98.dp,
                             y = (-5).dp
-                        )
+                        ).clickable {
+                            inputType.onRemoveClick?.let { it() }
+                        }
                 )
             }
         }

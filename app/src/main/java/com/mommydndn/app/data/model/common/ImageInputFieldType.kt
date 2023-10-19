@@ -9,7 +9,8 @@ sealed class ImageInputFieldType {
     ) : ImageInputFieldType()
 
     data class Editable(
-        val imageUri: Uri
+        val imageUri: Uri,
+        val onRemoveClick: (() -> Unit)? = null
     ) : ImageInputFieldType()
 
     data class Ineditable(

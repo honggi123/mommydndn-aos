@@ -471,7 +471,8 @@ fun JobOfferWriteScreen(
                     items(photos) { uri ->
                         ImageInputField(
                             inputType = ImageInputFieldType.Editable(
-                                imageUri = uri
+                                imageUri = uri,
+                                onRemoveClick = { viewModel.removePhoto(uri) }
                             )
                         )
                     }

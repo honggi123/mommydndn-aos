@@ -224,6 +224,12 @@ class JobOfferWriteViewModel @Inject constructor(
         _isTimeNegotiable.value = !_isTimeNegotiable.value
     }
 
+    fun removePhoto(selectedUri: Uri) {
+        _photos.value = _photos.value.filter {
+            it != selectedUri
+        }
+    }
+
     private fun fetchUserInfo() {
         viewModelScope.launch {
             userRepository.fetchUserInfo().collect { info ->
