@@ -131,6 +131,7 @@ class JobOfferWriteViewModel @Inject constructor(
 
     init {
         fetchUserInfo()
+        fetchEtcCheckList()
     }
 
     fun setTitle(title: String) {
@@ -233,15 +234,14 @@ class JobOfferWriteViewModel @Inject constructor(
     private fun fetchUserInfo() {
         viewModelScope.launch {
             userRepository.fetchUserInfo().collect { info ->
-                fetchEtcCheckList(info)
                 _userInfo.value = info
             }
         }
     }
 
-    private fun fetchEtcCheckList(userInfo: UserInfo) {
+    private fun fetchEtcCheckList() {
         viewModelScope.launch {
-            caringRepository.fetchEtcCheckList(userInfo.userType).collect {
+            caringRepository.fetchEtcIndividualCheckList().collect {
                 _etcCheckList.value = it
             }
         }

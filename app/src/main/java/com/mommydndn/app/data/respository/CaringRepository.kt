@@ -13,7 +13,7 @@ interface CaringRepository {
 
     fun fetchNearestJobOffer(): Flow<List<JobOffer>>
 
-    fun fetchEtcCheckList(userType: UserType): Flow<List<EtcCheckItem>>
+    fun fetchEtcIndividualCheckList(): Flow<List<EtcCheckItem>>
 
     fun fetchJobOfferSummary(): Flow<PagingData<JobOfferSummary>>
 

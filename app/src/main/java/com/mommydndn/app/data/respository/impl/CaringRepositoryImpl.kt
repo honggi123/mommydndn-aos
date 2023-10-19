@@ -42,34 +42,17 @@ class CaringRepositoryImpl @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    override fun fetchEtcCheckList(userType: UserType): Flow<List<EtcCheckItem>> = flow {
-        when(userType){
-            UserType.INDIVIDUAL -> {
-                caringService.fetchIndividualEtcCheckList().suspendOnSuccess {
-                    val list= data.map {
-                        EtcCheckItem(
-                            displayName = it.displayName,
-                            id = it.indOtherConditionId,
-                            conditionCode = it.indOtherConditionCode
-                        )
-                    }
-                    emit(list)
-                }
+    override fun fetchEtcIndividualCheckList(): Flow<List<EtcCheckItem>> = flow {
+        caringService.fetchIndividualEtcCheckList().suspendOnSuccess {
+            val list = data.map {
+                EtcCheckItem(
+                    displayName = it.displayName,
+                    id = it.indOtherConditionId,
+                    conditionCode = it.indOtherConditionCode
+                )
             }
-            UserType.COMPANY -> {
-                caringService.fetchCompanyEtcCheckList().suspendOnSuccess {
-                    val list= data.map {
-                        EtcCheckItem(
-                            displayName = it.displayName,
-                            id = it.comOtherConditionId,
-                            conditionCode = it.comOtherConditionCode
-                        )
-                    }
-                    emit(list)
-                }
-            }
+            emit(list)
         }
-
     }.flowOn(Dispatchers.IO)
 
 
