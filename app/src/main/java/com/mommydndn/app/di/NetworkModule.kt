@@ -2,7 +2,6 @@ package com.mommydndn.app.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.mommydndn.app.BuildConfig
-import com.mommydndn.app.data.api.EnumConverterFactory
 import com.mommydndn.app.data.api.service.AuthService
 import com.mommydndn.app.data.api.service.GoogleApiService
 import com.mommydndn.app.data.api.service.MapService
@@ -72,7 +71,6 @@ class NetworkModule {
             .client(okHttpClient)
             .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(Json.asConverterFactory(contentType))
-            .addConverterFactory(EnumConverterFactory())
             .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
             .build()
     }
