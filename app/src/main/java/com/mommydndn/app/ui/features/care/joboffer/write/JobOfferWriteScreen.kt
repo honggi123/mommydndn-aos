@@ -109,6 +109,7 @@ fun JobOfferWriteScreen(
 
     val startTime by viewModel.startTime.collectAsState()
     val endTime by viewModel.endTime.collectAsState()
+    val isTimeNegotiable by viewModel.isTimeNegotiable.collectAsState()
 
     val salary by viewModel.salary.collectAsState()
 
@@ -330,10 +331,12 @@ fun JobOfferWriteScreen(
                     option2Text = endTime?.let { DateTimeUtils.getLocalTimeText(it) } ?: "종료시간",
                     onOption1Clicked = { startTimePicker.show() },
                     onOption2Clicked = { endTimePicker.show() },
-                    isChecked = false,
+                    isChecked = isTimeNegotiable,
                     isOption1Selected = startTime != null,
                     isOption2Selected = endTime != null,
-                    onCheckedChange = {},
+                    onCheckedChange = {
+                        viewModel.toggleIsTimeNegotiable()
+                    },
                     checkListText = "협의 가능해요"
                 )
             }

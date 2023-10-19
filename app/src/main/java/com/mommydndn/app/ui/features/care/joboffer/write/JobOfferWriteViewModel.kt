@@ -118,6 +118,9 @@ class JobOfferWriteViewModel @Inject constructor(
     private val _etcCheckList: MutableStateFlow<List<EtcCheckItem>> = MutableStateFlow(emptyList())
     val etcCheckList: StateFlow<List<EtcCheckItem>> = _etcCheckList
 
+    private val _isTimeNegotiable: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isTimeNegotiable: StateFlow<Boolean> = _isTimeNegotiable
+
     private val _searchedTownsFlowByKeyword: Flow<PagingData<EmdItem>> = _keyword
         .debounce(200)
         .distinctUntilChanged()
@@ -215,6 +218,10 @@ class JobOfferWriteViewModel @Inject constructor(
             if (item == etcCheckItem) item.copy(isChecked = !item.isChecked)
             else item
         }
+    }
+
+    fun toggleIsTimeNegotiable() {
+        _isTimeNegotiable.value = !_isTimeNegotiable.value
     }
 
     private fun fetchUserInfo() {
