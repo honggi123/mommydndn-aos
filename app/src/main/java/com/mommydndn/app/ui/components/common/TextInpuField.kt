@@ -15,11 +15,15 @@ import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -45,11 +49,11 @@ fun TextInpuField(
     descriptionText: String = "",
     placeHolderText: String = "",
     isError: Boolean = false,
-    isFocused: Boolean = false,
     onValueChanged: (String) -> Unit = {},
+    focusRequester: FocusRequester,
 ) {
 
-    val focusRequester = remember { FocusRequester() }
+    var isFocused by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         if (isFocused) focusRequester.requestFocus()
@@ -70,7 +74,10 @@ fun TextInpuField(
             modifier = Modifier
                 .width(342.dp)
                 .height(56.dp)
-                .focusRequester(focusRequester),
+                .focusRequester(focusRequester)
+                .onFocusChanged {
+                    isFocused = it.isFocused
+                },
             shape = RoundedCornerShape(12.dp),
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Grey50,
@@ -78,7 +85,7 @@ fun TextInpuField(
                 disabledIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 errorIndicatorColor = Salmon600,
-                cursorColor = Salmon600
+                cursorColor = Salmon600,
             ),
             value = value,
             onValueChange = {
@@ -123,15 +130,4 @@ fun TextInpuField(
     }
 
 }
-
-@Preview
-@Composable
-fun previewTextInpuField() {
-    TextInpuField(
-        label = "label",
-        placeHolderText = "placeholder",
-        descriptionText = "description",
-    )
-}
-
 

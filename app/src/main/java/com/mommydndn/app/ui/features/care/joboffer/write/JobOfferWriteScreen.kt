@@ -39,10 +39,14 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -64,6 +68,7 @@ import com.mommydndn.app.ui.components.common.SelectField
 import com.mommydndn.app.ui.components.common.TextInpuField
 import com.mommydndn.app.data.model.common.ImageInputFieldType
 import com.mommydndn.app.data.model.common.SelectButtonContent
+import com.mommydndn.app.ui.extensions.addFocusCleaner
 import com.mommydndn.app.ui.navigation.LocationSearchNav
 import com.mommydndn.app.ui.theme.Grey100
 import com.mommydndn.app.ui.theme.Grey50
@@ -85,6 +90,9 @@ fun JobOfferWriteScreen(
 ) {
     val context = LocalContext.current
     val calendar = Calendar.getInstance()
+
+    val focusRequester by remember { mutableStateOf(FocusRequester()) }
+    val focusManager = LocalFocusManager.current
 
     val userInfo by viewModel.userInfo.collectAsState()
 
@@ -166,6 +174,7 @@ fun JobOfferWriteScreen(
     Column(
         modifier = Modifier
             .background(White)
+            .addFocusCleaner(focusManager)
     ) {
         Header(leftContent = {
             Image(
@@ -403,7 +412,8 @@ fun JobOfferWriteScreen(
                     value = salary?.let { NumberUtils.getPriceString(it) } ?: "",
                     onValueChanged = { viewModel.setSalary(it) },
                     placeHolderText = "10,000",
-                    descriptionText = "2023년 최저시급은 9,620원이에요"
+                    descriptionText = "2023년 최저시급은 9,620원이에요",
+                    focusRequester = focusRequester
                 )
             }
 
