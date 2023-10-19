@@ -9,8 +9,11 @@ import android.util.Log
 import android.widget.DatePicker
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,6 +41,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -61,6 +65,7 @@ import com.mommydndn.app.ui.components.common.TextInpuField
 import com.mommydndn.app.data.model.common.ImageInputFieldType
 import com.mommydndn.app.data.model.common.SelectButtonContent
 import com.mommydndn.app.ui.navigation.LocationSearchNav
+import com.mommydndn.app.ui.theme.Grey100
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey700
@@ -178,19 +183,16 @@ fun JobOfferWriteScreen(
                 )
             )
         }, rightContent = {
-            Button(
-                onClick = { },
-                colors = ButtonDefaults.buttonColors(White),
-                contentPadding = PaddingValues(horizontal = 8.dp, vertical = 6.dp),
-            ) {
-                Text(
-                    text = "불러오기",
-                    style = MaterialTheme.typography.paragraph300.copy(
-                        fontWeight = FontWeight.Medium,
-                        color = Grey500
-                    )
+            Text(
+                modifier = Modifier
+                    .padding(horizontal = 8.dp, vertical = 6.dp)
+                    .clickable { },
+                text = "불러오기",
+                style = MaterialTheme.typography.paragraph300.copy(
+                    fontWeight = FontWeight.Medium,
+                    color = Grey500
                 )
-            }
+            )
         })
 
         Column(
@@ -434,8 +436,8 @@ fun JobOfferWriteScreen(
                         .fillMaxWidth()
                         .heightIn(max = 700.dp)
                         .wrapContentHeight(),
-                    verticalArrangement = Arrangement.spacedBy(4.dp),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     item {
                         ImageInputField(
@@ -502,6 +504,7 @@ fun JobOfferWriteScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .border(1.dp, Grey100)
                     .padding(
                         start = 24.dp,
                         top = 16.dp,

@@ -77,7 +77,8 @@ fun TextInpuField(
                 focusedIndicatorColor = Salmon500,
                 disabledIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
-                errorIndicatorColor = Salmon600
+                errorIndicatorColor = Salmon600,
+                cursorColor = Salmon600
             ),
             value = value,
             onValueChange = {
