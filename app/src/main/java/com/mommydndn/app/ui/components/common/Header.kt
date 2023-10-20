@@ -11,13 +11,14 @@ import com.mommydndn.app.ui.theme.WhiteOpacity600
 
 @Composable
 fun Header(
+    modifier: Modifier = Modifier,
     isCareTab: Boolean = false,
     leftContent: @Composable RowScope.() -> Unit = {},
     centerContent: @Composable RowScope.() -> Unit = {},
     rightContent: @Composable RowScope.() -> Unit = {}
 ) {
     TopAppBar(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(68.dp),
         contentPadding = PaddingValues(

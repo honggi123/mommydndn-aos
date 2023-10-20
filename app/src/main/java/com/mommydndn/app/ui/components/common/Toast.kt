@@ -34,11 +34,12 @@ import com.mommydndn.app.ui.theme.shadow500
 
 @Composable
 fun Toast(
+    modifier: Modifier = Modifier,
     @StringRes id: Int? = null,
     text: String = "",
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .border(
                 width = 1.dp,
                 color = Grey50,

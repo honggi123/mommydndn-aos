@@ -37,6 +37,7 @@ import com.mommydndn.app.utils.DateTimeUtils
 
 @Composable
 fun MarketListItemBox(
+    modifier: Modifier = Modifier,
     item: BabyItem
 ) {
     val productPainter = rememberImagePainter(
@@ -51,7 +52,7 @@ fun MarketListItemBox(
     )
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .width(165.dp)
             .height(216.dp)
             .background(color = White, shape = RoundedCornerShape(10.dp))

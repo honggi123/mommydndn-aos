@@ -41,6 +41,7 @@ import com.mommydndn.app.ui.theme.paragraph300
 
 @Composable
 fun CommunityPostBox(
+    modifier: Modifier = Modifier,
     item: CommunityPost
 ) {
 
@@ -52,7 +53,7 @@ fun CommunityPostBox(
     )
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .width(326.dp)
             .background(color = White)
     ) {

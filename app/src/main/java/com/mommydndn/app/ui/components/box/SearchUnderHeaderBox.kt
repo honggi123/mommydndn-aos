@@ -28,11 +28,12 @@ import com.mommydndn.app.ui.extensions.bottomBorder
 
 @Composable
 fun SearchUnderHeader(
+    modifier: Modifier = Modifier,
     headerText: String = "",
     searchAction: () -> Unit
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .background(White)

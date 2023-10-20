@@ -29,6 +29,7 @@ import com.mommydndn.app.ui.theme.paragraph300
 
 @Composable
 fun <T : Any> RadioListBox(
+    modifier: Modifier = Modifier,
     pagingItems: LazyPagingItems<T>,
     onItemClick: (T?) -> Unit,
     itemNameDisplay: (T) -> String
@@ -41,7 +42,7 @@ fun <T : Any> RadioListBox(
 
     if (pagingItems.itemCount == 0) {
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .height(584.dp)
                 .background(White),

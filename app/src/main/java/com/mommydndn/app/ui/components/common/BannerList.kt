@@ -37,11 +37,12 @@ import com.mommydndn.app.ui.theme.caption100
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun BannerList(
+    modifier: Modifier = Modifier,
     items: List<Banner>
 ) {
     val pagerState = rememberPagerState()
 
-    HorizontalPager(state = pagerState, count = items.size) { page ->
+    HorizontalPager(modifier = modifier, state = pagerState, count = items.size) { page ->
         Banner(
             imgUrl = items[page].url,
             pageNum = page + 1,

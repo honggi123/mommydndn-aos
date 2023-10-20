@@ -36,10 +36,11 @@ import com.mommydndn.app.ui.theme.Grey800
 
 @Composable
 fun JobOfferSummaryBox(
+    modifier: Modifier = Modifier,
     item: JobOfferSummary
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .width(334.dp)
             .background(color = White)
     ) {

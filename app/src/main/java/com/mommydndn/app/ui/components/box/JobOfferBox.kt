@@ -28,10 +28,11 @@ import com.mommydndn.app.utils.NumberUtils
 
 @Composable
 fun JobOfferBox(
+    modifier: Modifier = Modifier,
     item: JobOffer
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .width(216.dp)
             .background(shape = Shapes.large, color = Grey50)
     ) {

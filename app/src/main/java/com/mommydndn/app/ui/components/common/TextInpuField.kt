@@ -60,6 +60,7 @@ fun TextInpuField(
     }
 
     Column(
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.Top)
     ) {
         Text(

@@ -33,10 +33,11 @@ import com.mommydndn.app.ui.theme.caption200
 
 @Composable
 fun FooterBox(
+    modifier: Modifier = Modifier,
     onInquiryClick: () -> Unit
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .width(390.dp)
             .background(White),
 

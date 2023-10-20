@@ -30,7 +30,9 @@ import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph300
 
 @Composable
-fun SubBanner() {
+fun SubBanner(
+    modifier: Modifier = Modifier
+) {
 
     val text = buildAnnotatedString {
         withStyle(
@@ -52,7 +54,7 @@ fun SubBanner() {
 
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .background(color = White)
             .padding(start = 32.dp, end = 32.dp, top = 56.dp, bottom = 56.dp)
     ) {

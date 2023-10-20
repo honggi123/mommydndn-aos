@@ -22,11 +22,12 @@ import com.mommydndn.app.ui.theme.paragraph300
 
 @Composable
 fun MaintextBox(
+    modifier: Modifier = Modifier,
     captionText: String,
     titleText: String
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(start = 32.dp, top = 16.dp, end = 32.dp, bottom = 40.dp)
