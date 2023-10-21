@@ -37,17 +37,57 @@ import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.ui.theme.paragraph400
 
 @Composable
-fun ProfileSummary() {
-
+fun ProfileSummary(
+    modifier: Modifier = Modifier,
+    profileUri: String = "",
+    nameText: String = "",
+    locationText: String = "",
+    dndnScore: Double = 0.0,
+    isAuthenticated: Boolean = false,
+    dateText: String,
+    matchCount: Int = 0,
+    reviewCount: Int = 0,
+    responseRate: Int = 0,
+    neighborhoodText: String = ""
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        ProfileBar(
+            modifier = Modifier.fillMaxWidth(),
+            profileUri = profileUri,
+            nameText = nameText,
+            locationText = locationText,
+            dndnScore = dndnScore,
+            isAuthenticated = isAuthenticated
+        )
+        ProfileInfoStack(
+            modifier = Modifier.fillMaxWidth(),
+            dateText = dateText,
+            isAuthenticated = isAuthenticated,
+            neighborhoodText = neighborhoodText
+        )
+        ProfileDataBox(
+            modifier = Modifier.fillMaxWidth(),
+            matchCount = matchCount,
+            reviewCount = reviewCount,
+            responseRate = responseRate
+        )
+    }
 }
 
 @Composable
 fun ProfileBar(
     modifier: Modifier = Modifier,
-    profileUrl: String = ""
+    profileUri: String = "",
+    nameText: String = "",
+    locationText: String = "",
+    dndnScore: Double = 0.0,
+    isAuthenticated: Boolean = false
 ) {
     val profilePainter = rememberImagePainter(
-        data = profileUrl,
+        data = profileUri,
         builder = {
             crossfade(true)
         }
@@ -66,7 +106,7 @@ fun ProfileBar(
                 painter = profilePainter,
                 contentDescription = null,
                 modifier = Modifier
-                    .size(108.dp)
+                    .size(40.dp)
                     .clip(CircleShape)
             )
             Column(
@@ -77,7 +117,7 @@ fun ProfileBar(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "워킹맘",
+                        text = nameText,
                         color = Grey700,
                         style = MaterialTheme.typography.paragraph300.copy(
                             fontWeight = FontWeight.Bold
@@ -85,19 +125,21 @@ fun ProfileBar(
                         modifier = Modifier
                             .wrapContentHeight(align = Alignment.CenterVertically)
                     )
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_certificate),
-                        contentDescription = "Icon/certificate",
-                        modifier = Modifier
-                            .size(size = 16.dp)
-                    )
+                    if (isAuthenticated) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_certificate),
+                            contentDescription = "Icon/certificate",
+                            modifier = Modifier
+                                .size(size = 16.dp)
+                        )
+                    }
                 }
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.Start),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "반포동",
+                        text = locationText,
                         color = Grey500,
                         style = MaterialTheme.typography.caption100.copy(
                             fontWeight = FontWeight.Normal
@@ -113,7 +155,7 @@ fun ProfileBar(
             horizontalAlignment = Alignment.End
         ) {
             Text(
-                text = "5.0",
+                text = dndnScore.toString(),
                 color = Salmon600,
                 style = MaterialTheme.typography.paragraph400.copy(
                     fontWeight = FontWeight.Bold
@@ -146,7 +188,12 @@ fun ProfileBar(
 }
 
 @Composable
-fun ProfileInfoStack(modifier: Modifier = Modifier) {
+fun ProfileInfoStack(
+    modifier: Modifier = Modifier,
+    dateText: String = "",
+    isAuthenticated: Boolean = false,
+    neighborhoodText: String = ""
+) {
     Column(
         verticalArrangement = Arrangement.spacedBy(2.dp, Alignment.Top),
         modifier = modifier
@@ -156,18 +203,41 @@ fun ProfileInfoStack(modifier: Modifier = Modifier) {
         Column(
             verticalArrangement = Arrangement.spacedBy(2.dp, Alignment.Top)
         ) {
+            if (isAuthenticated) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.Start),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_certificate),
+                        contentDescription = "Icon/certificate",
+                        modifier = Modifier
+                            .requiredSize(size = 16.dp)
+                    )
+                    Text(
+                        text = neighborhoodText + " 엄마 인증 완료",
+                        color = Grey700,
+                        style = MaterialTheme.typography.caption200.copy(
+                            fontWeight = FontWeight.Medium
+                        ),
+                        modifier = Modifier
+                            .wrapContentHeight(align = Alignment.CenterVertically)
+                    )
+                }
+            }
+
             Row(
                 horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.Start),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.ic_certificate),
-                    contentDescription = "Icon/certificate",
+                    painter = painterResource(id = R.drawable.ic_calender),
+                    contentDescription = "Icon/calender-filled",
                     modifier = Modifier
                         .requiredSize(size = 16.dp)
                 )
                 Text(
-                    text = "서초동 엄마 인증 완료",
+                    text = "가입일 " + dateText,
                     color = Grey700,
                     style = MaterialTheme.typography.caption200.copy(
                         fontWeight = FontWeight.Medium
@@ -177,31 +247,16 @@ fun ProfileInfoStack(modifier: Modifier = Modifier) {
                 )
             }
         }
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.Start),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_calender),
-                contentDescription = "Icon/calender-filled",
-                modifier = Modifier
-                    .requiredSize(size = 16.dp)
-            )
-            Text(
-                text = "가입일 2023년 1월 10일",
-                color = Grey700,
-                style = MaterialTheme.typography.caption200.copy(
-                    fontWeight = FontWeight.Medium
-                ),
-                modifier = Modifier
-                    .wrapContentHeight(align = Alignment.CenterVertically)
-            )
-        }
     }
 }
 
 @Composable
-fun ProfileDataBox(modifier: Modifier = Modifier) {
+fun ProfileDataBox(
+    modifier: Modifier = Modifier,
+    matchCount: Int = 0,
+    reviewCount: Int = 0,
+    responseRate: Int = 0
+) {
     Box(modifier = modifier.width(342.dp)) {
         Row(
             modifier = Modifier
@@ -222,7 +277,7 @@ fun ProfileDataBox(modifier: Modifier = Modifier) {
                         .wrapContentHeight(align = Alignment.CenterVertically)
                 )
                 Text(
-                    text = "5회",
+                    text = matchCount.toString() + "회",
                     color = Salmon600,
                     style = MaterialTheme.typography.caption200.copy(
                         fontWeight = FontWeight.Normal
@@ -245,7 +300,7 @@ fun ProfileDataBox(modifier: Modifier = Modifier) {
                         .wrapContentHeight(align = Alignment.CenterVertically)
                 )
                 Text(
-                    text = "2건",
+                    text = reviewCount.toString() + "건",
                     color = Salmon600,
                     style = MaterialTheme.typography.caption200.copy(
                         fontWeight = FontWeight.Normal
@@ -269,7 +324,7 @@ fun ProfileDataBox(modifier: Modifier = Modifier) {
                         .wrapContentHeight(align = Alignment.CenterVertically)
                 )
                 Text(
-                    text = "100%",
+                    text = responseRate.toString() + "%",
                     color = Salmon600,
                     style = MaterialTheme.typography.caption200.copy(
                         fontWeight = FontWeight.Normal

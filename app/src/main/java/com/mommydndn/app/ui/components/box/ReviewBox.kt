@@ -32,7 +32,12 @@ import com.mommydndn.app.ui.theme.caption200
 
 @Composable
 fun ReviewBox(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    dndnScore: Double = 0.0,
+    titleText: String = "",
+    dateText: String = "",
+    contentText: String = "",
+    badgeStringList: List<String> = emptyList()
 ) {
     Box(
         modifier = modifier
@@ -52,7 +57,7 @@ fun ReviewBox(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "가장 최근 후기",
+                    text = titleText,
                     color = Grey600,
                     style = MaterialTheme.typography.caption200.copy(
                         fontWeight = FontWeight.Bold
@@ -61,7 +66,7 @@ fun ReviewBox(
                         .wrapContentHeight(align = Alignment.CenterVertically)
                 )
                 Text(
-                    text = "2023년 4월",
+                    text = dateText,
                     color = Grey400,
                     style = MaterialTheme.typography.caption100.copy(
                         fontWeight = FontWeight.Normal
@@ -85,7 +90,7 @@ fun ReviewBox(
                             .size(size = 16.dp)
                     )
                     Text(
-                        text = "5.0",
+                        text = dndnScore.toString(),
                         color = Grey600,
                         style = MaterialTheme.typography.caption200.copy(
 
@@ -93,12 +98,13 @@ fun ReviewBox(
                         modifier = Modifier
                             .wrapContentHeight(align = Alignment.CenterVertically)
                     )
-                    Badge(colorType = BadgeColorType.ORANGE, text = "육아")
-                    Badge(colorType = BadgeColorType.ORANGE, text = "가사")
+                    badgeStringList.forEach {
+                        Badge(colorType = BadgeColorType.ORANGE, text = it)
+                    }
                 }
             }
             Text(
-                text = "어머님께서 인품이 선하시고 너무 친절하십니다~ ㅎㅎ \n아이들도 정말 귀엽고 순해요! 다음에도 또 뵈면 좋겠네요~",
+                text = contentText,
                 color = Grey600,
                 style = MaterialTheme.typography.caption200.copy(
                     fontWeight = FontWeight.Normal

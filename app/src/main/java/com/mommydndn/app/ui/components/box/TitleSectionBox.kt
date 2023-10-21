@@ -24,7 +24,9 @@ import com.mommydndn.app.ui.theme.paragraph400
 @Composable
 fun TitleSectionBox(
     modifier: Modifier = Modifier,
-
+    titleText: String = "",
+    badgeStringList: List<String>,
+    timeText: String = ""
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.Top),
@@ -32,7 +34,7 @@ fun TitleSectionBox(
             .requiredWidth(width = 342.dp)
     ) {
         Text(
-            text = "2일간 풀타임으로 아이 둘 맡아주실 분 구해요. ",
+            text = titleText,
             color = Grey800,
             style = MaterialTheme.typography.paragraph400.copy(
                 fontWeight = FontWeight.Bold
@@ -44,16 +46,16 @@ fun TitleSectionBox(
         Row(
             horizontalArrangement = Arrangement.spacedBy(3.dp, Alignment.Start)
         ) {
-            Badge(colorType = BadgeColorType.ORANGE, text = "육아")
-            Badge(colorType = BadgeColorType.ORANGE, text = "가사")
-            Badge(colorType = BadgeColorType.ORANGE, text = "등하원")
+            badgeStringList.forEach {
+                Badge(colorType = BadgeColorType.ORANGE, text = it)
+            }
         }
         Row(
             horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.Start),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "1시간 전",
+                text = timeText,
                 color = Grey500,
                 style = MaterialTheme.typography.caption100.copy(
                     fontWeight = FontWeight.Normal
@@ -63,10 +65,4 @@ fun TitleSectionBox(
             )
         }
     }
-}
-
-@Preview(widthDp = 342, heightDp = 77)
-@Composable
-private fun TitleSectionPreview() {
-    TitleSectionBox(Modifier)
 }
