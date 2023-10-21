@@ -127,7 +127,9 @@ fun SignInScreen(
         )
     }, bottomBar = {
         SocialLoginBox(
-            modifier = Modifier.padding(bottom = 96.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 96.dp),
             onClickGoogle = {
                 startForResult.launch(signInIntent)
             },
@@ -172,7 +174,11 @@ fun SignInScreen(
 }
 
 
-private fun loginWithKakaoNickName(token: OAuthToken, viewModel: SignInViewModel, navHostController: NavHostController) {
+private fun loginWithKakaoNickName(
+    token: OAuthToken,
+    viewModel: SignInViewModel,
+    navHostController: NavHostController
+) {
     UserApiClient.instance.me { user, error ->
         when {
             error != null -> {
