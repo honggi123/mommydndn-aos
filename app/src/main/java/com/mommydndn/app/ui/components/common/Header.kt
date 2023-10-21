@@ -1,10 +1,12 @@
 package com.mommydndn.app.ui.components.common
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.WhiteOpacity600
@@ -30,22 +32,27 @@ fun Header(
         elevation = 0.dp,
         backgroundColor = if (isCareTab) WhiteOpacity600 else White
     ) {
-        Row(
-            modifier = Modifier.fillMaxSize(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
         ) {
             Row(
+                modifier = Modifier
+                    .fillMaxSize(),
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically,
                 content = leftContent
             )
             Row(
+                modifier = Modifier
+                    .fillMaxSize(),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
                 content = centerContent
             )
             Row(
+                modifier = Modifier
+                    .fillMaxSize(),
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically,
                 content = rightContent
