@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -28,7 +29,9 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -43,6 +46,7 @@ import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.White
+import com.mommydndn.app.ui.theme.WhiteOpacity500
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph300
 import kotlinx.coroutines.withContext
@@ -60,15 +64,9 @@ fun MapContainerBox(
         modifier = modifier
             .fillMaxWidth()
             .background(color = White)
-            .padding(
-                start = 24.dp,
-                end = 24.dp,
-                top = 16.dp,
-                bottom = 24.dp
-            )
     ) {
         Column(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .clip(shape = RoundedCornerShape(12.dp))
                 .border(
@@ -206,12 +204,34 @@ private fun MapViewContainer(
     modifier: Modifier = Modifier,
     mapView: MapView
 ) {
-    AndroidView(
-        {
-            mapView
-        }, modifier = modifier
-            .width(300.dp)
-            .height(300.dp)
-    )
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+    ) {
+        AndroidView(
+            factory = {
+                mapView
+            },
+            modifier = Modifier
+                .fillMaxSize()
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(30.dp)
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            Color.Transparent,
+                            Color.White,
+                        ),
+                        startY = 0.0f,
+                        endY = 1.0F / 0.0F
+                    ),
+                )
+                .align(Alignment.BottomCenter)
+        )
+    }
 }
+
 
