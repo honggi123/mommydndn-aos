@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -66,16 +67,19 @@ fun Banner(
         }
     )
 
+    val imageApectRatio = 1.95f / 1f
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(200.dp)
+            .aspectRatio(imageApectRatio)
             .clickable { onClick() },
     ) {
         Image(
             painter = painter,
             contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize(),
             contentScale = ContentScale.Crop
         )
         Box(
@@ -85,13 +89,13 @@ fun Banner(
         ) {
             Row(
                 modifier = Modifier
-                    .width(36.dp)
                     .padding(bottom = 8.dp, end = 8.dp)
                     .background(color = Color(0x40000000), shape = RoundedCornerShape(20.dp)),
                 horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
+                    modifier = Modifier.padding(horizontal = 8.dp),
                     text = "$pageNum/$totalPageNum",
                     style = MaterialTheme.typography.caption100.copy(
                         fontWeight = FontWeight.Normal,

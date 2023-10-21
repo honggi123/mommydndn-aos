@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -96,16 +97,19 @@ fun MainHomeScreen(
 
         LazyColumn {
             item {
-                BannerList(items = banners)
+                BannerList(modifier = Modifier.fillMaxWidth(), items = banners)
             }
             item {
                 SubtextBox(
+                    modifier = Modifier.fillMaxWidth(),
                     size = SubtextBoxSize.L,
                     titleText = "가장 가까운 시터님",
                     rightButtonText = "전체보기"
                 )
                 LazyRow(
-                    modifier = Modifier.padding(start = 32.dp, top = 28.dp, bottom = 36.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 32.dp, top = 28.dp, bottom = 36.dp),
                     horizontalArrangement = Arrangement.spacedBy(32.dp)
                 ) {
                     items(jobSeekers) { item ->
@@ -128,12 +132,15 @@ fun MainHomeScreen(
                         NavigationUtils.navigate(navController, MainNav.Care.route)
                     }
                 )
-                LazyRow(
-                    modifier = Modifier.padding(start = 32.dp, top = 28.dp, bottom = 36.dp),
-                    horizontalArrangement = Arrangement.spacedBy(32.dp)
-                ) {
-                    items(jobOffers) { item ->
-                        JobOfferBox(item = item)
+                Box(modifier = Modifier.padding(start = 32.dp, top = 28.dp, bottom = 36.dp)) {
+                    LazyRow(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(32.dp)
+                    ) {
+                        items(jobOffers) { item ->
+                            JobOfferBox(item = item)
+                        }
                     }
                 }
                 Spacer(
@@ -182,33 +189,37 @@ fun MainHomeScreen(
 //        }
             item {
                 SubtextBox(size = SubtextBoxSize.L, titleText = "집 앞 육아용품 장터")
-                Column(
-                    modifier = Modifier.padding(
-                        start = 24.dp,
-                        top = 28.dp,
-                        bottom = 24.dp,
-                        end = 28.dp
-                    ),
-                ) {
-                    babyItems.chunked(2).forEach { rowItems ->
-                        Row {
-                            rowItems.forEach { item ->
-                                MarketListItemBox(item = item)
-                                Spacer(
-                                    modifier = Modifier
-                                        .fillMaxHeight()
-                                        .padding(12.dp)
-                                )
-                            }
-                        }
 
-                        Spacer(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(24.dp)
-                        )
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    Column(
+                        modifier = Modifier.padding(
+                            start = 24.dp,
+                            top = 28.dp,
+                            bottom = 24.dp,
+                            end = 28.dp
+                        ),
+                    ) {
+                        babyItems.chunked(2).forEach { rowItems ->
+                            Row {
+                                rowItems.forEach { item ->
+                                    MarketListItemBox(item = item)
+                                    Spacer(
+                                        modifier = Modifier
+                                            .fillMaxHeight()
+                                            .padding(12.dp)
+                                    )
+                                }
+                            }
+
+                            Spacer(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(24.dp)
+                            )
+                        }
                     }
                 }
+
                 if (babyItemsPagingMeta.currentPageNum <= MAX_MORE_BABY_ITEM_PAGE
                     && babyItemsPagingMeta.totalCount > 6
                     && ((babyItemsPagingMeta.currentPageNum - 1) * MORE_BABY_ITEM_PAGE_SIZE) + 6 < babyItemsPagingMeta.totalCount
@@ -228,10 +239,7 @@ fun MainHomeScreen(
                             text = "더보기",
                             style = MaterialTheme.typography.paragraph300.copy(
                                 fontWeight = FontWeight.Normal,
-                                color = Salmon600,
-                                platformStyle = PlatformTextStyle(
-                                    includeFontPadding = false
-                                )
+                                color = Salmon600
                             ),
                             textAlign = TextAlign.Center
                         )
@@ -246,8 +254,8 @@ fun MainHomeScreen(
                 )
             }
             item {
-                SubBanner()
-                FooterBox{}
+                SubBanner(modifier = Modifier.fillMaxWidth())
+                FooterBox {}
             }
         }
 
