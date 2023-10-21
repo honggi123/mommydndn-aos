@@ -52,7 +52,8 @@ fun Badge(
                 fontWeight = FontWeight.Medium,
                 color = textColor,
                 textAlign = TextAlign.Center
-            )
+            ),
+            maxLines = 1
         )
     }
 }

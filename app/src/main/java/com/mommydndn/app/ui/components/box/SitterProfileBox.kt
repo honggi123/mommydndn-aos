@@ -28,7 +28,6 @@ import com.mommydndn.app.ui.theme.caption200
 
 @Composable
 fun ProfileSitterBox(
-    modifier: Modifier = Modifier,
     item: JobSeeker
 ) {
     val profilePainter = rememberImagePainter(
@@ -39,7 +38,6 @@ fun ProfileSitterBox(
     )
 
     Box(
-        modifier = modifier.width(116.dp),
         contentAlignment = Alignment.Center
     ) {
         Column(
