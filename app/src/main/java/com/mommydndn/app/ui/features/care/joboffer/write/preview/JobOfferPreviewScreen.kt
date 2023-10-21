@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -17,12 +18,22 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
+import com.kakao.vectormap.KakaoMap
+import com.kakao.vectormap.KakaoMapReadyCallback
+import com.kakao.vectormap.LatLng
+import com.kakao.vectormap.MapType
+import com.kakao.vectormap.MapView
+import com.kakao.vectormap.MapViewInfo
+import com.kakao.vectormap.camera.CameraUpdate
 import com.mommydndn.app.R
 import com.mommydndn.app.ui.components.box.ContentBox
 import com.mommydndn.app.ui.components.box.InfoBox
@@ -43,13 +54,54 @@ import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.ui.theme.paragraph400
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @Composable
-fun JobOfferPreviewScreen() {
+fun JobOfferPreviewScreen(
+) {
+    val context = LocalContext.current
+    val kakaoMapView = MapView(context)
+
+    val kakaoMapCallback = object : KakaoMapReadyCallback() {
+        override fun onMapReady(kakaoMap: KakaoMap) {
+            // 인증 후 API가 정상적으로 실행될 때 호출됨
+        }
+
+        override fun getPosition(): LatLng {
+            // 지도 시작 시 위치 좌표를 설정
+            return LatLng.from(37.406960, 127.115587)
+        }
+
+        override fun getZoomLevel(): Int {
+            return 15
+        }
+
+        override fun getMapViewInfo(): MapViewInfo {
+            return MapViewInfo.from("", MapType.NORMAL)
+        }
+
+        override fun getViewName(): String {
+            return "MyFirstMap"
+        }
+
+        override fun isVisible(): Boolean {
+            return true
+        }
+
+        override fun getTag(): String {
+            // KakaoMap의 tag을 설정
+            return "FirstMapTag"
+        }
+    }
+
+    kakaoMapView.start(kakaoMapCallback)
+
     Column(
         modifier = Modifier
             .background(White)
     ) {
+
         Header(leftContent = {
             Image(
                 painter = painterResource(id = R.drawable.ic_x),
@@ -111,7 +163,10 @@ fun JobOfferPreviewScreen() {
                     end = 24.dp
                 )
             ) {
-                MapContainerBox()
+                MapContainerBox(
+                    modifier = Modifier.fillMaxWidth(),
+                    mapView = kakaoMapView
+                )
             }
             Spacer(
                 modifier = Modifier

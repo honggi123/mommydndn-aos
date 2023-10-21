@@ -15,7 +15,7 @@ class MainApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         appContext = this
-        KakaoSdk.init(this, BuildConfig.KAKAO_APP_KEY)
+        KakaoSdk.init(this, BuildConfig.KAKAO_APP_KEY.toString())
 
         NaverIdLoginSDK.initialize(
             this,

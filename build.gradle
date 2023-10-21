@@ -5,6 +5,8 @@ buildscript {
     repositories {
         google()  // Google's Maven repository
         mavenCentral()  //Maven Central repository
+
+        maven { url 'https://devrepo.kakao.com/nexus/repository/kakaomap-releases/' }
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-serialization:1.4.0"
