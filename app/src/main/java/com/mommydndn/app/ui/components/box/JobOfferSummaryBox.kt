@@ -23,7 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
-import com.mommydndn.app.data.model.banner.BannerColorType
+import com.mommydndn.app.data.model.common.BadgeColorType
 import com.mommydndn.app.data.model.care.JobOfferSummary
 import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.White
@@ -52,8 +52,8 @@ fun JobOfferSummaryBox(
                 Column {
                     Row {
                         item.caringTypeCodeList.forEach {
-                            if (it.equals("마감")) Badge(colorType = BannerColorType.ORANGE, text = it)
-                            else Badge(colorType = BannerColorType.ORANGE, text = it)
+                            if (it.equals("마감")) Badge(colorType = BadgeColorType.ORANGE, text = it)
+                            else Badge(colorType = BadgeColorType.ORANGE, text = it)
                         }
                     }
 

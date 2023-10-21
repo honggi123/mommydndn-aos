@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.mommydndn.app.data.model.banner.BannerColorType
+import com.mommydndn.app.data.model.common.BadgeColorType
 import com.mommydndn.app.data.model.care.JobOffer
 import com.mommydndn.app.ui.components.common.Badge
 import com.mommydndn.app.ui.theme.Grey400
@@ -40,7 +40,7 @@ fun JobOfferBox(
             modifier = Modifier.padding(start = 20.dp, top = 16.dp, end = 20.dp, bottom = 16.dp)
         ) {
             Row(modifier = Modifier.fillMaxWidth()) {
-                Badge(colorType = BannerColorType.ORANGE, text = item.caringType.value)
+                Badge(colorType = BadgeColorType.ORANGE, text = item.caringType.value)
                 Spacer(modifier = Modifier.padding(8.dp))
                 Text(
                     text = item.title,

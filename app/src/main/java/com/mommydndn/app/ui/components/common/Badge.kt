@@ -13,7 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.mommydndn.app.data.model.banner.BannerColorType
+import com.mommydndn.app.data.model.common.BadgeColorType
 import com.mommydndn.app.ui.theme.Grey100
 import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
@@ -24,20 +24,20 @@ import com.mommydndn.app.ui.theme.caption100
 fun Badge(
     modifier: Modifier = Modifier,
     text: String = "",
-    colorType: BannerColorType
+    colorType: BadgeColorType
 ) {
     val textColor = when (colorType) {
-        BannerColorType.GREEN -> Color(0xFF4ABC56)
-        BannerColorType.ORANGE -> Color(0xFFF6942B)
-        BannerColorType.BLUE -> Color(0xFF2B64F6)
-        BannerColorType.BLACK -> Grey600
+        BadgeColorType.GREEN -> Color(0xFF4ABC56)
+        BadgeColorType.ORANGE -> Color(0xFFF6942B)
+        BadgeColorType.BLUE -> Color(0xFF2B64F6)
+        BadgeColorType.BLACK -> Grey600
     }
 
     val backgroundColor = when (colorType) {
-        BannerColorType.GREEN -> Color(0xFFEEFBEA)
-        BannerColorType.ORANGE -> Color(0xFFFFF7EE)
-        BannerColorType.BLUE -> Color(0xFFEEF7FF)
-        BannerColorType.BLACK -> Grey100
+        BadgeColorType.GREEN -> Color(0xFFEEFBEA)
+        BadgeColorType.ORANGE -> Color(0xFFFFF7EE)
+        BadgeColorType.BLUE -> Color(0xFFEEF7FF)
+        BadgeColorType.BLACK -> Grey100
     }
 
     Box(
@@ -61,6 +61,6 @@ fun Badge(
 @Composable
 fun previewBadge() {
     MommydndnaosTheme {
-        Badge(colorType = BannerColorType.GREEN, text = "text")
+        Badge(colorType = BadgeColorType.GREEN, text = "text")
     }
 }

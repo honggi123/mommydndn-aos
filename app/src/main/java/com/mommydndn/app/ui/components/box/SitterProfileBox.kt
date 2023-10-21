@@ -20,7 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
-import com.mommydndn.app.data.model.banner.BannerColorType
+import com.mommydndn.app.data.model.common.BadgeColorType
 import com.mommydndn.app.data.model.care.JobSeeker
 import com.mommydndn.app.ui.components.common.Badge
 import com.mommydndn.app.ui.theme.Grey600
@@ -66,9 +66,9 @@ fun ProfileSitterBox(
             Spacer(modifier = Modifier.padding(8.dp))
 
             Row(modifier = Modifier.fillMaxWidth()) {
-                Badge(colorType = BannerColorType.GREEN, text = item.ageAndGender)
+                Badge(colorType = BadgeColorType.GREEN, text = item.ageAndGender)
                 Spacer(modifier = Modifier.padding(6.dp))
-                Badge(colorType = BannerColorType.ORANGE, text = item.caringType.value)
+                Badge(colorType = BadgeColorType.ORANGE, text = item.caringType.value)
             }
         }
     }

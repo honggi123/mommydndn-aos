@@ -21,7 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.mommydndn.app.data.model.banner.BannerColorType
+import com.mommydndn.app.data.model.common.BadgeColorType
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.caption200
@@ -70,7 +70,7 @@ fun AddressListItem(
                     .fillMaxWidth()
             ) {
                 Badge(
-                    colorType = BannerColorType.ORANGE,
+                    colorType = BadgeColorType.ORANGE,
                     text = "도로명"
                 )
                 Text(
@@ -88,7 +88,7 @@ fun AddressListItem(
             ) {
                 Badge(
                     modifier = Modifier.width(47.dp),
-                    colorType = BannerColorType.ORANGE,
+                    colorType = BadgeColorType.ORANGE,
                     text = "지 번"
                 )
                 Text(
