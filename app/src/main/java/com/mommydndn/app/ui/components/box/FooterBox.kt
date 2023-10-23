@@ -27,6 +27,10 @@ import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.caption100
 import com.mommydndn.app.R
+import com.mommydndn.app.data.model.common.ButtonColor
+import com.mommydndn.app.data.model.common.ButtonSizeType
+import com.mommydndn.app.data.model.common.MinMaxRange
+import com.mommydndn.app.ui.components.button.MommyDndnButton
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption200
@@ -169,15 +173,13 @@ fun FooterBox(
             }
 
             Spacer(modifier = Modifier.padding(24.dp))
-            Button(onClick = { onInquiryClick() }) {
-                Text(
-                    text = "1:1문의하기",
-                    style = MaterialTheme.typography.caption100.copy(
-                        fontWeight = FontWeight.Bold,
-                        color = Grey500
-                    )
-                )
-            }
+            MommyDndnButton(
+                text = "1:1 문의하기",
+                color = ButtonColor.GREY,
+                sizeType = ButtonSizeType.MEDIUM,
+                rangeType = MinMaxRange.MIN,
+                onClick = {}
+            )
         }
     }
 }

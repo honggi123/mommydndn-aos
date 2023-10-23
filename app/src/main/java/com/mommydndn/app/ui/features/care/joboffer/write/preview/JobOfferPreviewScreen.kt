@@ -35,6 +35,10 @@ import com.kakao.vectormap.MapView
 import com.kakao.vectormap.MapViewInfo
 import com.kakao.vectormap.camera.CameraUpdate
 import com.mommydndn.app.R
+import com.mommydndn.app.data.model.common.ButtonColor
+import com.mommydndn.app.data.model.common.ButtonColorType
+import com.mommydndn.app.data.model.common.ButtonSizeType
+import com.mommydndn.app.data.model.common.MinMaxRange
 import com.mommydndn.app.ui.components.box.ContentBox
 import com.mommydndn.app.ui.components.box.InfoBox
 import com.mommydndn.app.ui.components.box.MapContainerBox
@@ -42,6 +46,7 @@ import com.mommydndn.app.ui.components.box.ReviewBox
 import com.mommydndn.app.ui.components.box.SubtextBox
 import com.mommydndn.app.ui.components.box.TitleSectionBox
 import com.mommydndn.app.ui.components.button.CtaButton
+import com.mommydndn.app.ui.components.button.MommyDndnButton
 import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.components.common.ProfileBar
 import com.mommydndn.app.ui.components.common.ProfileSummary
@@ -225,7 +230,14 @@ fun JobOfferPreviewScreen(
                     ),
                 contentAlignment = Alignment.Center
             ) {
-                CtaButton(modifier = Modifier.width(342.dp), text = "이대로 올리기") {}
+                MommyDndnButton(
+                    text = "이대로 올리기",
+                    color = ButtonColor.SALMON,
+                    colorType = ButtonColorType.FILLED,
+                    sizeType = ButtonSizeType.LARGE,
+                    rangeType = MinMaxRange.MAX,
+                    onClick = {}
+                )
             }
         }
     }

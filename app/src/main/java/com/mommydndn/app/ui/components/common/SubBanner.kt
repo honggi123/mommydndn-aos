@@ -22,6 +22,11 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
+import com.mommydndn.app.data.model.common.ButtonColor
+import com.mommydndn.app.data.model.common.ButtonColorType
+import com.mommydndn.app.data.model.common.ButtonSizeType
+import com.mommydndn.app.data.model.common.MinMaxRange
+import com.mommydndn.app.ui.components.button.MommyDndnButton
 import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
@@ -73,15 +78,13 @@ fun SubBanner(
                     )
                 )
                 Spacer(modifier = Modifier.padding(14.dp))
-                Button(onClick = { }) {
-                    Text(
-                        text = "의견 남기기",
-                        style = MaterialTheme.typography.paragraph300.copy(
-                            fontWeight = FontWeight.Medium,
-                            color = Grey600
-                        )
-                    )
-                }
+                MommyDndnButton(
+                    text = "의견 남기기",
+                    color = ButtonColor.GREY,
+                    sizeType = ButtonSizeType.MEDIUM,
+                    rangeType = MinMaxRange.MIN,
+                    onClick = {}
+                )
             }
         }
 

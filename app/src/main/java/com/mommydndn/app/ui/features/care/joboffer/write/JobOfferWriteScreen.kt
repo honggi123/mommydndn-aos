@@ -54,6 +54,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.care.WorkHoursType
+import com.mommydndn.app.data.model.common.ButtonColor
+import com.mommydndn.app.data.model.common.ButtonColorType
+import com.mommydndn.app.data.model.common.ButtonSizeType
 import com.mommydndn.app.ui.components.box.PostTextFieldBox
 import com.mommydndn.app.ui.components.box.SelectButtonScopeBox
 import com.mommydndn.app.ui.components.box.SelectScopeBox
@@ -67,7 +70,9 @@ import com.mommydndn.app.ui.components.common.ImageInputField
 import com.mommydndn.app.ui.components.common.SelectField
 import com.mommydndn.app.ui.components.common.TextInpuField
 import com.mommydndn.app.data.model.common.ImageInputFieldType
+import com.mommydndn.app.data.model.common.MinMaxRange
 import com.mommydndn.app.data.model.common.SelectButtonContent
+import com.mommydndn.app.ui.components.button.MommyDndnButton
 import com.mommydndn.app.ui.extensions.addFocusCleaner
 import com.mommydndn.app.ui.navigation.LocationSearchNav
 import com.mommydndn.app.ui.theme.Grey100
@@ -527,7 +532,14 @@ fun JobOfferWriteScreen(
                     ),
                 contentAlignment = Alignment.Center
             ) {
-                CtaButton(modifier = Modifier.width(342.dp), text = "다음으로") {}
+                MommyDndnButton(
+                    text = "다음으로",
+                    color = ButtonColor.SALMON,
+                    colorType = ButtonColorType.FILLED,
+                    sizeType = ButtonSizeType.LARGE,
+                    rangeType = MinMaxRange.MAX,
+                    onClick = {}
+                )
             }
 
         }

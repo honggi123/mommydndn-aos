@@ -1,14 +1,10 @@
 package com.mommydndn.app.ui.components.button
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -16,7 +12,6 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -27,24 +22,22 @@ import com.mommydndn.app.data.model.common.ButtonColorType
 import com.mommydndn.app.data.model.common.ButtonSizeType
 import com.mommydndn.app.data.model.common.MinMaxRange
 import com.mommydndn.app.ui.theme.Grey100
-import com.mommydndn.app.ui.theme.Grey300
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
 import com.mommydndn.app.ui.theme.Salmon200
 import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.White
-import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.ui.theme.paragraph400
 
 @Composable
-fun CustomButton(
+fun MommyDndnButton(
     text: String = "",
     color: ButtonColor,
-    colorType: ButtonColorType,
-    sizeType: ButtonSizeType,
-    rangeType: MinMaxRange,
+    colorType: ButtonColorType = ButtonColorType.FILLED,
+    sizeType: ButtonSizeType = ButtonSizeType.MEDIUM,
+    rangeType: MinMaxRange = MinMaxRange.MIN,
     onClick: () -> Unit = {}
 ) {
     val backgroundColor = when (color) {
@@ -91,7 +84,8 @@ fun CustomButton(
         colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor),
         shape = RoundedCornerShape(12.dp),
         modifier = modifier,
-        contentPadding = paddingValues
+        contentPadding = paddingValues,
+        elevation = ButtonDefaults.elevation(0.dp)
     ) {
         Text(
             text = text,
@@ -109,7 +103,7 @@ fun CustomButtonPreview() {
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            CustomButton(
+            MommyDndnButton(
                 text = "text",
                 color = ButtonColor.SALMON,
                 colorType = ButtonColorType.FILLED,
