@@ -510,6 +510,8 @@ fun JobOfferWriteScreen(
                     )
                     .heightIn(max = 700.dp)
                     .wrapContentHeight(),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(etcCheckList.size) { index ->
                     CheckBoxListItem(
