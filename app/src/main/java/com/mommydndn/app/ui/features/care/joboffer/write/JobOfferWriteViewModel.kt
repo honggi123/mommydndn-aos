@@ -12,6 +12,7 @@ import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.common.DayOfWeekType
 import com.mommydndn.app.data.model.map.EmdItem
 import com.mommydndn.app.data.model.care.EtcCheckItem
+import com.mommydndn.app.data.model.care.MinHourlySalary
 import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.SalaryTypeItem
 import com.mommydndn.app.data.model.care.WorkHoursType
@@ -26,10 +27,12 @@ import com.mommydndn.app.utils.NumberUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
@@ -42,14 +45,7 @@ class JobOfferWriteViewModel @Inject constructor(
     private val locationRepository: LocationRepository
 ) : ViewModel() {
 
-    private var _careTypes: MutableStateFlow<List<CaringTypeItem>> = MutableStateFlow(
-        listOf(
-            CaringTypeItem(CaringType.HOUSEKEEPING),
-            CaringTypeItem(CaringType.NURSING),
-            CaringTypeItem(CaringType.PARENTING),
-            CaringTypeItem(CaringType.SCHOOL)
-        )
-    )
+    private var _careTypes: MutableStateFlow<List<CaringTypeItem>> = MutableStateFlow(emptyList())
     val careTypes: StateFlow<List<CaringTypeItem>> = _careTypes
 
     private var _workHoursTypes: MutableStateFlow<List<WorkHoursTypeItem>> = MutableStateFlow(
@@ -121,6 +117,13 @@ class JobOfferWriteViewModel @Inject constructor(
     private val _isTimeNegotiable: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isTimeNegotiable: StateFlow<Boolean> = _isTimeNegotiable
 
+    val minHourlySalary: StateFlow<MinHourlySalary?> =
+        caringRepository.fetchMinHourlySalary().stateIn(
+            viewModelScope,
+            started = SharingStarted.Lazily,
+            initialValue = null
+        )
+
     private val _searchedTownsFlowByKeyword: Flow<PagingData<EmdItem>> = _keyword
         .debounce(200)
         .distinctUntilChanged()
@@ -132,6 +135,7 @@ class JobOfferWriteViewModel @Inject constructor(
     init {
         fetchUserInfo()
         fetchEtcCheckList()
+        fetchCaringTypeItems()
     }
 
     fun setTitle(title: String) {
@@ -235,6 +239,14 @@ class JobOfferWriteViewModel @Inject constructor(
         viewModelScope.launch {
             userRepository.fetchUserInfo().collect { info ->
                 _userInfo.value = info
+            }
+        }
+    }
+
+    private fun fetchCaringTypeItems() {
+        viewModelScope.launch {
+            caringRepository.fetchCaringTypeItems().collect { types ->
+                _careTypes.value = types
             }
         }
     }

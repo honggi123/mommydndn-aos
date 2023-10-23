@@ -120,6 +120,8 @@ fun JobOfferWriteScreen(
 
     val photos by viewModel.photos.collectAsState()
 
+    val minHourlySalary by viewModel.minHourlySalary.collectAsState()
+
     val etcCheckList by viewModel.etcCheckList.collectAsState()
 
     val startDatePicker = createDatePicker(
@@ -420,7 +422,11 @@ fun JobOfferWriteScreen(
                     value = salary?.let { NumberUtils.getPriceString(it) } ?: "",
                     onValueChanged = { viewModel.setSalary(it) },
                     placeHolderText = "10,000",
-                    descriptionText = "2023년 최저시급은 9,620원이에요",
+                    descriptionText = "2023년 최저시급은 " + minHourlySalary?.minHourlySalary?.let {
+                        NumberUtils.getPriceString(
+                            it
+                        )
+                    } + "원이에요",
                     focusRequester = focusRequester
                 )
             }

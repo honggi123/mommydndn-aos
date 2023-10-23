@@ -15,11 +15,6 @@ enum class CaringType(val value: String) {
     HOUSEKEEPING("가사")
 }
 
-data class CaringTypeItem(
-    val caringType: CaringType,
-    var isSelected: Boolean = false
-)
-
 object CaringTypeSerializer : KSerializer<CaringType> {
     override val descriptor: SerialDescriptor =
         PrimitiveSerialDescriptor("CaringType", PrimitiveKind.STRING)

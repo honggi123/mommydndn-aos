@@ -5,10 +5,12 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.mommydndn.app.data.api.service.CaringService
 import com.mommydndn.app.data.datasource.pagingsource.JobOfferSummaryPagingSource
+import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.EtcCheckItem
 import com.mommydndn.app.data.model.care.JobOffer
 import com.mommydndn.app.data.model.care.JobOfferSummary
 import com.mommydndn.app.data.model.care.JobSeeker
+import com.mommydndn.app.data.model.care.MinHourlySalary
 import com.mommydndn.app.data.model.user.UserType
 import com.mommydndn.app.data.respository.CaringRepository
 import com.skydoves.sandwich.suspendOnSuccess
@@ -65,4 +67,22 @@ class CaringRepositoryImpl @Inject constructor(
         ).flow
     }
 
+    override fun fetchCaringTypeItems(): Flow<List<CaringTypeItem>> = flow {
+        caringService.fetchCaringTypesResponse().suspendOnSuccess {
+            val list = data.map {
+                CaringTypeItem(
+                    caringTypeId = it.caringTypeId,
+                    caringType = it.caringTypeCode,
+                    displayName = it.displayName,
+                )
+            }
+            emit(list)
+        }
+    }.flowOn(Dispatchers.IO)
+
+    override fun fetchMinHourlySalary(): Flow<MinHourlySalary> = flow {
+        caringService.fetchMinHourlySalary().suspendOnSuccess {
+            emit(data)
+        }
+    }.flowOn(Dispatchers.IO)
 }

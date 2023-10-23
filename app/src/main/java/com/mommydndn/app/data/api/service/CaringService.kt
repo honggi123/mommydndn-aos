@@ -1,10 +1,12 @@
 package com.mommydndn.app.data.api.service
 
+import com.mommydndn.app.data.api.model.response.CaringTypeResponse
 import com.mommydndn.app.data.api.model.response.CompanyEtcCheckItem
 import com.mommydndn.app.data.api.model.response.IndividualEtcCheckItem
 import com.mommydndn.app.data.api.model.response.NearestJobOfferResponse
 import com.mommydndn.app.data.model.care.JobOfferSummary
 import com.mommydndn.app.data.model.care.JobSeeker
+import com.mommydndn.app.data.model.care.MinHourlySalary
 import com.skydoves.sandwich.ApiResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -22,6 +24,12 @@ interface CaringService {
 
     @GET("/api/caring/com-other-condition")
     suspend fun fetchCompanyEtcCheckList(): ApiResponse<List<CompanyEtcCheckItem>>
+
+    @GET("/api/caring/caring-type")
+    suspend fun fetchCaringTypesResponse(): ApiResponse<List<CaringTypeResponse>>
+
+    @GET("/api/caring/min-hourly-salary")
+    suspend fun fetchMinHourlySalary(): ApiResponse<MinHourlySalary>
 
     @GET("/api/map/search")
     suspend fun fetchJobOfferSummary(
