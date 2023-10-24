@@ -9,5 +9,7 @@ data class Meta(
     @SerialName("currentPageNum")
     val currentPageNum: Int,
     @SerialName("totalCount")
-    val totalCount: Int
+    val totalCount: Int,
+    @SerialName("requestTimestamp")
+    val requestTimestamp: Long,
 )

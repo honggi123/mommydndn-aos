@@ -19,7 +19,8 @@ interface MapService {
     suspend fun fetchLocationsByKeyword(
         @Query("keyword") keyword: String,
         @Query("skip") skip: Int = 0,
-        @Query("limit") limit: Int = 20
+        @Query("limit") limit: Int = 20,
+        @Query("requestTimestamp") requestTimestamp: Long
     ): Response<LocationSearchResponse>
 }
 

@@ -46,9 +46,9 @@ fun LocationSearchScreen(
             items(pagingItemsByKeyword.itemCount) { index ->
                 val item = pagingItemsByKeyword[index]
                 AddressListItem(
-                    streetNum = item?.id ?: 0,
-                    roadAddressText = item?.fullName ?: "",
-                    streetAddressText = item?.ctprvnName ?: ""
+                    streetNum = item?.roadAddress?.zoneNo?.toInt() ?: 0,
+                    roadAddressText = item?.roadAddress?.addressName ?: "",
+                    streetAddressText = item?.addressName ?: ""
                 )
             }
         }

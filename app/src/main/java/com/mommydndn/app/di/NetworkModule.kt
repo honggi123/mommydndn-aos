@@ -10,6 +10,7 @@ import com.mommydndn.app.data.api.TokenInterceptor
 import com.mommydndn.app.data.api.service.BabyItemService
 import com.mommydndn.app.data.api.service.CaringService
 import com.mommydndn.app.data.api.service.CommonService
+import com.mommydndn.app.data.api.service.KakaoApiService
 import com.mommydndn.app.data.api.service.NoticeService
 import com.mommydndn.app.data.api.service.UserService
 import com.mommydndn.app.data.datasource.TokenManager
@@ -41,7 +42,7 @@ class NetworkModule {
     @DefaultOkhttpClient
     fun provideDefaultOkHttpClient(): OkHttpClient {
         val logger =
-            HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC }
+            HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
 
         return OkHttpClient.Builder()
             .addInterceptor(logger)
@@ -152,5 +153,17 @@ class NetworkModule {
             .create(GoogleApiService::class.java)
     }
 
+    @Provides
+    @Singleton
+    fun provideKakaoApiService(@DefaultOkhttpClient okHttpClient: OkHttpClient): KakaoApiService {
+        val contentType = "application/json".toMediaType()
+
+        return Retrofit.Builder()
+            .baseUrl("https://dapi.kakao.com/")
+            .client(okHttpClient)
+            .addConverterFactory(Json.asConverterFactory(contentType))
+            .build()
+            .create(KakaoApiService::class.java)
+    }
 
 }

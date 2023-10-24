@@ -1,7 +1,9 @@
 package com.mommydndn.app.utils
 
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
 object DateTimeUtils {
@@ -46,6 +48,19 @@ object DateTimeUtils {
     ): String {
         val formatter = DateTimeFormatter.ofPattern("hh:mm")
         return localTime.format(formatter)
+    }
+
+    fun getTimestampByLocalDate(localDate: LocalDate?): Long? {
+        val localDateTime = localDate?.atStartOfDay()
+        val instant = localDateTime?.toInstant(ZoneOffset.UTC)
+        return instant?.toEpochMilli()
+    }
+
+    fun getTimestampByLocalTime(localTime: LocalTime?): Long? {
+        val localDate = LocalDate.now()
+        val localDateTime = LocalDateTime.of(localDate, localTime)
+        val instant = localDateTime.toInstant(ZoneOffset.UTC)
+        return instant.toEpochMilli()
     }
 
 

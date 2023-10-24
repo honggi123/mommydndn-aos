@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.mommydndn.app.data.api.model.response.AddressDocument
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.common.DayOfWeekItem
@@ -20,6 +21,7 @@ import com.mommydndn.app.data.model.care.WorkHoursTypeItem
 import com.mommydndn.app.data.model.user.UserInfo
 import com.mommydndn.app.data.model.user.UserType
 import com.mommydndn.app.data.respository.CaringRepository
+import com.mommydndn.app.data.respository.CommonRepositoy
 import com.mommydndn.app.data.respository.LocationRepository
 import com.mommydndn.app.data.respository.UserRepository
 import com.mommydndn.app.utils.DateTimeUtils
@@ -34,6 +36,12 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
@@ -42,6 +50,7 @@ import javax.inject.Inject
 class JobOfferWriteViewModel @Inject constructor(
     private val caringRepository: CaringRepository,
     private val userRepository: UserRepository,
+    private val commonRepositoy: CommonRepositoy,
     private val locationRepository: LocationRepository
 ) : ViewModel() {
 
@@ -50,7 +59,7 @@ class JobOfferWriteViewModel @Inject constructor(
 
     private var _workHoursTypes: MutableStateFlow<List<WorkHoursTypeItem>> = MutableStateFlow(
         listOf(
-            WorkHoursTypeItem(WorkHoursType.SHORT, true),
+            WorkHoursTypeItem(WorkHoursType.ONETIME, true),
             WorkHoursTypeItem(WorkHoursType.REGULAR)
         )
     )
@@ -70,13 +79,13 @@ class JobOfferWriteViewModel @Inject constructor(
 
     private var _daysOfWeekTypes: MutableStateFlow<List<DayOfWeekItem>> = MutableStateFlow(
         listOf(
-            DayOfWeekItem(DayOfWeekType.MONDAY),
-            DayOfWeekItem(DayOfWeekType.TUESDAY),
-            DayOfWeekItem(DayOfWeekType.WEDNESDAY),
-            DayOfWeekItem(DayOfWeekType.THURSDAY),
-            DayOfWeekItem(DayOfWeekType.FRIDAY),
-            DayOfWeekItem(DayOfWeekType.SATURDAY),
-            DayOfWeekItem(DayOfWeekType.SUNDAY)
+            DayOfWeekItem(DayOfWeekType.MON),
+            DayOfWeekItem(DayOfWeekType.TUE),
+            DayOfWeekItem(DayOfWeekType.WED),
+            DayOfWeekItem(DayOfWeekType.THU),
+            DayOfWeekItem(DayOfWeekType.FRI),
+            DayOfWeekItem(DayOfWeekType.SAT),
+            DayOfWeekItem(DayOfWeekType.SUN)
         )
     )
     val dayOfWeekTypes: StateFlow<List<DayOfWeekItem>> = _daysOfWeekTypes
@@ -124,13 +133,13 @@ class JobOfferWriteViewModel @Inject constructor(
             initialValue = null
         )
 
-    private val _searchedTownsFlowByKeyword: Flow<PagingData<EmdItem>> = _keyword
+    private val _searchedTownsFlowByKeyword: Flow<PagingData<AddressDocument>> = _keyword
         .debounce(200)
         .distinctUntilChanged()
         .flatMapLatest {
-            locationRepository.fetchLocationsByKeyword(it)
+            locationRepository.fetchAddressByKeyword(it)
         }.cachedIn(viewModelScope)
-    val searchedTownsFlow: Flow<PagingData<EmdItem>> = _searchedTownsFlowByKeyword
+    val searchedTownsFlow: Flow<PagingData<AddressDocument>> = _searchedTownsFlowByKeyword
 
     init {
         fetchUserInfo()
@@ -258,5 +267,6 @@ class JobOfferWriteViewModel @Inject constructor(
             }
         }
     }
+
 
 }

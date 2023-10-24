@@ -1,28 +1,32 @@
 package com.mommydndn.app.data.datasource.pagingsource
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.mommydndn.app.data.api.model.response.AddressDocument
+import com.mommydndn.app.data.api.service.KakaoApiService
 import com.mommydndn.app.data.api.service.MapService
 import com.mommydndn.app.data.model.map.EmdItem
 import javax.inject.Inject
 
 private const val STARTING_PAGE_INDEX = 1
-class LocationsByKeywordPagingSource @Inject constructor(
-    private val keyWord: String,
-    private val mapService: MapService
-) : PagingSource<Int, EmdItem>() {
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, EmdItem> {
+class AddressByKeyWordPagingSource @Inject constructor(
+    private val keyWord: String,
+    private val kakaoApiService: KakaoApiService
+) : PagingSource<Int, AddressDocument>() {
+
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, AddressDocument> {
         return try {
             val position = params.key ?: STARTING_PAGE_INDEX
             val result =
-                mapService.fetchLocationsByKeyword(
-                    keyWord,
-                    skip = (position - 1) * params.loadSize,
-                    limit = params.loadSize,
-                    requestTimestamp = System.currentTimeMillis()
+                kakaoApiService.fetchAddressInfo(
+                    query = keyWord,
+                    page = 1,
+                    size = 15,
                 )
-            val data = result.body()?.emdList ?: emptyList()
+            Log.e("result",result.body().toString())
+            val data = result.body()?.documents ?: emptyList()
 
             LoadResult.Page(
                 data = data,
@@ -33,10 +37,13 @@ class LocationsByKeywordPagingSource @Inject constructor(
                 nextKey = if (data.isEmpty()) null else position + 1
             )
         } catch (e: Exception) {
+            Log.e("Exception",e.toString())
+
             LoadResult.Error(e)
         }
     }
-    override fun getRefreshKey(state: PagingState<Int, EmdItem>): Int? {
+
+    override fun getRefreshKey(state: PagingState<Int, AddressDocument>): Int? {
         return state.anchorPosition
     }
 }
