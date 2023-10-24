@@ -18,6 +18,8 @@ import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.SalaryTypeItem
 import com.mommydndn.app.data.model.care.WorkHoursType
 import com.mommydndn.app.data.model.care.WorkHoursTypeItem
+import com.mommydndn.app.data.model.common.TownSearchType
+import com.mommydndn.app.data.model.map.LocationInfo
 import com.mommydndn.app.data.model.user.UserInfo
 import com.mommydndn.app.data.model.user.UserType
 import com.mommydndn.app.data.respository.CaringRepository
@@ -25,6 +27,7 @@ import com.mommydndn.app.data.respository.CommonRepositoy
 import com.mommydndn.app.data.respository.LocationRepository
 import com.mommydndn.app.data.respository.UserRepository
 import com.mommydndn.app.utils.DateTimeUtils
+import com.mommydndn.app.utils.MediaFileUtil
 import com.mommydndn.app.utils.NumberUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -125,6 +128,11 @@ class JobOfferWriteViewModel @Inject constructor(
 
     private val _isTimeNegotiable: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isTimeNegotiable: StateFlow<Boolean> = _isTimeNegotiable
+
+    private val _emdItem: MutableStateFlow<EmdItem?> = MutableStateFlow<EmdItem?>(null)
+    val emdItem: StateFlow<EmdItem?> = _emdItem
+
+    private var locationInfo: LocationInfo? = null
 
     val minHourlySalary: StateFlow<MinHourlySalary?> =
         caringRepository.fetchMinHourlySalary().stateIn(
@@ -227,6 +235,15 @@ class JobOfferWriteViewModel @Inject constructor(
         _keyword.value = keyword
     }
 
+
+    fun setLocation(selectedLocationInfo: LocationInfo) {
+        locationInfo = selectedLocationInfo
+    }
+
+    fun setEmdItem(selectedEmdItem: EmdItem) {
+        _emdItem.value = selectedEmdItem
+    }
+
     fun checkEtcListItem(etcCheckItem: EtcCheckItem) {
         _etcCheckList.value = _etcCheckList.value.map { item ->
             if (item == etcCheckItem) item.copy(isChecked = !item.isChecked)
@@ -241,6 +258,33 @@ class JobOfferWriteViewModel @Inject constructor(
     fun removePhoto(selectedUri: Uri) {
         _photos.value = _photos.value.filter {
             it != selectedUri
+        }
+    }
+
+    fun createJobOffer() {
+        viewModelScope.launch {
+            caringRepository.createJobOffer(
+                title = _title.value,
+                content = _content.value,
+                caringTypeIdList = _careTypes.value.filter { it.isSelected }
+                    .map { it.caringTypeId },
+                taskType = _workHoursTypes.value.filter { it.isSelected }.map { it.workHoursType }
+                    .first(),
+                startDate = _startDate.value,
+                endDate = _endDate.value,
+                days = _daysOfWeekTypes.value.filter { it.isSelected },
+                startTime = _startTime.value,
+                endTime = _endTime.value,
+                emd = _emdItem.value!!,
+                latitude = locationInfo?.latitude!!,
+                longitude = locationInfo?.longitude!!,
+                salaryType = _salaryTypes.value.filter { it.isSelected }.map { it.salaryType }
+                    .first(),
+                salary = _salary.value ?: 0,
+                etcCheckedList = _etcCheckList.value.filter { it.isChecked },
+                imageList = _photos.value,
+                onSuccess = {}
+            )
         }
     }
 
