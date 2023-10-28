@@ -38,7 +38,9 @@ import com.mommydndn.app.ui.navigation.TownCheckNav
 import com.mommydndn.app.ui.navigation.TypeChoiceNav
 import com.mommydndn.app.ui.features.care.CareScreen
 import com.mommydndn.app.ui.features.care.joboffer.write.JobOfferWriteScreen
+import com.mommydndn.app.ui.features.care.joboffer.write.JobOfferWriteViewModel
 import com.mommydndn.app.ui.features.care.joboffer.write.LocationSearchScreen
+import com.mommydndn.app.ui.features.care.joboffer.write.preview.JobOfferPreviewScreen
 import com.mommydndn.app.ui.features.home.MainHomeScreen
 import com.mommydndn.app.ui.features.signin.SignInScreen
 import com.mommydndn.app.ui.features.signup.NearestChoiceScreen
@@ -48,6 +50,7 @@ import com.mommydndn.app.ui.theme.Grey800
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.features.signup.SignUpViewModel
 import com.mommydndn.app.ui.navigation.JobOfferWriteNav
+import com.mommydndn.app.ui.navigation.JobOfferWritePreviewNav
 import com.mommydndn.app.ui.navigation.LocationSearchNav
 import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.White
@@ -142,6 +145,7 @@ fun MainNavigationScreen(
     fusedLocationClient: FusedLocationProviderClient,
 ) {
     val signUpViewModel = hiltViewModel<SignUpViewModel>()
+    val jobOfferWriteViewModel = hiltViewModel<JobOfferWriteViewModel>()
 
     val slideEnterTransition = slideInHorizontally(
         initialOffsetX = { -it },
@@ -169,7 +173,7 @@ fun MainNavigationScreen(
 
             enterTransition = { slideEnterTransition },
             exitTransition = { slideExitTransition }
-        ) { it ->
+        ) {
             val signUpInfo = TypeChoiceNav.findArgument(it)
             val accessToken = Uri.decode(signUpInfo?.accessToken)
 
@@ -211,7 +215,7 @@ fun MainNavigationScreen(
             enterTransition = { slideEnterTransition },
             exitTransition = { slideExitTransition }
         ) {
-            JobOfferWriteScreen(navController = navController)
+            JobOfferWriteScreen(navController = navController, viewModel = jobOfferWriteViewModel)
         }
 
         composable(
@@ -219,7 +223,15 @@ fun MainNavigationScreen(
             enterTransition = { slideEnterTransition },
             exitTransition = { slideExitTransition }
         ) {
-            LocationSearchScreen(navController = navController)
+            LocationSearchScreen(navController = navController, viewModel = jobOfferWriteViewModel)
+        }
+
+        composable(
+            route = JobOfferWritePreviewNav.route,
+            enterTransition = { slideEnterTransition },
+            exitTransition = { slideExitTransition }
+        ) {
+            JobOfferPreviewScreen(navController = navController)
         }
     }
 

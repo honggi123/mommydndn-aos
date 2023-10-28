@@ -123,5 +123,5 @@ dependencies {
     implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
 
     implementation 'com.kakao.maps.open:android:2.6.0'
-
+    implementation "com.google.accompanist:accompanist-webview:0.24.13-rc"
 }

@@ -162,6 +162,7 @@ class NetworkModule {
             .baseUrl("https://dapi.kakao.com/")
             .client(okHttpClient)
             .addConverterFactory(Json.asConverterFactory(contentType))
+            .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
             .build()
             .create(KakaoApiService::class.java)
     }

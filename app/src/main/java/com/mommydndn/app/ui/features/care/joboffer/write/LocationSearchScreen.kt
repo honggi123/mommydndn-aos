@@ -1,56 +1,92 @@
 package com.mommydndn.app.ui.features.care.joboffer.write
 
-import androidx.compose.foundation.layout.Column
+import android.annotation.TargetApi
+import android.app.AlertDialog
+import android.app.Dialog
+import android.net.http.SslError
+import android.os.Build
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
+import android.util.Log
+import android.webkit.JavascriptInterface
+import android.webkit.PermissionRequest
+import android.webkit.SslErrorHandler
+import android.webkit.WebChromeClient
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.isDebugInspectorInfoEnabled
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.paging.compose.collectAsLazyPagingItems
-import com.mommydndn.app.ui.components.common.AddressListItem
-import com.mommydndn.app.ui.components.common.Searchbar
+import com.google.accompanist.web.AccompanistWebChromeClient
+import com.google.accompanist.web.AccompanistWebViewClient
+import com.google.accompanist.web.WebView
+import com.google.accompanist.web.rememberWebViewNavigator
+import com.google.accompanist.web.rememberWebViewState
+import com.mommydndn.app.data.model.map.EmdItem
+import org.json.JSONObject
 
 
 @Composable
 fun LocationSearchScreen(
     navController: NavHostController,
-    viewModel: JobOfferWriteViewModel = hiltViewModel()
+    viewModel: JobOfferWriteViewModel
 ) {
-    val keyword by viewModel.keyword.collectAsState()
 
-    val pagingItemsByKeyword = viewModel.searchedTownsFlow.collectAsLazyPagingItems()
+    val webViewClient = AccompanistWebViewClient()
+    val webChromeClient = AccompanistWebChromeClient()
+    val webViewState = rememberWebViewState("https://honggi123.github.io/hosting_test/Address.html")
+    val webViewNavigator = rememberWebViewNavigator()
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        Searchbar(
-            modifier = Modifier.fillMaxWidth(),
-            keyword = keyword,
-            onValueChange = {
-                viewModel.setKeyword(it)
+    Box {
+        WebView(
+            state = webViewState,
+            navigator = webViewNavigator,
+            client = webViewClient,
+            chromeClient = webChromeClient,
+            onCreated = { webView ->
+                with(webView) {
+                    settings.run {
+                        javaScriptEnabled = true
+                        domStorageEnabled = true
+                        javaScriptCanOpenWindowsAutomatically = false
+                    }
+                    addJavascriptInterface(MyJavaScriptInterface(
+                        onReceivedData = { address ->
+                            address?.let {
+                                viewModel.searchLocationByAddress(it)
+                            }
+                            Handler(Looper.getMainLooper()).post {
+                                navController.popBackStack()
+                            }
+                        },
+                    ), "Android")
+                }
             },
-            clearAction = {
-                viewModel.setKeyword("")
-            },
-            placeHolderText = "도로명, 건물명, 번지로 검색해주세요",
-            backStackAction = { navController.popBackStack() },
-            searchAction = { }
+            modifier = Modifier
         )
-        LazyColumn(
-            modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp)
-        ) {
-            items(pagingItemsByKeyword.itemCount) { index ->
-                val item = pagingItemsByKeyword[index]
-                AddressListItem(
-                    streetNum = item?.roadAddress?.zoneNo?.toInt() ?: 0,
-                    roadAddressText = item?.roadAddress?.addressName ?: "",
-                    streetAddressText = item?.addressName ?: ""
-                )
-            }
-        }
+    }
+}
+
+
+class MyJavaScriptInterface(
+    private val onReceivedData: (String?) -> Unit,
+) {
+    @JavascriptInterface
+    fun onReceivedPostMessage(data: String?) {
+        val jsonObject = JSONObject(data)
+        val roadAddress = jsonObject.optString("roadAddress", "")
+        val jibunAddress = jsonObject.optString("jibunAddress", "")
+        val zonecode = jsonObject.optString("zonecode", "")
+
+        onReceivedData(jibunAddress)
     }
 }

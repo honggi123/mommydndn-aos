@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,6 +36,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -65,6 +67,7 @@ fun MapContainerBox(
             .fillMaxWidth()
             .background(color = White)
     ) {
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -120,10 +123,24 @@ fun MapContainerBox(
                         horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.Start),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-//                    Icon(
-//                        painter = painterResource(id = R.drawable.),
-//                        contentDescription = ""
-//                    )
+                        Box(
+                            modifier = Modifier.size(24.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_subway_3),
+                                contentDescription = "",
+                                tint = Color(0xFFEE8D4C)
+                            )
+                            Text(
+                                text = "3",
+                                style = MaterialTheme.typography.paragraph300.copy(
+                                    fontWeight = FontWeight.Medium,
+                                    color = White
+                                )
+                            )
+                        }
+
 
                         Text(
                             text = "남부터미널역",

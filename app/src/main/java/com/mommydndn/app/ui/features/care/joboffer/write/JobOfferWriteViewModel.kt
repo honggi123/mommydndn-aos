@@ -34,6 +34,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
@@ -141,14 +142,6 @@ class JobOfferWriteViewModel @Inject constructor(
             initialValue = null
         )
 
-    private val _searchedTownsFlowByKeyword: Flow<PagingData<AddressDocument>> = _keyword
-        .debounce(200)
-        .distinctUntilChanged()
-        .flatMapLatest {
-            locationRepository.fetchAddressByKeyword(it)
-        }.cachedIn(viewModelScope)
-    val searchedTownsFlow: Flow<PagingData<AddressDocument>> = _searchedTownsFlowByKeyword
-
     init {
         fetchUserInfo()
         fetchEtcCheckList()
@@ -231,17 +224,24 @@ class JobOfferWriteViewModel @Inject constructor(
         }
     }
 
-    fun setKeyword(keyword: String) {
-        _keyword.value = keyword
-    }
+    fun searchLocationByAddress(address: String) {
+        viewModelScope.launch {
+            locationRepository.fetchAddressByKeyword(address).collectLatest {
+                val address = it.documents.get(0).address
+                locationInfo = LocationInfo(
+                    latitude = address.x.toDouble(),
+                    longitude = address.y.toDouble()
+                )
 
-
-    fun setLocation(selectedLocationInfo: LocationInfo) {
-        locationInfo = selectedLocationInfo
-    }
-
-    fun setEmdItem(selectedEmdItem: EmdItem) {
-        _emdItem.value = selectedEmdItem
+                _emdItem.value = EmdItem(
+                    id = Integer.parseInt(address.bCode.subSequence(0, 7).toString()),
+                    name = address.region3DepthHName,
+                    sigName = address.region2DepthName,
+                    ctprvnName = address.region1DepthName,
+                    fullName = "${address.region1DepthName} ${address.region2DepthName} ${address.region3DepthHName}"
+                )
+            }
+        }
     }
 
     fun checkEtcListItem(etcCheckItem: EtcCheckItem) {
@@ -260,6 +260,7 @@ class JobOfferWriteViewModel @Inject constructor(
             it != selectedUri
         }
     }
+
 
     fun createJobOffer() {
         viewModelScope.launch {

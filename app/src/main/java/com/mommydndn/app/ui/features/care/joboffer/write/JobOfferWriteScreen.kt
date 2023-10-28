@@ -4,12 +4,16 @@ import android.Manifest
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.content.Intent
 import android.os.Build
+import android.os.Bundle
 import android.util.Log
+import android.webkit.JavascriptInterface
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.DatePicker
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -17,9 +21,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -32,8 +36,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -44,12 +46,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.mommydndn.app.R
@@ -57,23 +59,23 @@ import com.mommydndn.app.data.model.care.WorkHoursType
 import com.mommydndn.app.data.model.common.ButtonColor
 import com.mommydndn.app.data.model.common.ButtonColorType
 import com.mommydndn.app.data.model.common.ButtonSizeType
+import com.mommydndn.app.data.model.common.ImageInputFieldType
+import com.mommydndn.app.data.model.common.MinMaxRange
+import com.mommydndn.app.data.model.common.SelectButtonContent
 import com.mommydndn.app.ui.components.box.PostTextFieldBox
 import com.mommydndn.app.ui.components.box.SelectButtonScopeBox
 import com.mommydndn.app.ui.components.box.SelectScopeBox
 import com.mommydndn.app.ui.components.box.SubtextBox
 import com.mommydndn.app.ui.components.box.SubtextBoxSize
-import com.mommydndn.app.ui.components.button.CtaButton
+import com.mommydndn.app.ui.components.button.MommyDndnButton
 import com.mommydndn.app.ui.components.chip.ClickableChip
 import com.mommydndn.app.ui.components.common.CheckBoxListItem
 import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.components.common.ImageInputField
 import com.mommydndn.app.ui.components.common.SelectField
 import com.mommydndn.app.ui.components.common.TextInpuField
-import com.mommydndn.app.data.model.common.ImageInputFieldType
-import com.mommydndn.app.data.model.common.MinMaxRange
-import com.mommydndn.app.data.model.common.SelectButtonContent
-import com.mommydndn.app.ui.components.button.MommyDndnButton
 import com.mommydndn.app.ui.extensions.addFocusCleaner
+import com.mommydndn.app.ui.navigation.JobOfferWritePreviewNav
 import com.mommydndn.app.ui.navigation.LocationSearchNav
 import com.mommydndn.app.ui.theme.Grey100
 import com.mommydndn.app.ui.theme.Grey50
@@ -88,10 +90,11 @@ import com.mommydndn.app.utils.NumberUtils
 import com.mommydndn.app.utils.PermissionUtils
 import java.util.Calendar
 
+
 @Composable
 fun JobOfferWriteScreen(
     navController: NavHostController,
-    viewModel: JobOfferWriteViewModel = hiltViewModel()
+    viewModel: JobOfferWriteViewModel
 ) {
     val context = LocalContext.current
     val calendar = Calendar.getInstance()
@@ -99,7 +102,7 @@ fun JobOfferWriteScreen(
     val focusRequester by remember { mutableStateOf(FocusRequester()) }
     val focusManager = LocalFocusManager.current
 
-    val userInfo by viewModel.userInfo.collectAsState()
+    val emdItem by viewModel.emdItem.collectAsState()
 
     val careTypes by viewModel.careTypes.collectAsState()
     val workHoursTypes by viewModel.workHoursTypes.collectAsState()
@@ -215,6 +218,7 @@ fun JobOfferWriteScreen(
         Column(
             modifier = Modifier.verticalScroll(rememberScrollState())
         ) {
+
             PostTextFieldBox(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -373,8 +377,8 @@ fun JobOfferWriteScreen(
                 SelectField(
                     modifier = Modifier.fillMaxWidth(),
                     label = "주소",
-                    value = userInfo?.emd?.fullName ?: "",
-                    isSelected = userInfo?.emd != null,
+                    value = emdItem?.fullName ?: "",
+                    isSelected = emdItem != null,
                     onClickSelection = {
                         NavigationUtils.navigate(navController, LocationSearchNav.route)
                     }
@@ -437,7 +441,6 @@ fun JobOfferWriteScreen(
                     .background(color = Grey50)
                     .padding(20.dp)
             )
-
 
             SubtextBox(
                 modifier = Modifier
@@ -546,13 +549,19 @@ fun JobOfferWriteScreen(
                     colorType = ButtonColorType.FILLED,
                     sizeType = ButtonSizeType.LARGE,
                     rangeType = MinMaxRange.MAX,
-                    onClick = {}
+                    onClick = {
+                        NavigationUtils.navigate(
+                            navController,
+                            JobOfferWritePreviewNav.route
+                        )
+                    }
                 )
             }
 
         }
     }
 }
+
 
 
 private fun createDatePicker(

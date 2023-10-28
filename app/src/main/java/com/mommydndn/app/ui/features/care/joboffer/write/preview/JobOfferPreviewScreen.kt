@@ -1,5 +1,7 @@
 package com.mommydndn.app.ui.features.care.joboffer.write.preview
 
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -8,6 +10,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -27,6 +30,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
 import com.kakao.vectormap.LatLng
@@ -64,6 +69,7 @@ import kotlinx.coroutines.withContext
 
 @Composable
 fun JobOfferPreviewScreen(
+    navController: NavHostController
 ) {
     val context = LocalContext.current
     val kakaoMapView = MapView(context)
@@ -243,8 +249,10 @@ fun JobOfferPreviewScreen(
     }
 }
 
+
+
 @Preview
 @Composable
 fun previewJobOfferPreviewScreen() {
-    JobOfferPreviewScreen()
+    JobOfferPreviewScreen(rememberNavController())
 }

@@ -16,8 +16,6 @@ interface KakaoApiService {
     suspend fun fetchAddressInfo(
         @Header("Authorization") key: String = "KakaoAK ${BuildConfig.KAKAO_API_KEY}",
         @Query("query") query: String,
-        @Query("page") page: Int,
-        @Query("size") size: Int,
-    ): Response<AddressResponse>
+    ): ApiResponse<AddressResponse>
 
 }
