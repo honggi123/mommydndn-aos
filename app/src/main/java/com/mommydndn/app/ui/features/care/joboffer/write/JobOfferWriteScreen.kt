@@ -550,10 +550,7 @@ fun JobOfferWriteScreen(
                     sizeType = ButtonSizeType.LARGE,
                     rangeType = MinMaxRange.MAX,
                     onClick = {
-                        NavigationUtils.navigate(
-                            navController,
-                            JobOfferWritePreviewNav.route
-                        )
+                        viewModel.createJobOffer()
                     }
                 )
             }

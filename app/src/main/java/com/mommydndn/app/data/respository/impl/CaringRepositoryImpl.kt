@@ -1,11 +1,13 @@
 package com.mommydndn.app.data.respository.impl
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.mommydndn.app.data.api.model.request.JobOfferRequest
+import com.mommydndn.app.data.api.model.response.JobOfferResponse
 import com.mommydndn.app.data.api.service.CaringService
 import com.mommydndn.app.data.api.service.CommonService
 import com.mommydndn.app.data.datasource.pagingsource.JobOfferSummaryPagingSource
@@ -20,17 +22,22 @@ import com.mommydndn.app.data.model.care.WorkHoursType
 import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.map.EmdItem
 import com.mommydndn.app.data.model.user.UserType
+import com.mommydndn.app.data.model.user.UserTypeSerializer
 import com.mommydndn.app.data.respository.CaringRepository
 import com.mommydndn.app.utils.DateTimeUtils
 import com.mommydndn.app.utils.MediaFileUtil
 import com.skydoves.sandwich.getOrElse
 import com.skydoves.sandwich.getOrNull
+import com.skydoves.sandwich.message
+import com.skydoves.sandwich.onError
+import com.skydoves.sandwich.onException
 import com.skydoves.sandwich.suspendOnSuccess
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
@@ -120,38 +127,43 @@ class CaringRepositoryImpl @Inject constructor(
         etcCheckedList: List<EtcCheckItem>,
         imageList: List<Uri>,
         onSuccess: () -> Unit
-    ): Flow<Unit> = flow {
-        val request = JobOfferRequest(
-            title = title,
-            content = content,
-            caringTypeIdList = caringTypeIdList,
-            taskTypeCode = taskType.value,
-            startDate = startDate?.let { DateTimeUtils.getTimestampByLocalDate(it) },
-            endDate = endDate?.let { DateTimeUtils.getTimestampByLocalDate(it) },
-            days = days.map { it.type },
-            startTime = startTime?.let { DateTimeUtils.getTimestampByLocalTime(it) },
-            endTime = endTime?.let { DateTimeUtils.getTimestampByLocalTime(it) },
-            emd = emd,
-            latitude = latitude,
-            longitude = longitude,
-            salaryTypeCode = salaryType,
-            salary = salary,
-            indOtherConditionIdList = etcCheckedList.map { it.id },
-            imageIdList = fetchImagesId(imageList)
-        )
+    ): Flow<JobOfferResponse> {
+        return flow {
+            val imageIdList = imageList.map {
+                val id = fetchImageId(it) ?: 0
+                id
+            }
 
-        caringService.craeteJobOffer(request).suspendOnSuccess {
-            emit(data)
-        }
-    }.flowOn(Dispatchers.IO)
+            val request = JobOfferRequest(
+                title = title,
+                content = content,
+                caringTypeIdList = caringTypeIdList,
+                taskTypeCode = taskType.name,
+                startDate = startDate?.let { DateTimeUtils.getTimestampByLocalDate(it) },
+                endDate = endDate?.let { DateTimeUtils.getTimestampByLocalDate(it) },
+                days = days.map { it.type },
+                startTime = startTime?.let { DateTimeUtils.getLocalTimeText(it) },
+                endTime = endTime?.let { DateTimeUtils.getLocalTimeText(it) },
+                emd = emd,
+                latitude = latitude,
+                longitude = longitude,
+                salaryTypeCode = salaryType,
+                salary = salary,
+                indOtherConditionIdList = etcCheckedList.map { it.id },
+                imageIdList = imageIdList
+            )
 
-
-    private suspend fun fetchImagesId(list: List<Uri>): List<Int> {
-        return list.map { uri ->
-            val imagePart = MediaFileUtil.getImagePart(uri)
-            val res = commonService.fetchImageResponse(imagePart).getOrNull()
-            res?.imageId ?: 0
-        }
+            caringService.craeteJobOffer(request).suspendOnSuccess {
+                emit(data)
+            }
+        }.flowOn(Dispatchers.IO)
     }
+
+
+    private suspend fun fetchImageId(uri: Uri): Int? {
+        val imagePart = MediaFileUtil.getImagePart(uri)
+        return commonService.fetchImageResponse(imagePart).getOrNull()?.imageId
+    }
+
 
 }

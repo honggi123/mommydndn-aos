@@ -3,6 +3,7 @@ package com.mommydndn.app.data.respository
 import android.net.Uri
 import androidx.paging.PagingData
 import com.mommydndn.app.data.api.model.response.CaringTypeResponse
+import com.mommydndn.app.data.api.model.response.JobOfferResponse
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.EtcCheckItem
 import com.mommydndn.app.data.model.care.JobOffer
@@ -51,5 +52,5 @@ interface CaringRepository {
         etcCheckedList: List<EtcCheckItem>,
         imageList: List<Uri>,
         onSuccess: () -> Unit
-    ): Flow<Unit>
+    ): Flow<JobOfferResponse>
 }

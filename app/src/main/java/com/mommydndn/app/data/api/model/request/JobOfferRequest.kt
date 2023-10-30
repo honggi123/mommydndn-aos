@@ -1,6 +1,7 @@
 package com.mommydndn.app.data.api.model.request
 
 import com.mommydndn.app.data.model.care.SalaryType
+import com.mommydndn.app.data.model.care.SalaryTypeSerializer
 import com.mommydndn.app.data.model.common.DayOfWeekType
 import com.mommydndn.app.data.model.map.EmdItem
 import kotlinx.serialization.SerialName
@@ -14,11 +15,12 @@ data class JobOfferRequest(
     @SerialName("startDate") val startDate: Long?,
     @SerialName("endDate") val endDate: Long?,
     @SerialName("days") val days: List<DayOfWeekType>?,
-    @SerialName("startTime") val startTime: Long?,
-    @SerialName("endTime") val endTime: Long?,
+    @SerialName("startTime") val startTime: String?,
+    @SerialName("endTime") val endTime: String?,
     @SerialName("emd") val emd: EmdItem,
     @SerialName("latitude") val latitude: Double,
     @SerialName("longitude") val longitude: Double,
+    @Serializable(with = SalaryTypeSerializer::class)
     @SerialName("salaryTypeCode") val salaryTypeCode: SalaryType,
     @SerialName("salary") val salary: Int?,
     @SerialName("indOtherConditionIdList") val indOtherConditionIdList: List<Int>,
