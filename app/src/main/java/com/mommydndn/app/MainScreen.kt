@@ -227,11 +227,17 @@ fun MainNavigationScreen(
         }
 
         composable(
-            route = JobOfferWritePreviewNav.route,
+            route = JobOfferWritePreviewNav.routeWithArgName(),
+            arguments = JobOfferWritePreviewNav.arguments,
+
             enterTransition = { slideEnterTransition },
             exitTransition = { slideExitTransition }
         ) {
-            JobOfferPreviewScreen(navController = navController)
+            val postId = JobOfferWritePreviewNav.findArgument(it)?.toInt()
+
+            JobOfferPreviewScreen(
+                postId = postId, navController = navController
+            )
         }
     }
 

@@ -1,5 +1,6 @@
 package com.mommydndn.app.ui.features.care.joboffer.write.preview
 
+import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.Image
@@ -30,6 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.kakao.vectormap.KakaoMap
@@ -69,8 +71,12 @@ import kotlinx.coroutines.withContext
 
 @Composable
 fun JobOfferPreviewScreen(
-    navController: NavHostController
+    postId: Int?,
+    navController: NavHostController,
+    viewModel: JobOfferPreviewViewModel = hiltViewModel()
 ) {
+
+    Log.e("postId","postt::"+postId.toString())
     val context = LocalContext.current
     val kakaoMapView = MapView(context)
 
@@ -250,9 +256,3 @@ fun JobOfferPreviewScreen(
 }
 
 
-
-@Preview
-@Composable
-fun previewJobOfferPreviewScreen() {
-    JobOfferPreviewScreen(rememberNavController())
-}

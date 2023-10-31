@@ -1,12 +1,11 @@
 package com.mommydndn.app.data.respository.impl
 
-import android.net.Uri
 import android.util.Log
-import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.mommydndn.app.data.api.model.request.JobOfferRequest
+import com.mommydndn.app.data.api.model.response.CreateJobOfferResponse
 import com.mommydndn.app.data.api.model.response.JobOfferResponse
 import com.mommydndn.app.data.api.service.CaringService
 import com.mommydndn.app.data.api.service.CommonService
@@ -21,23 +20,16 @@ import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.WorkHoursType
 import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.map.EmdItem
-import com.mommydndn.app.data.model.user.UserType
-import com.mommydndn.app.data.model.user.UserTypeSerializer
 import com.mommydndn.app.data.respository.CaringRepository
 import com.mommydndn.app.utils.DateTimeUtils
-import com.mommydndn.app.utils.MediaFileUtil
-import com.skydoves.sandwich.getOrElse
 import com.skydoves.sandwich.getOrNull
-import com.skydoves.sandwich.message
-import com.skydoves.sandwich.onError
-import com.skydoves.sandwich.onException
 import com.skydoves.sandwich.suspendOnSuccess
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.launch
-import kotlinx.serialization.Serializable
+import kotlinx.coroutines.withContext
+import okhttp3.MultipartBody
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
@@ -46,6 +38,13 @@ class CaringRepositoryImpl @Inject constructor(
     private val caringService: CaringService,
     private val commonService: CommonService
 ) : CaringRepository {
+
+    override fun fetchJobOffer(jobOfferId: Int): Flow<JobOfferResponse> = flow<JobOfferResponse> {
+        caringService.fetchJobOffer(jobOfferId).suspendOnSuccess {
+            emit(data)
+        }
+    }.flowOn(Dispatchers.IO)
+
     override fun fetchNearestJobSeeker(): Flow<List<JobSeeker>> = flow {
         caringService.fetchNearestJobSeeker().suspendOnSuccess {
             emit(data)
@@ -125,12 +124,13 @@ class CaringRepositoryImpl @Inject constructor(
         salaryType: SalaryType,
         salary: Int,
         etcCheckedList: List<EtcCheckItem>,
-        imageList: List<Uri>,
+        imageList: List<MultipartBody.Part>,
         onSuccess: () -> Unit
-    ): Flow<JobOfferResponse> {
+    ): Flow<CreateJobOfferResponse> {
         return flow {
             val imageIdList = imageList.map {
                 val id = fetchImageId(it) ?: 0
+                Log.e("id", id.toString())
                 id
             }
 
@@ -156,14 +156,15 @@ class CaringRepositoryImpl @Inject constructor(
             caringService.craeteJobOffer(request).suspendOnSuccess {
                 emit(data)
             }
+            emit(CreateJobOfferResponse(1))
         }.flowOn(Dispatchers.IO)
     }
 
 
-    private suspend fun fetchImageId(uri: Uri): Int? {
-        val imagePart = MediaFileUtil.getImagePart(uri)
-        return commonService.fetchImageResponse(imagePart).getOrNull()?.imageId
-    }
+    private suspend fun fetchImageId(imagePart: MultipartBody.Part): Int? =
+        withContext(Dispatchers.IO) {
+            commonService.fetchImageResponse(image = imagePart).getOrNull()?.imageId
+        }
 
 
 }

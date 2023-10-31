@@ -4,6 +4,7 @@ import com.mommydndn.app.data.api.model.request.JobOfferRequest
 import com.mommydndn.app.data.api.model.response.CaringTypeResponse
 import com.mommydndn.app.data.api.model.response.CompanyEtcCheckItem
 import com.mommydndn.app.data.api.model.response.IndividualEtcCheckItem
+import com.mommydndn.app.data.api.model.response.CreateJobOfferResponse
 import com.mommydndn.app.data.api.model.response.JobOfferResponse
 import com.mommydndn.app.data.api.model.response.NearestJobOfferResponse
 import com.mommydndn.app.data.model.care.JobOfferSummary
@@ -13,6 +14,7 @@ import com.skydoves.sandwich.ApiResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Query
 
@@ -38,7 +40,13 @@ interface CaringService {
     @POST("/api/caring/job-offer")
     suspend fun craeteJobOffer(
         @Body jobOfferRequest: JobOfferRequest
+    ): ApiResponse<CreateJobOfferResponse>
+
+    @GET("/api/caring/job-offer")
+    suspend fun fetchJobOffer(
+        @Query("jobOfferId") jobOfferId: Int
     ): ApiResponse<JobOfferResponse>
+
 
     @GET("/api/map/search")
     suspend fun fetchJobOfferSummary(

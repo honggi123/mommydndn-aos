@@ -2,7 +2,7 @@ package com.mommydndn.app.data.respository
 
 import android.net.Uri
 import androidx.paging.PagingData
-import com.mommydndn.app.data.api.model.response.CaringTypeResponse
+import com.mommydndn.app.data.api.model.response.CreateJobOfferResponse
 import com.mommydndn.app.data.api.model.response.JobOfferResponse
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.EtcCheckItem
@@ -14,14 +14,15 @@ import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.WorkHoursType
 import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.map.EmdItem
-import com.mommydndn.app.data.model.user.UserType
-import com.skydoves.sandwich.ApiResponse
 import kotlinx.coroutines.flow.Flow
+import okhttp3.MultipartBody
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.LocalTime
 
 interface CaringRepository {
+
+    fun fetchJobOffer(jobOfferId: Int): Flow<JobOfferResponse>
+
     fun fetchNearestJobSeeker(): Flow<List<JobSeeker>>
 
     fun fetchNearestJobOffer(): Flow<List<JobOffer>>
@@ -50,7 +51,7 @@ interface CaringRepository {
         salaryType: SalaryType,
         salary: Int,
         etcCheckedList: List<EtcCheckItem>,
-        imageList: List<Uri>,
+        imageList: List<MultipartBody.Part>,
         onSuccess: () -> Unit
-    ): Flow<JobOfferResponse>
+    ): Flow<CreateJobOfferResponse>
 }

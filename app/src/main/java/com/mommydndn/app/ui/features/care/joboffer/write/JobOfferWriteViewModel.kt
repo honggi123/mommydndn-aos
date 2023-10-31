@@ -1,13 +1,12 @@
 package com.mommydndn.app.ui.features.care.joboffer.write
 
+import android.content.Context
 import android.net.Uri
 import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
-import com.mommydndn.app.data.api.model.response.AddressDocument
-import com.mommydndn.app.data.model.care.CaringType
+import androidx.navigation.NavHostController
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.common.DayOfWeekType
@@ -18,35 +17,24 @@ import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.SalaryTypeItem
 import com.mommydndn.app.data.model.care.WorkHoursType
 import com.mommydndn.app.data.model.care.WorkHoursTypeItem
-import com.mommydndn.app.data.model.common.TownSearchType
 import com.mommydndn.app.data.model.map.LocationInfo
 import com.mommydndn.app.data.model.user.UserInfo
-import com.mommydndn.app.data.model.user.UserType
 import com.mommydndn.app.data.respository.CaringRepository
-import com.mommydndn.app.data.respository.CommonRepositoy
 import com.mommydndn.app.data.respository.LocationRepository
 import com.mommydndn.app.data.respository.UserRepository
+import com.mommydndn.app.ui.extensions.asMultipart
+import com.mommydndn.app.ui.navigation.JobOfferWritePreviewNav
 import com.mommydndn.app.utils.DateTimeUtils
-import com.mommydndn.app.utils.MediaFileUtil
+import com.mommydndn.app.utils.NavigationUtils
 import com.mommydndn.app.utils.NumberUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import okhttp3.MediaType
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import java.io.File
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
@@ -55,8 +43,8 @@ import javax.inject.Inject
 class JobOfferWriteViewModel @Inject constructor(
     private val caringRepository: CaringRepository,
     private val userRepository: UserRepository,
-    private val commonRepositoy: CommonRepositoy,
-    private val locationRepository: LocationRepository
+    private val locationRepository: LocationRepository,
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private var _careTypes: MutableStateFlow<List<CaringTypeItem>> = MutableStateFlow(emptyList())
@@ -215,6 +203,7 @@ class JobOfferWriteViewModel @Inject constructor(
     }
 
     fun addSelectedPhotos(selectedPhotos: List<Uri>) {
+        Log.e("selectedPhoto", selectedPhotos.get(0).toString())
         _photos.value = _photos.value + selectedPhotos
     }
 
@@ -263,7 +252,10 @@ class JobOfferWriteViewModel @Inject constructor(
     }
 
 
-    fun createJobOffer() {
+    fun createJobOffer(
+        navHostController: NavHostController,
+        context: Context
+    ) {
         viewModelScope.launch {
             caringRepository.createJobOffer(
                 title = _title.value,
@@ -284,9 +276,20 @@ class JobOfferWriteViewModel @Inject constructor(
                     .first(),
                 salary = _salary.value ?: 0,
                 etcCheckedList = _etcCheckList.value.filter { it.isChecked },
-                imageList = _photos.value,
+                imageList = convertToImageParts(_photos.value, context),
                 onSuccess = {}
-            ).collect {}
+            ).collect {
+                NavigationUtils.navigate(
+                    navHostController,
+                    JobOfferWritePreviewNav.navigateWithArg(it.jobOfferId.toString())
+                )
+            }
+        }
+    }
+
+    private fun convertToImageParts(list: List<Uri>, context: Context): List<MultipartBody.Part> {
+        return list.mapIndexedNotNull { index, uri ->
+            uri.asMultipart("file_$index", context)
         }
     }
 
@@ -312,6 +315,10 @@ class JobOfferWriteViewModel @Inject constructor(
                 _etcCheckList.value = it
             }
         }
+    }
+
+    companion object {
+        private const val JOB_OFFER_POST_ID = "jobOfferId"
     }
 
 

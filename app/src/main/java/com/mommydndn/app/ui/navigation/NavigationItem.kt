@@ -80,6 +80,23 @@ object LocationSearchNav : Destination {
 object JobOfferWritePreviewNav : Destination {
     override val route: String = NavigationRouteName.JOB_OFFER_WRITE_PREVIEW
     override val title: String = NavigationTitle.JOB_OFFER_WRITE_PREVIEW
+    val argName: String = "postId"
+
+    fun routeWithArgName() = "${JobOfferWritePreviewNav.route}/{${JobOfferWritePreviewNav.argName}}"
+
+    val arguments: List<NamedNavArgument> = listOf(
+        navArgument(argName) { type= NavType.StringType}
+    )
+
+    fun navigateWithArg(item: String): String  {
+        val arg = GsonUtils.toJson(item)
+        return "$route/$arg"
+    }
+
+    fun findArgument(navBackStackEntry: NavBackStackEntry): String? {
+        val categoryString = navBackStackEntry.arguments?.getString(argName)
+        return GsonUtils.fromJson<String>(categoryString)
+    }
 }
 
 

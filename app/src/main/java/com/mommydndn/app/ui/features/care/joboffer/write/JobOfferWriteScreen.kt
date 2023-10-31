@@ -550,7 +550,7 @@ fun JobOfferWriteScreen(
                     sizeType = ButtonSizeType.LARGE,
                     rangeType = MinMaxRange.MAX,
                     onClick = {
-                        viewModel.createJobOffer()
+                        viewModel.createJobOffer(navController, context)
                     }
                 )
             }
@@ -558,7 +558,6 @@ fun JobOfferWriteScreen(
         }
     }
 }
-
 
 
 private fun createDatePicker(
