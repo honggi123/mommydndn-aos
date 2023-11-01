@@ -23,6 +23,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -76,7 +79,12 @@ fun JobOfferPreviewScreen(
     viewModel: JobOfferPreviewViewModel = hiltViewModel()
 ) {
 
-    Log.e("postId","postt::"+postId.toString())
+    val jobOffer by viewModel.jobOffer.collectAsState()
+
+    LaunchedEffect(postId){
+        viewModel.updatePost(postId)
+    }
+
     val context = LocalContext.current
     val kakaoMapView = MapView(context)
 
@@ -146,12 +154,12 @@ fun JobOfferPreviewScreen(
                 ProfileBar(
                     modifier = Modifier.fillMaxWidth(),
                     nameText = "워킹맘",
-                    dndnScore = 5.5,
-                    locationText = "반포동"
+                    dndnScore = jobOffer?.jobOfferAuthor?.dndnScore ?: 0.0,
+                    locationText = jobOffer?.jobOfferAuthor?.neighborhood ?: ""
                 )
                 TitleSectionBox(
                     modifier = Modifier.fillMaxWidth(),
-                    titleText = "2일간 풀타임으로 아이 둘 맡아주실 분 구해요.",
+                    titleText = jobOffer?.title ?: "",
                     badgeStringList = listOf("육아"),
                     timeText = "1시간 전"
                 )
