@@ -14,9 +14,14 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
@@ -34,6 +39,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -48,6 +54,7 @@ import com.mommydndn.app.R
 import com.mommydndn.app.data.model.common.ButtonColor
 import com.mommydndn.app.data.model.common.ButtonColorType
 import com.mommydndn.app.data.model.common.ButtonSizeType
+import com.mommydndn.app.data.model.common.ImageInputFieldType
 import com.mommydndn.app.data.model.common.MinMaxRange
 import com.mommydndn.app.ui.components.box.ContentBox
 import com.mommydndn.app.ui.components.box.InfoBox
@@ -58,6 +65,7 @@ import com.mommydndn.app.ui.components.box.TitleSectionBox
 import com.mommydndn.app.ui.components.button.CtaButton
 import com.mommydndn.app.ui.components.button.MommyDndnButton
 import com.mommydndn.app.ui.components.common.Header
+import com.mommydndn.app.ui.components.common.ImageInputField
 import com.mommydndn.app.ui.components.common.ProfileBar
 import com.mommydndn.app.ui.components.common.ProfileSummary
 import com.mommydndn.app.ui.components.common.SubHeader
@@ -69,6 +77,9 @@ import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.ui.theme.paragraph400
+import com.mommydndn.app.utils.DateTimeUtils
+import com.mommydndn.app.utils.NumberUtils
+import com.mommydndn.app.utils.PermissionUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -78,12 +89,14 @@ fun JobOfferPreviewScreen(
     navController: NavHostController,
     viewModel: JobOfferPreviewViewModel = hiltViewModel()
 ) {
-
     val jobOffer by viewModel.jobOffer.collectAsState()
 
-    LaunchedEffect(postId){
-        viewModel.updatePost(postId)
+    LaunchedEffect(key1 = postId) {
+        if (postId != null) {
+            viewModel.updatePost(postId)
+        }
     }
+
 
     val context = LocalContext.current
     val kakaoMapView = MapView(context)
@@ -149,27 +162,48 @@ fun JobOfferPreviewScreen(
         ) {
             Column(
                 modifier = Modifier.padding(vertical = 12.dp, horizontal = 24.dp),
-                verticalArrangement = Arrangement.spacedBy(20.dp)
+                verticalArrangement = Arrangement.spacedBy(28.dp)
             ) {
                 ProfileBar(
                     modifier = Modifier.fillMaxWidth(),
-                    nameText = "워킹맘",
+                    nameText = jobOffer?.jobOfferAuthor?.nickname ?: "",
                     dndnScore = jobOffer?.jobOfferAuthor?.dndnScore ?: 0.0,
                     locationText = jobOffer?.jobOfferAuthor?.neighborhood ?: ""
                 )
                 TitleSectionBox(
                     modifier = Modifier.fillMaxWidth(),
                     titleText = jobOffer?.title ?: "",
-                    badgeStringList = listOf("육아"),
-                    timeText = "1시간 전"
+                    badgeStringList = jobOffer?.caringTypeCodeList?.map { it.value } ?: emptyList(),
+                    timeText = DateTimeUtils.getFormattedTimeAgo(
+                        jobOffer?.jobOfferAuthor?.createdAt?.toLong() ?: 0
+                    )
                 )
                 InfoBox(
                     modifier = Modifier.fillMaxWidth(),
-                    salaryText = "시급 12,000원",
-                    dateText = "8월 12일 ~ 13일 (토,일)",
-                    timeText = "17:00 ~ 22:00"
+                    salaryText = "${jobOffer?.salaryTypeCode?.value ?: ""} ${
+                        NumberUtils.getPrice(
+                            jobOffer?.salary.toString()
+                        )
+                    }",
+                    dateText = "${DateTimeUtils.formatTimestampToMonthDay(jobOffer?.startDate)} ~ ${
+                        DateTimeUtils.formatTimestampToMonthDay(
+                            jobOffer?.endDate
+                        )
+                    } (토,일)",
+                    timeText = "${jobOffer?.startTime} ~ ${jobOffer?.endTime}"
                 )
-                ContentBox(infos = listOf("cctv 괜찮고", "반려동물을 좋아하고", "입주가능하고"))
+
+                ContentBox(
+                    infos = jobOffer?.indOtherConditionCodeList ?: emptyList(),
+                    photos = jobOffer?.imageList?.map { it.url.toUri() } ?: emptyList(),
+                    contentText = jobOffer?.content ?: "",
+                    subDescriptionList = listOf(
+                        "${jobOffer?.applicantCount} 명",
+                        "관심 ${jobOffer?.isLiked}",
+                        "조회 ${jobOffer?.hits}회"
+                    )
+                )
+
             }
             Spacer(
                 modifier = Modifier
@@ -231,10 +265,11 @@ fun JobOfferPreviewScreen(
                     ReviewBox(
                         modifier = Modifier.fillMaxWidth(),
                         titleText = "가장 최근 후기",
-                        dndnScore = 5.5,
-                        badgeStringList = listOf("육아"),
-                        dateText = "2023년 4월",
-                        contentText = "어머님께서 인품이 선하시고 너무 친절하십니다~ ㅎㅎ "
+                        dndnScore = jobOffer?.jobOfferAuthor?.latestReview?.rate ?: 0,
+                        badgeStringList = jobOffer?.jobOfferAuthor?.latestReview?.caringTypeCodeList
+                            ?: emptyList(),
+                        dateText = jobOffer?.jobOfferAuthor?.latestReview?.createdAt.toString(),
+                        contentText = jobOffer?.jobOfferAuthor?.latestReview?.content ?: ""
                     )
                 }
             }

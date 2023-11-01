@@ -107,7 +107,8 @@ fun ImageInputField(
                     contentDescription = "",
                     modifier = Modifier
                         .fillMaxSize()
-                        .clip(shape = RoundedCornerShape(6.dp))
+                        .clip(shape = RoundedCornerShape(6.dp)),
+                    contentScale = ContentScale.Crop
                 )
             }
         }

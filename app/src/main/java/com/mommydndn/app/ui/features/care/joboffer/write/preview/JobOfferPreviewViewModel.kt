@@ -1,5 +1,6 @@
 package com.mommydndn.app.ui.features.care.joboffer.write.preview
 
+import android.util.Log
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -23,12 +24,10 @@ class JobOfferPreviewViewModel @Inject constructor(
 
     private val _jobOffer = MutableStateFlow<JobOfferResponse?>(null)
     val jobOffer: StateFlow<JobOfferResponse?> = _jobOffer
-    fun updatePost(jobofferId: Int?) {
+    fun updatePost(jobofferId: Int) {
         viewModelScope.launch {
-            if (jobofferId != null) {
-                caringRepository.fetchJobOffer(jobofferId).collectLatest {
-                    _jobOffer.value = it
-                }
+            caringRepository.fetchJobOffer(jobofferId).collectLatest {
+                _jobOffer.value = it
             }
         }
     }

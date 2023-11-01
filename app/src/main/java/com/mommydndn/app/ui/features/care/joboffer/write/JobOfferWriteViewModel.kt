@@ -257,8 +257,6 @@ class JobOfferWriteViewModel @Inject constructor(
         context: Context
     ) {
         viewModelScope.launch {
-            Log.e("createJobOffer","launch")
-
             caringRepository.createJobOffer(
                 title = _title.value,
                 content = _content.value,
@@ -281,7 +279,6 @@ class JobOfferWriteViewModel @Inject constructor(
                 imageList = convertToImageParts(_photos.value, context),
                 onSuccess = {}
             ).collectLatest {
-                Log.e("it",it.jobOfferId.toString())
                 NavigationUtils.navigate(
                     navHostController,
                     JobOfferWritePreviewNav.navigateWithArg(it.jobOfferId.toString())

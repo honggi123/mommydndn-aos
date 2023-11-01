@@ -1,10 +1,13 @@
 package com.mommydndn.app.utils
 
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
+import java.util.Date
+import java.util.Locale
 
 object DateTimeUtils {
 
@@ -61,6 +64,17 @@ object DateTimeUtils {
         val localDateTime = LocalDateTime.of(localDate, localTime)
         val instant = localDateTime.toInstant(ZoneOffset.UTC)
         return instant.toEpochMilli()
+    }
+
+    fun formatTimestampToMonthDay(timestamp: Long?): String {
+        try {
+            val date = Date(timestamp!! * 1000)
+            val sdf = SimpleDateFormat("MM월 dd일", Locale.getDefault())
+            return sdf.format(date)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return ""
     }
 
 

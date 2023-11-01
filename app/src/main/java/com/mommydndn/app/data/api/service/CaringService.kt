@@ -16,6 +16,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface CaringService {
@@ -42,9 +43,9 @@ interface CaringService {
         @Body jobOfferRequest: JobOfferRequest
     ): ApiResponse<CreateJobOfferResponse>
 
-    @GET("/api/caring/job-offer")
+    @GET("/api/caring/job-offer/{jobOfferId}")
     suspend fun fetchJobOffer(
-        @Query("jobOfferId") jobOfferId: Int
+        @Path("jobOfferId") jobOfferId: Int
     ): ApiResponse<JobOfferResponse>
 
 

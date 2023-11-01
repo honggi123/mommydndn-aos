@@ -12,19 +12,16 @@ import kotlinx.serialization.Serializable
 data class JobOfferResponse(
     @SerialName("applicantCount")
     val applicantCount: Int,
-    @Serializable(with = CaringTypeSerializer::class)
     @SerialName("caringTypeCodeList")
-    val caringTypeCodeList: List<CaringType>,
+    val caringTypeCodeList: List<@Serializable(with = CaringTypeSerializer::class) CaringType>,
     @SerialName("content")
     val content: String,
     @SerialName("createdAt")
-    val createdAt: Int,
+    val createdAt: Long,
     @SerialName("days")
     val days: List<String>?,
-    @SerialName("emdId")
-    val emdId: Int,
     @SerialName("endDate")
-    val endDate: Int?,
+    val endDate: Long?,
     @SerialName("endTime")
     val endTime: String?,
     @SerialName("hits")
@@ -53,7 +50,7 @@ data class JobOfferResponse(
     @SerialName("salaryTypeCode")
     val salaryTypeCode: SalaryType,
     @SerialName("startDate")
-    val startDate: Int?,
+    val startDate: Long?,
     @SerialName("startTime")
     val startTime: String?,
     @SerialName("title")
@@ -63,15 +60,15 @@ data class JobOfferResponse(
 @Serializable
 data class JobOfferAuthor(
     @SerialName("certificationName")
-    val certificationName: String,
+    val certificationName: String?,
     @SerialName("createdAt")
-    val createdAt: Int,
+    val createdAt: Long,
     @SerialName("dndnScore")
     val dndnScore: Double,
     @SerialName("isDnDnAuthenticated")
     val isDnDnAuthenticated: Boolean,
     @SerialName("latestReview")
-    val latestReview: LatestReview,
+    val latestReview: LatestReview?,
     @SerialName("matchingCount")
     val matchingCount: Int,
     @SerialName("neighborhood")
@@ -79,7 +76,7 @@ data class JobOfferAuthor(
     @SerialName("nickname")
     val nickname: String,
     @SerialName("profileUrl")
-    val profileUrl: String,
+    val profileUrl: String?,
     @SerialName("responseRate")
     val responseRate: String,
     @SerialName("reviewCount")
@@ -97,7 +94,7 @@ data class LatestReview(
     @SerialName("content")
     val content: String,
     @SerialName("createdAt")
-    val createdAt: Int,
+    val createdAt: Long,
     @SerialName("nickname")
     val nickname: String,
     @SerialName("rate")

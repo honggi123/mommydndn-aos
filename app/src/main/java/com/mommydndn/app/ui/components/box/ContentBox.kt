@@ -39,13 +39,16 @@ import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption100
 import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.utils.PermissionUtils
+import java.net.URL
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ContentBox(
     modifier: Modifier = Modifier,
     infos: List<String> = emptyList(),
-    photos: List<Uri> = emptyList()
+    contentText: String = "",
+    photos: List<Uri> = emptyList(),
+    subDescriptionList: List<String> = emptyList()
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(28.dp, Alignment.CenterVertically),
@@ -60,7 +63,7 @@ fun ContentBox(
             )
     ) {
         Text(
-            text = "안녕하세요 ~ \n6세 여아와 4세 남아를 키우는 워킹맘입니다!\n\n이번 주말 2일간 출장을 가게 되어 시터 선생님을 구하게 되었어요~ 1일 당 8시간, 2일 간 맡아주실 분을 구하고 있습니다!\n\n시급은 일단 12,000원으로 올려놓았지만 \n선생님 경력에 따라 협의도 가능합니다 ㅎㅎ \n\n아무래도 두 아이인 만큼 육아 난이도가 있다고 생각하기에, 고수엄마이신 분이 지원해주시면 감사드리겠습니다 :) ~\n\n부담없이 많은 지원 부탁드려요! ",
+            text = contentText,
             color = Grey800,
             style = MaterialTheme.typography.paragraph300.copy(
                 fontWeight = FontWeight.Normal
@@ -100,43 +103,24 @@ fun ContentBox(
             horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.Start),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = "지원자 3명",
-                color = Grey500,
-                style = MaterialTheme.typography.caption100.copy(
-                    fontWeight = FontWeight.Normal
-                ),
-                modifier = Modifier
-                    .wrapContentHeight(align = Alignment.CenterVertically)
-            )
-            Image(
-                painter = painterResource(id = R.drawable.ic_ellipse),
-                contentDescription = null,
-                modifier = Modifier.align(Alignment.CenterVertically)
-            )
-            Text(
-                text = "관심 34명",
-                color = Grey500,
-                style = MaterialTheme.typography.caption100.copy(
-                    fontWeight = FontWeight.Normal
-                ),
-                modifier = Modifier
-                    .wrapContentHeight(align = Alignment.CenterVertically)
-            )
-            Image(
-                painter = painterResource(id = R.drawable.ic_ellipse),
-                contentDescription = null,
-                modifier = Modifier.align(Alignment.CenterVertically)
-            )
-            Text(
-                text = "조회 230회",
-                color = Grey500,
-                style = MaterialTheme.typography.caption100.copy(
-                    fontWeight = FontWeight.Normal
-                ),
-                modifier = Modifier
-                    .wrapContentHeight(align = Alignment.CenterVertically)
-            )
+            subDescriptionList.forEachIndexed { index, text ->
+                Text(
+                    text = text,
+                    color = Grey500,
+                    style = MaterialTheme.typography.caption100.copy(
+                        fontWeight = FontWeight.Normal
+                    ),
+                    modifier = Modifier
+                        .wrapContentHeight(align = Alignment.CenterVertically)
+                )
+                if (index <= subDescriptionList.size){
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_ellipse),
+                        contentDescription = null,
+                        modifier = Modifier.align(Alignment.CenterVertically)
+                    )
+                }
+            }
         }
     }
 }
@@ -144,5 +128,5 @@ fun ContentBox(
 @Preview
 @Composable
 fun previewContentBox() {
-    ContentBox(infos = listOf("a","bbbbbbb","ccc","dddddddd"))
+    ContentBox(infos = listOf("a", "bbbbbbb", "ccc", "dddddddd"))
 }
