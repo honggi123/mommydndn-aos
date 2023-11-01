@@ -257,11 +257,13 @@ class JobOfferWriteViewModel @Inject constructor(
         context: Context
     ) {
         viewModelScope.launch {
+            Log.e("createJobOffer","launch")
+
             caringRepository.createJobOffer(
                 title = _title.value,
                 content = _content.value,
-                caringTypeIdList = _careTypes.value.filter { it.isSelected }
-                    .map { it.caringTypeId },
+                caringTypeList = _careTypes.value.filter { it.isSelected }
+                    .map { it.caringType },
                 taskType = _workHoursTypes.value.filter { it.isSelected }.map { it.workHoursType }
                     .first(),
                 startDate = _startDate.value,
@@ -278,7 +280,8 @@ class JobOfferWriteViewModel @Inject constructor(
                 etcCheckedList = _etcCheckList.value.filter { it.isChecked },
                 imageList = convertToImageParts(_photos.value, context),
                 onSuccess = {}
-            ).collect {
+            ).collectLatest {
+                Log.e("it",it.jobOfferId.toString())
                 NavigationUtils.navigate(
                     navHostController,
                     JobOfferWritePreviewNav.navigateWithArg(it.jobOfferId.toString())

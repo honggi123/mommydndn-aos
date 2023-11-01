@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.paging.PagingData
 import com.mommydndn.app.data.api.model.response.CreateJobOfferResponse
 import com.mommydndn.app.data.api.model.response.JobOfferResponse
+import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.EtcCheckItem
 import com.mommydndn.app.data.model.care.JobOffer
@@ -38,7 +39,7 @@ interface CaringRepository {
     fun createJobOffer(
         title: String,
         content: String,
-        caringTypeIdList: List<Int>,
+        caringTypeList: List<CaringType>,
         taskType: WorkHoursType,
         startDate: LocalDate?,
         endDate: LocalDate?,

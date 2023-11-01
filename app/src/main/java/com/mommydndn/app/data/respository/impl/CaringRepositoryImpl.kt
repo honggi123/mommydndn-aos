@@ -10,6 +10,7 @@ import com.mommydndn.app.data.api.model.response.JobOfferResponse
 import com.mommydndn.app.data.api.service.CaringService
 import com.mommydndn.app.data.api.service.CommonService
 import com.mommydndn.app.data.datasource.pagingsource.JobOfferSummaryPagingSource
+import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.EtcCheckItem
 import com.mommydndn.app.data.model.care.JobOffer
@@ -23,6 +24,9 @@ import com.mommydndn.app.data.model.map.EmdItem
 import com.mommydndn.app.data.respository.CaringRepository
 import com.mommydndn.app.utils.DateTimeUtils
 import com.skydoves.sandwich.getOrNull
+import com.skydoves.sandwich.message
+import com.skydoves.sandwich.onError
+import com.skydoves.sandwich.onException
 import com.skydoves.sandwich.suspendOnSuccess
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -111,7 +115,7 @@ class CaringRepositoryImpl @Inject constructor(
     override fun createJobOffer(
         title: String,
         content: String,
-        caringTypeIdList: List<Int>,
+        caringTypeList: List<CaringType>,
         taskType: WorkHoursType,
         startDate: LocalDate?,
         endDate: LocalDate?,
@@ -126,39 +130,36 @@ class CaringRepositoryImpl @Inject constructor(
         etcCheckedList: List<EtcCheckItem>,
         imageList: List<MultipartBody.Part>,
         onSuccess: () -> Unit
-    ): Flow<CreateJobOfferResponse> {
-        return flow {
-            val imageIdList = imageList.map {
-                val id = fetchImageId(it) ?: 0
-                Log.e("id", id.toString())
-                id
-            }
+    ): Flow<CreateJobOfferResponse> = flow {
 
-            val request = JobOfferRequest(
-                title = title,
-                content = content,
-                caringTypeIdList = caringTypeIdList,
-                taskTypeCode = taskType.name,
-                startDate = startDate?.let { DateTimeUtils.getTimestampByLocalDate(it) },
-                endDate = endDate?.let { DateTimeUtils.getTimestampByLocalDate(it) },
-                days = days.map { it.type },
-                startTime = startTime?.let { DateTimeUtils.getLocalTimeText(it) },
-                endTime = endTime?.let { DateTimeUtils.getLocalTimeText(it) },
-                emd = emd,
-                latitude = latitude,
-                longitude = longitude,
-                salaryTypeCode = salaryType,
-                salary = salary,
-                indOtherConditionIdList = etcCheckedList.map { it.id },
-                imageIdList = imageIdList
-            )
+        val imageIdList = imageList.map {
+            val id = fetchImageId(it) ?: 0
+            id
+        }
 
-            caringService.craeteJobOffer(request).suspendOnSuccess {
-                emit(data)
-            }
-            emit(CreateJobOfferResponse(1))
-        }.flowOn(Dispatchers.IO)
-    }
+        val request = JobOfferRequest(
+            title = title,
+            content = content,
+            caringTypeCodeList = caringTypeList,
+            taskTypeCode = taskType,
+            startDate = startDate?.let { DateTimeUtils.getTimestampByLocalDate(it) },
+            endDate = endDate?.let { DateTimeUtils.getTimestampByLocalDate(it) },
+            days = days.map { it.type },
+            startTime = startTime?.let { DateTimeUtils.getLocalTimeText(it) },
+            endTime = endTime?.let { DateTimeUtils.getLocalTimeText(it) },
+            emd = emd,
+            latitude = latitude,
+            longitude = longitude,
+            salaryTypeCode = salaryType,
+            salary = salary,
+            indOtherConditionIdList = etcCheckedList.map { it.id },
+            imageIdList = imageIdList
+        )
+        Log.e("request",request.toString())
+        caringService.craeteJobOffer(request).suspendOnSuccess {
+            emit(data)
+        }.onError { Log.e("error",message())  }.onException { Log.e("error",message()) }
+    }.flowOn(Dispatchers.IO)
 
 
     private suspend fun fetchImageId(imagePart: MultipartBody.Part): Int? =
