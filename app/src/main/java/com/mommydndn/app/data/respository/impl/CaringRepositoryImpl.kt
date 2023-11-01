@@ -155,10 +155,9 @@ class CaringRepositoryImpl @Inject constructor(
             indOtherConditionIdList = etcCheckedList.map { it.id },
             imageIdList = imageIdList
         )
-        Log.e("request",request.toString())
         caringService.craeteJobOffer(request).suspendOnSuccess {
             emit(data)
-        }.onError { Log.e("error",message())  }.onException { Log.e("error",message()) }
+        }
     }.flowOn(Dispatchers.IO)
 
 

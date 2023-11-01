@@ -11,16 +11,18 @@ import com.mommydndn.app.data.model.common.DayOfWeekTypeSerializer
 import com.mommydndn.app.data.model.map.EmdItem
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+
 @Serializable
 data class JobOfferRequest(
     @SerialName("title") val title: String,
     @SerialName("content") val content: String,
-    @SerialName("caringTypeCodeList") val caringTypeCodeList: List<CaringType>,
+    @SerialName("caringTypeCodeList")
+    val caringTypeCodeList: List<@Serializable(with = CaringTypeSerializer::class) CaringType>,
     @Serializable(with = WorkHourTypeSerializer::class)
     @SerialName("taskTypeCode") val taskTypeCode: WorkHoursType,
     @SerialName("startDate") val startDate: Long?,
     @SerialName("endDate") val endDate: Long?,
-    @SerialName("days") val days: List<DayOfWeekType>?,
+    @SerialName("days") val days: List<@Serializable(with = DayOfWeekTypeSerializer::class) DayOfWeekType>?,
     @SerialName("startTime") val startTime: String?,
     @SerialName("endTime") val endTime: String?,
     @SerialName("emd") val emd: EmdItem,
