@@ -28,6 +28,7 @@ import com.mommydndn.app.data.model.common.ImageInputFieldType
 import com.mommydndn.app.ui.theme.Grey300
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
+import com.mommydndn.app.ui.theme.GreyOpacity400
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
 
@@ -89,7 +90,8 @@ fun ImageInputField(
                             y = (-5).dp
                         ).clickable {
                             inputType.onRemoveClick?.let { it() }
-                        }
+                        },
+                    tint = GreyOpacity400
                 )
             }
         }

@@ -1,5 +1,6 @@
 package com.mommydndn.app.ui.components.common
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -52,13 +53,12 @@ fun CheckBoxListItem(
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
+            Image(
                 modifier = Modifier.size(32.dp),
                 painter = painterResource(
                     id = if (checked) R.drawable.ic_checkbox_true else R.drawable.ic_checkbox_false
                 ),
                 contentDescription = "",
-                tint = if (checked) Salmon600 else Grey200
             )
 
             Spacer(modifier = Modifier.size(8.dp))
@@ -66,10 +66,7 @@ fun CheckBoxListItem(
                 modifier = Modifier.fillMaxWidth(),
                 text = text, style = MaterialTheme.typography.paragraph300.copy(
                     fontWeight = FontWeight.Medium,
-                    color = Grey600,
-                    platformStyle = PlatformTextStyle(
-                        includeFontPadding = false
-                    )
+                    color = Grey600
                 )
             )
         }
