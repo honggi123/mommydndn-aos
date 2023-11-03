@@ -194,12 +194,12 @@ fun JobOfferPreviewScreen(
                 )
 
                 ContentBox(
-                    infos = jobOffer?.indOtherConditionCodeList ?: emptyList(),
+                    infos = jobOffer?.indOtherConditionCodeList?.map { it.value } ?: emptyList(),
                     photos = jobOffer?.imageList?.map { it.url.toUri() } ?: emptyList(),
                     contentText = jobOffer?.content ?: "",
                     subDescriptionList = listOf(
                         "${jobOffer?.applicantCount} 명",
-                        "관심 ${jobOffer?.isLiked}",
+                        "관심 ${jobOffer?.likeCount}",
                         "조회 ${jobOffer?.hits}회"
                     )
                 )

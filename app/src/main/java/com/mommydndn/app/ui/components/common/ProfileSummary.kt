@@ -26,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.mommydndn.app.R
+import com.mommydndn.app.ui.theme.Grey300
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.Grey700
@@ -108,6 +109,7 @@ fun ProfileBar(
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)
+                    .background(Grey300)
             )
             Column(
                 verticalArrangement = Arrangement.spacedBy(2.dp, Alignment.Top)
@@ -340,5 +342,5 @@ fun ProfileDataBox(
 @Preview
 @Composable
 fun previewProfileDataBox() {
-    ProfileDataBox()
+    ProfileBar()
 }

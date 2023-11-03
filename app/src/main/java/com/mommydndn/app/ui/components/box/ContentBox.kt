@@ -113,7 +113,7 @@ fun ContentBox(
                     modifier = Modifier
                         .wrapContentHeight(align = Alignment.CenterVertically)
                 )
-                if (index <= subDescriptionList.size){
+                if (index < subDescriptionList.size-1){
                     Image(
                         painter = painterResource(id = R.drawable.ic_ellipse),
                         contentDescription = null,

@@ -49,7 +49,7 @@ object DateTimeUtils {
     fun getLocalTimeText(
         localTime: LocalTime
     ): String {
-        val formatter = DateTimeFormatter.ofPattern("hh:mm:ss")
+        val formatter = DateTimeFormatter.ofPattern("hh:mm")
         return localTime.format(formatter)
     }
 

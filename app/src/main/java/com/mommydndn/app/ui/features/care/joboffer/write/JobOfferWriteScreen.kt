@@ -423,7 +423,7 @@ fun JobOfferWriteScreen(
 
                 TextInpuField(
                     label = salaryTypes.find { it.isSelected }?.salaryType?.value ?: "시급",
-                    value = salary?.let { NumberUtils.getPriceString(it) } ?: "",
+                    value = salary?.let { it.toString() } ?: "",
                     onValueChanged = { viewModel.setSalary(it) },
                     placeHolderText = "10,000",
                     descriptionText = "2023년 최저시급은 " + minHourlySalary?.minHourlySalary?.let {

@@ -3,6 +3,8 @@ package com.mommydndn.app.data.api.model.response
 
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeSerializer
+import com.mommydndn.app.data.model.care.EtcConditionType
+import com.mommydndn.app.data.model.care.EtcConditionTypeSerializer
 import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.SalaryTypeSerializer
 import kotlinx.serialization.SerialName
@@ -29,7 +31,7 @@ data class JobOfferResponse(
     @SerialName("imageList")
     val imageList: List<ImageResponse>,
     @SerialName("indOtherConditionCodeList")
-    val indOtherConditionCodeList: List<String>,
+    val indOtherConditionCodeList: List<@Serializable(with = EtcConditionTypeSerializer::class) EtcConditionType>,
     @SerialName("isClosed")
     val isClosed: Boolean,
     @SerialName("isLiked")

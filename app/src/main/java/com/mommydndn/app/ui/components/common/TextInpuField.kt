@@ -40,6 +40,8 @@ import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption100
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph300
+import com.mommydndn.app.utils.NumberCommaVisualTransformation
+import java.lang.NumberFormatException
 
 @Composable
 fun TextInpuField(
@@ -120,6 +122,7 @@ fun TextInpuField(
                 keyboardType = KeyboardType.Number
             ),
             isError = isError,
+            visualTransformation = NumberCommaVisualTransformation()
         )
         Text(
             text = descriptionText,
