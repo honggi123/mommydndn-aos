@@ -7,6 +7,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
+import com.mommydndn.app.data.api.model.response.UserResponse
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.common.DayOfWeekType
@@ -18,7 +19,6 @@ import com.mommydndn.app.data.model.care.SalaryTypeItem
 import com.mommydndn.app.data.model.care.WorkHoursType
 import com.mommydndn.app.data.model.care.WorkHoursTypeItem
 import com.mommydndn.app.data.model.map.LocationInfo
-import com.mommydndn.app.data.model.user.UserInfo
 import com.mommydndn.app.data.respository.CaringRepository
 import com.mommydndn.app.data.respository.LocationRepository
 import com.mommydndn.app.data.respository.UserRepository
@@ -110,9 +110,6 @@ class JobOfferWriteViewModel @Inject constructor(
     private val _keyword: MutableStateFlow<String> = MutableStateFlow("")
     val keyword: StateFlow<String> = _keyword
 
-    private val _userInfo: MutableStateFlow<UserInfo?> = MutableStateFlow(null)
-    val userInfo: StateFlow<UserInfo?> = _userInfo
-
     private val _etcCheckList: MutableStateFlow<List<EtcCheckItem>> = MutableStateFlow(emptyList())
     val etcCheckList: StateFlow<List<EtcCheckItem>> = _etcCheckList
 
@@ -132,7 +129,6 @@ class JobOfferWriteViewModel @Inject constructor(
         )
 
     init {
-        fetchUserInfo()
         fetchEtcCheckList()
         fetchCaringTypeItems()
     }
@@ -290,14 +286,6 @@ class JobOfferWriteViewModel @Inject constructor(
     private fun convertToImageParts(list: List<Uri>, context: Context): List<MultipartBody.Part> {
         return list.mapIndexedNotNull { index, uri ->
             uri.asMultipart("file_$index", context)
-        }
-    }
-
-    private fun fetchUserInfo() {
-        viewModelScope.launch {
-            userRepository.fetchUserInfo().collect { info ->
-                _userInfo.value = info
-            }
         }
     }
 

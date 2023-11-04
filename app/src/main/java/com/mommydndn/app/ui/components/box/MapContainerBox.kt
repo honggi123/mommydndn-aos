@@ -57,7 +57,8 @@ import kotlinx.coroutines.withContext
 @Composable
 fun MapContainerBox(
     modifier: Modifier = Modifier,
-    mapView: MapView
+    mapView: MapView,
+    addressText: String = ""
 ) {
     val mapAspectRatio = 2.23f / 1f
 
@@ -110,7 +111,7 @@ fun MapContainerBox(
                             tint = Grey700
                         )
                         Text(
-                            text = "서울 서초구 서초중앙로 15",
+                            text = addressText,
                             style = MaterialTheme.typography.caption200.copy(
                                 fontWeight = FontWeight.Medium,
                                 color = Grey700

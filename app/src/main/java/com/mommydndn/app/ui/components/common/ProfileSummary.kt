@@ -49,7 +49,7 @@ fun ProfileSummary(
     matchCount: Int = 0,
     reviewCount: Int = 0,
     responseRate: String = "",
-    neighborhoodText: String = ""
+    certificationList: List<String> = emptyList()
 ) {
     Column(
         modifier = modifier,
@@ -66,8 +66,7 @@ fun ProfileSummary(
         ProfileInfoStack(
             modifier = Modifier.fillMaxWidth(),
             dateText = dateText,
-            isAuthenticated = isAuthenticated,
-            neighborhoodText = neighborhoodText
+            certificationList = certificationList
         )
         ProfileDataBox(
             modifier = Modifier.fillMaxWidth(),
@@ -193,8 +192,7 @@ fun ProfileBar(
 fun ProfileInfoStack(
     modifier: Modifier = Modifier,
     dateText: String = "",
-    isAuthenticated: Boolean = false,
-    neighborhoodText: String = ""
+    certificationList: List<String> = emptyList(),
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(2.dp, Alignment.Top),
@@ -205,7 +203,7 @@ fun ProfileInfoStack(
         Column(
             verticalArrangement = Arrangement.spacedBy(2.dp, Alignment.Top)
         ) {
-            if (isAuthenticated) {
+            certificationList.forEach { name ->
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.Start),
                     verticalAlignment = Alignment.CenterVertically
@@ -217,7 +215,7 @@ fun ProfileInfoStack(
                             .requiredSize(size = 16.dp)
                     )
                     Text(
-                        text = neighborhoodText + " 엄마 인증 완료",
+                        text = name,
                         color = Grey700,
                         style = MaterialTheme.typography.caption200.copy(
                             fontWeight = FontWeight.Medium
