@@ -51,6 +51,7 @@ import com.kakao.vectormap.MapView
 import com.kakao.vectormap.MapViewInfo
 import com.kakao.vectormap.camera.CameraUpdate
 import com.mommydndn.app.R
+import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.common.ButtonColor
 import com.mommydndn.app.data.model.common.ButtonColorType
 import com.mommydndn.app.data.model.common.ButtonSizeType
@@ -96,7 +97,6 @@ fun JobOfferPreviewScreen(
             viewModel.updatePost(postId)
         }
     }
-
 
     val context = LocalContext.current
     val kakaoMapView = MapView(context)
@@ -174,23 +174,18 @@ fun JobOfferPreviewScreen(
                     modifier = Modifier.fillMaxWidth(),
                     titleText = jobOffer?.title ?: "",
                     badgeStringList = jobOffer?.caringTypeCodeList?.map { it.value } ?: emptyList(),
-                    timeText = DateTimeUtils.getFormattedTimeAgo(
-                        jobOffer?.jobOfferAuthor?.createdAt?.toLong() ?: 0
-                    )
+                    timeText = ""
                 )
                 InfoBox(
                     modifier = Modifier.fillMaxWidth(),
                     salaryText = "${jobOffer?.salaryTypeCode?.value ?: ""} ${
-                        NumberUtils.getPrice(
-                            jobOffer?.salary.toString()
-                        )
+                        jobOffer?.salary?.let {
+                            NumberUtils.getPriceString(it)
+                        }
                     }",
-                    dateText = "${DateTimeUtils.formatTimestampToMonthDay(jobOffer?.startDate)} ~ ${
-                        DateTimeUtils.formatTimestampToMonthDay(
-                            jobOffer?.endDate
-                        )
-                    } (토,일)",
-                    timeText = "${jobOffer?.startTime} ~ ${jobOffer?.endTime}"
+                    dateText = "${DateTimeUtils.formatTimestampRange(jobOffer?.startDate ?: 0, jobOffer?.endDate ?: 0)}",
+                    timeText = if (jobOffer?.salaryTypeCode == SalaryType.NEGOTIATION) "협의 가능" else
+                        "${jobOffer?.startTime} ~ ${jobOffer?.endTime}"
                 )
 
                 ContentBox(
@@ -198,7 +193,6 @@ fun JobOfferPreviewScreen(
                     photos = jobOffer?.imageList?.map { it.url.toUri() } ?: emptyList(),
                     contentText = jobOffer?.content ?: "",
                     subDescriptionList = listOf(
-                        "${jobOffer?.applicantCount} 명",
                         "관심 ${jobOffer?.likeCount}",
                         "조회 ${jobOffer?.hits}회"
                     )
@@ -251,26 +245,32 @@ fun JobOfferPreviewScreen(
                 ) {
                     ProfileSummary(
                         modifier = Modifier.fillMaxWidth(),
-                        profileUri = "",
-                        nameText = "홍기",
-                        locationText = "New York, NY",
-                        dndnScore = 4.7,
-                        isAuthenticated = true,
-                        dateText = "2일전",
-                        matchCount = 10,
-                        reviewCount = 25,
-                        responseRate = 95,
-                        neighborhoodText = "서초동"
+                        profileUri = jobOffer?.jobOfferAuthor?.profileUrl ?: "",
+                        nameText = jobOffer?.jobOfferAuthor?.nickname ?: "",
+                        locationText = jobOffer?.jobOfferAuthor?.neighborhood ?: "",
+                        dndnScore = jobOffer?.jobOfferAuthor?.dndnScore ?: 0.0,
+                        isAuthenticated = jobOffer?.jobOfferAuthor?.isDnDnAuthenticated ?: false,
+                        dateText = jobOffer?.jobOfferAuthor?.createdAt?.let {
+                            DateTimeUtils.formatTimestampToYearMonthDay(it)
+                        } ?: "",
+                        matchCount = jobOffer?.jobOfferAuthor?.matchingCount ?: 0,
+                        reviewCount = jobOffer?.jobOfferAuthor?.reviewCount ?: 0,
+                        responseRate = jobOffer?.jobOfferAuthor?.responseRate ?: "",
+                        neighborhoodText = jobOffer?.jobOfferAuthor?.neighborhood ?: ""
                     )
-                    ReviewBox(
-                        modifier = Modifier.fillMaxWidth(),
-                        titleText = "가장 최근 후기",
-                        dndnScore = jobOffer?.jobOfferAuthor?.latestReview?.rate ?: 0,
-                        badgeStringList = jobOffer?.jobOfferAuthor?.latestReview?.caringTypeCodeList
-                            ?: emptyList(),
-                        dateText = jobOffer?.jobOfferAuthor?.latestReview?.createdAt.toString(),
-                        contentText = jobOffer?.jobOfferAuthor?.latestReview?.content ?: ""
-                    )
+                    jobOffer?.jobOfferAuthor?.latestReview?.let {
+                        ReviewBox(
+                            modifier = Modifier.fillMaxWidth(),
+                            titleText = "가장 최근 후기",
+                            dndnScore = jobOffer?.jobOfferAuthor?.latestReview?.rate ?: 0,
+                            badgeStringList = jobOffer?.jobOfferAuthor?.latestReview?.caringTypeCodeList
+                                ?: emptyList(),
+                            dateText = jobOffer?.jobOfferAuthor?.latestReview?.createdAt?.let {
+                                DateTimeUtils.formatTimestampToYearMonthDay(it)
+                            } ?: "",
+                            contentText = jobOffer?.jobOfferAuthor?.latestReview?.content ?: ""
+                        )
+                    }
                 }
             }
             Box(

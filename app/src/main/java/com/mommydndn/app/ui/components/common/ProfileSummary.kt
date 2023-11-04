@@ -48,7 +48,7 @@ fun ProfileSummary(
     dateText: String,
     matchCount: Int = 0,
     reviewCount: Int = 0,
-    responseRate: Int = 0,
+    responseRate: String = "",
     neighborhoodText: String = ""
 ) {
     Column(
@@ -257,7 +257,7 @@ fun ProfileDataBox(
     modifier: Modifier = Modifier,
     matchCount: Int = 0,
     reviewCount: Int = 0,
-    responseRate: Int = 0
+    responseRate: String = ""
 ) {
     Box(modifier = modifier.width(342.dp)) {
         Row(
@@ -326,7 +326,7 @@ fun ProfileDataBox(
                         .wrapContentHeight(align = Alignment.CenterVertically)
                 )
                 Text(
-                    text = responseRate.toString() + "%",
+                    text = responseRate + "%",
                     color = Salmon600,
                     style = MaterialTheme.typography.caption200.copy(
                         fontWeight = FontWeight.Normal

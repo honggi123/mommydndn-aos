@@ -15,7 +15,7 @@ enum class DayOfWeekType(val displayingName: String) {
     THU("목"),
     FRI("금"),
     SAT("토"),
-    SUN("일")
+    SUN("일");
 }
 
 data class DayOfWeekItem(
@@ -35,3 +35,4 @@ object DayOfWeekTypeSerializer : KSerializer<DayOfWeekType> {
         return DayOfWeekType.valueOf(decoder.decodeString())
     }
 }
+

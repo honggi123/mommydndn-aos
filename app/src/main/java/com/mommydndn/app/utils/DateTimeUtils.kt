@@ -1,11 +1,14 @@
 package com.mommydndn.app.utils
 
+import android.util.Log
+import com.mommydndn.app.data.model.common.DayOfWeekType
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -18,7 +21,7 @@ object DateTimeUtils {
         val minutesDifference = timeDifferenceMillis / (1000 * 60)
         val hoursDifference = minutesDifference / 60
         val daysDifference = hoursDifference / 24
-
+        Log.e("minutesDifference", minutesDifference.toString())
         return when {
             minutesDifference < 60 -> "$minutesDifference" + "분전"
             hoursDifference < 24 -> "$hoursDifference" + "시간전"
@@ -77,5 +80,59 @@ object DateTimeUtils {
         return ""
     }
 
+    fun formatTimestampToYearMonthDay(timestamp: Long): String {
+        val date = Date(timestamp)
+        val dateFormat = SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault())
+        return dateFormat.format(date)
+    }
+
+    fun formatTimestampRange(startDate: Long, endDate: Long): String {
+        val startCalendar = Calendar.getInstance()
+        startCalendar.timeInMillis = startDate
+
+        val endCalendar = Calendar.getInstance()
+        endCalendar.timeInMillis = endDate
+
+        val startDateFormatter = SimpleDateFormat("M월 d일", java.util.Locale.getDefault())
+
+        val startFormatted = startDateFormatter.format(startCalendar.time)
+
+        val endDateFormatter = SimpleDateFormat("d일", java.util.Locale.getDefault())
+
+        val endFormatted = endDateFormatter.format(endCalendar.time)
+
+        val daysOfWeek = mutableListOf<String>()
+        val daysOfWeekShort = SimpleDateFormat("E", java.util.Locale.getDefault())
+
+        val dayOfWeekKorean = arrayOf("일", "월", "화", "수", "목", "금", "토")
+
+        var current = startCalendar.clone() as Calendar
+        while (current <= endCalendar) {
+            val dayOfWeekShort = daysOfWeekShort.format(current.time)
+            val dayOfWeekKoreanIndex = when (dayOfWeekShort) {
+                "Sun" -> 0
+                "Mon" -> 1
+                "Tue" -> 2
+                "Wed" -> 3
+                "Thu" -> 4
+                "Fri" -> 5
+                "Sat" -> 6
+                else -> -1
+            }
+
+            val dayOfWeekKoreanString = if (dayOfWeekKoreanIndex >= 0) {
+                dayOfWeekKorean[dayOfWeekKoreanIndex]
+            } else {
+                dayOfWeekShort
+            }
+
+            daysOfWeek.add(dayOfWeekKoreanString)
+            current.add(Calendar.DAY_OF_MONTH, 1)
+        }
+
+        val daysOfWeekText = daysOfWeek.distinct().joinToString(",")
+
+        return "$startFormatted ~ $endFormatted ($daysOfWeekText)"
+    }
 
 }
