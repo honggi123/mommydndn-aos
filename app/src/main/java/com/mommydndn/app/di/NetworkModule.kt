@@ -67,11 +67,12 @@ class NetworkModule {
     @TokenRetrofit
     fun provideTokenRetrofit(@TokenOkhttpClient okHttpClient: OkHttpClient): Retrofit {
         val contentType = "application/json".toMediaType()
+        val json = Json { ignoreUnknownKeys = true }
 
         return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(BuildConfig.BASE_URL)
-            .addConverterFactory(Json.asConverterFactory(contentType))
+            .addConverterFactory(json.asConverterFactory(contentType))
             .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
             .build()
     }
@@ -82,11 +83,12 @@ class NetworkModule {
     @DefaultRetrofit
     fun provideDefaultRetrofit(@DefaultOkhttpClient okHttpClient: OkHttpClient): Retrofit {
         val contentType = "application/json".toMediaType()
+        val json = Json { ignoreUnknownKeys = true }
 
         return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(BuildConfig.BASE_URL)
-            .addConverterFactory(Json.asConverterFactory(contentType))
+            .addConverterFactory(json.asConverterFactory(contentType))
             .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
             .build()
     }

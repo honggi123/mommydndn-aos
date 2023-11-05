@@ -22,6 +22,16 @@ class LocationRepositoryImpl @Inject constructor(
     private val mapService: MapService,
     private val kakaoApiService: KakaoApiService
 ) : LocationRepository {
+    override fun fetchEmdByLocation(locationInfo: LocationInfo): Flow<EmdItem?> = flow {
+        mapService.fetchNearestByLocation(
+            latitude = locationInfo.latitude,
+            longitude = locationInfo.longitude
+        ).suspendOnSuccess {
+            emit(data.emdList.get(0))
+        }
+    }.flowOn(Dispatchers.IO)
+
+
     override fun fetchNearestByLocation(
         locationInfo: LocationInfo
     ): Flow<PagingData<EmdItem>> {

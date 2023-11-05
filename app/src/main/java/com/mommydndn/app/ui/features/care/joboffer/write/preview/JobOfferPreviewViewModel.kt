@@ -9,6 +9,7 @@ import com.mommydndn.app.data.api.model.response.JobOfferResponse
 import com.mommydndn.app.data.api.model.response.UserResponse
 import com.mommydndn.app.data.model.map.LocationInfo
 import com.mommydndn.app.data.respository.CaringRepository
+import com.mommydndn.app.data.respository.LocationRepository
 import com.mommydndn.app.data.respository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,7 +24,8 @@ import javax.inject.Inject
 class JobOfferPreviewViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val caringRepository: CaringRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val locationRepository: LocationRepository
 ) : ViewModel() {
 
     private val _jobOffer = MutableStateFlow<JobOfferResponse?>(null)
@@ -42,18 +44,23 @@ class JobOfferPreviewViewModel @Inject constructor(
         viewModelScope.launch {
             caringRepository.fetchJobOffer(jobofferId).collectLatest {
                 _jobOffer.value = it
-//                updateAddress()
+                updateAddress(it.latitude, it.longitude)
             }
         }
     }
 
-//    private fun updateAddress() {
-//        val latitude = _jobOffer.value.latitude
-//        val longitude = _jobOffer.value.longitude
-//
-//
-//        _loactionInfo.value = LocationInfo(latitude = latitude, longitude = longitude)
-//    }
+    private fun updateAddress(latitude: Double, longitude: Double) {
+        viewModelScope.launch {
+
+            if (latitude != null && longitude != null) {
+                val locationInfo = LocationInfo(latitude = latitude, longitude = longitude)
+
+                locationRepository.fetchEmdByLocation(locationInfo).collectLatest { emd ->
+                    _loactionInfo.value = locationInfo.copy(address = emd?.fullName ?: "")
+                }
+            }
+        }
+    }
 
     companion object {
         private const val JOB_OFFER_POST_ID = "jobOfferId"

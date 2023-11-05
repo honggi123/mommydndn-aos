@@ -5,6 +5,8 @@ import androidx.paging.PagingState
 import com.mommydndn.app.data.api.service.MapService
 import com.mommydndn.app.data.model.map.EmdItem
 import com.mommydndn.app.data.model.map.LocationInfo
+import com.skydoves.sandwich.getOrElse
+import com.skydoves.sandwich.getOrNull
 import javax.inject.Inject
 
 private const val STARTING_PAGE_INDEX = 1
@@ -25,7 +27,7 @@ class NearestByLocationPagingSource @Inject constructor(
                     limit = params.loadSize
                 )
 
-            val data = result.body()?.emdList ?: emptyList()
+            val data = result.getOrNull()?.emdList ?: emptyList()
 
             LoadResult.Page(
                 data = data,
