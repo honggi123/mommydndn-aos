@@ -40,7 +40,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import com.kakao.vectormap.MapView
 import com.mommydndn.app.R
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
@@ -52,6 +51,7 @@ import com.mommydndn.app.ui.theme.WhiteOpacity500
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph300
 import kotlinx.coroutines.withContext
+import net.daum.android.map.MapView
 
 
 @Composable

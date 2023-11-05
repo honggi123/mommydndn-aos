@@ -31,6 +31,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -42,14 +43,6 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import com.kakao.vectormap.KakaoMap
-import com.kakao.vectormap.KakaoMapReadyCallback
-import com.kakao.vectormap.LatLng
-import com.kakao.vectormap.MapType
-import com.kakao.vectormap.MapView
-import com.kakao.vectormap.MapViewInfo
-import com.kakao.vectormap.camera.CameraUpdate
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.care.CertificationType
 import com.mommydndn.app.data.model.care.SalaryType
@@ -84,6 +77,7 @@ import com.mommydndn.app.utils.NumberUtils
 import com.mommydndn.app.utils.PermissionUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import net.daum.mf.map.api.MapView
 
 @Composable
 fun JobOfferPreviewScreen(
@@ -102,41 +96,7 @@ fun JobOfferPreviewScreen(
     }
 
     val context = LocalContext.current
-    val kakaoMapView = MapView(context)
-
-    val kakaoMapCallback = object : KakaoMapReadyCallback() {
-        override fun onMapReady(kakaoMap: KakaoMap) {
-            // 인증 후 API가 정상적으로 실행될 때 호출됨
-        }
-
-        override fun getPosition(): LatLng {
-            // 지도 시작 시 위치 좌표를 설정
-            return LatLng.from(37.406960, 127.115587)
-        }
-
-        override fun getZoomLevel(): Int {
-            return 15
-        }
-
-        override fun getMapViewInfo(): MapViewInfo {
-            return MapViewInfo.from("", MapType.NORMAL)
-        }
-
-        override fun getViewName(): String {
-            return "MyFirstMap"
-        }
-
-        override fun isVisible(): Boolean {
-            return true
-        }
-
-        override fun getTag(): String {
-            // KakaoMap의 tag을 설정
-            return "FirstMapTag"
-        }
-    }
-
-    kakaoMapView.start(kakaoMapCallback)
+    val kakaoMapView = remember { MapView(context) }
 
     Column(
         modifier = Modifier
