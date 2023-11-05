@@ -64,7 +64,7 @@ data class CaringReview(
     @SerialName("nickname")
     val nickname: String,
     @SerialName("rate")
-    val rate: Int
+    val rate: Double
 )
 
 @Serializable
@@ -75,7 +75,7 @@ data class Certification(
     @SerialName("certificationTypeCode")
     val certificationTypeCode: CertificationType,
     @SerialName("updatedAt")
-    val updatedAt: Int,
+    val updatedAt: Long,
     @SerialName("userCertificationId")
     val userCertificationId: Int
 )

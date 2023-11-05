@@ -100,5 +100,5 @@ data class LatestReview(
     @SerialName("nickname")
     val nickname: String,
     @SerialName("rate")
-    val rate: Int
+    val rate: Double
 )

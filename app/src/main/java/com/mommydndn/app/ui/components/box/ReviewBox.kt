@@ -33,7 +33,7 @@ import com.mommydndn.app.ui.theme.caption200
 @Composable
 fun ReviewBox(
     modifier: Modifier = Modifier,
-    dndnScore: Int = 0,
+    dndnScore: Double = 0.0,
     titleText: String = "",
     dateText: String = "",
     contentText: String = "",

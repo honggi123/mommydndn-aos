@@ -77,6 +77,11 @@ import com.mommydndn.app.utils.NumberUtils
 import com.mommydndn.app.utils.PermissionUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import net.daum.mf.map.api.CameraPosition
+import net.daum.mf.map.api.CameraUpdate
+import net.daum.mf.map.api.CameraUpdateFactory
+import net.daum.mf.map.api.MapPOIItem
+import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
 
 @Composable
@@ -187,7 +192,9 @@ fun JobOfferPreviewScreen(
                 MapContainerBox(
                     modifier = Modifier.fillMaxWidth(),
                     mapView = kakaoMapView,
-                    addressText = locationInfo?.address ?: ""
+                    addressText = locationInfo?.address ?: "",
+                    latitude = jobOffer?.latitude ?: 37.5666805,
+                    longtitude = jobOffer?.longitude ?: 126.9784147
                 )
             }
             Spacer(
@@ -226,8 +233,7 @@ fun JobOfferPreviewScreen(
                         reviewCount = authorInfo?.reviewCount ?: 0,
                         responseRate = authorInfo?.responseRate ?: "",
                         certificationList = authorInfo?.certificationList?.map {
-                            if (it.certificationTypeCode == CertificationType.MOTHER) authorInfo?.emd?.name + it.certificationName
-                            else it.certificationName
+                            it.certificationName
                         } ?: emptyList()
                     )
                     if (!authorInfo?.caringReviewList.isNullOrEmpty()) {
@@ -235,7 +241,7 @@ fun JobOfferPreviewScreen(
                         ReviewBox(
                             modifier = Modifier.fillMaxWidth(),
                             titleText = "가장 최근 후기",
-                            dndnScore = latestReview?.rate ?: 0,
+                            dndnScore = latestReview?.rate ?: 0.0,
                             badgeStringList = latestReview?.caringTypeCodeList
                                 ?: emptyList(),
                             dateText = latestReview?.createdAt?.let {

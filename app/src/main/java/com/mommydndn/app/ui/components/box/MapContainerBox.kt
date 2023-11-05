@@ -51,14 +51,20 @@ import com.mommydndn.app.ui.theme.WhiteOpacity500
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph300
 import kotlinx.coroutines.withContext
-import net.daum.android.map.MapView
+import net.daum.mf.map.api.MapView
+import net.daum.mf.map.api.CameraPosition
+import net.daum.mf.map.api.CameraUpdateFactory
+import net.daum.mf.map.api.MapPOIItem
+import net.daum.mf.map.api.MapPoint
 
 
 @Composable
 fun MapContainerBox(
     modifier: Modifier = Modifier,
     mapView: MapView,
-    addressText: String = ""
+    addressText: String = "",
+    latitude: Double,
+    longtitude: Double
 ) {
     val mapAspectRatio = 2.23f / 1f
 
@@ -82,7 +88,9 @@ fun MapContainerBox(
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(mapAspectRatio),
-                mapView = mapView
+                mapView = mapView,
+                latitude = latitude,
+                longtitude = longtitude
             )
 
             Column(
@@ -220,8 +228,31 @@ fun MapContainerBox(
 @Composable
 private fun MapViewContainer(
     modifier: Modifier = Modifier,
-    mapView: MapView
+    mapView: MapView,
+    latitude: Double,
+    longtitude: Double
 ) {
+
+    val jobOfferMapPoint = MapPoint.mapPointWithGeoCoord(
+        latitude,
+        longtitude
+    )
+
+    val marker = MapPOIItem().apply {
+        itemName = ""
+        mapPoint = jobOfferMapPoint
+        markerType = MapPOIItem.MarkerType.CustomImage
+        customImageResourceId = R.drawable.ic_map_marker
+        isCustomImageAutoscale = false      // 커스텀 마커 이미지 크기 자동 조정
+
+    }
+
+    val position = CameraPosition(jobOfferMapPoint, 3f)
+
+    mapView.addPOIItem(marker)
+    val cameraUpdate = CameraUpdateFactory.newCameraPosition(position);
+    mapView.moveCamera(cameraUpdate)
+
     Box(
         modifier = modifier
             .fillMaxSize()

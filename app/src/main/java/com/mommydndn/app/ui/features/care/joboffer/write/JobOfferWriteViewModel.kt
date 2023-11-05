@@ -199,7 +199,6 @@ class JobOfferWriteViewModel @Inject constructor(
     }
 
     fun addSelectedPhotos(selectedPhotos: List<Uri>) {
-        Log.e("selectedPhoto", selectedPhotos.get(0).toString())
         _photos.value = _photos.value + selectedPhotos
     }
 
@@ -215,8 +214,8 @@ class JobOfferWriteViewModel @Inject constructor(
             locationRepository.fetchAddressByKeyword(address).collectLatest {
                 val address = it.documents.get(0).address
                 locationInfo = LocationInfo(
-                    latitude = address.x.toDouble(),
-                    longitude = address.y.toDouble()
+                    latitude = address.y.toDouble(),
+                    longitude = address.x.toDouble()
                 )
 
                 _emdItem.value = EmdItem(
