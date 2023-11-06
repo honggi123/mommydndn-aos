@@ -58,6 +58,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.mommydndn.app.R
+import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.WorkPeriodType
 import com.mommydndn.app.data.model.common.ButtonColor
 import com.mommydndn.app.data.model.common.ButtonColorType
@@ -454,7 +455,7 @@ fun JobOfferWriteScreen(
                         viewModel.setSalary(value)
                     },
                     placeHolderText = "10,000",
-                    descriptionText = salaryDescription,
+                    descriptionText = if (salaryTypes.find { it.isSelected }?.salaryType == SalaryType.HOURLY) salaryDescription else "",
                     focusRequester = focusRequester,
                     isError = isSalaryBelowMin
                 )
