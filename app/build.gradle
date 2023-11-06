@@ -39,10 +39,21 @@ android {
         buildConfigField "String", "GOOGLE_CLIENT_SECRET", properties["GOOGLE_CLIENT_SECRET"]
     }
 
+    signingConfigs {
+        release {
+            storeFile file('test.jks')
+            storePassword "mommy5757"
+            keyAlias "test"
+            keyPassword "mommy5757"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
