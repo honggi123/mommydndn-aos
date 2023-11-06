@@ -115,13 +115,15 @@ fun NoticeSettingListModal(
                     text = "닫기",
                     color = ButtonColor.SALMON,
                     colorType = ButtonColorType.WEAK,
-                    sizeType = ButtonSizeType.LARGE
+                    sizeType = ButtonSizeType.LARGE,
+                    onClick = { onDismiss() }
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 MommyDndnButton(
                     text = "알림 받고 시작하기",
                     color = ButtonColor.SALMON,
-                    sizeType = ButtonSizeType.LARGE
+                    sizeType = ButtonSizeType.LARGE,
+                    onClick = { onComplete() }
                 )
             }
         }

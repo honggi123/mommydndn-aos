@@ -241,34 +241,37 @@ fun MainHomeScreen(
         )
     val scope = rememberCoroutineScope()
 
-    ModalBottomSheetLayout(
-        modifier = Modifier,
-        sheetState = sheetState,
-        sheetContentColor = Color.Transparent,
-        sheetBackgroundColor = Color.Transparent,
-        scrimColor = GreyOpacity400,
-        sheetElevation = 0.dp,
-        sheetContent = {
-            NoticeSettingListModal(
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 100.dp),
-                onDismiss = {
-                    scope.launch { sheetState.hide() }
-                },
-                onItemSelected = { index, isChecked ->
+    if (noticeSettings.isNotEmpty()){
+        ModalBottomSheetLayout(
+            modifier = Modifier,
+            sheetState = sheetState,
+            sheetContentColor = Color.Transparent,
+            sheetBackgroundColor = Color.Transparent,
+            scrimColor = GreyOpacity400,
+            sheetElevation = 0.dp,
+            sheetContent = {
+                NoticeSettingListModal(
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 100.dp),
+                    onDismiss = {
+                        scope.launch { sheetState.hide() }
+                    },
+                    onItemSelected = { index, isChecked ->
 
-                },
-                onComplete = { },
-                itemList = noticeSettings,
-                titleCheckBoxText = "꼭 필요한 알림만 보내드릴게요"
+                    },
+                    onComplete = { },
+                    itemList = noticeSettings,
+                    titleCheckBoxText = "꼭 필요한 알림만 보내드릴게요"
+                )
+            }
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Transparent)
             )
         }
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Transparent)
-        )
     }
+
 
 
 }

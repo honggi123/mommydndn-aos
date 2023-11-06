@@ -58,6 +58,9 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.mommydndn.app.R
+import com.mommydndn.app.data.model.care.CaringType
+import com.mommydndn.app.data.model.care.CaringTypeItem
+import com.mommydndn.app.data.model.care.MinHourlySalary
 import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.WorkPeriodType
 import com.mommydndn.app.data.model.common.ButtonColor
@@ -66,6 +69,7 @@ import com.mommydndn.app.data.model.common.ButtonSizeType
 import com.mommydndn.app.data.model.common.ImageInputFieldType
 import com.mommydndn.app.data.model.common.MinMaxRange
 import com.mommydndn.app.data.model.common.SelectButtonContent
+import com.mommydndn.app.data.model.map.EmdItem
 import com.mommydndn.app.ui.components.box.PostTextFieldBox
 import com.mommydndn.app.ui.components.box.SelectButtonScopeBox
 import com.mommydndn.app.ui.components.box.SelectScopeBox
@@ -448,17 +452,22 @@ fun JobOfferWriteScreen(
                     } ?: ""
                 }
 
-                TextInpuField(
-                    label = salaryTypes.find { it.isSelected }?.salaryType?.value ?: "시급",
-                    value = salary?.let { it.toString() } ?: "",
-                    onValueChanged = { value ->
-                        viewModel.setSalary(value)
-                    },
-                    placeHolderText = "10,000",
-                    descriptionText = if (salaryTypes.find { it.isSelected }?.salaryType == SalaryType.HOURLY) salaryDescription else "",
-                    focusRequester = focusRequester,
-                    isError = isSalaryBelowMin
-                )
+                val selectedSalaryType = salaryTypes.find { it.isSelected }
+
+                if (selectedSalaryType?.salaryType != SalaryType.NEGOTIATION) {
+                    TextInpuField(
+                        label = selectedSalaryType?.salaryType?.value ?: "시급",
+                        value = salary?.let { it.toString() } ?: "",
+                        onValueChanged = { value ->
+                            viewModel.setSalary(value)
+                        },
+                        placeHolderText = "10,000",
+                        descriptionText = if (selectedSalaryType?.salaryType == SalaryType.HOURLY) salaryDescription else "",
+                        focusRequester = focusRequester,
+                        isError = isSalaryBelowMin
+                    )
+                }
+
             }
 
             Spacer(
@@ -576,17 +585,59 @@ fun JobOfferWriteScreen(
                     sizeType = ButtonSizeType.LARGE,
                     rangeType = MinMaxRange.MAX,
                     onClick = {
-                        if (careTypes.all { !it.isSelected }) {
-                            coroutineScope.launch {
-                                scaffoldState.snackbarHostState.showSnackbar("돌봄 종류가 선택되지 않았습니다.")
-                            }
-                        } else {
-                            viewModel.createJobOffer(navController, context)
-                        }
+                        val isSuccessful = isValidationSuccessful(
+                            title = title,
+                            emdItem = emdItem,
+                            careTypes = careTypes,
+                            salary = salary,
+                            minHourlySalary = minHourlySalary,
+                            coroutineScope = coroutineScope,
+                            scaffoldState = scaffoldState,
+                            salaryType = salaryTypes.filter { it.isSelected }.map { it.salaryType }
+                                .first()
+                        )
+                        if (isSuccessful) viewModel.createJobOffer(navController, context)
                     }
                 )
             }
         }
+    }
+}
+
+fun isValidationSuccessful(
+    title: String,
+    emdItem: EmdItem?,
+    careTypes: List<CaringTypeItem>,
+    salary: Int?,
+    salaryType: SalaryType,
+    minHourlySalary: MinHourlySalary?,
+    coroutineScope: CoroutineScope,
+    scaffoldState: ScaffoldState
+): Boolean {
+
+    if (minHourlySalary == null) {
+        return false
+    }
+
+    val errorMessage = if (title.isBlank()) {
+        "제목이 입력되지 않았습니다."
+    } else if (emdItem == null) {
+        "일하는 장소가 선택되지 않았습니다."
+    } else if (careTypes.all { !it.isSelected }) {
+        "돌봄 종류가 선택되지 않았습니다."
+    } else if (salaryType != SalaryType.NEGOTIATION && salary == null) {
+        "임금이 입력되지 않았습니다."
+    } else if (salaryType != SalaryType.NEGOTIATION && salary!! < minHourlySalary.minHourlySalary) {
+        "임금은 최저시급 보다 높아야 합니다."
+    } else null
+
+    if (errorMessage == null) {
+        return true
+    } else {
+        coroutineScope.launch {
+            scaffoldState.snackbarHostState.showSnackbar(errorMessage)
+        }
+        return false
     }
 }
 
@@ -602,7 +653,7 @@ private fun createDatePicker(
     return DatePickerDialog(
         context,
         { _: DatePicker, selectedYear: Int, selectedMonth: Int, selectedDayOfMonth: Int ->
-            onDateSelected(selectedYear, selectedMonth, selectedDayOfMonth)
+            onDateSelected(selectedYear, selectedMonth + 1, selectedDayOfMonth)
         },
         year, month, dayOfMonth
     )
