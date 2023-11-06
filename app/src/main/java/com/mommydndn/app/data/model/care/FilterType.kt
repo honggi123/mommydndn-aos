@@ -7,3 +7,9 @@ enum class FilterType {
     PERIOD,
     TIME
 }
+
+data class FilterItem(
+    val type: FilterType,
+    val displayingName: String,
+    val isSelected: Boolean
+)
