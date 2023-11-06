@@ -89,17 +89,17 @@ class JobOfferWriteViewModel @Inject constructor(
     private val _content: MutableStateFlow<String> = MutableStateFlow("")
     val content: StateFlow<String> = _content
 
-    private val _startDate: MutableStateFlow<LocalDate?> = MutableStateFlow(null)
+    private val _startDate: MutableStateFlow<LocalDate?> = MutableStateFlow(LocalDate.now())
     val stratDate: StateFlow<LocalDate?> = _startDate
 
-    private val _endDate: MutableStateFlow<LocalDate?> = MutableStateFlow(null)
+    private val _endDate: MutableStateFlow<LocalDate?> = MutableStateFlow(LocalDate.now())
     val endDate: StateFlow<LocalDate?> = _endDate
 
-    private val _startTime: MutableStateFlow<LocalTime?> = MutableStateFlow(null)
-    val startTime: StateFlow<LocalTime?> = _startTime
+    private val _startTime: MutableStateFlow<LocalTime> = MutableStateFlow(LocalTime.now())
+    val startTime: StateFlow<LocalTime> = _startTime
 
-    private val _endTime: MutableStateFlow<LocalTime?> = MutableStateFlow(null)
-    val endTime: StateFlow<LocalTime?> = _endTime
+    private val _endTime: MutableStateFlow<LocalTime> = MutableStateFlow(LocalTime.now())
+    val endTime: StateFlow<LocalTime> = _endTime
 
     private val _salary: MutableStateFlow<Int?> = MutableStateFlow(null)
     val salary: StateFlow<Int?> = _salary

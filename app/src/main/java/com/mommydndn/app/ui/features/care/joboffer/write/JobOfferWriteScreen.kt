@@ -99,6 +99,7 @@ import com.mommydndn.app.utils.PermissionUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import java.time.LocalTime
 import java.util.Calendar
 
 
@@ -594,7 +595,9 @@ fun JobOfferWriteScreen(
                             coroutineScope = coroutineScope,
                             scaffoldState = scaffoldState,
                             salaryType = salaryTypes.filter { it.isSelected }.map { it.salaryType }
-                                .first()
+                                .first(),
+                            startTime = startTime,
+                            endTime = endTime
                         )
                         if (isSuccessful) viewModel.createJobOffer(navController, context)
                     }
@@ -612,7 +615,9 @@ fun isValidationSuccessful(
     salaryType: SalaryType,
     minHourlySalary: MinHourlySalary?,
     coroutineScope: CoroutineScope,
-    scaffoldState: ScaffoldState
+    scaffoldState: ScaffoldState,
+    startTime: LocalTime,
+    endTime: LocalTime
 ): Boolean {
 
     if (minHourlySalary == null) {
@@ -620,11 +625,13 @@ fun isValidationSuccessful(
     }
 
     val errorMessage = if (title.isBlank()) {
-        "제목이 입력되지 않았습니다."
-    } else if (emdItem == null) {
-        "일하는 장소가 선택되지 않았습니다."
+        "제목을 입력해주세요."
     } else if (careTypes.all { !it.isSelected }) {
-        "돌봄 종류가 선택되지 않았습니다."
+        "돌봄 종류를 선택해주세요."
+    } else if (startTime.compareTo(endTime) >= 0) {
+        "종료 시간을 확인해주세요."
+    } else if (emdItem == null) {
+        "일하는 장소를 선택해주세요."
     } else if (salaryType != SalaryType.NEGOTIATION && salary == null) {
         "임금이 입력되지 않았습니다."
     } else if (salaryType != SalaryType.NEGOTIATION && salary!! < minHourlySalary.minHourlySalary) {
