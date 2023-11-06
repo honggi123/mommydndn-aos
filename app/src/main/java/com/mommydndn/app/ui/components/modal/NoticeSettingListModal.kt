@@ -24,7 +24,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.mommydndn.app.data.model.common.ButtonColor
+import com.mommydndn.app.data.model.common.ButtonColorType
+import com.mommydndn.app.data.model.common.ButtonSizeType
 import com.mommydndn.app.data.model.notice.NoticeSetting
+import com.mommydndn.app.ui.components.button.MommyDndnButton
 import com.mommydndn.app.ui.components.common.CheckBoxListItem
 import com.mommydndn.app.ui.components.common.CheckMarkListItem
 import com.mommydndn.app.ui.theme.Grey200
@@ -107,16 +111,18 @@ fun NoticeSettingListModal(
             Spacer(modifier = Modifier.size(28.dp))
 
             Row(modifier = Modifier.fillMaxWidth()) {
-                Button(modifier = Modifier.weight(1f), onClick = { onDismiss() }) {
-                    Text(text = "닫기", color = Color.Black)
-                }
+                MommyDndnButton(
+                    text = "닫기",
+                    color = ButtonColor.SALMON,
+                    colorType = ButtonColorType.WEAK,
+                    sizeType = ButtonSizeType.LARGE
+                )
                 Spacer(modifier = Modifier.size(12.dp))
-                Button(
-                    modifier = Modifier.weight(1f),
-                    onClick = { onComplete() },
-                ) {
-                    Text(text = "알림 받고 시작하기", color = Color.Black)
-                }
+                MommyDndnButton(
+                    text = "알림 받고 시작하기",
+                    color = ButtonColor.SALMON,
+                    sizeType = ButtonSizeType.LARGE
+                )
             }
         }
 

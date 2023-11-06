@@ -23,6 +23,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Text
 import androidx.compose.material.rememberModalBottomSheetState
@@ -37,6 +38,7 @@ import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.mommydndn.app.R
@@ -50,10 +52,13 @@ import com.mommydndn.app.ui.components.box.MarketListItemBox
 import com.mommydndn.app.ui.components.box.ProfileSitterBox
 import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.components.common.SubBanner
+import com.mommydndn.app.ui.components.modal.NoticeSettingListModal
 import com.mommydndn.app.ui.theme.Grey50
+import com.mommydndn.app.ui.theme.GreyOpacity400
 import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.utils.NavigationUtils
+import kotlinx.coroutines.launch
 
 const val MAX_MORE_BABY_ITEM_PAGE = 4
 
@@ -223,7 +228,6 @@ fun MainHomeScreen(
             SubBanner(modifier = Modifier.fillMaxWidth())
             FooterBox {}
         }
-
     }
 
     val sheetState =
@@ -237,35 +241,34 @@ fun MainHomeScreen(
         )
     val scope = rememberCoroutineScope()
 
-//    ModalBottomSheetLayout(
-//        modifier = Modifier
-//            .zIndex(100f),
-//        sheetState = sheetState,
-//        sheetContentColor = Color.Transparent,
-//        sheetBackgroundColor = Color.Transparent,
-//        scrimColor = GreyOpacity400,
-//        sheetElevation = 0.dp,
-//        sheetContent = {
-//            NoticeSettingListModal(
-//                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 32.dp),
-//                onDismiss = {
-//                    scope.launch { sheetState.hide() }
-//                },
-//                onItemSelected = { index, isChecked ->
-//
-//                },
-//                onComplete = { },
-//                itemList = noticeSettings,
-//                titleCheckBoxText = "꼭 필요한 알림만 보내드릴게요"
-//            )
-//        }
-//    ) {
-//        Box(
-//            modifier = Modifier
-//                .fillMaxSize()
-//                .background(Color.Transparent)
-//        )
-//    }
+    ModalBottomSheetLayout(
+        modifier = Modifier,
+        sheetState = sheetState,
+        sheetContentColor = Color.Transparent,
+        sheetBackgroundColor = Color.Transparent,
+        scrimColor = GreyOpacity400,
+        sheetElevation = 0.dp,
+        sheetContent = {
+            NoticeSettingListModal(
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 100.dp),
+                onDismiss = {
+                    scope.launch { sheetState.hide() }
+                },
+                onItemSelected = { index, isChecked ->
+
+                },
+                onComplete = { },
+                itemList = noticeSettings,
+                titleCheckBoxText = "꼭 필요한 알림만 보내드릴게요"
+            )
+        }
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Transparent)
+        )
+    }
 
 
 }
