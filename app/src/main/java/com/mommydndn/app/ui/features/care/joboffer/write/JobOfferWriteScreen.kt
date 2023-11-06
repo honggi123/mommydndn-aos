@@ -37,12 +37,15 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -88,16 +91,22 @@ import com.mommydndn.app.utils.DateTimeUtils
 import com.mommydndn.app.utils.NavigationUtils
 import com.mommydndn.app.utils.NumberUtils
 import com.mommydndn.app.utils.PermissionUtils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import java.util.Calendar
 
 
 @Composable
 fun JobOfferWriteScreen(
     navController: NavHostController,
-    viewModel: JobOfferWriteViewModel
+    viewModel: JobOfferWriteViewModel,
+    scaffoldState: ScaffoldState
 ) {
     val context = LocalContext.current
     val calendar = Calendar.getInstance()
+
+    val coroutineScope: CoroutineScope = rememberCoroutineScope()
 
     val focusRequester by remember { mutableStateOf(FocusRequester()) }
     val focusManager = LocalFocusManager.current
@@ -421,17 +430,32 @@ fun JobOfferWriteScreen(
 
                 Spacer(modifier = Modifier.height(24.dp))
 
+                var isSalaryBelowMin by remember { mutableStateOf(false) }
+                val minSalary = minHourlySalary?.minHourlySalary
+
+                if (minSalary != null && salary != null) {
+                    if (minSalary > salary!!) isSalaryBelowMin = true
+                    else isSalaryBelowMin = false
+                }
+
+                val salaryDescription = if (isSalaryBelowMin) {
+                    "시급이 최저시급보다 낮습니다."
+                } else {
+                    minSalary?.let {
+                        "2023년 최저시급은 " + NumberUtils.getPriceString(it) + "원이에요"
+                    } ?: ""
+                }
+
                 TextInpuField(
                     label = salaryTypes.find { it.isSelected }?.salaryType?.value ?: "시급",
                     value = salary?.let { it.toString() } ?: "",
-                    onValueChanged = { viewModel.setSalary(it) },
+                    onValueChanged = { value ->
+                        viewModel.setSalary(value)
+                    },
                     placeHolderText = "10,000",
-                    descriptionText = "2023년 최저시급은 " + minHourlySalary?.minHourlySalary?.let {
-                        NumberUtils.getPriceString(
-                            it
-                        )
-                    } + "원이에요",
-                    focusRequester = focusRequester
+                    descriptionText = salaryDescription,
+                    focusRequester = focusRequester,
+                    isError = isSalaryBelowMin
                 )
             }
 
@@ -550,15 +574,19 @@ fun JobOfferWriteScreen(
                     sizeType = ButtonSizeType.LARGE,
                     rangeType = MinMaxRange.MAX,
                     onClick = {
-                        viewModel.createJobOffer(navController, context)
+                        if (careTypes.all { !it.isSelected }) {
+                            coroutineScope.launch {
+                                scaffoldState.snackbarHostState.showSnackbar("돌봄 종류가 선택되지 않았습니다.")
+                            }
+                        } else {
+                            viewModel.createJobOffer(navController, context)
+                        }
                     }
                 )
             }
-
         }
     }
 }
-
 
 private fun createDatePicker(
     calendar: Calendar,

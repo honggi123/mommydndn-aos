@@ -15,7 +15,9 @@ import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -65,8 +67,10 @@ fun MainScreen(
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
+    val scaffoldState = rememberScaffoldState()
 
     Scaffold(
+        scaffoldState = scaffoldState,
         bottomBar = {
             if (MainNav.isMainRoute(currentRoute)) {
                 MainBottomNavigationBar(navController, currentRoute)
@@ -89,7 +93,12 @@ fun MainScreen(
             }
         }
     ) {
-        MainNavigationScreen(navController, googleSignInClient, fusedLocationClient)
+        MainNavigationScreen(
+            navController,
+            googleSignInClient,
+            fusedLocationClient,
+            scaffoldState
+        )
     }
 
 }
@@ -138,11 +147,13 @@ fun MainBottomNavigationBar(
 }
 
 
+
 @Composable
 fun MainNavigationScreen(
     navController: NavHostController,
     googleSignInClient: GoogleSignInClient,
     fusedLocationClient: FusedLocationProviderClient,
+    scaffoldState: ScaffoldState
 ) {
     val signUpViewModel = hiltViewModel<SignUpViewModel>()
     val jobOfferWriteViewModel = hiltViewModel<JobOfferWriteViewModel>()
@@ -215,7 +226,7 @@ fun MainNavigationScreen(
             enterTransition = { slideEnterTransition },
             exitTransition = { slideExitTransition }
         ) {
-            JobOfferWriteScreen(navController = navController, viewModel = jobOfferWriteViewModel)
+            JobOfferWriteScreen(navController = navController, viewModel = jobOfferWriteViewModel, scaffoldState = scaffoldState)
         }
 
         composable(

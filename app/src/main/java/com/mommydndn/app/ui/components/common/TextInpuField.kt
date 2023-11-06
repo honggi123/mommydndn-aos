@@ -87,6 +87,7 @@ fun TextInpuField(
                 focusedIndicatorColor = Salmon500,
                 disabledIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
+                errorCursorColor = Salmon600,
                 errorIndicatorColor = Salmon600,
                 cursorColor = Salmon600,
             ),
@@ -128,7 +129,7 @@ fun TextInpuField(
             text = descriptionText,
             style = MaterialTheme.typography.caption200.copy(
                 fontWeight = FontWeight.Normal,
-                color = Grey400
+                color = if (isError) Salmon600 else Grey400
             )
         )
     }
