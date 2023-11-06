@@ -18,6 +18,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
@@ -69,6 +71,7 @@ fun MainHomeScreen(
     val babyItems by viewModel.babyItems.collectAsState()
     val babyItemsPagingMeta by viewModel.babyItemsPagingMeta.collectAsState()
 
+    val scrollState = rememberScrollState()
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -95,168 +98,130 @@ fun MainHomeScreen(
         }
         )
 
-        LazyColumn {
-            item {
-                BannerList(modifier = Modifier.fillMaxWidth(), items = banners)
+        Column(
+            modifier = Modifier.verticalScroll(
+                scrollState
+            )
+        ) {
+            BannerList(modifier = Modifier.fillMaxWidth(), items = banners)
+
+            SubtextBox(
+                modifier = Modifier.fillMaxWidth(),
+                size = SubtextBoxSize.L,
+                titleText = "가장 가까운 시터님",
+                rightButtonText = "전체보기"
+            )
+            LazyRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 32.dp, top = 28.dp, bottom = 36.dp),
+                horizontalArrangement = Arrangement.spacedBy(32.dp)
+            ) {
+                items(jobSeekers) { item ->
+                    ProfileSitterBox(item = item)
+                }
             }
-            item {
-                SubtextBox(
-                    modifier = Modifier.fillMaxWidth(),
-                    size = SubtextBoxSize.L,
-                    titleText = "가장 가까운 시터님",
-                    rightButtonText = "전체보기"
-                )
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = Grey50)
+                    .padding(20.dp)
+            )
+
+            SubtextBox(
+                size = SubtextBoxSize.L,
+                titleText = "도움이 필요한 주변 이웃",
+                rightButtonText = "더보기",
+                rightButtonOnClick = {
+                    NavigationUtils.navigate(navController, MainNav.Care.route)
+                }
+            )
+            Box(modifier = Modifier.padding(start = 32.dp, top = 28.dp, bottom = 36.dp)) {
                 LazyRow(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 32.dp, top = 28.dp, bottom = 36.dp),
+                        .fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(32.dp)
                 ) {
-                    items(jobSeekers) { item ->
-                        ProfileSitterBox(item = item)
+                    items(jobOffers) { item ->
+                        JobOfferBox(item = item)
                     }
                 }
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(color = Grey50)
-                        .padding(20.dp)
-                )
             }
-            item {
-                SubtextBox(
-                    size = SubtextBoxSize.L,
-                    titleText = "도움이 필요한 주변 이웃",
-                    rightButtonText = "더보기",
-                    rightButtonOnClick = {
-                        NavigationUtils.navigate(navController, MainNav.Care.route)
-                    }
-                )
-                Box(modifier = Modifier.padding(start = 32.dp, top = 28.dp, bottom = 36.dp)) {
-                    LazyRow(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(32.dp)
-                    ) {
-                        items(jobOffers) { item ->
-                            JobOfferBox(item = item)
-                        }
-                    }
-                }
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(color = Grey50)
-                        .padding(20.dp)
-                )
-            }
-//        item {
-//            SubtextBox(size = SubtextBoxSize.L, titleText = "자유수다 추천글")
-//            Column(
-//                modifier = Modifier.padding(start = 32.dp, top = 28.dp, bottom = 36.dp),
-//            ) {
-//                ex3.forEach { item ->
-//                    CommunityPostBox(item = item)
-//                }
-//            }
-//            Button(
-//                modifier = Modifier
-//                    .border(width = 1.dp, color = Color(0xFFF0F2F4))
-//                    .fillMaxWidth(),
-//                onClick = {}
-//            ) {
-//                Text(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .padding(top = 20.dp, bottom = 20.dp),
-//                    text = "더보기",
-//                    style = MaterialTheme.typography.paragraph300.copy(
-//                        fontWeight = FontWeight.Normal,
-//                        color = Salmon600,
-//                        platformStyle = PlatformTextStyle(
-//                            includeFontPadding = false
-//                        )
-//                    ),
-//                    textAlign = TextAlign.Center
-//                )
-//            }
-//            Spacer(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .background(color = Grey50)
-//                    .padding(20.dp)
-//            )
-//        }
-            item {
-                SubtextBox(size = SubtextBoxSize.L, titleText = "집 앞 육아용품 장터")
 
-                Box(modifier = Modifier.fillMaxWidth()) {
-                    Column(
-                        modifier = Modifier.padding(
-                            start = 24.dp,
-                            top = 28.dp,
-                            bottom = 24.dp,
-                            end = 28.dp
-                        ),
-                    ) {
-                        babyItems.chunked(2).forEach { rowItems ->
-                            Row {
-                                rowItems.forEach { item ->
-                                    MarketListItemBox(item = item)
-                                    Spacer(
-                                        modifier = Modifier
-                                            .fillMaxHeight()
-                                            .padding(12.dp)
-                                    )
-                                }
-                            }
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = Grey50)
+                    .padding(20.dp)
+            )
 
-                            Spacer(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(24.dp)
-                            )
-                        }
-                    }
-                }
+            SubtextBox(size = SubtextBoxSize.L, titleText = "집 앞 육아용품 장터")
 
-                if (babyItemsPagingMeta.currentPageNum <= MAX_MORE_BABY_ITEM_PAGE
-                    && babyItemsPagingMeta.totalCount > 6
-                    && ((babyItemsPagingMeta.currentPageNum - 1) * MORE_BABY_ITEM_PAGE_SIZE) + 6 < babyItemsPagingMeta.totalCount
+            Box(modifier = Modifier.fillMaxWidth()) {
+                Column(
+                    modifier = Modifier.padding(
+                        start = 24.dp,
+                        top = 28.dp,
+                        bottom = 24.dp,
+                        end = 28.dp
+                    ),
                 ) {
-                    Button(
-                        modifier = Modifier
-                            .border(width = 1.dp, color = Color(0xFFF0F2F4))
-                            .fillMaxWidth(),
-                        onClick = {
-                            viewModel.fetchMoreBabyItems(currentCount = babyItemsPagingMeta.currentPageNum)
+                    babyItems.chunked(2).forEach { rowItems ->
+                        Row {
+                            rowItems.forEach { item ->
+                                MarketListItemBox(item = item)
+                                Spacer(
+                                    modifier = Modifier
+                                        .fillMaxHeight()
+                                        .padding(12.dp)
+                                )
+                            }
                         }
-                    ) {
-                        Text(
+
+                        Spacer(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(top = 20.dp, bottom = 20.dp),
-                            text = "더보기",
-                            style = MaterialTheme.typography.paragraph300.copy(
-                                fontWeight = FontWeight.Normal,
-                                color = Salmon600
-                            ),
-                            textAlign = TextAlign.Center
+                                .padding(24.dp)
                         )
                     }
                 }
+            }
 
-                Spacer(
+            if (babyItemsPagingMeta.currentPageNum <= MAX_MORE_BABY_ITEM_PAGE
+                && babyItemsPagingMeta.totalCount > 6
+                && ((babyItemsPagingMeta.currentPageNum - 1) * MORE_BABY_ITEM_PAGE_SIZE) + 6 < babyItemsPagingMeta.totalCount
+            ) {
+                Button(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .background(color = Grey50)
-                        .padding(20.dp)
-                )
+                        .border(width = 1.dp, color = Color(0xFFF0F2F4))
+                        .fillMaxWidth(),
+                    onClick = {
+                        viewModel.fetchMoreBabyItems(currentCount = babyItemsPagingMeta.currentPageNum)
+                    }
+                ) {
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 20.dp, bottom = 20.dp),
+                        text = "더보기",
+                        style = MaterialTheme.typography.paragraph300.copy(
+                            fontWeight = FontWeight.Normal,
+                            color = Salmon600
+                        ),
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
-            item {
-                SubBanner(modifier = Modifier.fillMaxWidth())
-                FooterBox {}
-            }
+
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = Grey50)
+                    .padding(20.dp)
+            )
+
+            SubBanner(modifier = Modifier.fillMaxWidth())
+            FooterBox {}
         }
 
     }

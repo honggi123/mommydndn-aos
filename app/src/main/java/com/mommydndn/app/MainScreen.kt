@@ -208,9 +208,7 @@ fun MainNavigationScreen(
         }
 
         composable(
-            route = MainNav.Home.route,
-            enterTransition = { slideEnterTransition },
-            exitTransition = { slideExitTransition }
+            route = MainNav.Home.route
         ) {
             MainHomeScreen(navController = navController)
         }

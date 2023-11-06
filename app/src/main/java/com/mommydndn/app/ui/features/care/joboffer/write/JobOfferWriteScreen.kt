@@ -202,6 +202,7 @@ fun JobOfferWriteScreen(
                 contentDescription = "",
                 modifier = Modifier
                     .size(size = 36.dp)
+                    .clickable { navController.popBackStack() }
             )
         }, centerContent = {
             Text(
