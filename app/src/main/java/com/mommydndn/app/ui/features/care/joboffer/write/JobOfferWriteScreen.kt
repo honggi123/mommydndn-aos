@@ -462,7 +462,7 @@ fun JobOfferWriteScreen(
                             viewModel.setSalary(value)
                         },
                         placeHolderText = "10,000",
-                        descriptionText = if (selectedSalaryType?.salaryType == SalaryType.HOURLY) salaryDescription else "",
+                        descriptionText = if (selectedSalaryType?.salaryType != SalaryType.NEGOTIATION) salaryDescription else "",
                         focusRequester = focusRequester,
                         isError = isSalaryBelowMin
                     )
