@@ -58,7 +58,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.mommydndn.app.R
-import com.mommydndn.app.data.model.care.WorkHoursType
+import com.mommydndn.app.data.model.care.WorkPeriodType
 import com.mommydndn.app.data.model.common.ButtonColor
 import com.mommydndn.app.data.model.common.ButtonColorType
 import com.mommydndn.app.data.model.common.ButtonSizeType
@@ -114,7 +114,7 @@ fun JobOfferWriteScreen(
     val emdItem by viewModel.emdItem.collectAsState()
 
     val careTypes by viewModel.careTypes.collectAsState()
-    val workHoursTypes by viewModel.workHoursTypes.collectAsState()
+    val workPeriodTypes by viewModel.workPeriodTypes.collectAsState()
     val salaryTypes by viewModel.salaryTypes.collectAsState()
     val dayOfWeekTypes by viewModel.dayOfWeekTypes.collectAsState()
 
@@ -297,12 +297,12 @@ fun JobOfferWriteScreen(
                 )
             ) {
                 Row {
-                    workHoursTypes.forEach { type ->
+                    workPeriodTypes.forEach { type ->
                         ClickableChip(
                             modifier = Modifier.height(36.dp),
-                            text = type.workHoursType.value,
+                            text = type.workPeriodType.value,
                             selected = type.isSelected,
-                            onClick = { viewModel.selectWorkHoursType(type) }
+                            onClick = { viewModel.selectWorkPeriodType(type) }
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                     }
@@ -312,7 +312,7 @@ fun JobOfferWriteScreen(
                         .fillMaxWidth()
                         .padding(24.dp)
                 )
-                if (workHoursTypes.find { it.isSelected }?.workHoursType == WorkHoursType.REGULAR) {
+                if (workPeriodTypes.find { it.isSelected }?.workPeriodType == WorkPeriodType.REGULAR) {
                     SelectButtonScopeBox(
                         label = "요일",
                         list = dayOfWeekTypes.map { item ->

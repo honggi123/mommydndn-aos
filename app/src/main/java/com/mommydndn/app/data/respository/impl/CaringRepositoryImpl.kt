@@ -18,7 +18,7 @@ import com.mommydndn.app.data.model.care.JobOfferSummary
 import com.mommydndn.app.data.model.care.JobSeeker
 import com.mommydndn.app.data.model.care.MinHourlySalary
 import com.mommydndn.app.data.model.care.SalaryType
-import com.mommydndn.app.data.model.care.WorkHoursType
+import com.mommydndn.app.data.model.care.WorkPeriodType
 import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.map.EmdItem
 import com.mommydndn.app.data.respository.CaringRepository
@@ -116,7 +116,7 @@ class CaringRepositoryImpl @Inject constructor(
         title: String,
         content: String,
         caringTypeList: List<CaringType>,
-        taskType: WorkHoursType,
+        taskType: WorkPeriodType,
         startDate: LocalDate?,
         endDate: LocalDate?,
         days: List<DayOfWeekItem>,

@@ -7,25 +7,25 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
-enum class WorkHoursType(val value: String) {
+enum class WorkPeriodType(val value: String) {
     ONETIME("단기"),
     REGULAR("정기")
 }
 
-data class WorkHoursTypeItem(
-    val workHoursType: WorkHoursType,
+data class WorkPeriodTypeItem(
+    val workPeriodType: WorkPeriodType,
     var isSelected: Boolean = false
 )
 
-object WorkHourTypeSerializer : KSerializer<WorkHoursType> {
+object WorkPeriodTypeSerializer : KSerializer<WorkPeriodType> {
     override val descriptor: SerialDescriptor =
-        PrimitiveSerialDescriptor("WorkHoursType", PrimitiveKind.STRING)
+        PrimitiveSerialDescriptor("WorkPeriodType", PrimitiveKind.STRING)
 
-    override fun serialize(encoder: Encoder, value: WorkHoursType) {
+    override fun serialize(encoder: Encoder, value: WorkPeriodType) {
         encoder.encodeString(value.name)
     }
 
-    override fun deserialize(decoder: Decoder): WorkHoursType {
-        return WorkHoursType.valueOf(decoder.decodeString())
+    override fun deserialize(decoder: Decoder): WorkPeriodType {
+        return WorkPeriodType.valueOf(decoder.decodeString())
     }
 }

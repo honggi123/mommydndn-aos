@@ -12,7 +12,7 @@ import com.mommydndn.app.data.model.care.JobOfferSummary
 import com.mommydndn.app.data.model.care.JobSeeker
 import com.mommydndn.app.data.model.care.MinHourlySalary
 import com.mommydndn.app.data.model.care.SalaryType
-import com.mommydndn.app.data.model.care.WorkHoursType
+import com.mommydndn.app.data.model.care.WorkPeriodType
 import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.map.EmdItem
 import kotlinx.coroutines.flow.Flow
@@ -40,7 +40,7 @@ interface CaringRepository {
         title: String,
         content: String,
         caringTypeList: List<CaringType>,
-        taskType: WorkHoursType,
+        taskType: WorkPeriodType,
         startDate: LocalDate?,
         endDate: LocalDate?,
         days: List<DayOfWeekItem>,

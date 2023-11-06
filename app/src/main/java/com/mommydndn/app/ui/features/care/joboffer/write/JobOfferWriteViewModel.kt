@@ -16,8 +16,8 @@ import com.mommydndn.app.data.model.care.EtcCheckItem
 import com.mommydndn.app.data.model.care.MinHourlySalary
 import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.SalaryTypeItem
-import com.mommydndn.app.data.model.care.WorkHoursType
-import com.mommydndn.app.data.model.care.WorkHoursTypeItem
+import com.mommydndn.app.data.model.care.WorkPeriodType
+import com.mommydndn.app.data.model.care.WorkPeriodTypeItem
 import com.mommydndn.app.data.model.map.LocationInfo
 import com.mommydndn.app.data.respository.CaringRepository
 import com.mommydndn.app.data.respository.LocationRepository
@@ -50,13 +50,13 @@ class JobOfferWriteViewModel @Inject constructor(
     private var _careTypes: MutableStateFlow<List<CaringTypeItem>> = MutableStateFlow(emptyList())
     val careTypes: StateFlow<List<CaringTypeItem>> = _careTypes
 
-    private var _workHoursTypes: MutableStateFlow<List<WorkHoursTypeItem>> = MutableStateFlow(
+    private var _workPeriodTypes: MutableStateFlow<List<WorkPeriodTypeItem>> = MutableStateFlow(
         listOf(
-            WorkHoursTypeItem(WorkHoursType.ONETIME, true),
-            WorkHoursTypeItem(WorkHoursType.REGULAR)
+            WorkPeriodTypeItem(WorkPeriodType.ONETIME, true),
+            WorkPeriodTypeItem(WorkPeriodType.REGULAR)
         )
     )
-    val workHoursTypes: StateFlow<List<WorkHoursTypeItem>> = _workHoursTypes
+    val workPeriodTypes: StateFlow<List<WorkPeriodTypeItem>> = _workPeriodTypes
 
 
     private var _salaryTypes: MutableStateFlow<List<SalaryTypeItem>> = MutableStateFlow(
@@ -173,8 +173,8 @@ class JobOfferWriteViewModel @Inject constructor(
         _endTime.value = DateTimeUtils.getLocalTime(hour, min)
     }
 
-    fun selectWorkHoursType(selectedTypeItem: WorkHoursTypeItem) {
-        _workHoursTypes.value = _workHoursTypes.value.map { item ->
+    fun selectWorkPeriodType(selectedTypeItem: WorkPeriodTypeItem) {
+        _workPeriodTypes.value = _workPeriodTypes.value.map { item ->
             if (item == selectedTypeItem) item.copy(isSelected = true)
             else item.copy(isSelected = false)
         }
@@ -257,7 +257,7 @@ class JobOfferWriteViewModel @Inject constructor(
                 content = _content.value,
                 caringTypeList = _careTypes.value.filter { it.isSelected }
                     .map { it.caringType },
-                taskType = _workHoursTypes.value.filter { it.isSelected }.map { it.workHoursType }
+                taskType = _workPeriodTypes.value.filter { it.isSelected }.map { it.workPeriodType }
                     .first(),
                 startDate = _startDate.value,
                 endDate = _endDate.value,
