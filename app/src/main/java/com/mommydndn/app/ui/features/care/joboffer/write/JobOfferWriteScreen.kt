@@ -107,6 +107,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
+import java.time.LocalDate
 import java.time.LocalTime
 import java.util.Calendar
 
@@ -155,7 +156,12 @@ fun JobOfferWriteScreen(
         calendar = calendar,
         context = context
     ) { year, month, dayOfMonth ->
-        viewModel.addDate(year, month, dayOfMonth)
+        val selectedDate = LocalDate.of(year, month, dayOfMonth)
+        val isDuplicate = dateList.any { it.isEqual(selectedDate) }
+
+        if (isDuplicate) coroutineScope.launch {
+            scaffoldState.snackbarHostState.showSnackbar("동일한 날짜가 존재합니다.")
+        } else viewModel.addDate(year, month, dayOfMonth)
     }
 
     val startTimePicker = createTimePickerDialog(
