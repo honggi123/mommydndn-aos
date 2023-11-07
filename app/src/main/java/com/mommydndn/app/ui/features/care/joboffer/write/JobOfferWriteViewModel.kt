@@ -89,11 +89,8 @@ class JobOfferWriteViewModel @Inject constructor(
     private val _content: MutableStateFlow<String> = MutableStateFlow("")
     val content: StateFlow<String> = _content
 
-    private val _startDate: MutableStateFlow<LocalDate?> = MutableStateFlow(LocalDate.now())
-    val stratDate: StateFlow<LocalDate?> = _startDate
-
-    private val _endDate: MutableStateFlow<LocalDate?> = MutableStateFlow(LocalDate.now())
-    val endDate: StateFlow<LocalDate?> = _endDate
+    private val _dateList: MutableStateFlow<List<LocalDate>> = MutableStateFlow(listOf())
+    val dateList: StateFlow<List<LocalDate>> = _dateList
 
     private val _startTime: MutableStateFlow<LocalTime> = MutableStateFlow(LocalTime.now())
     val startTime: StateFlow<LocalTime> = _startTime
@@ -144,22 +141,18 @@ class JobOfferWriteViewModel @Inject constructor(
         _content.value = content
     }
 
-    fun setStartDate(
+    fun addDate(
         year: Int,
         month: Int,
         dayOfMonth: Int
     ) {
         val localDate = DateTimeUtils.getLocalDate(year, month, dayOfMonth)
-        _startDate.value = localDate
+
+        _dateList.value = _dateList.value.toMutableList().apply { add(localDate) }
     }
 
-    fun setEndDate(
-        year: Int,
-        month: Int,
-        dayOfMonth: Int
-    ) {
-        val localDate = DateTimeUtils.getLocalDate(year, month, dayOfMonth)
-        _endDate.value = localDate
+    fun removeDate(index: Int) {
+        _dateList.value = _dateList.value.toMutableList().apply { removeAt(index) }
     }
 
     fun setStartTime(

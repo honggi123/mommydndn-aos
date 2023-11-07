@@ -20,8 +20,7 @@ data class JobOfferRequest(
     val caringTypeCodeList: List<@Serializable(with = CaringTypeSerializer::class) CaringType>,
     @Serializable(with = WorkPeriodTypeSerializer::class)
     @SerialName("taskTypeCode") val taskTypeCode: WorkPeriodType,
-    @SerialName("startDate") val startDate: Long?,
-    @SerialName("endDate") val endDate: Long?,
+    @SerialName("dateList") val dateList: List<Long>?,
     @SerialName("days") val days: List<@Serializable(with = DayOfWeekTypeSerializer::class) DayOfWeekType>?,
     @SerialName("startTime") val startTime: String?,
     @SerialName("endTime") val endTime: String?,

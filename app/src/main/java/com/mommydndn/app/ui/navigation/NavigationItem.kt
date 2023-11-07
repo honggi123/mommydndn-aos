@@ -1,5 +1,6 @@
 package com.mommydndn.app.ui.navigation
 
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
@@ -91,7 +92,7 @@ object JobOfferWritePreviewNav : Destination {
 
     fun navigateWithArg(item: JobOfferPreview): String  {
         val arg = GsonUtils.toJson(item)
-        return "$route/$arg"
+        return "${JobOfferWritePreviewNav.route}/$arg"
     }
 
     fun findArgument(navBackStackEntry: NavBackStackEntry): JobOfferPreview? {

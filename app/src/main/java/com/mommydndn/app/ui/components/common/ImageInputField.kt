@@ -80,7 +80,7 @@ fun ImageInputField(
                         .clip(shape = RoundedCornerShape(6.dp)),
                     contentScale = ContentScale.Crop
                 )
-                Icon(
+                Image(
                     painter = painterResource(id = R.drawable.ic_x_circle),
                     contentDescription = "",
                     modifier = Modifier
@@ -90,8 +90,7 @@ fun ImageInputField(
                             y = (-5).dp
                         ).clickable {
                             inputType.onRemoveClick?.let { it() }
-                        },
-                    tint = GreyOpacity400
+                        }
                 )
             }
         }

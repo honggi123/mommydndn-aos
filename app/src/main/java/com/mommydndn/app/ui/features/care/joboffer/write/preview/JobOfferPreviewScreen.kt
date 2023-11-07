@@ -86,6 +86,7 @@ import net.daum.mf.map.api.CameraUpdateFactory
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
+import java.net.URLDecoder
 
 @Composable
 fun JobOfferPreviewScreen(
@@ -93,7 +94,8 @@ fun JobOfferPreviewScreen(
     navController: NavHostController,
     viewModel: JobOfferPreviewViewModel = hiltViewModel()
 ) {
-    val locationInfo by viewModel.loactionInfo.collectAsState()
+
+    Log.e("jobOfferPreview", jobOfferPreview.toString())
     val authorInfo by viewModel.authorInfo.collectAsState()
 
     val context = LocalContext.current
@@ -148,24 +150,18 @@ fun JobOfferPreviewScreen(
                             NumberUtils.getPriceString(it)
                         }
                     }",
-                    dateText = "${
-                        DateTimeUtils.formatLocalDateRange(
-                            jobOfferPreview?.startDate,
-                            jobOfferPreview?.endDate
-                        )
-                    }",
+                    dateText = "",
                     timeText = if (jobOfferPreview?.salaryType == SalaryType.NEGOTIATION) "협의 가능" else
-                        "${jobOfferPreview?.startTime} ~ ${jobOfferPreview?.endTime}"
+                        "${DateTimeUtils.formatLocalTime(jobOfferPreview?.startTime)} ~ ${
+                            DateTimeUtils.formatLocalTime(jobOfferPreview?.endTime)}"
                 )
 
                 ContentBox(
                     infos = jobOfferPreview?.etcCheckedList?.map { it.displayName } ?: emptyList(),
-                    photos = jobOfferPreview?.imageList?.map { it } ?: emptyList(),
+                    photos = jobOfferPreview?.imageList?.map {
+                        URLDecoder.decode(it, "UTF-8").toUri()
+                    } ?: emptyList(),
                     contentText = jobOfferPreview?.content ?: "",
-                    subDescriptionList = listOf(
-                        "관심 0명",
-                        "조회 0회"
-                    )
                 )
 
             }
@@ -189,11 +185,14 @@ fun JobOfferPreviewScreen(
                 MapContainerBox(
                     modifier = Modifier.fillMaxWidth(),
                     mapView = kakaoMapView,
-                    addressText = locationInfo?.address ?: "",
+                    addressText = jobOfferPreview?.emd?.fullName ?: "",
                     latitude = jobOfferPreview?.latitude ?: 37.5666805,
                     longtitude = jobOfferPreview?.longitude ?: 126.9784147,
                     openMapAction = {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("kakaomap://look?p=${jobOfferPreview?.latitude},${jobOfferPreview?.longitude}"))
+                        val intent = Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("kakaomap://look?p=${jobOfferPreview?.latitude},${jobOfferPreview?.longitude}")
+                        )
                         context.startActivity(intent)
                     }
                 )

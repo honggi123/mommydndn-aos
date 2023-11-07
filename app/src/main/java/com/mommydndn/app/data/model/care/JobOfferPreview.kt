@@ -12,8 +12,7 @@ data class JobOfferPreview(
     val content: String,
     val caringTypeList: List<CaringType>,
     val taskType: WorkPeriodType,
-    val startDate: LocalDate?,
-    val endDate: LocalDate?,
+    val dateList: List<LocalDate>?,
     val days: List<DayOfWeekItem>,
     val startTime: LocalTime?,
     val endTime: LocalTime?,
@@ -23,5 +22,5 @@ data class JobOfferPreview(
     val salaryType: SalaryType,
     val salary: Int,
     val etcCheckedList: List<EtcCheckItem>,
-    val imageList: List<Uri>,
+    val imageList: List<String>,
 )

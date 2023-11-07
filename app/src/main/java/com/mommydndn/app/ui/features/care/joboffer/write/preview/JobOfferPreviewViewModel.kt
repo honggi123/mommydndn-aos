@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.compose.runtime.collectAsState
+import androidx.core.net.toUri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -80,9 +81,8 @@ class JobOfferPreviewViewModel @Inject constructor(
                     content = content,
                     caringTypeList = caringTypeList,
                     taskType = taskType,
-                    startDate = startDate,
-                    endDate = endDate,
                     days = days,
+                    dateList = dateList!!,
                     startTime = startTime,
                     endTime = endTime,
                     emd = emd,
@@ -91,7 +91,7 @@ class JobOfferPreviewViewModel @Inject constructor(
                     salaryType = salaryType,
                     salary = salary,
                     etcCheckedList = etcCheckedList,
-                    imageList = convertToImageParts(imageList, context),
+                    imageList = convertToImageParts(imageList.map { it.toUri() }, context),
                 ).collectLatest {
                     NavigationUtils.navigate(
                         navController,

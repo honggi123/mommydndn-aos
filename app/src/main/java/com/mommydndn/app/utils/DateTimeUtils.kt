@@ -143,4 +143,9 @@ object DateTimeUtils {
         calendar.set(Calendar.DAY_OF_MONTH, localDate.dayOfMonth)
         return calendar
     }
+
+    fun formatLocalTime(localTime: LocalTime?): String {
+        val formatter = DateTimeFormatter.ofPattern("HH:mm")
+        return localTime?.format(formatter) ?: ""
+    }
 }

@@ -5,6 +5,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -35,6 +36,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScaffoldState
@@ -48,6 +50,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -71,6 +74,7 @@ import com.mommydndn.app.data.model.common.ImageInputFieldType
 import com.mommydndn.app.data.model.common.MinMaxRange
 import com.mommydndn.app.data.model.common.SelectButtonContent
 import com.mommydndn.app.data.model.map.EmdItem
+import com.mommydndn.app.ui.components.box.DateBox
 import com.mommydndn.app.ui.components.box.PostTextFieldBox
 import com.mommydndn.app.ui.components.box.SelectButtonScopeBox
 import com.mommydndn.app.ui.components.box.SelectScopeBox
@@ -91,6 +95,7 @@ import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.White
+import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.ui.theme.paragraph400
 import com.mommydndn.app.utils.DateTimeUtils
@@ -100,6 +105,8 @@ import com.mommydndn.app.utils.PermissionUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 import java.time.LocalTime
 import java.util.Calendar
 
@@ -128,8 +135,7 @@ fun JobOfferWriteScreen(
     val title by viewModel.title.collectAsState()
     val content by viewModel.content.collectAsState()
 
-    val startDate by viewModel.stratDate.collectAsState()
-    val endDate by viewModel.endDate.collectAsState()
+    val dateList by viewModel.dateList.collectAsState()
 
     val startTime by viewModel.startTime.collectAsState()
     val endTime by viewModel.endTime.collectAsState()
@@ -145,18 +151,11 @@ fun JobOfferWriteScreen(
 
     val etcCheckList by viewModel.etcCheckList.collectAsState()
 
-    val startDatePicker = createDatePicker(
+    val datePicker = createDatePicker(
         calendar = calendar,
         context = context
     ) { year, month, dayOfMonth ->
-        viewModel.setStartDate(year, month, dayOfMonth)
-    }
-
-    val endDatePicker = createDatePicker(
-        calendar = calendar,
-        context = context
-    ) { year, month, dayOfMonth ->
-        viewModel.setEndDate(year, month, dayOfMonth)
+        viewModel.addDate(year, month, dayOfMonth)
     }
 
     val startTimePicker = createTimePickerDialog(
@@ -178,8 +177,7 @@ fun JobOfferWriteScreen(
             viewModel.addSelectedPhotos(uriList)
         }
 
-    startDatePicker.datePicker.minDate = calendar.timeInMillis
-    endDatePicker.datePicker.minDate = calendar.timeInMillis
+    datePicker.datePicker.minDate = calendar.timeInMillis
 
     val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         arrayOf(Manifest.permission.READ_MEDIA_IMAGES)
@@ -316,12 +314,15 @@ fun JobOfferWriteScreen(
                         Spacer(modifier = Modifier.width(8.dp))
                     }
                 }
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(24.dp)
-                )
+
                 if (workPeriodTypes.find { it.isSelected }?.workPeriodType == WorkPeriodType.REGULAR) {
+
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(24.dp)
+                    )
+
                     SelectButtonScopeBox(
                         label = "요일",
                         list = dayOfWeekTypes.map { item ->
@@ -332,20 +333,64 @@ fun JobOfferWriteScreen(
                             )
                         })
                 } else {
-                    SelectScopeBox(
-                        modifier = Modifier.fillMaxWidth(),
-                        label = "날짜",
-                        option1Text = startDate?.let { DateTimeUtils.getLocalDateText(it) }
-                            ?: "오는날짜",
-                        option2Text = endDate?.let { DateTimeUtils.getLocalDateText(it) }
-                            ?: "내일날짜",
-                        onOption1Clicked = { startDatePicker.show() },
-                        onOption2Clicked = { endDatePicker.show() },
-                        isOption1Selected = startDate != null,
-                        isOption2Selected = endDate != null,
-                        isChecked = false,
-                        onCheckedChange = {}
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(6.dp)
                     )
+                    Text(
+                        text = "특정 날짜에 돌봄이 필요한 경우, 단기를 사용해요",
+                        style = MaterialTheme.typography.caption200.copy(
+                            fontWeight = FontWeight.Normal,
+                            color = Grey500
+                        )
+                    )
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(24.dp)
+                    )
+                    Text(
+                        text = "날짜",
+                        style = MaterialTheme.typography.paragraph300.copy(
+                            fontWeight = FontWeight.Bold,
+                            color = Grey500
+                        )
+                    )
+
+                    Spacer(modifier = Modifier.padding(6.dp))
+
+                    MommyDndnButton(
+                        color = ButtonColor.SALMON,
+                        colorType = ButtonColorType.WEAK,
+                        rangeType = MinMaxRange.MAX,
+                        text = "날짜 추가",
+                        onClick = { datePicker.show() },
+                        iconResourceId = R.drawable.ic_plus
+                    )
+
+                    Spacer(modifier = Modifier.padding(6.dp))
+
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(max = 700.dp)
+                            .wrapContentHeight(),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        items(dateList.size) { index ->
+                            DateBox(
+                                modifier = Modifier.weight(1f),
+                                text = DateTimeUtils.getLocalDateText(dateList.get(index)),
+                                isSelected = true,
+                                onClick = {
+                                    viewModel.removeDate(index)
+                                }
+                            )
+                        }
+                    }
                 }
 
                 Spacer(
@@ -613,8 +658,7 @@ fun JobOfferWriteScreen(
                                             .map { it.caringType },
                                         taskType = workPeriodTypes.filter { it.isSelected }
                                             .map { it.workPeriodType }.first(),
-                                        startDate = startDate,
-                                        endDate = endDate,
+                                        dateList = dateList,
                                         days = dayOfWeekTypes.filter { it.isSelected },
                                         startTime = startTime,
                                         endTime = endTime,
@@ -625,9 +669,15 @@ fun JobOfferWriteScreen(
                                             .map { it.salaryType }.first(),
                                         salary = salary ?: 0,
                                         etcCheckedList = etcCheckList.filter { it.isChecked },
-                                        imageList = photos,
+                                        imageList = photos.map {
+                                            URLEncoder.encode(
+                                                it.toString(),
+                                                "UTF-8"
+                                            )
+                                        },
                                     )
                                 )
+
                             )
                         }
                     }
