@@ -87,6 +87,7 @@ import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
 import java.net.URLDecoder
+import java.nio.charset.StandardCharsets
 
 @Composable
 fun JobOfferPreviewScreen(
@@ -95,7 +96,6 @@ fun JobOfferPreviewScreen(
     viewModel: JobOfferPreviewViewModel = hiltViewModel()
 ) {
 
-    Log.e("jobOfferPreview", jobOfferPreview.toString())
     val authorInfo by viewModel.authorInfo.collectAsState()
 
     val context = LocalContext.current
@@ -161,7 +161,7 @@ fun JobOfferPreviewScreen(
                 ContentBox(
                     infos = jobOfferPreview?.etcCheckedList?.map { it.displayName } ?: emptyList(),
                     photos = jobOfferPreview?.imageList?.map {
-                        URLDecoder.decode(it, "UTF-8").toUri()
+                        it.toUri()
                     } ?: emptyList(),
                     contentText = jobOfferPreview?.content ?: "",
                 )
@@ -191,10 +191,14 @@ fun JobOfferPreviewScreen(
                     latitude = jobOfferPreview?.latitude ?: 37.5666805,
                     longtitude = jobOfferPreview?.longitude ?: 126.9784147,
                     openMapAction = {
-                        val intent = Intent(
-                            Intent.ACTION_VIEW,
-                            Uri.parse("kakaomap://look?p=${jobOfferPreview?.latitude},${jobOfferPreview?.longitude}")
-                        )
+
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        intent.data = android.net.Uri.parse("kakaomap://look?p=${jobOfferPreview?.latitude},${jobOfferPreview?.longitude}")
+
+                        if (intent.resolveActivity(context.packageManager) != null) {
+                            context.startActivity(intent)
+                        }
+
                         context.startActivity(intent)
                     }
                 )

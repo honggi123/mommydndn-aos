@@ -5,6 +5,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -58,6 +59,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.mommydndn.app.R
@@ -99,6 +101,7 @@ import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.ui.theme.paragraph400
 import com.mommydndn.app.utils.DateTimeUtils
+import com.mommydndn.app.utils.GsonUtils
 import com.mommydndn.app.utils.NavigationUtils
 import com.mommydndn.app.utils.NumberUtils
 import com.mommydndn.app.utils.PermissionUtils
@@ -653,7 +656,8 @@ fun JobOfferWriteScreen(
                             startTime = startTime,
                             endTime = endTime,
                             dateList = dateList,
-                            workPeriodType = workPeriodTypes.filter { it.isSelected }.map { it.workPeriodType }.first()
+                            workPeriodType = workPeriodTypes.filter { it.isSelected }
+                                .map { it.workPeriodType }.first()
                         )
 
                         if (isSuccessful) {
@@ -678,10 +682,7 @@ fun JobOfferWriteScreen(
                                         salary = salary ?: 0,
                                         etcCheckedList = etcCheckList.filter { it.isChecked },
                                         imageList = photos.map {
-                                            URLEncoder.encode(
-                                                it.toString(),
-                                                "UTF-8"
-                                            )
+                                            Uri.encode(it.toString())
                                         },
                                     )
                                 )
