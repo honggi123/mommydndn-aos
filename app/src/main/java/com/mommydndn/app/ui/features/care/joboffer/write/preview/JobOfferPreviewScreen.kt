@@ -45,6 +45,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.care.CertificationType
+import com.mommydndn.app.data.model.care.JobOfferPreview
 import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.common.ButtonColor
 import com.mommydndn.app.data.model.common.ButtonColorType
@@ -86,19 +87,12 @@ import net.daum.mf.map.api.MapView
 
 @Composable
 fun JobOfferPreviewScreen(
-    postId: Int?,
+    jobOfferPreview: JobOfferPreview?,
     navController: NavHostController,
     viewModel: JobOfferPreviewViewModel = hiltViewModel()
 ) {
-    val jobOffer by viewModel.jobOffer.collectAsState()
     val locationInfo by viewModel.loactionInfo.collectAsState()
     val authorInfo by viewModel.authorInfo.collectAsState()
-
-    LaunchedEffect(key1 = postId) {
-        if (postId != null) {
-            viewModel.updatePostInfo(postId)
-        }
-    }
 
     val context = LocalContext.current
     val kakaoMapView = remember { MapView(context) }
@@ -134,40 +128,41 @@ fun JobOfferPreviewScreen(
             ) {
                 ProfileBar(
                     modifier = Modifier.fillMaxWidth(),
-                    nameText = jobOffer?.jobOfferAuthor?.nickname ?: "",
-                    dndnScore = jobOffer?.jobOfferAuthor?.dndnScore ?: 0.0,
-                    locationText = jobOffer?.jobOfferAuthor?.neighborhood ?: ""
+                    nameText = authorInfo?.nickname ?: "",
+                    dndnScore = authorInfo?.dndnScore ?: 0.0,
+                    locationText = authorInfo?.emd?.fullName ?: ""
                 )
                 TitleSectionBox(
                     modifier = Modifier.fillMaxWidth(),
-                    titleText = jobOffer?.title ?: "",
-                    badgeStringList = jobOffer?.caringTypeCodeList?.map { it.value } ?: emptyList(),
+                    titleText = jobOfferPreview?.title ?: "",
+                    badgeStringList = jobOfferPreview?.caringTypeList?.map { it.value }
+                        ?: emptyList(),
                     timeText = ""
                 )
                 InfoBox(
                     modifier = Modifier.fillMaxWidth(),
-                    salaryText = "${jobOffer?.salaryTypeCode?.value ?: ""} ${
-                        jobOffer?.salary?.let {
+                    salaryText = "${jobOfferPreview?.salaryType?.value ?: ""} ${
+                        jobOfferPreview?.salary?.let {
                             NumberUtils.getPriceString(it)
                         }
                     }",
                     dateText = "${
-                        DateTimeUtils.formatTimestampRange(
-                            jobOffer?.startDate ?: 0,
-                            jobOffer?.endDate ?: 0
+                        DateTimeUtils.formatLocalDateRange(
+                            jobOfferPreview?.startDate,
+                            jobOfferPreview?.endDate
                         )
                     }",
-                    timeText = if (jobOffer?.salaryTypeCode == SalaryType.NEGOTIATION) "협의 가능" else
-                        "${jobOffer?.startTime} ~ ${jobOffer?.endTime}"
+                    timeText = if (jobOfferPreview?.salaryType == SalaryType.NEGOTIATION) "협의 가능" else
+                        "${jobOfferPreview?.startTime} ~ ${jobOfferPreview?.endTime}"
                 )
 
                 ContentBox(
-                    infos = jobOffer?.indOtherConditionCodeList?.map { it.value } ?: emptyList(),
-                    photos = jobOffer?.imageList?.map { it.url.toUri() } ?: emptyList(),
-                    contentText = jobOffer?.content ?: "",
+                    infos = jobOfferPreview?.etcCheckedList?.map { it.displayName } ?: emptyList(),
+                    photos = jobOfferPreview?.imageList?.map { it } ?: emptyList(),
+                    contentText = jobOfferPreview?.content ?: "",
                     subDescriptionList = listOf(
-                        "관심 ${jobOffer?.likeCount}",
-                        "조회 ${jobOffer?.hits}회"
+                        "관심 0명",
+                        "조회 0회"
                     )
                 )
 
@@ -193,8 +188,8 @@ fun JobOfferPreviewScreen(
                     modifier = Modifier.fillMaxWidth(),
                     mapView = kakaoMapView,
                     addressText = locationInfo?.address ?: "",
-                    latitude = jobOffer?.latitude ?: 37.5666805,
-                    longtitude = jobOffer?.longitude ?: 126.9784147
+                    latitude = jobOfferPreview?.latitude ?: 37.5666805,
+                    longtitude = jobOfferPreview?.longitude ?: 126.9784147
                 )
             }
             Spacer(
@@ -270,7 +265,11 @@ fun JobOfferPreviewScreen(
                     colorType = ButtonColorType.FILLED,
                     sizeType = ButtonSizeType.LARGE,
                     rangeType = MinMaxRange.MAX,
-                    onClick = {}
+                    onClick = {
+                        if (jobOfferPreview != null) {
+                            viewModel.createJobOffer(navController, context, jobOfferPreview)
+                        }
+                    }
                 )
             }
         }

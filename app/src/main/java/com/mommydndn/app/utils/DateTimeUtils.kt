@@ -86,12 +86,12 @@ object DateTimeUtils {
         return dateFormat.format(date)
     }
 
-    fun formatTimestampRange(startDate: Long, endDate: Long): String {
-        val startCalendar = Calendar.getInstance()
-        startCalendar.timeInMillis = startDate
+    fun formatLocalDateRange(startDate: LocalDate?, endDate: LocalDate?): String {
+        if (startDate == null && endDate == null) return ""
 
-        val endCalendar = Calendar.getInstance()
-        endCalendar.timeInMillis = endDate
+        val startCalendar = convertLocalDateToCalendar(startDate!!)
+
+        val endCalendar = convertLocalDateToCalendar(endDate!!)
 
         val startDateFormatter = SimpleDateFormat("M월 d일", java.util.Locale.getDefault())
 
@@ -135,4 +135,12 @@ object DateTimeUtils {
         return "$startFormatted ~ $endFormatted ($daysOfWeekText)"
     }
 
+    private fun convertLocalDateToCalendar(localDate: LocalDate): Calendar {
+        val calendar = Calendar.getInstance()
+        calendar.clear()
+        calendar.set(Calendar.YEAR, localDate.year)
+        calendar.set(Calendar.MONTH, localDate.monthValue - 1)
+        calendar.set(Calendar.DAY_OF_MONTH, localDate.dayOfMonth)
+        return calendar
+    }
 }

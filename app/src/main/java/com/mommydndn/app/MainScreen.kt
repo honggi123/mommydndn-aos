@@ -242,10 +242,10 @@ fun MainNavigationScreen(
             enterTransition = { slideEnterTransition },
             exitTransition = { slideExitTransition }
         ) {
-            val postId = JobOfferWritePreviewNav.findArgument(it)?.toInt()
+            val jobOfferPreview = JobOfferWritePreviewNav.findArgument(it)
 
             JobOfferPreviewScreen(
-                postId = postId, navController = navController
+                jobOfferPreview = jobOfferPreview, navController = navController
             )
         }
     }

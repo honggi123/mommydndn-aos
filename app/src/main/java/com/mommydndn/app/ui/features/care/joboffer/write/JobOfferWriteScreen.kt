@@ -60,6 +60,7 @@ import androidx.navigation.NavHostController
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeItem
+import com.mommydndn.app.data.model.care.JobOfferPreview
 import com.mommydndn.app.data.model.care.MinHourlySalary
 import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.WorkPeriodType
@@ -133,6 +134,8 @@ fun JobOfferWriteScreen(
     val startTime by viewModel.startTime.collectAsState()
     val endTime by viewModel.endTime.collectAsState()
     val isTimeNegotiable by viewModel.isTimeNegotiable.collectAsState()
+
+    val locationInfo by viewModel.locationInfo.collectAsState()
 
     val salary by viewModel.salary.collectAsState()
 
@@ -599,7 +602,34 @@ fun JobOfferWriteScreen(
                             startTime = startTime,
                             endTime = endTime
                         )
-                        if (isSuccessful) viewModel.createJobOffer(navController, context)
+
+                        if (isSuccessful) {
+                            NavigationUtils.navigate(
+                                navController, JobOfferWritePreviewNav.navigateWithArg(
+                                    JobOfferPreview(
+                                        title = title,
+                                        content = content,
+                                        caringTypeList = careTypes.filter { it.isSelected }
+                                            .map { it.caringType },
+                                        taskType = workPeriodTypes.filter { it.isSelected }
+                                            .map { it.workPeriodType }.first(),
+                                        startDate = startDate,
+                                        endDate = endDate,
+                                        days = dayOfWeekTypes.filter { it.isSelected },
+                                        startTime = startTime,
+                                        endTime = endTime,
+                                        emd = emdItem!!,
+                                        latitude = locationInfo?.latitude!!,
+                                        longitude = locationInfo?.longitude!!,
+                                        salaryType = salaryTypes.filter { it.isSelected }
+                                            .map { it.salaryType }.first(),
+                                        salary = salary ?: 0,
+                                        etcCheckedList = etcCheckList.filter { it.isChecked },
+                                        imageList = photos,
+                                    )
+                                )
+                            )
+                        }
                     }
                 )
             }

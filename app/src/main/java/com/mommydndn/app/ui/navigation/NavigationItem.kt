@@ -6,6 +6,7 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.mommydndn.app.R
+import com.mommydndn.app.data.model.care.JobOfferPreview
 import com.mommydndn.app.data.model.user.SignUpInfo
 import com.mommydndn.app.ui.navigation.NavigationRouteName.MAIN_CARE
 import com.mommydndn.app.ui.navigation.NavigationRouteName.MAIN_HOME
@@ -80,7 +81,7 @@ object LocationSearchNav : Destination {
 object JobOfferWritePreviewNav : Destination {
     override val route: String = NavigationRouteName.JOB_OFFER_WRITE_PREVIEW
     override val title: String = NavigationTitle.JOB_OFFER_WRITE_PREVIEW
-    val argName: String = "postId"
+    val argName: String = "JobOfferPreview"
 
     fun routeWithArgName() = "${JobOfferWritePreviewNav.route}/{${JobOfferWritePreviewNav.argName}}"
 
@@ -88,14 +89,14 @@ object JobOfferWritePreviewNav : Destination {
         navArgument(argName) { type= NavType.StringType}
     )
 
-    fun navigateWithArg(item: String): String  {
+    fun navigateWithArg(item: JobOfferPreview): String  {
         val arg = GsonUtils.toJson(item)
         return "$route/$arg"
     }
 
-    fun findArgument(navBackStackEntry: NavBackStackEntry): String? {
-        val categoryString = navBackStackEntry.arguments?.getString(argName)
-        return GsonUtils.fromJson<String>(categoryString)
+    fun findArgument(navBackStackEntry: NavBackStackEntry): JobOfferPreview? {
+        val jobOfferString = navBackStackEntry.arguments?.getString(argName)
+        return GsonUtils.fromJson<JobOfferPreview>(jobOfferString)
     }
 }
 

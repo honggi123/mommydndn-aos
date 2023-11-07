@@ -1,16 +1,24 @@
 package com.mommydndn.app.ui.features.care.joboffer.write.preview
 
+import android.content.Context
+import android.net.Uri
 import android.util.Log
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavHostController
 import com.mommydndn.app.data.api.model.response.JobOfferResponse
 import com.mommydndn.app.data.api.model.response.UserResponse
+import com.mommydndn.app.data.model.care.JobOfferPreview
 import com.mommydndn.app.data.model.map.LocationInfo
 import com.mommydndn.app.data.respository.CaringRepository
 import com.mommydndn.app.data.respository.LocationRepository
 import com.mommydndn.app.data.respository.UserRepository
+import com.mommydndn.app.ui.extensions.asMultipart
+import com.mommydndn.app.ui.navigation.JobOfferWritePreviewNav
+import com.mommydndn.app.ui.navigation.MainNav
+import com.mommydndn.app.utils.NavigationUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -18,6 +26,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,8 +37,8 @@ class JobOfferPreviewViewModel @Inject constructor(
     private val locationRepository: LocationRepository
 ) : ViewModel() {
 
-    private val _jobOffer = MutableStateFlow<JobOfferResponse?>(null)
-    val jobOffer: StateFlow<JobOfferResponse?> = _jobOffer
+    private val _jobOfferPreview = MutableStateFlow<JobOfferPreview?>(null)
+    val jobOfferPreview: StateFlow<JobOfferPreview?> = _jobOfferPreview
 
     private val _loactionInfo = MutableStateFlow<LocationInfo?>(null)
     val loactionInfo: StateFlow<LocationInfo?> = _loactionInfo
@@ -40,12 +49,9 @@ class JobOfferPreviewViewModel @Inject constructor(
         initialValue = null
     )
 
-    fun updatePostInfo(jobofferId: Int) {
+    fun updateJobOfferPreview(jobofferPriview: JobOfferPreview) {
         viewModelScope.launch {
-            caringRepository.fetchJobOffer(jobofferId).collectLatest {
-                _jobOffer.value = it
-                updateAddress(it.latitude, it.longitude)
-            }
+            _jobOfferPreview.value = jobofferPriview
         }
     }
 
@@ -59,6 +65,46 @@ class JobOfferPreviewViewModel @Inject constructor(
                     _loactionInfo.value = locationInfo.copy(address = emd?.fullName ?: "")
                 }
             }
+        }
+    }
+
+    fun createJobOffer(
+        navController: NavHostController,
+        context: Context,
+        jobOfferPreview: JobOfferPreview
+    ) {
+        viewModelScope.launch {
+            caringRepository.createJobOffer(
+                title = jobOfferPreview.title,
+                content = jobOfferPreview.content,
+                caringTypeList = jobOfferPreview.caringTypeList,
+                taskType = jobOfferPreview.taskType,
+                startDate = jobOfferPreview.startDate,
+                endDate = jobOfferPreview.endDate,
+                days = jobOfferPreview.days,
+                startTime = jobOfferPreview.startTime,
+                endTime = jobOfferPreview.endTime,
+                emd = jobOfferPreview.emd,
+                latitude = jobOfferPreview.latitude!!,
+                longitude = jobOfferPreview.longitude!!,
+                salaryType = jobOfferPreview.salaryType,
+                salary = jobOfferPreview.salary ?: 0,
+                etcCheckedList = jobOfferPreview.etcCheckedList,
+                imageList = convertToImageParts(jobOfferPreview.imageList, context),
+                onSuccess = {}
+            ).collectLatest {
+                NavigationUtils.navigate(
+                    navController,
+                    MainNav.Care.route,
+                    isLaunchSingleTop = true
+                )
+            }
+        }
+    }
+
+    private fun convertToImageParts(list: List<Uri>, context: Context): List<MultipartBody.Part> {
+        return list.mapIndexedNotNull { index, uri ->
+            uri.asMultipart("file_$index", context)
         }
     }
 

@@ -119,7 +119,10 @@ class JobOfferWriteViewModel @Inject constructor(
     private val _emdItem: MutableStateFlow<EmdItem?> = MutableStateFlow<EmdItem?>(null)
     val emdItem: StateFlow<EmdItem?> = _emdItem
 
-    private var locationInfo: LocationInfo? = null
+    private val _locationInfo: MutableStateFlow<LocationInfo?> =
+        MutableStateFlow<LocationInfo?>(null)
+    val locationInfo: StateFlow<LocationInfo?> = _locationInfo
+
 
     val minHourlySalary: StateFlow<MinHourlySalary?> =
         caringRepository.fetchMinHourlySalary().stateIn(
@@ -213,7 +216,7 @@ class JobOfferWriteViewModel @Inject constructor(
         viewModelScope.launch {
             locationRepository.fetchAddressByKeyword(address).collectLatest {
                 val address = it.documents.get(0).address
-                locationInfo = LocationInfo(
+                _locationInfo.value = LocationInfo(
                     latitude = address.y.toDouble(),
                     longitude = address.x.toDouble()
                 )
@@ -246,48 +249,6 @@ class JobOfferWriteViewModel @Inject constructor(
         }
     }
 
-
-    fun createJobOffer(
-        navHostController: NavHostController,
-        context: Context
-    ) {
-        viewModelScope.launch {
-            caringRepository.createJobOffer(
-                title = _title.value,
-                content = _content.value,
-                caringTypeList = _careTypes.value.filter { it.isSelected }
-                    .map { it.caringType },
-                taskType = _workPeriodTypes.value.filter { it.isSelected }.map { it.workPeriodType }
-                    .first(),
-                startDate = _startDate.value,
-                endDate = _endDate.value,
-                days = _daysOfWeekTypes.value.filter { it.isSelected },
-                startTime = _startTime.value,
-                endTime = _endTime.value,
-                emd = _emdItem.value!!,
-                latitude = locationInfo?.latitude!!,
-                longitude = locationInfo?.longitude!!,
-                salaryType = _salaryTypes.value.filter { it.isSelected }.map { it.salaryType }
-                    .first(),
-                salary = _salary.value ?: 0,
-                etcCheckedList = _etcCheckList.value.filter { it.isChecked },
-                imageList = convertToImageParts(_photos.value, context),
-                onSuccess = {}
-            ).collectLatest {
-                NavigationUtils.navigate(
-                    navHostController,
-                    JobOfferWritePreviewNav.navigateWithArg(it.jobOfferId.toString())
-                )
-            }
-        }
-    }
-
-    private fun convertToImageParts(list: List<Uri>, context: Context): List<MultipartBody.Part> {
-        return list.mapIndexedNotNull { index, uri ->
-            uri.asMultipart("file_$index", context)
-        }
-    }
-
     private fun fetchCaringTypeItems() {
         viewModelScope.launch {
             caringRepository.fetchCaringTypeItems().collect { types ->
@@ -303,10 +264,5 @@ class JobOfferWriteViewModel @Inject constructor(
             }
         }
     }
-
-    companion object {
-        private const val JOB_OFFER_POST_ID = "jobOfferId"
-    }
-
 
 }
