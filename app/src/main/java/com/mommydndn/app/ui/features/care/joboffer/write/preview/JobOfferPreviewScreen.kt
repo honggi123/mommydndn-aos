@@ -1,5 +1,7 @@
 package com.mommydndn.app.ui.features.care.joboffer.write.preview
 
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -189,7 +191,11 @@ fun JobOfferPreviewScreen(
                     mapView = kakaoMapView,
                     addressText = locationInfo?.address ?: "",
                     latitude = jobOfferPreview?.latitude ?: 37.5666805,
-                    longtitude = jobOfferPreview?.longitude ?: 126.9784147
+                    longtitude = jobOfferPreview?.longitude ?: 126.9784147,
+                    openMapAction = {
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("kakaomap://look?p=${jobOfferPreview?.latitude},${jobOfferPreview?.longitude}"))
+                        context.startActivity(intent)
+                    }
                 )
             }
             Spacer(

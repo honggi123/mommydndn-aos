@@ -74,31 +74,33 @@ class JobOfferPreviewViewModel @Inject constructor(
         jobOfferPreview: JobOfferPreview
     ) {
         viewModelScope.launch {
-            caringRepository.createJobOffer(
-                title = jobOfferPreview.title,
-                content = jobOfferPreview.content,
-                caringTypeList = jobOfferPreview.caringTypeList,
-                taskType = jobOfferPreview.taskType,
-                startDate = jobOfferPreview.startDate,
-                endDate = jobOfferPreview.endDate,
-                days = jobOfferPreview.days,
-                startTime = jobOfferPreview.startTime,
-                endTime = jobOfferPreview.endTime,
-                emd = jobOfferPreview.emd,
-                latitude = jobOfferPreview.latitude!!,
-                longitude = jobOfferPreview.longitude!!,
-                salaryType = jobOfferPreview.salaryType,
-                salary = jobOfferPreview.salary ?: 0,
-                etcCheckedList = jobOfferPreview.etcCheckedList,
-                imageList = convertToImageParts(jobOfferPreview.imageList, context),
-                onSuccess = {}
-            ).collectLatest {
-                NavigationUtils.navigate(
-                    navController,
-                    MainNav.Care.route,
-                    isLaunchSingleTop = true
-                )
+            jobOfferPreview.apply {
+                caringRepository.createJobOffer(
+                    title = title,
+                    content = content,
+                    caringTypeList = caringTypeList,
+                    taskType = taskType,
+                    startDate = startDate,
+                    endDate = endDate,
+                    days = days,
+                    startTime = startTime,
+                    endTime = endTime,
+                    emd = emd,
+                    latitude = latitude!!,
+                    longitude = longitude!!,
+                    salaryType = salaryType,
+                    salary = salary,
+                    etcCheckedList = etcCheckedList,
+                    imageList = convertToImageParts(imageList, context),
+                ).collectLatest {
+                    NavigationUtils.navigate(
+                        navController,
+                        MainNav.Care.route,
+                        isLaunchSingleTop = true
+                    )
+                }
             }
+
         }
     }
 

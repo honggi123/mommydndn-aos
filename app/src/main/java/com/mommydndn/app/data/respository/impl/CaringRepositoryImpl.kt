@@ -128,8 +128,7 @@ class CaringRepositoryImpl @Inject constructor(
         salaryType: SalaryType,
         salary: Int,
         etcCheckedList: List<EtcCheckItem>,
-        imageList: List<MultipartBody.Part>,
-        onSuccess: () -> Unit
+        imageList: List<MultipartBody.Part>
     ): Flow<CreateJobOfferResponse> = flow {
 
         val imageIdList = imageList.map {

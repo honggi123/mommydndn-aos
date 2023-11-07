@@ -53,6 +53,5 @@ interface CaringRepository {
         salary: Int,
         etcCheckedList: List<EtcCheckItem>,
         imageList: List<MultipartBody.Part>,
-        onSuccess: () -> Unit
     ): Flow<CreateJobOfferResponse>
 }

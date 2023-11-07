@@ -64,7 +64,8 @@ fun MapContainerBox(
     mapView: MapView,
     addressText: String = "",
     latitude: Double,
-    longtitude: Double
+    longtitude: Double,
+    openMapAction: () -> Unit = {}
 ) {
     val mapAspectRatio = 2.23f / 1f
 
@@ -128,74 +129,16 @@ fun MapContainerBox(
                                 .wrapContentHeight(align = Alignment.CenterVertically)
                         )
                     }
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.Start),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Box(
-                            modifier = Modifier.size(24.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_subway_3),
-                                contentDescription = "",
-                                tint = Color(0xFFEE8D4C)
-                            )
-                            Text(
-                                text = "3",
-                                style = MaterialTheme.typography.paragraph300.copy(
-                                    fontWeight = FontWeight.Medium,
-                                    color = White
-                                )
-                            )
-                        }
-
-
-                        Text(
-                            text = "남부터미널역",
-                            style = MaterialTheme.typography.caption200.copy(
-                                fontWeight = FontWeight.Medium,
-                                color = Grey700
-                            ),
-                            modifier = Modifier
-                                .wrapContentHeight(align = Alignment.CenterVertically)
-                        )
-
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_ellipse),
-                            contentDescription = null,
-                            modifier = Modifier.align(Alignment.CenterVertically)
-                        )
-
-                        Text(
-                            text = "5번 출구",
-                            style = MaterialTheme.typography.caption200.copy(
-                                fontWeight = FontWeight.Normal,
-                                color = Grey600
-                            ),
-                            modifier = Modifier
-                                .wrapContentHeight(align = Alignment.CenterVertically)
-                        )
-
-                        Text(
-                            text = "걸어서 7분",
-                            style = MaterialTheme.typography.caption200.copy(
-                                fontWeight = FontWeight.Normal,
-                                color = Salmon600
-                            ),
-                            modifier = Modifier
-                                .wrapContentHeight(align = Alignment.CenterVertically)
-                        )
-                    }
                 }
                 Divider(
                     color = Grey50,
                     modifier = Modifier
                         .fillMaxWidth()
                 )
-                Box(
+                Button(
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
+                    onClick = { openMapAction() }
                 ) {
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(
