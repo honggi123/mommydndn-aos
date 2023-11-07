@@ -651,7 +651,9 @@ fun JobOfferWriteScreen(
                             salaryType = salaryTypes.filter { it.isSelected }.map { it.salaryType }
                                 .first(),
                             startTime = startTime,
-                            endTime = endTime
+                            endTime = endTime,
+                            dateList = dateList,
+                            workPeriodType = workPeriodTypes.filter { it.isSelected }.map { it.workPeriodType }.first()
                         )
 
                         if (isSuccessful) {
@@ -697,6 +699,8 @@ fun isValidationSuccessful(
     title: String,
     emdItem: EmdItem?,
     careTypes: List<CaringTypeItem>,
+    dateList: List<LocalDate>,
+    workPeriodType: WorkPeriodType,
     salary: Int?,
     salaryType: SalaryType,
     minHourlySalary: MinHourlySalary?,
@@ -714,6 +718,8 @@ fun isValidationSuccessful(
         "제목을 입력해주세요."
     } else if (careTypes.all { !it.isSelected }) {
         "돌봄 종류를 선택해주세요."
+    } else if (workPeriodType == WorkPeriodType.ONETIME && dateList.isEmpty()) {
+        "날짜를 선택해주세요."
     } else if (startTime.compareTo(endTime) >= 0) {
         "종료 시간을 확인해주세요."
     } else if (emdItem == null) {

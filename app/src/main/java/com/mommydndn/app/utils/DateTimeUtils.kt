@@ -56,6 +56,13 @@ object DateTimeUtils {
         return localTime.format(formatter)
     }
 
+    fun formatToMonthDay(
+        localDate: LocalDate
+    ): String {
+        val formatter = DateTimeFormatter.ofPattern("M월 d일", Locale.getDefault())
+        return localDate.format(formatter)
+    }
+
     fun getTimestampByLocalDate(localDate: LocalDate?): Long? {
         val localDateTime = localDate?.atStartOfDay()
         val instant = localDateTime?.toInstant(ZoneOffset.UTC)

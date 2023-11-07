@@ -143,6 +143,8 @@ fun JobOfferPreviewScreen(
                         ?: emptyList(),
                     timeText = ""
                 )
+                val formattedDates = jobOfferPreview?.dateList?.map { DateTimeUtils.formatToMonthDay(it) }
+                val allDateText = formattedDates?.joinToString(", ") ?: ""
                 InfoBox(
                     modifier = Modifier.fillMaxWidth(),
                     salaryText = "${jobOfferPreview?.salaryType?.value ?: ""} ${
@@ -150,7 +152,7 @@ fun JobOfferPreviewScreen(
                             NumberUtils.getPriceString(it)
                         }
                     }",
-                    dateText = "",
+                    dateText = allDateText,
                     timeText = if (jobOfferPreview?.salaryType == SalaryType.NEGOTIATION) "협의 가능" else
                         "${DateTimeUtils.formatLocalTime(jobOfferPreview?.startTime)} ~ ${
                             DateTimeUtils.formatLocalTime(jobOfferPreview?.endTime)}"
