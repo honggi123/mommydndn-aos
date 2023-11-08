@@ -259,7 +259,7 @@ fun JobOfferPreviewScreen(
                             modifier = Modifier.fillMaxWidth(),
                             titleText = "가장 최근 후기",
                             dndnScore = latestReview?.rate ?: 0.0,
-                            badgeStringList = latestReview?.caringTypeCodeList
+                            badgeStringList = latestReview?.caringTypeCodeList?.map { it.value }
                                 ?: emptyList(),
                             dateText = latestReview?.createdAt?.let {
                                 DateTimeUtils.formatTimestampToYearMonthDay(it)

@@ -38,7 +38,7 @@ object DateTimeUtils {
         return LocalDate.of(year, month, dayOfMonth)
     }
 
-    fun getLocalDateText(
+    fun formatLocalDateToDotString(
         localDate: LocalDate
     ): String {
         val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")

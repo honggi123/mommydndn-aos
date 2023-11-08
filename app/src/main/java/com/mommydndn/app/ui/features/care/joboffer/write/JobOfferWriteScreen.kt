@@ -73,6 +73,8 @@ import com.mommydndn.app.data.model.care.WorkPeriodType
 import com.mommydndn.app.data.model.common.ButtonColor
 import com.mommydndn.app.data.model.common.ButtonColorType
 import com.mommydndn.app.data.model.common.ButtonSizeType
+import com.mommydndn.app.data.model.common.DayOfWeekItem
+import com.mommydndn.app.data.model.common.DayOfWeekType
 import com.mommydndn.app.data.model.common.ImageInputFieldType
 import com.mommydndn.app.data.model.common.MinMaxRange
 import com.mommydndn.app.data.model.common.SelectButtonContent
@@ -373,9 +375,9 @@ fun JobOfferWriteScreen(
                     SelectScopeBox(
                         modifier = Modifier.fillMaxWidth(),
                         label = "날짜",
-                        option1Text = startDate?.let { DateTimeUtils.getLocalDateText(it) }
+                        option1Text = startDate?.let { DateTimeUtils.formatLocalDateToDotString(it) }
                             ?: "오는날짜",
-                        option2Text = endDate?.let { DateTimeUtils.getLocalDateText(it) }
+                        option2Text = endDate?.let { DateTimeUtils.formatLocalDateToDotString(it) }
                             ?: "내일날짜",
                         onOption1Clicked = { startDatePicker.show() },
                         onOption2Clicked = { endDatePicker.show() },
@@ -431,7 +433,7 @@ fun JobOfferWriteScreen(
                         items(dateList.size) { index ->
                             DateBox(
                                 modifier = Modifier.weight(1f),
-                                text = DateTimeUtils.getLocalDateText(dateList.get(index)),
+                                text = DateTimeUtils.formatLocalDateToDotString(dateList.get(index)),
                                 isSelected = true,
                                 onClick = {
                                     viewModel.removeDate(index)
@@ -485,7 +487,7 @@ fun JobOfferWriteScreen(
                 SelectField(
                     modifier = Modifier.fillMaxWidth(),
                     label = "주소",
-                    value = emdItem?.fullName ?: "",
+                    value = emdItem?.fullName ?: "주소를 선택해주세요.",
                     isSelected = emdItem != null,
                     onClickSelection = {
                         NavigationUtils.navigate(navController, LocationSearchNav.route)
@@ -683,6 +685,7 @@ fun JobOfferWriteScreen(
                             emdItem = emdItem,
                             careTypes = careTypes,
                             salary = salary,
+                            dayOfWeekTypes = dayOfWeekTypes.filter { it.isSelected },
                             minHourlySalary = minHourlySalary,
                             coroutineScope = coroutineScope,
                             scaffoldState = scaffoldState,
@@ -741,6 +744,7 @@ fun isValidationSuccessful(
     dateList: List<LocalDate>,
     workPeriodType: WorkPeriodType,
     salary: Int?,
+    dayOfWeekTypes: List<DayOfWeekItem>,
     salaryType: SalaryType,
     minHourlySalary: MinHourlySalary?,
     coroutineScope: CoroutineScope,
@@ -759,7 +763,9 @@ fun isValidationSuccessful(
         "돌봄 종류를 선택해주세요."
     } else if (workPeriodType == WorkPeriodType.ONETIME && dateList.isEmpty()) {
         "날짜를 선택해주세요."
-    } else if (startTime.compareTo(endTime) >= 0) {
+    } else if (workPeriodType == WorkPeriodType.REGULAR && dayOfWeekTypes.isEmpty()) {
+        "돌봄 요일을 선택해주세요."
+    } else if (endTime.isBefore(startTime) || (startTime.hour == endTime.hour && startTime.minute == endTime.minute)) {
         "종료 시간을 확인해주세요."
     } else if (emdItem == null) {
         "일하는 장소를 선택해주세요."

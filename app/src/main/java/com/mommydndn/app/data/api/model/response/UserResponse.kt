@@ -1,6 +1,7 @@
 package com.mommydndn.app.data.api.model.response
 
 
+import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeSerializer
 import com.mommydndn.app.data.model.care.CertificationType
 import com.mommydndn.app.data.model.care.CertificationTypeSerializer
@@ -56,7 +57,7 @@ data class CaringReview(
     @SerialName("caringReviewId")
     val caringReviewId: Int,
     @SerialName("caringTypeCodeList")
-    val caringTypeCodeList: List<String>,
+    val caringTypeCodeList: List<@Serializable(with = CaringTypeSerializer::class) CaringType>,
     @SerialName("content")
     val content: String,
     @SerialName("createdAt")
