@@ -13,6 +13,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetLayout
@@ -115,6 +116,7 @@ fun NearestChoiceScreen(
         topBar = {
             Column {
                 Searchbar(
+                    modifier = Modifier.fillMaxWidth(),
                     keyword = keyword,
                     onValueChange = {
                         viewModel.setKeyword(it)
@@ -127,6 +129,7 @@ fun NearestChoiceScreen(
                     searchAction = { }
                 )
                 SearchUnderHeader(
+                    modifier = Modifier.fillMaxWidth(),
                     headerText = if (keyword == "") "근처동네를 찾아왔어요." else "\'" + keyword + "\'" + " 검색결과",
                     searchAction = {
                         checkAndRequestPermissions(

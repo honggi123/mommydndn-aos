@@ -19,6 +19,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mommydndn.app.R
+import com.mommydndn.app.data.model.common.ButtonColor
+import com.mommydndn.app.data.model.common.ButtonColorType
+import com.mommydndn.app.data.model.common.MinMaxRange
+import com.mommydndn.app.ui.components.button.MommyDndnButton
 import com.mommydndn.app.ui.theme.Grey100
 import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
@@ -43,14 +48,13 @@ fun SearchUnderHeader(
                 .padding(start = 24.dp, top = 16.dp, end = 24.dp, bottom = 16.dp)
                 .bottomBorder(1.dp, Grey100)
         ) {
-            // 버튼 컴포넌트로 변경 필요
-            Button(modifier = Modifier
-                .width(342.dp)
-                .height(48.dp),
-                onClick = { searchAction() }
-            ) {
-                Text(text = "현재 위치로 찾기", style = TextStyle(color = Grey700))
-            }
+            MommyDndnButton(
+                text = "현재 위치로 찾기",
+                iconResourceId = R.drawable.ic_navigation,
+                color = ButtonColor.SALMON,
+                colorType = ButtonColorType.WEAK,
+                rangeType = MinMaxRange.MAX
+            )
             Spacer(modifier = Modifier.padding(10.dp))
             Column(
                 modifier = Modifier

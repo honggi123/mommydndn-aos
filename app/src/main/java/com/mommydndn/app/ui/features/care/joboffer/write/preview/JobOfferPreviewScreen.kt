@@ -1,6 +1,8 @@
 package com.mommydndn.app.ui.features.care.joboffer.write.preview
 
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.util.Log
 import android.webkit.WebView
@@ -49,6 +51,7 @@ import com.mommydndn.app.R
 import com.mommydndn.app.data.model.care.CertificationType
 import com.mommydndn.app.data.model.care.JobOfferPreview
 import com.mommydndn.app.data.model.care.SalaryType
+import com.mommydndn.app.data.model.care.WorkPeriodType
 import com.mommydndn.app.data.model.common.ButtonColor
 import com.mommydndn.app.data.model.common.ButtonColorType
 import com.mommydndn.app.data.model.common.ButtonSizeType
@@ -143,8 +146,19 @@ fun JobOfferPreviewScreen(
                         ?: emptyList(),
                     timeText = ""
                 )
-                val formattedDates = jobOfferPreview?.dateList?.map { DateTimeUtils.formatToMonthDay(it) }
-                val allDateText = formattedDates?.joinToString(", ") ?: ""
+
+                val allDateText = if (jobOfferPreview?.taskType == WorkPeriodType.REGULAR) {
+                    DateTimeUtils.formatLocalDateRange(
+                        startDate = jobOfferPreview?.startDate,
+                        endDate = jobOfferPreview?.endDate
+                    )
+                } else {
+                    val formattedDates =
+                        jobOfferPreview?.dateList?.map { DateTimeUtils.formatToMonthDay(it) }
+                    formattedDates?.joinToString(", ") ?: ""
+                }
+
+
                 InfoBox(
                     modifier = Modifier.fillMaxWidth(),
                     salaryText = "${jobOfferPreview?.salaryType?.value ?: ""} ${
@@ -153,9 +167,10 @@ fun JobOfferPreviewScreen(
                         }
                     }",
                     dateText = allDateText,
-                    timeText = if (jobOfferPreview?.salaryType == SalaryType.NEGOTIATION) "협의 가능" else
+                    timeText = if (jobOfferPreview?.isTimeNegotiable == true) "협의 가능" else
                         "${DateTimeUtils.formatLocalTime(jobOfferPreview?.startTime)} ~ ${
-                            DateTimeUtils.formatLocalTime(jobOfferPreview?.endTime)}"
+                            DateTimeUtils.formatLocalTime(jobOfferPreview?.endTime)
+                        }"
                 )
 
                 ContentBox(
@@ -191,15 +206,11 @@ fun JobOfferPreviewScreen(
                     latitude = jobOfferPreview?.latitude ?: 37.5666805,
                     longtitude = jobOfferPreview?.longitude ?: 126.9784147,
                     openMapAction = {
-
-                        val intent = Intent(Intent.ACTION_VIEW)
-                        intent.data = android.net.Uri.parse("kakaomap://look?p=${jobOfferPreview?.latitude},${jobOfferPreview?.longitude}")
-
-                        if (intent.resolveActivity(context.packageManager) != null) {
-                            context.startActivity(intent)
-                        }
-
-                        context.startActivity(intent)
+                        openKakaoMap(
+                            context,
+                            jobOfferPreview?.latitude ?: 37.5666805,
+                            jobOfferPreview?.longitude ?: 126.9784147
+                        )
                     }
                 )
             }
@@ -287,4 +298,21 @@ fun JobOfferPreviewScreen(
     }
 }
 
+private fun openKakaoMap(context: Context, latitude: Double, longitude: Double) {
+    val intent = Intent(Intent.ACTION_VIEW)
+    intent.data =
+        android.net.Uri.parse("kakaomap://look?p=${latitude},${longitude}")
+    intent.addCategory(Intent.CATEGORY_BROWSABLE)
+
+    try {
+        context.getPackageManager()
+            .getPackageInfo("net.daum.android.map", PackageManager.GET_ACTIVITIES)
+    } catch (e: PackageManager.NameNotFoundException) {
+        e.printStackTrace()
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data =
+            android.net.Uri.parse("market://details?id=net.daum.android.map")
+        context.startActivity(intent)
+    }
+}
 

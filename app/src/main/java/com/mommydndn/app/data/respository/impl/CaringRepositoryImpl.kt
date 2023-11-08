@@ -117,8 +117,10 @@ class CaringRepositoryImpl @Inject constructor(
         content: String,
         caringTypeList: List<CaringType>,
         taskType: WorkPeriodType,
-        dateList: List<LocalDate>,
+        dateList: List<LocalDate>?,
         days: List<DayOfWeekItem>,
+        startDate: LocalDate?,
+        endDate: LocalDate?,
         startTime: LocalTime?,
         endTime: LocalTime?,
         emd: EmdItem,
@@ -135,23 +137,49 @@ class CaringRepositoryImpl @Inject constructor(
             id
         }
 
-        val request = JobOfferRequest(
-            title = title,
-            content = content,
-            caringTypeCodeList = caringTypeList,
-            taskTypeCode = taskType,
-            dateList = dateList.map { DateTimeUtils.getTimestampByLocalDate(it) ?: 0 },
-            days = days.map { it.type },
-            startTime = startTime?.let { DateTimeUtils.getLocalTimeText(it) },
-            endTime = endTime?.let { DateTimeUtils.getLocalTimeText(it) },
-            emd = emd,
-            latitude = latitude,
-            longitude = longitude,
-            salaryTypeCode = salaryType,
-            salary = salary,
-            indOtherConditionIdList = etcCheckedList.map { it.id },
-            imageIdList = imageIdList
-        )
+        val request = if (taskType == WorkPeriodType.REGULAR) {
+            JobOfferRequest(
+                title = title,
+                content = content,
+                caringTypeCodeList = caringTypeList,
+                taskTypeCode = taskType,
+                dateList = null,
+                days = days.map { it.type },
+                startTime = startTime?.let { DateTimeUtils.getLocalTimeText(it) },
+                endTime = endTime?.let { DateTimeUtils.getLocalTimeText(it) },
+                emd = emd,
+                latitude = latitude,
+                longitude = longitude,
+                salaryTypeCode = salaryType,
+                salary = salary,
+                indOtherConditionIdList = etcCheckedList.map { it.id },
+                imageIdList = imageIdList,
+                startDate = DateTimeUtils.getTimestampByLocalDate(startDate),
+                endDate = DateTimeUtils.getTimestampByLocalDate(endDate)
+            )
+        } else {
+            JobOfferRequest(
+                title = title,
+                content = content,
+                caringTypeCodeList = caringTypeList,
+                taskTypeCode = taskType,
+                dateList = dateList!!.map { DateTimeUtils.getTimestampByLocalDate(it) ?: 0 },
+                days = null,
+                startTime = startTime?.let { DateTimeUtils.getLocalTimeText(it) },
+                endTime = endTime?.let { DateTimeUtils.getLocalTimeText(it) },
+                emd = emd,
+                latitude = latitude,
+                longitude = longitude,
+                salaryTypeCode = salaryType,
+                salary = salary,
+                indOtherConditionIdList = etcCheckedList.map { it.id },
+                imageIdList = imageIdList,
+                startDate = null,
+                endDate = null
+            )
+        }
+
+
         caringService.craeteJobOffer(request).suspendOnSuccess {
             emit(data)
         }

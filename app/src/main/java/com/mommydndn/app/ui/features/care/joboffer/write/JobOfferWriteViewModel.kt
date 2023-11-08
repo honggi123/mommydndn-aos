@@ -120,6 +120,11 @@ class JobOfferWriteViewModel @Inject constructor(
         MutableStateFlow<LocationInfo?>(null)
     val locationInfo: StateFlow<LocationInfo?> = _locationInfo
 
+    private val _startDate: MutableStateFlow<LocalDate> = MutableStateFlow(LocalDate.now())
+    val startDate: StateFlow<LocalDate> = _startDate
+
+    private val _endDate: MutableStateFlow<LocalDate> = MutableStateFlow(LocalDate.now())
+    val endDate: StateFlow<LocalDate> = _endDate
 
     val minHourlySalary: StateFlow<MinHourlySalary?> =
         caringRepository.fetchMinHourlySalary().stateIn(
@@ -190,6 +195,24 @@ class JobOfferWriteViewModel @Inject constructor(
         }
     }
 
+    fun setStartDate(
+        year: Int,
+        month: Int,
+        dayOfMonth: Int
+    ) {
+        val localDate = DateTimeUtils.getLocalDate(year, month, dayOfMonth)
+        _endDate.value = localDate
+    }
+
+    fun setEndDate(
+        year: Int,
+        month: Int,
+        dayOfMonth: Int
+    ) {
+        val localDate = DateTimeUtils.getLocalDate(year, month, dayOfMonth)
+        _endDate.value = localDate
+    }
+
     fun setSalary(curSalary: String) {
         _salary.value = NumberUtils.getPrice(curSalary)
     }
@@ -242,7 +265,7 @@ class JobOfferWriteViewModel @Inject constructor(
         }
     }
 
-    private fun fetchCaringTypeItems() {
+    fun fetchCaringTypeItems() {
         viewModelScope.launch {
             caringRepository.fetchCaringTypeItems().collect { types ->
                 _careTypes.value = types
@@ -250,7 +273,7 @@ class JobOfferWriteViewModel @Inject constructor(
         }
     }
 
-    private fun fetchEtcCheckList() {
+    fun fetchEtcCheckList() {
         viewModelScope.launch {
             caringRepository.fetchEtcIndividualCheckList().collect {
                 _etcCheckList.value = it

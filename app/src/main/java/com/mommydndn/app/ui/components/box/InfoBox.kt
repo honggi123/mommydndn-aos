@@ -94,10 +94,11 @@ fun InfoBox(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Box(
+                    modifier = Modifier.size(24.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
-                        modifier = Modifier.size(24.dp),
+                        modifier = Modifier.size(18.dp),
                         painter = painterResource(id = R.drawable.ic_circle),
                         contentDescription = "",
                         tint = Grey400

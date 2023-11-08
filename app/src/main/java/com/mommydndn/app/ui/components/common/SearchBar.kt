@@ -125,8 +125,7 @@ fun Searchbar(
                                 modifier = Modifier
                                     .padding(8.dp),
                                 painter = painterResource(id = R.drawable.ic_x_circle),
-                                contentDescription = "",
-                                tint = Grey400
+                                contentDescription = ""
                             )
                         }
                     }

@@ -43,6 +43,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -141,6 +142,9 @@ fun JobOfferWriteScreen(
 
     val dateList by viewModel.dateList.collectAsState()
 
+    val startDate by viewModel.startDate.collectAsState()
+    val endDate by viewModel.endDate.collectAsState()
+
     val startTime by viewModel.startTime.collectAsState()
     val endTime by viewModel.endTime.collectAsState()
     val isTimeNegotiable by viewModel.isTimeNegotiable.collectAsState()
@@ -155,6 +159,11 @@ fun JobOfferWriteScreen(
 
     val etcCheckList by viewModel.etcCheckList.collectAsState()
 
+    LaunchedEffect(key1 = Unit){
+        viewModel.fetchCaringTypeItems()
+        viewModel.fetchEtcCheckList()
+    }
+
     val datePicker = createDatePicker(
         calendar = calendar,
         context = context
@@ -165,6 +174,20 @@ fun JobOfferWriteScreen(
         if (isDuplicate) coroutineScope.launch {
             scaffoldState.snackbarHostState.showSnackbar("동일한 날짜가 존재합니다.")
         } else viewModel.addDate(year, month, dayOfMonth)
+    }
+
+    val startDatePicker = createDatePicker(
+        calendar = calendar,
+        context = context
+    ) { year, month, dayOfMonth ->
+        viewModel.setStartDate(year, month, dayOfMonth)
+    }
+
+    val endDatePicker = createDatePicker(
+        calendar = calendar,
+        context = context
+    ) { year, month, dayOfMonth ->
+        viewModel.setEndDate(year, month, dayOfMonth)
     }
 
     val startTimePicker = createTimePickerDialog(
@@ -180,6 +203,9 @@ fun JobOfferWriteScreen(
     ) { hour, min ->
         viewModel.setEndTime(hour, min)
     }
+
+    startDatePicker.datePicker.minDate = calendar.timeInMillis
+    endDatePicker.datePicker.minDate = calendar.timeInMillis
 
     val takePhotoFromAlbumLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.GetMultipleContents()) { uriList ->
@@ -326,11 +352,7 @@ fun JobOfferWriteScreen(
 
                 if (workPeriodTypes.find { it.isSelected }?.workPeriodType == WorkPeriodType.REGULAR) {
 
-                    Spacer(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(24.dp)
-                    )
+                    Spacer(modifier = Modifier.height(24.dp))
 
                     SelectButtonScopeBox(
                         label = "요일",
@@ -341,12 +363,27 @@ fun JobOfferWriteScreen(
                                 onClick = { viewModel.selectDayOfWeek(item) }
                             )
                         })
-                } else {
-                    Spacer(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(6.dp)
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    SelectScopeBox(
+                        modifier = Modifier.fillMaxWidth(),
+                        label = "날짜",
+                        option1Text = startDate?.let { DateTimeUtils.getLocalDateText(it) }
+                            ?: "오는날짜",
+                        option2Text = endDate?.let { DateTimeUtils.getLocalDateText(it) }
+                            ?: "내일날짜",
+                        onOption1Clicked = { startDatePicker.show() },
+                        onOption2Clicked = { endDatePicker.show() },
+                        isOption1Selected = startDate != null,
+                        isOption2Selected = endDate != null,
+                        isChecked = false,
+                        onCheckedChange = {}
                     )
+
+                } else {
+                    Spacer(modifier = Modifier.height(6.dp))
+
                     Text(
                         text = "특정 날짜에 돌봄이 필요한 경우, 단기를 사용해요",
                         style = MaterialTheme.typography.caption200.copy(
@@ -354,11 +391,9 @@ fun JobOfferWriteScreen(
                             color = Grey500
                         )
                     )
-                    Spacer(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(24.dp)
-                    )
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
                     Text(
                         text = "날짜",
                         style = MaterialTheme.typography.paragraph300.copy(
@@ -378,7 +413,7 @@ fun JobOfferWriteScreen(
                         iconResourceId = R.drawable.ic_plus
                     )
 
-                    Spacer(modifier = Modifier.padding(6.dp))
+                    Spacer(modifier = Modifier.height(6.dp))
 
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
@@ -402,11 +437,8 @@ fun JobOfferWriteScreen(
                     }
                 }
 
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(24.dp)
-                )
+                Spacer(modifier = Modifier.height(24.dp))
+
                 SelectScopeBox(
                     modifier = Modifier.fillMaxWidth(),
                     label = "시간",
@@ -430,7 +462,6 @@ fun JobOfferWriteScreen(
                     .background(color = Grey50)
                     .padding(20.dp)
             )
-
 
             SubtextBox(
                 modifier = Modifier
@@ -684,6 +715,9 @@ fun JobOfferWriteScreen(
                                         imageList = photos.map {
                                             Uri.encode(it.toString())
                                         },
+                                        isTimeNegotiable = isTimeNegotiable,
+                                        startDate = startDate,
+                                        endDate = endDate
                                     )
                                 )
 

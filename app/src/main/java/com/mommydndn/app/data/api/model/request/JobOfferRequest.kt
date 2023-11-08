@@ -22,6 +22,8 @@ data class JobOfferRequest(
     @SerialName("taskTypeCode") val taskTypeCode: WorkPeriodType,
     @SerialName("dateList") val dateList: List<Long>?,
     @SerialName("days") val days: List<@Serializable(with = DayOfWeekTypeSerializer::class) DayOfWeekType>?,
+    @SerialName("startDate") val startDate: Long?,
+    @SerialName("endDate") val endDate: Long?,
     @SerialName("startTime") val startTime: String?,
     @SerialName("endTime") val endTime: String?,
     @SerialName("emd") val emd: EmdItem,
