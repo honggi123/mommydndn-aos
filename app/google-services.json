@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "503626464507",
+    "firebase_url": "https://mommydndn-db8f5-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "mommydndn-db8f5",
+    "storage_bucket": "mommydndn-db8f5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:503626464507:android:8380e217b6bddeb0bcc45e",
+        "android_client_info": {
+          "package_name": "com.mommydndn.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "503626464507-6bq2c8d3v55ip7gk4nc90pso0h9ehaaq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDs9bGg0gYRlBqIEUu2nJjdS__kmT54caU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "503626464507-5rjnbf2mq1kj34ei3qdee9tb6vou89c0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "503626464507-k120ss5m6ma1a73pjv1k7fn682gmlvjk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mommydndn.mommydndn"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:503626464507:android:5330ea3642443f70bcc45e",
+        "android_client_info": {
+          "package_name": "com.mommydndn.mommydndn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "503626464507-a3ksorthrjkqmioj7932cf7dq25rncq5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mommydndn.mommydndn",
+            "certificate_hash": "bad73c033a8a7d325f840942370c6b61825a86b0"
+          }
+        },
+        {
+          "client_id": "503626464507-n5ar75l469ghdq5e6e2lrgfvgjlvs72n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mommydndn.mommydndn",
+            "certificate_hash": "7598c8ab5236e416b5ca507845c7823a8494a984"
+          }
+        },
+        {
+          "client_id": "503626464507-6bq2c8d3v55ip7gk4nc90pso0h9ehaaq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDs9bGg0gYRlBqIEUu2nJjdS__kmT54caU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "503626464507-5rjnbf2mq1kj34ei3qdee9tb6vou89c0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "503626464507-k120ss5m6ma1a73pjv1k7fn682gmlvjk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mommydndn.mommydndn"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
