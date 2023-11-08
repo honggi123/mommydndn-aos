@@ -74,8 +74,13 @@ class JobOfferPreviewViewModel @Inject constructor(
         context: Context,
         jobOfferPreview: JobOfferPreview
     ) {
+
+        val prev = if (jobOfferPreview.isTimeNegotiable) {
+            jobOfferPreview.copy(startTime = null, endTime = null)
+        } else jobOfferPreview
+
         viewModelScope.launch {
-            jobOfferPreview.apply {
+            prev.apply {
                 caringRepository.createJobOffer(
                     title = title,
                     content = content,

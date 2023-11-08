@@ -19,8 +19,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
-const val INITIAL_BABY_ITEM_PAGE_SIZE = 6
-const val MORE_BABY_ITEM_PAGE_SIZE = 20
+const val INITIAL_BABY_ITEM_PAGE_SIZE = 10
+const val MORE_BABY_ITEM_PAGE_SIZE = 10
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(

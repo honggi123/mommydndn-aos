@@ -159,11 +159,6 @@ fun JobOfferWriteScreen(
 
     val etcCheckList by viewModel.etcCheckList.collectAsState()
 
-    LaunchedEffect(key1 = Unit){
-        viewModel.fetchCaringTypeItems()
-        viewModel.fetchEtcCheckList()
-    }
-
     val datePicker = createDatePicker(
         calendar = calendar,
         context = context
@@ -351,6 +346,15 @@ fun JobOfferWriteScreen(
                 }
 
                 if (workPeriodTypes.find { it.isSelected }?.workPeriodType == WorkPeriodType.REGULAR) {
+                    Spacer(modifier = Modifier.height(6.dp))
+
+                    Text(
+                        text = "특정 주기마다 돌봄이 필요한 경우, 정기를 사용해요",
+                        style = MaterialTheme.typography.caption200.copy(
+                            fontWeight = FontWeight.Normal,
+                            color = Grey500
+                        )
+                    )
 
                     Spacer(modifier = Modifier.height(24.dp))
 
