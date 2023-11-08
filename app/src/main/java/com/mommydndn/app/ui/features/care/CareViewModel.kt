@@ -32,7 +32,7 @@ class CareViewModel @Inject constructor(
     )
     val filterItems: StateFlow<List<FilterItem>> = _filterItems
 
-    val searchedJobOfferSummary: Flow<PagingData<JobOfferSummary>> =
-        caringRepository.fetchJobOfferSummary().cachedIn(viewModelScope)
+//    val searchedJobOfferSummary: Flow<PagingData<JobOfferSummary>> =
+//        caringRepository.fetchJobOfferSummary().cachedIn(viewModelScope)
 
 }

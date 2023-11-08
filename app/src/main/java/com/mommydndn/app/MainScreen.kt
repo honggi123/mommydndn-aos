@@ -20,6 +20,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -43,6 +44,7 @@ import com.mommydndn.app.ui.features.care.joboffer.write.JobOfferWriteScreen
 import com.mommydndn.app.ui.features.care.joboffer.write.JobOfferWriteViewModel
 import com.mommydndn.app.ui.features.care.joboffer.write.LocationSearchScreen
 import com.mommydndn.app.ui.features.care.joboffer.write.preview.JobOfferPreviewScreen
+import com.mommydndn.app.ui.features.care.joboffer.write.preview.JobOfferPreviewViewModel
 import com.mommydndn.app.ui.features.home.MainHomeScreen
 import com.mommydndn.app.ui.features.signin.SignInScreen
 import com.mommydndn.app.ui.features.signup.NearestChoiceScreen
@@ -147,7 +149,6 @@ fun MainBottomNavigationBar(
 }
 
 
-
 @Composable
 fun MainNavigationScreen(
     navController: NavHostController,
@@ -156,7 +157,6 @@ fun MainNavigationScreen(
     scaffoldState: ScaffoldState
 ) {
     val signUpViewModel = hiltViewModel<SignUpViewModel>()
-    val jobOfferWriteViewModel = hiltViewModel<JobOfferWriteViewModel>()
 
     val slideEnterTransition = slideInHorizontally(
         initialOffsetX = { -it },
@@ -223,15 +223,29 @@ fun MainNavigationScreen(
             route = JobOfferWriteNav.route,
             enterTransition = { slideEnterTransition },
             exitTransition = { slideExitTransition }
-        ) {
-            JobOfferWriteScreen(navController = navController, viewModel = jobOfferWriteViewModel, scaffoldState = scaffoldState)
+        ) { backStackEntry ->
+            val JobOfferWriteStackEntry = remember(backStackEntry) {
+                navController.getBackStackEntry(JobOfferWriteNav.route)
+            }
+            val jobOfferWriteViewModel =
+                hiltViewModel<JobOfferWriteViewModel>(JobOfferWriteStackEntry)
+            JobOfferWriteScreen(
+                navController = navController,
+                viewModel = jobOfferWriteViewModel,
+                scaffoldState = scaffoldState
+            )
         }
 
         composable(
             route = LocationSearchNav.route,
             enterTransition = { slideEnterTransition },
             exitTransition = { slideExitTransition }
-        ) {
+        ) { backStackEntry ->
+            val JobOfferWriteStackEntry = remember(backStackEntry) {
+                navController.getBackStackEntry(JobOfferWriteNav.route)
+            }
+            val jobOfferWriteViewModel =
+                hiltViewModel<JobOfferWriteViewModel>(JobOfferWriteStackEntry)
             LocationSearchScreen(navController = navController, viewModel = jobOfferWriteViewModel)
         }
 

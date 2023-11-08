@@ -46,7 +46,7 @@ fun CareScreen(
     navController: NavHostController,
     viewModel: CareViewModel = hiltViewModel()
 ) {
-    val pagingJobOfferSummary = viewModel.searchedJobOfferSummary.collectAsLazyPagingItems()
+//    val pagingJobOfferSummary = viewModel.searchedJobOfferSummary.collectAsLazyPagingItems()
     val filterItems by viewModel.filterItems.collectAsState()
 
     Column(
@@ -92,20 +92,20 @@ fun CareScreen(
                 ChipWithBottomArrow(selected = item.isSelected, text = item.displayingName)
             }
         }
-        LazyColumn(
-            modifier = Modifier
-                .width(390.dp)
-                .height(584.dp)
-                .padding(top = 6.dp)
-                .background(White),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            itemsIndexed(pagingJobOfferSummary) { index, item ->
-                if (item != null) {
-                    JobOfferSummaryBox(item = item)
-                }
-            }
-        }
+//        LazyColumn(
+//            modifier = Modifier
+//                .width(390.dp)
+//                .height(584.dp)
+//                .padding(top = 6.dp)
+//                .background(White),
+//            horizontalAlignment = Alignment.CenterHorizontally
+//        ) {
+//            itemsIndexed(pagingJobOfferSummary) { index, item ->
+//                if (item != null) {
+//                    JobOfferSummaryBox(item = item)
+//                }
+//            }
+//        }
     }
 
 
