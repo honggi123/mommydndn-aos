@@ -29,11 +29,7 @@ private val LightColors = lightColors(
 
 @Composable
 fun MommydndnaosTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
-    val colors = if (darkTheme) {
-        DarkColors
-    } else {
-        LightColors
-    }
+    val colors = LightColors
 
     MaterialTheme(
         colors = colors,
