@@ -1,11 +1,47 @@
 package com.mommydndn.app.ui.components.modal.components
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.mommydndn.app.data.model.common.ButtonColor
+import com.mommydndn.app.data.model.common.ButtonColorType
+import com.mommydndn.app.data.model.common.MinMaxRange
+import com.mommydndn.app.ui.components.button.MommyDndnButton
 import com.mommydndn.app.ui.models.dialog.DialogButton
 
 @Composable
 fun DialogButtonsRow(
-    buttons: List<DialogButton>?
+    buttons: List<DialogButton>
 ) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        buttons.forEach {
+            DialogButtonWrapper(it)
+        }
+    }
+}
 
+
+@Composable
+fun DialogButtonWrapper(dialogButton: DialogButton) {
+    when (dialogButton) {
+        is DialogButton.Primary -> MommyDndnButton(
+            color = ButtonColor.SALMON,
+            colorType = ButtonColorType.FILLED,
+            text = dialogButton.title,
+            rangeType = MinMaxRange.MAX
+        )
+
+        is DialogButton.Secondary -> MommyDndnButton(
+            color = ButtonColor.SALMON,
+            colorType = ButtonColorType.FILLED,
+            text = dialogButton.title,
+            rangeType = MinMaxRange.MAX
+        )
+    }
 }

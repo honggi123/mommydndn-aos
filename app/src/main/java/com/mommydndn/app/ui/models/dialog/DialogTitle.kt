@@ -14,7 +14,8 @@ sealed class DialogTitle(
 
     data class Check(
         override val text: String,
-        val action: () -> Unit
+        val isChecked: Boolean,
+        val checkAction: (Boolean) -> Unit
     ) : DialogTitle(text)
 
     data class Location(
