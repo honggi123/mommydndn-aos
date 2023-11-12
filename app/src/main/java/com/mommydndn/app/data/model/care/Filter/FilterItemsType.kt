@@ -11,6 +11,7 @@ sealed class FilterItemsType() {
     ) : FilterItemsType()
 
     data class Caring(
+        val isAllChecked: Boolean,
         val list: List<CaringType>
     ) : FilterItemsType()
 

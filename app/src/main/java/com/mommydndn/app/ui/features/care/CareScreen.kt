@@ -37,6 +37,7 @@ import com.mommydndn.app.data.model.common.TabSize
 import com.mommydndn.app.ui.components.chip.ChipWithBottomArrow
 import com.mommydndn.app.ui.components.common.CustomTab
 import com.mommydndn.app.ui.components.common.Header
+import com.mommydndn.app.ui.components.modal.CaringBottomModal
 import com.mommydndn.app.ui.components.modal.layout.BaseModalBottomSheetLayout
 import com.mommydndn.app.ui.components.modal.SortingBottomModal
 import com.mommydndn.app.ui.theme.Grey700
@@ -157,7 +158,19 @@ private fun getDialogContent(
                 item = FilterItemsType.Sorting(selectedItem.itemsType.list)
             )
         }
-
+        is FilterType.Caring -> {
+            return CaringBottomModal(
+                modifier = Modifier.padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    bottom = 100.dp
+                ),
+                item = FilterItemsType.Caring(
+                    isAllChecked = selectedItem.itemsType.isAllChecked,
+                    list = selectedItem.itemsType.list
+                )
+            )
+        }
         else -> {
             Box {}
         }

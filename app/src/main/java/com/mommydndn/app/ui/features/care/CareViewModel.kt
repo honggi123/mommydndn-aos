@@ -1,6 +1,7 @@
 package com.mommydndn.app.ui.features.care
 
 import androidx.lifecycle.ViewModel
+import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.Filter.FilterItemsType
 import com.mommydndn.app.data.model.care.Filter.FilterType
 import com.mommydndn.app.data.model.care.SortingType
@@ -34,7 +35,14 @@ class CareViewModel @Inject constructor(
 
             FilterType.Caring(
                 displayingName = "돌봄종류",
-                itemsType = FilterItemsType.Caring(list = listOf()),
+                itemsType = FilterItemsType.Caring(
+                    isAllChecked = false, list = listOf(
+                        CaringType.NURSING,
+                        CaringType.SCHOOL,
+                        CaringType.HOUSEKEEPING,
+                        CaringType.PARENTING
+                    )
+                ),
                 isSelected = false
             ),
 
