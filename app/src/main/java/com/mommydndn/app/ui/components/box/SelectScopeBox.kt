@@ -57,19 +57,21 @@ fun SelectScopeBox(
         verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.Top),
         modifier = modifier
     ) {
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start),
-            modifier = Modifier
-                .width(width = 342.dp)
-                .padding(horizontal = 6.dp)
-        ) {
-            Text(
-                text = label,
-                style = MaterialTheme.typography.paragraph300.copy(
-                    fontWeight = FontWeight.Bold,
-                    color = Grey500
+        if(label.isNotBlank()){
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start),
+                modifier = Modifier
+                    .width(width = 342.dp)
+                    .padding(horizontal = 6.dp)
+            ) {
+                Text(
+                    text = label,
+                    style = MaterialTheme.typography.paragraph300.copy(
+                        fontWeight = FontWeight.Bold,
+                        color = Grey500
+                    )
                 )
-            )
+            }
         }
         Row(
             horizontalArrangement = Arrangement.spacedBy(2.dp, Alignment.CenterHorizontally),

@@ -165,7 +165,9 @@ private fun getDialogContent(
                     bottom = 100.dp
                 ),
                 item = FilterItemsType.Sorting(selectedItem.itemsType.list),
-                onClickClose = { closeAction() }
+                onClickClose = {
+                    closeAction()
+                }
             )
         }
 
@@ -180,7 +182,11 @@ private fun getDialogContent(
                     isAllChecked = selectedItem.itemsType.isAllChecked,
                     list = selectedItem.itemsType.list,
                 ),
-                onClickClose = { closeAction() }
+                onClickClose = { closeAction() },
+                onClickComplete = {
+                    closeAction()
+                    viewModel.updateCaringFilter(it)
+                }
             )
         }
 
@@ -219,7 +225,7 @@ private fun getDialogContent(
                 onClickClose = { closeAction() },
                 onClickComplete = {
                     closeAction()
-                    viewModel.updateCaringFilter(it)
+                    viewModel.updateDayFilter(it)
                 }
             )
         }

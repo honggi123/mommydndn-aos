@@ -15,6 +15,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,7 +39,8 @@ fun CaringBottomModal(
     onClickClose: () -> Unit = {},
     onClickComplete: (FilterItemsType.Caring) -> Unit = {}
 ) {
-    val caringItem by remember { mutableStateOf(item.copy()) }
+    var caringItemList by rememberSaveable(Unit) { mutableStateOf(item.list) }
+    var caringItemIsChecked by remember { mutableStateOf(false) }
 
     Box(
         modifier = modifier
@@ -55,7 +58,7 @@ fun CaringBottomModal(
             DialogTitleWrapper(
                 DialogTitle.Check(
                     text = "모든 돌봄종류",
-                    isChecked = caringItem.isAllChecked,
+                    isChecked = caringItemIsChecked,
                     checkAction = {})
             )
 
@@ -69,11 +72,15 @@ fun CaringBottomModal(
             )
 
             Column {
-                caringItem.list.forEachIndexed { index, item ->
+                caringItemList.forEachIndexed { index, item ->
                     CheckMarkListItem(
                         checked = item.isSelected,
-                        onCheckedChange = {},
-                        text = item.value
+                        onCheckedChange = { isChecked ->
+                            caringItemList = caringItemList.toMutableList().also {
+                                it[index] = it[index].copy(isSelected = !it[index].isSelected)
+                            }
+                        },
+                        text = item.displayName
                     )
                 }
             }
@@ -87,7 +94,14 @@ fun CaringBottomModal(
             DialogButtonsRow(
                 listOf(
                     DialogButton.Secondary(title = "닫기", action = { onClickClose() }),
-                    DialogButton.Primary(title = "적용하기", action = { onClickComplete(caringItem) })
+                    DialogButton.Primary(title = "적용하기", action = {
+                        onClickComplete(
+                            FilterItemsType.Caring(
+                                list = caringItemList,
+                                isAllChecked = caringItemIsChecked
+                            )
+                        )
+                    })
                 )
             )
         }

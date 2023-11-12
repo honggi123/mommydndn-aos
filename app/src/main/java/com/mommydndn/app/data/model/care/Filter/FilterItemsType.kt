@@ -3,6 +3,7 @@ package com.mommydndn.app.data.model.care.Filter
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.SortingType
+import com.mommydndn.app.data.model.care.SortingTypeItem
 import com.mommydndn.app.data.model.care.WorkPeriodType
 import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.common.DayOfWeekType
@@ -10,12 +11,12 @@ import java.time.LocalTime
 
 sealed class FilterItemsType() {
     data class Sorting(
-        val list: List<SortingType>
+        val list: List<SortingTypeItem>
     ) : FilterItemsType()
 
     data class Caring(
-        val isAllChecked: Boolean,
-        val list: List<CaringType>
+        val isAllChecked: Boolean = false,
+        var list: List<CaringTypeItem>
     ) : FilterItemsType()
 
     data class NeighborhoodScope(

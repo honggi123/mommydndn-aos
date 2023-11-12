@@ -1,10 +1,13 @@
 package com.mommydndn.app.ui.features.care
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.mommydndn.app.data.model.care.CaringType
+import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.Filter.FilterItemsType
 import com.mommydndn.app.data.model.care.Filter.FilterType
 import com.mommydndn.app.data.model.care.SortingType
+import com.mommydndn.app.data.model.care.SortingTypeItem
 import com.mommydndn.app.data.model.care.WorkPeriodType
 import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.common.DayOfWeekType
@@ -12,6 +15,7 @@ import com.mommydndn.app.data.respository.CaringRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import java.time.LocalTime
 import javax.inject.Inject
 
@@ -27,10 +31,10 @@ class CareViewModel @Inject constructor(
                 displayingName = "최신순",
                 itemsType = FilterItemsType.Sorting(
                     list = listOf(
-                        SortingType.LATEST,
-                        SortingType.MOST_VIEW,
-                        SortingType.HIGHEST_SALARY,
-                        SortingType.CLOSEST
+                        SortingTypeItem(SortingType.LATEST, true),
+                        SortingTypeItem(SortingType.MOST_VIEW),
+                        SortingTypeItem(SortingType.HIGHEST_SALARY),
+                        SortingTypeItem(SortingType.CLOSEST)
                     )
                 ),
                 isSelected = false
@@ -39,12 +43,7 @@ class CareViewModel @Inject constructor(
             FilterType.Caring(
                 displayingName = "돌봄종류",
                 itemsType = FilterItemsType.Caring(
-                    isAllChecked = false, list = listOf(
-                        CaringType.NURSING,
-                        CaringType.SCHOOL,
-                        CaringType.HOUSEKEEPING,
-                        CaringType.PARENTING
-                    )
+                    isAllChecked = false, list = listOf()
                 ),
                 isSelected = false
             ),
@@ -95,9 +94,31 @@ class CareViewModel @Inject constructor(
 //    val searchedJobOfferSummary: Flow<PagingData<JobOfferSummary>> =
 //        caringRepository.fetchJobOfferSummary().cachedIn(viewModelScope)
 
-    fun updateCaringFilter(selectedFilters: FilterItemsType.Day) {
+    init {
+        fetchCaringTypeItems()
+    }
+
+    private fun fetchCaringTypeItems() {
+        viewModelScope.launch {
+            caringRepository.fetchCaringTypeItems().collect { types ->
+                val currentFilterItems = _filterItems.value
+                val caringFilter = currentFilterItems.find { it is FilterType.Caring } as? FilterType.Caring
+
+                caringFilter?.itemsType?.list = types
+
+                _filterItems.value = currentFilterItems
+            }
+        }
+    }
+    fun updateDayFilter(selectedFilters: FilterItemsType.Day) {
         val currentFilterItems = _filterItems.value
         val dayFilter = currentFilterItems.find { it is FilterType.Day } as? FilterType.Day
         dayFilter?.itemsType?.copy(selectedFilters.list)
+    }
+
+    fun updateCaringFilter(selectedFilters: FilterItemsType.Caring) {
+        val currentFilterItems = _filterItems.value
+        val dayFilter = currentFilterItems.find { it is FilterType.Caring } as? FilterType.Caring
+        dayFilter?.itemsType?.copy(isAllChecked = selectedFilters.isAllChecked, list = selectedFilters.list)
     }
 }

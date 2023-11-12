@@ -14,6 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,7 +37,7 @@ fun SortingBottomModal(
     onClickClose: () -> Unit = {},
     onClickComplete: () -> Unit = {}
 ) {
-    val sortingItem by remember { mutableStateOf(item) }
+    var sortingItemList by rememberSaveable(Unit) { mutableStateOf(item.list) }
 
     Box(
         modifier = modifier
@@ -62,14 +64,15 @@ fun SortingBottomModal(
             )
 
             Column {
-                sortingItem.list.forEachIndexed { index, sortingType ->
+                sortingItemList.forEachIndexed { index, item ->
                     RadioListItem(
                         modifier = Modifier.padding(),
-                        checked = sortingType.isSelected,
+                        checked = item.isSelected,
                         onCheckedChange = {
-                            sortingItem.list.get(index).isSelected = !sortingType.isSelected
-                        },
-                        text = sortingType.diaplayingName
+                            sortingItemList = sortingItemList.toMutableList().also {
+                                it[index] = it[index].copy(isSelected = !it[index].isSelected)
+                            }                        },
+                        text = item.sortingType.diaplayingName
                     )
                 }
             }
@@ -82,9 +85,8 @@ fun SortingBottomModal(
 
             DialogButtonsRow(
                 listOf(
-                    DialogButton.Secondary(
-                        title = "닫기",
-                        action = { onClickComplete() })
+                    DialogButton.Secondary(title = "닫기", action = { onClickClose() }),
+                    DialogButton.Primary(title = "적용하기", action = { onClickComplete() })
                 )
             )
         }
