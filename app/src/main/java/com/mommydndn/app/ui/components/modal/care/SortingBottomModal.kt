@@ -1,7 +1,6 @@
-package com.mommydndn.app.ui.components.modal
+package com.mommydndn.app.ui.components.modal.care
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,8 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,17 +17,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.data.model.care.Filter.FilterItemsType
 import com.mommydndn.app.ui.components.common.RadioListItem
 import com.mommydndn.app.ui.components.modal.components.DialogButtonsRow
+import com.mommydndn.app.ui.components.modal.components.DialogTitleWrapper
 import com.mommydndn.app.ui.models.dialog.DialogButton
+import com.mommydndn.app.ui.models.dialog.DialogTitle
 import com.mommydndn.app.ui.theme.Grey50
-import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.White
-import com.mommydndn.app.ui.theme.paragraph400
 import com.mommydndn.app.ui.theme.shadow700
 
 @Composable
@@ -52,16 +47,8 @@ fun SortingBottomModal(
                 .wrapContentSize()
                 .padding(start = 20.dp, top = 36.dp, end = 20.dp, bottom = 24.dp),
         ) {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                text = "정렬순",
-                style = MaterialTheme.typography.paragraph400.copy(
-                    fontWeight = FontWeight.Bold,
-                    color = Grey700
-                ),
-                textAlign = TextAlign.Start
-            )
+
+            DialogTitleWrapper(DialogTitle.Default(text = "정렬순"))
 
             Divider(
                 thickness = 1.5.dp,
@@ -81,6 +68,8 @@ fun SortingBottomModal(
                     }, text = sortingType.diaplayingName)
                 }
             }
+            
+            Spacer(modifier = Modifier.fillMaxWidth().height(28.dp))
 
             DialogButtonsRow(listOf(DialogButton.Secondary(title = "닫기", action = {})))
         }

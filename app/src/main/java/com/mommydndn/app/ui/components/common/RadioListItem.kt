@@ -54,15 +54,14 @@ fun RadioListItem(
             modifier = modifier
                 .width(342.dp)
                 .wrapContentHeight()
-                .background(color = if (checked) Grey50 else White, shape = Shapes.large)
+                .background(color = if (checked) Grey50 else White)
                 .clickable {
                     onCheckedChange(!checked)
                 }
         ) {
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 12.dp, top = 16.dp, end = 12.dp, bottom = 16.dp),
+                    .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(

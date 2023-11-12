@@ -24,8 +24,8 @@ sealed class FilterItemsType() {
     ) : FilterItemsType()
 
     data class Time(
-        val startTime: LocalTime,
-        val endTime: LocalTime
+        val startTime: LocalTime?,
+        val endTime: LocalTime?
     ) : FilterItemsType()
 
 }

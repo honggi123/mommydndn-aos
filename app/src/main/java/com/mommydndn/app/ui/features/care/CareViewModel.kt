@@ -5,6 +5,7 @@ import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.Filter.FilterItemsType
 import com.mommydndn.app.data.model.care.Filter.FilterType
 import com.mommydndn.app.data.model.care.SortingType
+import com.mommydndn.app.data.model.care.WorkPeriodType
 import com.mommydndn.app.data.respository.CaringRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -54,7 +55,10 @@ class CareViewModel @Inject constructor(
 
             FilterType.Period(
                 displayingName = "1회성/정기",
-                itemsType = FilterItemsType.Period(list = listOf()),
+                itemsType = FilterItemsType.Period(list = listOf(
+                    WorkPeriodType.REGULAR,
+                    WorkPeriodType.ONETIME
+                )),
                 isSelected = false
             ),
 

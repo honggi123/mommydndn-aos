@@ -149,7 +149,7 @@ fun NearestChoiceScreen(
         scaffoldState = scaffoldState,
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
-            RadioListBox(
+             RadioListBox(
                 pagingItems = if (searchType == TownSearchType.KEYWORD) pagingItemsByKeyword else pagingItemsByLocation,
                 onItemClick = { emdItem ->
                     scope.launch {

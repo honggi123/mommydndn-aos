@@ -7,7 +7,7 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
-enum class WorkPeriodType(val value: String) {
+enum class WorkPeriodType(val value: String,var isSelected: Boolean = false) {
     ONETIME("단기"),
     REGULAR("정기")
 }

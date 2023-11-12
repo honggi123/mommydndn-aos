@@ -44,8 +44,8 @@ fun SelectScopeBox(
     option2Text: String,
     onOption1Clicked: () -> Unit,
     onOption2Clicked: () -> Unit,
-    isChecked: Boolean,
-    onCheckedChange: (Boolean) -> Unit,
+    isChecked: Boolean = false,
+    onCheckedChange: (Boolean) -> Unit = {},
     isOption1Selected: Boolean = false,
     isOption2Selected: Boolean = false,
     checkListText: String = ""

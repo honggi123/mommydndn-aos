@@ -105,8 +105,13 @@ fun RefreshDialogTitle(title: DialogTitle.Refresh) {
         Row(modifier = Modifier.clickable {
             title.action()
         }) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_rewind),
+                contentDescription = "",
+                modifier = Modifier.size(24.dp)
+            )
             Text(
-                text = title.text,
+                text = "초기화하기",
                 modifier = Modifier
                     .fillMaxWidth(),
                 textAlign = TextAlign.Start,

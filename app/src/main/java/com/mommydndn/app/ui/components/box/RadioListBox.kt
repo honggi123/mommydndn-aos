@@ -16,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -24,6 +25,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemsIndexed
 import com.mommydndn.app.ui.components.common.RadioListItem
 import com.mommydndn.app.ui.theme.Grey400
+import com.mommydndn.app.ui.theme.Shapes
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
 
@@ -69,7 +71,14 @@ fun <T : Any> RadioListBox(
         ) {
             itemsIndexed(pagingItems) { index, item ->
                 RadioListItem(
-                    modifier = Modifier.padding(bottom = 6.dp),
+                    modifier = Modifier
+                        .padding(
+                            start = 12.dp,
+                            top = 16.dp,
+                            end = 12.dp,
+                            bottom = 16.dp
+                        )
+                        .clip(Shapes.large),
                     checked = checkedStates[index],
                     onCheckedChange = { isChecked ->
 

@@ -37,9 +37,11 @@ import com.mommydndn.app.data.model.common.TabSize
 import com.mommydndn.app.ui.components.chip.ChipWithBottomArrow
 import com.mommydndn.app.ui.components.common.CustomTab
 import com.mommydndn.app.ui.components.common.Header
-import com.mommydndn.app.ui.components.modal.CaringBottomModal
+import com.mommydndn.app.ui.components.modal.care.CaringBottomModal
+import com.mommydndn.app.ui.components.modal.care.PeriodBottomModal
 import com.mommydndn.app.ui.components.modal.layout.BaseModalBottomSheetLayout
-import com.mommydndn.app.ui.components.modal.SortingBottomModal
+import com.mommydndn.app.ui.components.modal.care.SortingBottomModal
+import com.mommydndn.app.ui.components.modal.care.TimeBottomModal
 import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.heading800
 import kotlinx.coroutines.launch
@@ -143,9 +145,7 @@ fun CareScreen(
 
 @Composable
 private fun getDialogContent(
-    selectedItem: FilterType?,
-    onCloseClick: () -> Unit = {},
-    onCompleteClick: () -> Unit = {}
+    selectedItem: FilterType?
 ) {
     when (selectedItem) {
         is FilterType.Sorting -> {
@@ -169,6 +169,26 @@ private fun getDialogContent(
                     isAllChecked = selectedItem.itemsType.isAllChecked,
                     list = selectedItem.itemsType.list
                 )
+            )
+        }
+        is FilterType.Time -> {
+            return TimeBottomModal(
+                modifier = Modifier.padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    bottom = 100.dp
+                ),
+                item = selectedItem.itemsType
+            )
+        }
+        is FilterType.Period -> {
+            return PeriodBottomModal(
+                modifier = Modifier.padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    bottom = 100.dp
+                ),
+                item = selectedItem.itemsType
             )
         }
         else -> {
