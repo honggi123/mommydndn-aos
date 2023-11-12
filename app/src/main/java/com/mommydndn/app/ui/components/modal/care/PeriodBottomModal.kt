@@ -32,7 +32,9 @@ import com.mommydndn.app.ui.theme.shadow700
 @Composable
 fun PeriodBottomModal(
     modifier: Modifier = Modifier,
-    item: FilterItemsType.Period
+    item: FilterItemsType.Period,
+    onClickClose: () -> Unit = {},
+    onClickComplete: () -> Unit = {}
 ) {
     val periodItem by remember { mutableStateOf(item) }
 
@@ -71,13 +73,13 @@ fun PeriodBottomModal(
                     )
                 }
             }
-            
+
             Spacer(modifier = Modifier.fillMaxWidth().height(28.dp))
 
             DialogButtonsRow(
                 listOf(
-                    DialogButton.Secondary(title = "닫기", action = {}),
-                    DialogButton.Primary(title = "적용하기", action = {})
+                    DialogButton.Secondary(title = "닫기", action = { onClickClose() }),
+                    DialogButton.Primary(title = "적용하기", action = { onClickComplete() })
                 )
             )
         }

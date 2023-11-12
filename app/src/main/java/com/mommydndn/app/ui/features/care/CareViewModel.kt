@@ -6,6 +6,7 @@ import com.mommydndn.app.data.model.care.Filter.FilterItemsType
 import com.mommydndn.app.data.model.care.Filter.FilterType
 import com.mommydndn.app.data.model.care.SortingType
 import com.mommydndn.app.data.model.care.WorkPeriodType
+import com.mommydndn.app.data.model.common.DayOfWeekType
 import com.mommydndn.app.data.respository.CaringRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -55,13 +56,29 @@ class CareViewModel @Inject constructor(
 
             FilterType.Period(
                 displayingName = "1회성/정기",
-                itemsType = FilterItemsType.Period(list = listOf(
-                    WorkPeriodType.REGULAR,
-                    WorkPeriodType.ONETIME
-                )),
+                itemsType = FilterItemsType.Period(
+                    list = listOf(
+                        WorkPeriodType.REGULAR,
+                        WorkPeriodType.ONETIME
+                    )
+                ),
                 isSelected = false
             ),
-
+            FilterType.Day(
+                displayingName = "요일",
+                itemsType = FilterItemsType.Day(
+                    list = listOf(
+                        DayOfWeekType.MON,
+                        DayOfWeekType.THU,
+                        DayOfWeekType.WED,
+                        DayOfWeekType.THU,
+                        DayOfWeekType.FRI,
+                        DayOfWeekType.SAT,
+                        DayOfWeekType.SUN
+                    )
+                ),
+                isSelected = false
+            ),
             FilterType.Time(
                 displayingName = "시간",
                 itemsType = FilterItemsType.Time(

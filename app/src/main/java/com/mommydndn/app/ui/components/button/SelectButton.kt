@@ -26,8 +26,7 @@ import com.mommydndn.app.ui.theme.caption200
 @Composable
 fun SelectButton(
     modifier: Modifier = Modifier,
-    content: SelectButtonContent,
-    onClick: (Boolean) -> Unit
+    content: SelectButtonContent
 ) {
     val borderColor = if (content.isSelected) Salmon300 else Grey200
     val backgroundColor = if (content.isSelected) Salmon200 else White
@@ -41,7 +40,7 @@ fun SelectButton(
                 border = BorderStroke(1.dp, borderColor),
                 shape = RoundedCornerShape(40.dp)
             ).clickable {
-                onClick(!content.isSelected)
+                content.onClick(!content.isSelected)
             }
     ) {
         Text(

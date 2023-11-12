@@ -31,7 +31,9 @@ import com.mommydndn.app.ui.theme.shadow700
 @Composable
 fun SortingBottomModal(
     modifier: Modifier = Modifier,
-    item: FilterItemsType.Sorting
+    item: FilterItemsType.Sorting,
+    onClickClose: () -> Unit = {},
+    onClickComplete: () -> Unit = {}
 ) {
     val sortingItem by remember { mutableStateOf(item) }
 
@@ -62,16 +64,29 @@ fun SortingBottomModal(
             Column {
                 sortingItem.list.forEachIndexed { index, sortingType ->
                     RadioListItem(
-                        modifier = Modifier.padding()
-                        ,checked = sortingType.isSelected, onCheckedChange = {
-                        sortingItem.list.get(index).isSelected = !sortingType.isSelected
-                    }, text = sortingType.diaplayingName)
+                        modifier = Modifier.padding(),
+                        checked = sortingType.isSelected,
+                        onCheckedChange = {
+                            sortingItem.list.get(index).isSelected = !sortingType.isSelected
+                        },
+                        text = sortingType.diaplayingName
+                    )
                 }
             }
-            
-            Spacer(modifier = Modifier.fillMaxWidth().height(28.dp))
 
-            DialogButtonsRow(listOf(DialogButton.Secondary(title = "닫기", action = {})))
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(28.dp)
+            )
+
+            DialogButtonsRow(
+                listOf(
+                    DialogButton.Secondary(
+                        title = "닫기",
+                        action = { onClickComplete() })
+                )
+            )
         }
     }
 

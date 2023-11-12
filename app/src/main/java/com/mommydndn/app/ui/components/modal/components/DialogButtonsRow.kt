@@ -36,7 +36,8 @@ fun DialogMinButtonWrapper(dialogButton: DialogButton) {
             colorType = ButtonColorType.FILLED,
             text = dialogButton.title,
             sizeType = ButtonSizeType.LARGE,
-            rangeType = MinMaxRange.MIN
+            rangeType = MinMaxRange.MIN,
+            onClick = { dialogButton.action?.let { it() } }
         )
 
         is DialogButton.Secondary -> MommyDndnButton(
@@ -44,7 +45,8 @@ fun DialogMinButtonWrapper(dialogButton: DialogButton) {
             colorType = ButtonColorType.WEAK,
             text = dialogButton.title,
             sizeType = ButtonSizeType.LARGE,
-            rangeType = MinMaxRange.MIN
+            rangeType = MinMaxRange.MIN,
+            onClick = { dialogButton.action?.let { it() } }
         )
     }
 }
@@ -56,14 +58,16 @@ fun DialogMaxButtonWrapper(dialogButton: DialogButton) {
             color = ButtonColor.SALMON,
             colorType = ButtonColorType.FILLED,
             text = dialogButton.title,
-            rangeType = MinMaxRange.MAX
+            rangeType = MinMaxRange.MAX,
+            onClick = { dialogButton.action?.let { it() } }
         )
 
         is DialogButton.Secondary -> MommyDndnButton(
             color = ButtonColor.SALMON,
             colorType = ButtonColorType.WEAK,
             text = dialogButton.title,
-            rangeType = MinMaxRange.MAX
+            rangeType = MinMaxRange.MAX,
+            onClick = { dialogButton.action?.let { it() } }
         )
     }
 }

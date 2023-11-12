@@ -45,10 +45,11 @@ fun SelectButtonScopeBox(
             list.forEach { content ->
                 SelectButton(
                     modifier = Modifier.size(36.dp),
-                    content = content,
-                    onClick = { content.onClick(content.isSelected) })
+                    content = content
+                )
             }
         }
     }
 }
+
 

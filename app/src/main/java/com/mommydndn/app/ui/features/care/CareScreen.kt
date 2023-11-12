@@ -38,6 +38,7 @@ import com.mommydndn.app.ui.components.chip.ChipWithBottomArrow
 import com.mommydndn.app.ui.components.common.CustomTab
 import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.components.modal.care.CaringBottomModal
+import com.mommydndn.app.ui.components.modal.care.DayBottomModal
 import com.mommydndn.app.ui.components.modal.care.PeriodBottomModal
 import com.mommydndn.app.ui.components.modal.layout.BaseModalBottomSheetLayout
 import com.mommydndn.app.ui.components.modal.care.SortingBottomModal
@@ -73,7 +74,7 @@ fun CareScreen(
     BaseModalBottomSheetLayout(
         sheetState = sheetState,
         sheetContent = {
-            getDialogContent(selectedItem)
+            getDialogContent(selectedItem, closeAction = { scope.launch { sheetState.hide() } })
         }
     ) {
         Column(
@@ -145,7 +146,8 @@ fun CareScreen(
 
 @Composable
 private fun getDialogContent(
-    selectedItem: FilterType?
+    selectedItem: FilterType?,
+    closeAction: () -> Unit,
 ) {
     when (selectedItem) {
         is FilterType.Sorting -> {
@@ -155,9 +157,11 @@ private fun getDialogContent(
                     end = 16.dp,
                     bottom = 100.dp
                 ),
-                item = FilterItemsType.Sorting(selectedItem.itemsType.list)
+                item = FilterItemsType.Sorting(selectedItem.itemsType.list),
+                onClickClose = { closeAction() }
             )
         }
+
         is FilterType.Caring -> {
             return CaringBottomModal(
                 modifier = Modifier.padding(
@@ -167,10 +171,12 @@ private fun getDialogContent(
                 ),
                 item = FilterItemsType.Caring(
                     isAllChecked = selectedItem.itemsType.isAllChecked,
-                    list = selectedItem.itemsType.list
-                )
+                    list = selectedItem.itemsType.list,
+                ),
+                onClickClose = { closeAction() }
             )
         }
+
         is FilterType.Time -> {
             return TimeBottomModal(
                 modifier = Modifier.padding(
@@ -178,9 +184,11 @@ private fun getDialogContent(
                     end = 16.dp,
                     bottom = 100.dp
                 ),
-                item = selectedItem.itemsType
+                item = selectedItem.itemsType,
+                onClickClose = { closeAction() }
             )
         }
+
         is FilterType.Period -> {
             return PeriodBottomModal(
                 modifier = Modifier.padding(
@@ -188,9 +196,23 @@ private fun getDialogContent(
                     end = 16.dp,
                     bottom = 100.dp
                 ),
-                item = selectedItem.itemsType
+                item = selectedItem.itemsType,
+                onClickClose = { closeAction() }
             )
         }
+
+        is FilterType.Day -> {
+            return DayBottomModal(
+                modifier = Modifier.padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    bottom = 100.dp
+                ),
+                item = selectedItem.itemsType,
+                onClickClose = { closeAction() }
+            )
+        }
+
         else -> {
             Box {}
         }

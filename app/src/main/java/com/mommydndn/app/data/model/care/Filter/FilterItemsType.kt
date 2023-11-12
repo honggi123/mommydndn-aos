@@ -3,6 +3,7 @@ package com.mommydndn.app.data.model.care.Filter
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.SortingType
 import com.mommydndn.app.data.model.care.WorkPeriodType
+import com.mommydndn.app.data.model.common.DayOfWeekType
 import java.time.LocalTime
 
 sealed class FilterItemsType() {
@@ -26,6 +27,10 @@ sealed class FilterItemsType() {
     data class Time(
         val startTime: LocalTime?,
         val endTime: LocalTime?
+    ) : FilterItemsType()
+
+    data class Day(
+        val list: List<DayOfWeekType>
     ) : FilterItemsType()
 
 }

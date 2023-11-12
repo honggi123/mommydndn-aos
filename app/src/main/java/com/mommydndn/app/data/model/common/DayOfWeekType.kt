@@ -8,7 +8,7 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
-enum class DayOfWeekType(val displayingName: String) {
+enum class DayOfWeekType(val displayingName: String, var isSelected: Boolean = false) {
     MON("월"),
     TUE("화"),
     WED("수"),

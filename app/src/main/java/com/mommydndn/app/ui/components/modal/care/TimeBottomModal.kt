@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.data.model.care.Filter.FilterItemsType
-import com.mommydndn.app.ui.components.common.CheckMarkListItem
+import com.mommydndn.app.ui.components.box.SelectScopeBox
 import com.mommydndn.app.ui.components.modal.components.DialogButtonsRow
 import com.mommydndn.app.ui.components.modal.components.DialogTitleWrapper
 import com.mommydndn.app.ui.models.dialog.DialogButton
@@ -27,16 +27,16 @@ import com.mommydndn.app.ui.models.dialog.DialogTitle
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.shadow700
-
+import com.mommydndn.app.utils.DateTimeUtils
 
 @Composable
-fun CaringBottomModal(
+fun TimeBottomModal(
     modifier: Modifier = Modifier,
-    item: FilterItemsType.Caring,
+    item: FilterItemsType.Time,
     onClickClose: () -> Unit = {},
     onClickComplete: () -> Unit = {}
 ) {
-    val caringItem by remember { mutableStateOf(item) }
+    val timeItem by remember { mutableStateOf(item) }
 
     Box(
         modifier = modifier
@@ -51,12 +51,7 @@ fun CaringBottomModal(
                 .wrapContentSize()
                 .padding(start = 20.dp, top = 36.dp, end = 20.dp, bottom = 24.dp),
         ) {
-            DialogTitleWrapper(
-                DialogTitle.Check(
-                    text = "모든 돌봄종류",
-                    isChecked = caringItem.isAllChecked,
-                    checkAction = {})
-            )
+            DialogTitleWrapper(DialogTitle.Refresh(text = "시간", action = {}))
 
             Divider(
                 thickness = 1.5.dp,
@@ -68,13 +63,12 @@ fun CaringBottomModal(
             )
 
             Column {
-                caringItem.list.forEachIndexed { index, sortingType ->
-                    CheckMarkListItem(
-                        checked = sortingType.isSelected,
-                        onCheckedChange = {},
-                        text = sortingType.value
-                    )
-                }
+                SelectScopeBox(
+                    option1Text = timeItem.startTime?.let { DateTimeUtils.getLocalTimeText(it) } ?: "시작시간",
+                    option2Text = timeItem.endTime?.let { DateTimeUtils.getLocalTimeText(it) } ?: "종료시간",
+                    onOption1Clicked = { /*TODO*/ },
+                    onOption2Clicked = { /*TODO*/ },
+                )
             }
 
             Spacer(modifier = Modifier.fillMaxWidth().height(28.dp))
@@ -88,5 +82,3 @@ fun CaringBottomModal(
         }
     }
 }
-
-

@@ -1,12 +1,15 @@
 package com.mommydndn.app.ui.components.modal.care
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
@@ -19,6 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.data.model.care.Filter.FilterItemsType
+import com.mommydndn.app.data.model.common.SelectButtonContent
+import com.mommydndn.app.ui.components.button.SelectButton
 import com.mommydndn.app.ui.components.common.CheckMarkListItem
 import com.mommydndn.app.ui.components.modal.components.DialogButtonsRow
 import com.mommydndn.app.ui.components.modal.components.DialogTitleWrapper
@@ -28,15 +33,14 @@ import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.shadow700
 
-
 @Composable
-fun CaringBottomModal(
+fun DayBottomModal(
     modifier: Modifier = Modifier,
-    item: FilterItemsType.Caring,
+    item: FilterItemsType.Day,
     onClickClose: () -> Unit = {},
     onClickComplete: () -> Unit = {}
 ) {
-    val caringItem by remember { mutableStateOf(item) }
+    val dayItem by remember { mutableStateOf(item) }
 
     Box(
         modifier = modifier
@@ -51,12 +55,7 @@ fun CaringBottomModal(
                 .wrapContentSize()
                 .padding(start = 20.dp, top = 36.dp, end = 20.dp, bottom = 24.dp),
         ) {
-            DialogTitleWrapper(
-                DialogTitle.Check(
-                    text = "모든 돌봄종류",
-                    isChecked = caringItem.isAllChecked,
-                    checkAction = {})
-            )
+            DialogTitleWrapper(DialogTitle.Refresh(text = "시간", action = {}))
 
             Divider(
                 thickness = 1.5.dp,
@@ -67,17 +66,28 @@ fun CaringBottomModal(
                     .padding(vertical = 12.dp)
             )
 
-            Column {
-                caringItem.list.forEachIndexed { index, sortingType ->
-                    CheckMarkListItem(
-                        checked = sortingType.isSelected,
-                        onCheckedChange = {},
-                        text = sortingType.value
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 4.dp, vertical = 12.dp)
+            ) {
+                dayItem.list.forEach {
+                    SelectButton(
+                        modifier = Modifier.size(36.dp),
+                        content = SelectButtonContent(
+                            isSelected = it.isSelected,
+                            onClick = {},
+                            text = it.displayingName
+                        )
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.fillMaxWidth().height(28.dp))
+            Spacer(modifier = Modifier
+                .fillMaxWidth()
+                .height(28.dp))
 
             DialogButtonsRow(
                 listOf(
@@ -88,5 +98,3 @@ fun CaringBottomModal(
         }
     }
 }
-
-

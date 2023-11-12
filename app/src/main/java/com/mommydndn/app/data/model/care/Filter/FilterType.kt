@@ -34,5 +34,11 @@ sealed class FilterType(
         override val displayingName: String,
         override val isSelected: Boolean
     ) : FilterType(displayingName, itemsType, isSelected)
+
+    data class Day(
+        override val itemsType: FilterItemsType.Day,
+        override val displayingName: String,
+        override val isSelected: Boolean
+    ) : FilterType(displayingName, itemsType, isSelected)
 }
 
