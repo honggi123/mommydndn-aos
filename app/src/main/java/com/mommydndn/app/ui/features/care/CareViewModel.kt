@@ -1,18 +1,14 @@
 package com.mommydndn.app.ui.features.care
 
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
-import com.mommydndn.app.data.model.care.FilterItem
-import com.mommydndn.app.data.model.care.FilterType
-import com.mommydndn.app.data.model.care.JobOfferSummary
+import com.mommydndn.app.data.model.care.Filter.FilterItemsType
+import com.mommydndn.app.data.model.care.Filter.FilterType
+import com.mommydndn.app.data.model.care.SortingType
 import com.mommydndn.app.data.respository.CaringRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import java.time.LocalTime
 import javax.inject.Inject
 
 
@@ -23,14 +19,48 @@ class CareViewModel @Inject constructor(
 
     private val _filterItems = MutableStateFlow(
         listOf(
-            FilterItem(FilterType.SORTING, "최신순", true),
-            FilterItem(FilterType.CARING, "돌봄종류", false),
-            FilterItem(FilterType.NEIGHBORHOODSCOPE, "동네범위", false),
-            FilterItem(FilterType.PERIOD, "1회성/정기", false),
-            FilterItem(FilterType.TIME, "시간", false)
+            FilterType.Sorting(
+                displayingName = "최신순",
+                itemsType = FilterItemsType.Sorting(
+                    list = listOf(
+                        SortingType.LATEST,
+                        SortingType.MOST_VIEW,
+                        SortingType.HIGHEST_SALARY,
+                        SortingType.CLOSEST
+                    )
+                ),
+                isSelected = false
+            ),
+
+            FilterType.Caring(
+                displayingName = "돌봄종류",
+                itemsType = FilterItemsType.Caring(list = listOf()),
+                isSelected = false
+            ),
+
+            FilterType.NeighborhoodScope(
+                displayingName = "동네범위",
+                itemsType = FilterItemsType.NeighborhoodScope(list = listOf()),
+                isSelected = false
+            ),
+
+            FilterType.Period(
+                displayingName = "1회성/정기",
+                itemsType = FilterItemsType.Period(list = listOf()),
+                isSelected = false
+            ),
+
+            FilterType.Time(
+                displayingName = "시간",
+                itemsType = FilterItemsType.Time(
+                    startTime = LocalTime.now(),
+                    endTime = LocalTime.now()
+                ),
+                isSelected = false
+            ),
         )
     )
-    val filterItems: StateFlow<List<FilterItem>> = _filterItems
+    val filterItems: StateFlow<List<FilterType>> = _filterItems
 
 //    val searchedJobOfferSummary: Flow<PagingData<JobOfferSummary>> =
 //        caringRepository.fetchJobOfferSummary().cachedIn(viewModelScope)

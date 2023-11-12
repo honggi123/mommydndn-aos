@@ -39,7 +39,7 @@ fun DialogButtonWrapper(dialogButton: DialogButton) {
 
         is DialogButton.Secondary -> MommyDndnButton(
             color = ButtonColor.SALMON,
-            colorType = ButtonColorType.FILLED,
+            colorType = ButtonColorType.WEAK,
             text = dialogButton.title,
             rangeType = MinMaxRange.MAX
         )
