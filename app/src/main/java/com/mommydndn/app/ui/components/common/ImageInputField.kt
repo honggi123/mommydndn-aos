@@ -6,9 +6,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
@@ -18,9 +20,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.mommydndn.app.R
@@ -61,6 +66,7 @@ fun ImageInputField(
                         color = Grey500
                     )
                 )
+
             }
         }
 
@@ -69,8 +75,6 @@ fun ImageInputField(
                 modifier = modifier
                     .width(width = 108.dp)
                     .height(height = 96.dp)
-                    .clip(shape = RoundedCornerShape(6.dp))
-                    .background(color = White)
             ) {
                 Image(
                     painter = rememberImagePainter(inputType.imageUri),
@@ -86,9 +90,10 @@ fun ImageInputField(
                     modifier = Modifier
                         .align(alignment = Alignment.TopStart)
                         .offset(
-                            x = 98.dp,
+                            x = 88.dp,
                             y = (-5).dp
-                        ).clickable {
+                        )
+                        .clickable {
                             inputType.onRemoveClick?.let { it() }
                         }
                 )
@@ -117,4 +122,5 @@ fun ImageInputField(
 
 
 }
+
 

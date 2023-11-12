@@ -596,6 +596,11 @@ fun JobOfferWriteScreen(
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
+
+                    items(listOf(1,2,3)) {
+                        Text(modifier = Modifier.size(0.dp), text = "")
+                    } // LazyVerticalGrid 첫번째 줄 삭제버튼 잘려서 보이는 오류로 인해 해당 코드 추가
+
                     item {
                         ImageInputField(
                             inputType = ImageInputFieldType.Add(
