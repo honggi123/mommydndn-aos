@@ -74,7 +74,13 @@ fun CareScreen(
     BaseModalBottomSheetLayout(
         sheetState = sheetState,
         sheetContent = {
-            getDialogContent(selectedItem, closeAction = { scope.launch { sheetState.hide() } })
+            getDialogContent(
+                selectedItem = selectedItem,
+                closeAction = {
+                    scope.launch { sheetState.hide() }
+                },
+                viewModel = viewModel
+            )
         }
     ) {
         Column(
@@ -148,6 +154,7 @@ fun CareScreen(
 private fun getDialogContent(
     selectedItem: FilterType?,
     closeAction: () -> Unit,
+    viewModel: CareViewModel
 ) {
     when (selectedItem) {
         is FilterType.Sorting -> {
@@ -209,7 +216,11 @@ private fun getDialogContent(
                     bottom = 100.dp
                 ),
                 item = selectedItem.itemsType,
-                onClickClose = { closeAction() }
+                onClickClose = { closeAction() },
+                onClickComplete = {
+                    closeAction()
+                    viewModel.updateCaringFilter(it)
+                }
             )
         }
 

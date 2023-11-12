@@ -6,6 +6,7 @@ import com.mommydndn.app.data.model.care.Filter.FilterItemsType
 import com.mommydndn.app.data.model.care.Filter.FilterType
 import com.mommydndn.app.data.model.care.SortingType
 import com.mommydndn.app.data.model.care.WorkPeriodType
+import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.common.DayOfWeekType
 import com.mommydndn.app.data.respository.CaringRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -68,13 +69,13 @@ class CareViewModel @Inject constructor(
                 displayingName = "요일",
                 itemsType = FilterItemsType.Day(
                     list = listOf(
-                        DayOfWeekType.MON,
-                        DayOfWeekType.THU,
-                        DayOfWeekType.WED,
-                        DayOfWeekType.THU,
-                        DayOfWeekType.FRI,
-                        DayOfWeekType.SAT,
-                        DayOfWeekType.SUN
+                        DayOfWeekItem(DayOfWeekType.MON),
+                        DayOfWeekItem(DayOfWeekType.TUE),
+                        DayOfWeekItem(DayOfWeekType.WED),
+                        DayOfWeekItem(DayOfWeekType.THU),
+                        DayOfWeekItem(DayOfWeekType.FRI),
+                        DayOfWeekItem(DayOfWeekType.SAT),
+                        DayOfWeekItem(DayOfWeekType.SUN)
                     )
                 ),
                 isSelected = false
@@ -94,4 +95,9 @@ class CareViewModel @Inject constructor(
 //    val searchedJobOfferSummary: Flow<PagingData<JobOfferSummary>> =
 //        caringRepository.fetchJobOfferSummary().cachedIn(viewModelScope)
 
+    fun updateCaringFilter(selectedFilters: FilterItemsType.Day) {
+        val currentFilterItems = _filterItems.value
+        val dayFilter = currentFilterItems.find { it is FilterType.Day } as? FilterType.Day
+        dayFilter?.itemsType?.copy(selectedFilters.list)
+    }
 }

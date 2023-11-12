@@ -1,8 +1,10 @@
 package com.mommydndn.app.data.model.care.Filter
 
 import com.mommydndn.app.data.model.care.CaringType
+import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.SortingType
 import com.mommydndn.app.data.model.care.WorkPeriodType
+import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.common.DayOfWeekType
 import java.time.LocalTime
 
@@ -30,7 +32,7 @@ sealed class FilterItemsType() {
     ) : FilterItemsType()
 
     data class Day(
-        val list: List<DayOfWeekType>
+        var list: List<DayOfWeekItem>
     ) : FilterItemsType()
 
 }

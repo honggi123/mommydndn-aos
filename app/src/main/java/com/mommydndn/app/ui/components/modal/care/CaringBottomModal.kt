@@ -1,5 +1,6 @@
 package com.mommydndn.app.ui.components.modal.care
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,9 +35,9 @@ fun CaringBottomModal(
     modifier: Modifier = Modifier,
     item: FilterItemsType.Caring,
     onClickClose: () -> Unit = {},
-    onClickComplete: () -> Unit = {}
+    onClickComplete: (FilterItemsType.Caring) -> Unit = {}
 ) {
-    val caringItem by remember { mutableStateOf(item) }
+    val caringItem by remember { mutableStateOf(item.copy()) }
 
     Box(
         modifier = modifier
@@ -68,21 +69,25 @@ fun CaringBottomModal(
             )
 
             Column {
-                caringItem.list.forEachIndexed { index, sortingType ->
+                caringItem.list.forEachIndexed { index, item ->
                     CheckMarkListItem(
-                        checked = sortingType.isSelected,
+                        checked = item.isSelected,
                         onCheckedChange = {},
-                        text = sortingType.value
+                        text = item.value
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.fillMaxWidth().height(28.dp))
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(28.dp)
+            )
 
             DialogButtonsRow(
                 listOf(
                     DialogButton.Secondary(title = "닫기", action = { onClickClose() }),
-                    DialogButton.Primary(title = "적용하기", action = { onClickComplete() })
+                    DialogButton.Primary(title = "적용하기", action = { onClickComplete(caringItem) })
                 )
             )
         }
