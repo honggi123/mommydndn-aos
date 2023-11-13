@@ -94,9 +94,12 @@ fun CareScreen(
     BaseModalBottomSheetLayout(
         sheetState = sheetState,
         sheetContent = {
-            getDialogContent(
+            DialogContent(
                 selectedItem = selectedItem,
                 closeAction = {
+                    scope.launch { sheetState.hide() }
+                },
+                completeAction = {
                     scope.launch { sheetState.hide() }
                 },
                 viewModel = viewModel
@@ -193,9 +196,10 @@ fun CareScreen(
 }
 
 @Composable
-private fun getDialogContent(
+private fun DialogContent(
     selectedItem: FilterType?,
     closeAction: () -> Unit,
+    completeAction: () -> Unit,
     viewModel: CareViewModel
 ) {
     when (selectedItem) {
@@ -211,7 +215,7 @@ private fun getDialogContent(
                     closeAction()
                 },
                 onClickComplete = {
-                    closeAction()
+                    completeAction()
                     viewModel.updateSortingFilter(it)
                 }
             )
@@ -230,7 +234,7 @@ private fun getDialogContent(
                 ),
                 onClickClose = { closeAction() },
                 onClickComplete = {
-                    closeAction()
+                    completeAction()
                     viewModel.updateCaringFilter(it)
                 }
             )
@@ -270,7 +274,7 @@ private fun getDialogContent(
                 item = selectedItem.itemsType,
                 onClickClose = { closeAction() },
                 onClickComplete = {
-                    closeAction()
+                    completeAction()
                     viewModel.updateDayFilter(it)
                 }
             )
@@ -285,7 +289,7 @@ private fun getDialogContent(
                 ),
                 item = selectedItem.itemsType,
                 onClickClose = { closeAction() },
-                onClickComplete = { closeAction() }
+                onClickComplete = { completeAction() }
             )
         }
 

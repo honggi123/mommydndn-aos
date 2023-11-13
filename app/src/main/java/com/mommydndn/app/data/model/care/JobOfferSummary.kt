@@ -25,9 +25,9 @@ data class JobOfferSummaryListItem(
     @SerialName("days")
     val days: List<@Serializable(with = DayOfWeekTypeSerializer::class) DayOfWeekType>,
     @SerialName("endDate")
-    val endDate: Int,
+    val endDate: Long,
     @SerialName("endTime")
-    val endTime: String,
+    val endTime: String?,
     @SerialName("isClosed")
     val isClosed: Boolean,
     @SerialName("isLiked")
@@ -42,9 +42,9 @@ data class JobOfferSummaryListItem(
     @SerialName("salaryTypeCode")
     val salaryTypeCode: SalaryType,
     @SerialName("startDate")
-    val startDate: Int,
+    val startDate: Long,
     @SerialName("startTime")
-    val startTime: String,
+    val startTime: String?,
     @SerialName("title")
     val title: String
 )
@@ -54,7 +54,7 @@ data class Meta(
     @SerialName("currentPageNum")
     val currentPageNum: Int,
     @SerialName("requestTimestamp")
-    val requestTimestamp: Int,
+    val requestTimestamp: Long,
     @SerialName("totalCount")
     val totalCount: Int
 )

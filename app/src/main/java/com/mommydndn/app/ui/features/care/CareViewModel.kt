@@ -26,6 +26,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
@@ -113,8 +114,8 @@ class CareViewModel @Inject constructor(
     val filterItems: StateFlow<List<FilterType>> = _filterItems
 
     val searchedJobOfferSummary: Flow<PagingData<JobOfferSummaryListItem>> =
-        userInfo.flatMapLatest {
-            if (it != null) {
+        combine(userInfo, filterItems) { user, Items ->
+            if (user != null) {
                 caringRepository.fetchJobOfferSummary(
                     keyword = null,
                     caringTypeList = filterItems.value.filterIsInstance<FilterType.Caring>()
@@ -133,7 +134,7 @@ class CareViewModel @Inject constructor(
                         .first().itemsType.endTime ?: null,
                 ).cachedIn(viewModelScope)
             } else emptyFlow()
-        }
+        }.flatMapLatest { it }
 
     init {
         viewModelScope.launch {
