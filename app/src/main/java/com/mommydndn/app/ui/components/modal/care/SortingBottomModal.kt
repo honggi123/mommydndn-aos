@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
@@ -26,6 +28,7 @@ import com.mommydndn.app.ui.components.modal.components.DialogButtonsRow
 import com.mommydndn.app.ui.components.modal.components.DialogTitleWrapper
 import com.mommydndn.app.ui.models.dialog.DialogButton
 import com.mommydndn.app.ui.models.dialog.DialogTitle
+import com.mommydndn.app.ui.theme.Grey200
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.shadow700
@@ -35,7 +38,7 @@ fun SortingBottomModal(
     modifier: Modifier = Modifier,
     item: FilterItemsType.Sorting,
     onClickClose: () -> Unit = {},
-    onClickComplete: () -> Unit = {}
+    onClickComplete: (FilterItemsType.Sorting) -> Unit = {}
 ) {
     var sortingItemList by rememberSaveable(Unit) { mutableStateOf(item.list) }
 
@@ -46,6 +49,15 @@ fun SortingBottomModal(
             .background(color = White, shape = RoundedCornerShape(24.dp)),
         contentAlignment = Alignment.TopCenter
     ) {
+
+        Box(
+            modifier = Modifier
+                .offset(y = 10.dp)
+                .width(64.dp)
+                .height(6.dp)
+                .background(color = Grey200, shape = RoundedCornerShape(size = 50.dp))
+        )
+
         Column(
             modifier = Modifier
                 .wrapContentSize()
@@ -70,8 +82,10 @@ fun SortingBottomModal(
                         checked = item.isSelected,
                         onCheckedChange = {
                             sortingItemList = sortingItemList.toMutableList().also {
-                                it[index] = it[index].copy(isSelected = !it[index].isSelected)
-                            }                        },
+                                it.forEach { it.isSelected = false }
+                                it[index] = it[index].copy(isSelected = true)
+                            }
+                        },
                         text = item.sortingType.diaplayingName
                     )
                 }
@@ -86,7 +100,9 @@ fun SortingBottomModal(
             DialogButtonsRow(
                 listOf(
                     DialogButton.Secondary(title = "닫기", action = { onClickClose() }),
-                    DialogButton.Primary(title = "적용하기", action = { onClickComplete() })
+                    DialogButton.Primary(
+                        title = "적용하기",
+                        action = { onClickComplete(FilterItemsType.Sorting(sortingItemList)) })
                 )
             )
         }

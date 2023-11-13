@@ -6,15 +6,15 @@ sealed class FilterType(
     open val isSelected: Boolean = false
 ) {
     data class Sorting(
-        override val itemsType: FilterItemsType.Sorting,
-        override val displayingName: String,
-        override val isSelected: Boolean
+        override var itemsType: FilterItemsType.Sorting,
+        override var displayingName: String,
+        override var isSelected: Boolean
     ) : FilterType(displayingName, itemsType, isSelected)
 
     data class Caring(
-        override val itemsType: FilterItemsType.Caring,
+        override var itemsType: FilterItemsType.Caring,
         override val displayingName: String,
-        override val isSelected: Boolean
+        override var isSelected: Boolean
     ) : FilterType(displayingName, itemsType, isSelected)
 
     data class NeighborhoodScope(
@@ -36,9 +36,9 @@ sealed class FilterType(
     ) : FilterType(displayingName, itemsType, isSelected)
 
     data class Day(
-        override val itemsType: FilterItemsType.Day,
+        override var itemsType: FilterItemsType.Day,
         override val displayingName: String,
-        override val isSelected: Boolean
+        override var isSelected: Boolean
     ) : FilterType(displayingName, itemsType, isSelected)
 }
 

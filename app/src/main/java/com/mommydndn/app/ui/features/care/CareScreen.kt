@@ -1,6 +1,7 @@
 package com.mommydndn.app.ui.features.care
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -207,6 +208,10 @@ private fun getDialogContent(
                 item = FilterItemsType.Sorting(selectedItem.itemsType.list),
                 onClickClose = {
                     closeAction()
+                },
+                onClickComplete = {
+                    closeAction()
+                    viewModel.updateSortingFilter(it)
                 }
             )
         }

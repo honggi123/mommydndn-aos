@@ -19,6 +19,7 @@ import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.common.DayOfWeekType
 import com.mommydndn.app.data.respository.CaringRepository
 import com.mommydndn.app.data.respository.UserRepository
+import com.mommydndn.app.utils.StringUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -62,7 +63,7 @@ class CareViewModel @Inject constructor(
 
             FilterType.NeighborhoodScope(
                 displayingName = "${userInfo.value?.emd?.sigName} 외 24",
-                itemsType = FilterItemsType.NeighborhoodScope(list = listOf(6,9,24)),
+                itemsType = FilterItemsType.NeighborhoodScope(list = listOf(6, 9, 24)),
                 isSelected = true
             ),
 
@@ -150,12 +151,11 @@ class CareViewModel @Inject constructor(
                 is FilterType.NeighborhoodScope -> {
                     filterType.copy(displayingName = "${userInfo?.emd?.sigName} 외 24")
                 }
+
                 else -> filterType
             }
         }
     }
-
-
 
     private suspend fun fetchCaringTypeItems() {
         caringRepository.fetchCaringTypeItems().collect { types ->
@@ -169,18 +169,54 @@ class CareViewModel @Inject constructor(
         }
     }
 
+    fun updateSortingFilter(selectedFilters: FilterItemsType.Sorting) {
+        val currentFilterItems = _filterItems.value
+        val sortingFilter = currentFilterItems.filterIsInstance<FilterType.Sorting>().first()
+
+        val updatedFilter = sortingFilter.copy(
+            isSelected = true,
+            displayingName = selectedFilters.list.filter { it.isSelected }
+                .first().sortingType.diaplayingName,
+            itemsType = FilterItemsType.Sorting(selectedFilters.list)
+        )
+
+        _filterItems.value = currentFilterItems.toMutableList().apply {
+            set(indexOf(sortingFilter), updatedFilter)
+        }
+    }
+
     fun updateDayFilter(selectedFilters: FilterItemsType.Day) {
         val currentFilterItems = _filterItems.value
-        val dayFilter = currentFilterItems.find { it is FilterType.Day } as? FilterType.Day
-        dayFilter?.itemsType?.copy(selectedFilters.list)
+        val dayFilter = currentFilterItems.filterIsInstance<FilterType.Day>().first()
+
+        val updatedFilter = dayFilter.copy(
+            isSelected = true,
+            displayingName = StringUtils.getConcatenatedString(selectedFilters.list.filter { it.isSelected }
+                .map { it.type.displayingName }),
+            itemsType = FilterItemsType.Day(selectedFilters.list)
+        )
+
+        _filterItems.value = currentFilterItems.toMutableList().apply {
+            set(indexOf(dayFilter), updatedFilter)
+        }
     }
 
     fun updateCaringFilter(selectedFilters: FilterItemsType.Caring) {
         val currentFilterItems = _filterItems.value
-        val dayFilter = currentFilterItems.find { it is FilterType.Caring } as? FilterType.Caring
-        dayFilter?.itemsType?.copy(
-            isAllChecked = selectedFilters.isAllChecked,
-            list = selectedFilters.list
+        val caringFilter = currentFilterItems.filterIsInstance<FilterType.Caring>().first()
+
+        val updatedFilter = caringFilter.copy(
+            isSelected = true,
+            displayingName = StringUtils.getConcatenatedCommasString(selectedFilters.list.filter { it.isSelected }
+                .map { it.caringType.value }),
+            itemsType = caringFilter.itemsType.copy(
+                isAllChecked = selectedFilters.isAllChecked,
+                list = selectedFilters.list
+            )
         )
+
+        _filterItems.value = currentFilterItems.toMutableList().apply {
+            set(indexOf(caringFilter), updatedFilter)
+        }
     }
 }

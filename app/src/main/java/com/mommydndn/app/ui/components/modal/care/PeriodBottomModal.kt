@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
@@ -24,6 +26,7 @@ import com.mommydndn.app.ui.components.modal.components.DialogButtonsRow
 import com.mommydndn.app.ui.components.modal.components.DialogTitleWrapper
 import com.mommydndn.app.ui.models.dialog.DialogButton
 import com.mommydndn.app.ui.models.dialog.DialogTitle
+import com.mommydndn.app.ui.theme.Grey200
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.shadow700
@@ -45,6 +48,14 @@ fun PeriodBottomModal(
             .background(color = White, shape = RoundedCornerShape(24.dp)),
         contentAlignment = Alignment.TopCenter
     ) {
+
+        Box(
+            modifier = Modifier
+                .offset(y = 10.dp)
+                .width(64.dp)
+                .height(6.dp)
+                .background(color = Grey200, shape = RoundedCornerShape(size = 50.dp))
+        )
 
         Column(
             modifier = Modifier
