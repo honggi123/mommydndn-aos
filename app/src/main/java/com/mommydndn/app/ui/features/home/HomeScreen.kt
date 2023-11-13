@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -21,6 +22,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
+import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ModalBottomSheetLayout
@@ -126,11 +128,11 @@ fun MainHomeScreen(
                     ProfileSitterBox(item = item)
                 }
             }
-            Spacer(
+            Divider(
+                color = Grey50,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(color = Grey50)
-                    .padding(20.dp)
+                    .height(20.dp)
             )
 
             SubtextBox(
@@ -153,11 +155,11 @@ fun MainHomeScreen(
                 }
             }
 
-            Spacer(
+            Divider(
+                color = Grey50,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(color = Grey50)
-                    .padding(20.dp)
+                    .height(20.dp)
             )
 
             SubtextBox(size = SubtextBoxSize.L, titleText = "집 앞 육아용품 장터")
@@ -218,11 +220,11 @@ fun MainHomeScreen(
                 }
             }
 
-            Spacer(
+            Divider(
+                color = Grey50,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(color = Grey50)
-                    .padding(20.dp)
+                    .height(20.dp)
             )
 
             SubBanner(modifier = Modifier.fillMaxWidth())

@@ -39,6 +39,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
@@ -278,11 +279,11 @@ fun JobOfferWriteScreen(
                 onContentTextChanged = { viewModel.setContent(it) }
             )
 
-            Spacer(
+            Divider(
+                color = Grey50,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(color = Grey50)
-                    .padding(20.dp)
+                    .height(20.dp)
             )
 
             SubtextBox(
@@ -312,13 +313,12 @@ fun JobOfferWriteScreen(
                     }
                 }
             }
-            Spacer(
+            Divider(
+                color = Grey50,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(color = Grey50)
-                    .padding(20.dp)
+                    .height(20.dp)
             )
-
 
             SubtextBox(
                 modifier = Modifier
@@ -462,11 +462,11 @@ fun JobOfferWriteScreen(
                     checkListText = "협의 가능해요"
                 )
             }
-            Spacer(
+            Divider(
+                color = Grey50,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(color = Grey50)
-                    .padding(20.dp)
+                    .height(20.dp)
             )
 
             SubtextBox(
@@ -494,11 +494,11 @@ fun JobOfferWriteScreen(
                     }
                 )
             }
-            Spacer(
+            Divider(
+                color = Grey50,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(color = Grey50)
-                    .padding(20.dp)
+                    .height(20.dp)
             )
 
 
@@ -565,11 +565,11 @@ fun JobOfferWriteScreen(
 
             }
 
-            Spacer(
+            Divider(
+                color = Grey50,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(color = Grey50)
-                    .padding(20.dp)
+                    .height(20.dp)
             )
 
             SubtextBox(
@@ -597,7 +597,7 @@ fun JobOfferWriteScreen(
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
 
-                    items(listOf(1,2,3)) {
+                    items(listOf(1, 2, 3)) {
                         Text(modifier = Modifier.size(0.dp), text = "")
                     } // LazyVerticalGrid 첫번째 줄 삭제버튼 잘려서 보이는 오류로 인해 해당 코드 추가
 
@@ -627,11 +627,11 @@ fun JobOfferWriteScreen(
                     }
                 }
             }
-            Spacer(
+            Divider(
+                color = Grey50,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(color = Grey50)
-                    .padding(20.dp)
+                    .height(20.dp)
             )
 
             SubtextBox(
