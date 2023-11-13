@@ -226,7 +226,7 @@ fun MainHomeScreen(
             )
 
             SubBanner(modifier = Modifier.fillMaxWidth())
-            FooterBox {}
+            FooterBox(modifier = Modifier.fillMaxWidth()) {}
         }
     }
 

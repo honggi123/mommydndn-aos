@@ -172,7 +172,7 @@ fun CareScreen(
             Row(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
-                    .padding(bottom = 100.dp, end = 16.dp)
+                    .padding(bottom = 80.dp, end = 16.dp)
             ) {
                 FloatingActionButton(
                     onClick = { NavigationUtils.navigate(navController, JobOfferWriteNav.route) },

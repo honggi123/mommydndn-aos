@@ -90,7 +90,7 @@ fun ImageInputField(
                     modifier = Modifier
                         .align(alignment = Alignment.TopStart)
                         .offset(
-                            x = 88.dp,
+                            x = 98.dp,
                             y = (-5).dp
                         )
                         .clickable {
