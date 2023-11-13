@@ -1,19 +1,22 @@
 package com.mommydndn.app.data.respository
 
-import android.net.Uri
 import androidx.paging.PagingData
+import com.mommydndn.app.data.api.model.request.JobOfferListRequest
 import com.mommydndn.app.data.api.model.response.CreateJobOfferResponse
 import com.mommydndn.app.data.api.model.response.JobOfferResponse
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.EtcCheckItem
+import com.mommydndn.app.data.model.care.Filter.FilterType
 import com.mommydndn.app.data.model.care.JobOffer
-import com.mommydndn.app.data.model.care.JobOfferSummary
+import com.mommydndn.app.data.model.care.JobOfferSummaryListItem
 import com.mommydndn.app.data.model.care.JobSeeker
 import com.mommydndn.app.data.model.care.MinHourlySalary
 import com.mommydndn.app.data.model.care.SalaryType
+import com.mommydndn.app.data.model.care.SortingType
 import com.mommydndn.app.data.model.care.WorkPeriodType
 import com.mommydndn.app.data.model.common.DayOfWeekItem
+import com.mommydndn.app.data.model.common.DayOfWeekType
 import com.mommydndn.app.data.model.map.EmdItem
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
@@ -30,7 +33,17 @@ interface CaringRepository {
 
     fun fetchEtcIndividualCheckList(): Flow<List<EtcCheckItem>>
 
-    fun fetchJobOfferSummary(): Flow<PagingData<JobOfferSummary>>
+    fun fetchJobOfferSummary(
+        keyword: String?,
+        sortingType: SortingType,
+        emdId: Int,
+        neighborhoodScope: Int,
+        caringTypeList: List<CaringType>,
+        days:List<DayOfWeekType>,
+        startTime: LocalTime?,
+        endTime: LocalTime?,
+        workPeriodTypeList: List<WorkPeriodType>
+    ): Flow<PagingData<JobOfferSummaryListItem>>
 
     fun fetchCaringTypeItems(): Flow<List<CaringTypeItem>>
 

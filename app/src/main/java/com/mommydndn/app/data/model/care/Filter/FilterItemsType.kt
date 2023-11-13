@@ -5,6 +5,7 @@ import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.SortingType
 import com.mommydndn.app.data.model.care.SortingTypeItem
 import com.mommydndn.app.data.model.care.WorkPeriodType
+import com.mommydndn.app.data.model.care.WorkPeriodTypeItem
 import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.common.DayOfWeekType
 import java.time.LocalTime
@@ -20,11 +21,11 @@ sealed class FilterItemsType() {
     ) : FilterItemsType()
 
     data class NeighborhoodScope(
-        val list: List<String>
+        val list: List<Int>
     ) : FilterItemsType()
 
     data class Period(
-        val list: List<WorkPeriodType>
+        val list: List<WorkPeriodTypeItem>
     ) : FilterItemsType()
 
     data class Time(

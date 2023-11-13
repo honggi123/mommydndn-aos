@@ -58,7 +58,7 @@ fun CheckBoxListItem(
                 painter = painterResource(
                     id = if (checked) R.drawable.ic_checkbox_true else R.drawable.ic_checkbox_false
                 ),
-                contentDescription = "",
+                contentDescription = ""
             )
 
             Spacer(modifier = Modifier.size(8.dp))

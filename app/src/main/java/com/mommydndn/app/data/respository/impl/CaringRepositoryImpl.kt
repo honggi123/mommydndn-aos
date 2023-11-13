@@ -1,10 +1,11 @@
 package com.mommydndn.app.data.respository.impl
 
-import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.mommydndn.app.data.api.model.request.JobOfferListRequest
 import com.mommydndn.app.data.api.model.request.JobOfferRequest
+import com.mommydndn.app.data.api.model.request.PaginationRequest
 import com.mommydndn.app.data.api.model.response.CreateJobOfferResponse
 import com.mommydndn.app.data.api.model.response.JobOfferResponse
 import com.mommydndn.app.data.api.service.CaringService
@@ -15,18 +16,18 @@ import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.EtcCheckItem
 import com.mommydndn.app.data.model.care.JobOffer
 import com.mommydndn.app.data.model.care.JobOfferSummary
+import com.mommydndn.app.data.model.care.JobOfferSummaryListItem
 import com.mommydndn.app.data.model.care.JobSeeker
 import com.mommydndn.app.data.model.care.MinHourlySalary
 import com.mommydndn.app.data.model.care.SalaryType
+import com.mommydndn.app.data.model.care.SortingType
 import com.mommydndn.app.data.model.care.WorkPeriodType
 import com.mommydndn.app.data.model.common.DayOfWeekItem
+import com.mommydndn.app.data.model.common.DayOfWeekType
 import com.mommydndn.app.data.model.map.EmdItem
 import com.mommydndn.app.data.respository.CaringRepository
 import com.mommydndn.app.utils.DateTimeUtils
 import com.skydoves.sandwich.getOrNull
-import com.skydoves.sandwich.message
-import com.skydoves.sandwich.onError
-import com.skydoves.sandwich.onException
 import com.skydoves.sandwich.suspendOnSuccess
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -84,12 +85,41 @@ class CaringRepositoryImpl @Inject constructor(
     }.flowOn(Dispatchers.IO)
 
 
-    override fun fetchJobOfferSummary(): Flow<PagingData<JobOfferSummary>> {
+    override fun fetchJobOfferSummary(
+        keyword: String?,
+        sortingType: SortingType,
+        emdId: Int,
+        neighborhoodScope: Int,
+        caringTypeList: List<CaringType>,
+        days: List<DayOfWeekType>,
+        startTime: LocalTime?,
+        endTime: LocalTime?,
+        workPeriodTypeList: List<WorkPeriodType>
+    ): Flow<PagingData<JobOfferSummaryListItem>> {
+
+        val jobOfferListRequest = JobOfferListRequest(
+            caringTypeCodeList = caringTypeList,
+            days = days,
+            emdId = emdId,
+            endTime =  endTime?.let { DateTimeUtils.getLocalTimeText(it) } ?: null,
+            keyword = keyword,
+            neighborhoodScope = neighborhoodScope,
+            paginationRequest = PaginationRequest(0,0,0),
+            sortingCondition = sortingType,
+            startTime = startTime?.let { DateTimeUtils.getLocalTimeText(it) } ?: null,
+            taskTypeCodeList = workPeriodTypeList
+        )
+
         return Pager(
             config = PagingConfig(
                 pageSize = 15, enablePlaceholders = false
             ),
-            pagingSourceFactory = { JobOfferSummaryPagingSource(caringService) }
+            pagingSourceFactory = {
+                JobOfferSummaryPagingSource(
+                    jobOfferListRequest,
+                    caringService
+                )
+            }
         ).flow
     }
 
@@ -163,7 +193,7 @@ class CaringRepositoryImpl @Inject constructor(
                 content = content,
                 caringTypeCodeList = caringTypeList,
                 taskTypeCode = taskType,
-                dateList = dateList!!.map { DateTimeUtils.getTimestampByLocalDate(it) ?: 0},
+                dateList = dateList!!.map { DateTimeUtils.getTimestampByLocalDate(it) ?: 0 },
                 days = days.map { it.type },
                 startTime = startTime?.let { DateTimeUtils.getLocalTimeText(it) },
                 endTime = endTime?.let { DateTimeUtils.getLocalTimeText(it) },

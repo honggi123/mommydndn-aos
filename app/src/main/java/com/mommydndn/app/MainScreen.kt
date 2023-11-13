@@ -80,18 +80,7 @@ fun MainScreen(
         },
         floatingActionButton = {
             if (MainNav.isFloatingActionBarVisible(currentRoute)) {
-                FloatingActionButton(
-                    onClick = { NavigationUtils.navigate(navController, JobOfferWriteNav.route) },
-                    modifier = Modifier
-                        .size(72.dp),
-                    backgroundColor = Salmon600
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_pencil),
-                        contentDescription = null,
-                        tint = White
-                    )
-                }
+
             }
         }
     ) {

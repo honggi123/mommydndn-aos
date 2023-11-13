@@ -2,19 +2,32 @@ package com.mommydndn.app.ui.features.care
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mommydndn.app.data.model.care.CaringType
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import com.mommydndn.app.data.api.model.request.JobOfferListRequest
+import com.mommydndn.app.data.api.model.response.UserResponse
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.Filter.FilterItemsType
 import com.mommydndn.app.data.model.care.Filter.FilterType
+import com.mommydndn.app.data.model.care.JobOfferSummaryListItem
 import com.mommydndn.app.data.model.care.SortingType
 import com.mommydndn.app.data.model.care.SortingTypeItem
 import com.mommydndn.app.data.model.care.WorkPeriodType
+import com.mommydndn.app.data.model.care.WorkPeriodTypeItem
 import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.common.DayOfWeekType
 import com.mommydndn.app.data.respository.CaringRepository
+import com.mommydndn.app.data.respository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.time.LocalTime
 import javax.inject.Inject
@@ -22,8 +35,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CareViewModel @Inject constructor(
-    private val caringRepository: CaringRepository
+    private val caringRepository: CaringRepository,
+    private val userRepository: UserRepository
 ) : ViewModel() {
+
+    val userInfo: StateFlow<UserResponse?> = userRepository.fetchUserInfo().stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.Lazily,
+        initialValue = null
+    )
 
     private val _filterItems = MutableStateFlow(
         listOf(
@@ -37,7 +57,13 @@ class CareViewModel @Inject constructor(
                         SortingTypeItem(SortingType.CLOSEST)
                     )
                 ),
-                isSelected = false
+                isSelected = true
+            ),
+
+            FilterType.NeighborhoodScope(
+                displayingName = "${userInfo.value?.emd?.sigName} 외 24",
+                itemsType = FilterItemsType.NeighborhoodScope(list = listOf(6,9,24)),
+                isSelected = true
             ),
 
             FilterType.Caring(
@@ -48,18 +74,12 @@ class CareViewModel @Inject constructor(
                 isSelected = false
             ),
 
-            FilterType.NeighborhoodScope(
-                displayingName = "동네범위",
-                itemsType = FilterItemsType.NeighborhoodScope(list = listOf()),
-                isSelected = false
-            ),
-
             FilterType.Period(
-                displayingName = "1회성/정기",
+                displayingName = "전체",
                 itemsType = FilterItemsType.Period(
                     list = listOf(
-                        WorkPeriodType.REGULAR,
-                        WorkPeriodType.ONETIME
+                        WorkPeriodTypeItem(WorkPeriodType.REGULAR, true),
+                        WorkPeriodTypeItem(WorkPeriodType.ONETIME)
                     )
                 ),
                 isSelected = false
@@ -68,7 +88,7 @@ class CareViewModel @Inject constructor(
                 displayingName = "요일",
                 itemsType = FilterItemsType.Day(
                     list = listOf(
-                        DayOfWeekItem(DayOfWeekType.MON),
+                        DayOfWeekItem(DayOfWeekType.MON, isSelected = true),
                         DayOfWeekItem(DayOfWeekType.TUE),
                         DayOfWeekItem(DayOfWeekType.WED),
                         DayOfWeekItem(DayOfWeekType.THU),
@@ -82,8 +102,8 @@ class CareViewModel @Inject constructor(
             FilterType.Time(
                 displayingName = "시간",
                 itemsType = FilterItemsType.Time(
-                    startTime = LocalTime.now(),
-                    endTime = LocalTime.now()
+                    startTime = null,
+                    endTime = null
                 ),
                 isSelected = false
             ),
@@ -91,25 +111,64 @@ class CareViewModel @Inject constructor(
     )
     val filterItems: StateFlow<List<FilterType>> = _filterItems
 
-//    val searchedJobOfferSummary: Flow<PagingData<JobOfferSummary>> =
-//        caringRepository.fetchJobOfferSummary().cachedIn(viewModelScope)
+    val searchedJobOfferSummary: Flow<PagingData<JobOfferSummaryListItem>> =
+        userInfo.flatMapLatest {
+            if (it != null) {
+                caringRepository.fetchJobOfferSummary(
+                    keyword = null,
+                    caringTypeList = filterItems.value.filterIsInstance<FilterType.Caring>()
+                        .first().itemsType.list.filter { it.isSelected }.map { it.caringType },
+                    days = filterItems.value.filterIsInstance<FilterType.Day>()
+                        .first().itemsType.list.filter { it.isSelected }.map { it.type },
+                    emdId = userInfo.value?.emd?.id ?: 0,
+                    sortingType = filterItems.value.filterIsInstance<FilterType.Sorting>()
+                        .first().itemsType.list.filter { it.isSelected }.first().sortingType,
+                    workPeriodTypeList = filterItems.value.filterIsInstance<FilterType.Period>()
+                        .first().itemsType.list.filter { it.isSelected }.map { it.workPeriodType },
+                    neighborhoodScope = 24,
+                    startTime = filterItems.value.filterIsInstance<FilterType.Time>()
+                        .first().itemsType.startTime ?: null,
+                    endTime = filterItems.value.filterIsInstance<FilterType.Time>()
+                        .first().itemsType.endTime ?: null,
+                ).cachedIn(viewModelScope)
+            } else emptyFlow()
+        }
 
     init {
-        fetchCaringTypeItems()
-    }
-
-    private fun fetchCaringTypeItems() {
         viewModelScope.launch {
-            caringRepository.fetchCaringTypeItems().collect { types ->
-                val currentFilterItems = _filterItems.value
-                val caringFilter = currentFilterItems.find { it is FilterType.Caring } as? FilterType.Caring
+            fetchCaringTypeItems()
 
-                caringFilter?.itemsType?.list = types
-
-                _filterItems.value = currentFilterItems
+            userInfo.collect { userResponse ->
+                updateFilterItems(userResponse)
             }
         }
     }
+
+    private fun updateFilterItems(userInfo: UserResponse?) {
+        _filterItems.value = _filterItems.value.map { filterType ->
+            when (filterType) {
+                is FilterType.NeighborhoodScope -> {
+                    filterType.copy(displayingName = "${userInfo?.emd?.sigName} 외 24")
+                }
+                else -> filterType
+            }
+        }
+    }
+
+
+
+    private suspend fun fetchCaringTypeItems() {
+        caringRepository.fetchCaringTypeItems().collect { types ->
+            val currentFilterItems = _filterItems.value
+            val caringFilter =
+                currentFilterItems.find { it is FilterType.Caring } as? FilterType.Caring
+
+            caringFilter?.itemsType?.list = types
+
+            _filterItems.value = currentFilterItems
+        }
+    }
+
     fun updateDayFilter(selectedFilters: FilterItemsType.Day) {
         val currentFilterItems = _filterItems.value
         val dayFilter = currentFilterItems.find { it is FilterType.Day } as? FilterType.Day
@@ -119,6 +178,9 @@ class CareViewModel @Inject constructor(
     fun updateCaringFilter(selectedFilters: FilterItemsType.Caring) {
         val currentFilterItems = _filterItems.value
         val dayFilter = currentFilterItems.find { it is FilterType.Caring } as? FilterType.Caring
-        dayFilter?.itemsType?.copy(isAllChecked = selectedFilters.isAllChecked, list = selectedFilters.list)
+        dayFilter?.itemsType?.copy(
+            isAllChecked = selectedFilters.isAllChecked,
+            list = selectedFilters.list
+        )
     }
 }

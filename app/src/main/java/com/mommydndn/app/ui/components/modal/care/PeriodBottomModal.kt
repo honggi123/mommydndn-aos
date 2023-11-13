@@ -69,7 +69,7 @@ fun PeriodBottomModal(
                         onCheckedChange = {
                             periodType.isSelected = !periodType.isSelected
                         },
-                        text = periodType.value
+                        text = periodType.workPeriodType.value
                     )
                 }
             }

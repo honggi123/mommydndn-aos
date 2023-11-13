@@ -23,8 +23,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
-import com.mommydndn.app.data.model.common.BadgeColorType
 import com.mommydndn.app.data.model.care.JobOfferSummary
+import com.mommydndn.app.data.model.care.JobOfferSummaryListItem
+import com.mommydndn.app.data.model.common.BadgeColorType
 import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption100
@@ -33,11 +34,12 @@ import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.ui.components.common.Badge
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey800
+import com.mommydndn.app.utils.DateTimeUtils
 
 @Composable
 fun JobOfferSummaryBox(
     modifier: Modifier = Modifier,
-    item: JobOfferSummary
+    item: JobOfferSummaryListItem
 ) {
     Box(
         modifier = modifier
@@ -52,8 +54,8 @@ fun JobOfferSummaryBox(
                 Column {
                     Row {
                         item.caringTypeCodeList.forEach {
-                            if (it.equals("마감")) Badge(colorType = BadgeColorType.ORANGE, text = it)
-                            else Badge(colorType = BadgeColorType.ORANGE, text = it)
+                            if (it.equals("마감")) Badge(colorType = BadgeColorType.ORANGE, text = it.value)
+                            else Badge(colorType = BadgeColorType.ORANGE, text = it.value)
                         }
                     }
 
@@ -83,7 +85,7 @@ fun JobOfferSummaryBox(
                         Spacer(modifier = Modifier.size(4.dp))
 
                         Text(
-                            text = item.createdAt,
+                            text = DateTimeUtils.formatTimestampToMonthDay(item.createdAt),
                             style = MaterialTheme.typography.caption100.copy(
                                 fontWeight = FontWeight.Normal,
                                 color = Grey500
@@ -138,7 +140,7 @@ fun JobOfferSummaryBox(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = item.salaryTypeCode,
+                        text = item.salaryTypeCode.value,
                         style = MaterialTheme.typography.paragraph300.copy(
                             fontWeight = FontWeight.Bold,
                             color = Grey800
@@ -155,27 +157,4 @@ fun JobOfferSummaryBox(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun JobOfferSummaryBoxPreview() {
-    val jobOffer = JobOfferSummary(
-        caringTypeCodeList = listOf("육아", "가사"),
-        createdAt = "2023-10-10",
-        dayTypeCodeList = listOf("토", "일"),
-        endDate = 31,
-        endTime = "18:00",
-        isLiked = false,
-        isMatched = true,
-        jobOfferId = 1,
-        neighborhood = "서울",
-        salary = 3000,
-        salaryTypeCode = "시급",
-        startDate = 1,
-        startTime = "09:00",
-        title = "일자리 제목"
-    )
-
-    JobOfferSummaryBox(item = jobOffer)
 }
