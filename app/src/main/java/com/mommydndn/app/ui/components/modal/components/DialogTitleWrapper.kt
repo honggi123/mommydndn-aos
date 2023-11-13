@@ -142,7 +142,7 @@ fun LocationDialogTitle(title: DialogTitle.Location) {
         )
         Row(modifier = Modifier.fillMaxWidth()) {
             Text(
-                text = title.text,
+                text = title.locationText,
                 modifier = Modifier
                     .fillMaxWidth(),
                 textAlign = TextAlign.Start,

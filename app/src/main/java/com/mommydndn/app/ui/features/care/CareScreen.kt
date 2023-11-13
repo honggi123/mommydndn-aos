@@ -53,6 +53,7 @@ import com.mommydndn.app.ui.components.common.CustomTab
 import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.components.modal.care.CaringBottomModal
 import com.mommydndn.app.ui.components.modal.care.DayBottomModal
+import com.mommydndn.app.ui.components.modal.care.NeighborhoodScopeBottomModal
 import com.mommydndn.app.ui.components.modal.care.PeriodBottomModal
 import com.mommydndn.app.ui.components.modal.layout.BaseModalBottomSheetLayout
 import com.mommydndn.app.ui.components.modal.care.SortingBottomModal
@@ -272,6 +273,19 @@ private fun getDialogContent(
                     closeAction()
                     viewModel.updateDayFilter(it)
                 }
+            )
+        }
+
+        is FilterType.NeighborhoodScope -> {
+            return NeighborhoodScopeBottomModal(
+                modifier = Modifier.padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    bottom = 100.dp
+                ),
+                item = selectedItem.itemsType,
+                onClickClose = { closeAction() },
+                onClickComplete = { closeAction() }
             )
         }
 
