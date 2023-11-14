@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -166,22 +167,19 @@ fun MainHomeScreen(
 
             Box(modifier = Modifier.fillMaxWidth()) {
                 Column(
-                    modifier = Modifier.padding(
-                        start = 24.dp,
-                        top = 28.dp,
-                        bottom = 24.dp,
-                        end = 28.dp
-                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            horizontal = 24.dp, vertical = 28.dp
+                        ),
                 ) {
                     babyItems.chunked(2).forEach { rowItems ->
-                        Row {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
                             rowItems.forEach { item ->
-                                MarketListItemBox(item = item)
-                                Spacer(
-                                    modifier = Modifier
-                                        .fillMaxHeight()
-                                        .padding(12.dp)
-                                )
+                                MarketListItemBox(modifier = Modifier.weight(1f), item = item)
                             }
                         }
 
@@ -243,7 +241,7 @@ fun MainHomeScreen(
         )
     val scope = rememberCoroutineScope()
 
-    if (noticeSettings.isNotEmpty()){
+    if (noticeSettings.isNotEmpty()) {
         ModalBottomSheetLayout(
             modifier = Modifier,
             sheetState = sheetState,
@@ -273,7 +271,6 @@ fun MainHomeScreen(
             )
         }
     }
-
 
 
 }
