@@ -23,7 +23,6 @@ data class JobOfferPreview(
     val salary: Int,
     val etcCheckedList: List<EtcCheckItem>,
     val imageList: List<String>,
-    val isTimeNegotiable: Boolean,
     val startDate: LocalDate,
     val endDate: LocalDate
 )

@@ -168,8 +168,7 @@ fun JobOfferPreviewScreen(
                         }
                     }",
                     dateText = allDateText,
-                    timeText = if (jobOfferPreview?.isTimeNegotiable == true) "협의 가능" else
-                        "${DateTimeUtils.formatLocalTime(jobOfferPreview?.startTime)} ~ ${
+                    timeText = "${DateTimeUtils.formatLocalTime(jobOfferPreview?.startTime)} ~ ${
                             DateTimeUtils.formatLocalTime(jobOfferPreview?.endTime)
                         }"
                 )

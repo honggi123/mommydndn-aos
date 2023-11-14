@@ -110,9 +110,6 @@ class JobOfferWriteViewModel @Inject constructor(
     private val _etcCheckList: MutableStateFlow<List<EtcCheckItem>> = MutableStateFlow(emptyList())
     val etcCheckList: StateFlow<List<EtcCheckItem>> = _etcCheckList
 
-    private val _isTimeNegotiable: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val isTimeNegotiable: StateFlow<Boolean> = _isTimeNegotiable
-
     private val _emdItem: MutableStateFlow<EmdItem?> = MutableStateFlow<EmdItem?>(null)
     val emdItem: StateFlow<EmdItem?> = _emdItem
 
@@ -255,9 +252,6 @@ class JobOfferWriteViewModel @Inject constructor(
         }
     }
 
-    fun toggleIsTimeNegotiable() {
-        _isTimeNegotiable.value = !_isTimeNegotiable.value
-    }
 
     fun removePhoto(selectedUri: Uri) {
         _photos.value = _photos.value.filter {

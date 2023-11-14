@@ -150,7 +150,6 @@ fun JobOfferWriteScreen(
 
     val startTime by viewModel.startTime.collectAsState()
     val endTime by viewModel.endTime.collectAsState()
-    val isTimeNegotiable by viewModel.isTimeNegotiable.collectAsState()
 
     val locationInfo by viewModel.locationInfo.collectAsState()
 
@@ -453,13 +452,8 @@ fun JobOfferWriteScreen(
                     option2Text = endTime?.let { DateTimeUtils.getLocalTimeText(it) } ?: "종료시간",
                     onOption1Clicked = { startTimePicker.show() },
                     onOption2Clicked = { endTimePicker.show() },
-                    isChecked = isTimeNegotiable,
                     isOption1Selected = startTime != null,
-                    isOption2Selected = endTime != null,
-                    onCheckedChange = {
-                        viewModel.toggleIsTimeNegotiable()
-                    },
-                    checkListText = "협의 가능해요"
+                    isOption2Selected = endTime != null
                 )
             }
             Divider(
@@ -728,7 +722,6 @@ fun JobOfferWriteScreen(
                                         imageList = photos.map {
                                             Uri.encode(it.toString())
                                         },
-                                        isTimeNegotiable = isTimeNegotiable,
                                         startDate = startDate,
                                         endDate = endDate
                                     )
