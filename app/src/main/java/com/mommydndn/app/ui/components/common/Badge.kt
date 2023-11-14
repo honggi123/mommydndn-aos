@@ -3,6 +3,7 @@ package com.mommydndn.app.ui.components.common
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -42,7 +43,7 @@ fun Badge(
 
     Box(
         modifier = modifier
-            .background(shape = Shapes.large, color = backgroundColor),
+            .background(shape = RoundedCornerShape(6.dp), color = backgroundColor),
         contentAlignment = Alignment.Center
     ) {
         Text(

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -35,6 +36,7 @@ import com.mommydndn.app.ui.components.common.Badge
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey800
 import com.mommydndn.app.utils.DateTimeUtils
+import com.mommydndn.app.utils.NumberUtils
 
 @Composable
 fun JobOfferSummaryBox(
@@ -51,11 +53,14 @@ fun JobOfferSummaryBox(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Column {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(2.dp)
+                ) {
                     Row {
                         item.caringTypeCodeList.forEach {
                             if (it.equals("마감")) Badge(colorType = BadgeColorType.ORANGE, text = it.value)
                             else Badge(colorType = BadgeColorType.ORANGE, text = it.value)
+                            Spacer(modifier = Modifier.width(3.dp))
                         }
                     }
 
@@ -66,8 +71,10 @@ fun JobOfferSummaryBox(
                             color = Grey700
                         )
                     )
+
                     Row(
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         Text(
                             text = item.neighborhood,
@@ -76,13 +83,11 @@ fun JobOfferSummaryBox(
                                 color = Grey500
                             )
                         )
-                        Spacer(modifier = Modifier.size(4.dp))
                         Image(
                             painter = painterResource(id = R.drawable.ic_ellipse),
                             contentDescription = null,
                             modifier = Modifier.align(Alignment.CenterVertically)
                         )
-                        Spacer(modifier = Modifier.size(4.dp))
 
                         Text(
                             text = DateTimeUtils.formatTimestampToMonthDay(item.createdAt),
@@ -95,16 +100,15 @@ fun JobOfferSummaryBox(
                 }
 
                 Image(
-                    painter = painterResource(id = R.drawable.ic_heart_fill),
+                    painter = painterResource(id = R.drawable.ic_heart_grey),
                     contentDescription = null,
                     modifier = Modifier
                         .size(36.dp)
-                        .clip(CircleShape)
                 )
 
             }
 
-            Spacer(modifier = Modifier.padding(12.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -140,14 +144,7 @@ fun JobOfferSummaryBox(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = item.salaryTypeCode.value,
-                        style = MaterialTheme.typography.paragraph300.copy(
-                            fontWeight = FontWeight.Bold,
-                            color = Grey800
-                        )
-                    )
-                    Text(
-                        text = item.salary.toString(),
+                        text = "${item.salaryTypeCode.value} ${NumberUtils.getPriceString(item.salary)}",
                         style = MaterialTheme.typography.paragraph300.copy(
                             fontWeight = FontWeight.Bold,
                             color = Grey800
