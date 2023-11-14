@@ -551,6 +551,7 @@ fun JobOfferWriteScreen(
 
                 if (selectedSalaryType?.salaryType != SalaryType.NEGOTIATION) {
                     TextInpuField(
+                        modifier = Modifier.fillMaxWidth(),
                         label = selectedSalaryType?.salaryType?.value ?: "시급",
                         value = salary?.let { it.toString() } ?: "",
                         onValueChanged = { value ->

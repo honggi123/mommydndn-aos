@@ -91,12 +91,12 @@ class CareViewModel @Inject constructor(
                 itemsType = FilterItemsType.Day(
                     list = listOf(
                         DayOfWeekItem(DayOfWeekType.MON, isSelected = true),
-                        DayOfWeekItem(DayOfWeekType.TUE),
-                        DayOfWeekItem(DayOfWeekType.WED),
-                        DayOfWeekItem(DayOfWeekType.THU),
-                        DayOfWeekItem(DayOfWeekType.FRI),
-                        DayOfWeekItem(DayOfWeekType.SAT),
-                        DayOfWeekItem(DayOfWeekType.SUN)
+                        DayOfWeekItem(DayOfWeekType.TUE, isSelected = true),
+                        DayOfWeekItem(DayOfWeekType.WED, isSelected = true),
+                        DayOfWeekItem(DayOfWeekType.THU, isSelected = true),
+                        DayOfWeekItem(DayOfWeekType.FRI, isSelected = true),
+                        DayOfWeekItem(DayOfWeekType.SAT, isSelected = true),
+                        DayOfWeekItem(DayOfWeekType.SUN, isSelected = true)
                     )
                 ),
                 isSelected = false
@@ -159,12 +159,12 @@ class CareViewModel @Inject constructor(
     }
 
     private suspend fun fetchCaringTypeItems() {
-        caringRepository.fetchCaringTypeItems().collect { types ->
+        caringRepository.fetchCaringTypeItems().collect { items ->
             val currentFilterItems = _filterItems.value
             val caringFilter =
                 currentFilterItems.find { it is FilterType.Caring } as? FilterType.Caring
-
-            caringFilter?.itemsType?.list = types
+            val seletedItems = items.map { it.copy(isSelected = true) }
+            caringFilter?.itemsType?.list = seletedItems
 
             _filterItems.value = currentFilterItems
         }

@@ -111,10 +111,11 @@ fun JobOfferPreviewScreen(
 
         Header(leftContent = {
             Image(
-                painter = painterResource(id = R.drawable.ic_x),
+                painter = painterResource(id = R.drawable.arrow_left),
                 contentDescription = "",
                 modifier = Modifier
                     .size(size = 36.dp)
+                    .clickable { navController.popBackStack() }
             )
         }, centerContent = {
             Text(
