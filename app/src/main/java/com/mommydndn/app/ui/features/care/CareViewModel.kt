@@ -63,7 +63,7 @@ class CareViewModel @Inject constructor(
             ),
 
             FilterType.NeighborhoodScope(
-                displayingName = "${userInfo.value?.emd?.sigName} 외 24",
+                displayingName = "${userInfo.value?.emd?.ctprvnName} 외 24",
                 itemsType = FilterItemsType.NeighborhoodScope(list = listOf(6, 9, 24)),
                 isSelected = true
             ),
@@ -150,7 +150,7 @@ class CareViewModel @Inject constructor(
         _filterItems.value = _filterItems.value.map { filterType ->
             when (filterType) {
                 is FilterType.NeighborhoodScope -> {
-                    filterType.copy(displayingName = "${userInfo?.emd?.sigName} 외 24")
+                    filterType.copy(displayingName = "${userInfo?.emd?.name} 외 24")
                 }
 
                 else -> filterType

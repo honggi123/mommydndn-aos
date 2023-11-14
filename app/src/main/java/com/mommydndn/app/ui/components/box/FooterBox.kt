@@ -72,7 +72,7 @@ fun FooterBox(
                 )
             }
 
-            Spacer(modifier = Modifier.padding(24.dp))
+            Spacer(modifier = Modifier.height(24.dp))
             Text(
                 text = "(주)마미든든 주식회사",
                 style = MaterialTheme.typography.caption200.copy(
@@ -80,7 +80,7 @@ fun FooterBox(
                     color = Grey500
                 )
             )
-            Spacer(modifier = Modifier.padding(24.dp))
+            Spacer(modifier = Modifier.height(24.dp))
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -91,7 +91,7 @@ fun FooterBox(
                         color = Grey400
                     )
                 )
-                Spacer(modifier = Modifier.padding(6.dp))
+                Spacer(modifier = Modifier.height(6.dp))
                 Divider(
                     modifier = Modifier
                         .height(11.dp)
@@ -118,14 +118,14 @@ fun FooterBox(
                         color = Grey400
                     )
                 )
-                Spacer(modifier = Modifier.padding(6.dp))
+                Spacer(modifier = Modifier.height(6.dp))
                 Divider(
                     modifier = Modifier
                         .height(11.dp)
                         .width(1.dp),
                     color = Grey400,
                 )
-                Spacer(modifier = Modifier.padding(6.dp))
+                Spacer(modifier = Modifier.height(6.dp))
                 Text(
                     text = "cs@mommydndn.com",
                     style = MaterialTheme.typography.caption100.copy(
@@ -152,7 +152,7 @@ fun FooterBox(
             )
 
 
-            Spacer(modifier = Modifier.padding(24.dp))
+            Spacer(modifier = Modifier.height(24.dp))
             Row {
                 Text(
                     text = "이용약관",
@@ -161,7 +161,7 @@ fun FooterBox(
                         color = Grey500
                     )
                 )
-                Spacer(modifier = Modifier.padding(8.dp))
+                Spacer(modifier = Modifier.width(8.dp))
 
                 Text(
                     text = "개인정보처리방침",
@@ -173,7 +173,7 @@ fun FooterBox(
 
             }
 
-            Spacer(modifier = Modifier.padding(24.dp))
+            Spacer(modifier = Modifier.height(24.dp))
             MommyDndnButton(
                 text = "1:1 문의하기",
                 color = ButtonColor.GREY,
@@ -181,6 +181,7 @@ fun FooterBox(
                 rangeType = MinMaxRange.MIN,
                 onClick = {}
             )
+            Spacer(modifier = Modifier.height(24.dp))
         }
     }
 }

@@ -112,7 +112,7 @@ fun CareScreen(
             ) {
                 Header(leftContent = {
                     Text(
-                        text = userInfo?.emd?.sigName ?: "",
+                        text = userInfo?.emd?.name ?: "",
                         style = MaterialTheme.typography.heading800.copy(
                             fontWeight = FontWeight.Bold,
                             color = Grey700
@@ -159,8 +159,7 @@ fun CareScreen(
 
                 LazyColumn(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(584.dp)
+                        .fillMaxSize()
                         .padding(top = 6.dp)
                         .background(White),
                     horizontalAlignment = Alignment.CenterHorizontally
