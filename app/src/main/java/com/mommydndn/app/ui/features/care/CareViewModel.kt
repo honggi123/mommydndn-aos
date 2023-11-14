@@ -220,4 +220,33 @@ class CareViewModel @Inject constructor(
             set(indexOf(caringFilter), updatedFilter)
         }
     }
+
+    fun updateTimeFilter(selectedFilters: FilterItemsType.Time) {
+        val currentFilterItems = _filterItems.value
+        val timeFilter = currentFilterItems.filterIsInstance<FilterType.Time>().first()
+
+        val updatedFilter = timeFilter.copy(
+            isSelected = true,
+            displayingName = getDutarionHourString(
+                selectedFilters.startTime,
+                selectedFilters.endTime
+            ) ?: "시간",
+            itemsType = timeFilter.itemsType.copy(
+                startTime = selectedFilters.startTime,
+                endTime = selectedFilters.endTime
+            )
+        )
+
+        _filterItems.value = currentFilterItems.toMutableList().apply {
+            set(indexOf(timeFilter), updatedFilter)
+        }
+    }
+
+    private fun getDutarionHourString(startTime: LocalTime?, endTime: LocalTime?): String? {
+        if (startTime == null || endTime == null) {
+            return null
+        }
+        return "${startTime!!.hour} ~ ${endTime!!.hour}"
+    }
 }
+

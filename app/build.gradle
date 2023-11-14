@@ -140,5 +140,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation files('libs/libDaumMapAndroid.jar')
 
+    implementation 'com.github.commandiron:WheelPickerCompose:1.1.11'
+
     implementation "com.google.accompanist:accompanist-webview:0.24.13-rc"
 }

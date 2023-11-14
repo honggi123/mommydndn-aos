@@ -268,7 +268,11 @@ private fun DialogContent(
                     bottom = 100.dp
                 ),
                 item = selectedItem.itemsType,
-                onClickClose = { closeAction() }
+                onClickClose = { closeAction() },
+                onClickComplete = {
+                    closeAction()
+                    viewModel.updateTimeFilter(it)
+                }
             )
         }
 

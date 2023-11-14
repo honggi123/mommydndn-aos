@@ -57,7 +57,7 @@ fun SelectScopeBox(
         verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.Top),
         modifier = modifier
     ) {
-        if(label.isNotBlank()){
+        if (label.isNotBlank()) {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start),
                 modifier = Modifier
@@ -93,6 +93,8 @@ fun SelectScopeBox(
                         top = 12.dp,
                         bottom = 12.dp
                     )
+                    .clickable { onOption1Clicked() }
+
             ) {
                 Text(
                     text = option1Text,
@@ -106,7 +108,6 @@ fun SelectScopeBox(
                     contentDescription = "Icon/arrow-down-line",
                     modifier = Modifier
                         .size(size = 28.dp)
-                        .clickable { onOption1Clicked() }
                 )
             }
 
@@ -133,6 +134,7 @@ fun SelectScopeBox(
                         top = 12.dp,
                         bottom = 12.dp
                     )
+                    .clickable { onOption2Clicked() }
             ) {
                 Text(
                     text = option2Text,
@@ -149,12 +151,15 @@ fun SelectScopeBox(
                     contentDescription = "",
                     modifier = Modifier
                         .size(size = 28.dp)
-                        .clickable { onOption2Clicked() }
                 )
             }
         }
-        if (!checkListText.isEmpty()){
-            CheckMarkListItem(checked = isChecked, onCheckedChange = onCheckedChange, text = checkListText)
+        if (!checkListText.isEmpty()) {
+            CheckMarkListItem(
+                checked = isChecked,
+                onCheckedChange = onCheckedChange,
+                text = checkListText
+            )
         }
     }
 }
