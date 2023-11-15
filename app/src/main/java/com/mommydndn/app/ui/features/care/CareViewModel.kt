@@ -19,6 +19,7 @@ import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.common.DayOfWeekType
 import com.mommydndn.app.data.respository.CaringRepository
 import com.mommydndn.app.data.respository.UserRepository
+import com.mommydndn.app.utils.DateTimeUtils
 import com.mommydndn.app.utils.StringUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -246,7 +247,7 @@ class CareViewModel @Inject constructor(
         if (startTime == null || endTime == null) {
             return null
         }
-        return "${startTime!!.hour} ~ ${endTime!!.hour}"
+        return "${DateTimeUtils.getLocalTimeText(startTime!!)} ~ ${DateTimeUtils.getLocalTimeText(endTime!!)}"
     }
 }
 

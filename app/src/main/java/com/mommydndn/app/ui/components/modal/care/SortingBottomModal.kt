@@ -99,7 +99,10 @@ fun SortingBottomModal(
 
             DialogButtonsRow(
                 listOf(
-                    DialogButton.Secondary(title = "닫기", action = { onClickClose() }),
+                    DialogButton.Secondary(title = "닫기", action = {
+                        onClickClose()
+                        sortingItemList = item.list
+                    }),
                     DialogButton.Primary(
                         title = "적용하기",
                         action = { onClickComplete(FilterItemsType.Sorting(sortingItemList)) })

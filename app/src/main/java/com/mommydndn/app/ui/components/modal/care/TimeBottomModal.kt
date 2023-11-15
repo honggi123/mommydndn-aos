@@ -48,7 +48,7 @@ fun TimeBottomModal(
     onClickClose: () -> Unit = {},
     onClickComplete: (FilterItemsType.Time) -> Unit = {}
 ) {
-    val timeItem by remember { mutableStateOf(item) }
+    var timeItem by remember { mutableStateOf(item) }
 
     var selectType by remember { mutableStateOf(TimeModalSelectType.START_TIME) }
 
@@ -144,7 +144,10 @@ fun TimeBottomModal(
 
             DialogButtonsRow(
                 listOf(
-                    DialogButton.Secondary(title = "닫기", action = { onClickClose() }),
+                    DialogButton.Secondary(title = "닫기", action = {
+                        onClickClose()
+                        timeItem = item
+                    }),
                     DialogButton.Primary(title = "적용하기", action = {
                         onClickComplete(
                             timeItem.copy(startTime = selectedStartTime, endTime = selectedEndTime)

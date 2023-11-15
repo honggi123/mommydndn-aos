@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,7 +40,7 @@ fun PeriodBottomModal(
     onClickClose: () -> Unit = {},
     onClickComplete: () -> Unit = {}
 ) {
-    val periodItem by remember { mutableStateOf(item) }
+    var periodItem by remember { mutableStateOf(item) }
 
     Box(
         modifier = modifier
@@ -85,11 +86,16 @@ fun PeriodBottomModal(
                 }
             }
 
-            Spacer(modifier = Modifier.fillMaxWidth().height(28.dp))
+            Spacer(modifier = Modifier
+                .fillMaxWidth()
+                .height(28.dp))
 
             DialogButtonsRow(
                 listOf(
-                    DialogButton.Secondary(title = "닫기", action = { onClickClose() }),
+                    DialogButton.Secondary(title = "닫기", action = {
+                        onClickClose()
+                        periodItem = item
+                    }),
                     DialogButton.Primary(title = "적용하기", action = { onClickComplete() })
                 )
             )

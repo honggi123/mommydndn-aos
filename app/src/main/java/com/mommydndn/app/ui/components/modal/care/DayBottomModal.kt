@@ -112,7 +112,10 @@ fun DayBottomModal(
 
             DialogButtonsRow(
                 listOf(
-                    DialogButton.Secondary(title = "닫기", action = { onClickClose() }),
+                    DialogButton.Secondary(title = "닫기", action = {
+                        onClickClose()
+                        dayItemList = item.list
+                    }),
                     DialogButton.Primary(
                         title = "적용하기",
                         action = { onClickComplete(FilterItemsType.Day(dayItemList)) })
