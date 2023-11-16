@@ -79,7 +79,11 @@ fun TimeBottomModal(
                 .wrapContentSize()
                 .padding(start = 20.dp, top = 36.dp, end = 20.dp, bottom = 24.dp),
         ) {
-            DialogTitleWrapper(DialogTitle.Refresh(text = "시간", action = {}))
+            DialogTitleWrapper(DialogTitle.Refresh(text = "시간", refreshAction = {
+                timeItem = timeItem.copy(startTime = null, endTime = null)
+                selectedStartTime = null
+                selectedEndTime = null
+            }))
 
             Divider(
                 thickness = 1.5.dp,

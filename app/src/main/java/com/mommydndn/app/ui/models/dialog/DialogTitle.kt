@@ -9,7 +9,7 @@ sealed class DialogTitle(
 
     data class Refresh(
         override val text: String,
-        val action: () -> Unit
+        val refreshAction: () -> Unit
     ) : DialogTitle(text)
 
     data class Check(

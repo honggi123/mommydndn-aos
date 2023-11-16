@@ -70,7 +70,11 @@ fun DayBottomModal(
                 .wrapContentSize()
                 .padding(start = 20.dp, top = 36.dp, end = 20.dp, bottom = 24.dp),
         ) {
-            DialogTitleWrapper(DialogTitle.Refresh(text = "시간", action = {}))
+            DialogTitleWrapper(DialogTitle.Refresh(text = "시간", refreshAction = {
+                dayItemList = dayItemList.toMutableList().map {
+                    it.copy(isSelected = false)
+                }
+            }))
 
             Divider(
                 thickness = 1.5.dp,

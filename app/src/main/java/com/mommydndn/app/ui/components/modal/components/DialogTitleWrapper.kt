@@ -103,7 +103,7 @@ fun RefreshDialogTitle(title: DialogTitle.Refresh) {
         )
         Spacer(modifier = Modifier.padding(8.dp))
         Row(modifier = Modifier.clickable {
-            title.action()
+            title.refreshAction()
         }) {
             Image(
                 painter = painterResource(id = R.drawable.ic_rewind),
