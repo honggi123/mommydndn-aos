@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,9 +39,9 @@ fun PeriodBottomModal(
     modifier: Modifier = Modifier,
     item: FilterItemsType.Period,
     onClickClose: () -> Unit = {},
-    onClickComplete: () -> Unit = {}
+    onClickComplete: (FilterItemsType.Period) -> Unit = {}
 ) {
-    var periodItem by remember { mutableStateOf(item) }
+    var periodItemList by rememberSaveable(Unit) { mutableStateOf(item.list) }
 
     Box(
         modifier = modifier
@@ -75,28 +76,37 @@ fun PeriodBottomModal(
             )
 
             Column {
-                periodItem.list.forEachIndexed { index, periodType ->
+                periodItemList.forEachIndexed { index, periodType ->
                     RadioListItem(
                         checked = periodType.isSelected,
                         onCheckedChange = {
-                            periodType.isSelected = !periodType.isSelected
+                            periodItemList = periodItemList.toMutableList().also {
+                                it.forEach { it.isSelected = false }
+                                it[index] = it[index].copy(isSelected = true)
+                            }
                         },
                         text = periodType.workPeriodType.value
                     )
                 }
             }
 
-            Spacer(modifier = Modifier
-                .fillMaxWidth()
-                .height(28.dp))
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(28.dp)
+            )
 
             DialogButtonsRow(
                 listOf(
                     DialogButton.Secondary(title = "닫기", action = {
                         onClickClose()
-                        periodItem = item
+                        periodItemList = item.list
                     }),
-                    DialogButton.Primary(title = "적용하기", action = { onClickComplete() })
+                    DialogButton.Primary(title = "적용하기", action = {
+                        onClickComplete(
+                            FilterItemsType.Period(list = periodItemList)
+                        )
+                    })
                 )
             )
         }

@@ -104,7 +104,9 @@ fun CareScreen(
                     scope.launch { sheetState.hide() }
                 },
                 completeAction = {
-                    scope.launch { sheetState.hide() }
+                    scope.launch {
+                        sheetState.hide()
+                    }
                 },
                 viewModel = viewModel
             )
@@ -169,9 +171,6 @@ fun CareScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     itemsIndexed(
-                        key = { index, item ->
-                            item.jobOfferId
-                        },
                         items = pagingJobOfferSummary
                     ) { index, item ->
                         if (item != null) {
@@ -284,7 +283,11 @@ private fun DialogContent(
                     bottom = 100.dp
                 ),
                 item = selectedItem.itemsType,
-                onClickClose = { closeAction() }
+                onClickClose = { closeAction() },
+                onClickComplete = {
+                    closeAction()
+                    viewModel.updatePeriodFilter(it)
+                }
             )
         }
 

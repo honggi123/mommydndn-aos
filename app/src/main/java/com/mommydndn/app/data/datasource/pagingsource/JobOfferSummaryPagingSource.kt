@@ -1,5 +1,6 @@
 package com.mommydndn.app.data.datasource.pagingsource
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.mommydndn.app.data.api.model.request.JobOfferListRequest
@@ -24,11 +25,13 @@ class JobOfferSummaryPagingSource @Inject constructor(
                 jobOfferListRequest.copy(
                     paginationRequest = PaginationRequest(
                         pageNum = position,
-                        pageSize = 10,
+                        pageSize = params.loadSize,
                         requestTimestamp = System.currentTimeMillis()
                     )
                 )
             )
+
+            Log.e("result",result.errorBody().toString())
 
             val data = result.body()?.jobOfferSummaryList ?: emptyList()
 
@@ -41,6 +44,7 @@ class JobOfferSummaryPagingSource @Inject constructor(
                 nextKey = if (data.isEmpty()) null else position + 1
             )
         } catch (e: Exception) {
+            Log.e("exception",e.message.toString())
             LoadResult.Error(e)
         }
     }

@@ -78,7 +78,7 @@ class CareViewModel @Inject constructor(
             ),
 
             FilterType.Period(
-                displayingName = "전체",
+                displayingName = "정기",
                 itemsType = FilterItemsType.Period(
                     list = listOf(
                         WorkPeriodTypeItem(WorkPeriodType.REGULAR, true),
@@ -243,11 +243,33 @@ class CareViewModel @Inject constructor(
         }
     }
 
+    fun updatePeriodFilter(selectedFilters: FilterItemsType.Period) {
+        val currentFilterItems = _filterItems.value
+        val periodFilter = currentFilterItems.filterIsInstance<FilterType.Period>().first()
+
+        val updatedFilter = periodFilter.copy(
+            isSelected = true,
+            displayingName = selectedFilters.list.filter { it.isSelected }
+                .first().workPeriodType.value,
+            itemsType = periodFilter.itemsType.copy(
+                list = selectedFilters.list
+            )
+        )
+
+        _filterItems.value = currentFilterItems.toMutableList().apply {
+            set(indexOf(periodFilter), updatedFilter)
+        }
+    }
+
     private fun getDutarionHourString(startTime: LocalTime?, endTime: LocalTime?): String? {
         if (startTime == null || endTime == null) {
             return null
         }
-        return "${DateTimeUtils.getLocalTimeText(startTime!!)} ~ ${DateTimeUtils.getLocalTimeText(endTime!!)}"
+        return "${DateTimeUtils.getLocalTimeText(startTime!!)} ~ ${
+            DateTimeUtils.getLocalTimeText(
+                endTime!!
+            )
+        }"
     }
 }
 

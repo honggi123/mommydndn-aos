@@ -25,7 +25,7 @@ sealed class FilterItemsType() {
     ) : FilterItemsType()
 
     data class Period(
-        val list: List<WorkPeriodTypeItem>
+        var list: List<WorkPeriodTypeItem>
     ) : FilterItemsType()
 
     data class Time(

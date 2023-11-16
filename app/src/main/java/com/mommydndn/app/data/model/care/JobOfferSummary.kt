@@ -21,11 +21,11 @@ data class JobOfferSummaryListItem(
     @SerialName("createdAt")
     val createdAt: Long,
     @SerialName("dateList")
-    val dateList: List<Long>,
+    val dateList: List<String>,
     @SerialName("days")
     val days: List<@Serializable(with = DayOfWeekTypeSerializer::class) DayOfWeekType>,
     @SerialName("endDate")
-    val endDate: Long,
+    val endDate: Long?,
     @SerialName("endTime")
     val endTime: String?,
     @SerialName("isClosed")
@@ -42,7 +42,7 @@ data class JobOfferSummaryListItem(
     @SerialName("salaryTypeCode")
     val salaryTypeCode: SalaryType,
     @SerialName("startDate")
-    val startDate: Long,
+    val startDate: Long?,
     @SerialName("startTime")
     val startTime: String?,
     @SerialName("title")

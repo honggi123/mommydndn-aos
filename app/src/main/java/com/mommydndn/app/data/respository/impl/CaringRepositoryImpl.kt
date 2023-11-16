@@ -101,10 +101,10 @@ class CaringRepositoryImpl @Inject constructor(
             caringTypeCodeList = caringTypeList,
             days = days,
             emdId = emdId,
-            endTime =  endTime?.let { DateTimeUtils.getLocalTimeText(it) } ?: null,
+            endTime = endTime?.let { DateTimeUtils.getLocalTimeText(it) } ?: null,
             keyword = keyword,
             neighborhoodScope = neighborhoodScope,
-            paginationRequest = PaginationRequest(0,0,0),
+            paginationRequest = PaginationRequest(0, 0, 0),
             sortingCondition = sortingType,
             startTime = startTime?.let { DateTimeUtils.getLocalTimeText(it) } ?: null,
             taskTypeCodeList = workPeriodTypeList
@@ -112,7 +112,7 @@ class CaringRepositoryImpl @Inject constructor(
 
         return Pager(
             config = PagingConfig(
-                pageSize = 15, enablePlaceholders = false
+                pageSize = 5, enablePlaceholders = false
             ),
             pagingSourceFactory = {
                 JobOfferSummaryPagingSource(
