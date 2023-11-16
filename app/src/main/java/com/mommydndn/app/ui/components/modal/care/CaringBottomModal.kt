@@ -67,10 +67,7 @@ fun CaringBottomModal(
                 .padding(start = 20.dp, top = 36.dp, end = 20.dp, bottom = 24.dp),
         ) {
             DialogTitleWrapper(
-                DialogTitle.Check(
-                    text = "모든 돌봄종류",
-                    isChecked = caringItemIsChecked,
-                    checkAction = {})
+                DialogTitle.Default(text = "모든 돌봄종류")
             )
 
             Divider(
