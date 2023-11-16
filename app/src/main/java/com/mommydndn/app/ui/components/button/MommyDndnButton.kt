@@ -40,6 +40,7 @@ import com.mommydndn.app.ui.theme.paragraph400
 
 @Composable
 fun MommyDndnButton(
+    modifier: Modifier = Modifier,
     text: String = "",
     iconResourceId: Int? = null,
     color: ButtonColor,
@@ -79,11 +80,11 @@ fun MommyDndnButton(
     }
 
     val modifier = if (rangeType == MinMaxRange.MAX) {
-        Modifier.fillMaxWidth()
+        modifier.fillMaxWidth()
     } else {
-        Modifier.then(
-            if (sizeType == ButtonSizeType.LARGE) Modifier.width(153.dp)
-            else Modifier
+        modifier.then(
+            if (sizeType == ButtonSizeType.LARGE) modifier.width(153.dp)
+            else modifier
         )
     }
 

@@ -171,6 +171,9 @@ fun CareScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     itemsIndexed(
+                        key = { index, item ->
+                            item.jobOfferId
+                        },
                         items = pagingJobOfferSummary
                     ) { index, item ->
                         if (item != null) {
