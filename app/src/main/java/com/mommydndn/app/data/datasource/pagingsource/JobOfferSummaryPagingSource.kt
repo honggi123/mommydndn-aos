@@ -25,7 +25,7 @@ class JobOfferSummaryPagingSource @Inject constructor(
                 jobOfferListRequest.copy(
                     paginationRequest = PaginationRequest(
                         pageNum = position,
-                        pageSize = params.loadSize,
+                        pageSize = 5,
                         requestTimestamp = System.currentTimeMillis()
                     )
                 )

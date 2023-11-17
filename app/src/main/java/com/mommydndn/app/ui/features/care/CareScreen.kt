@@ -319,7 +319,10 @@ private fun DialogContent(
                 ),
                 item = selectedItem.items,
                 onClickClose = { closeAction() },
-                onClickComplete = { completeAction() }
+                onClickComplete = {
+                    completeAction()
+                    viewModel.updateNeighborhoodScopeFilter(it)
+                }
             )
         }
 

@@ -1,5 +1,6 @@
 package com.mommydndn.app.ui.components.modal.care
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -50,6 +51,7 @@ import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.shadow700
 import com.mommydndn.app.R
+import com.mommydndn.app.data.model.care.DistanceType
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.caption200
@@ -59,11 +61,14 @@ fun NeighborhoodScopeBottomModal(
     modifier: Modifier = Modifier,
     item: FilterItemsType.NeighborhoodScope,
     onClickClose: () -> Unit = {},
-    onClickComplete: () -> Unit = {}
+    onClickComplete: (FilterItemsType.NeighborhoodScope) -> Unit = {}
 ) {
     val scopeItem by remember { mutableStateOf(item) }
 
-    var sliderPosition by remember { mutableStateOf(0f) }
+    var selectedDistanceType by remember {
+        mutableStateOf(scopeItem.list.filter { it.isSelected }.first())
+    }
+    var sliderPosition by remember { mutableStateOf(selectedDistanceType.distantceType.distantce.toFloat()) }
 
     Box(
         modifier = modifier
@@ -89,8 +94,9 @@ fun NeighborhoodScopeBottomModal(
             DialogTitleWrapper(
                 DialogTitle.Location(
                     text = "동네 범위",
-                    locationText = "서초동 외 근처 동네 24개",
-                    action = {})
+                    locationText = "${scopeItem.myLocationName} 외 근처 동네 ${DistanceType.find(sliderPosition.toInt()).distantce}개",
+                    action = {}
+                )
             )
 
             Divider(
@@ -120,7 +126,9 @@ fun NeighborhoodScopeBottomModal(
             Slider(
                 modifier = Modifier.padding(top = 32.dp),
                 value = sliderPosition,
-                onValueChange = { sliderPosition = it },
+                onValueChange = {
+                    sliderPosition = it
+                },
                 valueRange = 0f..24f,
                 onValueChangeFinished = {},
                 steps = 2,
@@ -162,9 +170,21 @@ fun NeighborhoodScopeBottomModal(
             DialogButtonsRow(
                 listOf(
                     DialogButton.Secondary(title = "닫기", action = { onClickClose() }),
-                    DialogButton.Primary(title = "적용하기", action = { onClickComplete() })
+                    DialogButton.Primary(title = "적용하기", action = {
+                        onClickComplete(
+                            FilterItemsType.NeighborhoodScope(
+                                myLocationName = scopeItem.myLocationName,
+                                list = scopeItem.list.map { item ->
+                                    if (item.distantceType == DistanceType.find(sliderPosition.toInt())) {
+                                        item.copy(isSelected = true)
+                                    } else item
+                                }
+                            )
+                        )
+                    })
                 )
             )
         }
     }
 }
+

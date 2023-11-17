@@ -2,12 +2,15 @@ package com.mommydndn.app.data.model.care.Filter
 
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeItem
+import com.mommydndn.app.data.model.care.DistanceType
+import com.mommydndn.app.data.model.care.DistanceTypeItem
 import com.mommydndn.app.data.model.care.SortingType
 import com.mommydndn.app.data.model.care.SortingTypeItem
 import com.mommydndn.app.data.model.care.WorkPeriodType
 import com.mommydndn.app.data.model.care.WorkPeriodTypeItem
 import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.common.DayOfWeekType
+import com.mommydndn.app.data.model.map.EmdItem
 import java.time.LocalTime
 
 sealed class FilterItemsType() {
@@ -26,7 +29,13 @@ sealed class FilterItemsType() {
     ) : FilterItemsType()
 
     data class NeighborhoodScope(
-        val list: List<Int>
+        val myLocationName: String,
+        val list: List<DistanceTypeItem> = listOf(
+            DistanceTypeItem(DistanceType.CLOSEST),
+            DistanceTypeItem(DistanceType.NEAR),
+            DistanceTypeItem(DistanceType.FAR),
+            DistanceTypeItem(DistanceType.FURTHEST, true)
+        )
     ) : FilterItemsType()
 
     data class Period(

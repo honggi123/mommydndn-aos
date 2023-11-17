@@ -57,8 +57,10 @@ class CareViewModel @Inject constructor(
             ),
 
             FilterType.NeighborhoodScope(
-                displayingName = "${userInfo.value?.emd?.ctprvnName} 외 24",
-                items = FilterItemsType.NeighborhoodScope(list = listOf(6, 9, 24)),
+                displayingName = "${userInfo.value?.emd?.name} 외 24",
+                items = FilterItemsType.NeighborhoodScope(
+                    myLocationName = userInfo.value?.emd?.name ?: ""
+                ),
                 isSelected = true
             ),
 
@@ -101,7 +103,9 @@ class CareViewModel @Inject constructor(
                         .first().items.list.filter { it.isSelected }.first().sortingType,
                     workPeriodTypeList = filterItems.value.filterIsInstance<FilterType.Period>()
                         .first().items.list.filter { it.isSelected }.map { it.workPeriodType },
-                    neighborhoodScope = 24,
+                    neighborhoodScope = filterItems.value.filterIsInstance<FilterType.NeighborhoodScope>()
+                        .first().items.list.filter { it.isSelected }
+                        .first().distantceType.distantce,
                     startTime = filterItems.value.filterIsInstance<FilterType.Time>()
                         .first().items.startTime ?: null,
                     endTime = filterItems.value.filterIsInstance<FilterType.Time>()
@@ -124,7 +128,10 @@ class CareViewModel @Inject constructor(
         _filterItems.value = _filterItems.value.map { filterType ->
             when (filterType) {
                 is FilterType.NeighborhoodScope -> {
-                    filterType.copy(displayingName = "${userInfo?.emd?.name} 외 24")
+                    filterType.copy(
+                        displayingName = "${userInfo?.emd?.name} 외 24",
+                        items = filterType.items.copy(myLocationName = userInfo?.emd?.name ?: "")
+                    )
                 }
 
                 else -> filterType
@@ -216,6 +223,28 @@ class CareViewModel @Inject constructor(
         }
     }
 
+    fun updateNeighborhoodScopeFilter(selectedFilters: FilterItemsType.NeighborhoodScope) {
+        val currentFilterItems = _filterItems.value
+        val scopeFilter =
+            currentFilterItems.filterIsInstance<FilterType.NeighborhoodScope>().first()
+
+        val updatedFilter = scopeFilter.copy(
+            isSelected = true,
+            displayingName = "${userInfo.value?.emd?.name} 외 ${
+                selectedFilters.list.filter { it.isSelected }
+                    .first().distantceType.distantce
+            }",
+            items = scopeFilter.items.copy(
+                list = selectedFilters.list
+            )
+        )
+
+        _filterItems.value = currentFilterItems.toMutableList().apply {
+            set(indexOf(scopeFilter), updatedFilter)
+        }
+    }
+
+
     fun updatePeriodFilter(selectedFilters: FilterItemsType.Period) {
         val currentFilterItems = _filterItems.value
         val periodFilter = currentFilterItems.filterIsInstance<FilterType.Period>().first()
@@ -233,6 +262,7 @@ class CareViewModel @Inject constructor(
             set(indexOf(periodFilter), updatedFilter)
         }
     }
+
 
     private fun getDutarionHourString(startTime: LocalTime?, endTime: LocalTime?): String? {
         if (startTime == null || endTime == null) {
