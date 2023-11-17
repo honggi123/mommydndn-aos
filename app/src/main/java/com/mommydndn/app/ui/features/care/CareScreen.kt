@@ -232,7 +232,7 @@ private fun DialogContent(
                     end = 16.dp,
                     bottom = 100.dp
                 ),
-                item = FilterItemsType.Sorting(selectedItem.itemsType.list),
+                item = FilterItemsType.Sorting(selectedItem.items.list),
                 onClickClose = {
                     closeAction()
                 },
@@ -251,8 +251,8 @@ private fun DialogContent(
                     bottom = 100.dp
                 ),
                 item = FilterItemsType.Caring(
-                    isAllChecked = selectedItem.itemsType.isAllChecked,
-                    list = selectedItem.itemsType.list,
+                    isAllChecked = selectedItem.items.isAllChecked,
+                    list = selectedItem.items.list,
                 ),
                 onClickClose = { closeAction() },
                 onClickComplete = {
@@ -269,7 +269,7 @@ private fun DialogContent(
                     end = 16.dp,
                     bottom = 100.dp
                 ),
-                item = selectedItem.itemsType,
+                item = selectedItem.items,
                 onClickClose = { closeAction() },
                 onClickComplete = {
                     closeAction()
@@ -285,7 +285,7 @@ private fun DialogContent(
                     end = 16.dp,
                     bottom = 100.dp
                 ),
-                item = selectedItem.itemsType,
+                item = selectedItem.items,
                 onClickClose = { closeAction() },
                 onClickComplete = {
                     closeAction()
@@ -301,7 +301,7 @@ private fun DialogContent(
                     end = 16.dp,
                     bottom = 100.dp
                 ),
-                item = selectedItem.itemsType,
+                item = selectedItem.items,
                 onClickClose = { closeAction() },
                 onClickComplete = {
                     completeAction()
@@ -317,7 +317,7 @@ private fun DialogContent(
                     end = 16.dp,
                     bottom = 100.dp
                 ),
-                item = selectedItem.itemsType,
+                item = selectedItem.items,
                 onClickClose = { closeAction() },
                 onClickComplete = { completeAction() }
             )

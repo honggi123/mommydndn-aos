@@ -12,12 +12,17 @@ import java.time.LocalTime
 
 sealed class FilterItemsType() {
     data class Sorting(
-        val list: List<SortingTypeItem>
+        val list: List<SortingTypeItem> = listOf(
+            SortingTypeItem(SortingType.LATEST, true),
+            SortingTypeItem(SortingType.MOST_VIEW),
+            SortingTypeItem(SortingType.HIGHEST_SALARY),
+            SortingTypeItem(SortingType.CLOSEST)
+        )
     ) : FilterItemsType()
 
     data class Caring(
         val isAllChecked: Boolean = false,
-        var list: List<CaringTypeItem>
+        var list: List<CaringTypeItem> = listOf()
     ) : FilterItemsType()
 
     data class NeighborhoodScope(
@@ -25,16 +30,27 @@ sealed class FilterItemsType() {
     ) : FilterItemsType()
 
     data class Period(
-        var list: List<WorkPeriodTypeItem>
+        var list: List<WorkPeriodTypeItem> = listOf(
+            WorkPeriodTypeItem(WorkPeriodType.REGULAR, true),
+            WorkPeriodTypeItem(WorkPeriodType.ONETIME)
+        )
     ) : FilterItemsType()
 
     data class Time(
-        val startTime: LocalTime?,
-        val endTime: LocalTime?
+        val startTime: LocalTime? = null,
+        val endTime: LocalTime? = null
     ) : FilterItemsType()
 
     data class Day(
-        var list: List<DayOfWeekItem>
+        var list: List<DayOfWeekItem> = listOf(
+            DayOfWeekItem(DayOfWeekType.MON, isSelected = true),
+            DayOfWeekItem(DayOfWeekType.TUE, isSelected = true),
+            DayOfWeekItem(DayOfWeekType.WED, isSelected = true),
+            DayOfWeekItem(DayOfWeekType.THU, isSelected = true),
+            DayOfWeekItem(DayOfWeekType.FRI, isSelected = true),
+            DayOfWeekItem(DayOfWeekType.SAT, isSelected = true),
+            DayOfWeekItem(DayOfWeekType.SUN, isSelected = true)
+        )
     ) : FilterItemsType()
 
 }

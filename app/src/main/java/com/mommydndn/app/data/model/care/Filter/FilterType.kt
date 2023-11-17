@@ -2,43 +2,43 @@ package com.mommydndn.app.data.model.care.Filter
 
 sealed class FilterType(
     open val displayingName: String,
-    open val itemsType: FilterItemsType,
+    open val items: FilterItemsType,
     open val isSelected: Boolean = false
 ) {
     data class Sorting(
-        override var itemsType: FilterItemsType.Sorting,
+        override var items: FilterItemsType.Sorting,
         override var displayingName: String,
         override var isSelected: Boolean
-    ) : FilterType(displayingName, itemsType, isSelected)
+    ) : FilterType(displayingName, items, isSelected)
 
     data class Caring(
-        override var itemsType: FilterItemsType.Caring,
+        override var items: FilterItemsType.Caring,
         override val displayingName: String,
         override var isSelected: Boolean
-    ) : FilterType(displayingName, itemsType, isSelected)
+    ) : FilterType(displayingName, items, isSelected)
 
     data class NeighborhoodScope(
-        override val itemsType: FilterItemsType.NeighborhoodScope,
+        override val items: FilterItemsType.NeighborhoodScope,
         override val displayingName: String,
         override val isSelected: Boolean
-    ) : FilterType(displayingName, itemsType, isSelected)
+    ) : FilterType(displayingName, items, isSelected)
 
     data class Period(
-        override val itemsType: FilterItemsType.Period,
+        override val items: FilterItemsType.Period,
         override val displayingName: String,
         override val isSelected: Boolean
-    ) : FilterType(displayingName, itemsType, isSelected)
+    ) : FilterType(displayingName, items, isSelected)
 
     data class Time(
-        override val itemsType: FilterItemsType.Time,
+        override val items: FilterItemsType.Time,
         override val displayingName: String,
         override val isSelected: Boolean
-    ) : FilterType(displayingName, itemsType, isSelected)
+    ) : FilterType(displayingName, items, isSelected)
 
     data class Day(
-        override var itemsType: FilterItemsType.Day,
+        override var items: FilterItemsType.Day,
         override val displayingName: String,
         override var isSelected: Boolean
-    ) : FilterType(displayingName, itemsType, isSelected)
+    ) : FilterType(displayingName, items, isSelected)
 }
 

@@ -52,62 +52,35 @@ class CareViewModel @Inject constructor(
         listOf(
             FilterType.Sorting(
                 displayingName = "최신순",
-                itemsType = FilterItemsType.Sorting(
-                    list = listOf(
-                        SortingTypeItem(SortingType.LATEST, true),
-                        SortingTypeItem(SortingType.MOST_VIEW),
-                        SortingTypeItem(SortingType.HIGHEST_SALARY),
-                        SortingTypeItem(SortingType.CLOSEST)
-                    )
-                ),
+                items = FilterItemsType.Sorting(),
                 isSelected = true
             ),
 
             FilterType.NeighborhoodScope(
                 displayingName = "${userInfo.value?.emd?.ctprvnName} 외 24",
-                itemsType = FilterItemsType.NeighborhoodScope(list = listOf(6, 9, 24)),
+                items = FilterItemsType.NeighborhoodScope(list = listOf(6, 9, 24)),
                 isSelected = true
             ),
 
             FilterType.Caring(
                 displayingName = "돌봄종류",
-                itemsType = FilterItemsType.Caring(
-                    isAllChecked = false, list = listOf()
-                ),
+                items = FilterItemsType.Caring(isAllChecked = false),
                 isSelected = false
             ),
 
             FilterType.Period(
                 displayingName = "정기",
-                itemsType = FilterItemsType.Period(
-                    list = listOf(
-                        WorkPeriodTypeItem(WorkPeriodType.REGULAR, true),
-                        WorkPeriodTypeItem(WorkPeriodType.ONETIME)
-                    )
-                ),
+                items = FilterItemsType.Period(),
                 isSelected = false
             ),
             FilterType.Day(
                 displayingName = "요일",
-                itemsType = FilterItemsType.Day(
-                    list = listOf(
-                        DayOfWeekItem(DayOfWeekType.MON, isSelected = true),
-                        DayOfWeekItem(DayOfWeekType.TUE, isSelected = true),
-                        DayOfWeekItem(DayOfWeekType.WED, isSelected = true),
-                        DayOfWeekItem(DayOfWeekType.THU, isSelected = true),
-                        DayOfWeekItem(DayOfWeekType.FRI, isSelected = true),
-                        DayOfWeekItem(DayOfWeekType.SAT, isSelected = true),
-                        DayOfWeekItem(DayOfWeekType.SUN, isSelected = true)
-                    )
-                ),
+                items = FilterItemsType.Day(),
                 isSelected = false
             ),
             FilterType.Time(
                 displayingName = "시간",
-                itemsType = FilterItemsType.Time(
-                    startTime = null,
-                    endTime = null
-                ),
+                items = FilterItemsType.Time(),
                 isSelected = false
             ),
         )
@@ -120,19 +93,19 @@ class CareViewModel @Inject constructor(
                 caringRepository.fetchJobOfferSummary(
                     keyword = null,
                     caringTypeList = filterItems.value.filterIsInstance<FilterType.Caring>()
-                        .first().itemsType.list.filter { it.isSelected }.map { it.caringType },
+                        .first().items.list.filter { it.isSelected }.map { it.caringType },
                     days = filterItems.value.filterIsInstance<FilterType.Day>()
-                        .first().itemsType.list.filter { it.isSelected }.map { it.type },
+                        .first().items.list.filter { it.isSelected }.map { it.type },
                     emdId = userInfo.value?.emd?.id ?: 0,
                     sortingType = filterItems.value.filterIsInstance<FilterType.Sorting>()
-                        .first().itemsType.list.filter { it.isSelected }.first().sortingType,
+                        .first().items.list.filter { it.isSelected }.first().sortingType,
                     workPeriodTypeList = filterItems.value.filterIsInstance<FilterType.Period>()
-                        .first().itemsType.list.filter { it.isSelected }.map { it.workPeriodType },
+                        .first().items.list.filter { it.isSelected }.map { it.workPeriodType },
                     neighborhoodScope = 24,
                     startTime = filterItems.value.filterIsInstance<FilterType.Time>()
-                        .first().itemsType.startTime ?: null,
+                        .first().items.startTime ?: null,
                     endTime = filterItems.value.filterIsInstance<FilterType.Time>()
-                        .first().itemsType.endTime ?: null,
+                        .first().items.endTime ?: null,
                 ).cachedIn(viewModelScope)
             } else emptyFlow()
         }.flatMapLatest { it }
@@ -165,7 +138,7 @@ class CareViewModel @Inject constructor(
             val caringFilter =
                 currentFilterItems.find { it is FilterType.Caring } as? FilterType.Caring
             val seletedItems = items.map { it.copy(isSelected = true) }
-            caringFilter?.itemsType?.list = seletedItems
+            caringFilter?.items?.list = seletedItems
 
             _filterItems.value = currentFilterItems
         }
@@ -179,7 +152,7 @@ class CareViewModel @Inject constructor(
             isSelected = true,
             displayingName = selectedFilters.list.filter { it.isSelected }
                 .first().sortingType.diaplayingName,
-            itemsType = FilterItemsType.Sorting(selectedFilters.list)
+            items = FilterItemsType.Sorting(selectedFilters.list)
         )
 
         _filterItems.value = currentFilterItems.toMutableList().apply {
@@ -195,7 +168,7 @@ class CareViewModel @Inject constructor(
             isSelected = true,
             displayingName = StringUtils.getConcatenatedString(selectedFilters.list.filter { it.isSelected }
                 .map { it.type.displayingName }),
-            itemsType = FilterItemsType.Day(selectedFilters.list)
+            items = FilterItemsType.Day(selectedFilters.list)
         )
 
         _filterItems.value = currentFilterItems.toMutableList().apply {
@@ -211,7 +184,7 @@ class CareViewModel @Inject constructor(
             isSelected = true,
             displayingName = StringUtils.getConcatenatedCommasString(selectedFilters.list.filter { it.isSelected }
                 .map { it.caringType.value }),
-            itemsType = caringFilter.itemsType.copy(
+            items = caringFilter.items.copy(
                 isAllChecked = selectedFilters.isAllChecked,
                 list = selectedFilters.list
             )
@@ -232,7 +205,7 @@ class CareViewModel @Inject constructor(
                 selectedFilters.startTime,
                 selectedFilters.endTime
             ) ?: "시간",
-            itemsType = timeFilter.itemsType.copy(
+            items = timeFilter.items.copy(
                 startTime = selectedFilters.startTime,
                 endTime = selectedFilters.endTime
             )
@@ -251,7 +224,7 @@ class CareViewModel @Inject constructor(
             isSelected = true,
             displayingName = selectedFilters.list.filter { it.isSelected }
                 .first().workPeriodType.value,
-            itemsType = periodFilter.itemsType.copy(
+            items = periodFilter.items.copy(
                 list = selectedFilters.list
             )
         )
