@@ -205,17 +205,11 @@ fun CareScreen(
                         ) { index, item ->
                             if (item != null) {
                                 SitterListItem(
-                                    modifier = Modifier.fillMaxWidth()
+                                    modifier = Modifier.fillMaxWidth(),
+                                    item = item
                                 )
                             }
-                            Spacer(modifier = Modifier.height(20.dp))
-                            Divider(
-                                color = Grey50,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(1.5.dp)
-                            )
-                            Spacer(modifier = Modifier.height(20.dp))
+                            Spacer(modifier = Modifier.height(40.dp))
                         }
                     }
 

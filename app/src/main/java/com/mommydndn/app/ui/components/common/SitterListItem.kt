@@ -6,12 +6,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,27 +24,31 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.mommydndn.app.R
+import com.mommydndn.app.data.model.care.summary.JobSeekerSummaryItem
 import com.mommydndn.app.data.model.common.BadgeColorType
 import com.mommydndn.app.ui.components.box.ProfileDataBox
 import com.mommydndn.app.ui.theme.Grey300
 import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption100
+import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.ui.theme.paragraph400
 
 @Composable
 fun SitterListItem(
     modifier: Modifier = Modifier,
+    item: JobSeekerSummaryItem
 ) {
 
     val profilePainter = rememberImagePainter(
-        data = "",
+        data = item.profileUrl,
         builder = {
             crossfade(true)
         }
@@ -61,12 +67,7 @@ fun SitterListItem(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            Row(
-                modifier = Modifier
-                    .requiredWidth(147.dp)
-                    .requiredHeight(height = 72.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
+            Row(horizontalArrangement = Arrangement.SpaceBetween) {
                 Box(
                     modifier = Modifier
                         .requiredSize(size = 72.dp)
@@ -78,23 +79,29 @@ fun SitterListItem(
                         modifier = Modifier
                             .size(72.dp)
                             .clip(CircleShape)
-                            .background(Grey300)
+                            .background(Grey300),
+                        contentScale = ContentScale.Crop
                     )
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_certificate),
-                        contentDescription = "Icon/certificate",
-                        modifier = Modifier
-                            .align(alignment = Alignment.BottomEnd)
-                            .clip(shape = RoundedCornerShape(34.dp))
-                    )
+                    if (item.isDndnAuthenticated) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_certificate),
+                            contentDescription = "Icon/certificate",
+                            modifier = Modifier
+                                .align(alignment = Alignment.BottomEnd)
+                                .clip(shape = RoundedCornerShape(34.dp))
+                        )
+                    }
                 }
+
+                Spacer(modifier = Modifier.width(21.dp))
+
                 Column(
                     verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
                 ) {
                     Text(
-                        text = "세아쌤",
+                        text = item.nickname,
                         color = Grey600,
-                        style = MaterialTheme.typography.paragraph400.copy(
+                        style = MaterialTheme.typography.paragraph300.copy(
                             fontWeight = FontWeight.Bold
                         )
                     )
@@ -109,7 +116,7 @@ fun SitterListItem(
                                 .requiredSize(size = 16.dp)
                         )
                         Text(
-                            text = "반포동",
+                            text = item.neighborhood,
                             color = Grey600,
                             style = MaterialTheme.typography.caption100.copy(
                                 fontWeight = FontWeight.Medium
@@ -129,7 +136,7 @@ fun SitterListItem(
                                 .requiredSize(size = 16.dp)
                         )
                         Text(
-                            text = "5.0",
+                            text = item.responseRate,
                             color = Grey600,
                             style = MaterialTheme.typography.caption100.copy(
                                 fontWeight = FontWeight.Medium
@@ -150,15 +157,16 @@ fun SitterListItem(
         Row(
             horizontalArrangement = Arrangement.spacedBy(3.dp, Alignment.Start)
         ) {
-            Badge(colorType = BadgeColorType.ORANGE)
+            Badge(colorType = BadgeColorType.GREEN, text = item.ageAndGender)
+
+            item.caringTypeCodeList.forEach {
+                Badge(colorType = BadgeColorType.ORANGE, text = it.value)
+            }
         }
-        ProfileDataBox()
+        ProfileDataBox(
+            matchCount = item.matchingCount,
+            reviewCount = item.reviewCount,
+            responseRate = item.responseRate
+        )
     }
-}
-
-
-@Preview(widthDp = 334, heightDp = 171)
-@Composable
-private fun SitterListItemPreview() {
-    SitterListItem(Modifier)
 }
