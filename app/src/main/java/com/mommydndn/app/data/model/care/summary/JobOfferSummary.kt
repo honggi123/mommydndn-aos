@@ -1,6 +1,11 @@
-package com.mommydndn.app.data.model.care
+package com.mommydndn.app.data.model.care.summary
 
 
+import com.mommydndn.app.data.api.model.response.Meta
+import com.mommydndn.app.data.model.care.CaringType
+import com.mommydndn.app.data.model.care.CaringTypeSerializer
+import com.mommydndn.app.data.model.care.SalaryType
+import com.mommydndn.app.data.model.care.SalaryTypeSerializer
 import com.mommydndn.app.data.model.common.DayOfWeekType
 import com.mommydndn.app.data.model.common.DayOfWeekTypeSerializer
 import kotlinx.serialization.SerialName
@@ -47,14 +52,4 @@ data class JobOfferSummaryListItem(
     val startTime: String?,
     @SerialName("title")
     val title: String
-)
-
-@Serializable
-data class Meta(
-    @SerialName("currentPageNum")
-    val currentPageNum: Int,
-    @SerialName("requestTimestamp")
-    val requestTimestamp: Long,
-    @SerialName("totalCount")
-    val totalCount: Int
-)
+) : SummaryItem()

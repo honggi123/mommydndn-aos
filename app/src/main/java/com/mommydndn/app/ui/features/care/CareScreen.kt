@@ -49,11 +49,14 @@ import androidx.paging.compose.itemsIndexed
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.care.Filter.FilterItemsType
 import com.mommydndn.app.data.model.care.Filter.FilterType
+import com.mommydndn.app.data.model.care.JobSeeker
+import com.mommydndn.app.data.model.care.summary.JobSeekerSummaryItem
 import com.mommydndn.app.data.model.common.TabSize
 import com.mommydndn.app.ui.components.box.JobOfferSummaryBox
 import com.mommydndn.app.ui.components.chip.ChipWithBottomArrow
 import com.mommydndn.app.ui.components.common.CustomTab
 import com.mommydndn.app.ui.components.common.Header
+import com.mommydndn.app.ui.components.common.SitterListItem
 import com.mommydndn.app.ui.components.modal.care.CaringBottomModal
 import com.mommydndn.app.ui.components.modal.care.DayBottomModal
 import com.mommydndn.app.ui.components.modal.care.NeighborhoodScopeBottomModal
@@ -61,6 +64,7 @@ import com.mommydndn.app.ui.components.modal.care.PeriodBottomModal
 import com.mommydndn.app.ui.components.modal.layout.BaseModalBottomSheetLayout
 import com.mommydndn.app.ui.components.modal.care.SortingBottomModal
 import com.mommydndn.app.ui.components.modal.care.TimeBottomModal
+import com.mommydndn.app.ui.models.care.SummaryTabType
 import com.mommydndn.app.ui.navigation.JobOfferWriteNav
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey700
@@ -78,7 +82,11 @@ fun CareScreen(
     viewModel: CareViewModel = hiltViewModel()
 ) {
     val userInfo by viewModel.userInfo.collectAsState()
-    val pagingJobOfferSummary = viewModel.searchedJobOfferSummary.collectAsLazyPagingItems()
+    val searchedJobOfferSummary = viewModel.searchedJobOfferSummary.collectAsLazyPagingItems()
+    val searchedJobSeekerSummary = viewModel.searchedJobSeekerSummary.collectAsLazyPagingItems()
+
+    val selectedTab by viewModel.selectedTab.collectAsState()
+
     val filterItems by viewModel.filterItems.collectAsState()
 
     var selectedItem by remember { mutableStateOf<FilterType?>(null) }
@@ -142,7 +150,7 @@ fun CareScreen(
 
                 CustomTab(
                     size = TabSize.LARGE,
-                    onTabClick = { it },
+                    onTabClick = { viewModel.updateTabPosition(it) },
                     tabs = listOf("구인글", "시터님", "안심업체")
                 )
 
@@ -172,28 +180,45 @@ fun CareScreen(
                         .background(White),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    itemsIndexed(
-                        key = { index, item ->
-                            item.jobOfferId
-                        },
-                        items = pagingJobOfferSummary
-                    ) { index, item ->
-                        if (item != null) {
-                            JobOfferSummaryBox(
-                                modifier = Modifier.fillMaxWidth(),
-                                item = item
+                    if (selectedTab == SummaryTabType.JOBOFFER) {
+                        itemsIndexed(
+                            items = searchedJobOfferSummary
+                        ) { index, item ->
+                            if (item != null) {
+                                JobOfferSummaryBox(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    item = item
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(20.dp))
+                            Divider(
+                                color = Grey50,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(1.5.dp)
                             )
+                            Spacer(modifier = Modifier.height(20.dp))
                         }
-                        Spacer(modifier = Modifier.height(20.dp))
-                        Divider(
-                            color = Grey50,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(1.5.dp)
-                        )
-                        Spacer(modifier = Modifier.height(20.dp))
-
+                    } else if (selectedTab == SummaryTabType.JOBSEEKER) {
+                        itemsIndexed(
+                            items = searchedJobSeekerSummary
+                        ) { index, item ->
+                            if (item != null) {
+                                SitterListItem(
+                                    modifier = Modifier.fillMaxWidth()
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(20.dp))
+                            Divider(
+                                color = Grey50,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(1.5.dp)
+                            )
+                            Spacer(modifier = Modifier.height(20.dp))
+                        }
                     }
+
                 }
             }
             Row(

@@ -2,14 +2,16 @@ package com.mommydndn.app.data.api.service
 
 import com.mommydndn.app.data.api.model.request.JobOfferListRequest
 import com.mommydndn.app.data.api.model.request.JobOfferRequest
+import com.mommydndn.app.data.api.model.request.JobSeekerListRequest
 import com.mommydndn.app.data.api.model.response.CaringTypeResponse
 import com.mommydndn.app.data.api.model.response.CompanyEtcCheckItem
 import com.mommydndn.app.data.api.model.response.IndividualEtcCheckItem
 import com.mommydndn.app.data.api.model.response.CreateJobOfferResponse
 import com.mommydndn.app.data.api.model.response.JobOfferResponse
 import com.mommydndn.app.data.api.model.response.NearestJobOfferResponse
-import com.mommydndn.app.data.model.care.JobOfferSummary
+import com.mommydndn.app.data.model.care.summary.JobOfferSummary
 import com.mommydndn.app.data.model.care.JobSeeker
+import com.mommydndn.app.data.model.care.summary.JobSeekerSummary
 import com.mommydndn.app.data.model.care.MinHourlySalary
 import com.skydoves.sandwich.ApiResponse
 import retrofit2.Response
@@ -17,7 +19,6 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
-import retrofit2.http.Query
 
 interface CaringService {
     @GET("/api/caring/job-seeker/nearest")
@@ -53,4 +54,9 @@ interface CaringService {
     suspend fun fetchJobOfferSummary(
         @Body jobOfferListRequest: JobOfferListRequest
     ): Response<JobOfferSummary>
+
+    @POST("/api/caring/job-seeker/list")
+    suspend fun fetchJobSeekerSummary(
+        @Body jobSeekerListRequest: JobSeekerListRequest
+    ): Response<JobSeekerSummary>
 }

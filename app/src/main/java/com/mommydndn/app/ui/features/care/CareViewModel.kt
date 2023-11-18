@@ -2,23 +2,16 @@ package com.mommydndn.app.ui.features.care
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.mommydndn.app.data.api.model.request.JobOfferListRequest
 import com.mommydndn.app.data.api.model.response.UserResponse
-import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.Filter.FilterItemsType
 import com.mommydndn.app.data.model.care.Filter.FilterType
-import com.mommydndn.app.data.model.care.JobOfferSummaryListItem
-import com.mommydndn.app.data.model.care.SortingType
-import com.mommydndn.app.data.model.care.SortingTypeItem
-import com.mommydndn.app.data.model.care.WorkPeriodType
-import com.mommydndn.app.data.model.care.WorkPeriodTypeItem
-import com.mommydndn.app.data.model.common.DayOfWeekItem
-import com.mommydndn.app.data.model.common.DayOfWeekType
+import com.mommydndn.app.data.model.care.summary.JobOfferSummaryListItem
+import com.mommydndn.app.data.model.care.summary.JobSeekerSummaryItem
 import com.mommydndn.app.data.respository.CaringRepository
 import com.mommydndn.app.data.respository.UserRepository
+import com.mommydndn.app.ui.models.care.SummaryTabType
 import com.mommydndn.app.utils.DateTimeUtils
 import com.mommydndn.app.utils.StringUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,7 +19,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -48,50 +40,15 @@ class CareViewModel @Inject constructor(
         initialValue = null
     )
 
-    private val _filterItems = MutableStateFlow(
-        listOf(
-            FilterType.Sorting(
-                displayingName = "최신순",
-                items = FilterItemsType.Sorting(),
-                isSelected = true
-            ),
-
-            FilterType.NeighborhoodScope(
-                displayingName = "${userInfo.value?.emd?.name} 외 24",
-                items = FilterItemsType.NeighborhoodScope(
-                    myLocationName = userInfo.value?.emd?.name ?: ""
-                ),
-                isSelected = true
-            ),
-
-            FilterType.Caring(
-                displayingName = "돌봄종류",
-                items = FilterItemsType.Caring(isAllChecked = false),
-                isSelected = false
-            ),
-
-            FilterType.Period(
-                displayingName = "정기",
-                items = FilterItemsType.Period(),
-                isSelected = false
-            ),
-            FilterType.Day(
-                displayingName = "요일",
-                items = FilterItemsType.Day(),
-                isSelected = false
-            ),
-            FilterType.Time(
-                displayingName = "시간",
-                items = FilterItemsType.Time(),
-                isSelected = false
-            ),
-        )
-    )
+    private val _filterItems = MutableStateFlow(listOf<FilterType>())
     val filterItems: StateFlow<List<FilterType>> = _filterItems
 
+    private val _selectedTab = MutableStateFlow<SummaryTabType?>(null)
+    val selectedTab: StateFlow<SummaryTabType?> = _selectedTab
+
     val searchedJobOfferSummary: Flow<PagingData<JobOfferSummaryListItem>> =
-        combine(userInfo, filterItems) { user, Items ->
-            if (user != null) {
+        combine(userInfo, filterItems, selectedTab) { user, Items, tab ->
+            if (user != null && tab == SummaryTabType.JOBOFFER) {
                 caringRepository.fetchJobOfferSummary(
                     keyword = null,
                     caringTypeList = filterItems.value.filterIsInstance<FilterType.Caring>()
@@ -114,7 +71,26 @@ class CareViewModel @Inject constructor(
             } else emptyFlow()
         }.flatMapLatest { it }
 
+    val searchedJobSeekerSummary: Flow<PagingData<JobSeekerSummaryItem>> =
+        combine(userInfo, filterItems, selectedTab) { user, Items, tab ->
+            if (user != null && tab == SummaryTabType.JOBSEEKER) {
+                caringRepository.fetchJobSeekerSummary(
+                    keyword = null,
+                    caringTypeList = filterItems.value.filterIsInstance<FilterType.Caring>()
+                        .first().items.list.filter { it.isSelected }.map { it.caringType },
+                    emdId = userInfo.value?.emd?.id ?: 0,
+                    sortingType = filterItems.value.filterIsInstance<FilterType.Sorting>()
+                        .first().items.list.filter { it.isSelected }.first().sortingType,
+                    neighborhoodScope = filterItems.value.filterIsInstance<FilterType.NeighborhoodScope>()
+                        .first().items.list.filter { it.isSelected }
+                        .first().distantceType.distantce
+                ).cachedIn(viewModelScope)
+            } else emptyFlow()
+        }.flatMapLatest { it }
+
     init {
+        updateTabPosition(0)
+
         viewModelScope.launch {
             userInfo.collect { userResponse ->
                 updateNeighborhoodFilterItems(userResponse)
@@ -135,6 +111,76 @@ class CareViewModel @Inject constructor(
                 else -> filterType
             }
         }
+    }
+
+    fun updateTabPosition(status: Int) {
+        _selectedTab.value = SummaryTabType.find(status)
+        updateFilterItems(_selectedTab.value)
+    }
+
+    private fun updateFilterItems(selectedSummaryTab: SummaryTabType?) {
+        val list = when (selectedSummaryTab) {
+            SummaryTabType.JOBOFFER -> listOf(
+                FilterType.Sorting(
+                    displayingName = "최신순",
+                    items = FilterItemsType.Sorting(),
+                    isSelected = true
+                ),
+                FilterType.NeighborhoodScope(
+                    displayingName = "${userInfo.value?.emd?.name} 외 24",
+                    items = FilterItemsType.NeighborhoodScope(
+                        myLocationName = userInfo.value?.emd?.name ?: ""
+                    ),
+                    isSelected = true
+                ),
+                FilterType.Caring(
+                    displayingName = "돌봄종류",
+                    items = FilterItemsType.Caring(isAllChecked = false),
+                    isSelected = false
+                ),
+                FilterType.Period(
+                    displayingName = "정기",
+                    items = FilterItemsType.Period(),
+                    isSelected = false
+                ),
+                FilterType.Day(
+                    displayingName = "요일",
+                    items = FilterItemsType.Day(),
+                    isSelected = false
+                ),
+                FilterType.Time(
+                    displayingName = "시간",
+                    items = FilterItemsType.Time(),
+                    isSelected = false
+                ),
+            )
+
+            SummaryTabType.JOBSEEKER -> listOf(
+                FilterType.Sorting(
+                    displayingName = "최신순",
+                    items = FilterItemsType.Sorting(),
+                    isSelected = true
+                ),
+
+                FilterType.NeighborhoodScope(
+                    displayingName = "${userInfo.value?.emd?.name} 외 24",
+                    items = FilterItemsType.NeighborhoodScope(
+                        myLocationName = userInfo.value?.emd?.name ?: ""
+                    ),
+                    isSelected = true
+                ),
+
+                FilterType.Caring(
+                    displayingName = "돌봄종류",
+                    items = FilterItemsType.Caring(isAllChecked = false),
+                    isSelected = false
+                )
+            )
+
+            else -> listOf()
+        }
+
+        _filterItems.value = list
     }
 
     fun updateSortingFilter(selectedFilters: FilterItemsType.Sorting) {

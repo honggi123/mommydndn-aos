@@ -5,19 +5,21 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.mommydndn.app.data.api.model.request.JobOfferListRequest
 import com.mommydndn.app.data.api.model.request.JobOfferRequest
+import com.mommydndn.app.data.api.model.request.JobSeekerListRequest
 import com.mommydndn.app.data.api.model.request.PaginationRequest
 import com.mommydndn.app.data.api.model.response.CreateJobOfferResponse
 import com.mommydndn.app.data.api.model.response.JobOfferResponse
 import com.mommydndn.app.data.api.service.CaringService
 import com.mommydndn.app.data.api.service.CommonService
 import com.mommydndn.app.data.datasource.pagingsource.JobOfferSummaryPagingSource
+import com.mommydndn.app.data.datasource.pagingsource.JobSeekerSummaryPagingSource
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.EtcCheckItem
 import com.mommydndn.app.data.model.care.JobOffer
-import com.mommydndn.app.data.model.care.JobOfferSummary
-import com.mommydndn.app.data.model.care.JobOfferSummaryListItem
+import com.mommydndn.app.data.model.care.summary.JobOfferSummaryListItem
 import com.mommydndn.app.data.model.care.JobSeeker
+import com.mommydndn.app.data.model.care.summary.JobSeekerSummaryItem
 import com.mommydndn.app.data.model.care.MinHourlySalary
 import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.SortingType
@@ -117,6 +119,35 @@ class CaringRepositoryImpl @Inject constructor(
             pagingSourceFactory = {
                 JobOfferSummaryPagingSource(
                     jobOfferListRequest,
+                    caringService
+                )
+            }
+        ).flow
+    }
+
+    override fun fetchJobSeekerSummary(
+        keyword: String?,
+        sortingType: SortingType,
+        emdId: Int,
+        neighborhoodScope: Int,
+        caringTypeList: List<CaringType>
+    ): Flow<PagingData<JobSeekerSummaryItem>> {
+        val jobsSeekerListRequest = JobSeekerListRequest(
+            caringTypeCodeList = caringTypeList,
+            emdId = emdId,
+            keyword = keyword,
+            neighborhoodScope = neighborhoodScope,
+            paginationRequest = PaginationRequest(0, 0, 0),
+            sortingCondition = sortingType,
+        )
+
+        return Pager(
+            config = PagingConfig(
+                pageSize = 5, enablePlaceholders = false
+            ),
+            pagingSourceFactory = {
+                JobSeekerSummaryPagingSource(
+                    jobsSeekerListRequest,
                     caringService
                 )
             }

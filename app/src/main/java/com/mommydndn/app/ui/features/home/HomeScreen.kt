@@ -52,7 +52,7 @@ import com.mommydndn.app.ui.components.common.BannerList
 import com.mommydndn.app.ui.components.box.FooterBox
 import com.mommydndn.app.ui.components.box.JobOfferBox
 import com.mommydndn.app.ui.components.box.MarketListItemBox
-import com.mommydndn.app.ui.components.box.ProfileSitterBox
+import com.mommydndn.app.ui.components.box.SitterBox
 import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.components.common.SubBanner
 import com.mommydndn.app.ui.components.modal.NoticeSettingListModal
@@ -126,7 +126,7 @@ fun MainHomeScreen(
                 horizontalArrangement = Arrangement.spacedBy(32.dp)
             ) {
                 items(jobSeekers) { item ->
-                    ProfileSitterBox(item = item)
+                    SitterBox(item = item)
                 }
             }
             Divider(

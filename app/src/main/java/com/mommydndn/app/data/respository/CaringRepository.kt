@@ -1,16 +1,15 @@
 package com.mommydndn.app.data.respository
 
 import androidx.paging.PagingData
-import com.mommydndn.app.data.api.model.request.JobOfferListRequest
 import com.mommydndn.app.data.api.model.response.CreateJobOfferResponse
 import com.mommydndn.app.data.api.model.response.JobOfferResponse
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.EtcCheckItem
-import com.mommydndn.app.data.model.care.Filter.FilterType
 import com.mommydndn.app.data.model.care.JobOffer
-import com.mommydndn.app.data.model.care.JobOfferSummaryListItem
+import com.mommydndn.app.data.model.care.summary.JobOfferSummaryListItem
 import com.mommydndn.app.data.model.care.JobSeeker
+import com.mommydndn.app.data.model.care.summary.JobSeekerSummaryItem
 import com.mommydndn.app.data.model.care.MinHourlySalary
 import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.SortingType
@@ -44,6 +43,14 @@ interface CaringRepository {
         endTime: LocalTime?,
         workPeriodTypeList: List<WorkPeriodType>
     ): Flow<PagingData<JobOfferSummaryListItem>>
+
+    fun fetchJobSeekerSummary(
+        keyword: String?,
+        sortingType: SortingType,
+        emdId: Int,
+        neighborhoodScope: Int,
+        caringTypeList: List<CaringType>,
+    ): Flow<PagingData<JobSeekerSummaryItem>>
 
     fun fetchCaringTypeItems(): Flow<List<CaringTypeItem>>
 

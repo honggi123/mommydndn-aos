@@ -28,7 +28,7 @@ import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.caption200
 
 @Composable
-fun ProfileSitterBox(
+fun SitterBox(
     item: JobSeeker
 ) {
     val profilePainter = rememberImagePainter(

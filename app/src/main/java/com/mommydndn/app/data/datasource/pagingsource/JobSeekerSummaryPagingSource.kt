@@ -3,24 +3,24 @@ package com.mommydndn.app.data.datasource.pagingsource
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.mommydndn.app.data.api.model.request.JobOfferListRequest
+import com.mommydndn.app.data.api.model.request.JobSeekerListRequest
 import com.mommydndn.app.data.api.model.request.PaginationRequest
 import com.mommydndn.app.data.api.service.CaringService
-import com.mommydndn.app.data.model.care.summary.JobOfferSummaryListItem
+import com.mommydndn.app.data.model.care.summary.JobSeekerSummaryItem
 import javax.inject.Inject
 
 private const val STARTING_PAGE_INDEX = 1
 
-class JobOfferSummaryPagingSource @Inject constructor(
-    private val jobOfferListRequest: JobOfferListRequest,
+class JobSeekerSummaryPagingSource  @Inject constructor(
+    private val jobSeekerListRequest: JobSeekerListRequest,
     private val caringService: CaringService
-) : PagingSource<Int, JobOfferSummaryListItem>() {
+) : PagingSource<Int, JobSeekerSummaryItem>() {
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, JobOfferSummaryListItem> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, JobSeekerSummaryItem> {
         return try {
             val position = params.key ?: STARTING_PAGE_INDEX
-            val result = caringService.fetchJobOfferSummary(
-                jobOfferListRequest.copy(
+            val result = caringService.fetchJobSeekerSummary(
+                jobSeekerListRequest.copy(
                     paginationRequest = PaginationRequest(
                         pageNum = position,
                         pageSize = 5,
@@ -29,9 +29,9 @@ class JobOfferSummaryPagingSource @Inject constructor(
                 )
             )
 
-            Log.e("result",result.errorBody().toString())
+            Log.e("result", result.errorBody().toString())
 
-            val data = result.body()?.jobOfferSummaryList ?: emptyList()
+            val data = result.body()?.jobSeekerSummaryList ?: emptyList()
 
             LoadResult.Page(
                 data = data,
@@ -42,12 +42,12 @@ class JobOfferSummaryPagingSource @Inject constructor(
                 nextKey = if (data.isEmpty()) null else position + 1
             )
         } catch (e: Exception) {
-            Log.e("exception",e.message.toString())
+            Log.e("exception", e.message.toString())
             LoadResult.Error(e)
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, JobOfferSummaryListItem>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, JobSeekerSummaryItem>): Int? {
         return state.anchorPosition
     }
 }

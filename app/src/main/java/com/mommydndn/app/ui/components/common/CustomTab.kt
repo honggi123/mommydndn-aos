@@ -51,6 +51,7 @@ fun CustomTab(
                 selected = selectedTabIndex == index,
                 onClick = {
                     onTabClick(index)
+                    selectedTabIndex = index
                 },
                 text = { Text(title) },
             )
