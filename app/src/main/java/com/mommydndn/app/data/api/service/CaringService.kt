@@ -1,5 +1,6 @@
 package com.mommydndn.app.data.api.service
 
+import com.mommydndn.app.data.api.model.request.CompanyListRequest
 import com.mommydndn.app.data.api.model.request.JobOfferListRequest
 import com.mommydndn.app.data.api.model.request.JobOfferRequest
 import com.mommydndn.app.data.api.model.request.JobSeekerListRequest
@@ -13,6 +14,7 @@ import com.mommydndn.app.data.model.care.summary.JobOfferSummary
 import com.mommydndn.app.data.model.care.JobSeeker
 import com.mommydndn.app.data.model.care.summary.JobSeekerSummary
 import com.mommydndn.app.data.model.care.MinHourlySalary
+import com.mommydndn.app.data.model.care.summary.CompanySummary
 import com.skydoves.sandwich.ApiResponse
 import retrofit2.Response
 import retrofit2.http.Body
@@ -49,7 +51,6 @@ interface CaringService {
         @Path("jobOfferId") jobOfferId: Int
     ): ApiResponse<JobOfferResponse>
 
-
     @POST("/api/caring/job-offer/list")
     suspend fun fetchJobOfferSummary(
         @Body jobOfferListRequest: JobOfferListRequest
@@ -59,4 +60,9 @@ interface CaringService {
     suspend fun fetchJobSeekerSummary(
         @Body jobSeekerListRequest: JobSeekerListRequest
     ): Response<JobSeekerSummary>
+
+    @POST("/api/caring/company/list")
+    suspend fun fetchCompanySummary(
+        @Body companyListRequest: CompanyListRequest
+    ): Response<CompanySummary>
 }

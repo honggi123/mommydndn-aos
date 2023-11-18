@@ -30,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.mommydndn.app.R
+import com.mommydndn.app.data.model.care.summary.CompanySummaryListItem
 import com.mommydndn.app.data.model.common.BadgeColorType
 import com.mommydndn.app.ui.components.box.ProfileDataBox
 import com.mommydndn.app.ui.theme.Grey300
@@ -42,11 +43,12 @@ import com.mommydndn.app.ui.theme.paragraph400
 
 @Composable
 fun EnterpriseListItem(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    item: CompanySummaryListItem
 ) {
 
     val profilePainter = rememberImagePainter(
-        data = "",
+        data = item.profileUrl,
         builder = {
             crossfade(true)
         }
@@ -77,7 +79,7 @@ fun EnterpriseListItem(
                 }
 
                 Text(
-                    text = "피카부 베이비시터",
+                    text = item.nickname,
                     color = Grey600,
                     style = MaterialTheme.typography.paragraph300.copy(
                         fontWeight = FontWeight.Bold
@@ -94,7 +96,7 @@ fun EnterpriseListItem(
                             .requiredSize(size = 16.dp)
                     )
                     Text(
-                        text = "반포동",
+                        text = item.neighborhood,
                         color = Grey600,
                         style = MaterialTheme.typography.caption200.copy(
                             fontWeight = FontWeight.Normal
@@ -114,7 +116,7 @@ fun EnterpriseListItem(
                             .requiredSize(size = 16.dp)
                     )
                     Text(
-                        text = "5.0",
+                        text = item.dndnScore.toString(),
                         color = Grey600,
                         style = MaterialTheme.typography.caption200.copy(
                             fontWeight = FontWeight.Medium
@@ -151,6 +153,11 @@ fun EnterpriseListItem(
             }
         }
 
-        ProfileDataBox(modifier = Modifier.fillMaxWidth())
+        ProfileDataBox(
+            modifier = Modifier.fillMaxWidth(),
+            matchCount = item.matchingCount,
+            reviewCount = item.reviewCount,
+            responseRate = item.responseRate
+        )
     }
 }

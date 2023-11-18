@@ -55,6 +55,7 @@ import com.mommydndn.app.data.model.common.TabSize
 import com.mommydndn.app.ui.components.box.JobOfferSummaryBox
 import com.mommydndn.app.ui.components.chip.ChipWithBottomArrow
 import com.mommydndn.app.ui.components.common.CustomTab
+import com.mommydndn.app.ui.components.common.EnterpriseListItem
 import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.components.common.SitterListItem
 import com.mommydndn.app.ui.components.modal.care.CaringBottomModal
@@ -82,8 +83,10 @@ fun CareScreen(
     viewModel: CareViewModel = hiltViewModel()
 ) {
     val userInfo by viewModel.userInfo.collectAsState()
+
     val searchedJobOfferSummary = viewModel.searchedJobOfferSummary.collectAsLazyPagingItems()
     val searchedJobSeekerSummary = viewModel.searchedJobSeekerSummary.collectAsLazyPagingItems()
+    val searchedCompanySummary = viewModel.searchedCompanySummary.collectAsLazyPagingItems()
 
     val selectedTab by viewModel.selectedTab.collectAsState()
 
@@ -205,6 +208,18 @@ fun CareScreen(
                         ) { index, item ->
                             if (item != null) {
                                 SitterListItem(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    item = item
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(40.dp))
+                        }
+                    } else if (selectedTab == SummaryTabType.COMPANY) {
+                        itemsIndexed(
+                            items = searchedCompanySummary
+                        ) { index, item ->
+                            if (item != null) {
+                                EnterpriseListItem(
                                     modifier = Modifier.fillMaxWidth(),
                                     item = item
                                 )

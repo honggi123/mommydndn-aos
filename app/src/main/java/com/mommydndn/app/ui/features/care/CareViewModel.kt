@@ -7,6 +7,7 @@ import androidx.paging.cachedIn
 import com.mommydndn.app.data.api.model.response.UserResponse
 import com.mommydndn.app.data.model.care.Filter.FilterItemsType
 import com.mommydndn.app.data.model.care.Filter.FilterType
+import com.mommydndn.app.data.model.care.summary.CompanySummaryListItem
 import com.mommydndn.app.data.model.care.summary.JobOfferSummaryListItem
 import com.mommydndn.app.data.model.care.summary.JobSeekerSummaryItem
 import com.mommydndn.app.data.respository.CaringRepository
@@ -88,6 +89,24 @@ class CareViewModel @Inject constructor(
             } else emptyFlow()
         }.flatMapLatest { it }
 
+    val searchedCompanySummary: Flow<PagingData<CompanySummaryListItem>> =
+        combine(userInfo, filterItems, selectedTab) { user, Items, tab ->
+            if (user != null && tab == SummaryTabType.COMPANY) {
+                caringRepository.fetchCompanySummary(
+                    keyword = null,
+                    caringTypeList = filterItems.value.filterIsInstance<FilterType.Caring>()
+                        .first().items.list.filter { it.isSelected }.map { it.caringType },
+                    emdId = userInfo.value?.emd?.id ?: 0,
+                    sortingType = filterItems.value.filterIsInstance<FilterType.Sorting>()
+                        .first().items.list.filter { it.isSelected }.first().sortingType,
+                    neighborhoodScope = filterItems.value.filterIsInstance<FilterType.NeighborhoodScope>()
+                        .first().items.list.filter { it.isSelected }
+                        .first().distantceType.distantce
+                ).cachedIn(viewModelScope)
+            } else emptyFlow()
+        }.flatMapLatest { it }
+
+
     init {
         updateTabPosition(0)
 
@@ -156,6 +175,28 @@ class CareViewModel @Inject constructor(
             )
 
             SummaryTabType.JOBSEEKER -> listOf(
+                FilterType.Sorting(
+                    displayingName = "최신순",
+                    items = FilterItemsType.Sorting(),
+                    isSelected = true
+                ),
+
+                FilterType.NeighborhoodScope(
+                    displayingName = "${userInfo.value?.emd?.name} 외 24",
+                    items = FilterItemsType.NeighborhoodScope(
+                        myLocationName = userInfo.value?.emd?.name ?: ""
+                    ),
+                    isSelected = true
+                ),
+
+                FilterType.Caring(
+                    displayingName = "돌봄종류",
+                    items = FilterItemsType.Caring(isAllChecked = false),
+                    isSelected = false
+                )
+            )
+
+            SummaryTabType.COMPANY -> listOf(
                 FilterType.Sorting(
                     displayingName = "최신순",
                     items = FilterItemsType.Sorting(),

@@ -14,6 +14,7 @@ import com.mommydndn.app.data.model.care.MinHourlySalary
 import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.SortingType
 import com.mommydndn.app.data.model.care.WorkPeriodType
+import com.mommydndn.app.data.model.care.summary.CompanySummaryListItem
 import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.common.DayOfWeekType
 import com.mommydndn.app.data.model.map.EmdItem
@@ -51,6 +52,14 @@ interface CaringRepository {
         neighborhoodScope: Int,
         caringTypeList: List<CaringType>,
     ): Flow<PagingData<JobSeekerSummaryItem>>
+
+    fun fetchCompanySummary(
+        keyword: String?,
+        sortingType: SortingType,
+        emdId: Int,
+        neighborhoodScope: Int,
+        caringTypeList: List<CaringType>,
+    ): Flow<PagingData<CompanySummaryListItem>>
 
     fun fetchCaringTypeItems(): Flow<List<CaringTypeItem>>
 

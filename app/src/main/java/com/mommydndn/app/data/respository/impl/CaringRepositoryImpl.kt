@@ -3,6 +3,7 @@ package com.mommydndn.app.data.respository.impl
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.mommydndn.app.data.api.model.request.CompanyListRequest
 import com.mommydndn.app.data.api.model.request.JobOfferListRequest
 import com.mommydndn.app.data.api.model.request.JobOfferRequest
 import com.mommydndn.app.data.api.model.request.JobSeekerListRequest
@@ -11,6 +12,7 @@ import com.mommydndn.app.data.api.model.response.CreateJobOfferResponse
 import com.mommydndn.app.data.api.model.response.JobOfferResponse
 import com.mommydndn.app.data.api.service.CaringService
 import com.mommydndn.app.data.api.service.CommonService
+import com.mommydndn.app.data.datasource.pagingsource.CompanySummaryPagingSource
 import com.mommydndn.app.data.datasource.pagingsource.JobOfferSummaryPagingSource
 import com.mommydndn.app.data.datasource.pagingsource.JobSeekerSummaryPagingSource
 import com.mommydndn.app.data.model.care.CaringType
@@ -24,6 +26,7 @@ import com.mommydndn.app.data.model.care.MinHourlySalary
 import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.SortingType
 import com.mommydndn.app.data.model.care.WorkPeriodType
+import com.mommydndn.app.data.model.care.summary.CompanySummaryListItem
 import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.common.DayOfWeekType
 import com.mommydndn.app.data.model.map.EmdItem
@@ -148,6 +151,37 @@ class CaringRepositoryImpl @Inject constructor(
             pagingSourceFactory = {
                 JobSeekerSummaryPagingSource(
                     jobsSeekerListRequest,
+                    caringService
+                )
+            }
+        ).flow
+    }
+
+    override fun fetchCompanySummary(
+        keyword: String?,
+        sortingType: SortingType,
+        emdId: Int,
+        neighborhoodScope: Int,
+        caringTypeList: List<CaringType>
+    ): Flow<PagingData<CompanySummaryListItem>> {
+        val companyListRequest = CompanyListRequest(
+            caringTypeCodeList = caringTypeList,
+            emdId = emdId,
+            keyword = keyword,
+            neighborhoodScope = neighborhoodScope,
+            paginationRequest = PaginationRequest(0, 0, 0),
+            sortingCondition = sortingType,
+            minMonthlySalary = null,
+            maxMonthlySalary = null
+        )
+
+        return Pager(
+            config = PagingConfig(
+                pageSize = 5, enablePlaceholders = false
+            ),
+            pagingSourceFactory = {
+                CompanySummaryPagingSource(
+                    companyListRequest,
                     caringService
                 )
             }
