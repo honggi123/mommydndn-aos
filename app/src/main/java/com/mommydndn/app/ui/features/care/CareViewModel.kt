@@ -116,15 +116,13 @@ class CareViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            fetchCaringTypeItems()
-
             userInfo.collect { userResponse ->
-                updateFilterItems(userResponse)
+                updateNeighborhoodFilterItems(userResponse)
             }
         }
     }
 
-    private fun updateFilterItems(userInfo: UserResponse?) {
+    private fun updateNeighborhoodFilterItems(userInfo: UserResponse?) {
         _filterItems.value = _filterItems.value.map { filterType ->
             when (filterType) {
                 is FilterType.NeighborhoodScope -> {
@@ -136,18 +134,6 @@ class CareViewModel @Inject constructor(
 
                 else -> filterType
             }
-        }
-    }
-
-    private suspend fun fetchCaringTypeItems() {
-        caringRepository.fetchCaringTypeItems().collect { items ->
-            val currentFilterItems = _filterItems.value
-            val caringFilter =
-                currentFilterItems.find { it is FilterType.Caring } as? FilterType.Caring
-            val seletedItems = items.map { it.copy(isSelected = true) }
-            caringFilter?.items?.list = seletedItems
-
-            _filterItems.value = currentFilterItems
         }
     }
 

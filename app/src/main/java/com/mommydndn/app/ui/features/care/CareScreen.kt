@@ -139,11 +139,13 @@ fun CareScreen(
                     )
                 }
                 )
+
                 CustomTab(
                     size = TabSize.LARGE,
-                    onTabClick = {},
+                    onTabClick = { it },
                     tabs = listOf("구인글", "시터님", "안심업체")
                 )
+
                 LazyRow(
                     modifier = Modifier
                         .fillMaxWidth()

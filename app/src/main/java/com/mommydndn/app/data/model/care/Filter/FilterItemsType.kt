@@ -25,7 +25,12 @@ sealed class FilterItemsType() {
 
     data class Caring(
         val isAllChecked: Boolean = false,
-        var list: List<CaringTypeItem> = listOf()
+        var list: List<CaringTypeItem> = listOf(
+            CaringTypeItem(CaringType.PARENTING, CaringType.PARENTING.value, true),
+            CaringTypeItem(CaringType.HOUSEKEEPING, CaringType.HOUSEKEEPING.value, true),
+            CaringTypeItem(CaringType.NURSING, CaringType.NURSING.value, true),
+            CaringTypeItem(CaringType.SCHOOL, CaringType.SCHOOL.value, true)
+        )
     ) : FilterItemsType()
 
     data class NeighborhoodScope(

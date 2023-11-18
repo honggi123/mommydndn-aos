@@ -127,7 +127,6 @@ class CaringRepositoryImpl @Inject constructor(
         caringService.fetchCaringTypesResponse().suspendOnSuccess {
             val list = data.map {
                 CaringTypeItem(
-                    caringTypeId = it.caringTypeId,
                     caringType = it.caringTypeCode,
                     displayName = it.displayName,
                 )
