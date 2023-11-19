@@ -59,14 +59,15 @@ fun ImageInputField(
                     contentDescription = "",
                     tint = Grey300
                 )
-                Text(
-                    text = inputType.index.toString() + "/10",
-                    style = MaterialTheme.typography.paragraph300.copy(
-                        fontWeight = FontWeight.Normal,
-                        color = Grey500
+                if(inputType.isCaptionVisible){
+                    Text(
+                        text = inputType.index.toString() + "/10",
+                        style = MaterialTheme.typography.paragraph300.copy(
+                            fontWeight = FontWeight.Normal,
+                            color = Grey500
+                        )
                     )
-                )
-
+                }
             }
         }
 

@@ -67,6 +67,7 @@ import com.mommydndn.app.ui.components.modal.care.SortingBottomModal
 import com.mommydndn.app.ui.components.modal.care.TimeBottomModal
 import com.mommydndn.app.ui.models.care.SummaryTabType
 import com.mommydndn.app.ui.navigation.JobOfferWriteNav
+import com.mommydndn.app.ui.navigation.JobSeekerWriteNav
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.Salmon600
@@ -236,7 +237,9 @@ fun CareScreen(
                     .padding(bottom = 80.dp, end = 16.dp)
             ) {
                 FloatingActionButton(
-                    onClick = { NavigationUtils.navigate(navController, JobOfferWriteNav.route) },
+                    onClick = {
+                        navigateToWriteScreen(navController, selectedTab)
+                    },
                     modifier = Modifier
                         .size(72.dp),
                     backgroundColor = Salmon600
@@ -249,7 +252,6 @@ fun CareScreen(
                 }
             }
         }
-
     }
 }
 
@@ -365,6 +367,18 @@ private fun DialogContent(
         else -> {
             Box {}
         }
+    }
+}
+
+private fun navigateToWriteScreen(
+    navController: NavHostController,
+    summaryTabType: SummaryTabType?
+) {
+    when (summaryTabType) {
+        SummaryTabType.JOBOFFER -> NavigationUtils.navigate(navController, JobOfferWriteNav.route)
+        SummaryTabType.JOBSEEKER -> NavigationUtils.navigate(navController, JobSeekerWriteNav.route)
+        SummaryTabType.COMPANY -> NavigationUtils.navigate(navController, JobOfferWriteNav.route)
+        else -> {}
     }
 }
 

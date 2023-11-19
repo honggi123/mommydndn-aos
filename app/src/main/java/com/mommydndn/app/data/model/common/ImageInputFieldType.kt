@@ -5,7 +5,8 @@ import android.net.Uri
 sealed class ImageInputFieldType {
     data class Add(
         val index: Int,
-        val onClick: (() -> Unit)? = null
+        val onClick: (() -> Unit)? = null,
+        val isCaptionVisible: Boolean = true
     ) : ImageInputFieldType()
 
     data class Editable(

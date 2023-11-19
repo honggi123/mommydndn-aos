@@ -8,10 +8,8 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -26,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -40,11 +37,13 @@ import com.mommydndn.app.ui.navigation.SignInNav
 import com.mommydndn.app.ui.navigation.TownCheckNav
 import com.mommydndn.app.ui.navigation.TypeChoiceNav
 import com.mommydndn.app.ui.features.care.CareScreen
+import com.mommydndn.app.ui.features.care.joboffer.write.JobOfferLocationSearchScreen
 import com.mommydndn.app.ui.features.care.joboffer.write.JobOfferWriteScreen
 import com.mommydndn.app.ui.features.care.joboffer.write.JobOfferWriteViewModel
-import com.mommydndn.app.ui.features.care.joboffer.write.LocationSearchScreen
 import com.mommydndn.app.ui.features.care.joboffer.write.preview.JobOfferPreviewScreen
-import com.mommydndn.app.ui.features.care.joboffer.write.preview.JobOfferPreviewViewModel
+import com.mommydndn.app.ui.features.care.jobseeker.write.JobSeekerLocationSearchScreen
+import com.mommydndn.app.ui.features.care.jobseeker.write.JobSeekerWriteScreen
+import com.mommydndn.app.ui.features.care.jobseeker.write.JobSeekerWriteViewModel
 import com.mommydndn.app.ui.features.home.MainHomeScreen
 import com.mommydndn.app.ui.features.signin.SignInScreen
 import com.mommydndn.app.ui.features.signup.NearestChoiceScreen
@@ -53,11 +52,11 @@ import com.mommydndn.app.ui.theme.Grey300
 import com.mommydndn.app.ui.theme.Grey800
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.features.signup.SignUpViewModel
+import com.mommydndn.app.ui.navigation.JobOfferLocationSearchNav
 import com.mommydndn.app.ui.navigation.JobOfferWriteNav
 import com.mommydndn.app.ui.navigation.JobOfferWritePreviewNav
-import com.mommydndn.app.ui.navigation.LocationSearchNav
-import com.mommydndn.app.ui.theme.Salmon600
-import com.mommydndn.app.ui.theme.White
+import com.mommydndn.app.ui.navigation.JobSeekerLocationSearchNav
+import com.mommydndn.app.ui.navigation.JobSeekerWriteNav
 import com.mommydndn.app.utils.NavigationUtils
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -226,7 +225,7 @@ fun MainNavigationScreen(
         }
 
         composable(
-            route = LocationSearchNav.route,
+            route = JobOfferLocationSearchNav.route,
             enterTransition = { slideEnterTransition },
             exitTransition = { slideExitTransition }
         ) { backStackEntry ->
@@ -235,7 +234,7 @@ fun MainNavigationScreen(
             }
             val jobOfferWriteViewModel =
                 hiltViewModel<JobOfferWriteViewModel>(JobOfferWriteStackEntry)
-            LocationSearchScreen(navController = navController, viewModel = jobOfferWriteViewModel)
+            JobOfferLocationSearchScreen(navController = navController, viewModel = jobOfferWriteViewModel)
         }
 
         composable(
@@ -250,6 +249,40 @@ fun MainNavigationScreen(
             JobOfferPreviewScreen(
                 jobOfferPreview = jobOfferPreview, navController = navController
             )
+        }
+
+        composable(
+            route = JobSeekerWriteNav.route,
+            enterTransition = { slideEnterTransition },
+            exitTransition = { slideExitTransition }
+        ) { backStackEntry ->
+            val JobSeekerWriteStackEntry = remember(backStackEntry) {
+                navController.getBackStackEntry(JobSeekerWriteNav.route)
+            }
+
+            val jobSeekerWriteViewModel =
+                hiltViewModel<JobSeekerWriteViewModel>(JobSeekerWriteStackEntry)
+
+            JobSeekerWriteScreen(
+                navController = navController,
+                viewModel = jobSeekerWriteViewModel,
+                scaffoldState = scaffoldState
+            )
+        }
+
+        composable(
+            route = JobSeekerLocationSearchNav.route,
+            enterTransition = { slideEnterTransition },
+            exitTransition = { slideExitTransition }
+        ) { backStackEntry ->
+            val JobSeekerWriteStackEntry = remember(backStackEntry) {
+                navController.getBackStackEntry(JobSeekerWriteNav.route)
+            }
+
+            val jobSeekerWriteViewModel =
+                hiltViewModel<JobSeekerWriteViewModel>(JobSeekerWriteStackEntry)
+
+            JobSeekerLocationSearchScreen(navController = navController, viewModel = jobSeekerWriteViewModel)
         }
     }
 

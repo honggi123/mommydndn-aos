@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.ui.components.box.PostTextFieldBox
@@ -50,9 +51,11 @@ fun TextInpuField(
     value: String = "",
     descriptionText: String = "",
     placeHolderText: String = "",
+    rightText: String = "",
     isError: Boolean = false,
     onValueChanged: (String) -> Unit = {},
     focusRequester: FocusRequester,
+    visualTransformation: VisualTransformation = VisualTransformation.None
 ) {
 
     var isFocused by remember { mutableStateOf(false) }
@@ -65,13 +68,15 @@ fun TextInpuField(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.Top)
     ) {
-        Text(
-            text = label,
-            style = MaterialTheme.typography.paragraph300.copy(
-                fontWeight = FontWeight.Bold,
-                color = Grey500
+        if (label.isNotBlank()) {
+            Text(
+                text = label,
+                style = MaterialTheme.typography.paragraph300.copy(
+                    fontWeight = FontWeight.Bold,
+                    color = Grey500
+                )
             )
-        )
+        }
 
         OutlinedTextField(
             modifier = Modifier
@@ -101,7 +106,7 @@ fun TextInpuField(
             ),
             trailingIcon = {
                 Text(
-                    text = "원",
+                    text = rightText,
                     style = MaterialTheme.typography.paragraph300.copy(
                         fontWeight = FontWeight.Normal,
                         color = Grey400
@@ -123,15 +128,17 @@ fun TextInpuField(
                 keyboardType = KeyboardType.Number
             ),
             isError = isError,
-            visualTransformation = NumberCommaVisualTransformation()
+            visualTransformation = visualTransformation
         )
-        Text(
-            text = descriptionText,
-            style = MaterialTheme.typography.caption200.copy(
-                fontWeight = FontWeight.Normal,
-                color = if (isError) Salmon600 else Grey400
+        if (descriptionText.isNotBlank()) {
+            Text(
+                text = descriptionText,
+                style = MaterialTheme.typography.caption200.copy(
+                    fontWeight = FontWeight.Normal,
+                    color = if (isError) Salmon600 else Grey400
+                )
             )
-        )
+        }
     }
 
 }

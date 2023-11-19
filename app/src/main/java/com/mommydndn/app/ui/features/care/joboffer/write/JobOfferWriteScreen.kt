@@ -94,8 +94,8 @@ import com.mommydndn.app.ui.components.common.ImageInputField
 import com.mommydndn.app.ui.components.common.SelectField
 import com.mommydndn.app.ui.components.common.TextInpuField
 import com.mommydndn.app.ui.extensions.addFocusCleaner
+import com.mommydndn.app.ui.navigation.JobOfferLocationSearchNav
 import com.mommydndn.app.ui.navigation.JobOfferWritePreviewNav
-import com.mommydndn.app.ui.navigation.LocationSearchNav
 import com.mommydndn.app.ui.theme.Grey100
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
@@ -107,6 +107,7 @@ import com.mommydndn.app.ui.theme.paragraph400
 import com.mommydndn.app.utils.DateTimeUtils
 import com.mommydndn.app.utils.GsonUtils
 import com.mommydndn.app.utils.NavigationUtils
+import com.mommydndn.app.utils.NumberCommaVisualTransformation
 import com.mommydndn.app.utils.NumberUtils
 import com.mommydndn.app.utils.PermissionUtils
 import kotlinx.coroutines.CoroutineScope
@@ -484,7 +485,7 @@ fun JobOfferWriteScreen(
                     value = emdItem?.fullName ?: "주소를 선택해주세요.",
                     isSelected = emdItem != null,
                     onClickSelection = {
-                        NavigationUtils.navigate(navController, LocationSearchNav.route)
+                        NavigationUtils.navigate(navController, JobOfferLocationSearchNav.route)
                     }
                 )
             }
@@ -551,10 +552,12 @@ fun JobOfferWriteScreen(
                         onValueChanged = { value ->
                             viewModel.setSalary(value)
                         },
+                        rightText = "원",
                         placeHolderText = "10,000",
                         descriptionText = if (selectedSalaryType?.salaryType != SalaryType.NEGOTIATION) salaryDescription else "",
                         focusRequester = focusRequester,
-                        isError = isSalaryBelowMin
+                        isError = isSalaryBelowMin,
+                        visualTransformation = NumberCommaVisualTransformation()
                     )
                 }
 
@@ -593,7 +596,7 @@ fun JobOfferWriteScreen(
                 ) {
 
                     items(listOf(1, 2, 3)) {
-                        Text(modifier = Modifier.size(0.dp), text = "")
+                        Box(modifier = Modifier.size(0.dp))
                     } // LazyVerticalGrid 첫번째 줄 삭제버튼 잘려서 보이는 오류로 인해 해당 코드 추가
 
                     item {

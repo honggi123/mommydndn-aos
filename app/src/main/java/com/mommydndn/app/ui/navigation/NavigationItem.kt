@@ -74,11 +74,6 @@ object JobOfferWriteNav : Destination {
     override val title: String = NavigationTitle.JOB_OFFER_WRITE
 }
 
-object LocationSearchNav : Destination {
-    override val route: String = NavigationRouteName.LOCATION_SEARCH
-    override val title: String = NavigationTitle.LOCATION_SEARCH
-}
-
 object JobOfferWritePreviewNav : Destination {
     override val route: String = NavigationRouteName.JOB_OFFER_WRITE_PREVIEW
     override val title: String = NavigationTitle.JOB_OFFER_WRITE_PREVIEW
@@ -101,6 +96,21 @@ object JobOfferWritePreviewNav : Destination {
     }
 }
 
+object JobOfferLocationSearchNav : Destination {
+    override val route: String = NavigationRouteName.JOB_OFFER_LOCATION_SEARCH
+    override val title: String = NavigationTitle.JOB_OFFER_LOCATION_SEARCH
+}
+
+object JobSeekerWriteNav : Destination {
+    override val route: String = NavigationRouteName.JOB_SEEKER_WRITE
+    override val title: String = NavigationTitle.JOB_SEEKER_WRITE
+}
+
+object JobSeekerLocationSearchNav : Destination {
+    override val route: String = NavigationRouteName.JOB_SEEKER_LOCATION_SEARCH
+    override val title: String = NavigationTitle.JOB_SEEKER_LOCATION_SEARCH
+}
+
 
 interface Destination {
     val route: String
@@ -112,8 +122,11 @@ object NavigationRouteName {
     const val MAIN_CARE = "돌봄"
 
     const val JOB_OFFER_WRITE = "구인글쓰기"
-    const val LOCATION_SEARCH = "구인글쓰기_위치검색"
+    const val JOB_OFFER_LOCATION_SEARCH = "구인글쓰기_위치검색"
     const val JOB_OFFER_WRITE_PREVIEW = "구인글쓰기_미리보기"
+
+    const val JOB_SEEKER_WRITE = "구직글쓰기"
+    const val JOB_SEEKER_LOCATION_SEARCH = "구직글쓰기_위치검색"
 
     const val SIGN_IN = "로그인"
     const val TYPE_CHOICE = "개인&기업선택"
@@ -125,8 +138,11 @@ object NavigationTitle {
     const val MAIN_CARE = "돌봄"
 
     const val JOB_OFFER_WRITE = "구인글쓰기"
-    const val LOCATION_SEARCH = "구인글쓰기_위치검색"
+    const val JOB_OFFER_LOCATION_SEARCH = "구인글쓰기_위치검색"
     const val JOB_OFFER_WRITE_PREVIEW = "구인글쓰기_미리보기"
+
+    const val JOB_SEEKER_WRITE = "구직글쓰기"
+    const val JOB_SEEKER_LOCATION_SEARCH = "구직글쓰기_위치검색"
 
     const val SIGN_IN = "로그인"
     const val TYPE_CHOICE = "개인&기업선택"

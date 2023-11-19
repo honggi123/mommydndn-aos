@@ -1,42 +1,22 @@
 package com.mommydndn.app.ui.features.care.joboffer.write
 
-import android.annotation.TargetApi
-import android.app.AlertDialog
-import android.app.Dialog
-import android.net.http.SslError
-import android.os.Build
 import android.os.Handler
 import android.os.Looper
-import android.os.Message
-import android.util.Log
 import android.webkit.JavascriptInterface
-import android.webkit.PermissionRequest
-import android.webkit.SslErrorHandler
-import android.webkit.WebChromeClient
-import android.webkit.WebView
-import android.webkit.WebViewClient
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.isDebugInspectorInfoEnabled
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.compose.ui.window.Dialog
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.web.AccompanistWebChromeClient
 import com.google.accompanist.web.AccompanistWebViewClient
 import com.google.accompanist.web.WebView
 import com.google.accompanist.web.rememberWebViewNavigator
 import com.google.accompanist.web.rememberWebViewState
-import com.mommydndn.app.data.model.map.EmdItem
 import org.json.JSONObject
 
 
 @Composable
-fun LocationSearchScreen(
+fun JobOfferLocationSearchScreen(
     navController: NavHostController,
     viewModel: JobOfferWriteViewModel
 ) {
@@ -59,7 +39,8 @@ fun LocationSearchScreen(
                         domStorageEnabled = true
                         javaScriptCanOpenWindowsAutomatically = false
                     }
-                    addJavascriptInterface(MyJavaScriptInterface(
+                    addJavascriptInterface(
+                        MyJavaScriptInterface(
                         onReceivedData = { address ->
                             address?.let {
                                 viewModel.searchLocationByAddress(it)
