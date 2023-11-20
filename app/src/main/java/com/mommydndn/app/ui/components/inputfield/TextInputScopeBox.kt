@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.components.box
+package com.mommydndn.app.ui.components.inputfield
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

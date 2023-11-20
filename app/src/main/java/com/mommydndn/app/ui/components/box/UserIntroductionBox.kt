@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -27,7 +28,9 @@ import com.mommydndn.app.ui.theme.paragraph400
 
 @Composable
 fun UserIntroductionBox(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    title: String,
+    content: String = "",
 ) {
     Box(
         modifier = modifier
@@ -39,12 +42,12 @@ fun UserIntroductionBox(
                 .fillMaxWidth()
                 .clip(shape = RoundedCornerShape(12.dp))
                 .background(
-                    brush = Brush.verticalGradient(
+                    brush = Brush.linearGradient(
                         colors = listOf(
-                            Color(0xFFFF8837933),
-                            Color(0xFFFF8877333),
-                            Color(0xFFFFC12533)
-                        )
+                            Color(0xFFE04179).copy(alpha = 0.2f),
+                            Color(0xFFE38773).copy(alpha = 0.2f),
+                            Color(0xFFFFC125).copy(alpha = 0.2f)
+                        ),
                     )
                 )
         ) {
@@ -57,7 +60,7 @@ fun UserIntroductionBox(
                 )
             ) {
                 Text(
-                    text = "Title",
+                    text = title,
                     color = Grey800,
                     style = MaterialTheme.typography.caption200.copy(
                         fontWeight = FontWeight.Medium
@@ -67,7 +70,7 @@ fun UserIntroductionBox(
                         .wrapContentHeight(align = Alignment.CenterVertically)
                 )
                 Text(
-                    text = "Contents",
+                    text = content,
                     color = Grey800,
                     style = MaterialTheme.typography.caption100.copy(
                         fontWeight = FontWeight.Normal

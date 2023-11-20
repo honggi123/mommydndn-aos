@@ -61,7 +61,7 @@ fun ProfileSummary(
             dndnScore = dndnScore,
             isAuthenticated = isAuthenticated
         )
-        ProfileInfoStack(
+        SmallProfileInfoStack(
             modifier = Modifier.fillMaxWidth(),
             dateText = dateText,
             certificationList = certificationList
@@ -186,67 +186,7 @@ fun ProfileBar(
     }
 }
 
-@Composable
-fun ProfileInfoStack(
-    modifier: Modifier = Modifier,
-    dateText: String = "",
-    certificationList: List<String> = emptyList(),
-) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(2.dp, Alignment.Top),
-        modifier = modifier
-            .requiredWidth(width = 342.dp)
-            .background(color = White)
-    ) {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(2.dp, Alignment.Top)
-        ) {
-            certificationList.forEach { name ->
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.Start),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_certificate),
-                        contentDescription = "Icon/certificate",
-                        modifier = Modifier
-                            .requiredSize(size = 16.dp)
-                    )
-                    Text(
-                        text = name,
-                        color = Grey700,
-                        style = MaterialTheme.typography.caption200.copy(
-                            fontWeight = FontWeight.Medium
-                        ),
-                        modifier = Modifier
-                            .wrapContentHeight(align = Alignment.CenterVertically)
-                    )
-                }
-            }
 
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.Start),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_calender),
-                    contentDescription = "Icon/calender-filled",
-                    modifier = Modifier
-                        .requiredSize(size = 16.dp)
-                )
-                Text(
-                    text = "가입일 " + dateText,
-                    color = Grey700,
-                    style = MaterialTheme.typography.caption200.copy(
-                        fontWeight = FontWeight.Medium
-                    ),
-                    modifier = Modifier
-                        .wrapContentHeight(align = Alignment.CenterVertically)
-                )
-            }
-        }
-    }
-}
 
 @Preview
 @Composable

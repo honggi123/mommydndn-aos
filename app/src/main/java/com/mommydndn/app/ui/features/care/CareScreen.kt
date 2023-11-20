@@ -47,7 +47,6 @@ import com.mommydndn.app.data.model.care.Filter.FilterType
 import com.mommydndn.app.data.model.common.TabSize
 import com.mommydndn.app.ui.components.box.JobOfferSummaryBox
 import com.mommydndn.app.ui.components.chip.ChipWithBottomArrow
-import com.mommydndn.app.ui.components.common.CustomTab
 import com.mommydndn.app.ui.components.list.EnterpriseListItem
 import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.components.inputfield.SitterListItem
@@ -58,6 +57,7 @@ import com.mommydndn.app.ui.components.modal.care.PeriodBottomModal
 import com.mommydndn.app.ui.components.modal.layout.BaseModalBottomSheetLayout
 import com.mommydndn.app.ui.components.modal.care.SortingBottomModal
 import com.mommydndn.app.ui.components.modal.care.TimeBottomModal
+import com.mommydndn.app.ui.components.tab.MediumCustomTab
 import com.mommydndn.app.ui.models.care.SummaryTabType
 import com.mommydndn.app.ui.navigation.JobOfferWriteNav
 import com.mommydndn.app.ui.navigation.JobSeekerWriteNav
@@ -145,8 +145,7 @@ fun CareScreen(
                 }
                 )
 
-                CustomTab(
-                    size = TabSize.LARGE,
+                MediumCustomTab(
                     onTabClick = { viewModel.updateTabPosition(it) },
                     tabs = listOf("구인글", "시터님", "안심업체"),
                     selectedTabIndex = selectedTab?.index ?: 0
@@ -204,7 +203,15 @@ fun CareScreen(
                             if (item != null) {
                                 SitterListItem(
                                     modifier = Modifier.fillMaxWidth(),
-                                    item = item
+                                    profileUrl = item.profileUrl,
+                                    ageAndGender = item.ageAndGender,
+                                    caringTypeCodeList = item.caringTypeCodeList,
+                                    isDndnAuthenticated = item.isDndnAuthenticated,
+                                    nickname = item.nickname,
+                                    neighborhood = item.neighborhood,
+                                    responseRate = item.responseRate,
+                                    matchingCount = item.matchingCount,
+                                    reviewCount = item.reviewCount,
                                 )
                             }
                             Spacer(modifier = Modifier.height(40.dp))

@@ -28,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.mommydndn.app.R
+import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.summary.JobSeekerSummaryItem
 import com.mommydndn.app.data.model.common.BadgeColorType
 import com.mommydndn.app.ui.components.box.ProfileDataBox
@@ -41,11 +42,20 @@ import com.mommydndn.app.ui.theme.paragraph300
 @Composable
 fun SitterListItem(
     modifier: Modifier = Modifier,
-    item: JobSeekerSummaryItem
+    profileUrl: String = "",
+    isDndnAuthenticated: Boolean,
+    nickname: String,
+    neighborhood: String,
+    responseRate: String,
+    ageAndGender: String = "",
+    caringTypeCodeList: List<CaringType> = emptyList(),
+    matchingCount:Int,
+    reviewCount: Int,
+    profileType: SitterProfileBoxType = SitterProfileBoxType.FEED
 ) {
 
     val profilePainter = rememberImagePainter(
-        data = item.profileUrl,
+        data = profileUrl,
         builder = {
             crossfade(true)
         }
@@ -79,7 +89,7 @@ fun SitterListItem(
                             .background(Grey300),
                         contentScale = ContentScale.Crop
                     )
-                    if (item.isDndnAuthenticated) {
+                    if (isDndnAuthenticated) {
                         Image(
                             painter = painterResource(id = R.drawable.ic_certificate),
                             contentDescription = "Icon/certificate",
@@ -96,7 +106,7 @@ fun SitterListItem(
                     verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
                 ) {
                     Text(
-                        text = item.nickname,
+                        text = nickname,
                         color = Grey600,
                         style = MaterialTheme.typography.paragraph300.copy(
                             fontWeight = FontWeight.Bold
@@ -113,7 +123,7 @@ fun SitterListItem(
                                 .requiredSize(size = 16.dp)
                         )
                         Text(
-                            text = item.neighborhood,
+                            text = neighborhood,
                             color = Grey600,
                             style = MaterialTheme.typography.caption100.copy(
                                 fontWeight = FontWeight.Medium
@@ -133,7 +143,7 @@ fun SitterListItem(
                                 .requiredSize(size = 16.dp)
                         )
                         Text(
-                            text = item.responseRate,
+                            text = responseRate,
                             color = Grey600,
                             style = MaterialTheme.typography.caption100.copy(
                                 fontWeight = FontWeight.Medium
@@ -151,19 +161,26 @@ fun SitterListItem(
                     .requiredSize(size = 36.dp)
             )
         }
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(3.dp, Alignment.Start)
-        ) {
-            Badge(colorType = BadgeColorType.GREEN, text = item.ageAndGender)
 
-            item.caringTypeCodeList.forEach {
-                Badge(colorType = BadgeColorType.ORANGE, text = it.value)
+        if (profileType == SitterProfileBoxType.FEED) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(3.dp, Alignment.Start)
+            ) {
+                Badge(colorType = BadgeColorType.GREEN, text = ageAndGender)
+
+                caringTypeCodeList.forEach {
+                    Badge(colorType = BadgeColorType.ORANGE, text = it.value)
+                }
             }
         }
         ProfileDataBox(
-            matchCount = item.matchingCount,
-            reviewCount = item.reviewCount,
-            responseRate = item.responseRate
+            matchCount = matchingCount,
+            reviewCount = reviewCount,
+            responseRate = responseRate
         )
     }
+}
+
+enum class SitterProfileBoxType {
+    FEED, DETAIL
 }

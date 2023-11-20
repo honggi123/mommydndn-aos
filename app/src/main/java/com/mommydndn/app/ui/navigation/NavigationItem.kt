@@ -120,7 +120,7 @@ object JobSeekerWritePreviewNav : Destination {
 
     fun navigateWithArg(item: JobSeekerPreview): String  {
         val arg = GsonUtils.toJson(item)
-        return "${JobOfferWritePreviewNav.route}/$arg"
+        return "${JobSeekerWritePreviewNav.route}/$arg"
     }
 
     fun findArgument(navBackStackEntry: NavBackStackEntry): JobSeekerPreview? {

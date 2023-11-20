@@ -87,6 +87,12 @@ object DateTimeUtils {
         return ""
     }
 
+    fun formatTimestampToYearMonth(timestamp: Long): String {
+        val date = Date(timestamp)
+        val dateFormat = SimpleDateFormat("yyyy년 MM월", Locale.getDefault())
+        return dateFormat.format(date)
+    }
+
     fun formatTimestampToYearMonthDay(timestamp: Long): String {
         val date = Date(timestamp)
         val dateFormat = SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault())
