@@ -141,7 +141,6 @@ class CareViewModel @Inject constructor(
         val list = when (selectedSummaryTab) {
             SummaryTabType.JOBOFFER -> listOf(
                 FilterType.Sorting(
-                    displayingName = "최신순",
                     items = FilterItemsType.Sorting(),
                     isSelected = true
                 ),
@@ -153,22 +152,18 @@ class CareViewModel @Inject constructor(
                     isSelected = true
                 ),
                 FilterType.Caring(
-                    displayingName = "돌봄종류",
                     items = FilterItemsType.Caring(isAllChecked = false),
                     isSelected = false
                 ),
                 FilterType.Period(
-                    displayingName = "정기",
                     items = FilterItemsType.Period(),
                     isSelected = false
                 ),
                 FilterType.Day(
-                    displayingName = "요일",
                     items = FilterItemsType.Day(),
                     isSelected = false
                 ),
                 FilterType.Time(
-                    displayingName = "시간",
                     items = FilterItemsType.Time(),
                     isSelected = false
                 ),
@@ -176,7 +171,6 @@ class CareViewModel @Inject constructor(
 
             SummaryTabType.JOBSEEKER -> listOf(
                 FilterType.Sorting(
-                    displayingName = "최신순",
                     items = FilterItemsType.Sorting(),
                     isSelected = true
                 ),
@@ -190,7 +184,6 @@ class CareViewModel @Inject constructor(
                 ),
 
                 FilterType.Caring(
-                    displayingName = "돌봄종류",
                     items = FilterItemsType.Caring(isAllChecked = false),
                     isSelected = false
                 )
@@ -198,7 +191,6 @@ class CareViewModel @Inject constructor(
 
             SummaryTabType.COMPANY -> listOf(
                 FilterType.Sorting(
-                    displayingName = "최신순",
                     items = FilterItemsType.Sorting(),
                     isSelected = true
                 ),
@@ -212,7 +204,6 @@ class CareViewModel @Inject constructor(
                 ),
 
                 FilterType.Caring(
-                    displayingName = "돌봄종류",
                     items = FilterItemsType.Caring(isAllChecked = false),
                     isSelected = false
                 )
@@ -230,8 +221,6 @@ class CareViewModel @Inject constructor(
 
         val updatedFilter = sortingFilter.copy(
             isSelected = true,
-            displayingName = selectedFilters.list.filter { it.isSelected }
-                .first().sortingType.diaplayingName,
             items = FilterItemsType.Sorting(selectedFilters.list)
         )
 
@@ -246,8 +235,6 @@ class CareViewModel @Inject constructor(
 
         val updatedFilter = dayFilter.copy(
             isSelected = true,
-            displayingName = StringUtils.getConcatenatedString(selectedFilters.list.filter { it.isSelected }
-                .map { it.type.displayingName }),
             items = FilterItemsType.Day(selectedFilters.list)
         )
 
@@ -262,8 +249,6 @@ class CareViewModel @Inject constructor(
 
         val updatedFilter = caringFilter.copy(
             isSelected = true,
-            displayingName = StringUtils.getConcatenatedCommasString(selectedFilters.list.filter { it.isSelected }
-                .map { it.caringType.value }),
             items = caringFilter.items.copy(
                 isAllChecked = selectedFilters.isAllChecked,
                 list = selectedFilters.list
@@ -281,10 +266,6 @@ class CareViewModel @Inject constructor(
 
         val updatedFilter = timeFilter.copy(
             isSelected = true,
-            displayingName = getDutarionHourString(
-                selectedFilters.startTime,
-                selectedFilters.endTime
-            ) ?: "시간",
             items = timeFilter.items.copy(
                 startTime = selectedFilters.startTime,
                 endTime = selectedFilters.endTime
@@ -324,8 +305,6 @@ class CareViewModel @Inject constructor(
 
         val updatedFilter = periodFilter.copy(
             isSelected = true,
-            displayingName = selectedFilters.list.filter { it.isSelected }
-                .first().workPeriodType.value,
             items = periodFilter.items.copy(
                 list = selectedFilters.list
             )
@@ -336,16 +315,5 @@ class CareViewModel @Inject constructor(
         }
     }
 
-
-    private fun getDutarionHourString(startTime: LocalTime?, endTime: LocalTime?): String? {
-        if (startTime == null || endTime == null) {
-            return null
-        }
-        return "${DateTimeUtils.getLocalTimeText(startTime!!)} ~ ${
-            DateTimeUtils.getLocalTimeText(
-                endTime!!
-            )
-        }"
-    }
 }
 

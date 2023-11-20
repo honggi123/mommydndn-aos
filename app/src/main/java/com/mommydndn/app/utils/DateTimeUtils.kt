@@ -155,4 +155,15 @@ object DateTimeUtils {
         val formatter = DateTimeFormatter.ofPattern("HH:mm")
         return localTime?.format(formatter) ?: ""
     }
+
+    fun getDutarionHourString(startTime: LocalTime?, endTime: LocalTime?): String? {
+        if (startTime == null || endTime == null) {
+            return null
+        }
+        return "${getLocalTimeText(startTime!!)} ~ ${
+            getLocalTimeText(
+                endTime!!
+            )
+        }"
+    }
 }
