@@ -102,6 +102,7 @@ fun ImageInputField(
                     .height(height = 96.dp)
                     .clip(shape = RoundedCornerShape(6.dp))
                     .background(color = White)
+                    .clickable { inputType.onClick?.let { it() } }
             ) {
                 Image(
                     painter = rememberImagePainter(inputType.imageUri),

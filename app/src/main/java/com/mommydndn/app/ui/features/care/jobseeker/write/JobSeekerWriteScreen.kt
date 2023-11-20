@@ -197,7 +197,17 @@ fun JobSeekerWriteScreen(
                 } else {
                     ImageInputField(
                         inputType = ImageInputFieldType.Ineditable(
-                            imageUri = photo!!
+                            imageUri = photo!!,
+                            onClick = {
+                                PermissionUtils.checkAndRequestPermissions(
+                                    context,
+                                    permissions,
+                                    launcher,
+                                    onPermissionGranted = {
+                                        takePhotoFromAlbumLauncher.launch("image/jpeg")
+                                    }
+                                )
+                            }
                         )
                     )
                 }

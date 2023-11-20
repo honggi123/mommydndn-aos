@@ -15,6 +15,7 @@ sealed class ImageInputFieldType {
     ) : ImageInputFieldType()
 
     data class Ineditable(
-        val imageUri: Uri
+        val imageUri: Uri,
+        val onClick: (() -> Unit)? = {}
     ) : ImageInputFieldType()
 }
