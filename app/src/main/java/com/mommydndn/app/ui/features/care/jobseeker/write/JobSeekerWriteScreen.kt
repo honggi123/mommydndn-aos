@@ -276,7 +276,7 @@ fun JobSeekerWriteScreen(
                         }
                     )
                     Text(
-                        text = "가락동 외 근처 동네 24개",
+                        text = "${emdItem?.name} 외 근처 동네 24개",
                         style = MaterialTheme.typography.caption200.copy(
                             fontWeight = FontWeight.Medium,
                             color = Grey600

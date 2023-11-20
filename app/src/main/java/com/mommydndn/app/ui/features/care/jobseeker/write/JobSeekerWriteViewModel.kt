@@ -1,9 +1,11 @@
 package com.mommydndn.app.ui.features.care.jobseeker.write
 
 import android.net.Uri
+import androidx.core.net.toUri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mommydndn.app.data.api.model.response.UserResponse
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.EtcCheckItem
 import com.mommydndn.app.data.model.care.MinHourlySalary
@@ -82,6 +84,7 @@ class JobSeekerWriteViewModel @Inject constructor(
     init {
         fetchEtcCheckList()
         fetchCaringTypeItems()
+        fetchUserInfo()
     }
 
     fun selectSalaryType(selectedSalaryTypeItem: SalaryTypeItem) {
@@ -141,6 +144,15 @@ class JobSeekerWriteViewModel @Inject constructor(
         viewModelScope.launch {
             caringRepository.fetchCaringTypeItems().collect { types ->
                 _careTypes.value = types
+            }
+        }
+    }
+
+    fun fetchUserInfo() {
+        viewModelScope.launch {
+            userRepository.fetchUserInfo().collect { userInfo ->
+                _emdItem.value = userInfo.emd
+                _photo.value = userInfo.profileUrl?.toUri()
             }
         }
     }
