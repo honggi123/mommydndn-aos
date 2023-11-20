@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
@@ -75,7 +76,8 @@ fun ImageInputField(
                     painter = rememberImagePainter(inputType.imageUri),
                     contentDescription = "",
                     modifier = Modifier
-                        .fillMaxSize()
+                        .width(width = 108.dp)
+                        .height(height = 96.dp)
                         .clip(shape = RoundedCornerShape(6.dp)),
                     contentScale = ContentScale.Crop
                 )
@@ -83,9 +85,10 @@ fun ImageInputField(
                     painter = painterResource(id = R.drawable.ic_x_circle),
                     contentDescription = "",
                     modifier = Modifier
+                        .size(24.dp)
                         .align(alignment = Alignment.TopStart)
                         .offset(
-                            x = 98.dp,
+                            x = 88.dp,
                             y = (-5).dp
                         )
                         .clickable {

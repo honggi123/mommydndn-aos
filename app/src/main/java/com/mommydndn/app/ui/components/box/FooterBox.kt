@@ -91,14 +91,14 @@ fun FooterBox(
                         color = Grey400
                     )
                 )
-                Spacer(modifier = Modifier.height(6.dp))
+                Spacer(modifier = Modifier.width(6.dp))
                 Divider(
                     modifier = Modifier
                         .height(11.dp)
                         .width(1.dp),
                     color = Grey400,
                 )
-                Spacer(modifier = Modifier.padding(6.dp))
+                Spacer(modifier = Modifier.width(6.dp))
                 Text(
                     text = "사업자등록번호 740-88-00896",
                     style = MaterialTheme.typography.caption100.copy(
@@ -118,14 +118,14 @@ fun FooterBox(
                         color = Grey400
                     )
                 )
-                Spacer(modifier = Modifier.height(6.dp))
+                Spacer(modifier = Modifier.width(6.dp))
                 Divider(
                     modifier = Modifier
                         .height(11.dp)
                         .width(1.dp),
                     color = Grey400,
                 )
-                Spacer(modifier = Modifier.height(6.dp))
+                Spacer(modifier = Modifier.width(6.dp))
                 Text(
                     text = "cs@mommydndn.com",
                     style = MaterialTheme.typography.caption100.copy(
