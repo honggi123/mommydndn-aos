@@ -44,6 +44,7 @@ import com.mommydndn.app.ui.features.care.joboffer.write.preview.JobOfferPreview
 import com.mommydndn.app.ui.features.care.jobseeker.write.JobSeekerLocationSearchScreen
 import com.mommydndn.app.ui.features.care.jobseeker.write.JobSeekerWriteScreen
 import com.mommydndn.app.ui.features.care.jobseeker.write.JobSeekerWriteViewModel
+import com.mommydndn.app.ui.features.care.jobseeker.write.preview.JobSeekerPreviewScreen
 import com.mommydndn.app.ui.features.home.MainHomeScreen
 import com.mommydndn.app.ui.features.signin.SignInScreen
 import com.mommydndn.app.ui.features.signup.NearestChoiceScreen
@@ -57,6 +58,7 @@ import com.mommydndn.app.ui.navigation.JobOfferWriteNav
 import com.mommydndn.app.ui.navigation.JobOfferWritePreviewNav
 import com.mommydndn.app.ui.navigation.JobSeekerLocationSearchNav
 import com.mommydndn.app.ui.navigation.JobSeekerWriteNav
+import com.mommydndn.app.ui.navigation.JobSeekerWritePreviewNav
 import com.mommydndn.app.utils.NavigationUtils
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -267,6 +269,39 @@ fun MainNavigationScreen(
                 navController = navController,
                 viewModel = jobSeekerWriteViewModel,
                 scaffoldState = scaffoldState
+            )
+        }
+
+        composable(
+            route = JobSeekerWriteNav.route,
+            enterTransition = { slideEnterTransition },
+            exitTransition = { slideExitTransition }
+        ) { backStackEntry ->
+            val JobSeekerWriteStackEntry = remember(backStackEntry) {
+                navController.getBackStackEntry(JobSeekerWriteNav.route)
+            }
+
+            val jobSeekerWriteViewModel =
+                hiltViewModel<JobSeekerWriteViewModel>(JobSeekerWriteStackEntry)
+
+            JobSeekerWriteScreen(
+                navController = navController,
+                viewModel = jobSeekerWriteViewModel,
+                scaffoldState = scaffoldState
+            )
+        }
+
+        composable(
+            route = JobSeekerWritePreviewNav.routeWithArgName(),
+            arguments = JobSeekerWritePreviewNav.arguments,
+
+            enterTransition = { slideEnterTransition },
+            exitTransition = { slideExitTransition }
+        ) {
+            val jobSeekerPreview = JobSeekerWritePreviewNav.findArgument(it)
+
+            JobSeekerPreviewScreen(
+                jobSeekerPreview = jobSeekerPreview, navController = navController
             )
         }
 

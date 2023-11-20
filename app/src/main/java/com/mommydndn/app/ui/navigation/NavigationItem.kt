@@ -8,6 +8,7 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.care.JobOfferPreview
+import com.mommydndn.app.data.model.care.JobSeekerPreview
 import com.mommydndn.app.data.model.user.SignUpInfo
 import com.mommydndn.app.ui.navigation.NavigationRouteName.MAIN_CARE
 import com.mommydndn.app.ui.navigation.NavigationRouteName.MAIN_HOME
@@ -106,6 +107,28 @@ object JobSeekerWriteNav : Destination {
     override val title: String = NavigationTitle.JOB_SEEKER_WRITE
 }
 
+object JobSeekerWritePreviewNav : Destination {
+    override val route: String = NavigationRouteName.JOB_SEEKER_WRITE_PREVIEW
+    override val title: String = NavigationTitle.JOB_SEEKER_WRITE_PREVIEW
+    val argName: String = "JobSeekerPreview"
+
+    fun routeWithArgName() = "${JobSeekerWritePreviewNav.route}/{${JobSeekerWritePreviewNav.argName}}"
+
+    val arguments: List<NamedNavArgument> = listOf(
+        navArgument(argName) { type= NavType.StringType}
+    )
+
+    fun navigateWithArg(item: JobSeekerPreview): String  {
+        val arg = GsonUtils.toJson(item)
+        return "${JobOfferWritePreviewNav.route}/$arg"
+    }
+
+    fun findArgument(navBackStackEntry: NavBackStackEntry): JobSeekerPreview? {
+        val jobSeekerPreviewString = navBackStackEntry.arguments?.getString(argName)
+        return GsonUtils.fromJson<JobSeekerPreview>(jobSeekerPreviewString)
+    }
+}
+
 object JobSeekerLocationSearchNav : Destination {
     override val route: String = NavigationRouteName.JOB_SEEKER_LOCATION_SEARCH
     override val title: String = NavigationTitle.JOB_SEEKER_LOCATION_SEARCH
@@ -127,6 +150,7 @@ object NavigationRouteName {
 
     const val JOB_SEEKER_WRITE = "구직글쓰기"
     const val JOB_SEEKER_LOCATION_SEARCH = "구직글쓰기_위치검색"
+    const val JOB_SEEKER_WRITE_PREVIEW = "구직글쓰기_미리보기"
 
     const val SIGN_IN = "로그인"
     const val TYPE_CHOICE = "개인&기업선택"
@@ -143,6 +167,7 @@ object NavigationTitle {
 
     const val JOB_SEEKER_WRITE = "구직글쓰기"
     const val JOB_SEEKER_LOCATION_SEARCH = "구직글쓰기_위치검색"
+    const val JOB_SEEKER_WRITE_PREVIEW = "구직글쓰기_미리보기"
 
     const val SIGN_IN = "로그인"
     const val TYPE_CHOICE = "개인&기업선택"

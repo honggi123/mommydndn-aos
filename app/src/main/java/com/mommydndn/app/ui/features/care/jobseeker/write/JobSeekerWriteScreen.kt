@@ -52,8 +52,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.mommydndn.app.R
+import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeItem
+import com.mommydndn.app.data.model.care.EtcCheckItem
 import com.mommydndn.app.data.model.care.JobOfferPreview
+import com.mommydndn.app.data.model.care.JobSeekerPreview
 import com.mommydndn.app.data.model.care.MinHourlySalary
 import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.WorkPeriodType
@@ -82,6 +85,7 @@ import com.mommydndn.app.ui.extensions.addFocusCleaner
 import com.mommydndn.app.ui.navigation.JobOfferLocationSearchNav
 import com.mommydndn.app.ui.navigation.JobOfferWritePreviewNav
 import com.mommydndn.app.ui.navigation.JobSeekerLocationSearchNav
+import com.mommydndn.app.ui.navigation.JobSeekerWritePreviewNav
 import com.mommydndn.app.ui.theme.Grey100
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
@@ -505,11 +509,81 @@ fun JobSeekerWriteScreen(
                     sizeType = ButtonSizeType.LARGE,
                     rangeType = MinMaxRange.MAX,
                     onClick = {
+                        val isSuccessful = isValidationSuccessful(
+                            introduce = introduce,
+                            emdItem = emdItem,
+                            careTypes = careTypes.filter { it.isSelected },
+                            salary = salary,
+                            salaryType = salaryTypes.filter { it.isSelected }.first().salaryType,
+                            minHourlySalary = minHourlySalary,
+                            photo = photo,
+                            coroutineScope = coroutineScope,
+                            scaffoldState = scaffoldState
+                        )
+
+                        if (isSuccessful) {
+                            NavigationUtils.navigate(
+                                navController, JobSeekerWritePreviewNav.navigateWithArg(
+                                    JobSeekerPreview(
+                                        introduce = introduce,
+                                        caringTypeList = careTypes.filter { it.isSelected }
+                                            .map { it.caringType },
+                                        emd = emdItem!!,
+                                        salaryType = salaryTypes.filter { it.isSelected }
+                                            .first().salaryType,
+                                        salary = salary!!,
+                                        etcCheckedList = etcCheckList,
+                                        imageUri = Uri.encode(photo.toString())
+                                    )
+                                )
+
+                            )
+                        }
                     }
+
                 )
             }
         }
     }
 }
 
+fun isValidationSuccessful(
+    introduce: String,
+    emdItem: EmdItem?,
+    careTypes: List<CaringTypeItem>,
+    salary: Int?,
+    salaryType: SalaryType,
+    minHourlySalary: MinHourlySalary?,
+    photo: Uri?,
+    coroutineScope: CoroutineScope,
+    scaffoldState: ScaffoldState
+): Boolean {
+
+    if (minHourlySalary == null) {
+        return false
+    }
+
+    val errorMessage = if (photo == null) {
+        "프로필 사진을 등록해주세요."
+    } else if (introduce.isBlank()) {
+        "시터님 소개를 입력해주세요."
+    } else if (careTypes.all { !it.isSelected }) {
+        "돌봄 종류를 선택해주세요."
+    } else if (emdItem == null) {
+        "일하는 장소를 선택해주세요."
+    } else if (salaryType != SalaryType.NEGOTIATION && salary == null) {
+        "임금이 입력되지 않았습니다."
+    } else if (salaryType != SalaryType.NEGOTIATION && salary!! < minHourlySalary.minHourlySalary) {
+        "임금은 최저시급 보다 높아야 합니다."
+    } else null
+
+    if (errorMessage == null) {
+        return true
+    } else {
+        coroutineScope.launch {
+            scaffoldState.snackbarHostState.showSnackbar(errorMessage)
+        }
+        return false
+    }
+}
 
