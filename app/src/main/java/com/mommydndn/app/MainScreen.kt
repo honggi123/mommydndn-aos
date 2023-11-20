@@ -37,6 +37,8 @@ import com.mommydndn.app.ui.navigation.SignInNav
 import com.mommydndn.app.ui.navigation.TownCheckNav
 import com.mommydndn.app.ui.navigation.TypeChoiceNav
 import com.mommydndn.app.ui.features.care.CareScreen
+import com.mommydndn.app.ui.features.care.company.write.CompanyWriteScreen
+import com.mommydndn.app.ui.features.care.company.write.CompanyWriteViewModel
 import com.mommydndn.app.ui.features.care.joboffer.write.JobOfferLocationSearchScreen
 import com.mommydndn.app.ui.features.care.joboffer.write.JobOfferWriteScreen
 import com.mommydndn.app.ui.features.care.joboffer.write.JobOfferWriteViewModel
@@ -53,6 +55,7 @@ import com.mommydndn.app.ui.theme.Grey300
 import com.mommydndn.app.ui.theme.Grey800
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.features.signup.SignUpViewModel
+import com.mommydndn.app.ui.navigation.CompanyWriteNav
 import com.mommydndn.app.ui.navigation.JobOfferLocationSearchNav
 import com.mommydndn.app.ui.navigation.JobOfferWriteNav
 import com.mommydndn.app.ui.navigation.JobOfferWritePreviewNav
@@ -236,7 +239,10 @@ fun MainNavigationScreen(
             }
             val jobOfferWriteViewModel =
                 hiltViewModel<JobOfferWriteViewModel>(JobOfferWriteStackEntry)
-            JobOfferLocationSearchScreen(navController = navController, viewModel = jobOfferWriteViewModel)
+            JobOfferLocationSearchScreen(
+                navController = navController,
+                viewModel = jobOfferWriteViewModel
+            )
         }
 
         composable(
@@ -317,7 +323,29 @@ fun MainNavigationScreen(
             val jobSeekerWriteViewModel =
                 hiltViewModel<JobSeekerWriteViewModel>(JobSeekerWriteStackEntry)
 
-            JobSeekerLocationSearchScreen(navController = navController, viewModel = jobSeekerWriteViewModel)
+            JobSeekerLocationSearchScreen(
+                navController = navController,
+                viewModel = jobSeekerWriteViewModel
+            )
+        }
+
+        composable(
+            route = CompanyWriteNav.route,
+            enterTransition = { slideEnterTransition },
+            exitTransition = { slideExitTransition }
+        ) { backStackEntry ->
+            val CompanyWriteNavStackEntry = remember(backStackEntry) {
+                navController.getBackStackEntry(CompanyWriteNav.route)
+            }
+
+            val companyWriteViewModel =
+                hiltViewModel<CompanyWriteViewModel>(CompanyWriteNavStackEntry)
+
+            CompanyWriteScreen(
+                navController = navController,
+                viewModel = companyWriteViewModel,
+                scaffoldState = scaffoldState
+            )
         }
     }
 

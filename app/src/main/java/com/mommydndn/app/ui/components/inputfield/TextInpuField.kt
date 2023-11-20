@@ -42,7 +42,7 @@ fun TextInpuField(
     value: String = "",
     descriptionText: String = "",
     placeHolderText: String = "",
-    rightText: String = "",
+    rightText: String? = "",
     isError: Boolean = false,
     onValueChanged: (String) -> Unit = {},
     focusRequester: FocusRequester,
@@ -96,15 +96,17 @@ fun TextInpuField(
                 color = Grey500
             ),
             trailingIcon = {
-                Text(
-                    text = rightText,
-                    style = MaterialTheme.typography.paragraph300.copy(
-                        fontWeight = FontWeight.Normal,
-                        color = Grey400
-                    ),
-                    modifier = Modifier
-                        .wrapContentHeight(align = Alignment.CenterVertically)
-                )
+                if (!rightText.isNullOrBlank()){
+                    Text(
+                        text = rightText,
+                        style = MaterialTheme.typography.paragraph300.copy(
+                            fontWeight = FontWeight.Normal,
+                            color = Grey400
+                        ),
+                        modifier = Modifier
+                            .wrapContentHeight(align = Alignment.CenterVertically)
+                    )
+                }
             },
             placeholder = {
                 Text(

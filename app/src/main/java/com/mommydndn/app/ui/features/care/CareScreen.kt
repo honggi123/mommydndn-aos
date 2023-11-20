@@ -59,6 +59,7 @@ import com.mommydndn.app.ui.components.modal.care.SortingBottomModal
 import com.mommydndn.app.ui.components.modal.care.TimeBottomModal
 import com.mommydndn.app.ui.components.tab.MediumCustomTab
 import com.mommydndn.app.ui.models.care.SummaryTabType
+import com.mommydndn.app.ui.navigation.CompanyWriteNav
 import com.mommydndn.app.ui.navigation.JobOfferWriteNav
 import com.mommydndn.app.ui.navigation.JobSeekerWriteNav
 import com.mommydndn.app.ui.theme.Grey50
@@ -378,7 +379,7 @@ private fun navigateToWriteScreen(
     when (summaryTabType) {
         SummaryTabType.JOBOFFER -> NavigationUtils.navigate(navController, JobOfferWriteNav.route)
         SummaryTabType.JOBSEEKER -> NavigationUtils.navigate(navController, JobSeekerWriteNav.route)
-        SummaryTabType.COMPANY -> NavigationUtils.navigate(navController, JobOfferWriteNav.route)
+        SummaryTabType.COMPANY -> NavigationUtils.navigate(navController, CompanyWriteNav.route)
         else -> {}
     }
 }
