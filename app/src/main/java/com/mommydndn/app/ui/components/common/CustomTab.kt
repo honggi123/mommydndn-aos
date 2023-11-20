@@ -27,9 +27,10 @@ import com.mommydndn.app.ui.theme.White
 fun CustomTab(
     tabs: List<String>,
     onTabClick: (Int) -> Unit,
-    size: TabSize
+    size: TabSize,
+    selectedTabIndex: Int = 0
 ) {
-    var selectedTabIndex by remember { mutableStateOf(0) }
+    var selectedTabIndex by remember { mutableStateOf(selectedTabIndex) }
 
     TabRow(
         modifier = Modifier.fillMaxWidth(),
@@ -61,12 +62,12 @@ fun CustomTab(
 
 @Preview
 @Composable
-fun previewCustomTab(){
+fun previewCustomTab() {
     MommydndnaosTheme {
         CustomTab(
             size = TabSize.LARGE,
             onTabClick = {},
-            tabs = listOf("1","2","3")
+            tabs = listOf("1", "2", "3")
         )
     }
 }

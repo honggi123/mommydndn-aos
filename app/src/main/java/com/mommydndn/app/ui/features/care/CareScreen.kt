@@ -155,7 +155,8 @@ fun CareScreen(
                 CustomTab(
                     size = TabSize.LARGE,
                     onTabClick = { viewModel.updateTabPosition(it) },
-                    tabs = listOf("구인글", "시터님", "안심업체")
+                    tabs = listOf("구인글", "시터님", "안심업체"),
+                    selectedTabIndex = selectedTab?.index ?: 0
                 )
 
                 LazyRow(
