@@ -4,10 +4,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -26,13 +24,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
-import com.mommydndn.app.ui.components.common.CheckBoxListItem
-import com.mommydndn.app.ui.components.common.CheckMarkListItem
+import com.mommydndn.app.ui.components.list.CheckMarkListItem
 import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey800
-import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.heading700
 import com.mommydndn.app.ui.theme.paragraph300
 

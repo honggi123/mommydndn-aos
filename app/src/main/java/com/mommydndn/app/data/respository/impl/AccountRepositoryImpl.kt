@@ -4,7 +4,7 @@ import com.mommydndn.app.BuildConfig
 import com.mommydndn.app.data.api.service.AuthService
 import com.mommydndn.app.data.api.service.GoogleApiService
 import com.mommydndn.app.data.datasource.TokenManager
-import com.mommydndn.app.data.api.model.request.LoginGoogleRequest
+import com.mommydndn.app.data.api.model.request.GoogleLoginRequest
 import com.mommydndn.app.data.api.model.response.LoginGoogleResponse
 import com.mommydndn.app.data.api.model.request.LoginRequest
 import com.mommydndn.app.data.api.model.response.LoginResponse
@@ -59,7 +59,7 @@ class AccountRepositoryImpl @Inject constructor(
     override suspend fun getGoogleAccesstoken(
         authCode: String
     ): ApiResponse<LoginGoogleResponse> = googleApiService.getAccessToken(
-        LoginGoogleRequest(
+        GoogleLoginRequest(
             grant_type = "authorization_code",
             client_id = BuildConfig.GOOGLE_CLIENT_ID,
             client_secret = BuildConfig.GOOGLE_CLIENT_SECRET,

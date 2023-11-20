@@ -1,6 +1,5 @@
-package com.mommydndn.app.ui.components.common
+package com.mommydndn.app.ui.components.inputfield
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
@@ -11,7 +10,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -25,24 +23,17 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.mommydndn.app.ui.components.box.PostTextFieldBox
 import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Salmon500
 import com.mommydndn.app.ui.theme.Salmon600
-import com.mommydndn.app.ui.theme.White
-import com.mommydndn.app.ui.theme.caption100
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph300
-import com.mommydndn.app.utils.NumberCommaVisualTransformation
-import java.lang.NumberFormatException
 
 @Composable
 fun TextInpuField(

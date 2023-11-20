@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.components.common
+package com.mommydndn.app.ui.components.list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.components.common
+package com.mommydndn.app.ui.components.inputfield
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.size
@@ -17,7 +16,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -27,19 +25,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.care.summary.JobSeekerSummaryItem
 import com.mommydndn.app.data.model.common.BadgeColorType
 import com.mommydndn.app.ui.components.box.ProfileDataBox
+import com.mommydndn.app.ui.components.common.Badge
 import com.mommydndn.app.ui.theme.Grey300
 import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption100
 import com.mommydndn.app.ui.theme.paragraph300
-import com.mommydndn.app.ui.theme.paragraph400
 
 @Composable
 fun SitterListItem(

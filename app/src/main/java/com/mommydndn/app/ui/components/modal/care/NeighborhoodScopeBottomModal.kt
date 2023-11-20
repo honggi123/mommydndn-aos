@@ -1,6 +1,5 @@
 package com.mommydndn.app.ui.components.modal.care
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -18,7 +17,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Slider
 import androidx.compose.material.SliderDefaults
@@ -32,13 +30,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.data.model.care.Filter.FilterItemsType
-import com.mommydndn.app.ui.components.common.RadioListItem
 import com.mommydndn.app.ui.components.modal.components.DialogButtonsRow
 import com.mommydndn.app.ui.components.modal.components.DialogTitleWrapper
 import com.mommydndn.app.ui.models.dialog.DialogButton
@@ -53,7 +47,6 @@ import com.mommydndn.app.ui.theme.shadow700
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.care.DistanceType
 import com.mommydndn.app.ui.theme.Grey500
-import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.caption200
 
 @Composable

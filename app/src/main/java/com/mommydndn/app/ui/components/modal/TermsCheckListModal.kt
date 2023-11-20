@@ -26,8 +26,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.data.model.terms.TermsItem
-import com.mommydndn.app.ui.components.common.CheckBoxListItem
-import com.mommydndn.app.ui.components.common.CheckMarkListItem
+import com.mommydndn.app.ui.components.list.CheckBoxListItem
+import com.mommydndn.app.ui.components.list.CheckMarkListItem
 import com.mommydndn.app.ui.theme.Grey200
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.White

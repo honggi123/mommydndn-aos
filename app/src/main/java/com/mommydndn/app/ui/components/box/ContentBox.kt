@@ -4,12 +4,10 @@ import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -32,14 +30,12 @@ import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.common.ImageInputFieldType
 import com.mommydndn.app.ui.components.chip.LabelChip
-import com.mommydndn.app.ui.components.common.ImageInputField
+import com.mommydndn.app.ui.components.inputfield.ImageInputField
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey800
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption100
 import com.mommydndn.app.ui.theme.paragraph300
-import com.mommydndn.app.utils.PermissionUtils
-import java.net.URL
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable

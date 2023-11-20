@@ -42,7 +42,7 @@ import com.mommydndn.app.data.model.map.EmdItem
 import com.mommydndn.app.data.model.map.displayName
 import com.mommydndn.app.ui.components.box.RadioListBox
 import com.mommydndn.app.ui.components.box.SearchUnderHeader
-import com.mommydndn.app.ui.components.common.Searchbar
+import com.mommydndn.app.ui.components.inputfield.Searchbar
 import com.mommydndn.app.ui.components.modal.TermsCheckListModal
 import com.mommydndn.app.ui.theme.GreyOpacity400
 import kotlinx.coroutines.launch
