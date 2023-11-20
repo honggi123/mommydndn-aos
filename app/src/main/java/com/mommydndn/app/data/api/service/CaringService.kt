@@ -2,13 +2,15 @@ package com.mommydndn.app.data.api.service
 
 import com.mommydndn.app.data.api.model.request.CompanyListRequest
 import com.mommydndn.app.data.api.model.request.JobOfferListRequest
-import com.mommydndn.app.data.api.model.request.JobOfferRequest
+import com.mommydndn.app.data.api.model.request.JobOfferCreationRequest
+import com.mommydndn.app.data.api.model.request.JobSeekerCreationRequest
 import com.mommydndn.app.data.api.model.request.JobSeekerListRequest
 import com.mommydndn.app.data.api.model.response.CaringTypeResponse
 import com.mommydndn.app.data.api.model.response.CompanyEtcCheckItem
 import com.mommydndn.app.data.api.model.response.IndividualEtcCheckItem
-import com.mommydndn.app.data.api.model.response.CreateJobOfferResponse
+import com.mommydndn.app.data.api.model.response.JobOfferCreationResponse
 import com.mommydndn.app.data.api.model.response.JobOfferResponse
+import com.mommydndn.app.data.api.model.response.JobSeekerCreationResponse
 import com.mommydndn.app.data.api.model.response.NearestJobOfferResponse
 import com.mommydndn.app.data.model.care.summary.JobOfferSummary
 import com.mommydndn.app.data.model.care.JobSeeker
@@ -43,8 +45,13 @@ interface CaringService {
 
     @POST("/api/caring/job-offer")
     suspend fun craeteJobOffer(
-        @Body jobOfferRequest: JobOfferRequest
-    ): ApiResponse<CreateJobOfferResponse>
+        @Body jobOfferCreationRequest: JobOfferCreationRequest
+    ): ApiResponse<JobOfferCreationResponse>
+
+    @POST("/api/caring/job-seeker")
+    suspend fun craeteJobSeeker(
+        @Body jobSeekerCreationRequest: JobSeekerCreationRequest
+    ): ApiResponse<JobSeekerCreationResponse>
 
     @GET("/api/caring/job-offer/{jobOfferId}")
     suspend fun fetchJobOffer(

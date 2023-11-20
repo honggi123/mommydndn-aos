@@ -1,8 +1,9 @@
 package com.mommydndn.app.data.respository
 
 import androidx.paging.PagingData
-import com.mommydndn.app.data.api.model.response.CreateJobOfferResponse
+import com.mommydndn.app.data.api.model.response.JobOfferCreationResponse
 import com.mommydndn.app.data.api.model.response.JobOfferResponse
+import com.mommydndn.app.data.api.model.response.JobSeekerCreationResponse
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.EtcCheckItem
@@ -83,5 +84,16 @@ interface CaringRepository {
         salary: Int,
         etcCheckedList: List<EtcCheckItem>,
         imageList: List<MultipartBody.Part>,
-    ): Flow<CreateJobOfferResponse>
+    ): Flow<JobOfferCreationResponse>
+
+    fun createJobSeeker(
+        introduce: String,
+        caringTypeList: List<CaringType>,
+        emd: EmdItem,
+        latitude: Double,
+        longitude: Double,
+        salaryType: SalaryType,
+        salary: Int,
+        etcCheckedList: List<EtcCheckItem>
+    ): Flow<JobSeekerCreationResponse>
 }

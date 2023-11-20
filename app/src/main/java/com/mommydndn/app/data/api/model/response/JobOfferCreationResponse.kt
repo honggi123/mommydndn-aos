@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CreateJobOfferResponse(
+data class JobOfferCreationResponse(
     @SerialName("jobOfferId")
     val jobOfferId: Int
 )

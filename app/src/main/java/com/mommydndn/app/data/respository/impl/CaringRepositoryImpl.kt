@@ -5,11 +5,13 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.mommydndn.app.data.api.model.request.CompanyListRequest
 import com.mommydndn.app.data.api.model.request.JobOfferListRequest
-import com.mommydndn.app.data.api.model.request.JobOfferRequest
+import com.mommydndn.app.data.api.model.request.JobOfferCreationRequest
+import com.mommydndn.app.data.api.model.request.JobSeekerCreationRequest
 import com.mommydndn.app.data.api.model.request.JobSeekerListRequest
 import com.mommydndn.app.data.api.model.request.PaginationRequest
-import com.mommydndn.app.data.api.model.response.CreateJobOfferResponse
+import com.mommydndn.app.data.api.model.response.JobOfferCreationResponse
 import com.mommydndn.app.data.api.model.response.JobOfferResponse
+import com.mommydndn.app.data.api.model.response.JobSeekerCreationResponse
 import com.mommydndn.app.data.api.service.CaringService
 import com.mommydndn.app.data.api.service.CommonService
 import com.mommydndn.app.data.datasource.pagingsource.CompanySummaryPagingSource
@@ -224,7 +226,7 @@ class CaringRepositoryImpl @Inject constructor(
         salary: Int,
         etcCheckedList: List<EtcCheckItem>,
         imageList: List<MultipartBody.Part>
-    ): Flow<CreateJobOfferResponse> = flow {
+    ): Flow<JobOfferCreationResponse> = flow {
 
         val imageIdList = imageList.map {
             val id = fetchImageId(it) ?: 0
@@ -232,7 +234,7 @@ class CaringRepositoryImpl @Inject constructor(
         }
 
         val request = if (taskType == WorkPeriodType.REGULAR) {
-            JobOfferRequest(
+            JobOfferCreationRequest(
                 title = title,
                 content = content,
                 caringTypeCodeList = caringTypeList,
@@ -252,7 +254,7 @@ class CaringRepositoryImpl @Inject constructor(
                 endDate = DateTimeUtils.getTimestampByLocalDate(endDate)
             )
         } else {
-            JobOfferRequest(
+            JobOfferCreationRequest(
                 title = title,
                 content = content,
                 caringTypeCodeList = caringTypeList,
@@ -279,6 +281,30 @@ class CaringRepositoryImpl @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
+    override fun createJobSeeker(
+        introduce: String,
+        caringTypeList: List<CaringType>,
+        emd: EmdItem,
+        latitude: Double,
+        longitude: Double,
+        salaryType: SalaryType,
+        salary: Int,
+        etcCheckedList: List<EtcCheckItem>
+    ): Flow<JobSeekerCreationResponse> = flow {
+        val request = JobSeekerCreationRequest(
+            introLine = introduce,
+            caringTypeCodeList = caringTypeList,
+            emd = emd,
+            latitude = latitude,
+            longitude = longitude,
+            salaryTypeCode = salaryType,
+            salary = salary,
+            indOtherConditionIdList = etcCheckedList.map { it.id },
+        )
+        caringService.craeteJobSeeker(request).suspendOnSuccess {
+            emit(data)
+        }
+    }.flowOn(Dispatchers.IO)
 
     private suspend fun fetchImageId(imagePart: MultipartBody.Part): Int? =
         withContext(Dispatchers.IO) {
