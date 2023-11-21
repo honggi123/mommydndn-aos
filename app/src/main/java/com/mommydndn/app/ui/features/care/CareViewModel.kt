@@ -142,57 +142,47 @@ class CareViewModel @Inject constructor(
             SummaryTabType.JOBOFFER -> listOf(
                 FilterType.Sorting(
                     items = FilterItemsType.Sorting(),
-                    isSelected = true
                 ),
                 FilterType.NeighborhoodScope(
                     displayingName = "${userInfo.value?.emd?.name} 외 24",
                     items = FilterItemsType.NeighborhoodScope(
                         myLocationName = userInfo.value?.emd?.name ?: ""
                     ),
-                    isSelected = true
                 ),
                 FilterType.Caring(
                     items = FilterItemsType.Caring(isAllChecked = false),
-                    isSelected = false
                 ),
                 FilterType.Period(
                     items = FilterItemsType.Period(),
-                    isSelected = false
                 ),
                 FilterType.Day(
                     items = FilterItemsType.Day(),
-                    isSelected = false
                 ),
                 FilterType.Time(
                     items = FilterItemsType.Time(),
-                    isSelected = false
                 ),
             )
 
             SummaryTabType.JOBSEEKER -> listOf(
                 FilterType.Sorting(
                     items = FilterItemsType.Sorting(),
-                    isSelected = true
                 ),
 
                 FilterType.NeighborhoodScope(
                     displayingName = "${userInfo.value?.emd?.name} 외 24",
                     items = FilterItemsType.NeighborhoodScope(
                         myLocationName = userInfo.value?.emd?.name ?: ""
-                    ),
-                    isSelected = true
+                    )
                 ),
 
                 FilterType.Caring(
                     items = FilterItemsType.Caring(isAllChecked = false),
-                    isSelected = false
                 )
             )
 
             SummaryTabType.COMPANY -> listOf(
                 FilterType.Sorting(
                     items = FilterItemsType.Sorting(),
-                    isSelected = true
                 ),
 
                 FilterType.NeighborhoodScope(
@@ -200,12 +190,10 @@ class CareViewModel @Inject constructor(
                     items = FilterItemsType.NeighborhoodScope(
                         myLocationName = userInfo.value?.emd?.name ?: ""
                     ),
-                    isSelected = true
                 ),
 
                 FilterType.Caring(
                     items = FilterItemsType.Caring(isAllChecked = false),
-                    isSelected = false
                 )
             )
 
@@ -220,7 +208,6 @@ class CareViewModel @Inject constructor(
         val sortingFilter = currentFilterItems.filterIsInstance<FilterType.Sorting>().first()
 
         val updatedFilter = sortingFilter.copy(
-            isSelected = true,
             items = FilterItemsType.Sorting(selectedFilters.list)
         )
 
@@ -234,7 +221,6 @@ class CareViewModel @Inject constructor(
         val dayFilter = currentFilterItems.filterIsInstance<FilterType.Day>().first()
 
         val updatedFilter = dayFilter.copy(
-            isSelected = true,
             items = FilterItemsType.Day(selectedFilters.list)
         )
 
@@ -248,7 +234,6 @@ class CareViewModel @Inject constructor(
         val caringFilter = currentFilterItems.filterIsInstance<FilterType.Caring>().first()
 
         val updatedFilter = caringFilter.copy(
-            isSelected = true,
             items = caringFilter.items.copy(
                 isAllChecked = selectedFilters.isAllChecked,
                 list = selectedFilters.list
@@ -265,7 +250,6 @@ class CareViewModel @Inject constructor(
         val timeFilter = currentFilterItems.filterIsInstance<FilterType.Time>().first()
 
         val updatedFilter = timeFilter.copy(
-            isSelected = true,
             items = timeFilter.items.copy(
                 startTime = selectedFilters.startTime,
                 endTime = selectedFilters.endTime
@@ -283,7 +267,6 @@ class CareViewModel @Inject constructor(
             currentFilterItems.filterIsInstance<FilterType.NeighborhoodScope>().first()
 
         val updatedFilter = scopeFilter.copy(
-            isSelected = true,
             displayingName = "${userInfo.value?.emd?.name} 외 ${
                 selectedFilters.list.filter { it.isSelected }
                     .first().distantceType.distantce
@@ -304,7 +287,6 @@ class CareViewModel @Inject constructor(
         val periodFilter = currentFilterItems.filterIsInstance<FilterType.Period>().first()
 
         val updatedFilter = periodFilter.copy(
-            isSelected = true,
             items = periodFilter.items.copy(
                 list = selectedFilters.list
             )
