@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -65,10 +66,11 @@ fun EnterpriseListItem(
                 verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically)
             ) {
                 Row {
-                    Icon(
+                    Image(
                         painter = painterResource(id = R.drawable.ic_certificate),
                         contentDescription = "Icon/certificate",
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(24.dp),
+                        contentScale = ContentScale.Crop
                     )
                     Badge(colorType = BadgeColorType.BLUE, text = "안심업체 인증")
                 }
@@ -121,7 +123,9 @@ fun EnterpriseListItem(
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(3.dp, Alignment.Start)
                 ) {
-                    Badge(colorType = BadgeColorType.ORANGE)
+                    item.caringTypeCodeList.forEach {
+                        Badge(colorType = BadgeColorType.ORANGE, text = it.value)
+                    }
                 }
             }
 

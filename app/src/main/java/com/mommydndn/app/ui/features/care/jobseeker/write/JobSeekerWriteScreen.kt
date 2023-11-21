@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
@@ -45,6 +46,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.mommydndn.app.R
@@ -78,6 +80,7 @@ import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph400
 import com.mommydndn.app.utils.NavigationUtils
+import com.mommydndn.app.utils.NumberCommaVisualTransformation
 import com.mommydndn.app.utils.NumberUtils
 import com.mommydndn.app.utils.PermissionUtils
 import kotlinx.coroutines.CoroutineScope
@@ -382,9 +385,8 @@ fun JobSeekerWriteScreen(
                             )
                         }
                     }
-                }
+                    Spacer(modifier = Modifier.height(24.dp))
 
-                Column(verticalArrangement = Arrangement.spacedBy(24.dp)) {
                     MommyDndnButton(
                         color = ButtonColor.SALMON,
                         colorType = ButtonColorType.WEAK,
@@ -454,14 +456,19 @@ fun JobSeekerWriteScreen(
                     TextInpuField(
                         modifier = Modifier.fillMaxWidth(),
                         label = selectedSalaryType?.salaryType?.value ?: "시급",
-                        value = salary?.let { NumberUtils.getPriceString(it) } ?: "",
+                        value = salary?.let { it.toString() } ?: "",
                         onValueChanged = { value ->
                             viewModel.setSalary(value)
                         },
+                        rightText = "원",
                         placeHolderText = "10,000",
                         descriptionText = if (selectedSalaryType?.salaryType != SalaryType.NEGOTIATION) salaryDescription else "",
                         focusRequester = focusRequester,
-                        isError = isSalaryBelowMin
+                        isError = isSalaryBelowMin,
+                        visualTransformation = NumberCommaVisualTransformation(),
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            keyboardType = KeyboardType.Number
+                        )
                     )
                 }
 

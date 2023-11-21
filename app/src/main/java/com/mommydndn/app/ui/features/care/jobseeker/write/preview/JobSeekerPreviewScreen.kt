@@ -35,6 +35,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.care.JobSeekerPreview
+import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.WorkPeriodType
 import com.mommydndn.app.data.model.common.ButtonColor
 import com.mommydndn.app.data.model.common.ButtonColorType
@@ -136,11 +137,27 @@ fun JobSeekerPreviewScreen(
                 titleText = "${authorInfo?.nickname}에 대하여"
             )
 
+            val salaryText = if (jobSeekerPreview?.salaryType != SalaryType.NEGOTIATION) {
+                "희망${jobSeekerPreview?.salaryType?.value} ${
+                    jobSeekerPreview?.salary?.let {
+                        NumberUtils.getPriceString(
+                            it
+                        )
+                    }
+                }"
+            } else {
+                null
+            }
+
             MediumProfileInfoStack(
                 modifier = Modifier.fillMaxWidth(),
-                certificationList = authorInfo?.certificationList?.map { it.certificationName } ?: emptyList(),
+                certificationList = authorInfo?.certificationList?.map { it.certificationName }
+                    ?: emptyList(),
                 infos = jobSeekerPreview?.etcCheckedList?.map { it.displayName } ?: emptyList(),
-                hourSalaryText = jobSeekerPreview?.salary?.let { NumberUtils.getPriceString(it) }
+                salaryText = salaryText,
+                dateText = authorInfo?.let {
+                    "가입일 ${DateTimeUtils.formatTimestampToYearMonthDay(it.createdAt)}"
+                } ?: ""
             )
 
             SubtextBox(

@@ -26,6 +26,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
@@ -45,6 +46,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.mommydndn.app.R
@@ -302,7 +304,6 @@ fun CompanyWriteScreen(
                         )
                     )
                 }
-
             }
 
             Divider(
@@ -447,12 +448,15 @@ fun CompanyWriteScreen(
             ) {
                 TextInpuField(
                     modifier = Modifier.fillMaxWidth(),
-                    value = commission.toString(),
+                    value = commission?.let { it.toString() } ?: "",
                     label = "수수료",
                     rightText = "%",
                     onValueChanged = { value -> viewModel.setCommission(value.toInt()) },
-                    placeHolderText = "최!",
+                    placeHolderText = "최소",
                     focusRequester = focusRequester,
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Number
+                    )
                 )
             }
 

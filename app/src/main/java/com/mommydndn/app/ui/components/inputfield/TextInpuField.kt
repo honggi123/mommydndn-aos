@@ -112,7 +112,6 @@ fun TextInpuField(
             },
             placeholder = {
                 Text(
-                    modifier = Modifier.fillMaxWidth(),
                     text = placeHolderText,
                     style = MaterialTheme.typography.paragraph300.copy(
                         fontWeight = FontWeight.Normal,
@@ -122,7 +121,8 @@ fun TextInpuField(
             },
             keyboardOptions = keyboardOptions,
             isError = isError,
-            visualTransformation = visualTransformation
+            visualTransformation = visualTransformation,
+            singleLine = true
         )
         if (descriptionText.isNotBlank()) {
             Text(

@@ -2,6 +2,7 @@ package com.mommydndn.app.ui.features.care.jobseeker.write
 
 import android.net.Network
 import android.net.Uri
+import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -125,7 +126,6 @@ class JobSeekerWriteViewModel @Inject constructor(
                 _photo.value = selectedPhoto
             }
         }
-
     }
 
     fun searchLocationByAddress(address: String) {

@@ -19,6 +19,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.ui.theme.Grey800
 import com.mommydndn.app.ui.theme.White
@@ -54,10 +55,12 @@ fun UserIntroductionBox(
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.padding(
-                    horizontal = 24.dp,
-                    vertical = 16.dp
-                )
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        horizontal = 24.dp,
+                        vertical = 16.dp
+                    )
             ) {
                 Text(
                     text = title,
@@ -65,9 +68,7 @@ fun UserIntroductionBox(
                     style = MaterialTheme.typography.caption200.copy(
                         fontWeight = FontWeight.Medium
                     ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight(align = Alignment.CenterVertically)
+                    textAlign = TextAlign.Center
                 )
                 Text(
                     text = content,
@@ -75,9 +76,7 @@ fun UserIntroductionBox(
                     style = MaterialTheme.typography.caption100.copy(
                         fontWeight = FontWeight.Normal
                     ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight(align = Alignment.CenterVertically)
+                    textAlign = TextAlign.Center
                 )
             }
         }

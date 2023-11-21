@@ -33,7 +33,7 @@ import com.mommydndn.app.ui.theme.caption200
 fun MediumProfileInfoStack(
     modifier: Modifier = Modifier,
     dateText: String = "",
-    hourSalaryText: String?,
+    salaryText: String?,
     averageSalaryText: String? = "",
     certificationList: List<String> = emptyList(),
     infos: List<String>
@@ -76,51 +76,31 @@ fun MediumProfileInfoStack(
             Column(
                 verticalArrangement = Arrangement.spacedBy(2.dp, Alignment.Top)
             ) {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.Start),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_calender),
-                        contentDescription = "Icon/calender-filled",
-                        modifier = Modifier
-                            .requiredSize(size = 16.dp)
-                    )
+                if (!dateText.isNullOrBlank()) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.Start),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_calender),
+                            contentDescription = "Icon/calender-filled",
+                            modifier = Modifier
+                                .requiredSize(size = 16.dp)
+                        )
 
-                    Text(
-                        text = "가입일 ${hourSalaryText}",
-                        color = Grey700,
-                        style = MaterialTheme.typography.caption200.copy(
-                            fontWeight = FontWeight.Medium
-                        ),
-                        modifier = Modifier
-                            .wrapContentHeight(align = Alignment.CenterVertically)
-                    )
+                        Text(
+                            text = dateText,
+                            color = Grey700,
+                            style = MaterialTheme.typography.caption200.copy(
+                                fontWeight = FontWeight.Medium
+                            ),
+                            modifier = Modifier
+                                .wrapContentHeight(align = Alignment.CenterVertically)
+                        )
+                    }
                 }
 
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.Start),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_money_circle),
-                        contentDescription = "Icon/calender-filled",
-                        modifier = Modifier
-                            .requiredSize(size = 16.dp)
-                    )
-
-                    Text(
-                        text = "희망시급 ${dateText}",
-                        color = Grey700,
-                        style = MaterialTheme.typography.caption200.copy(
-                            fontWeight = FontWeight.Medium
-                        ),
-                        modifier = Modifier
-                            .wrapContentHeight(align = Alignment.CenterVertically)
-                    )
-                }
-
-                if(!averageSalaryText.isNullOrEmpty()){
+                if (!salaryText.isNullOrBlank()){
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.Start),
                         verticalAlignment = Alignment.CenterVertically
@@ -133,7 +113,31 @@ fun MediumProfileInfoStack(
                         )
 
                         Text(
-                            text = "평균월급 ${dateText}",
+                            text = salaryText,
+                            color = Grey700,
+                            style = MaterialTheme.typography.caption200.copy(
+                                fontWeight = FontWeight.Medium
+                            ),
+                            modifier = Modifier
+                                .wrapContentHeight(align = Alignment.CenterVertically)
+                        )
+                    }
+                }
+
+                if (!averageSalaryText.isNullOrEmpty()) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.Start),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_money_circle),
+                            contentDescription = "Icon/calender-filled",
+                            modifier = Modifier
+                                .requiredSize(size = 16.dp)
+                        )
+
+                        Text(
+                            text = averageSalaryText,
                             color = Grey700,
                             style = MaterialTheme.typography.caption200.copy(
                                 fontWeight = FontWeight.Medium

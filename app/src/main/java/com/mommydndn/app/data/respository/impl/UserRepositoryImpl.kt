@@ -31,11 +31,14 @@ class UserRepositoryImpl @Inject constructor(
     }.flowOn(Dispatchers.IO)
 
     override fun updateProfile(imagePart: MultipartBody.Part): Flow<Unit> = flow {
-       val id = fetchImageId(imagePart)
+        val id = fetchImageId(imagePart)
+        Log.e("id : ",id.toString() +"!")
+
         id?.let {
             userService.updateUserProfile(UserProfileUpdateRequest(imageId = id)).suspendOnSuccess {
                 emit(data)
-            }
+            }.onError { Log.e("onError", message()) }
+                .onException { Log.e("onException", message()) }
         }
     }.flowOn(Dispatchers.IO)
 
