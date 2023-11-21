@@ -14,10 +14,16 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -47,9 +53,22 @@ fun TextInputScopeBox(
     isErrorOption1: Boolean = false,
     isErrorOption2: Boolean = false,
     placeHolder1Text: String = "",
-    placeHolder2Text: String = ""
+    placeHolder2Text: String = "",
+    option1FocusRequester: FocusRequester,
+    option2FocusRequester: FocusRequester,
 ) {
     val textColor = if (isSelected) Grey800 else Grey400
+
+    var iOption1Focused by remember { mutableStateOf(false) }
+    var isOption2Focused by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        if (iOption1Focused) option1FocusRequester.requestFocus()
+    }
+
+    LaunchedEffect(Unit) {
+        if (isOption2Focused) option2FocusRequester.requestFocus()
+    }
 
     Column(
         verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.Top),
@@ -78,7 +97,11 @@ fun TextInputScopeBox(
             OutlinedTextField(
                 modifier = Modifier
                     .weight(1f)
-                    .height(56.dp),
+                    .height(56.dp)
+                    .focusRequester(option1FocusRequester)
+                    .onFocusChanged {
+                        iOption1Focused = it.isFocused
+                    },
                 shape = RoundedCornerShape(12.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Grey50,
@@ -134,7 +157,11 @@ fun TextInputScopeBox(
             OutlinedTextField(
                 modifier = Modifier
                     .weight(1f)
-                    .height(56.dp),
+                    .height(56.dp)
+                    .focusRequester(option2FocusRequester)
+                    .onFocusChanged {
+                        isOption2Focused = it.isFocused
+                    },
                 shape = RoundedCornerShape(12.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Grey50,
@@ -188,24 +215,3 @@ fun TextInputScopeBox(
         )
     }
 }
-
-@Preview
-@Composable
-fun TextInputScopeBoxPreview() {
-    val value1 = remember { mutableStateOf("Value 1") }
-    val value2 = remember { mutableStateOf("Value 2") }
-
-    TextInputScopeBox(
-        label = "Input Label",
-        value1 = value1.value,
-        value2 = value2.value,
-        onValue1Changed = { value1.value = it },
-        onValue2Changed = { value2.value = it },
-        isErrorOption1 = false,
-        isErrorOption2 = false,
-        descriptionText = "Description",
-        placeHolder1Text = "Placeholder 1",
-        placeHolder2Text = "Placeholder 2"
-    )
-}
-

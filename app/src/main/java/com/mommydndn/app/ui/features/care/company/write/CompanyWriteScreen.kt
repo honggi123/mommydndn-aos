@@ -104,6 +104,7 @@ fun CompanyWriteScreen(
     val coroutineScope: CoroutineScope = rememberCoroutineScope()
 
     val focusRequester by remember { mutableStateOf(FocusRequester()) }
+
     val focusManager = LocalFocusManager.current
 
     val emdItem by viewModel.emdItem.collectAsState()
@@ -458,7 +459,9 @@ fun CompanyWriteScreen(
                     onValue1Changed = { viewModel.setStartSalary(it) },
                     onValue2Changed = { viewModel.setEndSalary(it) },
                     placeHolder1Text = "최소",
-                    placeHolder2Text = "최대"
+                    placeHolder2Text = "최대",
+                    option1FocusRequester = focusRequester,
+                    option2FocusRequester = focusRequester
                 )
 
                 TextInpuField(
