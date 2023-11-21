@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -27,24 +28,39 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.mommydndn.app.R
+import com.mommydndn.app.data.model.care.CaringType
+import com.mommydndn.app.data.model.care.CaringTypeSerializer
 import com.mommydndn.app.data.model.care.summary.CompanySummaryListItem
 import com.mommydndn.app.data.model.common.BadgeColorType
 import com.mommydndn.app.ui.components.box.ProfileDataBox
 import com.mommydndn.app.ui.components.common.Badge
+import com.mommydndn.app.ui.models.care.ProfileBoxType
 import com.mommydndn.app.ui.theme.Grey300
 import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph300
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 @Composable
 fun EnterpriseListItem(
     modifier: Modifier = Modifier,
-    item: CompanySummaryListItem
+    nickname: String,
+    neighborhood: String,
+    profileUrl: String? = "",
+    isDndnAuthenticated: Boolean,
+    dndnScore: Double? = 0.0,
+    caringTypeCodeList: List<CaringType>? = emptyList(),
+    matchingCount: Int,
+    reviewCount: Int,
+    responseRate: String,
+    isLiked: Boolean? = false,
+    profileBoxType: ProfileBoxType = ProfileBoxType.FEED
 ) {
 
     val profilePainter = rememberImagePainter(
-        data = item.profileUrl,
+        data = profileUrl,
         builder = {
             crossfade(true)
         }
@@ -76,7 +92,7 @@ fun EnterpriseListItem(
                 }
 
                 Text(
-                    text = item.nickname,
+                    text = nickname,
                     color = Grey600,
                     style = MaterialTheme.typography.paragraph300.copy(
                         fontWeight = FontWeight.Bold
@@ -93,7 +109,7 @@ fun EnterpriseListItem(
                             .requiredSize(size = 16.dp)
                     )
                     Text(
-                        text = item.neighborhood,
+                        text = neighborhood,
                         color = Grey600,
                         style = MaterialTheme.typography.caption200.copy(
                             fontWeight = FontWeight.Normal
@@ -102,6 +118,7 @@ fun EnterpriseListItem(
                             .wrapContentHeight(align = Alignment.CenterVertically)
                     )
                 }
+
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.Start),
                     verticalAlignment = Alignment.CenterVertically
@@ -113,50 +130,55 @@ fun EnterpriseListItem(
                             .requiredSize(size = 16.dp)
                     )
                     Text(
-                        text = item.dndnScore.toString(),
+                        text = dndnScore.toString(),
                         color = Grey600,
                         style = MaterialTheme.typography.caption200.copy(
                             fontWeight = FontWeight.Medium
                         )
                     )
                 }
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(3.dp, Alignment.Start)
-                ) {
-                    item.caringTypeCodeList.forEach {
-                        Badge(colorType = BadgeColorType.ORANGE, text = it.value)
+
+                if (profileBoxType == ProfileBoxType.FEED) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(3.dp, Alignment.Start)
+                    ) {
+                        caringTypeCodeList?.forEach {
+                            Badge(colorType = BadgeColorType.ORANGE, text = it.value)
+                        }
                     }
                 }
             }
-
-            Box(
-                modifier = Modifier
-                    .requiredSize(size = 72.dp)
-            ) {
-                Image(
-                    painter = profilePainter,
-                    contentDescription = null,
+            if (profileBoxType == ProfileBoxType.FEED) {
+                Box(
                     modifier = Modifier
                         .width(130.dp)
                         .height(124.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(Grey300)
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.ic_heart_grey),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .requiredSize(size = 36.dp)
-                        .align(alignment = Alignment.TopEnd)
-                )
+                ) {
+                    Image(
+                        painter = profilePainter,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(Grey300),
+                        contentScale = ContentScale.Crop
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_heart_grey),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .requiredSize(size = 36.dp)
+                            .align(alignment = Alignment.TopEnd)
+                    )
+                }
             }
         }
 
         ProfileDataBox(
             modifier = Modifier.fillMaxWidth(),
-            matchCount = item.matchingCount,
-            reviewCount = item.reviewCount,
-            responseRate = item.responseRate
+            matchCount = matchingCount,
+            reviewCount = reviewCount,
+            responseRate = responseRate
         )
     }
 }

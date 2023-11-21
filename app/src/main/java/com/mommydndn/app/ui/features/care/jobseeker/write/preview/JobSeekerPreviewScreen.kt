@@ -23,44 +23,31 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.care.JobSeekerPreview
 import com.mommydndn.app.data.model.care.SalaryType
-import com.mommydndn.app.data.model.care.WorkPeriodType
 import com.mommydndn.app.data.model.common.ButtonColor
 import com.mommydndn.app.data.model.common.ButtonColorType
 import com.mommydndn.app.data.model.common.ButtonSizeType
-import com.mommydndn.app.data.model.common.ImageInputFieldType
 import com.mommydndn.app.data.model.common.MinMaxRange
-import com.mommydndn.app.ui.components.box.ContentBox
-import com.mommydndn.app.ui.components.box.InfoBox
-import com.mommydndn.app.ui.components.box.MapContainerBox
 import com.mommydndn.app.ui.components.box.ReviewBox
 import com.mommydndn.app.ui.components.box.SubtextBox
-import com.mommydndn.app.ui.components.box.TitleSectionBox
 import com.mommydndn.app.ui.components.box.UserIntroductionBox
 import com.mommydndn.app.ui.components.button.MommyDndnButton
 import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.components.common.MediumProfileInfoStack
-import com.mommydndn.app.ui.components.common.ProfileBar
-import com.mommydndn.app.ui.components.common.ProfileSummary
 import com.mommydndn.app.ui.components.common.SittingCategory
 import com.mommydndn.app.ui.components.common.SubHeader
-import com.mommydndn.app.ui.components.inputfield.ImageInputField
-import com.mommydndn.app.ui.components.inputfield.SitterListItem
-import com.mommydndn.app.ui.components.inputfield.SitterProfileBoxType
+import com.mommydndn.app.ui.components.list.SitterListItem
 import com.mommydndn.app.ui.components.tab.SmallCustomTab
-import com.mommydndn.app.ui.features.care.joboffer.write.preview.JobOfferPreviewViewModel
+import com.mommydndn.app.ui.models.care.ProfileBoxType
 import com.mommydndn.app.ui.theme.Grey100
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey700
@@ -68,8 +55,6 @@ import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph400
 import com.mommydndn.app.utils.DateTimeUtils
 import com.mommydndn.app.utils.NumberUtils
-import com.mommydndn.app.utils.PermissionUtils
-import net.daum.mf.map.api.MapView
 
 @Composable
 fun JobSeekerPreviewScreen(
@@ -117,7 +102,7 @@ fun JobSeekerPreviewScreen(
                     responseRate = authorInfo?.responseRate ?: "",
                     matchingCount = authorInfo?.matchingCount ?: 0,
                     reviewCount = authorInfo?.reviewCount ?: 0,
-                    profileType = SitterProfileBoxType.DETAIL
+                    profileType = ProfileBoxType.DETAIL
                 )
             }
 

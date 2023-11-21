@@ -28,6 +28,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.mommydndn.app.data.model.banner.Banner
+import com.mommydndn.app.ui.theme.Grey100
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption100
@@ -37,18 +38,23 @@ import com.mommydndn.app.ui.theme.caption100
 @Composable
 fun BannerList(
     modifier: Modifier = Modifier,
-    items: List<Banner>
+    items: List<Banner>?
 ) {
-    val pagerState = rememberPagerState()
+    if (!items.isNullOrEmpty()) {
+        val pagerState = rememberPagerState()
 
-    HorizontalPager(modifier = modifier, state = pagerState, count = items.size) { page ->
-        Banner(
-            imgUrl = items[page].url,
-            pageNum = page + 1,
-            totalPageNum = items.size,
-            onClick = {}
-        )
+        HorizontalPager(modifier = modifier, state = pagerState, count = items.size) { page ->
+            Banner(
+                imgUrl = items[page].url,
+                pageNum = page + 1,
+                totalPageNum = items.size,
+                onClick = {}
+            )
+        }
+    } else {
+        Box(modifier = modifier.background(Grey100))
     }
+
 }
 
 @Composable

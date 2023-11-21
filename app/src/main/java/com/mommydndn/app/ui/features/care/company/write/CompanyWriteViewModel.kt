@@ -34,22 +34,14 @@ class CompanyWriteViewModel @Inject constructor(
     private var _careTypes: MutableStateFlow<List<CaringTypeItem>> = MutableStateFlow(emptyList())
     val careTypes: StateFlow<List<CaringTypeItem>> = _careTypes
 
-    private var _salaryTypes: MutableStateFlow<List<SalaryTypeItem>> = MutableStateFlow(
-        listOf(
-            SalaryTypeItem(SalaryType.HOURLY, true),
-            SalaryTypeItem(SalaryType.DAILY),
-            SalaryTypeItem(SalaryType.WEEKLY),
-            SalaryTypeItem(SalaryType.MONTHLY),
-            SalaryTypeItem(SalaryType.NEGOTIATION)
-        )
-    )
-    val salaryTypes: StateFlow<List<SalaryTypeItem>> = _salaryTypes
+    private val _startSalary: MutableStateFlow<Int?> = MutableStateFlow(null)
+    val startSalary: StateFlow<Int?> = _startSalary
+
+    private val _endSalary: MutableStateFlow<Int?> = MutableStateFlow(null)
+    val endSalary: StateFlow<Int?> = _endSalary
 
     private val _introduce: MutableStateFlow<String> = MutableStateFlow("")
     val introduce: StateFlow<String> = _introduce
-
-    private val _salary: MutableStateFlow<Int?> = MutableStateFlow(null)
-    val salary: StateFlow<Int?> = _salary
 
     private val _photo: MutableStateFlow<Uri?> = MutableStateFlow(null)
     val photo: StateFlow<Uri?> = _photo
@@ -83,13 +75,6 @@ class CompanyWriteViewModel @Inject constructor(
         fetchUserInfo()
     }
 
-    fun selectSalaryType(selectedSalaryTypeItem: SalaryTypeItem) {
-        _salaryTypes.value = _salaryTypes.value.map { item ->
-            if (item == selectedSalaryTypeItem) item.copy(isSelected = true)
-            else item.copy(isSelected = false)
-        }
-    }
-
     fun selectCareTypes(selectedCareType: CaringTypeItem) {
         _careTypes.value = _careTypes.value.map { item ->
             if (item == selectedCareType) item.copy(isSelected = !item.isSelected)
@@ -101,8 +86,12 @@ class CompanyWriteViewModel @Inject constructor(
         _introduce.value = curIntroduce
     }
 
-    fun setSalary(curSalary: String) {
-        _salary.value = NumberUtils.getPrice(curSalary)
+    fun setStartSalary(curSalary: String) {
+        _startSalary.value = NumberUtils.getPrice(curSalary)
+    }
+
+    fun setEndSalary(curSalary: String) {
+        _endSalary.value = NumberUtils.getPrice(curSalary)
     }
 
     fun setCommission(curCommission: Int) {
@@ -115,6 +104,26 @@ class CompanyWriteViewModel @Inject constructor(
 
     fun addSelectedPhotos(selectedPhotos: List<Uri>) {
         _photos.value = selectedPhotos
+    }
+
+    fun searchLocationByAddress(address: String) {
+        viewModelScope.launch {
+            locationRepository.fetchAddressByKeyword(address).collectLatest {
+                val address = it.documents.get(0).address
+                _locationInfo.value = LocationInfo(
+                    latitude = address.y.toDouble(),
+                    longitude = address.x.toDouble()
+                )
+
+                _emdItem.value = EmdItem(
+                    id = Integer.parseInt(address.bCode.subSequence(0, 7).toString()),
+                    name = address.region3DepthHName,
+                    sigName = address.region2DepthName,
+                    ctprvnName = address.region1DepthName,
+                    fullName = "${address.region1DepthName} ${address.region2DepthName} ${address.region3DepthHName}"
+                )
+            }
+        }
     }
 
     fun removePhoto(selectedUri: Uri) {

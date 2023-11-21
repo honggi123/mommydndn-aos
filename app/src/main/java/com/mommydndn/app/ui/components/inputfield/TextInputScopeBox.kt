@@ -24,6 +24,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.ui.theme.Grey400
+import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey800
 import com.mommydndn.app.ui.theme.Salmon500
@@ -79,11 +80,12 @@ fun TextInputScopeBox(
                     .height(56.dp),
                 shape = RoundedCornerShape(12.dp),
                 colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = Color.White,
+                    backgroundColor = Grey50,
                     focusedIndicatorColor = Salmon500,
                     disabledIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
-                    errorIndicatorColor = Salmon600
+                    errorIndicatorColor = Salmon600,
+                    cursorColor = Salmon600
                 ),
                 value = value1,
                 onValueChange = {
@@ -95,7 +97,7 @@ fun TextInputScopeBox(
                 ),
                 trailingIcon = {
                     Text(
-                        text = "원",
+                        text = "만원",
                         style = MaterialTheme.typography.paragraph300.copy(
                             fontWeight = FontWeight.Normal,
                             color = Grey400
@@ -114,9 +116,9 @@ fun TextInputScopeBox(
                     )
                 },
                 keyboardOptions = KeyboardOptions.Default.copy(
-                    keyboardType = KeyboardType.Text
+                    keyboardType = KeyboardType.Number
                 ),
-                isError = isErrorOption1,
+                isError = isErrorOption1
             )
 
             Text(
@@ -133,11 +135,12 @@ fun TextInputScopeBox(
                     .height(56.dp),
                 shape = RoundedCornerShape(12.dp),
                 colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = Color.White,
+                    backgroundColor = Grey50,
                     focusedIndicatorColor = Salmon500,
                     disabledIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
-                    errorIndicatorColor = Salmon600
+                    errorIndicatorColor = Salmon600,
+                    cursorColor = Salmon600
                 ),
                 value = value2,
                 onValueChange = {
@@ -149,7 +152,7 @@ fun TextInputScopeBox(
                 ),
                 trailingIcon = {
                     Text(
-                        text = "원",
+                        text = "만원",
                         style = MaterialTheme.typography.paragraph300.copy(
                             fontWeight = FontWeight.Normal,
                             color = Grey400
@@ -182,6 +185,7 @@ fun TextInputScopeBox(
         )
     }
 }
+
 @Preview
 @Composable
 fun TextInputScopeBoxPreview() {

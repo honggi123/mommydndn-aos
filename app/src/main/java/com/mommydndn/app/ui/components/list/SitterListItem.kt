@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.components.inputfield
+package com.mommydndn.app.ui.components.list
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -29,10 +29,10 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.care.CaringType
-import com.mommydndn.app.data.model.care.summary.JobSeekerSummaryItem
 import com.mommydndn.app.data.model.common.BadgeColorType
 import com.mommydndn.app.ui.components.box.ProfileDataBox
 import com.mommydndn.app.ui.components.common.Badge
+import com.mommydndn.app.ui.models.care.ProfileBoxType
 import com.mommydndn.app.ui.theme.Grey300
 import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.White
@@ -51,7 +51,7 @@ fun SitterListItem(
     caringTypeCodeList: List<CaringType> = emptyList(),
     matchingCount:Int,
     reviewCount: Int,
-    profileType: SitterProfileBoxType = SitterProfileBoxType.FEED
+    profileType: ProfileBoxType = ProfileBoxType.FEED
 ) {
 
     val profilePainter = rememberImagePainter(
@@ -162,7 +162,7 @@ fun SitterListItem(
             )
         }
 
-        if (profileType == SitterProfileBoxType.FEED) {
+        if (profileType == ProfileBoxType.FEED) {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(3.dp, Alignment.Start)
             ) {
@@ -181,6 +181,3 @@ fun SitterListItem(
     }
 }
 
-enum class SitterProfileBoxType {
-    FEED, DETAIL
-}

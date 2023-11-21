@@ -37,6 +37,7 @@ import com.mommydndn.app.ui.navigation.SignInNav
 import com.mommydndn.app.ui.navigation.TownCheckNav
 import com.mommydndn.app.ui.navigation.TypeChoiceNav
 import com.mommydndn.app.ui.features.care.CareScreen
+import com.mommydndn.app.ui.features.care.company.write.CompanyLocationSearchScreen
 import com.mommydndn.app.ui.features.care.company.write.CompanyWriteScreen
 import com.mommydndn.app.ui.features.care.company.write.CompanyWriteViewModel
 import com.mommydndn.app.ui.features.care.company.write.preview.CompanyPreviewScreen
@@ -56,6 +57,7 @@ import com.mommydndn.app.ui.theme.Grey300
 import com.mommydndn.app.ui.theme.Grey800
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.features.signup.SignUpViewModel
+import com.mommydndn.app.ui.navigation.CompanyLocationSearchNav
 import com.mommydndn.app.ui.navigation.CompanyWriteNav
 import com.mommydndn.app.ui.navigation.CompanyWritePreviewNav
 import com.mommydndn.app.ui.navigation.JobOfferLocationSearchNav
@@ -347,6 +349,24 @@ fun MainNavigationScreen(
                 navController = navController,
                 viewModel = companyWriteViewModel,
                 scaffoldState = scaffoldState
+            )
+        }
+
+        composable(
+            route = CompanyLocationSearchNav.route,
+            enterTransition = { slideEnterTransition },
+            exitTransition = { slideExitTransition }
+        ) { backStackEntry ->
+            val CompanyWriteStackEntry = remember(backStackEntry) {
+                navController.getBackStackEntry(CompanyWriteNav.route)
+            }
+
+            val companyWriteViewModel =
+                hiltViewModel<CompanyWriteViewModel>(CompanyWriteStackEntry)
+
+            CompanyLocationSearchScreen(
+                navController = navController,
+                viewModel = companyWriteViewModel
             )
         }
 

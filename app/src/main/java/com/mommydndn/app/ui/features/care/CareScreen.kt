@@ -44,12 +44,11 @@ import androidx.paging.compose.itemsIndexed
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.care.Filter.FilterItemsType
 import com.mommydndn.app.data.model.care.Filter.FilterType
-import com.mommydndn.app.data.model.common.TabSize
 import com.mommydndn.app.ui.components.box.JobOfferSummaryBox
 import com.mommydndn.app.ui.components.chip.ChipWithBottomArrow
 import com.mommydndn.app.ui.components.list.EnterpriseListItem
 import com.mommydndn.app.ui.components.common.Header
-import com.mommydndn.app.ui.components.inputfield.SitterListItem
+import com.mommydndn.app.ui.components.list.SitterListItem
 import com.mommydndn.app.ui.components.modal.care.CaringBottomModal
 import com.mommydndn.app.ui.components.modal.care.DayBottomModal
 import com.mommydndn.app.ui.components.modal.care.NeighborhoodScopeBottomModal
@@ -224,7 +223,16 @@ fun CareScreen(
                             if (item != null) {
                                 EnterpriseListItem(
                                     modifier = Modifier.fillMaxWidth(),
-                                    item = item
+                                    nickname = item.nickname,
+                                    neighborhood = item.neighborhood,
+                                    profileUrl = item.profileUrl,
+                                    isDndnAuthenticated = item.isDndnAuthenticated,
+                                    dndnScore = item.dndnScore,
+                                    caringTypeCodeList = item.caringTypeCodeList,
+                                    matchingCount = item.matchingCount,
+                                    reviewCount = item.reviewCount,
+                                    responseRate = item.responseRate,
+                                    isLiked = item.isLiked,
                                 )
                             }
                             Spacer(modifier = Modifier.height(40.dp))

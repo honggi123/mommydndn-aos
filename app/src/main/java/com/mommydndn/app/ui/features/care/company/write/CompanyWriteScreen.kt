@@ -69,10 +69,13 @@ import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.components.inputfield.ImageInputField
 import com.mommydndn.app.ui.components.inputfield.SelectField
 import com.mommydndn.app.ui.components.inputfield.TextInpuField
+import com.mommydndn.app.ui.components.inputfield.TextInputScopeBox
 import com.mommydndn.app.ui.components.list.CheckBoxListItem
 import com.mommydndn.app.ui.extensions.addFocusCleaner
 import com.mommydndn.app.ui.features.care.jobseeker.write.JobSeekerWriteViewModel
 import com.mommydndn.app.ui.features.care.jobseeker.write.isValidationSuccessful
+import com.mommydndn.app.ui.navigation.CompanyLocationSearchNav
+import com.mommydndn.app.ui.navigation.CompanyWriteNav
 import com.mommydndn.app.ui.navigation.CompanyWritePreviewNav
 import com.mommydndn.app.ui.navigation.JobOfferWritePreviewNav
 import com.mommydndn.app.ui.navigation.JobSeekerLocationSearchNav
@@ -106,11 +109,11 @@ fun CompanyWriteScreen(
     val emdItem by viewModel.emdItem.collectAsState()
 
     val careTypes by viewModel.careTypes.collectAsState()
-    val salaryTypes by viewModel.salaryTypes.collectAsState()
 
     val introduce by viewModel.introduce.collectAsState()
 
-    val salary by viewModel.salary.collectAsState()
+    val startSalary by viewModel.startSalary.collectAsState()
+    val endSalary by viewModel.endSalary.collectAsState()
 
     val photo by viewModel.photo.collectAsState()
 
@@ -373,7 +376,7 @@ fun CompanyWriteScreen(
                         onClickSelection = {
                             NavigationUtils.navigate(
                                 navController,
-                                JobSeekerLocationSearchNav.route
+                                CompanyLocationSearchNav.route
                             )
                         }
                     )
@@ -433,19 +436,29 @@ fun CompanyWriteScreen(
             SubtextBox(
                 modifier = Modifier
                     .fillMaxWidth(),
-                titleText = "희망급여",
+                titleText = "평균월급",
                 subtitleText = "(필수)",
                 size = SubtextBoxSize.S
             )
 
-            Box(
+            Column(
                 modifier = Modifier.padding(
                     start = 24.dp,
                     top = 16.dp,
                     bottom = 40.dp,
                     end = 24.dp
-                )
+                ),
+                verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
+                TextInputScopeBox(
+                    modifier = Modifier.fillMaxWidth(),
+                    label = "월급",
+                    value1 = startSalary?.let { NumberUtils.getPriceString(it) } ?: "",
+                    value2 = endSalary?.let { NumberUtils.getPriceString(it) } ?: "",
+                    onValue1Changed = { viewModel.setStartSalary(it) },
+                    onValue2Changed = { viewModel.setEndSalary(it) }
+                )
+
                 TextInpuField(
                     modifier = Modifier.fillMaxWidth(),
                     value = commission?.let { it.toString() } ?: "",
@@ -526,11 +539,11 @@ fun CompanyWriteScreen(
                                     caringTypeList = careTypes.filter { it.isSelected }
                                         .map { it.caringType },
                                     emd = emdItem!!,
-                                    salaryType = salaryTypes.filter { it.isSelected }
-                                        .first().salaryType,
-                                    salary = salary!!,
-                                    etcCheckedList = etcCheckList,
-                                    profileImage = Uri.encode(photo.toString()),
+                                    startSalary = startSalary!!,
+                                    endSalary = endSalary!!,
+                                    etcCheckedList = emptyList(),
+                                    profileImage = "",
+                                    commission = commission!!,
                                     coverImageList = photos.map { Uri.encode(it.toString()) }
                                 )
                             )

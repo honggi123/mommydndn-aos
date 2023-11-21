@@ -139,6 +139,11 @@ object CompanyWriteNav : Destination {
     override val title: String = NavigationTitle.COMPANY_WRITE
 }
 
+object CompanyLocationSearchNav : Destination {
+    override val route: String = NavigationRouteName.COMPANY_LOCATION_SEARCH
+    override val title: String = NavigationTitle.COMPANY_LOCATION_SEARCH
+}
+
 object CompanyWritePreviewNav : Destination {
     override val route: String = NavigationRouteName.COMPANY_WRITE_PREVIEW
     override val title: String = NavigationTitle.COMPANY_WRITE_PREVIEW
@@ -180,6 +185,7 @@ object NavigationRouteName {
 
     const val COMPANY_WRITE = "업체글쓰기"
     const val COMPANY_WRITE_PREVIEW = "업체글쓰기_미리보기"
+    const val COMPANY_LOCATION_SEARCH = "업체글쓰기_위치검색"
 
     const val SIGN_IN = "로그인"
     const val TYPE_CHOICE = "개인&기업선택"
@@ -200,6 +206,7 @@ object NavigationTitle {
 
     const val COMPANY_WRITE = "업체글쓰기"
     const val COMPANY_WRITE_PREVIEW = "업체글쓰기_미리보기"
+    const val COMPANY_LOCATION_SEARCH = "업체글쓰기_위치검색"
 
     const val SIGN_IN = "로그인"
     const val TYPE_CHOICE = "개인&기업선택"
