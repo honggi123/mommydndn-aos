@@ -2,6 +2,7 @@ package com.mommydndn.app.data.model.care
 
 import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.map.EmdItem
+import com.mommydndn.app.data.model.map.LocationInfo
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -11,6 +12,7 @@ data class JobSeekerPreview(
     val emd: EmdItem,
     val salaryType: SalaryType,
     val salary: Int,
+    val locationInfo: LocationInfo?,
     val etcCheckedList: List<EtcCheckItem>,
     val imageUri: String,
 )

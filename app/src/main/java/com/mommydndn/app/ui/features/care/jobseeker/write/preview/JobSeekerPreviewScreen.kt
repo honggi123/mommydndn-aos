@@ -231,7 +231,14 @@ fun JobSeekerPreviewScreen(
                     colorType = ButtonColorType.FILLED,
                     sizeType = ButtonSizeType.LARGE,
                     rangeType = MinMaxRange.MAX,
-                    onClick = {}
+                    onClick = {
+                        jobSeekerPreview?.let {
+                            viewModel.createJobSeeker(
+                                navController = navController,
+                                jobSeekerPreview = jobSeekerPreview
+                            )
+                        }
+                    }
                 )
             }
         }

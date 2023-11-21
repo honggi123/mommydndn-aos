@@ -60,6 +60,7 @@ import com.mommydndn.app.data.model.common.ButtonSizeType
 import com.mommydndn.app.data.model.common.ImageInputFieldType
 import com.mommydndn.app.data.model.common.MinMaxRange
 import com.mommydndn.app.data.model.map.EmdItem
+import com.mommydndn.app.data.model.map.LocationInfo
 import com.mommydndn.app.ui.components.box.SubtextBox
 import com.mommydndn.app.ui.components.box.SubtextBoxSize
 import com.mommydndn.app.ui.components.button.MommyDndnButton
@@ -100,6 +101,7 @@ fun JobSeekerWriteScreen(
     val focusManager = LocalFocusManager.current
 
     val emdItem by viewModel.emdItem.collectAsState()
+    val locationInfo by viewModel.locationInfo.collectAsState()
 
     val careTypes by viewModel.careTypes.collectAsState()
     val salaryTypes by viewModel.salaryTypes.collectAsState()
@@ -555,6 +557,7 @@ fun JobSeekerWriteScreen(
                                         salaryType = salaryTypes.filter { it.isSelected }
                                             .first().salaryType,
                                         salary = salary!!,
+                                        locationInfo = locationInfo,
                                         etcCheckedList = etcCheckList,
                                         imageUri = Uri.encode(photo.toString())
                                     )

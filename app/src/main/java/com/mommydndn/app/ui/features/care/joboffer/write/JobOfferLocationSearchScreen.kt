@@ -2,6 +2,7 @@ package com.mommydndn.app.ui.features.care.joboffer.write
 
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.webkit.JavascriptInterface
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
@@ -64,6 +65,7 @@ class MyJavaScriptInterface(
     @JavascriptInterface
     fun onReceivedPostMessage(data: String?) {
         val jsonObject = JSONObject(data)
+        Log.e("messs",data.toString())
         val roadAddress = jsonObject.optString("roadAddress", "")
         val jibunAddress = jsonObject.optString("jibunAddress", "")
         val zonecode = jsonObject.optString("zonecode", "")

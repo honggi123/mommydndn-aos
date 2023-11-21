@@ -21,10 +21,10 @@ data class JobSeekerCreationRequest(
     @SerialName("introLine")
     val introLine: String,
     @SerialName("latitude")
-    val latitude: Double,
+    val latitude: Double?,
     @SerialName("longitude")
-    val longitude: Double,
-    @SerialName("Double")
+    val longitude: Double?,
+    @SerialName("salary")
     val salary: Int,
     @Serializable(with = SalaryTypeSerializer::class)
     @SerialName("salaryTypeCode") val salaryTypeCode: SalaryType,

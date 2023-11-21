@@ -297,8 +297,8 @@ class CaringRepositoryImpl @Inject constructor(
         introduce: String,
         caringTypeList: List<CaringType>,
         emd: EmdItem,
-        latitude: Double,
-        longitude: Double,
+        latitude: Double?,
+        longitude: Double?,
         salaryType: SalaryType,
         salary: Int,
         etcCheckedList: List<EtcCheckItem>

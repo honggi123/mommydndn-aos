@@ -173,6 +173,8 @@ class JobSeekerWriteViewModel @Inject constructor(
         }
     }
 
+
+
     fun fetchEtcCheckList() {
         viewModelScope.launch {
             caringRepository.fetchEtcIndividualCheckList().collect {

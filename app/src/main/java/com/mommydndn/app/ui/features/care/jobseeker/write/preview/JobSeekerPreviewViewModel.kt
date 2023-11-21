@@ -44,6 +44,33 @@ class JobSeekerPreviewViewModel @Inject constructor(
         initialValue = null
     )
 
+    fun createJobSeeker(
+        navController: NavHostController,
+        jobSeekerPreview: JobSeekerPreview
+    ) {
+        viewModelScope.launch {
+            jobSeekerPreview.apply {
+                caringRepository.createJobSeeker(
+                    introduce = introduce,
+                    caringTypeList = caringTypeList,
+                    emd = emd,
+                    latitude = locationInfo?.latitude,
+                    longitude = locationInfo?.longitude,
+                    salaryType = salaryType,
+                    salary = salary,
+                    etcCheckedList = etcCheckedList,
+                ).collectLatest {
+                    NavigationUtils.navigate(
+                        navController,
+                        MainNav.Care.route,
+                        isLaunchSingleTop = true
+                    )
+                }
+            }
+
+        }
+    }
+
     fun updateJobSeekerPreview(jobSeekerPreview: JobSeekerPreview) {
         viewModelScope.launch {
             _jobSeekerPreview.value = jobSeekerPreview
