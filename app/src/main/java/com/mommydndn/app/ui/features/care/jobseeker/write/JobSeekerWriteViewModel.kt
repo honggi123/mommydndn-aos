@@ -1,5 +1,6 @@
 package com.mommydndn.app.ui.features.care.jobseeker.write
 
+import android.net.Network
 import android.net.Uri
 import androidx.core.net.toUri
 import androidx.lifecycle.SavedStateHandle
@@ -23,6 +24,7 @@ import com.mommydndn.app.data.respository.CaringRepository
 import com.mommydndn.app.data.respository.LocationRepository
 import com.mommydndn.app.data.respository.UserRepository
 import com.mommydndn.app.utils.DateTimeUtils
+import com.mommydndn.app.utils.NetworkUtils
 import com.mommydndn.app.utils.NumberUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -46,7 +48,8 @@ class JobSeekerWriteViewModel @Inject constructor(
     private var _careTypes: MutableStateFlow<List<CaringTypeItem>> = MutableStateFlow(emptyList())
     val careTypes: StateFlow<List<CaringTypeItem>> = _careTypes
 
-    private var _certificationList: MutableStateFlow<List<Certification>> = MutableStateFlow(emptyList())
+    private var _certificationList: MutableStateFlow<List<Certification>> =
+        MutableStateFlow(emptyList())
     val certificationList: StateFlow<List<Certification>> = _certificationList
 
     private var _salaryTypes: MutableStateFlow<List<SalaryTypeItem>> = MutableStateFlow(
@@ -116,7 +119,13 @@ class JobSeekerWriteViewModel @Inject constructor(
     }
 
     fun addSelectedPhotos(selectedPhoto: Uri) {
-        _photo.value = selectedPhoto
+        viewModelScope.launch {
+            val photoPart = NetworkUtils.getImagePart(selectedPhoto)
+            userRepository.updateProfile(photoPart).collect {
+                _photo.value = selectedPhoto
+            }
+        }
+
     }
 
     fun searchLocationByAddress(address: String) {
