@@ -152,14 +152,14 @@ class CareViewModel @Inject constructor(
                 FilterType.Caring(
                     items = FilterItemsType.Caring(isAllChecked = false),
                 ),
-                FilterType.Period(
-                    items = FilterItemsType.Period(),
-                ),
                 FilterType.Day(
                     items = FilterItemsType.Day(),
                 ),
                 FilterType.Time(
                     items = FilterItemsType.Time(),
+                ),
+                FilterType.Period(
+                    items = FilterItemsType.Period(),
                 ),
             )
 
