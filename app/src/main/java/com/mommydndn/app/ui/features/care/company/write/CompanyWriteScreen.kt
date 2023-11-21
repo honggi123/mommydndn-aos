@@ -48,6 +48,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.mommydndn.app.R
+import com.mommydndn.app.data.model.care.CompanyPreview
+import com.mommydndn.app.data.model.care.EtcCheckItem
+import com.mommydndn.app.data.model.care.JobOfferPreview
 import com.mommydndn.app.data.model.care.JobSeekerPreview
 import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.common.ButtonColor
@@ -68,6 +71,8 @@ import com.mommydndn.app.ui.components.list.CheckBoxListItem
 import com.mommydndn.app.ui.extensions.addFocusCleaner
 import com.mommydndn.app.ui.features.care.jobseeker.write.JobSeekerWriteViewModel
 import com.mommydndn.app.ui.features.care.jobseeker.write.isValidationSuccessful
+import com.mommydndn.app.ui.navigation.CompanyWritePreviewNav
+import com.mommydndn.app.ui.navigation.JobOfferWritePreviewNav
 import com.mommydndn.app.ui.navigation.JobSeekerLocationSearchNav
 import com.mommydndn.app.ui.navigation.JobSeekerWritePreviewNav
 import com.mommydndn.app.ui.theme.Grey100
@@ -508,8 +513,25 @@ fun CompanyWriteScreen(
                     colorType = ButtonColorType.FILLED,
                     sizeType = ButtonSizeType.LARGE,
                     rangeType = MinMaxRange.MAX,
-                    onClick = {}
-
+                    onClick = {
+                        NavigationUtils.navigate(
+                            navController,
+                            CompanyWritePreviewNav.navigateWithArg(
+                                CompanyPreview(
+                                    introduce = introduce,
+                                    caringTypeList = careTypes.filter { it.isSelected }
+                                        .map { it.caringType },
+                                    emd = emdItem!!,
+                                    salaryType = salaryTypes.filter { it.isSelected }
+                                        .first().salaryType,
+                                    salary = salary!!,
+                                    etcCheckedList = etcCheckList,
+                                    profileImage = Uri.encode(photo.toString()),
+                                    coverImageList = photos.map { Uri.encode(it.toString()) }
+                                )
+                            )
+                        )
+                    }
                 )
             }
         }

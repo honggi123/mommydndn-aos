@@ -34,6 +34,7 @@ interface CaringRepository {
 
     fun fetchEtcIndividualCheckList(): Flow<List<EtcCheckItem>>
 
+    fun fetchCompanyEtcCheckList(): Flow<List<EtcCheckItem>>
     fun fetchJobOfferSummary(
         keyword: String?,
         sortingType: SortingType,

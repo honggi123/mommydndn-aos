@@ -1,12 +1,12 @@
 package com.mommydndn.app.ui.navigation
 
-import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.mommydndn.app.R
+import com.mommydndn.app.data.model.care.CompanyPreview
 import com.mommydndn.app.data.model.care.JobOfferPreview
 import com.mommydndn.app.data.model.care.JobSeekerPreview
 import com.mommydndn.app.data.model.user.SignUpInfo
@@ -139,6 +139,28 @@ object CompanyWriteNav : Destination {
     override val title: String = NavigationTitle.COMPANY_WRITE
 }
 
+object CompanyWritePreviewNav : Destination {
+    override val route: String = NavigationRouteName.COMPANY_WRITE_PREVIEW
+    override val title: String = NavigationTitle.COMPANY_WRITE_PREVIEW
+    val argName: String = "CompanyWritePreview"
+
+    fun routeWithArgName() = "${CompanyWritePreviewNav.route}/{${CompanyWritePreviewNav.argName}}"
+
+    val arguments: List<NamedNavArgument> = listOf(
+        navArgument(argName) { type= NavType.StringType}
+    )
+
+    fun navigateWithArg(item: CompanyPreview): String  {
+        val arg = GsonUtils.toJson(item)
+        return "${CompanyWritePreviewNav.route}/$arg"
+    }
+
+    fun findArgument(navBackStackEntry: NavBackStackEntry): CompanyPreview? {
+        val companyPreviewString = navBackStackEntry.arguments?.getString(argName)
+        return GsonUtils.fromJson<CompanyPreview>(companyPreviewString)
+    }
+}
+
 interface Destination {
     val route: String
     val title: String
@@ -157,6 +179,7 @@ object NavigationRouteName {
     const val JOB_SEEKER_WRITE_PREVIEW = "구직글쓰기_미리보기"
 
     const val COMPANY_WRITE = "업체글쓰기"
+    const val COMPANY_WRITE_PREVIEW = "업체글쓰기_미리보기"
 
     const val SIGN_IN = "로그인"
     const val TYPE_CHOICE = "개인&기업선택"
@@ -176,6 +199,7 @@ object NavigationTitle {
     const val JOB_SEEKER_WRITE_PREVIEW = "구직글쓰기_미리보기"
 
     const val COMPANY_WRITE = "업체글쓰기"
+    const val COMPANY_WRITE_PREVIEW = "업체글쓰기_미리보기"
 
     const val SIGN_IN = "로그인"
     const val TYPE_CHOICE = "개인&기업선택"

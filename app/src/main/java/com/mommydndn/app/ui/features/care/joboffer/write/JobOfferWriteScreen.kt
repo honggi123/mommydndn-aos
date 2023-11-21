@@ -715,7 +715,6 @@ fun JobOfferWriteScreen(
                                         endDate = endDate
                                     )
                                 )
-
                             )
                         }
                     }

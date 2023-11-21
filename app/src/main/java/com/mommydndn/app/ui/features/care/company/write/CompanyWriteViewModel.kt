@@ -117,26 +117,6 @@ class CompanyWriteViewModel @Inject constructor(
         _photos.value = selectedPhotos
     }
 
-    fun searchLocationByAddress(address: String) {
-        viewModelScope.launch {
-            locationRepository.fetchAddressByKeyword(address).collectLatest {
-                val address = it.documents.get(0).address
-                _locationInfo.value = LocationInfo(
-                    latitude = address.y.toDouble(),
-                    longitude = address.x.toDouble()
-                )
-
-                _emdItem.value = EmdItem(
-                    id = Integer.parseInt(address.bCode.subSequence(0, 7).toString()),
-                    name = address.region3DepthHName,
-                    sigName = address.region2DepthName,
-                    ctprvnName = address.region1DepthName,
-                    fullName = "${address.region1DepthName} ${address.region2DepthName} ${address.region3DepthHName}"
-                )
-            }
-        }
-    }
-
     fun removePhoto(selectedUri: Uri) {
         _photos.value = _photos.value.filter {
             it != selectedUri
@@ -169,7 +149,7 @@ class CompanyWriteViewModel @Inject constructor(
 
     fun fetchEtcCheckList() {
         viewModelScope.launch {
-            caringRepository.fetchEtcIndividualCheckList().collect {
+            caringRepository.fetchCompanyEtcCheckList().collect {
                 _etcCheckList.value = it
             }
         }

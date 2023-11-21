@@ -91,6 +91,18 @@ class CaringRepositoryImpl @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
+    override fun fetchCompanyEtcCheckList(): Flow<List<EtcCheckItem>> = flow {
+        caringService.fetchCompanyEtcCheckList().suspendOnSuccess {
+            val list = data.map {
+                EtcCheckItem(
+                    displayName = it.displayName,
+                    id = it.comOtherConditionId,
+                    conditionCode = it.comOtherConditionCode
+                )
+            }
+            emit(list)
+        }
+    }.flowOn(Dispatchers.IO)
 
     override fun fetchJobOfferSummary(
         keyword: String?,

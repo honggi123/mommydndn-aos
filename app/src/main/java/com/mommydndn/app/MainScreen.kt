@@ -39,6 +39,7 @@ import com.mommydndn.app.ui.navigation.TypeChoiceNav
 import com.mommydndn.app.ui.features.care.CareScreen
 import com.mommydndn.app.ui.features.care.company.write.CompanyWriteScreen
 import com.mommydndn.app.ui.features.care.company.write.CompanyWriteViewModel
+import com.mommydndn.app.ui.features.care.company.write.preview.CompanyPreviewScreen
 import com.mommydndn.app.ui.features.care.joboffer.write.JobOfferLocationSearchScreen
 import com.mommydndn.app.ui.features.care.joboffer.write.JobOfferWriteScreen
 import com.mommydndn.app.ui.features.care.joboffer.write.JobOfferWriteViewModel
@@ -56,6 +57,7 @@ import com.mommydndn.app.ui.theme.Grey800
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.features.signup.SignUpViewModel
 import com.mommydndn.app.ui.navigation.CompanyWriteNav
+import com.mommydndn.app.ui.navigation.CompanyWritePreviewNav
 import com.mommydndn.app.ui.navigation.JobOfferLocationSearchNav
 import com.mommydndn.app.ui.navigation.JobOfferWriteNav
 import com.mommydndn.app.ui.navigation.JobOfferWritePreviewNav
@@ -347,6 +349,21 @@ fun MainNavigationScreen(
                 scaffoldState = scaffoldState
             )
         }
+
+        composable(
+            route = CompanyWritePreviewNav.routeWithArgName(),
+            arguments = CompanyWritePreviewNav.arguments,
+
+            enterTransition = { slideEnterTransition },
+            exitTransition = { slideExitTransition }
+        ) {
+            val companyPreview = CompanyWritePreviewNav.findArgument(it)
+
+            CompanyPreviewScreen(
+                companyPreiew = companyPreview, navController = navController
+            )
+        }
+
     }
 
 }
