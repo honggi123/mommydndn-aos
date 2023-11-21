@@ -39,10 +39,10 @@ sealed class FilterType(
         override val displayingName: String
             get() {
                 val selectedCaring = items.list.filter { it.isSelected }.map { it.caringType }
-                return if (selectedCaring.isNotEmpty()) {
-                    StringUtils.getConcatenatedCommasString(selectedCaring.map { it.value })
-                } else {
+                return if (items.list.all { it.isSelected }) {
                     "돌봄종류"
+                } else {
+                    StringUtils.getConcatenatedCommasString(selectedCaring.map { it.value })
                 }
             }
 
@@ -63,11 +63,7 @@ sealed class FilterType(
         override val isSelected: Boolean
             get() {
                 val selectedDistance = items.list.filter { it.isSelected }.first().distantceType
-                return if (selectedDistance == DistanceType.FURTHEST) {
-                    false
-                } else {
-                    true
-                }
+                return true
             }
     }
 
@@ -115,7 +111,7 @@ sealed class FilterType(
                 val startTime = items.startTime
                 val endTime = items.endTime
 
-                return if (startTime != null || endTime != null) {
+                return if (startTime == null || endTime == null) {
                     false
                 } else {
                     true
@@ -129,10 +125,10 @@ sealed class FilterType(
         override val displayingName: String
             get() {
                 val selectedDays = items.list.filter { it.isSelected }.map { it.type }
-                return if (selectedDays.isNotEmpty()) {
-                    StringUtils.getConcatenatedString(selectedDays.map { it.displayingName })
-                } else {
+                return if (items.list.all { it.isSelected }) {
                     "요일"
+                } else {
+                    StringUtils.getConcatenatedString(selectedDays.map { it.displayingName })
                 }
             }
 

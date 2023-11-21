@@ -12,10 +12,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
+import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -32,6 +34,8 @@ import com.mommydndn.app.ui.theme.Grey200
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.shadow700
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -39,10 +43,13 @@ fun CaringBottomModal(
     modifier: Modifier = Modifier,
     item: FilterItemsType.Caring,
     onClickClose: () -> Unit = {},
-    onClickComplete: (FilterItemsType.Caring) -> Unit = {}
+    onClickComplete: (FilterItemsType.Caring) -> Unit = {},
+    scaffoldState: ScaffoldState
 ) {
     var caringItemList by rememberSaveable(Unit) { mutableStateOf(item.list) }
     var caringItemIsChecked by remember { mutableStateOf(false) }
+
+    val coroutineScope: CoroutineScope = rememberCoroutineScope()
 
     Box(
         modifier = modifier

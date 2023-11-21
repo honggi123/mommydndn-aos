@@ -213,7 +213,10 @@ fun MainNavigationScreen(
         composable(
             route = MainNav.Care.route
         ) {
-            CareScreen(navController = navController)
+            CareScreen(
+                navController = navController,
+                scaffoldState = scaffoldState
+            )
         }
 
         composable(

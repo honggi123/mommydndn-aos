@@ -15,9 +15,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
+import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -35,15 +37,20 @@ import com.mommydndn.app.ui.theme.Grey200
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.shadow700
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @Composable
 fun DayBottomModal(
     modifier: Modifier = Modifier,
     item: FilterItemsType.Day,
     onClickClose: () -> Unit = {},
-    onClickComplete: (FilterItemsType.Day) -> Unit = {}
+    onClickComplete: (FilterItemsType.Day) -> Unit = {},
+    scaffoldState: ScaffoldState
 ) {
     var dayItemList by rememberSaveable(Unit) { mutableStateOf(item.list) }
+
+    val coroutineScope: CoroutineScope = rememberCoroutineScope()
 
     Box(
         modifier = modifier
@@ -118,9 +125,12 @@ fun DayBottomModal(
                     }),
                     DialogButton.Primary(
                         title = "적용하기",
-                        action = { onClickComplete(FilterItemsType.Day(dayItemList)) })
+                        action = {
+                            onClickComplete(FilterItemsType.Day(dayItemList))
+                        })
                 )
             )
         }
     }
 }
+

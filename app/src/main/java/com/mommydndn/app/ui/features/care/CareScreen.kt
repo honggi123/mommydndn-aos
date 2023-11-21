@@ -23,6 +23,7 @@ import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -74,7 +75,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun CareScreen(
     navController: NavHostController,
-    viewModel: CareViewModel = hiltViewModel()
+    viewModel: CareViewModel = hiltViewModel(),
+    scaffoldState: ScaffoldState
 ) {
     val userInfo by viewModel.userInfo.collectAsState()
 
@@ -113,7 +115,8 @@ fun CareScreen(
                         sheetState.hide()
                     }
                 },
-                viewModel = viewModel
+                viewModel = viewModel,
+                scaffoldState = scaffoldState
             )
         }
     ) {
@@ -270,7 +273,8 @@ private fun DialogContent(
     selectedItem: FilterType?,
     closeAction: () -> Unit,
     completeAction: () -> Unit,
-    viewModel: CareViewModel
+    viewModel: CareViewModel,
+    scaffoldState: ScaffoldState
 ) {
     when (selectedItem) {
         is FilterType.Sorting -> {
@@ -306,7 +310,8 @@ private fun DialogContent(
                 onClickComplete = {
                     completeAction()
                     viewModel.updateCaringFilter(it)
-                }
+                },
+                scaffoldState = scaffoldState
             )
         }
 
@@ -354,7 +359,8 @@ private fun DialogContent(
                 onClickComplete = {
                     completeAction()
                     viewModel.updateDayFilter(it)
-                }
+                },
+                scaffoldState = scaffoldState
             )
         }
 
