@@ -456,7 +456,9 @@ fun CompanyWriteScreen(
                     value1 = startSalary?.let { NumberUtils.getPriceString(it) } ?: "",
                     value2 = endSalary?.let { NumberUtils.getPriceString(it) } ?: "",
                     onValue1Changed = { viewModel.setStartSalary(it) },
-                    onValue2Changed = { viewModel.setEndSalary(it) }
+                    onValue2Changed = { viewModel.setEndSalary(it) },
+                    placeHolder1Text = "최소",
+                    placeHolder2Text = "최대"
                 )
 
                 TextInpuField(

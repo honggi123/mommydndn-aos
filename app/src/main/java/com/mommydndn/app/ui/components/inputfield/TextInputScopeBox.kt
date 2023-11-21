@@ -32,6 +32,7 @@ import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.heading700
 import com.mommydndn.app.ui.theme.paragraph300
+import com.mommydndn.app.utils.NumberCommaVisualTransformation
 
 @Composable
 fun TextInputScopeBox(
@@ -118,6 +119,7 @@ fun TextInputScopeBox(
                 keyboardOptions = KeyboardOptions.Default.copy(
                     keyboardType = KeyboardType.Number
                 ),
+                visualTransformation = NumberCommaVisualTransformation(),
                 isError = isErrorOption1
             )
 
@@ -146,6 +148,7 @@ fun TextInputScopeBox(
                 onValueChange = {
                     onValue2Changed(it)
                 },
+                visualTransformation = NumberCommaVisualTransformation(),
                 textStyle = MaterialTheme.typography.paragraph300.copy(
                     fontWeight = FontWeight.Normal,
                     color = Grey500
