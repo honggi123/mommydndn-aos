@@ -115,9 +115,14 @@ fun CompanyWriteScreen(
 
     val etcCheckList by viewModel.etcCheckList.collectAsState()
 
-    val takePhotoFromAlbumLauncher =
+    val coverPhotosFromAlbumLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.GetMultipleContents()) { list ->
+            list?.let { viewModel.addSelectedPhotos(list) }
+        }
+
+    val profilePhotoFromAlbumLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-            uri?.let { viewModel.addSelectedPhotos(uri) }
+            uri?.let { viewModel.addSelectedPhoto(uri) }
         }
 
     val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -126,13 +131,25 @@ fun CompanyWriteScreen(
         arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
     }
 
-    val launcher = rememberLauncherForActivityResult(
+    val profilePermssionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissionsMap ->
         val areGranted = permissionsMap.values.reduce { acc, next -> acc && next }
         if (areGranted) {
             Log.d("JobOfferWriteScreen", "권한이 동의되었습니다.")
-            takePhotoFromAlbumLauncher.launch("image/jpeg")
+            profilePhotoFromAlbumLauncher.launch("image/jpeg")
+        } else {
+        }
+        Log.d("JobOfferWriteScreen", "권한이 거부되었습니다.")
+    }
+
+    val ceverPermssionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissionsMap ->
+        val areGranted = permissionsMap.values.reduce { acc, next -> acc && next }
+        if (areGranted) {
+            Log.d("JobOfferWriteScreen", "권한이 동의되었습니다.")
+            coverPhotosFromAlbumLauncher.launch("image/jpeg")
         } else {
         }
         Log.d("JobOfferWriteScreen", "권한이 거부되었습니다.")
@@ -204,9 +221,9 @@ fun CompanyWriteScreen(
                                     PermissionUtils.checkAndRequestPermissions(
                                         context,
                                         permissions,
-                                        launcher,
+                                        ceverPermssionLauncher,
                                         onPermissionGranted = {
-                                            takePhotoFromAlbumLauncher.launch("image/jpeg")
+                                            coverPhotosFromAlbumLauncher.launch("image/jpeg")
                                         }
                                     )
                                 })
@@ -254,9 +271,9 @@ fun CompanyWriteScreen(
                                 PermissionUtils.checkAndRequestPermissions(
                                     context,
                                     permissions,
-                                    launcher,
+                                    profilePermssionLauncher,
                                     onPermissionGranted = {
-                                        takePhotoFromAlbumLauncher.launch("image/jpeg")
+                                        profilePhotoFromAlbumLauncher.launch("image/jpeg")
                                     }
                                 )
                             },
@@ -271,9 +288,9 @@ fun CompanyWriteScreen(
                                 PermissionUtils.checkAndRequestPermissions(
                                     context,
                                     permissions,
-                                    launcher,
+                                    profilePermssionLauncher,
                                     onPermissionGranted = {
-                                        takePhotoFromAlbumLauncher.launch("image/jpeg")
+                                        profilePhotoFromAlbumLauncher.launch("image/jpeg")
                                     }
                                 )
                             }

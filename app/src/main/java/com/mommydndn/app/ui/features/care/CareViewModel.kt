@@ -163,7 +163,7 @@ class CareViewModel @Inject constructor(
                 ),
             )
 
-            SummaryTabType.JOBSEEKER -> listOf(
+            SummaryTabType.JOBSEEKER, SummaryTabType.COMPANY -> listOf(
                 FilterType.Sorting(
                     items = FilterItemsType.Sorting(),
                 ),
@@ -173,23 +173,6 @@ class CareViewModel @Inject constructor(
                     items = FilterItemsType.NeighborhoodScope(
                         myLocationName = userInfo.value?.emd?.name ?: ""
                     )
-                ),
-
-                FilterType.Caring(
-                    items = FilterItemsType.Caring(isAllChecked = false),
-                )
-            )
-
-            SummaryTabType.COMPANY -> listOf(
-                FilterType.Sorting(
-                    items = FilterItemsType.Sorting(),
-                ),
-
-                FilterType.NeighborhoodScope(
-                    displayingName = "${userInfo.value?.emd?.name} 외 24",
-                    items = FilterItemsType.NeighborhoodScope(
-                        myLocationName = userInfo.value?.emd?.name ?: ""
-                    ),
                 ),
 
                 FilterType.Caring(

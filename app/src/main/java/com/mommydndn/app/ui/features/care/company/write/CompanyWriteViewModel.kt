@@ -109,8 +109,12 @@ class CompanyWriteViewModel @Inject constructor(
         _commission.value = curCommission
     }
 
-    fun addSelectedPhotos(selectedPhoto: Uri) {
+    fun addSelectedPhoto(selectedPhoto: Uri) {
         _photo.value = selectedPhoto
+    }
+
+    fun addSelectedPhotos(selectedPhotos: List<Uri>) {
+        _photos.value = selectedPhotos
     }
 
     fun searchLocationByAddress(address: String) {
