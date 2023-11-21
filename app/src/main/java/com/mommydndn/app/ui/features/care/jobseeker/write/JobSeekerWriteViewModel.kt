@@ -5,8 +5,10 @@ import androidx.core.net.toUri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mommydndn.app.data.api.model.response.Certification
 import com.mommydndn.app.data.api.model.response.UserResponse
 import com.mommydndn.app.data.model.care.CaringTypeItem
+import com.mommydndn.app.data.model.care.CertificationType
 import com.mommydndn.app.data.model.care.EtcCheckItem
 import com.mommydndn.app.data.model.care.MinHourlySalary
 import com.mommydndn.app.data.model.care.SalaryType
@@ -44,6 +46,9 @@ class JobSeekerWriteViewModel @Inject constructor(
     private var _careTypes: MutableStateFlow<List<CaringTypeItem>> = MutableStateFlow(emptyList())
     val careTypes: StateFlow<List<CaringTypeItem>> = _careTypes
 
+    private var _certificationList: MutableStateFlow<List<Certification>> = MutableStateFlow(emptyList())
+    val certificationList: StateFlow<List<Certification>> = _certificationList
+
     private var _salaryTypes: MutableStateFlow<List<SalaryTypeItem>> = MutableStateFlow(
         listOf(
             SalaryTypeItem(SalaryType.HOURLY, true),
@@ -69,6 +74,7 @@ class JobSeekerWriteViewModel @Inject constructor(
 
     private val _emdItem: MutableStateFlow<EmdItem?> = MutableStateFlow<EmdItem?>(null)
     val emdItem: StateFlow<EmdItem?> = _emdItem
+
 
     private val _locationInfo: MutableStateFlow<LocationInfo?> =
         MutableStateFlow<LocationInfo?>(null)
@@ -153,6 +159,7 @@ class JobSeekerWriteViewModel @Inject constructor(
             userRepository.fetchUserInfo().collect { userInfo ->
                 _emdItem.value = userInfo.emd
                 _photo.value = userInfo.profileUrl?.toUri()
+                _certificationList.value = userInfo.certificationList
             }
         }
     }

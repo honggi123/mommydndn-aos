@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -109,6 +110,8 @@ fun JobSeekerWriteScreen(
     val minHourlySalary by viewModel.minHourlySalary.collectAsState()
 
     val etcCheckList by viewModel.etcCheckList.collectAsState()
+
+    val certificationList by viewModel.certificationList.collectAsState()
 
     val takePhotoFromAlbumLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
@@ -354,6 +357,33 @@ fun JobSeekerWriteScreen(
                     bottom = 40.dp
                 )
             ) {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(2.dp, Alignment.Top)
+                ) {
+                    certificationList.forEach { item ->
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.Start),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_certificate),
+                                contentDescription = "Icon/certificate",
+                                modifier = Modifier
+                                    .requiredSize(size = 16.dp)
+                            )
+                            Text(
+                                text = item.certificationName,
+                                color = Grey700,
+                                style = MaterialTheme.typography.caption200.copy(
+                                    fontWeight = FontWeight.Medium
+                                ),
+                                modifier = Modifier
+                                    .wrapContentHeight(align = Alignment.CenterVertically)
+                            )
+                        }
+                    }
+                }
+
                 Column(verticalArrangement = Arrangement.spacedBy(24.dp)) {
                     MommyDndnButton(
                         color = ButtonColor.SALMON,
@@ -424,7 +454,7 @@ fun JobSeekerWriteScreen(
                     TextInpuField(
                         modifier = Modifier.fillMaxWidth(),
                         label = selectedSalaryType?.salaryType?.value ?: "시급",
-                        value = salary?.let { it.toString() } ?: "",
+                        value = salary?.let { NumberUtils.getPriceString(it) } ?: "",
                         onValueChanged = { value ->
                             viewModel.setSalary(value)
                         },

@@ -2,6 +2,7 @@ package com.mommydndn.app.ui.components.inputfield
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -46,6 +47,7 @@ fun TextInpuField(
     isError: Boolean = false,
     onValueChanged: (String) -> Unit = {},
     focusRequester: FocusRequester,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None
 ) {
 
@@ -96,7 +98,7 @@ fun TextInpuField(
                 color = Grey500
             ),
             trailingIcon = {
-                if (!rightText.isNullOrBlank()){
+                if (!rightText.isNullOrBlank()) {
                     Text(
                         text = rightText,
                         style = MaterialTheme.typography.paragraph300.copy(
@@ -110,6 +112,7 @@ fun TextInpuField(
             },
             placeholder = {
                 Text(
+                    modifier = Modifier.fillMaxWidth(),
                     text = placeHolderText,
                     style = MaterialTheme.typography.paragraph300.copy(
                         fontWeight = FontWeight.Normal,
@@ -117,9 +120,7 @@ fun TextInpuField(
                     )
                 )
             },
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Number
-            ),
+            keyboardOptions = keyboardOptions,
             isError = isError,
             visualTransformation = visualTransformation
         )
