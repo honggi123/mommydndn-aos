@@ -62,7 +62,6 @@ sealed class FilterType(
     ) : FilterType(items) {
         override val isSelected: Boolean
             get() {
-                val selectedDistance = items.list.filter { it.isSelected }.first().distantceType
                 return true
             }
     }

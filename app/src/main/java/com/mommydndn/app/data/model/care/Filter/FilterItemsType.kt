@@ -24,7 +24,6 @@ sealed class FilterItemsType() {
     ) : FilterItemsType()
 
     data class Caring(
-        val isAllChecked: Boolean = false,
         var list: List<CaringTypeItem> = listOf(
             CaringTypeItem(CaringType.PARENTING, CaringType.PARENTING.value, true),
             CaringTypeItem(CaringType.HOUSEKEEPING, CaringType.HOUSEKEEPING.value, true),

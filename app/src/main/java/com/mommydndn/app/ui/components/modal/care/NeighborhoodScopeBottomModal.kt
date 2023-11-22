@@ -117,7 +117,9 @@ fun NeighborhoodScopeBottomModal(
             }
 
             Slider(
-                modifier = Modifier.padding(top = 32.dp),
+                modifier = Modifier
+                    .height(100.dp)
+                    .padding(top = 32.dp),
                 value = sliderPosition,
                 onValueChange = {
                     sliderPosition = it

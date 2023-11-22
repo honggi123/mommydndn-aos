@@ -115,7 +115,6 @@ fun CaringBottomModal(
                         onClickComplete(
                             FilterItemsType.Caring(
                                 list = caringItemList,
-                                isAllChecked = caringItemIsChecked
                             )
                         )
                     })

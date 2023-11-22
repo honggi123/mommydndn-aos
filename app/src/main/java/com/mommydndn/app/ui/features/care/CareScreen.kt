@@ -303,7 +303,6 @@ private fun DialogContent(
                     bottom = 100.dp
                 ),
                 item = FilterItemsType.Caring(
-                    isAllChecked = selectedItem.items.isAllChecked,
                     list = selectedItem.items.list,
                 ),
                 onClickClose = { closeAction() },

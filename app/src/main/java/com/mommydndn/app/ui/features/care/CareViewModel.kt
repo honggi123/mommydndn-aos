@@ -150,7 +150,7 @@ class CareViewModel @Inject constructor(
                     ),
                 ),
                 FilterType.Caring(
-                    items = FilterItemsType.Caring(isAllChecked = false),
+                    items = FilterItemsType.Caring(),
                 ),
                 FilterType.Day(
                     items = FilterItemsType.Day(),
@@ -176,7 +176,7 @@ class CareViewModel @Inject constructor(
                 ),
 
                 FilterType.Caring(
-                    items = FilterItemsType.Caring(isAllChecked = false),
+                    items = FilterItemsType.Caring(),
                 )
             )
 
@@ -218,7 +218,6 @@ class CareViewModel @Inject constructor(
 
         val updatedFilter = caringFilter.copy(
             items = caringFilter.items.copy(
-                isAllChecked = selectedFilters.isAllChecked,
                 list = selectedFilters.list
             )
         )
