@@ -71,7 +71,7 @@ import com.mommydndn.app.utils.NumberUtils
 fun CompanyPreviewScreen(
     companyPreiew: CompanyPreview?,
     navController: NavHostController,
-    viewModel: JobOfferPreviewViewModel = hiltViewModel()
+    viewModel: CompanyPrevieViewModel = hiltViewModel()
 ) {
     val authorInfo by viewModel.authorInfo.collectAsState()
 
@@ -255,6 +255,9 @@ fun CompanyPreviewScreen(
                     sizeType = ButtonSizeType.LARGE,
                     rangeType = MinMaxRange.MAX,
                     onClick = {
+                        if (companyPreiew != null) {
+                            viewModel.createCompany(companyPreiew, navController)
+                        }
                     }
                 )
             }
