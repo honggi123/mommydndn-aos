@@ -1,11 +1,13 @@
 package com.mommydndn.app.data.api.service
 
+import com.mommydndn.app.data.api.model.request.CompanyCreationRequest
 import com.mommydndn.app.data.api.model.request.CompanyListRequest
 import com.mommydndn.app.data.api.model.request.JobOfferListRequest
 import com.mommydndn.app.data.api.model.request.JobOfferCreationRequest
 import com.mommydndn.app.data.api.model.request.JobSeekerCreationRequest
 import com.mommydndn.app.data.api.model.request.JobSeekerListRequest
 import com.mommydndn.app.data.api.model.response.CaringTypeResponse
+import com.mommydndn.app.data.api.model.response.CompanyCreationResponse
 import com.mommydndn.app.data.api.model.response.CompanyEtcCheckItem
 import com.mommydndn.app.data.api.model.response.IndividualEtcCheckItem
 import com.mommydndn.app.data.api.model.response.JobOfferCreationResponse
@@ -44,12 +46,17 @@ interface CaringService {
     suspend fun fetchMinHourlySalary(): ApiResponse<MinHourlySalary>
 
     @POST("/api/caring/job-offer")
-    suspend fun craeteJobOffer(
+    suspend fun createJobOffer(
         @Body jobOfferCreationRequest: JobOfferCreationRequest
     ): ApiResponse<JobOfferCreationResponse>
 
+    @POST("/api/caring/company")
+    suspend fun createCompany(
+        @Body companyCreationRequest: CompanyCreationRequest
+    ): ApiResponse<CompanyCreationResponse>
+
     @POST("/api/caring/job-seeker")
-    suspend fun craeteJobSeeker(
+    suspend fun createJobSeeker(
         @Body jobSeekerCreationRequest: JobSeekerCreationRequest
     ): ApiResponse<JobSeekerCreationResponse>
 

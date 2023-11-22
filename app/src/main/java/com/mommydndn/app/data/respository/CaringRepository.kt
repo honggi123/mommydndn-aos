@@ -1,6 +1,7 @@
 package com.mommydndn.app.data.respository
 
 import androidx.paging.PagingData
+import com.mommydndn.app.data.api.model.response.CompanyCreationResponse
 import com.mommydndn.app.data.api.model.response.JobOfferCreationResponse
 import com.mommydndn.app.data.api.model.response.JobOfferResponse
 import com.mommydndn.app.data.api.model.response.JobSeekerCreationResponse
@@ -97,4 +98,17 @@ interface CaringRepository {
         salary: Int,
         etcCheckedList: List<EtcCheckItem>
     ): Flow<JobSeekerCreationResponse>
+
+    fun createCompany(
+        introduce: String,
+        coverImageList: List<MultipartBody.Part>,
+        caringTypeList: List<CaringType>,
+        emd: EmdItem,
+        latitude: Double?,
+        longitude: Double?,
+        minSalary: Int,
+        maxSalary: Int,
+        etcCheckedList: List<EtcCheckItem>,
+        commission: Int
+    ): Flow<CompanyCreationResponse>
 }

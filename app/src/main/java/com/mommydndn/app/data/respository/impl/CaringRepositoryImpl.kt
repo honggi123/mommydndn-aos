@@ -3,12 +3,14 @@ package com.mommydndn.app.data.respository.impl
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.mommydndn.app.data.api.model.request.CompanyCreationRequest
 import com.mommydndn.app.data.api.model.request.CompanyListRequest
 import com.mommydndn.app.data.api.model.request.JobOfferListRequest
 import com.mommydndn.app.data.api.model.request.JobOfferCreationRequest
 import com.mommydndn.app.data.api.model.request.JobSeekerCreationRequest
 import com.mommydndn.app.data.api.model.request.JobSeekerListRequest
 import com.mommydndn.app.data.api.model.request.PaginationRequest
+import com.mommydndn.app.data.api.model.response.CompanyCreationResponse
 import com.mommydndn.app.data.api.model.response.JobOfferCreationResponse
 import com.mommydndn.app.data.api.model.response.JobOfferResponse
 import com.mommydndn.app.data.api.model.response.JobSeekerCreationResponse
@@ -288,7 +290,7 @@ class CaringRepositoryImpl @Inject constructor(
         }
 
 
-        caringService.craeteJobOffer(request).suspendOnSuccess {
+        caringService.createJobOffer(request).suspendOnSuccess {
             emit(data)
         }
     }.flowOn(Dispatchers.IO)
@@ -313,7 +315,40 @@ class CaringRepositoryImpl @Inject constructor(
             salary = salary,
             indOtherConditionIdList = etcCheckedList.map { it.id },
         )
-        caringService.craeteJobSeeker(request).suspendOnSuccess {
+        caringService.createJobSeeker(request).suspendOnSuccess {
+            emit(data)
+        }
+    }.flowOn(Dispatchers.IO)
+
+    override fun createCompany(
+        introduce: String,
+        coverImageList: List<MultipartBody.Part>,
+        caringTypeList: List<CaringType>,
+        emd: EmdItem,
+        latitude: Double?,
+        longitude: Double?,
+        minSalary: Int,
+        maxSalary: Int,
+        etcCheckedList: List<EtcCheckItem>,
+        commission: Int
+    ): Flow<CompanyCreationResponse> = flow {
+
+        val coverImageIdList = coverImageList.map { fetchImageId(it) ?: 0 }
+
+        val request = CompanyCreationRequest(
+            introLine = introduce,
+            caringTypeCodeList = caringTypeList,
+            emd = emd,
+            latitude = latitude,
+            longitude = longitude,
+            minMonthlySalary = minSalary,
+            maxMonthlySalary = maxSalary,
+            comOtherConditionIdList = etcCheckedList.map { it.id },
+            commission = commission,
+            coverImageIdList = coverImageIdList
+        )
+
+        caringService.createCompany(request).suspendOnSuccess {
             emit(data)
         }
     }.flowOn(Dispatchers.IO)
