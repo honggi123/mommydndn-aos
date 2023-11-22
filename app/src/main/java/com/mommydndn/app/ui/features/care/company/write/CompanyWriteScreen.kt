@@ -116,6 +116,7 @@ fun CompanyWriteScreen(
     val focusManager = LocalFocusManager.current
 
     val emdItem by viewModel.emdItem.collectAsState()
+    val locationInfo by viewModel.locationInfo.collectAsState()
 
     val careTypes by viewModel.careTypes.collectAsState()
 
@@ -453,7 +454,7 @@ fun CompanyWriteScreen(
             var isMaxSalaryBelowMinSalary by remember { mutableStateOf(false) }
 
             if (startSalary != null && endSalary != null) {
-                if (endSalary!! > startSalary!!) isMaxSalaryBelowMinSalary = true
+                if (endSalary!! < startSalary!!) isMaxSalaryBelowMinSalary = true
                 else isMaxSalaryBelowMinSalary = false
             }
 
@@ -585,7 +586,8 @@ fun CompanyWriteScreen(
                                         },
                                         profileImage = Uri.encode(photo.toString()),
                                         commission = commission!!,
-                                        coverImageList = photos.map { Uri.encode(it.toString()) }
+                                        coverImageList = photos.map { Uri.encode(it.toString()) },
+                                        locationInfo = locationInfo
                                     )
                                 )
                             )
