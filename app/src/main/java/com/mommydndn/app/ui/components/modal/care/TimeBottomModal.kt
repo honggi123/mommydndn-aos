@@ -3,6 +3,10 @@ package com.mommydndn.app.ui.components.modal.care
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -22,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.commandiron.wheel_picker_compose.WheelTimePicker
@@ -35,8 +40,11 @@ import com.mommydndn.app.ui.models.dialog.DialogButton
 import com.mommydndn.app.ui.models.dialog.DialogTitle
 import com.mommydndn.app.ui.theme.Grey200
 import com.mommydndn.app.ui.theme.Grey50
+import com.mommydndn.app.ui.theme.Grey700
+import com.mommydndn.app.ui.theme.MommydndnTypography
 import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.White
+import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.ui.theme.shadow700
 import com.mommydndn.app.utils.DateTimeUtils
 import java.time.LocalTime
@@ -77,7 +85,7 @@ fun TimeBottomModal(
         Column(
             modifier = Modifier
                 .wrapContentSize()
-                .padding(start = 20.dp, top = 36.dp, end = 20.dp, bottom = 24.dp),
+                .padding(start = 20.dp, top = 36.dp, end = 20.dp, bottom = 24.dp)
         ) {
             DialogTitleWrapper(DialogTitle.Refresh(text = "시간", refreshAction = {
                 timeItem = timeItem.copy(startTime = null, endTime = null)
@@ -127,7 +135,11 @@ fun TimeBottomModal(
             ) {
                 WheelTimePicker(
                     timeFormat = TimeFormat.AM_PM,
-                    size = DpSize(200.dp, 140.dp),
+                    size = DpSize(220.dp, 140.dp),
+                    textStyle = MommydndnTypography.paragraph300.copy(
+                        color = Grey700,
+                        fontWeight = FontWeight.Bold
+                    ),
                     selectorProperties = WheelPickerDefaults.selectorProperties(
                         enabled = true,
                         shape = RoundedCornerShape(16.dp),

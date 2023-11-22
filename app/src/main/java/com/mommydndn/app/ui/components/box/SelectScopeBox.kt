@@ -2,6 +2,7 @@ package com.mommydndn.app.ui.components.box
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -29,6 +31,7 @@ import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey800
+import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.heading700
 import com.mommydndn.app.ui.theme.paragraph300
 
@@ -81,6 +84,11 @@ fun SelectScopeBox(
                 modifier = Modifier
                     .height(height = 56.dp)
                     .clip(shape = RoundedCornerShape(12.dp))
+                    .border(
+                        1.dp,
+                        if (isOption1Selected) Salmon600 else Color.Transparent,
+                        RoundedCornerShape(12.dp)
+                    )
                     .background(color = Grey50)
                     .weight(1f)
                     .padding(
@@ -122,6 +130,11 @@ fun SelectScopeBox(
                     .width(width = 342.dp)
                     .height(height = 56.dp)
                     .clip(shape = RoundedCornerShape(12.dp))
+                    .border(
+                        1.dp,
+                        if (isOption2Selected) Salmon600 else Color.Transparent,
+                        RoundedCornerShape(12.dp)
+                    )
                     .weight(1f)
                     .background(color = Grey50)
                     .padding(
