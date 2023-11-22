@@ -115,8 +115,14 @@ class CaringRepositoryImpl @Inject constructor(
         days: List<DayOfWeekType>,
         startTime: LocalTime?,
         endTime: LocalTime?,
-        workPeriodTypeList: List<WorkPeriodType>
+        workPeriodType: WorkPeriodType?
     ): Flow<PagingData<JobOfferSummaryListItem>> {
+
+        val workPeriodTypeList = if (workPeriodType == null) {
+            listOf(WorkPeriodType.ONETIME, WorkPeriodType.REGULAR)
+        } else {
+            listOf(workPeriodType)
+        }
 
         val jobOfferListRequest = JobOfferListRequest(
             caringTypeCodeList = caringTypeList,

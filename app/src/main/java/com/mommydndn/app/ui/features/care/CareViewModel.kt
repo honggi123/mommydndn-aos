@@ -59,8 +59,8 @@ class CareViewModel @Inject constructor(
                     emdId = userInfo.value?.emd?.id ?: 0,
                     sortingType = filterItems.value.filterIsInstance<FilterType.Sorting>()
                         .first().items.list.filter { it.isSelected }.first().sortingType,
-                    workPeriodTypeList = filterItems.value.filterIsInstance<FilterType.Period>()
-                        .first().items.list.filter { it.isSelected }.map { it.workPeriodType },
+                    workPeriodType = filterItems.value.filterIsInstance<FilterType.Period>()
+                        .first().items.list.filter { it.isSelected }.map { it.workPeriodType }.first(),
                     neighborhoodScope = filterItems.value.filterIsInstance<FilterType.NeighborhoodScope>()
                         .first().items.list.filter { it.isSelected }
                         .first().distantceType.distantce,

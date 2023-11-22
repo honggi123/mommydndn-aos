@@ -73,20 +73,21 @@ sealed class FilterType(
         override val displayingName: String
             get() {
                 val selectedPeriod = items.list.filter { it.isSelected }.map { it.workPeriodType }
-                return if (selectedPeriod.isNotEmpty()) {
-                    selectedPeriod.first().value
+
+                return if (selectedPeriod.first() == null) {
+                    "전체"
                 } else {
-                    "정기"
+                    selectedPeriod.first()!!.name
                 }
             }
 
         override val isSelected: Boolean
             get() {
                 val selectedPeriod = items.list.filter { it.isSelected }.map { it.workPeriodType }
-                return if (selectedPeriod.isNotEmpty()) {
-                    true
-                } else {
+                return if (selectedPeriod.first() == null) {
                     false
+                } else {
+                    true
                 }
             }
     }

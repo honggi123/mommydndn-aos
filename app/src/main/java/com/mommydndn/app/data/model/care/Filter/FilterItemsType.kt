@@ -45,7 +45,8 @@ sealed class FilterItemsType() {
 
     data class Period(
         var list: List<WorkPeriodTypeItem> = listOf(
-            WorkPeriodTypeItem(WorkPeriodType.REGULAR, true),
+            WorkPeriodTypeItem(null, true),
+            WorkPeriodTypeItem(WorkPeriodType.REGULAR),
             WorkPeriodTypeItem(WorkPeriodType.ONETIME)
         )
     ) : FilterItemsType()

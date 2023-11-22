@@ -322,7 +322,7 @@ fun JobOfferWriteScreen(
                     workPeriodTypes.forEach { type ->
                         ClickableChip(
                             modifier = Modifier.height(36.dp),
-                            text = type.workPeriodType.value,
+                            text = type.workPeriodType?.value ?: "전체",
                             selected = type.isSelected,
                             onClick = { viewModel.selectWorkPeriodType(type) }
                         )
@@ -696,7 +696,7 @@ fun JobOfferWriteScreen(
                                         caringTypeList = careTypes.filter { it.isSelected }
                                             .map { it.caringType },
                                         taskType = workPeriodTypes.filter { it.isSelected }
-                                            .map { it.workPeriodType }.first(),
+                                            .map { it.workPeriodType }.first()!!,
                                         dateList = dateList,
                                         days = dayOfWeekTypes.filter { it.isSelected },
                                         startTime = startTime,
@@ -729,7 +729,7 @@ fun isValidationSuccessful(
     emdItem: EmdItem?,
     careTypes: List<CaringTypeItem>,
     dateList: List<LocalDate>,
-    workPeriodType: WorkPeriodType,
+    workPeriodType: WorkPeriodType?,
     salary: Int?,
     dayOfWeekTypes: List<DayOfWeekItem>,
     salaryType: SalaryType,
@@ -740,7 +740,7 @@ fun isValidationSuccessful(
     endTime: LocalTime
 ): Boolean {
 
-    if (minHourlySalary == null) {
+    if (minHourlySalary == null || workPeriodType == null) {
         return false
     }
 

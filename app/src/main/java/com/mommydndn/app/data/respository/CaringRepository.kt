@@ -45,7 +45,7 @@ interface CaringRepository {
         days:List<DayOfWeekType>,
         startTime: LocalTime?,
         endTime: LocalTime?,
-        workPeriodTypeList: List<WorkPeriodType>
+        workPeriodType: WorkPeriodType?
     ): Flow<PagingData<JobOfferSummaryListItem>>
 
     fun fetchJobSeekerSummary(

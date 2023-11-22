@@ -84,7 +84,7 @@ fun PeriodBottomModal(
                                 it[index] = it[index].copy(isSelected = true)
                             }
                         },
-                        text = periodType.workPeriodType.value
+                        text = periodType.workPeriodType?.value ?: "전체"
                     )
                 }
             }

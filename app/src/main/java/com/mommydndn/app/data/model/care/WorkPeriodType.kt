@@ -13,7 +13,7 @@ enum class WorkPeriodType(val value: String,var isSelected: Boolean = false) {
 }
 
 data class WorkPeriodTypeItem(
-    val workPeriodType: WorkPeriodType,
+    val workPeriodType: WorkPeriodType?,
     var isSelected: Boolean = false
 )
 
