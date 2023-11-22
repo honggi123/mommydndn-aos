@@ -1,5 +1,6 @@
 package com.mommydndn.app.ui.features.care.jobseeker.write
 
+import android.content.Context
 import android.net.Network
 import android.net.Uri
 import android.util.Log
@@ -24,6 +25,7 @@ import com.mommydndn.app.data.model.map.LocationInfo
 import com.mommydndn.app.data.respository.CaringRepository
 import com.mommydndn.app.data.respository.LocationRepository
 import com.mommydndn.app.data.respository.UserRepository
+import com.mommydndn.app.ui.extensions.asMultipart
 import com.mommydndn.app.utils.DateTimeUtils
 import com.mommydndn.app.utils.NetworkUtils
 import com.mommydndn.app.utils.NumberUtils
@@ -34,6 +36,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
@@ -119,11 +122,16 @@ class JobSeekerWriteViewModel @Inject constructor(
         _salary.value = NumberUtils.getPrice(curSalary)
     }
 
-    fun addSelectedPhotos(selectedPhoto: Uri) {
+    fun addSelectedPhotos(
+        selectedPhoto: Uri,
+        context: Context
+    ) {
         viewModelScope.launch {
-            val photoPart = NetworkUtils.getImagePart(selectedPhoto)
-            userRepository.updateProfile(photoPart).collect {
-                _photo.value = selectedPhoto
+            val photoPart = convertToImagePart(selectedPhoto, context)
+            photoPart?.let {
+                userRepository.updateProfile(photoPart).collect {
+                    _photo.value = selectedPhoto
+                }
             }
         }
     }
@@ -174,12 +182,15 @@ class JobSeekerWriteViewModel @Inject constructor(
     }
 
 
-
     fun fetchEtcCheckList() {
         viewModelScope.launch {
             caringRepository.fetchEtcIndividualCheckList().collect {
                 _etcCheckList.value = it
             }
         }
+    }
+
+    private fun convertToImagePart(uri: Uri, context: Context): MultipartBody.Part? {
+        return uri.asMultipart("file_0", context)
     }
 }

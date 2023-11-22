@@ -77,6 +77,4 @@ class JobSeekerPreviewViewModel @Inject constructor(
         }
     }
 
-
-
 }

@@ -120,7 +120,7 @@ fun JobSeekerWriteScreen(
 
     val takePhotoFromAlbumLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-            uri?.let { viewModel.addSelectedPhotos(uri) }
+            uri?.let { viewModel.addSelectedPhotos(uri, context) }
         }
 
     val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -219,7 +219,6 @@ fun JobSeekerWriteScreen(
                         )
                     )
                 }
-
             }
 
             Divider(

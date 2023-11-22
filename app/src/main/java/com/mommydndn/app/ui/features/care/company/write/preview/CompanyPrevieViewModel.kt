@@ -1,6 +1,7 @@
 package com.mommydndn.app.ui.features.care.company.write.preview
 
 import android.content.Context
+import android.net.Uri
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,6 +10,7 @@ import com.mommydndn.app.data.api.model.response.UserResponse
 import com.mommydndn.app.data.model.care.CompanyPreview
 import com.mommydndn.app.data.respository.CaringRepository
 import com.mommydndn.app.data.respository.UserRepository
+import com.mommydndn.app.ui.extensions.asMultipart
 import com.mommydndn.app.ui.navigation.MainNav
 import com.mommydndn.app.utils.NavigationUtils
 import com.mommydndn.app.utils.NetworkUtils
@@ -17,6 +19,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,12 +37,13 @@ class CompanyPrevieViewModel @Inject constructor(
     fun createCompany(
         companyPreview: CompanyPreview,
         navController: NavHostController,
+        context: Context
     ) {
         viewModelScope.launch {
             companyPreview.apply {
                 caringRepository.createCompany(
                     introduce = introduce,
-                    coverImageList = coverImageList.map { NetworkUtils.getImagePart(it.toUri()) },
+                    coverImageList = convertToImageParts(coverImageList.map { it.toUri() }, context) ,
                     caringTypeList = caringTypeList,
                     emd = emd,
                     latitude = locationInfo?.latitude,
@@ -56,6 +60,12 @@ class CompanyPrevieViewModel @Inject constructor(
                     )
                 }
             }
+        }
+    }
+
+    private fun convertToImageParts(list: List<Uri>, context: Context): List<MultipartBody.Part> {
+        return list.mapIndexedNotNull { index, uri ->
+            uri.asMultipart("file_$index", context)
         }
     }
 
