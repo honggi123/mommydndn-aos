@@ -35,9 +35,6 @@ class JobSeekerPreviewViewModel @Inject constructor(
     private val locationRepository: LocationRepository
 ) : ViewModel() {
 
-    private val _jobSeekerPreview = MutableStateFlow<JobSeekerPreview?>(null)
-    val jobSeekerPreview: StateFlow<JobSeekerPreview?> = _jobSeekerPreview
-
     val authorInfo: StateFlow<UserResponse?> = userRepository.fetchUserInfo().stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
@@ -68,12 +65,6 @@ class JobSeekerPreviewViewModel @Inject constructor(
                 }
             }
 
-        }
-    }
-
-    fun updateJobSeekerPreview(jobSeekerPreview: JobSeekerPreview) {
-        viewModelScope.launch {
-            _jobSeekerPreview.value = jobSeekerPreview
         }
     }
 

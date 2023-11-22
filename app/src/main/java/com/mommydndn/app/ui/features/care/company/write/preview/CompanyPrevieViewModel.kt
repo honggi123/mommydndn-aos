@@ -13,7 +13,6 @@ import com.mommydndn.app.data.respository.UserRepository
 import com.mommydndn.app.ui.extensions.asMultipart
 import com.mommydndn.app.ui.navigation.MainNav
 import com.mommydndn.app.utils.NavigationUtils
-import com.mommydndn.app.utils.NetworkUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

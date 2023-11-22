@@ -29,8 +29,6 @@ class JobSeekerSummaryPagingSource  @Inject constructor(
                 )
             )
 
-            Log.e("result", result.errorBody().toString())
-
             val data = result.body()?.jobSeekerSummaryList ?: emptyList()
 
             LoadResult.Page(

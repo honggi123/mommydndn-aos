@@ -1,33 +1,23 @@
 package com.mommydndn.app.ui.features.care.jobseeker.write
 
 import android.content.Context
-import android.net.Network
 import android.net.Uri
-import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mommydndn.app.data.api.model.response.Certification
-import com.mommydndn.app.data.api.model.response.UserResponse
 import com.mommydndn.app.data.model.care.CaringTypeItem
-import com.mommydndn.app.data.model.care.CertificationType
 import com.mommydndn.app.data.model.care.EtcCheckItem
 import com.mommydndn.app.data.model.care.MinHourlySalary
 import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.SalaryTypeItem
-import com.mommydndn.app.data.model.care.WorkPeriodType
-import com.mommydndn.app.data.model.care.WorkPeriodTypeItem
-import com.mommydndn.app.data.model.common.DayOfWeekItem
-import com.mommydndn.app.data.model.common.DayOfWeekType
 import com.mommydndn.app.data.model.map.EmdItem
 import com.mommydndn.app.data.model.map.LocationInfo
 import com.mommydndn.app.data.respository.CaringRepository
 import com.mommydndn.app.data.respository.LocationRepository
 import com.mommydndn.app.data.respository.UserRepository
 import com.mommydndn.app.ui.extensions.asMultipart
-import com.mommydndn.app.utils.DateTimeUtils
-import com.mommydndn.app.utils.NetworkUtils
 import com.mommydndn.app.utils.NumberUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,8 +27,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
-import java.time.LocalDate
-import java.time.LocalTime
 import javax.inject.Inject
 
 @HiltViewModel

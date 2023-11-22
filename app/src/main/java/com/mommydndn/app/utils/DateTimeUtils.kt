@@ -69,13 +69,6 @@ object DateTimeUtils {
         return instant?.toEpochMilli()
     }
 
-    fun getTimestampByLocalTime(localTime: LocalTime?): Long? {
-        val localDate = LocalDate.now()
-        val localDateTime = LocalDateTime.of(localDate, localTime)
-        val instant = localDateTime.toInstant(ZoneOffset.UTC)
-        return instant.toEpochMilli()
-    }
-
     fun formatTimestampToMonthDay(timestamp: Long?): String {
         try {
             val date = Date(timestamp!! * 1000)

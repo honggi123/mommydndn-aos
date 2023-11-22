@@ -38,36 +38,12 @@ class JobOfferPreviewViewModel @Inject constructor(
     private val locationRepository: LocationRepository
 ) : ViewModel() {
 
-    private val _jobOfferPreview = MutableStateFlow<JobOfferPreview?>(null)
-    val jobOfferPreview: StateFlow<JobOfferPreview?> = _jobOfferPreview
-
-    private val _loactionInfo = MutableStateFlow<LocationInfo?>(null)
-    val loactionInfo: StateFlow<LocationInfo?> = _loactionInfo
 
     val authorInfo: StateFlow<UserResponse?> = userRepository.fetchUserInfo().stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
         initialValue = null
     )
-
-    fun updateJobOfferPreview(jobofferPriview: JobOfferPreview) {
-        viewModelScope.launch {
-            _jobOfferPreview.value = jobofferPriview
-        }
-    }
-
-    private fun updateAddress(latitude: Double, longitude: Double) {
-        viewModelScope.launch {
-
-            if (latitude != null && longitude != null) {
-                val locationInfo = LocationInfo(latitude = latitude, longitude = longitude)
-
-                locationRepository.fetchEmdByLocation(locationInfo).collectLatest { emd ->
-                    _loactionInfo.value = locationInfo.copy(address = emd?.fullName ?: "")
-                }
-            }
-        }
-    }
 
     fun createJobOffer(
         navController: NavHostController,
@@ -110,9 +86,5 @@ class JobOfferPreviewViewModel @Inject constructor(
         return list.mapIndexedNotNull { index, uri ->
             uri.asMultipart("file_$index", context)
         }
-    }
-
-    companion object {
-        private const val JOB_OFFER_POST_ID = "jobOfferId"
     }
 }
