@@ -450,6 +450,13 @@ fun CompanyWriteScreen(
                 size = SubtextBoxSize.S
             )
 
+            var isMaxSalaryBelowMinSalary by remember { mutableStateOf(false) }
+
+            if (startSalary != null && endSalary != null) {
+                if (endSalary!! > startSalary!!) isMaxSalaryBelowMinSalary = true
+                else isMaxSalaryBelowMinSalary = false
+            }
+
             Column(
                 modifier = Modifier.padding(
                     start = 24.dp,
@@ -470,7 +477,9 @@ fun CompanyWriteScreen(
                     placeHolder2Text = "최대",
                     option1FocusRequester = focusRequester,
                     option2FocusRequester = focusRequester,
-                    visualTransformation = NumberCommaVisualTransformation()
+                    visualTransformation = NumberCommaVisualTransformation(),
+                    isError = isMaxSalaryBelowMinSalary,
+                    descriptionText = if (isMaxSalaryBelowMinSalary) "최소 월급을 확인해주세요" else ""
                 )
 
                 TextInpuField(
@@ -617,7 +626,7 @@ private fun isValidationSuccessful(
         "활동 가능한 동네를 선택해주세요"
     } else if (careTypes.isNullOrEmpty()) {
         "돌봄을 선택해주세요"
-    } else if (startSalary == null || endSalary == null) {
+    } else if (startSalary == null || endSalary == null || startSalary > endSalary) {
         "월급을 확인해주세요"
     } else if (commission == null) {
         "수수료를 입력해주세요"

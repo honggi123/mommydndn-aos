@@ -57,7 +57,8 @@ fun TextInputScopeBox(
     placeHolder2Text: String = "",
     option1FocusRequester: FocusRequester,
     option2FocusRequester: FocusRequester,
-    visualTransformation: VisualTransformation = VisualTransformation.None
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    isError: Boolean = false
 ) {
     val textColor = if (isSelected) Grey800 else Grey400
 
@@ -212,7 +213,7 @@ fun TextInputScopeBox(
             text = descriptionText,
             style = MaterialTheme.typography.caption200.copy(
                 fontWeight = FontWeight.Normal,
-                color = Grey400
+                color = if (isError) Salmon600 else Grey400
             )
         )
     }
