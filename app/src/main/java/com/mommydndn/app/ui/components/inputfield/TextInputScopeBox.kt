@@ -27,6 +27,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.ui.theme.Grey400
@@ -56,6 +57,7 @@ fun TextInputScopeBox(
     placeHolder2Text: String = "",
     option1FocusRequester: FocusRequester,
     option2FocusRequester: FocusRequester,
+    visualTransformation: VisualTransformation = VisualTransformation.None
 ) {
     val textColor = if (isSelected) Grey800 else Grey400
 
@@ -142,7 +144,7 @@ fun TextInputScopeBox(
                 keyboardOptions = KeyboardOptions.Default.copy(
                     keyboardType = KeyboardType.Number
                 ),
-                visualTransformation = NumberCommaVisualTransformation(),
+                visualTransformation = visualTransformation,
                 isError = isErrorOption1
             )
 
@@ -175,7 +177,7 @@ fun TextInputScopeBox(
                 onValueChange = {
                     onValue2Changed(it)
                 },
-                visualTransformation = NumberCommaVisualTransformation(),
+                visualTransformation = visualTransformation,
                 textStyle = MaterialTheme.typography.paragraph300.copy(
                     fontWeight = FontWeight.Normal,
                     color = Grey500
@@ -201,7 +203,7 @@ fun TextInputScopeBox(
                     )
                 },
                 keyboardOptions = KeyboardOptions.Default.copy(
-                    keyboardType = KeyboardType.Text
+                    keyboardType = KeyboardType.Number
                 ),
                 isError = isErrorOption2
             )

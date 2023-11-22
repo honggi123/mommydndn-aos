@@ -50,16 +50,21 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.mommydndn.app.R
+import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.CompanyPreview
 import com.mommydndn.app.data.model.care.EtcCheckItem
 import com.mommydndn.app.data.model.care.JobOfferPreview
 import com.mommydndn.app.data.model.care.JobSeekerPreview
+import com.mommydndn.app.data.model.care.MinHourlySalary
 import com.mommydndn.app.data.model.care.SalaryType
+import com.mommydndn.app.data.model.care.WorkPeriodType
 import com.mommydndn.app.data.model.common.ButtonColor
 import com.mommydndn.app.data.model.common.ButtonColorType
 import com.mommydndn.app.data.model.common.ButtonSizeType
+import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.common.ImageInputFieldType
 import com.mommydndn.app.data.model.common.MinMaxRange
+import com.mommydndn.app.data.model.map.EmdItem
 import com.mommydndn.app.ui.components.box.SelectScopeBox
 import com.mommydndn.app.ui.components.box.SubtextBox
 import com.mommydndn.app.ui.components.box.SubtextBoxSize
@@ -73,7 +78,6 @@ import com.mommydndn.app.ui.components.inputfield.TextInputScopeBox
 import com.mommydndn.app.ui.components.list.CheckBoxListItem
 import com.mommydndn.app.ui.extensions.addFocusCleaner
 import com.mommydndn.app.ui.features.care.jobseeker.write.JobSeekerWriteViewModel
-import com.mommydndn.app.ui.features.care.jobseeker.write.isValidationSuccessful
 import com.mommydndn.app.ui.navigation.CompanyLocationSearchNav
 import com.mommydndn.app.ui.navigation.CompanyWriteNav
 import com.mommydndn.app.ui.navigation.CompanyWritePreviewNav
@@ -89,9 +93,13 @@ import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph400
 import com.mommydndn.app.utils.DateTimeUtils
 import com.mommydndn.app.utils.NavigationUtils
+import com.mommydndn.app.utils.NumberCommaVisualTransformation
 import com.mommydndn.app.utils.NumberUtils
 import com.mommydndn.app.utils.PermissionUtils
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.LocalTime
 
 @Composable
 fun CompanyWriteScreen(
@@ -454,14 +462,15 @@ fun CompanyWriteScreen(
                 TextInputScopeBox(
                     modifier = Modifier.fillMaxWidth(),
                     label = "월급",
-                    value1 = startSalary?.let { NumberUtils.getPriceString(it) } ?: "",
-                    value2 = endSalary?.let { NumberUtils.getPriceString(it) } ?: "",
+                    value1 = startSalary?.let { it.toString() } ?: "",
+                    value2 = endSalary?.let { it.toString() } ?: "",
                     onValue1Changed = { viewModel.setStartSalary(it) },
                     onValue2Changed = { viewModel.setEndSalary(it) },
                     placeHolder1Text = "최소",
                     placeHolder2Text = "최대",
                     option1FocusRequester = focusRequester,
-                    option2FocusRequester = focusRequester
+                    option2FocusRequester = focusRequester,
+                    visualTransformation = NumberCommaVisualTransformation()
                 )
 
                 TextInpuField(
@@ -536,26 +545,90 @@ fun CompanyWriteScreen(
                     sizeType = ButtonSizeType.LARGE,
                     rangeType = MinMaxRange.MAX,
                     onClick = {
-                        NavigationUtils.navigate(
-                            navController,
-                            CompanyWritePreviewNav.navigateWithArg(
-                                CompanyPreview(
-                                    introduce = introduce,
-                                    caringTypeList = careTypes.filter { it.isSelected }
-                                        .map { it.caringType },
-                                    emd = emdItem!!,
-                                    startSalary = startSalary!!,
-                                    endSalary = endSalary!!,
-                                    etcCheckedList = emptyList(),
-                                    profileImage = "",
-                                    commission = commission!!,
-                                    coverImageList = photos.map { Uri.encode(it.toString()) }
+
+                        val isSuccessful = isValidationSuccessful(
+                            coverImageList = photos,
+                            introduce = introduce,
+                            careTypes = careTypes.filter { it.isSelected },
+                            emdItem = emdItem,
+                            startSalary = startSalary,
+                            endSalary = endSalary,
+                            commission = commission,
+                            profileImage = photo,
+                            minHourlySalary = minHourlySalary,
+                            coroutineScope = coroutineScope,
+                            scaffoldState = scaffoldState,
+                        )
+
+                        if (isSuccessful) {
+                            NavigationUtils.navigate(
+                                navController,
+                                CompanyWritePreviewNav.navigateWithArg(
+                                    CompanyPreview(
+                                        introduce = introduce,
+                                        caringTypeList = careTypes.filter { it.isSelected }
+                                            .map { it.caringType },
+                                        emd = emdItem!!,
+                                        startSalary = startSalary!!,
+                                        endSalary = endSalary!!,
+                                        etcCheckedList = etcCheckList.map {
+                                            it.copy(displayName = Uri.encode(it.displayName))
+                                        },
+                                        profileImage = Uri.encode(photo.toString()),
+                                        commission = commission!!,
+                                        coverImageList = photos.map { Uri.encode(it.toString()) }
+                                    )
                                 )
                             )
-                        )
+                        }
+
                     }
                 )
             }
         }
+    }
+}
+
+private fun isValidationSuccessful(
+    coverImageList: List<Uri>,
+    introduce: String?,
+    careTypes: List<CaringTypeItem>,
+    emdItem: EmdItem?,
+    startSalary: Int?,
+    endSalary: Int?,
+    commission: Int?,
+    profileImage: Uri?,
+    minHourlySalary: MinHourlySalary?,
+    coroutineScope: CoroutineScope,
+    scaffoldState: ScaffoldState,
+): Boolean {
+
+    if (minHourlySalary == null) {
+        return false
+    }
+
+    val errorMessage = if (coverImageList.isNullOrEmpty()) {
+        "커버 사진은 필수입니다"
+    } else if (profileImage == null) {
+        "프로필을 등록해주세요"
+    } else if (introduce.isNullOrEmpty()) {
+        "한 줄 소개를 입력해주세요"
+    } else if (emdItem == null) {
+        "활동 가능한 동네를 선택해주세요"
+    } else if (careTypes.isNullOrEmpty()) {
+        "돌봄을 선택해주세요"
+    } else if (startSalary == null || endSalary == null) {
+        "월급을 확인해주세요"
+    } else if (commission == null) {
+        "수수료를 입력해주세요"
+    } else null
+
+    if (errorMessage == null) {
+        return true
+    } else {
+        coroutineScope.launch {
+            scaffoldState.snackbarHostState.showSnackbar(errorMessage)
+        }
+        return false
     }
 }
