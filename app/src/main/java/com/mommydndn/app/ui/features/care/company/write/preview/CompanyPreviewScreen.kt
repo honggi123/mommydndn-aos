@@ -41,7 +41,6 @@ import coil.compose.rememberImagePainter
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.banner.Banner
 import com.mommydndn.app.data.model.care.CompanyPreview
-import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.common.ButtonColor
 import com.mommydndn.app.data.model.common.ButtonColorType
 import com.mommydndn.app.data.model.common.ButtonSizeType
@@ -57,7 +56,6 @@ import com.mommydndn.app.ui.components.common.SubHeader
 import com.mommydndn.app.ui.components.list.BannerList
 import com.mommydndn.app.ui.components.list.EnterpriseListItem
 import com.mommydndn.app.ui.components.tab.SmallCustomTab
-import com.mommydndn.app.ui.features.care.joboffer.write.preview.JobOfferPreviewViewModel
 import com.mommydndn.app.ui.models.care.ProfileBoxType
 import com.mommydndn.app.ui.theme.Grey100
 import com.mommydndn.app.ui.theme.Grey300
@@ -65,8 +63,7 @@ import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph400
-import com.mommydndn.app.utils.DateTimeUtils
-import com.mommydndn.app.utils.NumberUtils
+import com.mommydndn.app.util.DateTimeUtils
 
 @Composable
 fun CompanyPreviewScreen(

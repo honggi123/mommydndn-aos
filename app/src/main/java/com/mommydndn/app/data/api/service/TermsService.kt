@@ -8,6 +8,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface TermsService {
+
     @GET("/api/terms")
     suspend fun fetchTermsItems(
     ): ApiResponse<List<TermsItemResponse>>

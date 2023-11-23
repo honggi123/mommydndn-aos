@@ -28,7 +28,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.ui.theme.Grey50
@@ -39,7 +38,6 @@ import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.heading700
 import com.mommydndn.app.ui.theme.paragraph300
-import com.mommydndn.app.utils.NumberCommaVisualTransformation
 
 @Composable
 fun TextInputScopeBox(

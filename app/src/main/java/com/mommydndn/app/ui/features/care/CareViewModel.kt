@@ -10,11 +10,9 @@ import com.mommydndn.app.data.model.care.Filter.FilterType
 import com.mommydndn.app.data.model.care.summary.CompanySummaryListItem
 import com.mommydndn.app.data.model.care.summary.JobOfferSummaryListItem
 import com.mommydndn.app.data.model.care.summary.JobSeekerSummaryItem
-import com.mommydndn.app.data.respository.CaringRepository
-import com.mommydndn.app.data.respository.UserRepository
+import com.mommydndn.app.domain.repository.CaringRepository
+import com.mommydndn.app.domain.repository.UserRepository
 import com.mommydndn.app.ui.models.care.SummaryTabType
-import com.mommydndn.app.utils.DateTimeUtils
-import com.mommydndn.app.utils.StringUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,7 +23,6 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.time.LocalTime
 import javax.inject.Inject
 
 
@@ -49,7 +46,7 @@ class CareViewModel @Inject constructor(
 
     val searchedJobOfferSummary: Flow<PagingData<JobOfferSummaryListItem>> =
         combine(userInfo, filterItems, selectedTab) { user, Items, tab ->
-            if (user != null && tab == SummaryTabType.JOBOFFER) {
+            if (user != null && tab == SummaryTabType.JOB_OFFER) {
                 caringRepository.fetchJobOfferSummary(
                     keyword = null,
                     caringTypeList = filterItems.value.filterIsInstance<FilterType.Caring>()
@@ -74,7 +71,7 @@ class CareViewModel @Inject constructor(
 
     val searchedJobSeekerSummary: Flow<PagingData<JobSeekerSummaryItem>> =
         combine(userInfo, filterItems, selectedTab) { user, Items, tab ->
-            if (user != null && tab == SummaryTabType.JOBSEEKER) {
+            if (user != null && tab == SummaryTabType.JOB_SEEKER) {
                 caringRepository.fetchJobSeekerSummary(
                     keyword = null,
                     caringTypeList = filterItems.value.filterIsInstance<FilterType.Caring>()
@@ -139,7 +136,7 @@ class CareViewModel @Inject constructor(
 
     private fun updateFilterItems(selectedSummaryTab: SummaryTabType?) {
         val list = when (selectedSummaryTab) {
-            SummaryTabType.JOBOFFER -> listOf(
+            SummaryTabType.JOB_OFFER -> listOf(
                 FilterType.Sorting(
                     items = FilterItemsType.Sorting(),
                 ),
@@ -163,7 +160,7 @@ class CareViewModel @Inject constructor(
                 ),
             )
 
-            SummaryTabType.JOBSEEKER, SummaryTabType.COMPANY -> listOf(
+            SummaryTabType.JOB_SEEKER, SummaryTabType.COMPANY -> listOf(
                 FilterType.Sorting(
                     items = FilterItemsType.Sorting(),
                 ),

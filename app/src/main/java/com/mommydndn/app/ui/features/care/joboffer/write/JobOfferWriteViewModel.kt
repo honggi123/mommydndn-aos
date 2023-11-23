@@ -1,13 +1,9 @@
 package com.mommydndn.app.ui.features.care.joboffer.write
 
-import android.content.Context
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavHostController
-import com.mommydndn.app.data.api.model.response.UserResponse
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.common.DayOfWeekType
@@ -19,14 +15,11 @@ import com.mommydndn.app.data.model.care.SalaryTypeItem
 import com.mommydndn.app.data.model.care.WorkPeriodType
 import com.mommydndn.app.data.model.care.WorkPeriodTypeItem
 import com.mommydndn.app.data.model.map.LocationInfo
-import com.mommydndn.app.data.respository.CaringRepository
-import com.mommydndn.app.data.respository.LocationRepository
-import com.mommydndn.app.data.respository.UserRepository
-import com.mommydndn.app.ui.extensions.asMultipart
-import com.mommydndn.app.ui.navigation.JobOfferWritePreviewNav
-import com.mommydndn.app.utils.DateTimeUtils
-import com.mommydndn.app.utils.NavigationUtils
-import com.mommydndn.app.utils.NumberUtils
+import com.mommydndn.app.domain.repository.CaringRepository
+import com.mommydndn.app.domain.repository.LocationRepository
+import com.mommydndn.app.domain.repository.UserRepository
+import com.mommydndn.app.util.DateTimeUtils
+import com.mommydndn.app.util.NumberUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -34,7 +27,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import okhttp3.MultipartBody
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject

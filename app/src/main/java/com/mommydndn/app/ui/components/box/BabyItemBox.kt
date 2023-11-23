@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -33,8 +32,8 @@ import com.mommydndn.app.ui.theme.paragraph400
 import com.mommydndn.app.R
 import com.mommydndn.app.data.api.model.response.BabyItem
 import com.mommydndn.app.ui.theme.Grey500
-import com.mommydndn.app.utils.NumberUtils
-import com.mommydndn.app.utils.DateTimeUtils
+import com.mommydndn.app.util.NumberUtils
+import com.mommydndn.app.util.DateTimeUtils
 
 @Composable
 fun MarketListItemBox(

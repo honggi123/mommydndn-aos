@@ -27,6 +27,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface CaringService {
+
     @GET("/api/caring/job-seeker/nearest")
     suspend fun fetchNearestJobSeeker(): ApiResponse<List<JobSeeker>>
 
@@ -46,37 +47,23 @@ interface CaringService {
     suspend fun fetchMinHourlySalary(): ApiResponse<MinHourlySalary>
 
     @POST("/api/caring/job-offer")
-    suspend fun createJobOffer(
-        @Body jobOfferCreationRequest: JobOfferCreationRequest
-    ): ApiResponse<JobOfferCreationResponse>
+    suspend fun createJobOffer(@Body request: JobOfferCreationRequest): ApiResponse<JobOfferCreationResponse>
 
     @POST("/api/caring/company")
-    suspend fun createCompany(
-        @Body companyCreationRequest: CompanyCreationRequest
-    ): ApiResponse<CompanyCreationResponse>
+    suspend fun createCompany(@Body request: CompanyCreationRequest): ApiResponse<CompanyCreationResponse>
 
     @POST("/api/caring/job-seeker")
-    suspend fun createJobSeeker(
-        @Body jobSeekerCreationRequest: JobSeekerCreationRequest
-    ): ApiResponse<JobSeekerCreationResponse>
+    suspend fun createJobSeeker(@Body request: JobSeekerCreationRequest): ApiResponse<JobSeekerCreationResponse>
 
     @GET("/api/caring/job-offer/{jobOfferId}")
-    suspend fun fetchJobOffer(
-        @Path("jobOfferId") jobOfferId: Int
-    ): ApiResponse<JobOfferResponse>
+    suspend fun fetchJobOffer(@Path("jobOfferId") id: Int): ApiResponse<JobOfferResponse>
 
     @POST("/api/caring/job-offer/list")
-    suspend fun fetchJobOfferSummary(
-        @Body jobOfferListRequest: JobOfferListRequest
-    ): Response<JobOfferSummary>
+    suspend fun fetchJobOfferSummary(@Body request: JobOfferListRequest): Response<JobOfferSummary>
 
     @POST("/api/caring/job-seeker/list")
-    suspend fun fetchJobSeekerSummary(
-        @Body jobSeekerListRequest: JobSeekerListRequest
-    ): Response<JobSeekerSummary>
+    suspend fun fetchJobSeekerSummary(@Body request: JobSeekerListRequest): Response<JobSeekerSummary>
 
     @POST("/api/caring/company/list")
-    suspend fun fetchCompanySummary(
-        @Body companyListRequest: CompanyListRequest
-    ): Response<CompanySummary>
+    suspend fun fetchCompanySummary(@Body request: CompanyListRequest): Response<CompanySummary>
 }

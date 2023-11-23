@@ -22,7 +22,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -66,7 +65,7 @@ import com.mommydndn.app.ui.navigation.JobOfferWritePreviewNav
 import com.mommydndn.app.ui.navigation.JobSeekerLocationSearchNav
 import com.mommydndn.app.ui.navigation.JobSeekerWriteNav
 import com.mommydndn.app.ui.navigation.JobSeekerWritePreviewNav
-import com.mommydndn.app.utils.NavigationUtils
+import com.mommydndn.app.util.NavigationUtils
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable

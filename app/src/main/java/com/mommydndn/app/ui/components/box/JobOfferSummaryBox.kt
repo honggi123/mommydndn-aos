@@ -30,8 +30,8 @@ import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.ui.components.common.Badge
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey800
-import com.mommydndn.app.utils.DateTimeUtils
-import com.mommydndn.app.utils.NumberUtils
+import com.mommydndn.app.util.DateTimeUtils
+import com.mommydndn.app.util.NumberUtils
 
 @Composable
 fun JobOfferSummaryBox(

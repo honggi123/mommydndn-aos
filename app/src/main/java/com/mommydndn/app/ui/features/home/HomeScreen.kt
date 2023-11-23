@@ -55,7 +55,7 @@ import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.GreyOpacity400
 import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.paragraph300
-import com.mommydndn.app.utils.NavigationUtils
+import com.mommydndn.app.util.NavigationUtils
 import kotlinx.coroutines.launch
 
 const val MAX_MORE_BABY_ITEM_PAGE = 4

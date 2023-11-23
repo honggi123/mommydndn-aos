@@ -24,7 +24,7 @@ import com.mommydndn.app.ui.theme.Grey800
 import com.mommydndn.app.ui.theme.Shapes
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph300
-import com.mommydndn.app.utils.NumberUtils
+import com.mommydndn.app.util.NumberUtils
 
 @Composable
 fun JobOfferBox(

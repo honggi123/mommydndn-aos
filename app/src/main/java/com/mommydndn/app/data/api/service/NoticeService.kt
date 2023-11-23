@@ -5,6 +5,7 @@ import com.skydoves.sandwich.ApiResponse
 import retrofit2.http.GET
 
 interface NoticeService {
+
     @GET("/api/notice/setting")
-    suspend fun fetchUserNoticeSettings(): ApiResponse<List<NoticeSettingResponse>>
+    suspend fun fetchUserNoticeSettings(): List<NoticeSettingResponse>
 }

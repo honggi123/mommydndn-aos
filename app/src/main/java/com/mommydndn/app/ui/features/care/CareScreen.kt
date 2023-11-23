@@ -67,7 +67,7 @@ import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.heading800
-import com.mommydndn.app.utils.NavigationUtils
+import com.mommydndn.app.util.NavigationUtils
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -180,7 +180,7 @@ fun CareScreen(
                         .background(White),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    if (selectedTab == SummaryTabType.JOBOFFER) {
+                    if (selectedTab == SummaryTabType.JOB_OFFER) {
                         itemsIndexed(
                             items = searchedJobOfferSummary
                         ) { index, item ->
@@ -199,7 +199,7 @@ fun CareScreen(
                             )
                             Spacer(modifier = Modifier.height(20.dp))
                         }
-                    } else if (selectedTab == SummaryTabType.JOBSEEKER) {
+                    } else if (selectedTab == SummaryTabType.JOB_SEEKER) {
                         itemsIndexed(
                             items = searchedJobSeekerSummary
                         ) { index, item ->
@@ -390,8 +390,8 @@ private fun navigateToWriteScreen(
     summaryTabType: SummaryTabType?
 ) {
     when (summaryTabType) {
-        SummaryTabType.JOBOFFER -> NavigationUtils.navigate(navController, JobOfferWriteNav.route)
-        SummaryTabType.JOBSEEKER -> NavigationUtils.navigate(navController, JobSeekerWriteNav.route)
+        SummaryTabType.JOB_OFFER -> NavigationUtils.navigate(navController, JobOfferWriteNav.route)
+        SummaryTabType.JOB_SEEKER -> NavigationUtils.navigate(navController, JobSeekerWriteNav.route)
         SummaryTabType.COMPANY -> NavigationUtils.navigate(navController, CompanyWriteNav.route)
         else -> {}
     }

@@ -1,8 +1,7 @@
 package com.mommydndn.app.data.model.care.Filter
 
-import com.mommydndn.app.data.model.care.DistanceType
-import com.mommydndn.app.utils.DateTimeUtils
-import com.mommydndn.app.utils.StringUtils
+import com.mommydndn.app.util.DateTimeUtils
+import com.mommydndn.app.util.StringUtils
 
 sealed class FilterType(
     open val items: FilterItemsType,

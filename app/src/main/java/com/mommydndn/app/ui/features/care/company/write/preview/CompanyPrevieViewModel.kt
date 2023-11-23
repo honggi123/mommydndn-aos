@@ -8,11 +8,11 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.mommydndn.app.data.api.model.response.UserResponse
 import com.mommydndn.app.data.model.care.CompanyPreview
-import com.mommydndn.app.data.respository.CaringRepository
-import com.mommydndn.app.data.respository.UserRepository
+import com.mommydndn.app.domain.repository.CaringRepository
+import com.mommydndn.app.domain.repository.UserRepository
 import com.mommydndn.app.ui.extensions.asMultipart
 import com.mommydndn.app.ui.navigation.MainNav
-import com.mommydndn.app.utils.NavigationUtils
+import com.mommydndn.app.util.NavigationUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

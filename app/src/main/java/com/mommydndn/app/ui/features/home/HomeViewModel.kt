@@ -5,10 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.mommydndn.app.data.api.model.response.BabyItem
 import com.mommydndn.app.data.api.model.response.BabyItemMeta
 import com.mommydndn.app.data.model.notice.NoticeSetting
-import com.mommydndn.app.data.respository.BabyItemRepository
-import com.mommydndn.app.data.respository.CaringRepository
-import com.mommydndn.app.data.respository.CommonRepositoy
-import com.mommydndn.app.data.respository.NoticeRepository
+import com.mommydndn.app.domain.repository.BabyItemRepository
+import com.mommydndn.app.domain.repository.CaringRepository
+import com.mommydndn.app.domain.repository.CommonRepositoy
+import com.mommydndn.app.domain.repository.NoticeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

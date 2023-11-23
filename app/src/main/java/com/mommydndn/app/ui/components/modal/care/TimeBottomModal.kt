@@ -1,12 +1,7 @@
 package com.mommydndn.app.ui.components.modal.care
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.draggable
-import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -42,12 +37,10 @@ import com.mommydndn.app.ui.theme.Grey200
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.MommydndnTypography
-import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.ui.theme.shadow700
-import com.mommydndn.app.utils.DateTimeUtils
-import java.time.LocalTime
+import com.mommydndn.app.util.DateTimeUtils
 
 @Composable
 fun TimeBottomModal(

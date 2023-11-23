@@ -8,6 +8,7 @@ import retrofit2.http.GET
 import retrofit2.http.PUT
 
 interface UserService {
+
     @GET("/api/user")
     suspend fun fetchUserInfo(): ApiResponse<UserResponse>
 
@@ -16,3 +17,4 @@ interface UserService {
         @Body userProfileUpdateRequest: UserProfileUpdateRequest
     ): ApiResponse<Unit>
 }
+

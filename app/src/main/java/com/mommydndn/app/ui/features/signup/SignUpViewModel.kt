@@ -10,9 +10,9 @@ import com.mommydndn.app.data.model.common.TownSearchType
 import com.mommydndn.app.data.model.user.SignUpInfo
 import com.mommydndn.app.data.model.terms.TermsItem
 import com.mommydndn.app.data.model.user.UserType
-import com.mommydndn.app.data.respository.AccountRepository
-import com.mommydndn.app.data.respository.LocationRepository
-import com.mommydndn.app.data.respository.TermsRepository
+import com.mommydndn.app.domain.repository.AccountRepository
+import com.mommydndn.app.domain.repository.LocationRepository
+import com.mommydndn.app.domain.repository.TermsRepository
 import com.skydoves.sandwich.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow

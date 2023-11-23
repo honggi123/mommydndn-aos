@@ -12,7 +12,7 @@ import com.mommydndn.app.data.model.care.JobSeekerPreview
 import com.mommydndn.app.data.model.user.SignUpInfo
 import com.mommydndn.app.ui.navigation.NavigationRouteName.MAIN_CARE
 import com.mommydndn.app.ui.navigation.NavigationRouteName.MAIN_HOME
-import com.mommydndn.app.utils.GsonUtils
+import com.mommydndn.app.util.GsonUtils
 
 sealed class MainNav(
     override val route: String,

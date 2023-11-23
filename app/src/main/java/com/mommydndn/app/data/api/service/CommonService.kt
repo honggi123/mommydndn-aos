@@ -11,12 +11,11 @@ import retrofit2.http.POST
 import retrofit2.http.Part
 
 interface CommonService {
+
     @GET("/api/banner/home")
     suspend fun fetchBanners(): ApiResponse<List<BannerResponse>>
 
     @Multipart
     @POST("/api/image")
-    suspend fun fetchImageResponse(
-        @Part image: MultipartBody.Part
-    ): ApiResponse<ImageResponse>
+    suspend fun fetchImageResponse(@Part image: MultipartBody.Part): ApiResponse<ImageResponse>
 }
