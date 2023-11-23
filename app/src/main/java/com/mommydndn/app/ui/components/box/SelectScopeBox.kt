@@ -149,10 +149,7 @@ fun SelectScopeBox(
                     text = option2Text,
                     style = MaterialTheme.typography.paragraph300.copy(
                         fontWeight = FontWeight.Normal,
-                        color = option2TextColor,
-                        platformStyle = PlatformTextStyle(
-                            includeFontPadding = false
-                        )
+                        color = option2TextColor
                     )
                 )
                 Image(

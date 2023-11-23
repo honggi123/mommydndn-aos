@@ -133,10 +133,7 @@ fun MainBottomNavigationBar(
                         text = item.title,
                         style = MaterialTheme.typography.caption200.copy(
                             fontWeight = FontWeight.Medium,
-                            color = if (currentRoute == item.route) Grey800 else Grey300,
-                            platformStyle = PlatformTextStyle(
-                                includeFontPadding = false
-                            )
+                            color = if (currentRoute == item.route) Grey800 else Grey300
                         )
                     )
                 }

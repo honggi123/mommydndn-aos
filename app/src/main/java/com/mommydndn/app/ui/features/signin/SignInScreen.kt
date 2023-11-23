@@ -116,10 +116,7 @@ fun SignInScreen(
                         text = "먼저 둘러보기",
                         style = MaterialTheme.typography.paragraph300.copy(
                             color = Grey500,
-                            fontWeight = FontWeight.Medium,
-                            platformStyle = PlatformTextStyle(
-                                includeFontPadding = false
-                            )
+                            fontWeight = FontWeight.Medium
                         )
                     )
                 }

@@ -104,9 +104,6 @@ fun Banner(
                     style = MaterialTheme.typography.caption100.copy(
                         fontWeight = FontWeight.Normal,
                         color = White,
-                        platformStyle = PlatformTextStyle(
-                            includeFontPadding = false
-                        ),
                         textAlign = TextAlign.Center
                     )
                 )

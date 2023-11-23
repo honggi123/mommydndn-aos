@@ -162,10 +162,7 @@ fun IconButtonWithNumber(
             text = number.toString(),
             style = MaterialTheme.typography.caption200.copy(
                 fontWeight = FontWeight.Medium,
-                color = textColor,
-                platformStyle = PlatformTextStyle(
-                    includeFontPadding = false
-                )
+                color = textColor
             )
         )
     }

@@ -64,10 +64,7 @@ fun Toast(
                 text = id?.let { stringResource(id = id) } ?: text,
                 style = MaterialTheme.typography.paragraph300.copy(
                     fontWeight = FontWeight.Medium,
-                    color = Grey600,
-                    platformStyle = PlatformTextStyle(
-                        includeFontPadding = false
-                    )
+                    color = Grey600
                 )
             )
         }
