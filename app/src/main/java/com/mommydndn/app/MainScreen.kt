@@ -45,9 +45,9 @@ import com.mommydndn.app.ui.features.care.jobseeker.write.JobSeekerWriteViewMode
 import com.mommydndn.app.ui.features.care.jobseeker.write.preview.JobSeekerPreviewScreen
 import com.mommydndn.app.ui.features.home.MainHomeScreen
 import com.mommydndn.app.ui.features.signin.SignInScreen
-import com.mommydndn.app.ui.features.signup.NearestChoiceScreen
+import com.mommydndn.app.ui.features.signup.LocationSearchScreen
 import com.mommydndn.app.ui.features.signup.SignUpViewModel
-import com.mommydndn.app.ui.features.signup.UserTypeChoiceScreen
+import com.mommydndn.app.ui.features.signup.UserTypeScreen
 import com.mommydndn.app.ui.navigation.CompanyLocationSearchNav
 import com.mommydndn.app.ui.navigation.CompanyWriteNav
 import com.mommydndn.app.ui.navigation.CompanyWritePreviewNav
@@ -60,7 +60,7 @@ import com.mommydndn.app.ui.navigation.JobSeekerWritePreviewNav
 import com.mommydndn.app.ui.navigation.MainNav
 import com.mommydndn.app.ui.navigation.SignInNav
 import com.mommydndn.app.ui.navigation.TownCheckNav
-import com.mommydndn.app.ui.navigation.TypeChoiceNav
+import com.mommydndn.app.ui.navigation.UserTypeNav
 import com.mommydndn.app.ui.theme.Grey300
 import com.mommydndn.app.ui.theme.Grey800
 import com.mommydndn.app.ui.theme.caption200
@@ -164,16 +164,16 @@ fun MainNavigationScreen(
         }
 
         composable(
-            route = TypeChoiceNav.routeWithArgName(),
-            arguments = TypeChoiceNav.arguments,
+            route = UserTypeNav.routeWithArgName(),
+            arguments = UserTypeNav.arguments,
 
             enterTransition = { slideEnterTransition },
             exitTransition = { slideExitTransition }
         ) {
-            val signUpInfo = TypeChoiceNav.findArgument(it)
+            val signUpInfo = UserTypeNav.findArgument(it)
             val accessToken = Uri.decode(signUpInfo?.accessToken)
 
-            UserTypeChoiceScreen(
+            UserTypeScreen(
                 signUpInfo = signUpInfo?.copy(accessToken = accessToken),
                 navHostController = navController,
                 viewModel = signUpViewModel
@@ -185,7 +185,7 @@ fun MainNavigationScreen(
             enterTransition = { slideEnterTransition },
             exitTransition = { slideExitTransition }
         ) {
-            NearestChoiceScreen(
+            LocationSearchScreen(
                 navHostController = navController,
                 fusedLocationClient = fusedLocationClient,
                 viewModel = signUpViewModel

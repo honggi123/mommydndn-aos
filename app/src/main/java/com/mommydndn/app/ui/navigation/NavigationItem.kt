@@ -43,9 +43,9 @@ object SignInNav : Destination {
     override val title: String = NavigationTitle.SIGN_IN
 }
 
-object TypeChoiceNav : Destination {
-    override val route: String = NavigationRouteName.TYPE_CHOICE
-    override val title: String = NavigationTitle.TYPE_CHOICE
+object UserTypeNav : Destination {
+    override val route: String = NavigationRouteName.SIGN_UP_USER_TYPE
+    override val title: String = NavigationTitle.SIGN_UP_USER_TYPE
     val argName: String = "signUpInfo"
 
     val arguments: List<NamedNavArgument> = listOf(
@@ -66,8 +66,8 @@ object TypeChoiceNav : Destination {
 }
 
 object TownCheckNav : Destination {
-    override val route: String = NavigationRouteName.NEAREST_CHOICE
-    override val title: String = NavigationTitle.NEAREST_CHOICE
+    override val route: String = NavigationRouteName.SIGN_UP_LOCATION_SEARCH
+    override val title: String = NavigationTitle.SIGN_UP_LOCATION_SEARCH
 }
 
 object JobOfferWriteNav : Destination {
@@ -188,8 +188,8 @@ object NavigationRouteName {
     const val COMPANY_LOCATION_SEARCH = "업체글쓰기_위치검색"
 
     const val SIGN_IN = "로그인"
-    const val TYPE_CHOICE = "개인&기업선택"
-    const val NEAREST_CHOICE = "근처위치선택"
+    const val SIGN_UP_USER_TYPE = "개인&기업선택"
+    const val SIGN_UP_LOCATION_SEARCH = "위치선택"
 }
 
 object NavigationTitle {
@@ -209,7 +209,7 @@ object NavigationTitle {
     const val COMPANY_LOCATION_SEARCH = "업체글쓰기_위치검색"
 
     const val SIGN_IN = "로그인"
-    const val TYPE_CHOICE = "개인&기업선택"
-    const val NEAREST_CHOICE = "근처위치선택"
+    const val SIGN_UP_USER_TYPE = "개인&기업선택"
+    const val SIGN_UP_LOCATION_SEARCH = "위치선택"
 
 }

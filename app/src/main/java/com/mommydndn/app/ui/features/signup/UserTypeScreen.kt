@@ -30,7 +30,7 @@ import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.util.NavigationUtils
 
 @Composable
-fun UserTypeChoiceScreen(
+fun UserTypeScreen(
     signUpInfo: SignUpInfo?,
     navHostController: NavHostController,
     viewModel: SignUpViewModel

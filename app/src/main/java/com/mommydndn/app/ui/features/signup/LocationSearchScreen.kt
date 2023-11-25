@@ -2,10 +2,7 @@ package com.mommydndn.app.ui.features.signup
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.pm.PackageManager
 import android.util.Log
-import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.spring
@@ -26,14 +23,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -54,14 +48,13 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterialApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun NearestChoiceScreen(
+fun LocationSearchScreen(
     navHostController: NavHostController,
     viewModel: SignUpViewModel,
     fusedLocationClient: FusedLocationProviderClient
 ) {
 
     val context = LocalContext.current
-    val focusManager = LocalFocusManager.current
 
     val keyword by viewModel.keyword.collectAsState()
     val terms by viewModel.terms.collectAsState()
@@ -82,7 +75,7 @@ fun NearestChoiceScreen(
         val areGranted = permissionsMap.values.reduce { acc, next -> acc && next }
         if (areGranted) {
             Log.d("TownCheckScreen", "권한이 동의되었습니다.")
-            searchNearTowns(fusedLocationClient, viewModel)
+            searchNearLocations(fusedLocationClient, viewModel)
         } else {
         }
         Log.d("TownCheckScreen", "권한이 거부되었습니다.")
@@ -94,7 +87,7 @@ fun NearestChoiceScreen(
             permissions,
             launcher,
             onPermissionGranted = {
-                searchNearTowns(
+                searchNearLocations(
                     fusedLocationClient,
                     viewModel
                 )
@@ -121,12 +114,8 @@ fun NearestChoiceScreen(
                 Searchbar(
                     modifier = Modifier.fillMaxWidth(),
                     keyword = keyword,
-                    onValueChange = {
-                        viewModel.setKeyword(it)
-                    },
-                    clearAction = {
-                        viewModel.setKeyword("")
-                    },
+                    onValueChange = { viewModel.setKeyword(it) },
+                    clearAction = { viewModel.clearKeyword() },
                     placeHolderText = stringResource(R.string.searched_neighborhood),
                     backStackAction = { navHostController.popBackStack() },
                 )
@@ -143,7 +132,7 @@ fun NearestChoiceScreen(
                             permissions,
                             launcher,
                             onPermissionGranted = {
-                                searchNearTowns(
+                                searchNearLocations(
                                     fusedLocationClient,
                                     viewModel
                                 )
@@ -158,10 +147,7 @@ fun NearestChoiceScreen(
             RadioListBox(
                 pagingItems = if (searchType == TownSearchType.KEYWORD) pagingItemsByKeyword else pagingItemsByLocation,
                 onItemClick = { emdItem ->
-                    scope.launch {
-                        focusManager.clearFocus()
-                        sheetState.show()
-                    }
+                    scope.launch { sheetState.show() }
                     viewModel.setEmdId(emdItem?.id)
                 },
                 itemNameDisplay = EmdItem::displayName
@@ -178,9 +164,7 @@ fun NearestChoiceScreen(
         sheetContent = {
             TermsCheckListModal(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 32.dp),
-                onDismiss = {
-                    scope.launch { sheetState.hide() }
-                },
+                onDismiss = { scope.launch { sheetState.hide() } },
                 onItemSelected = { index, isChecked ->
                     viewModel.setTermItemCheckedState(terms.get(index).termsId, isChecked)
                 },
@@ -198,14 +182,14 @@ fun NearestChoiceScreen(
     }
 }
 
-private fun searchNearTowns(
+private fun searchNearLocations(
     fusedLocationClient: FusedLocationProviderClient,
     viewModel: SignUpViewModel
 ) {
     try {
         fusedLocationClient.lastLocation.addOnSuccessListener {
             it?.let {
-                viewModel.setLocation(
+                viewModel.setLocationInfo(
                     LocationInfo(
                         latitude = it.latitude,
                         longitude = it.longitude
