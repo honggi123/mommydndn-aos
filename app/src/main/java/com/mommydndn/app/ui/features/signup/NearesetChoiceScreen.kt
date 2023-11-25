@@ -31,11 +31,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.mommydndn.app.R
 import com.mommydndn.app.data.model.map.LocationInfo
 import com.mommydndn.app.data.model.common.TownSearchType
 import com.mommydndn.app.data.model.map.EmdItem
@@ -45,10 +47,11 @@ import com.mommydndn.app.ui.components.box.SearchUnderHeader
 import com.mommydndn.app.ui.components.inputfield.Searchbar
 import com.mommydndn.app.ui.components.modal.TermsCheckListModal
 import com.mommydndn.app.ui.theme.GreyOpacity400
+import com.mommydndn.app.util.PermissionUtils
 import kotlinx.coroutines.launch
 
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterialApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun NearestChoiceScreen(
@@ -86,7 +89,7 @@ fun NearestChoiceScreen(
     }
 
     LaunchedEffect(Unit) {
-        checkAndRequestPermissions(
+        PermissionUtils.checkAndRequestPermissions(
             context,
             permissions,
             launcher,
@@ -124,15 +127,18 @@ fun NearestChoiceScreen(
                     clearAction = {
                         viewModel.setKeyword("")
                     },
-                    placeHolderText = "동명으로 검색해주세요 (ex. 서초동)",
+                    placeHolderText = stringResource(R.string.searched_neighborhood),
                     backStackAction = { navHostController.popBackStack() },
-                    searchAction = { }
                 )
                 SearchUnderHeader(
                     modifier = Modifier.fillMaxWidth(),
-                    headerText = if (keyword == "") "근처동네를 찾아왔어요." else "\'" + keyword + "\'" + " 검색결과",
+                    headerText = if (keyword.isBlank()) {
+                        stringResource(R.string.search_location_keyword)
+                    } else {
+                        stringResource(R.string.result_searched_neighborhood, keyword)
+                    },
                     searchAction = {
-                        checkAndRequestPermissions(
+                        PermissionUtils.checkAndRequestPermissions(
                             context,
                             permissions,
                             launcher,
@@ -149,7 +155,7 @@ fun NearestChoiceScreen(
         scaffoldState = scaffoldState,
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
-             RadioListBox(
+            RadioListBox(
                 pagingItems = if (searchType == TownSearchType.KEYWORD) pagingItemsByKeyword else pagingItemsByLocation,
                 onItemClick = { emdItem ->
                     scope.launch {
@@ -180,7 +186,7 @@ fun NearestChoiceScreen(
                 },
                 onComplete = { viewModel.signUp(signUpInfo) },
                 itemList = terms,
-                titleCheckBoxText = "[필수] 통합 이용약관 동의"
+                titleCheckBoxText = stringResource(R.string.total_terms_agreement)
             )
         }
     ) {
@@ -190,7 +196,6 @@ fun NearestChoiceScreen(
                 .background(Color.Transparent)
         )
     }
-
 }
 
 private fun searchNearTowns(
@@ -212,25 +217,5 @@ private fun searchNearTowns(
         Log.d("TownCheckScreen", e.stackTraceToString())
     }
 }
-
-private fun checkAndRequestPermissions(
-    context: Context,
-    permissions: Array<String>,
-    launcher: ManagedActivityResultLauncher<Array<String>, Map<String, Boolean>>,
-    onPermissionGranted: () -> Unit
-) {
-    if (permissions.all {
-            ContextCompat.checkSelfPermission(
-                context,
-                it
-            ) == PackageManager.PERMISSION_GRANTED
-        }) {
-        onPermissionGranted()
-        Log.d("TownCheckScreen", "권한이 이미 존재합니다.")
-    } else {
-        launcher.launch(permissions)
-    }
-}
-
 
 

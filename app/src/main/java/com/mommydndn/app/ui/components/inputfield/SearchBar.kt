@@ -49,8 +49,8 @@ fun Searchbar(
     placeHolderText: String = "",
     onValueChange: (String) -> Unit,
     backStackAction: () -> Unit,
-    searchAction: () -> Unit,
-    clearAction: () -> Unit,
+    searchAction: () -> Unit = {},
+    clearAction: () -> Unit = {},
 ) {
     Column(
         modifier

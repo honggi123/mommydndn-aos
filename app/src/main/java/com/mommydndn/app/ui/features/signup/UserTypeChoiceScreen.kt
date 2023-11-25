@@ -16,6 +16,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.mommydndn.app.ui.components.box.MaintextBox
@@ -46,14 +47,14 @@ fun UserTypeChoiceScreen(
             }) {
                 Icon(
                     painter = painterResource(id = R.drawable.arrow_left),
-                    contentDescription = "back",
+                    contentDescription = null,
                     tint = Grey400
                 )
             }
         })
         MaintextBox(
-            captionText = "마미든든에 어서오세요 :)",
-            titleText = "어떤 회원이신가요?"
+            captionText = stringResource(R.string.welcome_message),
+            titleText = stringResource(R.string.ask_user_type)
         )
         Box(
             modifier = Modifier
@@ -68,7 +69,7 @@ fun UserTypeChoiceScreen(
             ) {
                 SquareButton(
                     imageResourceId = R.drawable.building_graphic,
-                    text = "업체 회원",
+                    text = stringResource(R.string.company_user),
                     onClick = {
                         viewModel.setUserType(UserType.COMPANY)
 
@@ -81,7 +82,7 @@ fun UserTypeChoiceScreen(
                 Spacer(modifier = Modifier.padding(16.dp))
                 SquareButton(
                     imageResourceId = R.drawable.person_graphic,
-                    text = "개인 회원",
+                    text = stringResource(R.string.individual_user),
                     onClick = {
                         viewModel.setUserType(UserType.INDIVIDUAL)
 
@@ -95,4 +96,5 @@ fun UserTypeChoiceScreen(
         }
     }
 }
+
 
