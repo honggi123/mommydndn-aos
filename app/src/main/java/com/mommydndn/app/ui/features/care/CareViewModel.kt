@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.mommydndn.app.data.api.model.response.UserResponse
-import com.mommydndn.app.data.model.care.Filter.FilterItemsType
-import com.mommydndn.app.data.model.care.Filter.FilterType
+import com.mommydndn.app.data.api.model.response.GetUserResponse
+import com.mommydndn.app.data.model.care.filter.FilterItemsType
+import com.mommydndn.app.data.model.care.filter.FilterType
 import com.mommydndn.app.data.model.care.summary.CompanySummaryListItem
 import com.mommydndn.app.data.model.care.summary.JobOfferSummaryListItem
 import com.mommydndn.app.data.model.care.summary.JobSeekerSummaryItem
@@ -32,7 +32,7 @@ class CareViewModel @Inject constructor(
     private val userRepository: UserRepository
 ) : ViewModel() {
 
-    val userInfo: StateFlow<UserResponse?> = userRepository.fetchUserInfo().stateIn(
+    val userInfo: StateFlow<GetUserResponse?> = userRepository.getUser().stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
         initialValue = null
@@ -114,7 +114,7 @@ class CareViewModel @Inject constructor(
         }
     }
 
-    private fun updateNeighborhoodFilterItems(userInfo: UserResponse?) {
+    private fun updateNeighborhoodFilterItems(userInfo: GetUserResponse?) {
         _filterItems.value = _filterItems.value.map { filterType ->
             when (filterType) {
                 is FilterType.NeighborhoodScope -> {

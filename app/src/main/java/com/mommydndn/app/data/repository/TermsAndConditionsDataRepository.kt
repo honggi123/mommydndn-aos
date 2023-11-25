@@ -1,20 +1,22 @@
 package com.mommydndn.app.data.repository
 
-import com.mommydndn.app.data.api.model.request.TermsApprovalRequest
-import com.mommydndn.app.data.api.service.TermsService
+import com.mommydndn.app.data.api.model.request.UpdateTermsAndConditionsRequest
+import com.mommydndn.app.data.api.service.TermsAndConditionsService
 import com.mommydndn.app.data.model.terms.TermsItem
-import com.mommydndn.app.domain.repository.TermsRepository
+import com.mommydndn.app.domain.repository.TermsAndConditionsRepository
 import com.skydoves.sandwich.suspendOnSuccess
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class TermsDataRepository @Inject constructor(
-    private val termsService: TermsService,
-) : TermsRepository {
+class TermsAndConditionsDataRepository @Inject constructor(
+    private val termsAndConditionsService: TermsAndConditionsService,
+)
+    : TermsAndConditionsRepository {
+
     override fun fetchAllTerms() = flow {
-        termsService.fetchTermsItems().suspendOnSuccess {
+        termsAndConditionsService.fetchTermsItems().suspendOnSuccess {
             val list = data.map {
                 TermsItem(
                     createdAt = it.createdAt,
@@ -30,15 +32,14 @@ class TermsDataRepository @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-
     override suspend fun updateTermsCheckedStatus(termsItems: List<TermsItem>) {
         val approvalRequestList = termsItems.map {
-            TermsApprovalRequest(
+            UpdateTermsAndConditionsRequest(
                 termsId = it.termsId,
                 isApproved = it.isSelected
             )
         }
-        termsService.updateTermsApproval(approvalRequestList)
+        termsAndConditionsService.updateTermsApproval(approvalRequestList)
     }
 
 }

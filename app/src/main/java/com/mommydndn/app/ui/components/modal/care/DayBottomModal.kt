@@ -26,7 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.mommydndn.app.data.model.care.Filter.FilterItemsType
+import com.mommydndn.app.data.model.care.filter.FilterItemsType
 import com.mommydndn.app.data.model.common.SelectButtonContent
 import com.mommydndn.app.ui.components.button.SelectButton
 import com.mommydndn.app.ui.components.modal.components.DialogButtonsRow
@@ -38,7 +38,6 @@ import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.shadow700
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 @Composable
 fun DayBottomModal(

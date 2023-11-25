@@ -1,4 +1,4 @@
-package com.mommydndn.app.data.model.care.Filter
+package com.mommydndn.app.data.model.care.filter
 
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeItem
@@ -10,7 +10,6 @@ import com.mommydndn.app.data.model.care.WorkPeriodType
 import com.mommydndn.app.data.model.care.WorkPeriodTypeItem
 import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.common.DayOfWeekType
-import com.mommydndn.app.data.model.map.EmdItem
 import java.time.LocalTime
 
 sealed class FilterItemsType() {

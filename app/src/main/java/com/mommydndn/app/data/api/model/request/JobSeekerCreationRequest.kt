@@ -1,7 +1,6 @@
 package com.mommydndn.app.data.api.model.request
 
 
-import com.mommydndn.app.data.api.model.response.Emd
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeSerializer
 import com.mommydndn.app.data.model.care.SalaryType

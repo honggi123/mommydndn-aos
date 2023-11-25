@@ -6,9 +6,9 @@ import com.mommydndn.app.data.api.service.GoogleApiService
 import com.mommydndn.app.data.preferences.TokenManager
 import com.mommydndn.app.data.api.model.request.GoogleLoginRequest
 import com.mommydndn.app.data.api.model.response.LoginGoogleResponse
-import com.mommydndn.app.data.api.model.request.LoginRequest
+import com.mommydndn.app.data.api.model.request.SignInRequest
 import com.mommydndn.app.data.api.model.response.LoginResponse
-import com.mommydndn.app.data.model.user.OAuthType
+import com.mommydndn.app.domain.model.user.OAuthType
 import com.mommydndn.app.data.model.user.SignUpInfo
 import com.mommydndn.app.data.api.model.request.SignUpRequest
 import com.mommydndn.app.domain.repository.AccountRepository
@@ -29,9 +29,9 @@ class AccountDataRepository @Inject constructor(
 
         val response = authenticationService
             .login(
-                LoginRequest(
+                SignInRequest(
                     accessToken = acessToken,
-                    oauthProvider = oAuthType.apiValue
+                    oauthProvider = oAuthType.name
                 )
             )
             .suspendOnSuccess {
@@ -46,8 +46,8 @@ class AccountDataRepository @Inject constructor(
        authenticationService.signUp(
             SignUpRequest(
                 accessToken = signUpInfo.accessToken ?: "",
-                oauthProvider = signUpInfo.oAuthType?.apiValue ?: "",
-                userType = signUpInfo.userType?.apiValue ?: "",
+                oauthProvider = signUpInfo.oAuthType?.name ?: "",
+                userType = signUpInfo.userType?.name ?: "",
                 emdId = signUpInfo.emdId ?: 0
             )
         ).suspendOnSuccess {
@@ -56,7 +56,7 @@ class AccountDataRepository @Inject constructor(
         }
 
 
-    override suspend fun getGoogleAccesstoken(
+    override suspend fun getGoogleAccessToken(
         authCode: String
     ): ApiResponse<LoginGoogleResponse> = googleApiService.getAccessToken(
         GoogleLoginRequest(

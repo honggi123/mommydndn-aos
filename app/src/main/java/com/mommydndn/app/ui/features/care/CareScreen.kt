@@ -43,8 +43,8 @@ import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemsIndexed
 import com.mommydndn.app.R
-import com.mommydndn.app.data.model.care.Filter.FilterItemsType
-import com.mommydndn.app.data.model.care.Filter.FilterType
+import com.mommydndn.app.data.model.care.filter.FilterItemsType
+import com.mommydndn.app.data.model.care.filter.FilterType
 import com.mommydndn.app.ui.components.box.JobOfferSummaryBox
 import com.mommydndn.app.ui.components.chip.ChipWithBottomArrow
 import com.mommydndn.app.ui.components.list.EnterpriseListItem

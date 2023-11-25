@@ -9,10 +9,10 @@ import com.mommydndn.app.data.model.map.LocationInfo
 import com.mommydndn.app.data.model.common.TownSearchType
 import com.mommydndn.app.data.model.user.SignUpInfo
 import com.mommydndn.app.data.model.terms.TermsItem
-import com.mommydndn.app.data.model.user.UserType
+import com.mommydndn.app.domain.model.user.UserType
 import com.mommydndn.app.domain.repository.AccountRepository
 import com.mommydndn.app.domain.repository.LocationRepository
-import com.mommydndn.app.domain.repository.TermsRepository
+import com.mommydndn.app.domain.repository.TermsAndConditionsRepository
 import com.skydoves.sandwich.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -28,11 +28,11 @@ import javax.inject.Inject
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val accountRepository: AccountRepository,
-    private val termsRepository: TermsRepository,
+    private val termsAndConditionsRepository: TermsAndConditionsRepository,
     private val locationRepository: LocationRepository
 ) : ViewModel() {
 
-    private val _signUpInfo = MutableStateFlow<SignUpInfo>(SignUpInfo())
+    private val _signUpInfo = MutableStateFlow(SignUpInfo())
     val signUpInfo: StateFlow<SignUpInfo> = _signUpInfo
 
     private val _searchType = MutableStateFlow<TownSearchType>(TownSearchType.LOCATION)
@@ -66,14 +66,14 @@ class SignUpViewModel @Inject constructor(
 
     private fun updateTerms() {
         viewModelScope.launch {
-            termsRepository.fetchAllTerms()
+            termsAndConditionsRepository.fetchAllTerms()
                 .collectLatest { _terms.value = it }
         }
     }
 
     fun updateTermsCheckedStatus(termsItem: List<TermsItem>) {
         viewModelScope.launch {
-            termsRepository.updateTermsCheckedStatus(termsItem)
+            termsAndConditionsRepository.updateTermsCheckedStatus(termsItem)
         }
     }
 

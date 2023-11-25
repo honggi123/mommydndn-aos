@@ -1,4 +1,4 @@
-package com.mommydndn.app.data.model.care.Filter
+package com.mommydndn.app.data.model.care.filter
 
 import com.mommydndn.app.util.DateTimeUtils
 import com.mommydndn.app.util.StringUtils

@@ -1,6 +1,5 @@
 package com.mommydndn.app.data.model.care
 
-import com.mommydndn.app.data.model.user.UserType
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor

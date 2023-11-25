@@ -147,7 +147,7 @@ class CompanyWriteViewModel @Inject constructor(
 
     fun fetchUserInfo() {
         viewModelScope.launch {
-            userRepository.fetchUserInfo().collect { userInfo ->
+            userRepository.getUser().collect { userInfo ->
                 _emdItem.value = userInfo.emd
                 _photo.value = userInfo.profileUrl?.toUri()
             }

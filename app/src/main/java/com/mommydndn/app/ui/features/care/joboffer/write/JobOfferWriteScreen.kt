@@ -102,7 +102,6 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.util.Calendar
 
-
 @Composable
 fun JobOfferWriteScreen(
     navController: NavHostController,

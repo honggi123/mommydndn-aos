@@ -1,6 +1,5 @@
 package com.mommydndn.app.data.model.common
 
-import com.mommydndn.app.data.model.care.SalaryType
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mommydndn.app.data.api.model.response.BabyItem
 import com.mommydndn.app.data.api.model.response.BabyItemMeta
-import com.mommydndn.app.data.model.notice.NoticeSetting
+import com.mommydndn.app.data.model.notice.Notification
 import com.mommydndn.app.domain.repository.BabyItemRepository
 import com.mommydndn.app.domain.repository.CaringRepository
 import com.mommydndn.app.domain.repository.CommonRepositoy
@@ -68,7 +68,7 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    private fun filteredNoticeSettings(): Flow<List<NoticeSetting>> =
+    private fun filteredNoticeSettings(): Flow<List<Notification>> =
         noticeRepository.fetchUserNoticeSettings().map { noticeSettings ->
             noticeSettings.filter { !it.isApproved }
         }

@@ -6,13 +6,13 @@ import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
-import com.mommydndn.app.data.api.model.response.UserResponse
+import com.mommydndn.app.data.api.model.response.GetUserResponse
 import com.mommydndn.app.data.model.care.CompanyPreview
 import com.mommydndn.app.domain.repository.CaringRepository
 import com.mommydndn.app.domain.repository.UserRepository
-import com.mommydndn.app.ui.extensions.asMultipart
 import com.mommydndn.app.ui.navigation.MainNav
 import com.mommydndn.app.util.NavigationUtils
+import com.mommydndn.app.util.extension.asMultipart
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -27,7 +27,7 @@ class CompanyPrevieViewModel @Inject constructor(
     private val caringRepository: CaringRepository
 ) : ViewModel() {
 
-    val authorInfo: StateFlow<UserResponse?> = userRepository.fetchUserInfo().stateIn(
+    val authorInfo: StateFlow<GetUserResponse?> = userRepository.getUser().stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
         initialValue = null

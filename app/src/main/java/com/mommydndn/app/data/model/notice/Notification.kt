@@ -1,8 +1,6 @@
 package com.mommydndn.app.data.model.notice
 
-import com.google.gson.annotations.SerializedName
-
-data class NoticeSetting(
+data class Notification(
     val isApproved: Boolean,
     val noticeTypeId: Int,
     val noticeTypeName: String,

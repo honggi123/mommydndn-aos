@@ -1,6 +1,5 @@
 package com.mommydndn.app.data.api.model.response
 
-
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeSerializer
 import com.mommydndn.app.data.model.care.CertificationType
@@ -10,7 +9,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class UserResponse(
+data class GetUserResponse(
     @SerialName("age")
     val age: Int?,
     @SerialName("caringReviewList")

@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
-import com.mommydndn.app.data.model.user.OAuthType
+import com.mommydndn.app.domain.model.user.OAuthType
 import com.mommydndn.app.domain.repository.AccountRepository
 import kotlinx.coroutines.Dispatchers
 import androidx.navigation.NavHostController
@@ -33,7 +33,7 @@ class SignInViewModel @Inject constructor(
     private val accountRepository: AccountRepository
 ) : ViewModel() {
 
-    private val _token = MutableStateFlow<String>("")
+    private val _token = MutableStateFlow("")
     private val _oAuthType = MutableStateFlow<OAuthType?>(null)
 
     private val _errMsg = MutableStateFlow<String>("")
@@ -62,9 +62,7 @@ class SignInViewModel @Inject constructor(
             val account = accountTask.result
 
             account.serverAuthCode?.let {
-                val accessToken = getGoogleAccessToken(
-                    it
-                )
+                val accessToken = getGoogleAccessToken(it)
 
                 if (accessToken != null) {
                     signIn(
@@ -81,15 +79,12 @@ class SignInViewModel @Inject constructor(
         authCode: String,
     ): String? = withContext(Dispatchers.IO) {
         val data = accountRepository
-            .getGoogleAccesstoken(authCode)
+            .getGoogleAccessToken(authCode)
             .getOrNull()
         data?.access_token
     }
 
-    private fun handleSignInResponse(
-        response: ApiResponse<LoginResponse>,
-        navHostController: NavHostController
-    ) {
+    private fun handleSignInResponse(response: ApiResponse<LoginResponse>,  navHostController: NavHostController) {
         response
             .onSuccess {
                 NavigationUtils.navigate(navHostController, MainNav.Home.route)

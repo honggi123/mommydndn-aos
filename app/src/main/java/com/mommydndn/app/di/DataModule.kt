@@ -6,15 +6,15 @@ import com.mommydndn.app.domain.repository.CaringRepository
 import com.mommydndn.app.domain.repository.CommonRepositoy
 import com.mommydndn.app.domain.repository.LocationRepository
 import com.mommydndn.app.domain.repository.NoticeRepository
-import com.mommydndn.app.domain.repository.TermsRepository
+import com.mommydndn.app.domain.repository.TermsAndConditionsRepository
 import com.mommydndn.app.domain.repository.UserRepository
 import com.mommydndn.app.data.repository.AccountDataRepository
 import com.mommydndn.app.data.repository.BabyItemDataRepository
 import com.mommydndn.app.data.repository.CaringDataRepository
 import com.mommydndn.app.data.repository.CommonDataRepository
 import com.mommydndn.app.data.repository.LocationDataRepository
-import com.mommydndn.app.data.repository.NoticeDataRespository
-import com.mommydndn.app.data.repository.TermsDataRepository
+import com.mommydndn.app.data.repository.NotificationDataRepository
+import com.mommydndn.app.data.repository.TermsAndConditionsDataRepository
 import com.mommydndn.app.data.repository.UserDataRepository
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -32,7 +32,7 @@ interface DataModule {
 
     @Binds
     @Singleton
-    fun bindTermsRepository(repository: TermsDataRepository): TermsRepository
+    fun bindTermsRepository(repository: TermsAndConditionsDataRepository): TermsAndConditionsRepository
 
     @Binds
     @Singleton
@@ -40,7 +40,7 @@ interface DataModule {
 
     @Binds
     @Singleton
-    fun bindNoticeRepository(repository: NoticeDataRespository): NoticeRepository
+    fun bindNoticeRepository(repository: NotificationDataRepository): NoticeRepository
 
     @Binds
     @Singleton

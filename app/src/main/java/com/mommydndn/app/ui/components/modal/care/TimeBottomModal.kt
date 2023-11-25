@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.commandiron.wheel_picker_compose.WheelTimePicker
 import com.commandiron.wheel_picker_compose.core.TimeFormat
 import com.commandiron.wheel_picker_compose.core.WheelPickerDefaults
-import com.mommydndn.app.data.model.care.Filter.FilterItemsType
+import com.mommydndn.app.data.model.care.filter.FilterItemsType
 import com.mommydndn.app.ui.components.box.SelectScopeBox
 import com.mommydndn.app.ui.components.modal.components.DialogButtonsRow
 import com.mommydndn.app.ui.components.modal.components.DialogTitleWrapper

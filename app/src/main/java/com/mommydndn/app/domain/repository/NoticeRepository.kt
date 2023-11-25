@@ -1,9 +1,9 @@
 package com.mommydndn.app.domain.repository
 
-import com.mommydndn.app.data.model.notice.NoticeSetting
+import com.mommydndn.app.data.model.notice.Notification
 import kotlinx.coroutines.flow.Flow
 
 interface NoticeRepository {
-    fun fetchUserNoticeSettings(): Flow<List<NoticeSetting>>
+    fun fetchUserNoticeSettings(): Flow<List<Notification>>
 
 }
