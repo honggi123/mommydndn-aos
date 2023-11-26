@@ -4,9 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.mommydndn.app.data.api.model.response.Emd
+import com.mommydndn.app.data.model.common.LocationSearchType
 import com.mommydndn.app.data.model.map.EmdItem
 import com.mommydndn.app.data.model.map.LocationInfo
-import com.mommydndn.app.data.model.common.TownSearchType
 import com.mommydndn.app.data.model.user.SignUpInfo
 import com.mommydndn.app.data.model.terms.TermsItem
 import com.mommydndn.app.domain.model.user.UserType
@@ -19,6 +20,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
@@ -35,8 +37,8 @@ class SignUpViewModel @Inject constructor(
     private val _signUpInfo = MutableStateFlow(SignUpInfo())
     val signUpInfo: StateFlow<SignUpInfo> = _signUpInfo
 
-    private val _searchType = MutableStateFlow<TownSearchType>(TownSearchType.LOCATION)
-    val searchType: StateFlow<TownSearchType> = _searchType
+    private val _searchType = MutableStateFlow<LocationSearchType>(LocationSearchType.LOCATION)
+    val searchType: StateFlow<LocationSearchType> = _searchType
 
     private val _keyword = MutableStateFlow<String>("")
     val keyword: StateFlow<String> = _keyword
@@ -46,17 +48,25 @@ class SignUpViewModel @Inject constructor(
 
     private val _currentLocation = MutableStateFlow(LocationInfo(0.0, 0.0))
 
-    val searchedTownsFlow: Flow<PagingData<EmdItem>> = _keyword
+    private val searchedLocationsByKeyword: Flow<PagingData<EmdItem>> = _keyword
         .debounce(200)
         .distinctUntilChanged()
         .flatMapLatest {
             locationRepository.fetchLocationsByKeyword(it)
         }.cachedIn(viewModelScope)
 
-    val searchedTownsByLocation: Flow<PagingData<EmdItem>> = _currentLocation
+    private val searchedNearestByLocation: Flow<PagingData<EmdItem>> = _currentLocation
         .flatMapLatest {
             locationRepository.fetchNearestByLocation(it)
         }.cachedIn(viewModelScope)
+
+    val searchedLocations: Flow<PagingData<EmdItem>> =
+        combine(
+            searchedLocationsByKeyword,
+            searchedNearestByLocation
+        ) { locationsKeyword, locationsNearest ->
+            if (searchType.value == LocationSearchType.KEYWORD) locationsKeyword else locationsNearest
+        }
 
     init {
         updateTerms()
@@ -69,7 +79,7 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    fun updateTermsCheckedStatus(termsItem: List<TermsItem>) {
+    private fun updateTermsCheckedStatus(termsItem: List<TermsItem>) {
         viewModelScope.launch {
             termsAndConditionsRepository.updateTermsCheckedStatus(termsItem)
         }
@@ -105,7 +115,7 @@ class SignUpViewModel @Inject constructor(
 
     fun setKeyword(keyword: String) {
         _keyword.value = keyword
-        _searchType.value = TownSearchType.KEYWORD
+        _searchType.value = LocationSearchType.KEYWORD
     }
 
     fun clearKeyword() {
@@ -114,10 +124,10 @@ class SignUpViewModel @Inject constructor(
 
     fun setLocationInfo(locationInfo: LocationInfo) {
         _currentLocation.value = locationInfo
-        _searchType.value = TownSearchType.LOCATION
+        _searchType.value = LocationSearchType.LOCATION
     }
 
-    fun setTermItemCheckedState(termsId: Int, isChecked: Boolean) {
+    fun setTermsCheckStatus(termsId: Int, isChecked: Boolean) {
         val currentTermsList = terms.value.toMutableList()
         val index = currentTermsList.indexOfFirst { it.termsId == termsId }
 

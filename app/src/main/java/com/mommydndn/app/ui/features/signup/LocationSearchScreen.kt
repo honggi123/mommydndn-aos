@@ -32,8 +32,8 @@ import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.mommydndn.app.R
+import com.mommydndn.app.data.model.common.LocationSearchType
 import com.mommydndn.app.data.model.map.LocationInfo
-import com.mommydndn.app.data.model.common.TownSearchType
 import com.mommydndn.app.data.model.map.EmdItem
 import com.mommydndn.app.data.model.map.displayName
 import com.mommydndn.app.ui.components.box.RadioListBox
@@ -59,10 +59,8 @@ fun LocationSearchScreen(
     val keyword by viewModel.keyword.collectAsState()
     val terms by viewModel.terms.collectAsState()
     val signUpInfo by viewModel.signUpInfo.collectAsState()
-    val searchType by viewModel.searchType.collectAsState()
 
-    val pagingItemsByKeyword = viewModel.searchedTownsFlow.collectAsLazyPagingItems()
-    val pagingItemsByLocation = viewModel.searchedTownsByLocation.collectAsLazyPagingItems()
+    val pagingItems = viewModel.searchedLocations.collectAsLazyPagingItems()
 
     val permissions = arrayOf(
         Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -145,7 +143,7 @@ fun LocationSearchScreen(
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             RadioListBox(
-                pagingItems = if (searchType == TownSearchType.KEYWORD) pagingItemsByKeyword else pagingItemsByLocation,
+                pagingItems = pagingItems,
                 onItemClick = { emdItem ->
                     scope.launch { sheetState.show() }
                     viewModel.setEmdId(emdItem?.id)
@@ -166,7 +164,7 @@ fun LocationSearchScreen(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 32.dp),
                 onDismiss = { scope.launch { sheetState.hide() } },
                 onItemSelected = { index, isChecked ->
-                    viewModel.setTermItemCheckedState(terms.get(index).termsId, isChecked)
+                    viewModel.setTermsCheckStatus(terms.get(index).termsId, isChecked)
                 },
                 onComplete = { viewModel.signUp(signUpInfo) },
                 itemList = terms,
@@ -201,5 +199,6 @@ private fun searchNearLocations(
         Log.d("TownCheckScreen", e.stackTraceToString())
     }
 }
+
 
 

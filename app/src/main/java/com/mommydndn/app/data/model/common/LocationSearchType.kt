@@ -1,6 +1,6 @@
 package com.mommydndn.app.data.model.common
 
-enum class TownSearchType() {
+enum class LocationSearchType() {
     LOCATION,
     KEYWORD
 }
