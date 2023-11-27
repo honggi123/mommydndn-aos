@@ -1,7 +1,13 @@
 package com.mommydndn.app.ui.components.common
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -12,17 +18,15 @@ import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.WhiteOpacity600
 
 @Composable
-fun Header(
+internal fun Header(
     modifier: Modifier = Modifier,
-    isCareTab: Boolean = false,
+    backgroundColor: Color = White,
     leftContent: @Composable RowScope.() -> Unit = {},
     centerContent: @Composable RowScope.() -> Unit = {},
     rightContent: @Composable RowScope.() -> Unit = {}
 ) {
     TopAppBar(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(68.dp),
+        modifier = modifier.fillMaxWidth().height(68.dp),
         contentPadding = PaddingValues(
             start = 20.dp,
             top = 16.dp,
@@ -30,29 +34,25 @@ fun Header(
             bottom = 16.dp
         ),
         elevation = 0.dp,
-        backgroundColor = if (isCareTab) WhiteOpacity600 else White
+        backgroundColor = backgroundColor
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
+        Box(modifier = Modifier.fillMaxSize()) {
             Row(
-                modifier = Modifier
-                    .fillMaxSize(),
+                modifier = Modifier.fillMaxSize(),
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically,
                 content = leftContent
             )
+
             Row(
-                modifier = Modifier
-                    .fillMaxSize(),
+                modifier = Modifier.fillMaxSize(),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
                 content = centerContent
             )
+
             Row(
-                modifier = Modifier
-                    .fillMaxSize(),
+                modifier = Modifier.fillMaxSize(),
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically,
                 content = rightContent

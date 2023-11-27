@@ -30,7 +30,7 @@ fun SocialLoginBox(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = AnnotatedString(stringResource(id = R.string.social_login_label)),
+            text = AnnotatedString(stringResource(id = R.string.social_login)),
             style = MaterialTheme.typography.paragraph300
                 .copy(
                     color = Grey700,
@@ -44,7 +44,7 @@ fun SocialLoginBox(
                 onClick = { onClickNaver() },
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.ic_logo_naver),
+                    painter = painterResource(id = R.drawable.icon_naver),
                     contentDescription = "",
                     modifier = Modifier
                         .size(72.dp)
@@ -56,7 +56,7 @@ fun SocialLoginBox(
                 onClick = { onClickKakao() },
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.ic_logo_kakao),
+                    painter = painterResource(id = R.drawable.icon_kakao),
                     contentDescription = "",
                     modifier = Modifier
                         .size(72.dp)
@@ -68,7 +68,7 @@ fun SocialLoginBox(
                 onClick = { onClickGoogle() },
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.ic_logo_google),
+                    painter = painterResource(id = R.drawable.icon_google),
                     contentDescription = "",
                     modifier = Modifier
                         .size(72.dp)

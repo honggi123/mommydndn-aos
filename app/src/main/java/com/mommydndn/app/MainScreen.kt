@@ -43,8 +43,8 @@ import com.mommydndn.app.ui.features.care.jobseeker.write.JobSeekerLocationSearc
 import com.mommydndn.app.ui.features.care.jobseeker.write.JobSeekerWriteScreen
 import com.mommydndn.app.ui.features.care.jobseeker.write.JobSeekerWriteViewModel
 import com.mommydndn.app.ui.features.care.jobseeker.write.preview.JobSeekerPreviewScreen
-import com.mommydndn.app.ui.features.home.MainHomeScreen
-import com.mommydndn.app.ui.features.signin.SignInScreen
+import com.mommydndn.app.ui.features.home.HomeScreen
+import com.mommydndn.app.ui.features.signin.deprecated._SignInScreen
 import com.mommydndn.app.ui.features.signup.NearestChoiceScreen
 import com.mommydndn.app.ui.features.signup.SignUpViewModel
 import com.mommydndn.app.ui.features.signup.UserTypeChoiceScreen
@@ -58,6 +58,7 @@ import com.mommydndn.app.ui.navigation.JobSeekerLocationSearchNav
 import com.mommydndn.app.ui.navigation.JobSeekerWriteNav
 import com.mommydndn.app.ui.navigation.JobSeekerWritePreviewNav
 import com.mommydndn.app.ui.navigation.MainNav
+import com.mommydndn.app.ui.navigation.MommyDnDnNavHost
 import com.mommydndn.app.ui.navigation.SignInNav
 import com.mommydndn.app.ui.navigation.TownCheckNav
 import com.mommydndn.app.ui.navigation.TypeChoiceNav
@@ -86,7 +87,7 @@ internal fun MainScreen(fusedLocationClient: FusedLocationProviderClient) {
             }
         }
     ) { paddingValues ->
-        Log.d("mommy_dn_dn_android", "$paddingValues")
+        Log.d("mommydndn_android", "$paddingValues")
 
         MainNavigationScreen(
             navController,
@@ -156,11 +157,14 @@ fun MainNavigationScreen(
         animationSpec = tween(durationMillis = 400, easing = FastOutSlowInEasing)
     )
 
+    MommyDnDnNavHost(navController = navController)
+
+    /*
     NavHost(navController = navController, startDestination = SignInNav.route) {
         composable(
             route = SignInNav.route,
         ) {
-            SignInScreen(navHostController = navController)
+            _SignInScreen(navHostController = navController)
         }
 
         composable(
@@ -195,7 +199,7 @@ fun MainNavigationScreen(
         composable(
             route = MainNav.Home.route
         ) {
-            MainHomeScreen(navController = navController)
+            HomeScreen()
         }
 
         composable(
@@ -374,8 +378,7 @@ fun MainNavigationScreen(
                 companyPreiew = companyPreview, navController = navController
             )
         }
-
     }
-
+     */
 }
 

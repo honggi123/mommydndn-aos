@@ -1,12 +1,14 @@
 package com.mommydndn.app.domain.repository
 
-import com.mommydndn.app.data.api.model.response.GetUserResponse
-import kotlinx.coroutines.flow.Flow
-import okhttp3.MultipartBody
+import com.mommydndn.app.domain.model.user.OAuthProvider
+import com.mommydndn.app.domain.model.user.OAuthToken
 
 interface UserRepository {
 
-    suspend fun getUser(): GetUserResponse
+    suspend fun getAccessToken(authCode: String): String
 
-    fun updateProfileImage(imagePart: MultipartBody.Part): Flow<Unit>
+    // todo: store OAuthToken and get User
+    suspend fun signIn(accessToken: String, oAuthProvider: OAuthProvider): OAuthToken
+
+    // suspend fun updateProfileImage(..)
 }

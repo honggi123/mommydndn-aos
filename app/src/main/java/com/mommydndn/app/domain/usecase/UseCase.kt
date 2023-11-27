@@ -20,3 +20,4 @@ abstract class UseCase<in P, R>(private val coroutineDispatcher: CoroutineDispat
 
     protected abstract suspend fun execute(parameters: P): R
 }
+

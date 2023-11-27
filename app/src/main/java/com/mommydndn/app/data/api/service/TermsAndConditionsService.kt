@@ -19,6 +19,6 @@ interface TermsAndConditionsService {
 
     @POST("api/user/terms")
     suspend fun updateTermsApproval(
-        @Body request: List<UpdateTermsAndConditionsRequest>
+        @Body request: UpdateTermsAndConditionsRequest
     ): ApiResponse<Unit>
 }

@@ -38,9 +38,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import com.mommydndn.app.R
-import com.mommydndn.app.ui.navigation.MainNav
 import com.mommydndn.app.ui.components.box.SubtextBox
 import com.mommydndn.app.ui.components.box.SubtextBoxSize
 import com.mommydndn.app.ui.components.list.BannerList
@@ -55,7 +53,6 @@ import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.GreyOpacity400
 import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.paragraph300
-import com.mommydndn.app.util.NavigationUtils
 import kotlinx.coroutines.launch
 
 const val MAX_MORE_BABY_ITEM_PAGE = 4
@@ -63,9 +60,8 @@ const val MAX_MORE_BABY_ITEM_PAGE = 4
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun MainHomeScreen(
-    navController: NavHostController,
-    viewModel: HomeViewModel = hiltViewModel()
+internal fun HomeScreen(
+    viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val noticeSettings by viewModel.noticeSettings.collectAsState()
     val banners by viewModel.banners.collectAsState()
@@ -80,7 +76,7 @@ fun MainHomeScreen(
     ) {
         Header(leftContent = {
             Image(
-                painter = painterResource(id = R.drawable.ic_logo),
+                painter = painterResource(id = R.drawable.icon_logo),
                 contentDescription = "",
                 modifier = Modifier
                     .size(36.dp)
@@ -136,7 +132,7 @@ fun MainHomeScreen(
                 titleText = "도움이 필요한 주변 이웃",
                 rightButtonText = "더보기",
                 rightButtonOnClick = {
-                    NavigationUtils.navigate(navController, MainNav.Care.route)
+                    // NavigationUtils.navigate(navController, MainNav.Care.route)
                 }
             )
             Box(modifier = Modifier.padding(start = 32.dp, top = 28.dp, bottom = 36.dp)) {
