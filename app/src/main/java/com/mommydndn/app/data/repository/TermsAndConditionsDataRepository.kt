@@ -1,6 +1,6 @@
 package com.mommydndn.app.data.repository
 
-import com.mommydndn.app.data.api.model.request.UpdateTermsAndConditionsRequest
+import com.mommydndn.app.data.api.model.request.UpdateTermsAndConditions
 import com.mommydndn.app.data.api.service.TermsAndConditionsService
 import com.mommydndn.app.data.model.terms.TermsItem
 import com.mommydndn.app.domain.repository.TermsAndConditionsRepository
@@ -12,8 +12,7 @@ import javax.inject.Inject
 
 class TermsAndConditionsDataRepository @Inject constructor(
     private val termsAndConditionsService: TermsAndConditionsService,
-)
-    : TermsAndConditionsRepository {
+) : TermsAndConditionsRepository {
 
     override fun fetchAllTerms() = flow {
         termsAndConditionsService.fetchTermsItems().suspendOnSuccess {
@@ -24,8 +23,7 @@ class TermsAndConditionsDataRepository @Inject constructor(
                     name = it.name,
                     termsId = it.termsId,
                     updateAt = it.updateAt,
-                    url = it.url,
-                    isSelected = false
+                    url = it.url
                 )
             }
             emit(list)
@@ -34,7 +32,7 @@ class TermsAndConditionsDataRepository @Inject constructor(
 
     override suspend fun updateTermsCheckedStatus(termsItems: List<TermsItem>) {
         val approvalRequestList = termsItems.map {
-            UpdateTermsAndConditionsRequest(
+            UpdateTermsAndConditions(
                 termsId = it.termsId,
                 isApproved = it.isSelected
             )

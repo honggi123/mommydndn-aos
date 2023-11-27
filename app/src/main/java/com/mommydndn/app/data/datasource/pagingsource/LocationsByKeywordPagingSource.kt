@@ -2,21 +2,21 @@ package com.mommydndn.app.data.datasource.pagingsource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.mommydndn.app.data.api.service.MapService
+import com.mommydndn.app.data.api.service.LocationService
 import com.mommydndn.app.data.model.map.EmdItem
 import javax.inject.Inject
 
 private const val STARTING_PAGE_INDEX = 1
 class LocationsByKeywordPagingSource @Inject constructor(
     private val keyWord: String,
-    private val mapService: MapService
+    private val locationService: LocationService
 ) : PagingSource<Int, EmdItem>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, EmdItem> {
         return try {
             val position = params.key ?: STARTING_PAGE_INDEX
             val result =
-                mapService.fetchLocationsByKeyword(
+                locationService.fetchLocationsByKeyword(
                     keyWord,
                     skip = (position - 1) * params.loadSize,
                     limit = params.loadSize,

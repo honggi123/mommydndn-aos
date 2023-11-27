@@ -7,5 +7,5 @@ data class TermsItem(
     val termsId: Int,
     val updateAt: Long,
     val url: String,
-    val isSelected: Boolean
+    val isSelected: Boolean = false
 )

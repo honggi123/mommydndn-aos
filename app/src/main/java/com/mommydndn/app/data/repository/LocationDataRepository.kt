@@ -5,7 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.mommydndn.app.data.api.model.response.AddressResponse
 import com.mommydndn.app.data.api.service.KakaoApiService
-import com.mommydndn.app.data.api.service.MapService
+import com.mommydndn.app.data.api.service.LocationService
 import com.mommydndn.app.data.datasource.pagingsource.LocationsByKeywordPagingSource
 import com.mommydndn.app.data.datasource.pagingsource.NearestByLocationPagingSource
 import com.mommydndn.app.data.model.map.EmdItem
@@ -19,12 +19,12 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class LocationDataRepository @Inject constructor(
-    private val mapService: MapService,
+    private val locationService: LocationService,
     private val kakaoApiService: KakaoApiService
 ) : LocationRepository {
 
     override fun fetchEmdByLocation(locationInfo: LocationInfo): Flow<EmdItem?> = flow {
-        mapService.fetchNearestByLocation(
+        locationService.fetchNearestByLocation(
             latitude = locationInfo.latitude,
             longitude = locationInfo.longitude
         ).suspendOnSuccess {
@@ -40,7 +40,7 @@ class LocationDataRepository @Inject constructor(
             config = PagingConfig(
                 pageSize = 15, enablePlaceholders = false
             ),
-            pagingSourceFactory = { NearestByLocationPagingSource(locationInfo, mapService) }
+            pagingSourceFactory = { NearestByLocationPagingSource(locationInfo, locationService) }
         ).flow
     }
 
@@ -49,7 +49,7 @@ class LocationDataRepository @Inject constructor(
             config = PagingConfig(
                 pageSize = 15, enablePlaceholders = false
             ),
-            pagingSourceFactory = { LocationsByKeywordPagingSource(keyword, mapService) }
+            pagingSourceFactory = { LocationsByKeywordPagingSource(keyword, locationService) }
         ).flow
     }
 

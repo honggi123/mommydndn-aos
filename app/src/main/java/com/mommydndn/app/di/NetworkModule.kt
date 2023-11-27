@@ -10,7 +10,7 @@ import com.mommydndn.app.data.api.service.CaringService
 import com.mommydndn.app.data.api.service.CommonService
 import com.mommydndn.app.data.api.service.GoogleApiService
 import com.mommydndn.app.data.api.service.KakaoApiService
-import com.mommydndn.app.data.api.service.MapService
+import com.mommydndn.app.data.api.service.LocationService
 import com.mommydndn.app.data.api.service.NoticeService
 import com.mommydndn.app.data.api.service.TermsAndConditionsService
 import com.mommydndn.app.data.api.service.UserService
@@ -85,8 +85,8 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideMapService(retrofit: Retrofit): MapService {
-        return retrofit.create(MapService::class.java)
+    fun provideMapService(retrofit: Retrofit): LocationService {
+        return retrofit.create(LocationService::class.java)
     }
 
     @Singleton
