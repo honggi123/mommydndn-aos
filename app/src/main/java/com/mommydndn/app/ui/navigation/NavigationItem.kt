@@ -65,7 +65,7 @@ object UserTypeNav : Destination {
     }
 }
 
-object TownCheckNav : Destination {
+object LocationSearchNav : Destination {
     override val route: String = NavigationRouteName.SIGN_UP_LOCATION_SEARCH
     override val title: String = NavigationTitle.SIGN_UP_LOCATION_SEARCH
 }

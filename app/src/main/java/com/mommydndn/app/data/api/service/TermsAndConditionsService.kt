@@ -1,6 +1,7 @@
 package com.mommydndn.app.data.api.service
 
 import com.mommydndn.app.data.api.model.request.UpdateTermsAndConditions
+import com.mommydndn.app.data.api.model.request.UpdateTermsAndConditionsRequest
 import com.mommydndn.app.data.api.model.response.GetTermsAndConditions
 import com.mommydndn.app.data.api.model.response.GetTermsAndConditionsResponse
 import com.skydoves.sandwich.ApiResponse
@@ -17,7 +18,5 @@ interface TermsAndConditionsService {
     suspend fun getTermsAndConditions(): GetTermsAndConditionsResponse
 
     @POST("api/user/terms")
-    suspend fun updateTermsApproval(
-        @Body request: List<UpdateTermsAndConditions>
-    ): ApiResponse<Unit>
+    suspend fun updateTermsApproval(@Body request: List<UpdateTermsAndConditionsRequest>): ApiResponse<Unit>
 }

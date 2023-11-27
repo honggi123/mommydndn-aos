@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 
 @Serializable
-data class UpdateTermsAndConditions(
+data class UpdateTermsAndConditionsRequest(
     @SerializedName("termsId")
     val termsId: Int,
     @SerializedName("isApproved")

@@ -1,6 +1,7 @@
 package com.mommydndn.app.data.repository
 
 import com.mommydndn.app.data.api.model.request.UpdateTermsAndConditions
+import com.mommydndn.app.data.api.model.request.UpdateTermsAndConditionsRequest
 import com.mommydndn.app.data.api.service.TermsAndConditionsService
 import com.mommydndn.app.data.model.terms.TermsItem
 import com.mommydndn.app.domain.repository.TermsAndConditionsRepository
@@ -32,7 +33,7 @@ class TermsAndConditionsDataRepository @Inject constructor(
 
     override suspend fun updateTermsCheckedStatus(termsItems: List<TermsItem>) {
         val approvalRequestList = termsItems.map {
-            UpdateTermsAndConditions(
+            UpdateTermsAndConditionsRequest(
                 termsId = it.termsId,
                 isApproved = it.isSelected
             )
