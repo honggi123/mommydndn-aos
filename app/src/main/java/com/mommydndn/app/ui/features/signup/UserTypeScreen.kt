@@ -13,6 +13,8 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -33,67 +35,66 @@ import com.mommydndn.app.util.NavigationUtils
 @Composable
 internal fun UserTypeRoute(
     signUpInfo: SignUpInfo,
+    navHostController: NavHostController,
     onExploreClick: () -> Unit,
-    onSignInSuccess: () -> Unit,
-    modifier: Modifier = Modifier,
     viewModel: SignUpViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(Unit) {
         viewModel.setSignUpInfo(signUpInfo)
     }
 
+    val onUserTypeClick: (UserType) -> Unit = { userType ->
+        when (userType) {
+            UserType.COMPANY -> {
+                viewModel.setUserType(UserType.COMPANY)
+            }
+
+            UserType.INDIVIDUAL -> {
+                viewModel.setUserType(UserType.INDIVIDUAL)
+            }
+        }
+    }
+
+
+    val uiState by viewModel.uiState.collectAsState()
+
+    when (val state = uiState) {
+        SignUpUiState.Loading -> UserTypeScreen(
+            onExploreClick = onExploreClick,
+            onUserTypeClick = onUserTypeClick
+        )
+        is SignUpUiState.UserTypeSelected -> {
+            NavigationUtils.navigate(
+                navHostController,
+                LocationSearchNav.route
+            )
+        }
+        else -> {
+            // TODO
+        }
+    }
+
+
 }
 
 @Composable
 fun UserTypeScreen(
-    navHostController: NavHostController,
-    viewModel: SignUpViewModel
+    onExploreClick: () -> Unit,
+    onUserTypeClick: (UserType) -> Unit
 ) {
 
     Column(modifier = Modifier.fillMaxSize()) {
-        UserTypeTopAppBar(onExploreClick = { navHostController.popBackStack() })
+        UserTypeTopAppBar(onExploreClick = onExploreClick)
 
         MaintextBox(
             captionText = stringResource(R.string.welcome_message),
             titleText = stringResource(R.string.ask_user_type)
         )
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(368.dp),
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxSize(),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                SquareButton(
-                    imageResourceId = R.drawable.building_graphic,
-                    text = stringResource(R.string.company_user),
-                    onClick = {
-                        viewModel.setUserType(UserType.COMPANY)
-                        NavigationUtils.navigate(
-                            navHostController,
-                            LocationSearchNav.route
-                        )
-                    }
-                )
-                Spacer(modifier = Modifier.padding(16.dp))
-                SquareButton(
-                    imageResourceId = R.drawable.person_graphic,
-                    text = stringResource(R.string.individual_user),
-                    onClick = {
-                        viewModel.setUserType(UserType.INDIVIDUAL)
-                        NavigationUtils.navigate(
-                            navHostController,
-                            LocationSearchNav.route
-                        )
-                    }
-                )
-            }
-        }
+        UserTypeContent(
+            modifier = Modifier.fillMaxWidth(),
+            onUserTypeClick = onUserTypeClick
+        )
     }
 }
 
@@ -104,12 +105,42 @@ fun UserTypeTopAppBar(
     Header(leftContent = {
         IconButton(onClick = onExploreClick) {
             Icon(
-                painter = painterResource(id = R.drawable.arrow_left),
-                contentDescription = "back",
+                painter = painterResource(id = R.drawable.icon_arrow_left),
+                contentDescription = "icon_arrow_left",
                 tint = Grey400
             )
         }
     })
 }
 
+@Composable
+fun UserTypeContent(
+    modifier: Modifier = Modifier,
+    onUserTypeClick: (UserType) -> Unit
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(368.dp),
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            SquareButton(
+                imageResourceId = R.drawable.icon_building,
+                text = stringResource(R.string.company_user),
+                onClick = { onUserTypeClick(UserType.COMPANY) }
+            )
+            Spacer(modifier = Modifier.padding(16.dp))
+            SquareButton(
+                imageResourceId = R.drawable.icon_person,
+                text = stringResource(R.string.individual_user),
+                onClick = { onUserTypeClick(UserType.INDIVIDUAL) }
+            )
+        }
+    }
+}
 

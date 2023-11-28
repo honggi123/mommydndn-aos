@@ -10,6 +10,8 @@ import com.mommydndn.app.data.model.map.EmdItem
 import com.mommydndn.app.data.model.map.LocationInfo
 import com.mommydndn.app.data.model.user.SignUpInfo
 import com.mommydndn.app.data.model.terms.TermsItem
+import com.mommydndn.app.data.model.user.shouldSkipSignUp
+import com.mommydndn.app.data.preferences.TokenManager
 import com.mommydndn.app.domain.model.user.UserType
 import com.mommydndn.app.domain.repository.AccountRepository
 import com.mommydndn.app.domain.repository.LocationRepository
@@ -17,6 +19,8 @@ import com.mommydndn.app.domain.repository.TermsAndConditionsRepository
 import com.mommydndn.app.domain.usecase.terms.GetAllTermsUseCase
 import com.mommydndn.app.domain.usecase.terms.UpdateTermsParams
 import com.mommydndn.app.domain.usecase.terms.UpdateTermsUseCase
+import com.mommydndn.app.domain.usecase.user.SaveTokenParams
+import com.mommydndn.app.domain.usecase.user.SaveUserTokenUseCase
 import com.mommydndn.app.domain.usecase.user.SignUpParams
 import com.mommydndn.app.domain.usecase.user.SignUpUseCase
 import com.skydoves.sandwich.onSuccess
@@ -32,14 +36,19 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.mommydndn.app.util.result.Result
+import kotlinx.coroutines.flow.asStateFlow
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val updateTermsUseCase: UpdateTermsUseCase,
     private val signUpUseCase: SignUpUseCase,
     private val getAllTermsUseCase: GetAllTermsUseCase,
+    private val saveUserTokenUseCase: SaveUserTokenUseCase,
     private val locationRepository: LocationRepository
 ) : ViewModel() {
+
+    private val _uiState: MutableStateFlow<SignUpUiState> = MutableStateFlow(SignUpUiState.Loading)
+    val uiState: StateFlow<SignUpUiState> = _uiState.asStateFlow()
 
     private val _signUpInfo = MutableStateFlow(SignUpInfo())
     val signUpInfo: StateFlow<SignUpInfo> = _signUpInfo
@@ -81,7 +90,11 @@ class SignUpViewModel @Inject constructor(
 
     private fun fetchAllTerms() {
         viewModelScope.launch {
-            getAllTermsUseCase().let {}
+            getAllTermsUseCase(Unit).collectLatest { result ->
+                if (result is Result.Success) {
+                    _terms.value = result.data
+                }
+            }
         }
     }
 
@@ -94,17 +107,35 @@ class SignUpViewModel @Inject constructor(
     fun signUp(
         signUpInfo: SignUpInfo
     ) {
+        if (signUpInfo.shouldSkipSignUp()) {
+            return
+        }
+
         viewModelScope.launch {
             signUpUseCase.invoke(
                 SignUpParams(
-                    accessToken = signUpInfo.accessToken,
-                    oAuthType = signUpInfo.oAuthType,
-                    userType = signUpInfo.userType,
-                    emdId = signUpInfo.emdId
+                    accessToken = signUpInfo.accessToken!!,
+                    oAuthType = signUpInfo.oAuthType!!,
+                    userType = signUpInfo.userType!!,
+                    emdId = signUpInfo.emdId!!
                 )
             ).let { result ->
-                if (result is Result.Success) {
-                    updateTermsCheckedStatus(terms.value)
+                when (result) {
+                    is Result.Success -> {
+                        saveUserTokenUseCase(
+                            SaveTokenParams(
+                                accessToken = result.data.accessToken,
+                                refreshToken = result.data.refreshToken
+                            )
+                        )
+                        updateTermsCheckedStatus(terms.value)
+                    }
+
+                    is Result.Failure -> {
+                        _uiState.value = SignUpUiState.Failure(result.exception)
+                    }
+
+                    else -> {}
                 }
             }
         }
@@ -124,6 +155,8 @@ class SignUpViewModel @Inject constructor(
     fun setUserType(userType: UserType?) {
         val currentSignUpInfo = signUpInfo.value
         _signUpInfo.value = currentSignUpInfo.copy(userType = userType)
+
+        _uiState.value = SignUpUiState.UserTypeSelected
     }
 
 

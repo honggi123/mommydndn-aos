@@ -10,14 +10,22 @@ import com.skydoves.sandwich.ApiResponse
 
 interface AccountRepository {
 
-    suspend fun signIn(accessToken: String, oAuthType: OAuthType): ApiResponse<LoginResponse>
+    suspend fun signIn(
+        accessToken: String,
+        oAuthType: OAuthType
+    ): ApiResponse<LoginResponse>
 
     suspend fun signUp(
         accessToken: String,
         oAuthType: OAuthType,
         userType: UserType,
         emdId: Int
-    ): ApiResponse<SignUpResponse>
+    ): SignUpResponse
+
+    suspend fun saveUserToken(
+        accessToken: String,
+        refreshToken: String
+    ): Unit
 
     suspend fun getGoogleAccessToken(authCode: String): ApiResponse<LoginGoogleResponse>
 }

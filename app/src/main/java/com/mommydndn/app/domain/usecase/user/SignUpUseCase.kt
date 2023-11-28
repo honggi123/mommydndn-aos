@@ -1,5 +1,6 @@
 package com.mommydndn.app.domain.usecase.user
 
+import com.mommydndn.app.data.api.model.response.SignUpResponse
 import com.mommydndn.app.data.repository.AccountDataRepository
 import com.mommydndn.app.domain.model.user.OAuthType
 import com.mommydndn.app.domain.model.user.UserType
@@ -12,9 +13,9 @@ import javax.inject.Singleton
 class SignUpUseCase @Inject constructor(
     coroutineDispatcher: CoroutineDispatcher,
     private val repository: AccountDataRepository,
-) : UseCase<SignUpParams, Unit>(coroutineDispatcher) {
+) : UseCase<SignUpParams, SignUpResponse>(coroutineDispatcher) {
 
-    override suspend fun execute(parameters: SignUpParams) {
+    override suspend fun execute(parameters: SignUpParams): SignUpResponse {
         return with(parameters) {
             repository.signUp(
                 accessToken = accessToken,

@@ -16,19 +16,8 @@ class TermsAndConditionsDataRepository @Inject constructor(
 ) : TermsAndConditionsRepository {
 
     override fun fetchAllTerms() = flow {
-        termsAndConditionsService.fetchTermsItems().suspendOnSuccess {
-            val list = data.map {
-                TermsItem(
-                    createdAt = it.createdAt,
-                    isRequired = it.isRequired,
-                    name = it.name,
-                    termsId = it.termsId,
-                    updateAt = it.updateAt,
-                    url = it.url
-                )
-            }
-            emit(list)
-        }
+        val value = termsAndConditionsService.fetchTermsItems()
+        emit(value)
     }.flowOn(Dispatchers.IO)
 
     override suspend fun updateTermsCheckedStatus(termsItems: List<TermsItem>) {

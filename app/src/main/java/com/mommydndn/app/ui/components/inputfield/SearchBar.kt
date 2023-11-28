@@ -72,7 +72,7 @@ fun Searchbar(
                 backStackAction()
             }) {
                 Icon(
-                    painter = painterResource(id = R.drawable.arrow_left),
+                    painter = painterResource(id = R.drawable.icon_arrow_left),
                     contentDescription = "",
                     tint = Grey400
                 )

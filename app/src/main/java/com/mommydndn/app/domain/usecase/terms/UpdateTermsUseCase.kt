@@ -15,9 +15,9 @@ import javax.inject.Singleton
 class UpdateTermsUseCase @Inject constructor(
     coroutineDispatcher: CoroutineDispatcher,
     private val repository: TermsAndConditionsRepository,
-) : FlowUseCase<UpdateTermsParams, Unit>(coroutineDispatcher) {
+) : UseCase<UpdateTermsParams, Unit>(coroutineDispatcher) {
 
-    override suspend fun execute(parameters: UpdateTermsParams): Flow<Result<Unit>> {
+    override suspend fun execute(parameters: UpdateTermsParams) {
         return with(parameters) {
             repository.updateTermsCheckedStatus(item)
         }
