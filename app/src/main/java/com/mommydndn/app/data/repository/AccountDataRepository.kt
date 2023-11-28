@@ -48,17 +48,18 @@ class AccountDataRepository @Inject constructor(
         userType: UserType,
         emdId: Int
     ) = authenticationService.signUp(
-            SignUpRequest(
-                accessToken = accessToken,
-                oauthProvider = oAuthType.name,
-                userType = userType.name,
-                emdId = emdId
-            )
-        ).suspendOnSuccess {
-            tokenManager.putAccessToken(data?.accessToken)
-            tokenManager.putRefreshToken(data?.refreshToken)
-        }
+        SignUpRequest(
+            accessToken = accessToken,
+            oauthProvider = oAuthType.name,
+            userType = userType.name,
+            emdId = emdId
+        )
+    )
 
+    override suspend fun saveUserToken(accessToken: String, refreshToken: String) {
+        tokenManager.putAccessToken(accessToken)
+        tokenManager.putRefreshToken(refreshToken)
+    }
 
     override suspend fun getGoogleAccessToken(
         authCode: String

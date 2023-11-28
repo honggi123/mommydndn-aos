@@ -20,7 +20,7 @@ interface AuthenticationService {
     @POST("/api/auth/signup")
     suspend fun signUp(
         @Body signUpRequest: SignUpRequest
-    ): ApiResponse<SignUpResponse>
+    ): SignUpResponse
 
     @POST("/api/auth/reissue")
     suspend fun reissue(

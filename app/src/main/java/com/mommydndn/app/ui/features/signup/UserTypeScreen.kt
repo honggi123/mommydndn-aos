@@ -26,7 +26,6 @@ import com.mommydndn.app.ui.components.box.MaintextBox
 import com.mommydndn.app.ui.components.button.SquareButton
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.user.SignUpInfo
-import com.mommydndn.app.data.model.user.UserTypeSerializer
 import com.mommydndn.app.domain.model.user.UserType
 import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.navigation.LocationSearchNav
@@ -64,7 +63,6 @@ internal fun UserTypeRoute(
             onExploreClick = onExploreClick,
             onUserTypeClick = onUserTypeClick
         )
-
         is SignUpUiState.UserTypeSelected -> {
             NavigationUtils.navigate(
                 navHostController,
@@ -132,13 +130,13 @@ fun UserTypeContent(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             SquareButton(
-                imageResourceId = R.drawable.building_graphic,
+                imageResourceId = R.drawable.icon_building,
                 text = stringResource(R.string.company_user),
                 onClick = { onUserTypeClick(UserType.COMPANY) }
             )
             Spacer(modifier = Modifier.padding(16.dp))
             SquareButton(
-                imageResourceId = R.drawable.person_graphic,
+                imageResourceId = R.drawable.icon_person,
                 text = stringResource(R.string.individual_user),
                 onClick = { onUserTypeClick(UserType.INDIVIDUAL) }
             )

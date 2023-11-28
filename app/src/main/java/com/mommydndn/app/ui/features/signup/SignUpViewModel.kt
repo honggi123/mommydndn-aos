@@ -11,6 +11,7 @@ import com.mommydndn.app.data.model.map.LocationInfo
 import com.mommydndn.app.data.model.user.SignUpInfo
 import com.mommydndn.app.data.model.terms.TermsItem
 import com.mommydndn.app.data.model.user.shouldSkipSignUp
+import com.mommydndn.app.data.preferences.TokenManager
 import com.mommydndn.app.domain.model.user.UserType
 import com.mommydndn.app.domain.repository.AccountRepository
 import com.mommydndn.app.domain.repository.LocationRepository
@@ -18,6 +19,8 @@ import com.mommydndn.app.domain.repository.TermsAndConditionsRepository
 import com.mommydndn.app.domain.usecase.terms.GetAllTermsUseCase
 import com.mommydndn.app.domain.usecase.terms.UpdateTermsParams
 import com.mommydndn.app.domain.usecase.terms.UpdateTermsUseCase
+import com.mommydndn.app.domain.usecase.user.SaveTokenParams
+import com.mommydndn.app.domain.usecase.user.SaveUserTokenUseCase
 import com.mommydndn.app.domain.usecase.user.SignUpParams
 import com.mommydndn.app.domain.usecase.user.SignUpUseCase
 import com.skydoves.sandwich.onSuccess
@@ -40,6 +43,7 @@ class SignUpViewModel @Inject constructor(
     private val updateTermsUseCase: UpdateTermsUseCase,
     private val signUpUseCase: SignUpUseCase,
     private val getAllTermsUseCase: GetAllTermsUseCase,
+    private val saveUserTokenUseCase: SaveUserTokenUseCase,
     private val locationRepository: LocationRepository
 ) : ViewModel() {
 
@@ -116,8 +120,22 @@ class SignUpViewModel @Inject constructor(
                     emdId = signUpInfo.emdId!!
                 )
             ).let { result ->
-                if (result is Result.Success) {
-                    updateTermsCheckedStatus(terms.value)
+                when (result) {
+                    is Result.Success -> {
+                        saveUserTokenUseCase(
+                            SaveTokenParams(
+                                accessToken = result.data.accessToken,
+                                refreshToken = result.data.refreshToken
+                            )
+                        )
+                        updateTermsCheckedStatus(terms.value)
+                    }
+
+                    is Result.Failure -> {
+                        _uiState.value = SignUpUiState.Failure(result.exception)
+                    }
+
+                    else -> {}
                 }
             }
         }

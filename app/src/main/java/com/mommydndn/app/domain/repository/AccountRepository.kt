@@ -20,7 +20,12 @@ interface AccountRepository {
         oAuthType: OAuthType,
         userType: UserType,
         emdId: Int
-    ): ApiResponse<SignUpResponse>
+    ): SignUpResponse
+
+    suspend fun saveUserToken(
+        accessToken: String,
+        refreshToken: String
+    ): Unit
 
     suspend fun getGoogleAccessToken(authCode: String): ApiResponse<LoginGoogleResponse>
 }
