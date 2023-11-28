@@ -12,5 +12,5 @@ abstract class FlowUseCase<in P, R>(private val coroutineDispatcher: CoroutineDi
         .catch { throwable -> emit(Result.Failure(Exception(throwable))) }
         .flowOn(coroutineDispatcher)
 
-    protected abstract fun execute(parameters: P): Flow<Result<R>>
+    protected abstract suspend fun execute(parameters: P): Flow<Result<R>>
 }

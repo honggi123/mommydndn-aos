@@ -10,10 +10,16 @@ import com.mommydndn.app.data.model.map.EmdItem
 import com.mommydndn.app.data.model.map.LocationInfo
 import com.mommydndn.app.data.model.user.SignUpInfo
 import com.mommydndn.app.data.model.terms.TermsItem
+import com.mommydndn.app.data.model.user.shouldSkipSignUp
 import com.mommydndn.app.domain.model.user.UserType
 import com.mommydndn.app.domain.repository.AccountRepository
 import com.mommydndn.app.domain.repository.LocationRepository
 import com.mommydndn.app.domain.repository.TermsAndConditionsRepository
+import com.mommydndn.app.domain.usecase.terms.GetAllTermsUseCase
+import com.mommydndn.app.domain.usecase.terms.UpdateTermsParams
+import com.mommydndn.app.domain.usecase.terms.UpdateTermsUseCase
+import com.mommydndn.app.domain.usecase.user.SignUpParams
+import com.mommydndn.app.domain.usecase.user.SignUpUseCase
 import com.skydoves.sandwich.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -26,13 +32,19 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.mommydndn.app.util.result.Result
+import kotlinx.coroutines.flow.asStateFlow
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val accountRepository: AccountRepository,
-    private val termsAndConditionsRepository: TermsAndConditionsRepository,
+    private val updateTermsUseCase: UpdateTermsUseCase,
+    private val signUpUseCase: SignUpUseCase,
+    private val getAllTermsUseCase: GetAllTermsUseCase,
     private val locationRepository: LocationRepository
 ) : ViewModel() {
+
+    private val _uiState: MutableStateFlow<SignUpUiState> = MutableStateFlow(SignUpUiState.Loading)
+    val uiState: StateFlow<SignUpUiState> = _uiState.asStateFlow()
 
     private val _signUpInfo = MutableStateFlow(SignUpInfo())
     val signUpInfo: StateFlow<SignUpInfo> = _signUpInfo
@@ -69,30 +81,45 @@ class SignUpViewModel @Inject constructor(
         }
 
     init {
-        updateTerms()
+        fetchAllTerms()
     }
 
-    private fun updateTerms() {
+    private fun fetchAllTerms() {
         viewModelScope.launch {
-            termsAndConditionsRepository.fetchAllTerms()
-                .collectLatest { _terms.value = it }
+            getAllTermsUseCase(Unit).collectLatest { result ->
+                if (result is Result.Success) {
+                    _terms.value = result.data
+                }
+            }
         }
     }
 
     private fun updateTermsCheckedStatus(termsItem: List<TermsItem>) {
         viewModelScope.launch {
-            termsAndConditionsRepository.updateTermsCheckedStatus(termsItem)
+            updateTermsUseCase.invoke(UpdateTermsParams(termsItem))
         }
     }
 
     fun signUp(
         signUpInfo: SignUpInfo
     ) {
+        if (signUpInfo.shouldSkipSignUp()) {
+            return
+        }
+
         viewModelScope.launch {
-            accountRepository.signUp(signUpInfo)
-                .onSuccess {
-                    updateTermsCheckedStatus(_terms.value)
+            signUpUseCase.invoke(
+                SignUpParams(
+                    accessToken = signUpInfo.accessToken!!,
+                    oAuthType = signUpInfo.oAuthType!!,
+                    userType = signUpInfo.userType!!,
+                    emdId = signUpInfo.emdId!!
+                )
+            ).let { result ->
+                if (result is Result.Success) {
+                    updateTermsCheckedStatus(terms.value)
                 }
+            }
         }
     }
 
@@ -110,6 +137,8 @@ class SignUpViewModel @Inject constructor(
     fun setUserType(userType: UserType?) {
         val currentSignUpInfo = signUpInfo.value
         _signUpInfo.value = currentSignUpInfo.copy(userType = userType)
+
+        _uiState.value = SignUpUiState.UserTypeSelected
     }
 
 
@@ -137,3 +166,5 @@ class SignUpViewModel @Inject constructor(
         }
     }
 }
+
+

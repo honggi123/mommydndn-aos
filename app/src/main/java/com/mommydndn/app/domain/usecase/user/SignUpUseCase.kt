@@ -1,0 +1,34 @@
+package com.mommydndn.app.domain.usecase.user
+
+import com.mommydndn.app.data.repository.AccountDataRepository
+import com.mommydndn.app.domain.model.user.OAuthType
+import com.mommydndn.app.domain.model.user.UserType
+import com.mommydndn.app.domain.usecase.UseCase
+import kotlinx.coroutines.CoroutineDispatcher
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class SignUpUseCase @Inject constructor(
+    coroutineDispatcher: CoroutineDispatcher,
+    private val repository: AccountDataRepository,
+) : UseCase<SignUpParams, Unit>(coroutineDispatcher) {
+
+    override suspend fun execute(parameters: SignUpParams) {
+        return with(parameters) {
+            repository.signUp(
+                accessToken = accessToken,
+                oAuthType = oAuthType,
+                userType = userType,
+                emdId = emdId
+            )
+        }
+    }
+}
+
+data class SignUpParams(
+    val accessToken: String,
+    val oAuthType: OAuthType,
+    val userType: UserType,
+    val emdId: Int
+)

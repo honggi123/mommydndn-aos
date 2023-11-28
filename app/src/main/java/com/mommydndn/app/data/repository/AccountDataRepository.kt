@@ -11,6 +11,7 @@ import com.mommydndn.app.data.api.model.response.LoginResponse
 import com.mommydndn.app.domain.model.user.OAuthType
 import com.mommydndn.app.data.model.user.SignUpInfo
 import com.mommydndn.app.data.api.model.request.SignUpRequest
+import com.mommydndn.app.domain.model.user.UserType
 import com.mommydndn.app.domain.repository.AccountRepository
 import com.skydoves.sandwich.ApiResponse
 import com.skydoves.sandwich.suspendOnSuccess
@@ -26,7 +27,6 @@ class AccountDataRepository @Inject constructor(
         acessToken: String,
         oAuthType: OAuthType
     ): ApiResponse<LoginResponse> {
-
         val response = authenticationService
             .login(
                 SignInRequest(
@@ -42,13 +42,17 @@ class AccountDataRepository @Inject constructor(
         return response
     }
 
-    override suspend fun signUp(signUpInfo: SignUpInfo) =
-       authenticationService.signUp(
+    override suspend fun signUp(
+        accessToken: String,
+        oAuthType: OAuthType,
+        userType: UserType,
+        emdId: Int
+    ) = authenticationService.signUp(
             SignUpRequest(
-                accessToken = signUpInfo.accessToken ?: "",
-                oauthProvider = signUpInfo.oAuthType?.name ?: "",
-                userType = signUpInfo.userType?.name ?: "",
-                emdId = signUpInfo.emdId ?: 0
+                accessToken = accessToken,
+                oauthProvider = oAuthType.name,
+                userType = userType.name,
+                emdId = emdId
             )
         ).suspendOnSuccess {
             tokenManager.putAccessToken(data?.accessToken)

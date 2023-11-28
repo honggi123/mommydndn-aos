@@ -2,7 +2,9 @@ package com.mommydndn.app.ui.features.signup
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.util.Log
+import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.spring
@@ -13,9 +15,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -26,9 +32,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.mommydndn.app.R
@@ -36,36 +45,31 @@ import com.mommydndn.app.data.model.common.LocationSearchType
 import com.mommydndn.app.data.model.map.LocationInfo
 import com.mommydndn.app.data.model.map.EmdItem
 import com.mommydndn.app.data.model.map.displayName
+import com.mommydndn.app.data.model.terms.TermsItem
+import com.mommydndn.app.data.model.user.SignUpInfo
 import com.mommydndn.app.ui.components.box.RadioListBox
 import com.mommydndn.app.ui.components.box.SearchUnderHeader
+import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.components.inputfield.Searchbar
 import com.mommydndn.app.ui.components.modal.TermsCheckListModal
+import com.mommydndn.app.ui.navigation.LocationSearchNav
+import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.ui.theme.GreyOpacity400
+import com.mommydndn.app.util.NavigationUtils
 import com.mommydndn.app.util.PermissionUtils
 import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterialApi::class)
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun LocationSearchScreen(
+internal fun LocationSearchRoute(
+    signUpInfo: SignUpInfo,
     navHostController: NavHostController,
-    viewModel: SignUpViewModel,
+    onExploreClick: () -> Unit,
+    viewModel: SignUpViewModel = hiltViewModel(),
     fusedLocationClient: FusedLocationProviderClient
 ) {
-
     val context = LocalContext.current
-
-    val keyword by viewModel.keyword.collectAsState()
-    val terms by viewModel.terms.collectAsState()
-    val signUpInfo by viewModel.signUpInfo.collectAsState()
-
-    val pagingItems = viewModel.searchedLocations.collectAsLazyPagingItems()
-
-    val permissions = arrayOf(
-        Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.ACCESS_FINE_LOCATION
-    )
 
     val launcher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -73,25 +77,37 @@ fun LocationSearchScreen(
         val areGranted = permissionsMap.values.reduce { acc, next -> acc && next }
         if (areGranted) {
             Log.d("TownCheckScreen", "권한이 동의되었습니다.")
-            searchNearLocations(fusedLocationClient, viewModel)
+            searchNearLocations(fusedLocationClient, searchAction = { latitude, longitude ->
+                viewModel.setLocationInfo(
+                    LocationInfo(
+                        latitude = latitude,
+                        longitude = longitude
+                    )
+                )
+            })
         } else {
+
         }
         Log.d("TownCheckScreen", "권한이 거부되었습니다.")
     }
 
     LaunchedEffect(Unit) {
-        PermissionUtils.checkAndRequestPermissions(
-            context,
-            permissions,
-            launcher,
-            onPermissionGranted = {
-                searchNearLocations(
-                    fusedLocationClient,
-                    viewModel
-                )
-            }
+        viewModel.setSignUpInfo(signUpInfo)
+
+        requestAndSearchNearLocations(
+            context = context,
+            launcher = launcher,
+            fusedLocationClient = fusedLocationClient,
+            viewModel = viewModel
         )
     }
+
+
+    val keyword by viewModel.keyword.collectAsState()
+    val terms by viewModel.terms.collectAsState()
+    val signUpInfo by viewModel.signUpInfo.collectAsState()
+
+    val pagingItems = viewModel.searchedLocations.collectAsLazyPagingItems()
 
     val scaffoldState = rememberScaffoldState()
     val sheetState =
@@ -106,47 +122,94 @@ fun LocationSearchScreen(
 
     val scope = rememberCoroutineScope()
 
+    val uiState by viewModel.uiState.collectAsState()
+
+    when (val state = uiState) {
+        SignUpUiState.Loading -> {
+            LocationSearchScreen(
+                modifier = Modifier.fillMaxWidth(),
+                keyword = keyword,
+                pagingItems = pagingItems,
+                onExploreClick = onExploreClick,
+                onSearchClick = {
+                    requestAndSearchNearLocations(
+                        context = context,
+                        launcher = launcher,
+                        fusedLocationClient = fusedLocationClient,
+                        viewModel = viewModel
+                    )
+                },
+                onItemClick = { item ->
+                    scope.launch { sheetState.show() }
+                    viewModel.setEmdId(item?.id)
+                },
+                onDialogDismiss = { scope.launch { sheetState.hide() } },
+                onDialogItemSelected = { index, isChecked ->
+                    viewModel.setTermsCheckStatus(
+                        terms.get(index).termsId,
+                        isChecked
+                    )
+                },
+                itemList = terms,
+                onDialogComplete = { viewModel.signUp(signUpInfo) },
+                scaffoldState = scaffoldState,
+                sheetState = sheetState,
+                onClearClick = { viewModel.clearKeyword() },
+                onKeywordChange = { viewModel.setKeyword(it) }
+            )
+        }
+
+        is SignUpUiState.Success -> {
+            // TODO
+        }
+        else -> {
+            // TODO
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@Composable
+fun LocationSearchScreen(
+    modifier: Modifier = Modifier,
+    keyword: String,
+    onSearchClick: () -> Unit,
+    onExploreClick: () -> Unit,
+    onClearClick: () -> Unit,
+    onKeywordChange: (String) -> Unit,
+    onItemClick: (EmdItem) -> Unit,
+    pagingItems: LazyPagingItems<EmdItem>,
+    scaffoldState: ScaffoldState,
+    sheetState: ModalBottomSheetState,
+    itemList: List<TermsItem>,
+    onDialogItemSelected: (Int, Boolean) -> Unit,
+    onDialogDismiss: () -> Unit,
+    onDialogComplete: () -> Unit,
+) {
+
     Scaffold(
         topBar = {
-            Column {
-                Searchbar(
-                    modifier = Modifier.fillMaxWidth(),
-                    keyword = keyword,
-                    onValueChange = { viewModel.setKeyword(it) },
-                    clearAction = { viewModel.clearKeyword() },
-                    placeHolderText = stringResource(R.string.searched_neighborhood),
-                    backStackAction = { navHostController.popBackStack() },
-                )
-                SearchUnderHeader(
-                    modifier = Modifier.fillMaxWidth(),
-                    headerText = if (keyword.isBlank()) {
-                        stringResource(R.string.search_location_keyword)
-                    } else {
-                        stringResource(R.string.result_searched_neighborhood, keyword)
-                    },
-                    searchAction = {
-                        PermissionUtils.checkAndRequestPermissions(
-                            context,
-                            permissions,
-                            launcher,
-                            onPermissionGranted = {
-                                searchNearLocations(
-                                    fusedLocationClient,
-                                    viewModel
-                                )
-                            }
-                        )
-                    })
-            }
+            LocationSearchTopAppBar(
+                modifier = Modifier.fillMaxWidth(),
+                onExploreClick = onExploreClick,
+                onSearchClick = {
+                    onSearchClick()
+                },
+                keyword = keyword,
+                onClearClick = { onClearClick() },
+                onKeywordChange = { onKeywordChange(it) },
+            )
         },
         scaffoldState = scaffoldState,
     ) {
-        Box(modifier = Modifier.fillMaxSize()) {
+        Box(modifier = modifier.fillMaxSize()) {
             RadioListBox(
                 pagingItems = pagingItems,
-                onItemClick = { emdItem ->
-                    scope.launch { sheetState.show() }
-                    viewModel.setEmdId(emdItem?.id)
+                onItemClick = { item ->
+                    if (item != null) {
+                        onItemClick(item)
+                    }
                 },
                 itemNameDisplay = EmdItem::displayName
             )
@@ -162,12 +225,12 @@ fun LocationSearchScreen(
         sheetContent = {
             TermsCheckListModal(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 32.dp),
-                onDismiss = { scope.launch { sheetState.hide() } },
+                onDismiss = { onDialogDismiss() },
                 onItemSelected = { index, isChecked ->
-                    viewModel.setTermsCheckStatus(terms.get(index).termsId, isChecked)
+                    onDialogItemSelected(index, isChecked)
                 },
-                onComplete = { viewModel.signUp(signUpInfo) },
-                itemList = terms,
+                onComplete = { onDialogComplete() },
+                itemList = itemList,
                 titleCheckBoxText = stringResource(R.string.total_terms_agreement)
             )
         }
@@ -180,25 +243,79 @@ fun LocationSearchScreen(
     }
 }
 
-private fun searchNearLocations(
+@Composable
+fun LocationSearchTopAppBar(
+    modifier: Modifier = Modifier,
+    onExploreClick: () -> Unit,
+    onSearchClick: () -> Unit,
+    onClearClick: () -> Unit,
+    onKeywordChange: (String) -> Unit,
+    keyword: String,
+) {
+    Column {
+        Searchbar(
+            modifier = modifier.fillMaxWidth(),
+            keyword = keyword,
+            onValueChange = { onKeywordChange(it) },
+            clearAction = { onClearClick() },
+            placeHolderText = stringResource(R.string.searched_neighborhood),
+            backStackAction = { onExploreClick() },
+        )
+        SearchUnderHeader(
+            modifier = Modifier.fillMaxWidth(),
+            headerText = if (keyword.isBlank()) {
+                stringResource(R.string.search_location_keyword)
+            } else {
+                stringResource(R.string.result_searched_neighborhood, keyword)
+            },
+            searchAction = { onSearchClick() })
+    }
+}
+
+private fun requestAndSearchNearLocations(
+    context: Context,
+    launcher: ManagedActivityResultLauncher<Array<String>, Map<String, Boolean>>,
     fusedLocationClient: FusedLocationProviderClient,
     viewModel: SignUpViewModel
+) {
+    val permissions = arrayOf(
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+        Manifest.permission.ACCESS_FINE_LOCATION
+    )
+
+    PermissionUtils.checkAndRequestPermissions(
+        context,
+        permissions,
+        launcher,
+        onPermissionGranted = {
+            searchNearLocations(
+                fusedLocationClient,
+                searchAction = { latitude, longitude ->
+                    viewModel.setLocationInfo(
+                        LocationInfo(
+                            latitude = latitude,
+                            longitude = longitude
+                        )
+                    )
+                }
+            )
+        }
+    )
+}
+
+private fun searchNearLocations(
+    fusedLocationClient: FusedLocationProviderClient,
+    searchAction: (Double, Double) -> Unit
 ) {
     try {
         fusedLocationClient.lastLocation.addOnSuccessListener {
             it?.let {
-                viewModel.setLocationInfo(
-                    LocationInfo(
-                        latitude = it.latitude,
-                        longitude = it.longitude
-                    )
-                )
+                searchAction(it.latitude, it.longitude)
             }
         }
     } catch (e: SecurityException) {
         Log.d("TownCheckScreen", e.stackTraceToString())
     }
 }
-
 
 
