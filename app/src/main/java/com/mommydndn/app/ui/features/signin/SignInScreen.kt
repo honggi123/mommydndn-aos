@@ -20,6 +20,9 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
@@ -48,6 +51,7 @@ import com.mommydndn.app.ui.theme.heading800
 import com.mommydndn.app.ui.theme.paragraph300
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.OAuthLoginCallback
+import kotlinx.coroutines.Dispatchers
 
 @Composable
 internal fun SignInRoute(
@@ -73,7 +77,7 @@ internal fun SignInRoute(
                     }
             }
         }
-
+    
     val onSignInClick: (OAuthProvider) -> Unit = { socialLoginProvider ->
         when (socialLoginProvider) {
             OAuthProvider.NAVER -> {
