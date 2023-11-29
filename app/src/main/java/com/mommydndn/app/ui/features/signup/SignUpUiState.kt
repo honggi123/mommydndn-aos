@@ -1,10 +1,8 @@
 package com.mommydndn.app.ui.features.signup
 
-import androidx.compose.runtime.key
 import com.mommydndn.app.data.model.common.LocationSearchType
-import com.mommydndn.app.data.model.terms.TermsItem
+import com.mommydndn.app.data.model.TermsAndConditions.TermsAndConditionsItem
 import com.mommydndn.app.data.model.user.SignUpInfo
-import com.mommydndn.app.domain.model.user.UserType
 
 sealed interface SignUpUiState {
 
@@ -21,7 +19,7 @@ sealed interface SignUpUiState {
     data class LocationSearch(
         val locationSearchType: LocationSearchType,
         val keyword: String,
-        val terms: List<TermsItem>,
+        val termsAndCondtions: List<TermsAndConditionsItem>,
         val isSignUpSuccess: Boolean,
         override val isLoading: Boolean,
         override val signUpInfo: SignUpInfo?,

@@ -25,7 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.mommydndn.app.data.model.terms.TermsItem
+import com.mommydndn.app.data.model.TermsAndConditions.TermsAndConditionsItem
 import com.mommydndn.app.ui.components.list.CheckBoxListItem
 import com.mommydndn.app.ui.components.list.CheckMarkListItem
 import com.mommydndn.app.ui.theme.Grey200
@@ -37,8 +37,7 @@ import com.mommydndn.app.ui.theme.shadow700
 fun TermsCheckListModal(
     modifier: Modifier = Modifier,
     titleCheckBoxText: String = "",
-    itemList: List<TermsItem>,
-
+    itemList: List<TermsAndConditionsItem>,
     onItemSelected: (Int, Boolean) -> Unit,
     onDismiss: () -> Unit,
     onComplete: () -> Unit,

@@ -24,7 +24,6 @@ import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -34,17 +33,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.common.LocationSearchType
-import com.mommydndn.app.data.model.map.LocationInfo
-import com.mommydndn.app.data.model.map.EmdItem
-import com.mommydndn.app.data.model.map.displayName
-import com.mommydndn.app.data.model.terms.TermsItem
-import com.mommydndn.app.data.model.user.SignUpInfo
+import com.mommydndn.app.data.model.location.LocationInfo
+import com.mommydndn.app.data.model.location.EmdItem
+import com.mommydndn.app.data.model.location.displayName
+import com.mommydndn.app.data.model.TermsAndConditions.TermsAndConditionsItem
 import com.mommydndn.app.ui.components.box.RadioListBox
 import com.mommydndn.app.ui.components.box.SearchUnderHeader
 import com.mommydndn.app.ui.components.inputfield.Searchbar
@@ -57,8 +54,8 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 internal fun LocationSearchRoute(
-    signUpInfo: SignUpInfo,
-    onExploreClick: () -> Unit,
+    navigateToNextScreen: () -> Unit,
+    navigateToPreviousScreen: () -> Unit,
     viewModel: SignUpViewModel = hiltViewModel(),
     fusedLocationClient: FusedLocationProviderClient
 ) {
@@ -95,8 +92,6 @@ internal fun LocationSearchRoute(
     }
 
     LaunchedEffect(Unit) {
-        viewModel.setSignUpInfo(signUpInfo)
-
         requestAndSearchNearLocations(
             context = context,
             launcher = launcher,
@@ -114,12 +109,18 @@ internal fun LocationSearchRoute(
         viewModel.searchedLocations.collectAsLazyPagingItems()
     }
 
+    screenState?.isSignUpSuccess?.let { isSuccess ->
+        if (isSuccess) {
+            navigateToNextScreen()
+        }
+    }
+
     screenState?.let { state ->
         LocationSearchScreen(
             modifier = Modifier.fillMaxWidth(),
             keyword = state.keyword,
             pagingItems = pagingItems,
-            onExploreClick = onExploreClick,
+            navigateToPreviousScreen = navigateToPreviousScreen,
             onSearchClick = {
                 requestAndSearchNearLocations(
                     context,
@@ -135,11 +136,11 @@ internal fun LocationSearchRoute(
             onDialogDismiss = { scope.launch { sheetState.hide() } },
             onDialogItemSelected = { index, isChecked ->
                 viewModel.setTermsCheckStatus(
-                    termsId = state.terms[index].termsId,
+                    termsId = state.termsAndCondtions[index].termsId,
                     isChecked = isChecked
                 )
             },
-            itemList = state.terms,
+            itemList = state.termsAndCondtions,
             onDialogComplete = { viewModel.signUp(state.signUpInfo) },
             scaffoldState = scaffoldState,
             sheetState = sheetState,
@@ -147,7 +148,6 @@ internal fun LocationSearchRoute(
             onKeywordChange = { viewModel.setKeyword(it) }
         )
     }
-
 }
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -157,14 +157,14 @@ fun LocationSearchScreen(
     modifier: Modifier = Modifier,
     keyword: String,
     onSearchClick: () -> Unit,
-    onExploreClick: () -> Unit,
+    navigateToPreviousScreen: () -> Unit,
     onClearClick: () -> Unit,
     onKeywordChange: (String) -> Unit,
     onItemClick: (EmdItem) -> Unit,
     pagingItems: LazyPagingItems<EmdItem>,
     scaffoldState: ScaffoldState,
     sheetState: ModalBottomSheetState,
-    itemList: List<TermsItem>,
+    itemList: List<TermsAndConditionsItem>,
     onDialogItemSelected: (Int, Boolean) -> Unit,
     onDialogDismiss: () -> Unit,
     onDialogComplete: () -> Unit,
@@ -174,7 +174,7 @@ fun LocationSearchScreen(
         topBar = {
             LocationSearchTopAppBar(
                 modifier = Modifier.fillMaxWidth(),
-                onExploreClick = onExploreClick,
+                navigateToPreviousScreen = navigateToPreviousScreen,
                 onSearchClick = { onSearchClick() },
                 keyword = keyword,
                 onClearClick = { onClearClick() },
@@ -224,7 +224,7 @@ fun LocationSearchScreen(
 @Composable
 fun LocationSearchTopAppBar(
     modifier: Modifier = Modifier,
-    onExploreClick: () -> Unit,
+    navigateToPreviousScreen: () -> Unit,
     onSearchClick: () -> Unit,
     onClearClick: () -> Unit,
     onKeywordChange: (String) -> Unit,
@@ -237,7 +237,7 @@ fun LocationSearchTopAppBar(
             onValueChange = { onKeywordChange(it) },
             clearAction = { onClearClick() },
             placeHolderText = stringResource(R.string.searched_neighborhood),
-            backStackAction = { onExploreClick() },
+            backStackAction = { navigateToPreviousScreen() },
         )
         SearchUnderHeader(
             modifier = Modifier.fillMaxWidth(),

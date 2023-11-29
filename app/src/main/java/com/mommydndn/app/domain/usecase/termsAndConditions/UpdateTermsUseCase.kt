@@ -1,13 +1,9 @@
-package com.mommydndn.app.domain.usecase.terms
+package com.mommydndn.app.domain.usecase.termsAndConditions
 
-import com.mommydndn.app.data.model.terms.TermsItem
+import com.mommydndn.app.data.model.TermsAndConditions.TermsAndConditionsItem
 import com.mommydndn.app.domain.repository.TermsAndConditionsRepository
-import com.mommydndn.app.domain.repository.UserRepository
-import com.mommydndn.app.domain.usecase.FlowUseCase
 import com.mommydndn.app.domain.usecase.UseCase
-import com.mommydndn.app.util.result.Result
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -25,5 +21,5 @@ class UpdateTermsUseCase @Inject constructor(
 }
 
 data class UpdateTermsParams(
-    val item: List<TermsItem>,
+    val item: List<TermsAndConditionsItem>,
 )

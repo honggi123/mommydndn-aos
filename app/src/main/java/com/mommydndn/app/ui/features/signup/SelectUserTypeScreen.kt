@@ -35,9 +35,9 @@ import com.mommydndn.app.util.NavigationUtils
 
 @Composable
 internal fun SelectUserTypeRoute(
-    signUpInfo: SignUpInfo,
-    navHostController: NavHostController,
-    onExploreClick: () -> Unit,
+    navigateToNextScreen: () -> Unit,
+    navigateToPreviousScreen: () -> Unit,
+    signUpInfo: SignUpInfo?,
     viewModel: SignUpViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(Unit) {
@@ -48,12 +48,12 @@ internal fun SelectUserTypeRoute(
         when (userType) {
             UserType.COMPANY -> {
                 viewModel.setUserType(UserType.COMPANY)
-                NavigationUtils.navigate(navHostController, LocationSearchNav.route)
+                navigateToNextScreen()
             }
 
             UserType.INDIVIDUAL -> {
                 viewModel.setUserType(UserType.INDIVIDUAL)
-                NavigationUtils.navigate(navHostController, LocationSearchNav.route)
+                navigateToNextScreen()
             }
         }
     }
@@ -63,7 +63,7 @@ internal fun SelectUserTypeRoute(
 
     screenState?.let {
         SelectUserTypeScreen(
-            onExploreClick = onExploreClick,
+            navigateToPreviousScreen = navigateToPreviousScreen,
             onUserTypeClick = onUserTypeClick,
             uiState = screenState
         )
@@ -72,13 +72,13 @@ internal fun SelectUserTypeRoute(
 
 @Composable
 fun SelectUserTypeScreen(
-    onExploreClick: () -> Unit,
+    navigateToPreviousScreen: () -> Unit,
     onUserTypeClick: (UserType) -> Unit,
     uiState: SignUpUiState.UserTypeSelect
 ) {
 
     Column(modifier = Modifier.fillMaxSize()) {
-        UserTypeTopAppBar(onExploreClick = onExploreClick)
+        UserTypeTopAppBar(navigateToPreviousScreen = navigateToPreviousScreen)
 
         MaintextBox(
             captionText = stringResource(R.string.welcome_message),
@@ -94,10 +94,10 @@ fun SelectUserTypeScreen(
 
 @Composable
 fun UserTypeTopAppBar(
-    onExploreClick: () -> Unit
+    navigateToPreviousScreen: () -> Unit,
 ) {
     Header(leftContent = {
-        IconButton(onClick = onExploreClick) {
+        IconButton(onClick = navigateToPreviousScreen) {
             Icon(
                 painter = painterResource(id = R.drawable.icon_arrow_left),
                 contentDescription = "icon_arrow_left",

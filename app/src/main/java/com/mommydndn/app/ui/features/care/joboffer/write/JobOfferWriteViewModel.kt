@@ -7,14 +7,14 @@ import androidx.lifecycle.viewModelScope
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.common.DayOfWeekType
-import com.mommydndn.app.data.model.map.EmdItem
+import com.mommydndn.app.data.model.location.EmdItem
 import com.mommydndn.app.data.model.care.EtcCheckItem
 import com.mommydndn.app.data.model.care.MinHourlySalary
 import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.SalaryTypeItem
 import com.mommydndn.app.data.model.care.WorkPeriodType
 import com.mommydndn.app.data.model.care.WorkPeriodTypeItem
-import com.mommydndn.app.data.model.map.LocationInfo
+import com.mommydndn.app.data.model.location.LocationInfo
 import com.mommydndn.app.domain.repository.CaringRepository
 import com.mommydndn.app.domain.repository.LocationRepository
 import com.mommydndn.app.domain.repository.UserRepository

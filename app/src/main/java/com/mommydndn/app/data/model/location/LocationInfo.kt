@@ -1,4 +1,4 @@
-package com.mommydndn.app.data.model.map
+package com.mommydndn.app.data.model.location
 
 data class LocationInfo(
     val latitude: Double,

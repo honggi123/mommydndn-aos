@@ -45,9 +45,10 @@ import com.mommydndn.app.ui.features.care.jobseeker.write.JobSeekerWriteViewMode
 import com.mommydndn.app.ui.features.care.jobseeker.write.preview.JobSeekerPreviewScreen
 import com.mommydndn.app.ui.features.home.MainHomeScreen
 import com.mommydndn.app.ui.features.signin.SignInScreen
+import com.mommydndn.app.ui.features.signup.LocationSearchRoute
 import com.mommydndn.app.ui.features.signup.LocationSearchScreen
+import com.mommydndn.app.ui.features.signup.SelectUserTypeRoute
 import com.mommydndn.app.ui.features.signup.SignUpViewModel
-import com.mommydndn.app.ui.features.signup.UserTypeScreen
 import com.mommydndn.app.ui.navigation.CompanyLocationSearchNav
 import com.mommydndn.app.ui.navigation.CompanyWriteNav
 import com.mommydndn.app.ui.navigation.CompanyWritePreviewNav
@@ -57,9 +58,9 @@ import com.mommydndn.app.ui.navigation.JobOfferWritePreviewNav
 import com.mommydndn.app.ui.navigation.JobSeekerLocationSearchNav
 import com.mommydndn.app.ui.navigation.JobSeekerWriteNav
 import com.mommydndn.app.ui.navigation.JobSeekerWritePreviewNav
+import com.mommydndn.app.ui.navigation.LocationSearchNav
 import com.mommydndn.app.ui.navigation.MainNav
 import com.mommydndn.app.ui.navigation.SignInNav
-import com.mommydndn.app.ui.navigation.TownCheckNav
 import com.mommydndn.app.ui.navigation.UserTypeNav
 import com.mommydndn.app.ui.theme.Grey300
 import com.mommydndn.app.ui.theme.Grey800
@@ -166,27 +167,28 @@ fun MainNavigationScreen(
         composable(
             route = UserTypeNav.routeWithArgName(),
             arguments = UserTypeNav.arguments,
-
             enterTransition = { slideEnterTransition },
             exitTransition = { slideExitTransition }
         ) {
             val signUpInfo = UserTypeNav.findArgument(it)
             val accessToken = Uri.decode(signUpInfo?.accessToken)
 
-            UserTypeScreen(
+            SelectUserTypeRoute(
+                navigateToNextScreen = { NavigationUtils.navigate(navController, LocationSearchNav.route) },
+                navigateToPreviousScreen = { navController.popBackStack() },
                 signUpInfo = signUpInfo?.copy(accessToken = accessToken),
-                navHostController = navController,
                 viewModel = signUpViewModel
             )
         }
 
         composable(
-            route = TownCheckNav.route,
+            route = LocationSearchNav.route,
             enterTransition = { slideEnterTransition },
             exitTransition = { slideExitTransition }
         ) {
-            LocationSearchScreen(
-                navHostController = navController,
+            LocationSearchRoute(
+                navigateToNextScreen = {},
+                navigateToPreviousScreen = { navController.popBackStack() },
                 fusedLocationClient = fusedLocationClient,
                 viewModel = signUpViewModel
             )

@@ -1,6 +1,6 @@
-package com.mommydndn.app.data.model.terms
+package com.mommydndn.app.data.model.TermsAndConditions
 
-data class TermsItem(
+data class TermsAndConditionsItem(
     val createdAt: Long,
     val isRequired: Boolean,
     val name: String,

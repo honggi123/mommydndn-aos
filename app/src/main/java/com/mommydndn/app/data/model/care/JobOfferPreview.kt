@@ -1,9 +1,7 @@
 package com.mommydndn.app.data.model.care
 
-import android.net.Uri
 import com.mommydndn.app.data.model.common.DayOfWeekItem
-import com.mommydndn.app.data.model.map.EmdItem
-import okhttp3.MultipartBody
+import com.mommydndn.app.data.model.location.EmdItem
 import java.time.LocalDate
 import java.time.LocalTime
 

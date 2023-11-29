@@ -4,7 +4,7 @@ import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeSerializer
 import com.mommydndn.app.data.model.care.CertificationType
 import com.mommydndn.app.data.model.care.CertificationTypeSerializer
-import com.mommydndn.app.data.model.map.EmdItem
+import com.mommydndn.app.data.model.location.EmdItem
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
