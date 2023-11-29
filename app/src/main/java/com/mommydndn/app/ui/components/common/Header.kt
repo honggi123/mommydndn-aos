@@ -18,7 +18,7 @@ import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.WhiteOpacity600
 
 @Composable
-internal fun Header(
+fun Header(
     modifier: Modifier = Modifier,
     backgroundColor: Color = White,
     leftContent: @Composable RowScope.() -> Unit = {},

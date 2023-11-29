@@ -77,7 +77,7 @@ internal fun SignInRoute(
                     }
             }
         }
-    
+
     val onSignInClick: (OAuthProvider) -> Unit = { socialLoginProvider ->
         when (socialLoginProvider) {
             OAuthProvider.NAVER -> {
@@ -138,10 +138,12 @@ internal fun SignInRoute(
             onSignInClick = onSignInClick,
             modifier = modifier,
         )
+
         SignInUiState.Success -> onSignInSuccess()
         is SignInUiState.NotSignedUpYet -> with(state) {
             onSignUpNeeded(accessToken, oAuthProvider)
         }
+
         is SignInUiState.Failure -> {
             // todo
         }
@@ -201,26 +203,30 @@ private fun SignInScreen(
 @Composable
 private fun SignInTopAppBar(
     onExploreClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    Header(rightContent = {
-        TextButton(
-            onClick = onExploreClick, contentPadding = PaddingValues(
-                top = 6.dp,
-                start = 8.dp,
-                end = 8.dp,
-                bottom = 6.dp,
-            )
-        ) {
-            Text(
-                modifier = Modifier,
-                text = stringResource(id = R.string.explore),
-                style = MaterialTheme.typography.paragraph300.copy(
-                    color = Grey500,
-                    fontWeight = FontWeight.Medium,
+    Header(
+        modifier = modifier,
+        rightContent = {
+            TextButton(
+                onClick = onExploreClick, contentPadding = PaddingValues(
+                    top = 6.dp,
+                    start = 8.dp,
+                    end = 8.dp,
+                    bottom = 6.dp,
                 )
-            )
+            ) {
+                Text(
+                    modifier = Modifier,
+                    text = stringResource(id = R.string.explore),
+                    style = MaterialTheme.typography.paragraph300.copy(
+                        color = Grey500,
+                        fontWeight = FontWeight.Medium,
+                    )
+                )
+            }
         }
-    })
+    )
 }
 
 @Composable

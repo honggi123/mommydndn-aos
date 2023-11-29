@@ -1,6 +1,5 @@
 package com.mommydndn.app.ui.components.modal.components
 
-import android.widget.Space
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,14 +19,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.mommydndn.app.R
 import com.mommydndn.app.ui.models.dialog.DialogTitle
 import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.Grey700
-import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.ui.theme.paragraph400
-import com.mommydndn.app.R
 
 @Composable
 fun DialogTitleWrapper(title: DialogTitle) {

@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.components.modal.care
+package com.mommydndn.app.ui.features.care.deprecated.modal
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -12,9 +12,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
+import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -22,7 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.data.model.care.filter.FilterItemsType
-import com.mommydndn.app.ui.components.inputfield.RadioListItem
+import com.mommydndn.app.ui.components.list.CheckMarkListItem
 import com.mommydndn.app.ui.components.modal.components.DialogButtonsRow
 import com.mommydndn.app.ui.components.modal.components.DialogTitleWrapper
 import com.mommydndn.app.ui.models.dialog.DialogButton
@@ -31,16 +34,21 @@ import com.mommydndn.app.ui.theme.Grey200
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.shadow700
+import kotlinx.coroutines.CoroutineScope
 
 
 @Composable
-fun PeriodBottomModal(
+fun CaringBottomModal(
     modifier: Modifier = Modifier,
-    item: FilterItemsType.Period,
+    item: FilterItemsType.Caring,
     onClickClose: () -> Unit = {},
-    onClickComplete: (FilterItemsType.Period) -> Unit = {}
+    onClickComplete: (FilterItemsType.Caring) -> Unit = {},
+    scaffoldState: ScaffoldState
 ) {
-    var periodItemList by rememberSaveable(Unit) { mutableStateOf(item.list) }
+    var caringItemList by rememberSaveable(Unit) { mutableStateOf(item.list) }
+    var caringItemIsChecked by remember { mutableStateOf(false) }
+
+    val coroutineScope: CoroutineScope = rememberCoroutineScope()
 
     Box(
         modifier = modifier
@@ -63,7 +71,9 @@ fun PeriodBottomModal(
                 .wrapContentSize()
                 .padding(start = 20.dp, top = 36.dp, end = 20.dp, bottom = 24.dp),
         ) {
-            DialogTitleWrapper(DialogTitle.Default(text = "돌봄 주기"))
+            DialogTitleWrapper(
+                DialogTitle.Default(text = "모든 돌봄종류")
+            )
 
             Divider(
                 thickness = 1.5.dp,
@@ -75,16 +85,15 @@ fun PeriodBottomModal(
             )
 
             Column {
-                periodItemList.forEachIndexed { index, periodType ->
-                    RadioListItem(
-                        checked = periodType.isSelected,
-                        onCheckedChange = {
-                            periodItemList = periodItemList.toMutableList().also {
-                                it.forEach { it.isSelected = false }
-                                it[index] = it[index].copy(isSelected = true)
+                caringItemList.forEachIndexed { index, item ->
+                    CheckMarkListItem(
+                        checked = item.isSelected,
+                        onCheckedChange = { isChecked ->
+                            caringItemList = caringItemList.toMutableList().also {
+                                it[index] = it[index].copy(isSelected = !it[index].isSelected)
                             }
                         },
-                        text = periodType.workPeriodType?.value ?: "전체"
+                        text = item.displayName
                     )
                 }
             }
@@ -99,11 +108,13 @@ fun PeriodBottomModal(
                 listOf(
                     DialogButton.Secondary(title = "닫기", action = {
                         onClickClose()
-                        periodItemList = item.list
+                        caringItemList = item.list
                     }),
                     DialogButton.Primary(title = "적용하기", action = {
                         onClickComplete(
-                            FilterItemsType.Period(list = periodItemList)
+                            FilterItemsType.Caring(
+                                list = caringItemList,
+                            )
                         )
                     })
                 )
@@ -111,3 +122,5 @@ fun PeriodBottomModal(
         }
     }
 }
+
+

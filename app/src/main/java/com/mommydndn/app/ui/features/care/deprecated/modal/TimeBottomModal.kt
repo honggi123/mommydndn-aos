@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.components.modal.care
+package com.mommydndn.app.ui.features.care.deprecated.modal
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background

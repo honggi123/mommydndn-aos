@@ -79,7 +79,7 @@ fun SelectField(
                 )
             )
             Image(
-                painter = painterResource(id = R.drawable.ic_arrow_down),
+                painter = painterResource(id = R.drawable.icon_arrow_down),
                 contentDescription = "Icon/arrow-down-line",
                 modifier = Modifier
                     .size(size = 28.dp)

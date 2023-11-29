@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.components.modal.care
+package com.mommydndn.app.ui.features.care.modal
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -46,21 +46,20 @@ import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.shadow700
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.care.DistanceType
+import com.mommydndn.app.domain.model.care.NearbyNeighborhoodDistance
+import com.mommydndn.app.domain.model.user.Neighborhood
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.caption200
 
 @Composable
-fun NeighborhoodScopeBottomModal(
+internal fun NeighborhoodsFilterModalBottomSheet(
+    neighborhood: Neighborhood,
+    nearbyNeighborhoodDistance: NearbyNeighborhoodDistance,
+    onCloseClick: () -> Unit,
+    onUpdateClick: (NearbyNeighborhoodDistance) -> Unit,
     modifier: Modifier = Modifier,
-    item: FilterItemsType.NeighborhoodScope,
-    onClickClose: () -> Unit = {},
-    onClickComplete: (FilterItemsType.NeighborhoodScope) -> Unit = {}
 ) {
-    val scopeItem by remember { mutableStateOf(item) }
 
-    var selectedDistanceType by remember {
-        mutableStateOf(scopeItem.list.filter { it.isSelected }.first())
-    }
     var sliderPosition by remember { mutableStateOf(selectedDistanceType.distantceType.distantce.toFloat()) }
 
     Box(

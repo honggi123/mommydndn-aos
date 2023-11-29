@@ -12,7 +12,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.ui.theme.GreyOpacity400
 
-
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun BaseModalBottomSheetLayout(
@@ -21,7 +20,6 @@ fun BaseModalBottomSheetLayout(
     sheetContent: @Composable ColumnScope.() -> Unit,
     content: @Composable () -> Unit,
 ) {
-
     ModalBottomSheetLayout(
         modifier = Modifier,
         sheetState = sheetState,
