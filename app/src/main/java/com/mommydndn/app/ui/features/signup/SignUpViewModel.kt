@@ -3,19 +3,16 @@ package com.mommydndn.app.ui.features.signup
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
-import com.mommydndn.app.data.api.model.response.Emd
 import com.mommydndn.app.data.model.common.LocationSearchType
 import com.mommydndn.app.data.model.map.EmdItem
 import com.mommydndn.app.data.model.map.LocationInfo
 import com.mommydndn.app.data.model.user.SignUpInfo
 import com.mommydndn.app.data.model.terms.TermsItem
 import com.mommydndn.app.data.model.user.shouldSkipSignUp
-import com.mommydndn.app.data.preferences.TokenManager
 import com.mommydndn.app.domain.model.user.UserType
-import com.mommydndn.app.domain.repository.AccountRepository
 import com.mommydndn.app.domain.repository.LocationRepository
-import com.mommydndn.app.domain.repository.TermsAndConditionsRepository
+import com.mommydndn.app.domain.usecase.location.GetLocationsUseCase
+import com.mommydndn.app.domain.usecase.location.GetNearestLocationsUseCase
 import com.mommydndn.app.domain.usecase.terms.GetAllTermsUseCase
 import com.mommydndn.app.domain.usecase.terms.UpdateTermsParams
 import com.mommydndn.app.domain.usecase.terms.UpdateTermsUseCase
@@ -23,20 +20,49 @@ import com.mommydndn.app.domain.usecase.user.SaveTokenParams
 import com.mommydndn.app.domain.usecase.user.SaveUserTokenUseCase
 import com.mommydndn.app.domain.usecase.user.SignUpParams
 import com.mommydndn.app.domain.usecase.user.SignUpUseCase
-import com.skydoves.sandwich.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.mommydndn.app.util.result.Result
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
+
+
+private data class SignUpViewModelState(
+    val signUpStep: SignUpStep = SignUpStep.USER_TYPE,
+    val locationSearchType: LocationSearchType = LocationSearchType.LOCATION,
+    val keyword: String = "",
+    val terms: List<TermsItem> = emptyList(),
+    val signUpInfo: SignUpInfo? = null,
+    val errorMessages: String = "",
+    val isLoading: Boolean = false,
+    val isSignUpSuccess: Boolean = false
+) {
+    fun toUiState(): SignUpUiState =
+        if (signUpStep == SignUpStep.USER_TYPE) {
+            SignUpUiState.UserTypeSelect(
+                isLoading = isLoading,
+                signUpInfo = signUpInfo,
+                errorMessages = errorMessages
+            )
+        } else {
+            SignUpUiState.LocationSearch(
+                locationSearchType = locationSearchType,
+                keyword = keyword,
+                terms = terms,
+                isLoading = isLoading,
+                signUpInfo = signUpInfo,
+                errorMessages = errorMessages,
+                isSignUpSuccess = isSignUpSuccess
+            )
+        }
+}
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
@@ -44,145 +70,182 @@ class SignUpViewModel @Inject constructor(
     private val signUpUseCase: SignUpUseCase,
     private val getAllTermsUseCase: GetAllTermsUseCase,
     private val saveUserTokenUseCase: SaveUserTokenUseCase,
-    private val locationRepository: LocationRepository
+    private val getNearestLocationsUseCase: GetNearestLocationsUseCase,
+    private val getLocationsUseCase: GetLocationsUseCase
 ) : ViewModel() {
 
-    private val _uiState: MutableStateFlow<SignUpUiState> = MutableStateFlow(SignUpUiState.Loading)
-    val uiState: StateFlow<SignUpUiState> = _uiState.asStateFlow()
+    private val currentLocationFlow = MutableStateFlow(LocationInfo(0.0, 0.0))
+    private val keywordFlow = MutableStateFlow<String>("")
 
-    private val _signUpInfo = MutableStateFlow(SignUpInfo())
-    val signUpInfo: StateFlow<SignUpInfo> = _signUpInfo
+    private val viewModelState = MutableStateFlow(SignUpViewModelState())
 
-    private val _searchType = MutableStateFlow<LocationSearchType>(LocationSearchType.LOCATION)
-    val searchType: StateFlow<LocationSearchType> = _searchType
+    val uiState = viewModelState
+        .map(SignUpViewModelState::toUiState)
+        .stateIn(
+            viewModelScope,
+            SharingStarted.Eagerly,
+            viewModelState.value.toUiState()
+        )
 
-    private val _keyword = MutableStateFlow<String>("")
-    val keyword: StateFlow<String> = _keyword
+    val searchedNearest: Flow<PagingData<EmdItem>> = currentLocationFlow
+        .flatMapLatest { currentLocation ->
+            getNearestLocationsUseCase.invoke(currentLocation)
+                .map { result ->
+                    when (result) {
+                        is Result.Success -> result.data
+                        else -> PagingData.empty()
+                    }
+                }
+        }
 
-    private val _terms = MutableStateFlow<List<TermsItem>>(emptyList())
-    val terms: StateFlow<List<TermsItem>> = _terms
-
-    private val _currentLocation = MutableStateFlow(LocationInfo(0.0, 0.0))
-
-    private val searchedLocationsByKeyword: Flow<PagingData<EmdItem>> = _keyword
-        .debounce(200)
-        .distinctUntilChanged()
-        .flatMapLatest {
-            locationRepository.fetchLocationsByKeyword(it)
-        }.cachedIn(viewModelScope)
-
-    private val searchedNearestByLocation: Flow<PagingData<EmdItem>> = _currentLocation
-        .flatMapLatest {
-            locationRepository.fetchNearestByLocation(it)
-        }.cachedIn(viewModelScope)
-
-    val searchedLocations: Flow<PagingData<EmdItem>> =
-        combine(
-            searchedLocationsByKeyword,
-            searchedNearestByLocation
-        ) { locationsKeyword, locationsNearest ->
-            if (searchType.value == LocationSearchType.KEYWORD) locationsKeyword else locationsNearest
+    val searchedLocations: Flow<PagingData<EmdItem>> = keywordFlow
+        .flatMapLatest { keyword ->
+            getLocationsUseCase.invoke(keyword)
+                .map { result ->
+                    when (result) {
+                        is Result.Success -> result.data
+                        else -> PagingData.empty()
+                    }
+                }
         }
 
     init {
         fetchAllTerms()
-    }
 
-    private fun fetchAllTerms() {
         viewModelScope.launch {
-            getAllTermsUseCase(Unit).collectLatest { result ->
-                if (result is Result.Success) {
-                    _terms.value = result.data
+            keywordFlow.collectLatest { keyword ->
+                viewModelState.update {
+                    it.copy(keyword = keyword)
                 }
             }
         }
     }
 
-    private fun updateTermsCheckedStatus(termsItem: List<TermsItem>) {
+    private fun fetchAllTerms() {
         viewModelScope.launch {
-            updateTermsUseCase.invoke(UpdateTermsParams(termsItem))
+            getAllTermsUseCase(Unit).collectLatest { result ->
+                viewModelState.update {
+                    when (result) {
+                        is Result.Success -> it.copy(terms = result.data)
+                        else -> it
+                    }
+                }
+            }
         }
     }
 
     fun signUp(
-        signUpInfo: SignUpInfo
+        signUpInfo: SignUpInfo?
     ) {
         if (signUpInfo.shouldSkipSignUp()) {
             return
         }
 
         viewModelScope.launch {
-            signUpUseCase.invoke(
+            when (val result = signUpUseCase.invoke(
                 SignUpParams(
-                    accessToken = signUpInfo.accessToken!!,
+                    accessToken = signUpInfo!!.accessToken!!,
                     oAuthType = signUpInfo.oAuthType!!,
                     userType = signUpInfo.userType!!,
                     emdId = signUpInfo.emdId!!
                 )
-            ).let { result ->
-                when (result) {
-                    is Result.Success -> {
-                        saveUserTokenUseCase(
-                            SaveTokenParams(
-                                accessToken = result.data.accessToken,
-                                refreshToken = result.data.refreshToken
-                            )
-                        )
-                        updateTermsCheckedStatus(terms.value)
-                    }
+            )) {
+                is Result.Success -> {
+                    saveUserToken(result.data.accessToken, result.data.refreshToken)
+                    updateTerms()
+                    setSignUpSuccessState()
+                }
 
-                    is Result.Failure -> {
-                        _uiState.value = SignUpUiState.Failure(result.exception)
-                    }
+                is Result.Loading -> {
+                    // TODO
+                }
 
-                    else -> {}
+                is Result.Failure -> {
+                    // TODO
                 }
             }
         }
     }
 
+    private fun saveUserToken(accessToken: String, refreshToken: String) {
+        viewModelScope.launch {
+            saveUserTokenUseCase(
+                SaveTokenParams(
+                    accessToken = accessToken,
+                    refreshToken = refreshToken
+                )
+            )
+        }
+    }
+
+    private fun updateTerms() {
+        viewModelScope.launch {
+            updateTermsUseCase.invoke(UpdateTermsParams(viewModelState.value.terms))
+        }
+    }
+
+    private fun setSignUpSuccessState() {
+        viewModelState.update {
+            it.copy(isSignUpSuccess = true)
+        }
+    }
+
     fun setSignUpInfo(currentSignUpInfo: SignUpInfo?) {
-        if (currentSignUpInfo != null) {
-            _signUpInfo.value = currentSignUpInfo
+        viewModelState.update {
+            it.copy(signUpInfo = currentSignUpInfo)
         }
     }
 
     fun setEmdId(emdId: Int?) {
-        val currentSignUpInfo = signUpInfo.value
-        _signUpInfo.value = currentSignUpInfo.copy(emdId = emdId)
+        val currentSignUpInfo = viewModelState.value.signUpInfo
+        if (currentSignUpInfo != null) {
+            viewModelState.update {
+                it.copy(signUpInfo = currentSignUpInfo.copy(emdId = emdId))
+            }
+        }
     }
 
     fun setUserType(userType: UserType?) {
-        val currentSignUpInfo = signUpInfo.value
-        _signUpInfo.value = currentSignUpInfo.copy(userType = userType)
-
-        _uiState.value = SignUpUiState.UserTypeSelected
+        viewModelState.update {
+            val currentSignUpInfo = it.signUpInfo?.copy(userType = userType)
+            it.copy(signUpInfo = currentSignUpInfo)
+        }
     }
 
 
     fun setKeyword(keyword: String) {
-        _keyword.value = keyword
-        _searchType.value = LocationSearchType.KEYWORD
+        viewModelState.update {
+            it.copy(keyword = keyword, locationSearchType = LocationSearchType.KEYWORD)
+        }
     }
 
     fun clearKeyword() {
-        _keyword.value = ""
+        viewModelState.update {
+            it.copy(keyword = "")
+        }
     }
 
     fun setLocationInfo(locationInfo: LocationInfo) {
-        _currentLocation.value = locationInfo
-        _searchType.value = LocationSearchType.LOCATION
+        viewModelState.update {
+            it.copy(locationSearchType = LocationSearchType.LOCATION)
+        }
+        currentLocationFlow.value = locationInfo
     }
 
     fun setTermsCheckStatus(termsId: Int, isChecked: Boolean) {
-        val currentTermsList = terms.value.toMutableList()
-        val index = currentTermsList.indexOfFirst { it.termsId == termsId }
-
-        if (index != -1) {
-            currentTermsList[index] = currentTermsList[index].copy(isSelected = isChecked)
-            _terms.value = currentTermsList
+        viewModelState.update { currentState ->
+            currentState.copy(
+                terms = currentState.terms.map { term ->
+                    if (term.termsId == termsId) {
+                        term.copy(isSelected = isChecked)
+                    } else {
+                        term
+                    }
+                }
+            )
         }
     }
+
 }
 
 

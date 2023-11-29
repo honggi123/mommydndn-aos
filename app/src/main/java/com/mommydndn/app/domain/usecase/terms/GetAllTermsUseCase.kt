@@ -22,15 +22,8 @@ class GetAllTermsUseCase @Inject constructor(
     private val repository: TermsAndConditionsRepository,
 ) : FlowUseCase<Unit, List<TermsItem>>(coroutineDispatcher) {
 
-    override suspend fun execute(parameters: Unit): Flow<Result<List<TermsItem>>> = flow {
-        try {
-            repository.fetchAllTerms().collectLatest { res ->
-                val termsItemList = mapToTermsItemList(res)
-                emit(Result.Success(termsItemList))
-            }
-        } catch (e: Exception) {
-            emit(Result.Failure(e))
-        }
+    override suspend fun execute(parameters: Unit): Flow<List<TermsItem>> {
+        return repository.fetchAllTerms().map { mapToTermsItemList(it) }
     }
 
     private fun mapToTermsItemList(response: GetTermsAndConditionsResponse): List<TermsItem> {
@@ -45,6 +38,8 @@ class GetAllTermsUseCase @Inject constructor(
             )
         }
     }
+
+
 }
 
 

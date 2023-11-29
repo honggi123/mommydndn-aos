@@ -15,8 +15,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
@@ -32,10 +30,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -49,13 +47,9 @@ import com.mommydndn.app.data.model.terms.TermsItem
 import com.mommydndn.app.data.model.user.SignUpInfo
 import com.mommydndn.app.ui.components.box.RadioListBox
 import com.mommydndn.app.ui.components.box.SearchUnderHeader
-import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.components.inputfield.Searchbar
 import com.mommydndn.app.ui.components.modal.TermsCheckListModal
-import com.mommydndn.app.ui.navigation.LocationSearchNav
-import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.ui.theme.GreyOpacity400
-import com.mommydndn.app.util.NavigationUtils
 import com.mommydndn.app.util.PermissionUtils
 import kotlinx.coroutines.launch
 
@@ -64,12 +58,22 @@ import kotlinx.coroutines.launch
 @Composable
 internal fun LocationSearchRoute(
     signUpInfo: SignUpInfo,
-    navHostController: NavHostController,
     onExploreClick: () -> Unit,
     viewModel: SignUpViewModel = hiltViewModel(),
     fusedLocationClient: FusedLocationProviderClient
 ) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val scaffoldState = rememberScaffoldState()
+    val sheetState =
+        rememberModalBottomSheetState(
+            ModalBottomSheetValue.Hidden,
+            skipHalfExpanded = true,
+            animationSpec = spring(
+                dampingRatio = 0.85f,
+                stiffness = 100f
+            )
+        )
 
     val launcher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -86,9 +90,8 @@ internal fun LocationSearchRoute(
                 )
             })
         } else {
-
+            Log.d("TownCheckScreen", "권한이 거부되었습니다.")
         }
-        Log.d("TownCheckScreen", "권한이 거부되었습니다.")
     }
 
     LaunchedEffect(Unit) {
@@ -102,70 +105,49 @@ internal fun LocationSearchRoute(
         )
     }
 
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val screenState = uiState as? SignUpUiState.LocationSearch
 
-    val keyword by viewModel.keyword.collectAsState()
-    val terms by viewModel.terms.collectAsState()
-    val signUpInfo by viewModel.signUpInfo.collectAsState()
-
-    val pagingItems = viewModel.searchedLocations.collectAsLazyPagingItems()
-
-    val scaffoldState = rememberScaffoldState()
-    val sheetState =
-        rememberModalBottomSheetState(
-            ModalBottomSheetValue.Hidden,
-            skipHalfExpanded = true,
-            animationSpec = spring(
-                dampingRatio = 0.85f,
-                stiffness = 100f
-            )
-        )
-
-    val scope = rememberCoroutineScope()
-
-    val uiState by viewModel.uiState.collectAsState()
-
-    when (val state = uiState) {
-        SignUpUiState.Loading -> {
-            LocationSearchScreen(
-                modifier = Modifier.fillMaxWidth(),
-                keyword = keyword,
-                pagingItems = pagingItems,
-                onExploreClick = onExploreClick,
-                onSearchClick = {
-                    requestAndSearchNearLocations(
-                        context = context,
-                        launcher = launcher,
-                        fusedLocationClient = fusedLocationClient,
-                        viewModel = viewModel
-                    )
-                },
-                onItemClick = { item ->
-                    scope.launch { sheetState.show() }
-                    viewModel.setEmdId(item?.id)
-                },
-                onDialogDismiss = { scope.launch { sheetState.hide() } },
-                onDialogItemSelected = { index, isChecked ->
-                    viewModel.setTermsCheckStatus(
-                        terms.get(index).termsId,
-                        isChecked
-                    )
-                },
-                itemList = terms,
-                onDialogComplete = { viewModel.signUp(signUpInfo) },
-                scaffoldState = scaffoldState,
-                sheetState = sheetState,
-                onClearClick = { viewModel.clearKeyword() },
-                onKeywordChange = { viewModel.setKeyword(it) }
-            )
-        }
-
-        is SignUpUiState.Success -> {
-            // TODO
-        }
-        else -> {
-            // TODO
-        }
+    val pagingItems = if (screenState?.locationSearchType == LocationSearchType.LOCATION) {
+        viewModel.searchedNearest.collectAsLazyPagingItems()
+    } else {
+        viewModel.searchedLocations.collectAsLazyPagingItems()
     }
+
+    screenState?.let { state ->
+        LocationSearchScreen(
+            modifier = Modifier.fillMaxWidth(),
+            keyword = state.keyword,
+            pagingItems = pagingItems,
+            onExploreClick = onExploreClick,
+            onSearchClick = {
+                requestAndSearchNearLocations(
+                    context,
+                    launcher,
+                    fusedLocationClient,
+                    viewModel
+                )
+            },
+            onItemClick = { item ->
+                scope.launch { sheetState.show() }
+                viewModel.setEmdId(item?.id)
+            },
+            onDialogDismiss = { scope.launch { sheetState.hide() } },
+            onDialogItemSelected = { index, isChecked ->
+                viewModel.setTermsCheckStatus(
+                    termsId = state.terms[index].termsId,
+                    isChecked = isChecked
+                )
+            },
+            itemList = state.terms,
+            onDialogComplete = { viewModel.signUp(state.signUpInfo) },
+            scaffoldState = scaffoldState,
+            sheetState = sheetState,
+            onClearClick = { viewModel.clearKeyword() },
+            onKeywordChange = { viewModel.setKeyword(it) }
+        )
+    }
+
 }
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -193,9 +175,7 @@ fun LocationSearchScreen(
             LocationSearchTopAppBar(
                 modifier = Modifier.fillMaxWidth(),
                 onExploreClick = onExploreClick,
-                onSearchClick = {
-                    onSearchClick()
-                },
+                onSearchClick = { onSearchClick() },
                 keyword = keyword,
                 onClearClick = { onClearClick() },
                 onKeywordChange = { onKeywordChange(it) },
@@ -226,9 +206,7 @@ fun LocationSearchScreen(
             TermsCheckListModal(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 32.dp),
                 onDismiss = { onDialogDismiss() },
-                onItemSelected = { index, isChecked ->
-                    onDialogItemSelected(index, isChecked)
-                },
+                onItemSelected = { index, isChecked -> onDialogItemSelected(index, isChecked) },
                 onComplete = { onDialogComplete() },
                 itemList = itemList,
                 titleCheckBoxText = stringResource(R.string.total_terms_agreement)

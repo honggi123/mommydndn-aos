@@ -21,6 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.mommydndn.app.ui.components.box.MaintextBox
 import com.mommydndn.app.ui.components.button.SquareButton
@@ -33,7 +34,7 @@ import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.util.NavigationUtils
 
 @Composable
-internal fun UserTypeRoute(
+internal fun SelectUserTypeRoute(
     signUpInfo: SignUpInfo,
     navHostController: NavHostController,
     onExploreClick: () -> Unit,
@@ -47,40 +48,33 @@ internal fun UserTypeRoute(
         when (userType) {
             UserType.COMPANY -> {
                 viewModel.setUserType(UserType.COMPANY)
+                NavigationUtils.navigate(navHostController, LocationSearchNav.route)
             }
 
             UserType.INDIVIDUAL -> {
                 viewModel.setUserType(UserType.INDIVIDUAL)
+                NavigationUtils.navigate(navHostController, LocationSearchNav.route)
             }
         }
     }
 
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val screenState = uiState as? SignUpUiState.UserTypeSelect
 
-    val uiState by viewModel.uiState.collectAsState()
-
-    when (val state = uiState) {
-        SignUpUiState.Loading -> UserTypeScreen(
+    screenState?.let {
+        SelectUserTypeScreen(
             onExploreClick = onExploreClick,
-            onUserTypeClick = onUserTypeClick
+            onUserTypeClick = onUserTypeClick,
+            uiState = screenState
         )
-        is SignUpUiState.UserTypeSelected -> {
-            NavigationUtils.navigate(
-                navHostController,
-                LocationSearchNav.route
-            )
-        }
-        else -> {
-            // TODO
-        }
     }
-
-
 }
 
 @Composable
-fun UserTypeScreen(
+fun SelectUserTypeScreen(
     onExploreClick: () -> Unit,
-    onUserTypeClick: (UserType) -> Unit
+    onUserTypeClick: (UserType) -> Unit,
+    uiState: SignUpUiState.UserTypeSelect
 ) {
 
     Column(modifier = Modifier.fillMaxSize()) {
