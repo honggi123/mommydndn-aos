@@ -15,7 +15,7 @@ interface LocationService {
         @Query("longitude") longitude: Double,
         @Query("skip") skip: Int = 0,
         @Query("limit") limit: Int = 20
-    ): ApiResponse<GetNearestResponse>
+    ): Response<GetNearestResponse>
 
     @GET("/api/map/search")
     suspend fun fetchLocationsByKeyword(

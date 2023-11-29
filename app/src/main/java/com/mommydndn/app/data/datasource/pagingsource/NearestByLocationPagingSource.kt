@@ -26,7 +26,7 @@ class NearestByLocationPagingSource @Inject constructor(
                     limit = params.loadSize
                 )
 
-            val data = result.getOrNull()?.emdList ?: emptyList()
+            val data = result.body()?.emdList ?: emptyList()
 
             LoadResult.Page(
                 data = data,

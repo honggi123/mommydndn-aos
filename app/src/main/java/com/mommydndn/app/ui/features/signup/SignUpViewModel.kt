@@ -216,22 +216,21 @@ class SignUpViewModel @Inject constructor(
 
 
     fun setKeyword(keyword: String) {
+        keywordFlow.value = keyword
         viewModelState.update {
             it.copy(keyword = keyword, locationSearchType = LocationSearchType.KEYWORD)
         }
     }
 
     fun clearKeyword() {
-        viewModelState.update {
-            it.copy(keyword = "")
-        }
+        keywordFlow.value = ""
     }
 
     fun setLocationInfo(locationInfo: LocationInfo) {
+        currentLocationFlow.value = locationInfo
         viewModelState.update {
             it.copy(locationSearchType = LocationSearchType.LOCATION)
         }
-        currentLocationFlow.value = locationInfo
     }
 
     fun setTermsCheckStatus(termsId: Int, isChecked: Boolean) {
