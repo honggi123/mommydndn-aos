@@ -6,15 +6,15 @@ import androidx.paging.PagingData
 import com.mommydndn.app.data.model.common.LocationSearchType
 import com.mommydndn.app.data.model.location.EmdItem
 import com.mommydndn.app.data.model.location.LocationInfo
-import com.mommydndn.app.data.model.TermsAndConditions.TermsAndConditionsItem
+import com.mommydndn.app.domain.model.TermsAndConditions.TermsAndConditionsItem
 import com.mommydndn.app.data.model.user.SignUpInfo
 import com.mommydndn.app.data.model.user.shouldSkipSignUp
 import com.mommydndn.app.domain.model.user.UserType
 import com.mommydndn.app.domain.usecase.location.GetLocationsUseCase
 import com.mommydndn.app.domain.usecase.location.GetNearestLocationsUseCase
 import com.mommydndn.app.domain.usecase.termsAndConditions.GetAllTermsAndConditionsUseCase
+import com.mommydndn.app.domain.usecase.termsAndConditions.UpdateTermsAndConditionsStatusUseCase
 import com.mommydndn.app.domain.usecase.termsAndConditions.UpdateTermsParams
-import com.mommydndn.app.domain.usecase.termsAndConditions.UpdateTermsUseCase
 import com.mommydndn.app.domain.usecase.user.SaveTokenParams
 import com.mommydndn.app.domain.usecase.user.SaveUserTokenUseCase
 import com.mommydndn.app.domain.usecase.user.SignUpParams
@@ -37,7 +37,7 @@ private data class SignUpViewModelState(
     val signUpStep: SignUpStep = SignUpStep.USER_TYPE,
     val locationSearchType: LocationSearchType = LocationSearchType.LOCATION,
     val keyword: String = "",
-    val termsAndCondtions: List<TermsAndConditionsItem> = emptyList(),
+    val termsAndConditions: List<TermsAndConditionsItem> = emptyList(),
     val signUpInfo: SignUpInfo? = null,
     val errorMessages: String = "",
     val isLoading: Boolean = false,
@@ -54,7 +54,7 @@ private data class SignUpViewModelState(
             SignUpUiState.LocationSearch(
                 locationSearchType = locationSearchType,
                 keyword = keyword,
-                termsAndCondtions = termsAndCondtions,
+                termsAndConditions = termsAndConditions,
                 isLoading = isLoading,
                 signUpInfo = signUpInfo,
                 errorMessages = errorMessages,
@@ -65,7 +65,7 @@ private data class SignUpViewModelState(
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val updateTermsUseCase: UpdateTermsUseCase,
+    private val updateTermsAndConditionsStatusUseCase: UpdateTermsAndConditionsStatusUseCase,
     private val signUpUseCase: SignUpUseCase,
     private val getAllTermsAndConditionsUseCase: GetAllTermsAndConditionsUseCase,
     private val saveUserTokenUseCase: SaveUserTokenUseCase,
@@ -113,7 +113,7 @@ class SignUpViewModel @Inject constructor(
         observeKeywordFlow()
     }
 
-    private fun observeKeywordFlow(){
+    private fun observeKeywordFlow() {
         viewModelScope.launch {
             keywordFlow.collectLatest { keyword ->
                 viewModelState.update {
@@ -125,12 +125,12 @@ class SignUpViewModel @Inject constructor(
 
     private fun fetchAllTermsAndConditions() {
         viewModelScope.launch {
-            getAllTermsAndConditionsUseCase(Unit).collectLatest { result ->
-                viewModelState.update {
-                    when (result) {
-                        is Result.Success -> it.copy(termsAndCondtions = result.data)
-                        else -> it
-                    }
+            val result = getAllTermsAndConditionsUseCase(Unit)
+
+            viewModelState.update {
+                when (result) {
+                    is Result.Success -> it.copy(termsAndConditions = result.data)
+                    else -> it
                 }
             }
         }
@@ -182,7 +182,7 @@ class SignUpViewModel @Inject constructor(
 
     private fun updateTerms() {
         viewModelScope.launch {
-            updateTermsUseCase.invoke(UpdateTermsParams(viewModelState.value.termsAndCondtions))
+            updateTermsAndConditionsStatusUseCase.invoke(UpdateTermsParams(viewModelState.value.termsAndConditions))
         }
     }
 
@@ -210,7 +210,7 @@ class SignUpViewModel @Inject constructor(
     fun setUserType(userType: UserType?) {
         viewModelState.update {
             val currentSignUpInfo = it.signUpInfo?.copy(userType = userType)
-            it.copy(signUpInfo = currentSignUpInfo)
+            it.copy(signUpInfo = currentSignUpInfo, signUpStep = SignUpStep.SEARCH_LOCATION)
         }
     }
 
@@ -236,14 +236,20 @@ class SignUpViewModel @Inject constructor(
     fun setTermsCheckStatus(termsId: Int, isChecked: Boolean) {
         viewModelState.update { currentState ->
             currentState.copy(
-                termsAndCondtions = currentState.termsAndCondtions.map { term ->
-                    if (term.termsId == termsId) {
-                        term.copy(isSelected = isChecked)
+                termsAndConditions = currentState.termsAndConditions.map { item ->
+                    if (item.termsId == termsId) {
+                        item.copy(isSelected = isChecked)
                     } else {
-                        term
+                        item
                     }
                 }
             )
+        }
+    }
+
+    fun setSignUpStep(signUpStep: SignUpStep){
+        viewModelState.update {
+            it.copy(signUpStep = signUpStep)
         }
     }
 

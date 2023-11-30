@@ -1,36 +1,20 @@
 package com.mommydndn.app.domain.usecase.termsAndConditions
 
-import com.mommydndn.app.data.api.model.response.GetTermsAndConditionsResponse
-import com.mommydndn.app.data.model.TermsAndConditions.TermsAndConditionsItem
+import com.mommydndn.app.domain.model.TermsAndConditions.TermsAndConditionsItem
 import com.mommydndn.app.domain.repository.TermsAndConditionsRepository
-import com.mommydndn.app.domain.usecase.FlowUseCase
+import com.mommydndn.app.domain.usecase.UseCase
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class GetAllTermsAndConditionsUseCase @Inject constructor(
-    coroutineDispatcher: CoroutineDispatcher,
     private val repository: TermsAndConditionsRepository,
-) : FlowUseCase<Unit, List<TermsAndConditionsItem>>(coroutineDispatcher) {
+) : UseCase<Unit, List<TermsAndConditionsItem>>(Dispatchers.IO) {
 
-    override suspend fun execute(parameters: Unit): Flow<List<TermsAndConditionsItem>> {
-        return repository.fetchAllTermsAndConditions().map { mapToTermsItemList(it) }
-    }
-
-    private fun mapToTermsItemList(response: GetTermsAndConditionsResponse): List<TermsAndConditionsItem> {
-        return response.map { getTermsAndConditions ->
-            TermsAndConditionsItem(
-                createdAt = getTermsAndConditions.createdAt,
-                isRequired = getTermsAndConditions.isRequired,
-                name = getTermsAndConditions.name,
-                termsId = getTermsAndConditions.termsId,
-                updateAt = getTermsAndConditions.updateAt,
-                url = getTermsAndConditions.url
-            )
-        }
+    override suspend fun execute(parameters: Unit): List<TermsAndConditionsItem> {
+        return repository.fetchAllTermsAndConditions()
     }
 
 }

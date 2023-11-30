@@ -1,6 +1,8 @@
 package com.mommydndn.app.ui.components.inputfield
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -116,17 +118,14 @@ fun Searchbar(
                 onValueChange = onValueChange,
                 trailingIcon = {
                     if (!keyword.isEmpty()) {
-                        IconButton(
-                            onClick = { clearAction() },
-                            modifier = Modifier.size(36.dp)
-                        ) {
-                            Icon(
-                                modifier = Modifier
-                                    .padding(8.dp),
-                                painter = painterResource(id = R.drawable.ic_x_circle),
-                                contentDescription = ""
-                            )
-                        }
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_x_circle),
+                            contentDescription = "",
+                            modifier = Modifier
+                                .size(36.dp)
+                                .clickable { clearAction() }
+                                .padding(8.dp)
+                        )
                     }
                 }
             )

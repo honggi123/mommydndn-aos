@@ -41,7 +41,7 @@ import com.mommydndn.app.data.model.common.LocationSearchType
 import com.mommydndn.app.data.model.location.LocationInfo
 import com.mommydndn.app.data.model.location.EmdItem
 import com.mommydndn.app.data.model.location.displayName
-import com.mommydndn.app.data.model.TermsAndConditions.TermsAndConditionsItem
+import com.mommydndn.app.domain.model.TermsAndConditions.TermsAndConditionsItem
 import com.mommydndn.app.ui.components.box.RadioListBox
 import com.mommydndn.app.ui.components.box.SearchUnderHeader
 import com.mommydndn.app.ui.components.inputfield.Searchbar
@@ -62,15 +62,14 @@ internal fun LocationSearchRoute(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
-    val sheetState =
-        rememberModalBottomSheetState(
-            ModalBottomSheetValue.Hidden,
-            skipHalfExpanded = true,
-            animationSpec = spring(
-                dampingRatio = 0.85f,
-                stiffness = 100f
-            )
+    val sheetState = rememberModalBottomSheetState(
+        ModalBottomSheetValue.Hidden,
+        skipHalfExpanded = true,
+        animationSpec = spring(
+            dampingRatio = 0.85f,
+            stiffness = 100f
         )
+    )
 
     val launcher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -117,10 +116,13 @@ internal fun LocationSearchRoute(
 
     screenState?.let { state ->
         LocationSearchScreen(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxSize(),
             keyword = state.keyword,
             pagingItems = pagingItems,
-            navigateToPreviousScreen = navigateToPreviousScreen,
+            navigateToPreviousScreen = {
+                navigateToPreviousScreen()
+                viewModel.setSignUpStep(SignUpStep.USER_TYPE)
+            },
             onSearchClick = {
                 requestAndSearchNearLocations(
                     context,
@@ -136,11 +138,11 @@ internal fun LocationSearchRoute(
             onDialogDismiss = { scope.launch { sheetState.hide() } },
             onDialogItemSelected = { index, isChecked ->
                 viewModel.setTermsCheckStatus(
-                    termsId = state.termsAndCondtions[index].termsId,
+                    termsId = state.termsAndConditions[index].termsId,
                     isChecked = isChecked
                 )
             },
-            itemList = state.termsAndCondtions,
+            itemList = state.termsAndConditions,
             onDialogComplete = { viewModel.signUp(state.signUpInfo) },
             scaffoldState = scaffoldState,
             sheetState = sheetState,
@@ -174,7 +176,7 @@ fun LocationSearchScreen(
         topBar = {
             LocationSearchTopAppBar(
                 modifier = Modifier.fillMaxWidth(),
-                navigateToPreviousScreen = navigateToPreviousScreen,
+                navigateToPreviousScreen = { navigateToPreviousScreen() },
                 onSearchClick = { onSearchClick() },
                 keyword = keyword,
                 onClearClick = { onClearClick() },
@@ -185,6 +187,7 @@ fun LocationSearchScreen(
     ) {
         Box(modifier = modifier.fillMaxSize()) {
             RadioListBox(
+                modifier = Modifier.fillMaxWidth(),
                 pagingItems = pagingItems,
                 onItemClick = { item ->
                     if (item != null) {
@@ -196,29 +199,14 @@ fun LocationSearchScreen(
         }
     }
 
-    ModalBottomSheetLayout(
+    BottomSheetModal(
         sheetState = sheetState,
-        sheetContentColor = Color.Transparent,
-        sheetBackgroundColor = Color.Transparent,
-        scrimColor = GreyOpacity400,
-        sheetElevation = 0.dp,
-        sheetContent = {
-            TermsCheckListModal(
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 32.dp),
-                onDismiss = { onDialogDismiss() },
-                onItemSelected = { index, isChecked -> onDialogItemSelected(index, isChecked) },
-                onComplete = { onDialogComplete() },
-                itemList = itemList,
-                titleCheckBoxText = stringResource(R.string.total_terms_agreement)
-            )
-        }
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Transparent)
-        )
-    }
+        itemList = itemList,
+        onDialogItemSelected = onDialogItemSelected,
+        onDialogDismiss = onDialogDismiss,
+        onDialogComplete = onDialogComplete,
+    )
+
 }
 
 @Composable
@@ -230,9 +218,11 @@ fun LocationSearchTopAppBar(
     onKeywordChange: (String) -> Unit,
     keyword: String,
 ) {
-    Column {
+    Column(
+        modifier = modifier
+    ) {
         Searchbar(
-            modifier = modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             keyword = keyword,
             onValueChange = { onKeywordChange(it) },
             clearAction = { onClearClick() },
@@ -279,6 +269,40 @@ private fun requestAndSearchNearLocations(
             )
         }
     )
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun BottomSheetModal(
+    sheetState: ModalBottomSheetState,
+    itemList: List<TermsAndConditionsItem>,
+    onDialogItemSelected: (Int, Boolean) -> Unit,
+    onDialogDismiss: () -> Unit,
+    onDialogComplete: () -> Unit,
+) {
+    ModalBottomSheetLayout(
+        sheetState = sheetState,
+        sheetContentColor = Color.Transparent,
+        sheetBackgroundColor = Color.Transparent,
+        scrimColor = GreyOpacity400,
+        sheetElevation = 0.dp,
+        sheetContent = {
+            TermsCheckListModal(
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 32.dp),
+                onDismiss = { onDialogDismiss() },
+                onItemSelected = { index, isChecked -> onDialogItemSelected(index, isChecked) },
+                onComplete = { onDialogComplete() },
+                itemList = itemList,
+                titleCheckBoxText = stringResource(R.string.total_terms_agreement)
+            )
+        }
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Transparent)
+        )
+    }
 }
 
 private fun searchNearLocations(

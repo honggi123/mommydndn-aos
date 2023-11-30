@@ -25,7 +25,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.mommydndn.app.data.model.TermsAndConditions.TermsAndConditionsItem
+import com.mommydndn.app.data.model.common.ButtonColor
+import com.mommydndn.app.data.model.common.ButtonColorType
+import com.mommydndn.app.data.model.common.ButtonSizeType
+import com.mommydndn.app.domain.model.TermsAndConditions.TermsAndConditionsItem
+import com.mommydndn.app.ui.components.button.MommyDndnButton
 import com.mommydndn.app.ui.components.list.CheckBoxListItem
 import com.mommydndn.app.ui.components.list.CheckMarkListItem
 import com.mommydndn.app.ui.theme.Grey200
@@ -114,17 +118,22 @@ fun TermsCheckListModal(
             Spacer(modifier = Modifier.size(28.dp))
 
             Row(modifier = Modifier.fillMaxWidth()) {
-                Button(modifier = Modifier.weight(1f), onClick = { onDismiss() }) {
-                    Text(text = "닫기", color = Color.Black)
-                }
+                MommyDndnButton(
+                    color = ButtonColor.SALMON,
+                    colorType = ButtonColorType.WEAK,
+                    sizeType = ButtonSizeType.LARGE,
+                    onClick = { onDismiss() },
+                    text = "닫기"
+                )
                 Spacer(modifier = Modifier.size(12.dp))
-                Button(
-                    modifier = Modifier.weight(1f),
+                MommyDndnButton(
+                    color = ButtonColor.SALMON,
+                    colorType = ButtonColorType.FILLED,
+                    sizeType = ButtonSizeType.LARGE,
                     onClick = { onComplete() },
+                    text = "다음으로",
                     enabled = isNextButtonEnabled
-                ) {
-                    Text(text = "다음으로", color = Color.Black)
-                }
+                )
             }
         }
 

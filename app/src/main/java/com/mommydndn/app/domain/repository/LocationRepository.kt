@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface LocationRepository {
 
-    fun fetchEmdByLocation(locationInfo: LocationInfo): Flow<EmdItem?>
+    suspend fun fetchEmdByLocation(locationInfo: LocationInfo): EmdItem?
 
     fun fetchNearestByLocation(locationInfo: LocationInfo): Flow<PagingData<EmdItem>>
 
