@@ -1,6 +1,6 @@
 package com.mommydndn.app.data.model.care.summary
 
-import com.mommydndn.app.data.api.model.response.Meta
+import com.mommydndn.app.data.network.model.response.Meta
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeSerializer
 import kotlinx.serialization.SerialName

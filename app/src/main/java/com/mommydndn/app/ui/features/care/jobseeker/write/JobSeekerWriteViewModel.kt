@@ -2,11 +2,10 @@ package com.mommydndn.app.ui.features.care.jobseeker.write
 
 import android.content.Context
 import android.net.Uri
-import androidx.core.net.toUri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mommydndn.app.data.api.model.response.Certification
+import com.mommydndn.app.data.network.model.response.Certification
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.EtcCheckItem
 import com.mommydndn.app.data.model.care.MinHourlySalary

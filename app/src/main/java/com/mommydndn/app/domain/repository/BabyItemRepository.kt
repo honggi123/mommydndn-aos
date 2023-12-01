@@ -1,6 +1,6 @@
 package com.mommydndn.app.domain.repository
 
-import com.mommydndn.app.data.api.model.response.BabyItemSummary
+import com.mommydndn.app.data.network.model.response.BabyItemSummary
 import kotlinx.coroutines.flow.Flow
 
 interface BabyItemRepository {

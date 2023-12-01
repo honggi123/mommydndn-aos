@@ -4,5 +4,6 @@ enum class PayPeriod {
     HOURLY,
     DAILY,
     WEEKLY,
-    MONTHLY
+    MONTHLY,
+    NEGOTIATION,
 }

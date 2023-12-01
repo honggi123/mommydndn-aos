@@ -1,8 +1,7 @@
 package com.mommydndn.app.data.repository
 
-import com.mommydndn.app.data.api.model.request.UpdateTermsAndConditions
-import com.mommydndn.app.data.api.model.request.UpdateTermsAndConditionsRequest
-import com.mommydndn.app.data.api.service.TermsAndConditionsService
+import com.mommydndn.app.data.network.model.request.UpdateTermsAndConditions
+import com.mommydndn.app.data.network.service.TermsAndConditionsService
 import com.mommydndn.app.data.model.terms.TermsItem
 import com.mommydndn.app.domain.repository.TermsAndConditionsRepository
 import com.skydoves.sandwich.suspendOnSuccess

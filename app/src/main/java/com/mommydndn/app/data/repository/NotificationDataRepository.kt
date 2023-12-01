@@ -1,6 +1,6 @@
 package com.mommydndn.app.data.repository
 
-import com.mommydndn.app.data.api.service.NoticeService
+import com.mommydndn.app.data.network.service.NoticeService
 import com.mommydndn.app.data.model.notice.Notification
 import com.mommydndn.app.domain.repository.NoticeRepository
 import com.skydoves.sandwich.suspendOnSuccess

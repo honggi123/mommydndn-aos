@@ -463,15 +463,24 @@ private fun NeighborhoodsFilterModalBottomSheetButtons(
 @Preview
 @Composable
 fun previewNeighborhoodsFilterModalBottomSheet() {
+    val dummy = Neighborhood(
+        name = "",
+        latitude = 0.0,
+        longitude = 0.0,
+        nearbyNeighborhoods = emptyList(),
+        distantNeighborhoods = emptyList(),
+        veryDistantNeighborhoods = emptyList()
+    )
+
     MommydndnaosTheme {
         NeighborhoodsFilterModalBottomSheet(
             neighborhood = Neighborhood(
                 name = "방배1동",
                 latitude = 0.0,
                 longitude = 0.0,
-                nearbyNeighborhoods = emptyList(),
-                distantNeighborhoods = emptyList(),
-                veryDistantNeighborhoods = emptyList()
+                nearbyNeighborhoods = buildList(capacity = 5) { add(dummy) },
+                distantNeighborhoods = buildList(capacity = 11) { add(dummy) },
+                veryDistantNeighborhoods = buildList(capacity = 17) { add(dummy) }
             ),
             nearbyNeighborhoodDistance = NearbyNeighborhoodDistance.IMMEDIATE,
             onCloseClick = {},

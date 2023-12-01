@@ -1,6 +1,6 @@
 package com.mommydndn.app.data.repository
 
-import com.mommydndn.app.data.api.service.UserService
+import com.mommydndn.app.data.network.service.UserService
 import com.mommydndn.app.domain.model.care.NearbyNeighborhoodDistance
 import com.mommydndn.app.domain.model.user.Neighborhood
 import com.mommydndn.app.domain.model.user.OAuthProvider

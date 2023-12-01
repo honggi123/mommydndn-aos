@@ -1,18 +1,18 @@
 package com.mommydndn.app.ui.features.care
 
-import com.mommydndn.app.domain.model.care.CarePeriod
 import com.mommydndn.app.domain.model.care.CareType
 import com.mommydndn.app.domain.model.care.NearbyNeighborhoodDistance
+import com.mommydndn.app.domain.model.care.WorkPeriod
 import com.mommydndn.app.domain.model.user.Neighborhood
 import com.mommydndn.app.ui.features.care.CareFilter.State
 import java.time.DayOfWeek
 import java.time.LocalTime
 
-enum class CareOrder {
+enum class CareOrderBy {
     LATEST,
     VIEWS,
     HIGHEST_PAY,
-    CLOSEST
+    NEAREST,
 }
 
 // todo: priority ?
@@ -65,9 +65,9 @@ data class WorkingDaysAndHoursFilter(
     }
 }
 
-data class CarePeriodFilter(val carePeriod: CarePeriod?) : CareFilter {
+data class WorkPeriodFilter(val workPeriod: WorkPeriod?) : CareFilter {
 
-    override val state: State = if (carePeriod == null) {
+    override val state: State = if (workPeriod == null) {
         State.UNSELECTED
     } else {
         State.SELECTED

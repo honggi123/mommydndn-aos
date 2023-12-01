@@ -1,6 +1,6 @@
 package com.mommydndn.app.data.repository
 
-import com.mommydndn.app.data.api.service.CommonService
+import com.mommydndn.app.data.network.service.CommonService
 import com.mommydndn.app.data.model.banner.Banner
 import com.mommydndn.app.domain.repository.CommonRepositoy
 import com.skydoves.sandwich.suspendOnSuccess

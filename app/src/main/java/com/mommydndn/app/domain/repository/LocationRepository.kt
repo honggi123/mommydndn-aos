@@ -1,8 +1,7 @@
 package com.mommydndn.app.domain.repository
 
 import androidx.paging.PagingData
-import com.mommydndn.app.data.api.model.response.AddressDocument
-import com.mommydndn.app.data.api.model.response.AddressResponse
+import com.mommydndn.app.data.network.model.response.AddressResponse
 import com.mommydndn.app.data.model.map.EmdItem
 import com.mommydndn.app.data.model.map.LocationInfo
 import kotlinx.coroutines.flow.Flow

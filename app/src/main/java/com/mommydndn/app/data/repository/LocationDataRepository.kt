@@ -3,11 +3,11 @@ package com.mommydndn.app.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.mommydndn.app.data.api.model.response.AddressResponse
-import com.mommydndn.app.data.api.service.KakaoApiService
-import com.mommydndn.app.data.api.service.MapService
-import com.mommydndn.app.data.datasource.pagingsource.LocationsByKeywordPagingSource
-import com.mommydndn.app.data.datasource.pagingsource.NearestByLocationPagingSource
+import com.mommydndn.app.data.network.model.response.AddressResponse
+import com.mommydndn.app.data.network.service.KakaoApiService
+import com.mommydndn.app.data.network.service.MapService
+import com.mommydndn.app.data.source.pagingsource.LocationsByKeywordPagingSource
+import com.mommydndn.app.data.source.pagingsource.NearestByLocationPagingSource
 import com.mommydndn.app.data.model.map.EmdItem
 import com.mommydndn.app.data.model.map.LocationInfo
 import com.mommydndn.app.domain.repository.LocationRepository

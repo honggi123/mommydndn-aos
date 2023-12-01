@@ -34,9 +34,9 @@ class CareViewModel @Inject constructor(
      * working_hours,
      * care_period
      */
-    private val order = MutableStateFlow(CareOrder.LATEST)
+    private val order = MutableStateFlow(CareOrderBy.LATEST)
 
-    fun setOrder(order: CareOrder) {
+    fun setOrder(order: CareOrderBy) {
         this.order.value = order
     }
 

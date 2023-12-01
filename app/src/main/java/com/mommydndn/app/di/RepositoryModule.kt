@@ -16,7 +16,6 @@ import com.mommydndn.app.data.repository.LocationDataRepository
 import com.mommydndn.app.data.repository.NotificationDataRepository
 import com.mommydndn.app.data.repository.TermsAndConditionsDataRepository
 import com.mommydndn.app.data.repository.UserDataRepository
-import com.mommydndn.app.data.repository.UserRepositoryImpl
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent

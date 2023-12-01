@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mommydndn.app.R
-import com.mommydndn.app.domain.model.care.CarePeriod
+import com.mommydndn.app.domain.model.care.WorkPeriod
 import com.mommydndn.app.domain.model.care.NearbyNeighborhoodDistance
 import com.mommydndn.app.domain.model.user.Neighborhood
 import com.mommydndn.app.ui.components.chip.ChipWithBottomArrow
@@ -110,7 +110,7 @@ private fun CareScreen(
     onSearchClick: () -> Unit,
     selectedTabIndex: Int,
     onTabSelected: (index: Int) -> Unit,
-    order: CareOrder,
+    order: CareOrderBy,
     onOrderClick: () -> Unit,
     filters: List<CareFilter>,
     onFilterClick: (CareFilter) -> Unit,
@@ -230,7 +230,7 @@ private fun CareTabRow(
 @Composable
 private fun CareOrderAndFilters(
     // todo: rename?
-    order: CareOrder,
+    order: CareOrderBy,
     onOrderClick: () -> Unit,
     filters: List<CareFilter>,
     onFilterClick: (CareFilter) -> Unit,
@@ -329,9 +329,9 @@ private fun CareFilter.displayName(): String {
 
             "$daysOfWeekString, $hoursString"
         }
-        is CarePeriodFilter -> when (carePeriod) {
-            CarePeriod.ONE_TIME -> stringResource(R.string.one_time)
-            CarePeriod.REGULAR -> stringResource(R.string.regular)
+        is WorkPeriodFilter -> when (workPeriod) {
+            WorkPeriod.ONE_TIME -> stringResource(R.string.one_time)
+            WorkPeriod.REGULAR -> stringResource(R.string.regular)
             else -> stringResource(R.string.one_time_slash_regular)
         }
     }
@@ -360,6 +360,6 @@ private fun CareFilterModalBottomSheet(
         is CareTypesFilter -> TODO()
         is PayFilter -> TODO()
         is WorkingDaysAndHoursFilter -> TODO()
-        is CarePeriodFilter -> TODO()
+        is WorkPeriodFilter -> TODO()
     }
 }

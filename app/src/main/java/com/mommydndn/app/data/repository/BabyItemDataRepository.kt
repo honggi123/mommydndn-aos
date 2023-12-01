@@ -1,7 +1,7 @@
 package com.mommydndn.app.data.repository
 
-import com.mommydndn.app.data.api.model.response.BabyItemSummary
-import com.mommydndn.app.data.api.service.BabyItemService
+import com.mommydndn.app.data.network.model.response.BabyItemSummary
+import com.mommydndn.app.data.network.service.BabyItemService
 import com.mommydndn.app.domain.repository.BabyItemRepository
 import com.skydoves.sandwich.suspendOnSuccess
 import kotlinx.coroutines.Dispatchers

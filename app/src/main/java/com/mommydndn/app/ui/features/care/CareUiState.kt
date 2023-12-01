@@ -8,7 +8,7 @@ sealed interface CareUiState {
 
     data class Success(
         val neighborhood: Neighborhood,
-        val order: CareOrder,
+        val order: CareOrderBy,
         val filters: List<CareFilter>,
     ) : CareUiState
 

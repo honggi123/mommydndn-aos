@@ -7,7 +7,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
-import com.mommydndn.app.data.api.model.response.GetUserResponse
+import com.mommydndn.app.data.network.model.response.GetUserResponse
 import com.mommydndn.app.data.model.care.JobOfferPreview
 import com.mommydndn.app.domain.repository.CaringRepository
 import com.mommydndn.app.domain.repository.LocationRepository
