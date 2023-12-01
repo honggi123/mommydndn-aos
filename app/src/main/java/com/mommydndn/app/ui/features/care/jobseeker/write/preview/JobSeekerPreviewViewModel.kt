@@ -12,6 +12,7 @@ import com.mommydndn.app.domain.repository.UserRepository
 import com.mommydndn.app.ui.navigation.MainNav
 import com.mommydndn.app.util.NavigationUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -27,7 +28,8 @@ class JobSeekerPreviewViewModel @Inject constructor(
     private val locationRepository: LocationRepository
 ) : ViewModel() {
 
-    val authorInfo: StateFlow<GetUserResponse?> = userRepository.getUser().stateIn(
+    private val _authorInfo = MutableStateFlow<GetUserResponse?>(null)
+    val authorInfo: StateFlow<GetUserResponse?> = _authorInfo.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
         initialValue = null

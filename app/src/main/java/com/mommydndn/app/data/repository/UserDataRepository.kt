@@ -1,10 +1,12 @@
 package com.mommydndn.app.data.repository
 
-import com.mommydndn.app.data.api.model.request.SignInRequest
 import com.mommydndn.app.data.api.service.UserService
+import com.mommydndn.app.domain.model.care.NearbyNeighborhoodDistance
+import com.mommydndn.app.domain.model.user.Neighborhood
 import com.mommydndn.app.domain.model.user.OAuthProvider
 import com.mommydndn.app.domain.model.user.OAuthToken
 import com.mommydndn.app.domain.repository.UserRepository
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,11 +19,16 @@ class UserDataRepository @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun signIn(
-        accessToken: String,
-        oAuthProvider: OAuthProvider
-    ): OAuthToken {
-        userService.signIn(SignInRequest(accessToken, oAuthProvider.name))
+    override suspend fun signIn(oAuthProvider: OAuthProvider, accessToken: String): OAuthToken {
+        // userService.signIn(SignInRequest(oAuthProvider.name, accessToken))
+        TODO("Not yet implemented")
+    }
+
+    override fun getNeighborhood(): Flow<Neighborhood> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getNearbyNeighborhoodDistance(): Flow<NearbyNeighborhoodDistance> {
         TODO("Not yet implemented")
     }
 }

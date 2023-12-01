@@ -11,4 +11,17 @@
     <string name="which_user_type_question">어떤 회원이신가요?</string>
     <string name="company_user">업체 회원</string>
     <string name="indivisual_user">개인 회원</string>
+    <string name="close">닫기</string>
+    <string name="immediate_neighborhood">내 동네</string>
+    <string name="very_distant_neighborhood">먼 동네</string>
+    <string name="apply">적용하기</string>
+    <string name="nearby_neighborhood_distance">동네 범위</string>
+    <string name="one_time">1회성</string>
+    <string name="regular">정기</string>
+    <string name="one_time_slash_regular">1회성/정기</string>
+    <string name="time">시간</string>
+    <string name="pay">급여</string>
+    <string name="hourly_pay">시급 %1$s만원-%2$s만원</string>
+    <string name="neighborhoods">%1$s 외 %2$s</string>
+    <string name="care_type">돌봄종류</string>
 </resources>

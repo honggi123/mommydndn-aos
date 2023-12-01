@@ -16,3 +16,5 @@ abstract class FlowUseCase<in P, R>(private val coroutineDispatcher: CoroutineDi
 
     protected abstract fun execute(parameters: P): Flow<Result<R>>
 }
+
+operator fun <R> FlowUseCase<Unit, R>.invoke(): Flow<Result<R>> = invoke(Unit)

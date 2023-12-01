@@ -150,7 +150,7 @@ fun LocationDialogTitle(title: DialogTitle.Location) {
                 )
             )
             Icon(
-                painter = painterResource(id = R.drawable.ic_arrow_right),
+                painter = painterResource(id = R.drawable.icon_arrow_right),
                 contentDescription = "",
                 modifier = Modifier.size(24.dp)
             )

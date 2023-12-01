@@ -71,7 +71,8 @@ fun CompanyPreviewScreen(
     navController: NavHostController,
     viewModel: CompanyPrevieViewModel = hiltViewModel()
 ) {
-    val authorInfo by viewModel.authorInfo.collectAsState()
+    /*
+val authorInfo by viewModel.authorInfo.collectAsState()
     val context = LocalContext.current
 
     Column(
@@ -262,5 +263,5 @@ fun CompanyPreviewScreen(
             }
         }
     }
-
+     */
 }

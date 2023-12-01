@@ -20,9 +20,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
@@ -51,7 +48,6 @@ import com.mommydndn.app.ui.theme.heading800
 import com.mommydndn.app.ui.theme.paragraph300
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.OAuthLoginCallback
-import kotlinx.coroutines.Dispatchers
 
 @Composable
 internal fun SignInRoute(
@@ -71,20 +67,19 @@ internal fun SignInRoute(
                         account.serverAuthCode?.let { serverAuthCode ->
                             viewModel.signInWithGoogle(serverAuthCode)
                         }
-                    }
-                    .addOnFailureListener {
+                    }.addOnFailureListener {
                         // todo: crashlytics_report
                     }
             }
         }
 
-    val onSignInClick: (OAuthProvider) -> Unit = { socialLoginProvider ->
-        when (socialLoginProvider) {
+    val onSignInClick: (OAuthProvider) -> Unit = { oAuthProvider ->
+        when (oAuthProvider) {
             OAuthProvider.NAVER -> {
                 NaverIdLoginSDK.authenticate(context, object : OAuthLoginCallback {
                     override fun onSuccess() {
                         NaverIdLoginSDK.getAccessToken()?.let { accessToken ->
-                            viewModel.signIn(accessToken, socialLoginProvider)
+                            viewModel.signIn(oAuthProvider, accessToken)
                         }
                     }
 
@@ -106,7 +101,7 @@ internal fun SignInRoute(
                         }
                     } else {
                         token?.accessToken?.let { accessToken ->
-                            viewModel.signIn(accessToken, socialLoginProvider)
+                            viewModel.signIn(oAuthProvider, accessToken)
                         }
                     }
                 }
@@ -118,10 +113,9 @@ internal fun SignInRoute(
             }
 
             OAuthProvider.GOOGLE -> {
-                val options = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestEmail()
-                    .requestServerAuthCode(BuildConfig.GOOGLE_CLIENT_ID)
-                    .build()
+                val options =
+                    GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail()
+                        .requestServerAuthCode(BuildConfig.GOOGLE_CLIENT_ID).build()
 
                 with(GoogleSignIn.getClient(context, options)) {
                     launcherForActivityResult.launch(signInIntent)
@@ -156,15 +150,11 @@ private fun SignInScreen(
     onSignInClick: (OAuthProvider) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Scaffold(
-        modifier = modifier,
-        topBar = {
-            SignInTopAppBar(onExploreClick)
-        },
-        bottomBar = {
-            SocialLogin(onSignInClick)
-        }
-    ) { paddingValues ->
+    Scaffold(modifier = modifier, topBar = {
+        SignInTopAppBar(onExploreClick)
+    }, bottomBar = {
+        SocialLogin(onSignInClick)
+    }) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -202,31 +192,27 @@ private fun SignInScreen(
 
 @Composable
 private fun SignInTopAppBar(
-    onExploreClick: () -> Unit,
-    modifier: Modifier = Modifier
+    onExploreClick: () -> Unit, modifier: Modifier = Modifier
 ) {
-    Header(
-        modifier = modifier,
-        rightContent = {
-            TextButton(
-                onClick = onExploreClick, contentPadding = PaddingValues(
-                    top = 6.dp,
-                    start = 8.dp,
-                    end = 8.dp,
-                    bottom = 6.dp,
+    Header(modifier = modifier, rightContent = {
+        TextButton(
+            onClick = onExploreClick, contentPadding = PaddingValues(
+                top = 6.dp,
+                start = 8.dp,
+                end = 8.dp,
+                bottom = 6.dp,
+            )
+        ) {
+            Text(
+                modifier = Modifier,
+                text = stringResource(id = R.string.explore),
+                style = MaterialTheme.typography.paragraph300.copy(
+                    color = Grey500,
+                    fontWeight = FontWeight.Medium,
                 )
-            ) {
-                Text(
-                    modifier = Modifier,
-                    text = stringResource(id = R.string.explore),
-                    style = MaterialTheme.typography.paragraph300.copy(
-                        color = Grey500,
-                        fontWeight = FontWeight.Medium,
-                    )
-                )
-            }
+            )
         }
-    )
+    })
 }
 
 @Composable
@@ -272,14 +258,16 @@ private fun SocialLogin(
 
 @Composable
 private fun SocialLoginIconButton(
-    modifier: Modifier = Modifier,
     onClick: () -> Unit,
     iconResource: Painter,
     contentDescription: String = "SocialLoginIconButton",
+    modifier: Modifier = Modifier,
 ) {
     IconButton(onClick = onClick) {
         Image(
-            painter = iconResource, contentDescription = contentDescription, modifier = modifier
+            painter = iconResource,
+            contentDescription = contentDescription,
+            modifier = modifier,
         )
     }
 }

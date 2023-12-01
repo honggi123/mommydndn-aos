@@ -32,6 +32,7 @@ class _CareViewModel @Inject constructor(
     private val userRepository: UserRepository
 ) : ViewModel() {
 
+    /*
     val userInfo: StateFlow<GetUserResponse?> = userRepository.getUser().stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
@@ -275,6 +276,6 @@ class _CareViewModel @Inject constructor(
             set(indexOf(periodFilter), updatedFilter)
         }
     }
-
+     */
 }
 

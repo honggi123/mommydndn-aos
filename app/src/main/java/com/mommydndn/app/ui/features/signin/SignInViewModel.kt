@@ -32,16 +32,16 @@ class SignInViewModel @Inject constructor(
                     _uiState.emit(SignInUiState.Failure(result.exception))
                 } else {
                     result.data?.let { accessToken ->
-                        signIn(accessToken, OAuthProvider.GOOGLE)
+                        signIn(OAuthProvider.GOOGLE, accessToken)
                     }
                 }
             }
         }
     }
 
-    fun signIn(accessToken: String, oAuthProvider: OAuthProvider) {
+    fun signIn(oAuthProvider: OAuthProvider, accessToken: String) {
         viewModelScope.launch {
-            signInUseCase(SignInParams(accessToken, oAuthProvider)).let { result ->
+            signInUseCase(SignInParams(oAuthProvider, accessToken)).let { result ->
                 val uiState = if (result is Result.Failure) {
                     // todo: check if just not signed up yet
                     /*

@@ -12,10 +12,11 @@ import com.mommydndn.app.data.model.care.JobOfferPreview
 import com.mommydndn.app.domain.repository.CaringRepository
 import com.mommydndn.app.domain.repository.LocationRepository
 import com.mommydndn.app.domain.repository.UserRepository
-import com.mommydndn.app.ui.extensions.asMultipart
 import com.mommydndn.app.ui.navigation.MainNav
 import com.mommydndn.app.util.NavigationUtils
+import com.mommydndn.app.util.extension.asMultipart
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -31,9 +32,8 @@ class JobOfferPreviewViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val locationRepository: LocationRepository
 ) : ViewModel() {
-
-
-    val authorInfo: StateFlow<GetUserResponse?> = userRepository.getUser().stateIn(
+    private val _authorInfo = MutableStateFlow<GetUserResponse?>(null)
+    val authorInfo: StateFlow<GetUserResponse?> = _authorInfo.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
         initialValue = null

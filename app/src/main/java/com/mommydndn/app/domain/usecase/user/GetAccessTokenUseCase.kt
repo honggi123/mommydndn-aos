@@ -1,5 +1,6 @@
 package com.mommydndn.app.domain.usecase.user
 
+import com.mommydndn.app.di.IODispatcher
 import com.mommydndn.app.domain.repository.UserRepository
 import com.mommydndn.app.domain.usecase.UseCase
 import kotlinx.coroutines.CoroutineDispatcher
@@ -8,7 +9,7 @@ import javax.inject.Singleton
 
 @Singleton
 class GetAccessTokenUseCase @Inject constructor(
-    coroutineDispatcher: CoroutineDispatcher,
+    @IODispatcher coroutineDispatcher: CoroutineDispatcher,
     private val repository: UserRepository,
 ) : UseCase<GetAccessTokenParams, String>(coroutineDispatcher) {
 

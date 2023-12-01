@@ -117,9 +117,11 @@ class JobSeekerWriteViewModel @Inject constructor(
         viewModelScope.launch {
             val photoPart = convertToImagePart(selectedPhoto, context)
             photoPart?.let {
+                /*
                 userRepository.updateProfileImage(photoPart).collect {
                     _photo.value = selectedPhoto
                 }
+                 */
             }
         }
     }

@@ -4,8 +4,10 @@ import android.util.Log
 import com.mommydndn.app.data.api.model.request.UpdateProfileImageRequest
 import com.mommydndn.app.data.api.service.CommonService
 import com.mommydndn.app.data.api.service.UserService
+import com.mommydndn.app.domain.model.care.NearbyNeighborhoodDistance
+import com.mommydndn.app.domain.model.user.Neighborhood
 import com.mommydndn.app.domain.model.user.OAuthProvider
-import com.mommydndn.app.domain.model.user.User
+import com.mommydndn.app.domain.model.user.OAuthToken
 import com.mommydndn.app.domain.repository.UserRepository
 import com.skydoves.sandwich.getOrNull
 import com.skydoves.sandwich.message
@@ -46,10 +48,15 @@ class UserRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun signIn(
-        accessToken: String,
-        provider: OAuthProvider
-    ): User {
+    override suspend fun signIn(oAuthProvider: OAuthProvider, accessToken: String): OAuthToken {
+        TODO("Not yet implemented")
+    }
+
+    override fun getNeighborhood(): Flow<Neighborhood> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getNearbyNeighborhoodDistance(): Flow<NearbyNeighborhoodDistance> {
         TODO("Not yet implemented")
     }
 }

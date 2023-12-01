@@ -21,3 +21,4 @@ abstract class UseCase<in P, R>(private val coroutineDispatcher: CoroutineDispat
     protected abstract suspend fun execute(parameters: P): R
 }
 
+suspend operator fun <R> UseCase<Unit, R>.invoke(): Result<R> = invoke(Unit)
