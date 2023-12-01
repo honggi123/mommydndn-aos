@@ -66,7 +66,7 @@ import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.common.ImageInputFieldType
 import com.mommydndn.app.data.model.common.MinMaxRange
 import com.mommydndn.app.data.model.common.SelectButtonContent
-import com.mommydndn.app.data.model.map.EmdItem
+import com.mommydndn.app.data.model.location.EmdItem
 import com.mommydndn.app.ui.components.box.DateBox
 import com.mommydndn.app.ui.components.box.PostTextFieldBox
 import com.mommydndn.app.ui.components.box.SelectButtonScopeBox

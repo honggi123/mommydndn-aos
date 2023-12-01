@@ -1,12 +1,10 @@
 package com.mommydndn.app.domain.repository
 
-import com.mommydndn.app.data.api.model.response.GetTermsAndConditionsResponse
-import com.mommydndn.app.data.model.terms.TermsItem
-import kotlinx.coroutines.flow.Flow
+import com.mommydndn.app.domain.model.TermsAndConditions.TermsAndConditionsItem
 
 interface TermsAndConditionsRepository {
 
-    fun fetchAllTerms(): Flow<GetTermsAndConditionsResponse>
+    suspend fun fetchAllTermsAndConditions(): List<TermsAndConditionsItem>
 
-    suspend fun updateTermsCheckedStatus(items: List<TermsItem>)
+    suspend fun updateTermsCheckedStatus(items: List<TermsAndConditionsItem>)
 }

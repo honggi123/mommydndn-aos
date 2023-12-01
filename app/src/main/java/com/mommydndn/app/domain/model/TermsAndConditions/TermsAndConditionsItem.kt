@@ -1,11 +1,10 @@
-package com.mommydndn.app.data.model.terms
+package com.mommydndn.app.domain.model.TermsAndConditions
 
-data class TermsItem(
-    val createdAt: Long,
+data class TermsAndConditionsItem(
     val isRequired: Boolean,
     val name: String,
     val termsId: Int,
-    val updateAt: Long,
     val url: String,
     val isSelected: Boolean = false
 )
+

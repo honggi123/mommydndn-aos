@@ -19,7 +19,7 @@ import com.mommydndn.app.data.model.care.WorkPeriodType
 import com.mommydndn.app.data.model.care.summary.CompanySummaryListItem
 import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.common.DayOfWeekType
-import com.mommydndn.app.data.model.map.EmdItem
+import com.mommydndn.app.data.model.location.EmdItem
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
 import java.time.LocalDate

@@ -13,7 +13,7 @@ import androidx.navigation.NavHostController
 import com.mommydndn.app.data.api.model.response.LoginResponse
 import com.mommydndn.app.data.model.user.SignUpInfo
 import com.mommydndn.app.ui.navigation.MainNav
-import com.mommydndn.app.ui.navigation.TypeChoiceNav
+import com.mommydndn.app.ui.navigation.UserTypeNav
 import com.mommydndn.app.util.NavigationUtils
 import com.skydoves.sandwich.ApiResponse
 import com.skydoves.sandwich.StatusCode
@@ -94,7 +94,7 @@ class SignInViewModel @Inject constructor(
                     StatusCode.InternalServerError -> "InternalServerError"
                     StatusCode.Forbidden -> {
                         NavigationUtils.navigate(
-                            navHostController, TypeChoiceNav.navigateWithArg(
+                            navHostController, UserTypeNav.navigateWithArg(
                                 SignUpInfo(
                                     accessToken = Uri.encode(_token.value),
                                     oAuthType = _oAuthType.value

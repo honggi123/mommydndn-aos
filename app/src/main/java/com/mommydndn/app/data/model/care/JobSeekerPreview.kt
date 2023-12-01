@@ -1,7 +1,7 @@
 package com.mommydndn.app.data.model.care
 
-import com.mommydndn.app.data.model.map.EmdItem
-import com.mommydndn.app.data.model.map.LocationInfo
+import com.mommydndn.app.data.model.location.EmdItem
+import com.mommydndn.app.data.model.location.LocationInfo
 
 data class JobSeekerPreview(
     val introduce: String,

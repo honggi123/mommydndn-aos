@@ -10,9 +10,6 @@ data class SignUpInfo(
     val emdId: Int? = 0
 )
 
-fun SignUpInfo.shouldSkipSignUp(): Boolean {
-    return oAuthType == null &&
-            accessToken.isNullOrEmpty() &&
-            userType == null &&
-            emdId == null
+fun SignUpInfo?.shouldSkipSignUp(): Boolean {
+    return this == null || oAuthType == null || accessToken.isNullOrBlank() || userType == null || emdId == null
 }

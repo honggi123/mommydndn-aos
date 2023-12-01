@@ -47,7 +47,8 @@ fun MommyDndnButton(
     colorType: ButtonColorType = ButtonColorType.FILLED,
     sizeType: ButtonSizeType = ButtonSizeType.MEDIUM,
     rangeType: MinMaxRange = MinMaxRange.MIN,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
+    enabled: Boolean = true
 ) {
     val backgroundColor = when (color) {
         ButtonColor.WHITE -> White
@@ -93,6 +94,7 @@ fun MommyDndnButton(
         colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor),
         shape = RoundedCornerShape(12.dp),
         modifier = modifier,
+        enabled = enabled,
         contentPadding = paddingValues,
         elevation = ButtonDefaults.elevation(0.dp)
     ) {

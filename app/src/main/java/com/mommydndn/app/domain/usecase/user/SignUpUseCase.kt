@@ -6,14 +6,14 @@ import com.mommydndn.app.domain.model.user.OAuthType
 import com.mommydndn.app.domain.model.user.UserType
 import com.mommydndn.app.domain.usecase.UseCase
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class SignUpUseCase @Inject constructor(
-    coroutineDispatcher: CoroutineDispatcher,
     private val repository: AccountDataRepository,
-) : UseCase<SignUpParams, SignUpResponse>(coroutineDispatcher) {
+) : UseCase<SignUpParams, SignUpResponse>(Dispatchers.IO) {
 
     override suspend fun execute(parameters: SignUpParams): SignUpResponse {
         return with(parameters) {

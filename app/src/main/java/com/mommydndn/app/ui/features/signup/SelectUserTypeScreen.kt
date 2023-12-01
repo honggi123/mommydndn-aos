@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.runtime.Composable
@@ -21,6 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.mommydndn.app.ui.components.box.MaintextBox
 import com.mommydndn.app.ui.components.button.SquareButton
@@ -33,10 +35,10 @@ import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.util.NavigationUtils
 
 @Composable
-internal fun UserTypeRoute(
-    signUpInfo: SignUpInfo,
-    navHostController: NavHostController,
-    onExploreClick: () -> Unit,
+internal fun SelectUserTypeRoute(
+    navigateToNextScreen: () -> Unit,
+    navigateToPreviousScreen: () -> Unit,
+    signUpInfo: SignUpInfo?,
     viewModel: SignUpViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(Unit) {
@@ -47,46 +49,45 @@ internal fun UserTypeRoute(
         when (userType) {
             UserType.COMPANY -> {
                 viewModel.setUserType(UserType.COMPANY)
+                navigateToNextScreen()
             }
 
             UserType.INDIVIDUAL -> {
                 viewModel.setUserType(UserType.INDIVIDUAL)
+                navigateToNextScreen()
             }
         }
     }
 
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val screenState = uiState as? SignUpUiState.UserTypeSelect
 
-    val uiState by viewModel.uiState.collectAsState()
-
-    when (val state = uiState) {
-        SignUpUiState.Loading -> UserTypeScreen(
-            onExploreClick = onExploreClick,
-            onUserTypeClick = onUserTypeClick
+    screenState?.let {
+        SelectUserTypeScreen(
+            modifier = Modifier.fillMaxSize(),
+            navigateToPreviousScreen = navigateToPreviousScreen,
+            onUserTypeClick = onUserTypeClick,
+            uiState = screenState
         )
-        is SignUpUiState.UserTypeSelected -> {
-            NavigationUtils.navigate(
-                navHostController,
-                LocationSearchNav.route
-            )
-        }
-        else -> {
-            // TODO
-        }
     }
-
-
 }
 
 @Composable
-fun UserTypeScreen(
-    onExploreClick: () -> Unit,
-    onUserTypeClick: (UserType) -> Unit
+fun SelectUserTypeScreen(
+    modifier: Modifier = Modifier,
+    navigateToPreviousScreen: () -> Unit,
+    onUserTypeClick: (UserType) -> Unit,
+    uiState: SignUpUiState.UserTypeSelect
 ) {
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        UserTypeTopAppBar(onExploreClick = onExploreClick)
+    Column(modifier = modifier.fillMaxSize()) {
+        UserTypeTopAppBar(
+            modifier = Modifier.fillMaxWidth(),
+            navigateToPreviousScreen = navigateToPreviousScreen
+        )
 
         MaintextBox(
+            modifier = Modifier.fillMaxWidth(),
             captionText = stringResource(R.string.welcome_message),
             titleText = stringResource(R.string.ask_user_type)
         )
@@ -100,17 +101,20 @@ fun UserTypeScreen(
 
 @Composable
 fun UserTypeTopAppBar(
-    onExploreClick: () -> Unit
+    modifier: Modifier = Modifier,
+    navigateToPreviousScreen: () -> Unit,
 ) {
-    Header(leftContent = {
-        IconButton(onClick = onExploreClick) {
-            Icon(
-                painter = painterResource(id = R.drawable.icon_arrow_left),
-                contentDescription = "icon_arrow_left",
-                tint = Grey400
-            )
-        }
-    })
+    Header(
+        modifier = modifier.fillMaxWidth(),
+        leftContent = {
+            IconButton(onClick = { navigateToPreviousScreen() }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.icon_arrow_left),
+                    contentDescription = "icon_arrow_left",
+                    tint = Grey400
+                )
+            }
+        })
 }
 
 @Composable
@@ -125,17 +129,19 @@ fun UserTypeContent(
     ) {
         Row(
             modifier = Modifier
-                .fillMaxSize(),
-            horizontalArrangement = Arrangement.Center,
+                .fillMaxSize()
+                .padding(24.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             SquareButton(
+                modifier = Modifier.weight(1f),
                 imageResourceId = R.drawable.icon_building,
                 text = stringResource(R.string.company_user),
                 onClick = { onUserTypeClick(UserType.COMPANY) }
             )
-            Spacer(modifier = Modifier.padding(16.dp))
             SquareButton(
+                modifier = Modifier.weight(1f),
                 imageResourceId = R.drawable.icon_person,
                 text = stringResource(R.string.individual_user),
                 onClick = { onUserTypeClick(UserType.INDIVIDUAL) }

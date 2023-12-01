@@ -8,7 +8,7 @@ import com.mommydndn.app.data.model.care.WorkPeriodType
 import com.mommydndn.app.data.model.care.WorkPeriodTypeSerializer
 import com.mommydndn.app.data.model.common.DayOfWeekType
 import com.mommydndn.app.data.model.common.DayOfWeekTypeSerializer
-import com.mommydndn.app.data.model.map.EmdItem
+import com.mommydndn.app.data.model.location.EmdItem
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
