@@ -106,4 +106,3 @@ val Typography.heading1000: TextStyle
             includeFontPadding = false
         )
     )
-

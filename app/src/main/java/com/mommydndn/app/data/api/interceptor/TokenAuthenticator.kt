@@ -39,7 +39,6 @@ class TokenAuthenticator(
             } else {
                 null
             }
-
         } catch (e: Exception) {
             e.printStackTrace()
             null
@@ -69,6 +68,4 @@ class TokenAuthenticator(
 
         return accessToken
     }
-
-
 }

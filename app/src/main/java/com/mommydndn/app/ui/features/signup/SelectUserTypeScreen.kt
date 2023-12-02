@@ -4,17 +4,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,16 +20,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
-import com.mommydndn.app.ui.components.box.MaintextBox
-import com.mommydndn.app.ui.components.button.SquareButton
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.user.SignUpInfo
 import com.mommydndn.app.domain.model.user.UserType
+import com.mommydndn.app.ui.components.box.MaintextBox
+import com.mommydndn.app.ui.components.button.SquareButton
 import com.mommydndn.app.ui.components.common.Header
-import com.mommydndn.app.ui.navigation.LocationSearchNav
 import com.mommydndn.app.ui.theme.Grey400
-import com.mommydndn.app.util.NavigationUtils
 
 @Composable
 internal fun SelectUserTypeRoute(
@@ -114,7 +108,8 @@ fun UserTypeTopAppBar(
                     tint = Grey400
                 )
             }
-        })
+        }
+    )
 }
 
 @Composable
@@ -149,4 +144,3 @@ fun UserTypeContent(
         }
     }
 }
-

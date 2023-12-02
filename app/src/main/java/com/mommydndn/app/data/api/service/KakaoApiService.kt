@@ -3,7 +3,6 @@ package com.mommydndn.app.data.api.service
 import com.mommydndn.app.BuildConfig
 import com.mommydndn.app.data.api.model.response.AddressResponse
 import com.skydoves.sandwich.ApiResponse
-import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers

@@ -1,9 +1,7 @@
 package com.mommydndn.app.data.api.service
 
 import com.mommydndn.app.data.api.model.request.UpdateTermsAndConditionsRequest
-import com.mommydndn.app.data.api.model.response.GetTermsAndConditions
 import com.mommydndn.app.data.api.model.response.GetTermsAndConditionsResponse
-import com.skydoves.sandwich.ApiResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST

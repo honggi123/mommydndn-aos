@@ -12,7 +12,7 @@ class TermsAndConditionsDataRepository @Inject constructor(
 ) : TermsAndConditionsRepository {
 
     override suspend fun fetchAllTermsAndConditions(): List<TermsAndConditionsItem> {
-       return termsAndConditionsService.fetchTermsItems().map { it.toDomain() }
+        return termsAndConditionsService.fetchTermsItems().map { it.toDomain() }
     }
 
     override suspend fun updateTermsCheckedStatus(termsItems: List<TermsAndConditionsItem>) {
@@ -24,5 +24,4 @@ class TermsAndConditionsDataRepository @Inject constructor(
         }
         termsAndConditionsService.updateTermsApproval(approvalRequestList)
     }
-
 }

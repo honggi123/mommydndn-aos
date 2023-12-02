@@ -38,8 +38,8 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.common.LocationSearchType
-import com.mommydndn.app.data.model.location.LocationInfo
 import com.mommydndn.app.data.model.location.EmdItem
+import com.mommydndn.app.data.model.location.LocationInfo
 import com.mommydndn.app.data.model.location.displayName
 import com.mommydndn.app.domain.model.TermsAndConditions.TermsAndConditionsItem
 import com.mommydndn.app.ui.components.box.RadioListBox
@@ -49,7 +49,6 @@ import com.mommydndn.app.ui.components.modal.TermsCheckListModal
 import com.mommydndn.app.ui.theme.GreyOpacity400
 import com.mommydndn.app.util.PermissionUtils
 import kotlinx.coroutines.launch
-
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -77,14 +76,17 @@ internal fun LocationSearchRoute(
         val areGranted = permissionsMap.values.reduce { acc, next -> acc && next }
         if (areGranted) {
             Log.d("TownCheckScreen", "권한이 동의되었습니다.")
-            searchNearLocations(fusedLocationClient, searchAction = { latitude, longitude ->
-                viewModel.setLocationInfo(
-                    LocationInfo(
-                        latitude = latitude,
-                        longitude = longitude
+            searchNearLocations(
+                fusedLocationClient,
+                searchAction = { latitude, longitude ->
+                    viewModel.setLocationInfo(
+                        LocationInfo(
+                            latitude = latitude,
+                            longitude = longitude
+                        )
                     )
-                )
-            })
+                }
+            )
         } else {
             Log.d("TownCheckScreen", "권한이 거부되었습니다.")
         }
@@ -138,7 +140,7 @@ internal fun LocationSearchRoute(
             onDialogDismiss = { scope.launch { sheetState.hide() } },
             onDialogItemSelected = { index, isChecked ->
                 viewModel.setTermsCheckStatus(
-                    termsId = state.termsAndConditions[index].termsId,
+                    id = state.termsAndConditions[index].id,
                     isChecked = isChecked
                 )
             },
@@ -206,7 +208,6 @@ fun LocationSearchScreen(
         onDialogDismiss = onDialogDismiss,
         onDialogComplete = onDialogComplete,
     )
-
 }
 
 @Composable
@@ -236,7 +237,8 @@ fun LocationSearchTopAppBar(
             } else {
                 stringResource(R.string.result_searched_neighborhood, keyword)
             },
-            searchAction = { onSearchClick() })
+            searchAction = { onSearchClick() }
+        )
     }
 }
 
@@ -319,5 +321,3 @@ private fun searchNearLocations(
         Log.d("TownCheckScreen", e.stackTraceToString())
     }
 }
-
-

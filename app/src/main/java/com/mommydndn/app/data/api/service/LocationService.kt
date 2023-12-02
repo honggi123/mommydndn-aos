@@ -2,7 +2,6 @@ package com.mommydndn.app.data.api.service
 
 import com.mommydndn.app.data.api.model.response.GetLocationResponse
 import com.mommydndn.app.data.api.model.response.GetNearestResponse
-import com.skydoves.sandwich.ApiResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

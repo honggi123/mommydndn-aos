@@ -1,16 +1,15 @@
 package com.mommydndn.app.data.repository
 
 import com.mommydndn.app.BuildConfig
+import com.mommydndn.app.data.api.model.request.GoogleLoginRequest
+import com.mommydndn.app.data.api.model.request.SignInRequest
+import com.mommydndn.app.data.api.model.request.SignUpRequest
+import com.mommydndn.app.data.api.model.response.LoginGoogleResponse
+import com.mommydndn.app.data.api.model.response.LoginResponse
 import com.mommydndn.app.data.api.service.AuthenticationService
 import com.mommydndn.app.data.api.service.GoogleApiService
 import com.mommydndn.app.data.preferences.TokenManager
-import com.mommydndn.app.data.api.model.request.GoogleLoginRequest
-import com.mommydndn.app.data.api.model.response.LoginGoogleResponse
-import com.mommydndn.app.data.api.model.request.SignInRequest
-import com.mommydndn.app.data.api.model.response.LoginResponse
 import com.mommydndn.app.domain.model.user.OAuthType
-import com.mommydndn.app.data.model.user.SignUpInfo
-import com.mommydndn.app.data.api.model.request.SignUpRequest
 import com.mommydndn.app.domain.model.user.UserType
 import com.mommydndn.app.domain.repository.AccountRepository
 import com.skydoves.sandwich.ApiResponse
@@ -71,6 +70,4 @@ class AccountDataRepository @Inject constructor(
             code = authCode.orEmpty()
         )
     )
-
-
 }

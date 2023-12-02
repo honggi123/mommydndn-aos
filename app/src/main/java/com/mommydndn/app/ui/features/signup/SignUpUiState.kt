@@ -1,8 +1,8 @@
 package com.mommydndn.app.ui.features.signup
 
 import com.mommydndn.app.data.model.common.LocationSearchType
-import com.mommydndn.app.domain.model.TermsAndConditions.TermsAndConditionsItem
 import com.mommydndn.app.data.model.user.SignUpInfo
+import com.mommydndn.app.domain.model.TermsAndConditions.TermsAndConditionsItem
 
 sealed interface SignUpUiState {
 
@@ -26,6 +26,5 @@ sealed interface SignUpUiState {
         override val errorMessages: String
     ) : SignUpUiState
 }
-
 
 enum class SignUpStep { USER_TYPE, SEARCH_LOCATION }
