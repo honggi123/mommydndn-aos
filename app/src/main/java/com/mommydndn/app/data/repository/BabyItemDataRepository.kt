@@ -1,9 +1,10 @@
 package com.mommydndn.app.data.repository
 
-import com.mommydndn.app.data.api.model.response.BabyItemSummary
+import com.mommydndn.app.data.api.model.response.toDomain
 import com.mommydndn.app.data.api.service.BabyItemService
+import com.mommydndn.app.data.model.babyitem.BabyItem
+import com.mommydndn.app.data.model.babyitem.BabyItemSummary
 import com.mommydndn.app.domain.repository.BabyItemRepository
-import com.skydoves.sandwich.suspendOnSuccess
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -15,14 +16,17 @@ class BabyItemDataRepository @Inject constructor(
 ) : BabyItemRepository {
 
     override fun fetchNearestBabyItemSummary(
-        pageNum: Int, pageSize: Int, currentTimeStamp: Long
+        pageNum: Int,
+        pageSize: Int,
+        currentTimeStamp: Long
     ): Flow<BabyItemSummary> = flow {
-        babyItemService.fetchNearestBabyItemSummary(
-            pageSize = pageSize,
-            pageNum = pageNum,
-            requestTimestamp = currentTimeStamp
-        ).suspendOnSuccess {
-            emit(data)
-        }
-    }.flowOn(Dispatchers.Default)
+        emit(
+            babyItemService.fetchNearestBabyItemSummary(
+                pageSize = pageSize,
+                pageNum = pageNum,
+                requestTimestamp = currentTimeStamp
+            ).toDomain()
+        )
+    }.flowOn(Dispatchers.IO)
+
 }

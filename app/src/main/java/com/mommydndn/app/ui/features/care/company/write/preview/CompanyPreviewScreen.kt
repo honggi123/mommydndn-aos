@@ -39,7 +39,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.rememberImagePainter
 import com.mommydndn.app.R
-import com.mommydndn.app.data.model.banner.Banner
+import com.mommydndn.app.domain.model.banner.Banner
 import com.mommydndn.app.data.model.care.CompanyPreview
 import com.mommydndn.app.data.model.common.ButtonColor
 import com.mommydndn.app.data.model.common.ButtonColorType

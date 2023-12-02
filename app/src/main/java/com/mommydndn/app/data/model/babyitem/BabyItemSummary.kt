@@ -1,8 +1,12 @@
-package com.mommydndn.app.data.api.model.response
+package com.mommydndn.app.data.model.babyitem
 
-import kotlinx.serialization.Serializable
+import com.mommydndn.app.data.api.model.response.GetBabyItemMetaResponse
+import com.mommydndn.app.data.api.model.response.GetBabyItemResponse
 
-@Serializable
+data class BabyItemSummary(
+    val itemSummaryList: List<BabyItem>,
+    val meta: BabyItemMeta
+)
 data class BabyItem(
     val itemId: Int,
     val imageUrl: String,
@@ -13,15 +17,10 @@ data class BabyItem(
     val isLiked: Boolean
 )
 
-@Serializable
-data class BabyItemSummary(
-    val itemSummaryList: List<BabyItem>,
-    val meta: BabyItemMeta
-)
-
-@Serializable
 data class BabyItemMeta(
     val totalCount: Int,
     val currentPageNum: Int,
     val requestTimestamp: Long
 )
+
+

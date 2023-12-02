@@ -28,18 +28,23 @@ import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Text
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mommydndn.app.R
+import com.mommydndn.app.data.model.babyitem.BabyItem
+import com.mommydndn.app.data.model.babyitem.BabyItemMeta
+import com.mommydndn.app.data.model.care.JobOffer
+import com.mommydndn.app.data.model.care.JobSeeker
+import com.mommydndn.app.data.model.notification.Notification
 import com.mommydndn.app.ui.navigation.MainNav
 import com.mommydndn.app.ui.components.box.SubtextBox
 import com.mommydndn.app.ui.components.box.SubtextBoxSize
@@ -55,185 +60,280 @@ import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.GreyOpacity400
 import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.paragraph300
-import com.mommydndn.app.util.NavigationUtils
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-const val MAX_MORE_BABY_ITEM_PAGE = 4
-
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun MainHomeScreen(
-    navController: NavHostController,
+fun HomeRoute(
+    navigateToRoute: (String) -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    val uiState by viewModel.uiState.collectAsState()
+    val scope = rememberCoroutineScope()
 
-    val babyItems by viewModel.babyItems.collectAsState()
-    val babyItemsPagingMeta by viewModel.babyItemsPagingMeta.collectAsState()
+    MainHomeScreen(
+        modifier = Modifier.fillMaxSize(),
+        uiState = uiState,
+        navigateToRoute = navigateToRoute,
+        loadNextBabyItemPage = { viewModel.fetchMoreBabyItems(it) }
+    )
 
+    BottomSheetModal(
+        scope = scope,
+        noticeSettings = uiState.notifications
+    )
+}
+
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@Composable
+fun MainHomeScreen(
+    modifier: Modifier = Modifier,
+    navigateToRoute: (String) -> Unit,
+    loadNextBabyItemPage: (Int) -> Unit,
+    uiState: HomeUiState
+) {
     val scrollState = rememberScrollState()
+
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier
     ) {
-        Header(leftContent = {
-            Image(
-                painter = painterResource(id = R.drawable.ic_logo),
-                contentDescription = "",
-                modifier = Modifier
-                    .size(36.dp)
-            )
-        }, rightContent = {
-            Image(
-                painter = painterResource(id = R.drawable.ic_headset),
-                contentDescription = "",
-                modifier = Modifier
-                    .size(36.dp)
-            )
-            Image(
-                painter = painterResource(id = R.drawable.ic_bell),
-                contentDescription = "",
-                modifier = Modifier
-                    .size(36.dp)
-            )
-        }
+        HomeTopAppBar(
+            modifier = Modifier.fillMaxWidth()
         )
 
         Column(
-            modifier = Modifier.verticalScroll(
-                scrollState
-            )
+            modifier = Modifier.verticalScroll(scrollState)
         ) {
-            BannerList(modifier = Modifier.fillMaxWidth(), items = banners)
-
-            SubtextBox(
+            BannerList(
                 modifier = Modifier.fillMaxWidth(),
-                size = SubtextBoxSize.L,
-                titleText = "가장 가까운 시터님",
-                rightButtonText = "전체보기"
+                items = uiState.banners
             )
+
+            HomeDivider(modifier = Modifier.fillMaxWidth())
+
+            JobSeekerContent(
+                modifier = Modifier.fillMaxWidth(),
+                jobSeekers = uiState.jobSeekers
+            )
+
+            HomeDivider(modifier = Modifier.fillMaxWidth())
+
+            JobOfferContent(
+                modifier = Modifier.fillMaxWidth(),
+                jobOffers = uiState.jobOffers,
+                navigateToCareScreen = { navigateToRoute(MainNav.Care.route) }
+            )
+
+            HomeDivider(modifier = Modifier.fillMaxWidth())
+
+            BabyItemsContent(
+                modifier = Modifier.fillMaxWidth(),
+                babyItems = uiState.babyItems,
+                babyItemsPagingMeta = uiState.babyItemsPagingMeta,
+                loadNextPage = { loadNextBabyItemPage(it) }
+            )
+
+            HomeDivider(modifier = Modifier.fillMaxWidth())
+
+            SubBanner(modifier = Modifier.fillMaxWidth())
+            FooterBox(
+                modifier = Modifier.fillMaxWidth(),
+                onInquiryClick = {}
+            )
+        }
+    }
+}
+
+@Composable
+fun HomeTopAppBar(
+    modifier: Modifier = Modifier
+) {
+    Header(leftContent = {
+        Image(
+            painter = painterResource(id = R.drawable.icon_logo),
+            contentDescription = "icon_logo",
+            modifier = modifier
+                .size(36.dp)
+        )
+    }, rightContent = {
+        Image(
+            painter = painterResource(id = R.drawable.icon_headset),
+            contentDescription = "icon_headset",
+            modifier = Modifier
+                .size(36.dp)
+        )
+        Image(
+            painter = painterResource(id = R.drawable.icon_bell),
+            contentDescription = "icon_bell",
+            modifier = Modifier
+                .size(36.dp)
+        )
+    }
+    )
+}
+
+@Composable
+fun JobSeekerContent(
+    modifier: Modifier = Modifier,
+    jobSeekers: List<JobSeeker>
+) {
+    Column(
+        modifier = modifier.fillMaxWidth()
+    ) {
+        SubtextBox(
+            modifier = Modifier.fillMaxWidth(),
+            size = SubtextBoxSize.L,
+            titleText = stringResource(id = R.string.category_job_seekers_title),
+            rightButtonText = stringResource(id = R.string.see_all)
+        )
+        LazyRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 32.dp, top = 28.dp, bottom = 36.dp),
+            horizontalArrangement = Arrangement.spacedBy(32.dp)
+        ) {
+            items(jobSeekers) { item ->
+                SitterBox(item = item)
+            }
+        }
+    }
+}
+
+@Composable
+fun JobOfferContent(
+    modifier: Modifier = Modifier,
+    jobOffers: List<JobOffer> = emptyList(),
+    navigateToCareScreen: () -> Unit
+) {
+    Column(
+        modifier = modifier.fillMaxWidth()
+    ) {
+        SubtextBox(
+            size = SubtextBoxSize.L,
+            titleText = stringResource(id = R.string.category_job_offers_title),
+            rightButtonText = stringResource(id = R.string.see_more),
+            rightButtonOnClick = { navigateToCareScreen() }
+        )
+
+        Box(modifier = Modifier.padding(start = 32.dp, top = 28.dp, bottom = 36.dp)) {
             LazyRow(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 32.dp, top = 28.dp, bottom = 36.dp),
+                    .fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(32.dp)
             ) {
-                items(jobSeekers) { item ->
-                    SitterBox(item = item)
+                items(jobOffers) { item ->
+                    JobOfferBox(item = item)
                 }
             }
-            Divider(
-                color = Grey50,
+        }
+    }
+}
+
+@Composable
+fun BabyItemsContent(
+    modifier: Modifier = Modifier,
+    babyItems: List<BabyItem> = emptyList(),
+    babyItemsPagingMeta: BabyItemMeta,
+    loadNextPage: (Int) -> Unit
+) {
+    Column(
+        modifier = modifier.fillMaxWidth()
+    ) {
+        SubtextBox(
+            modifier = Modifier.fillMaxWidth(),
+            size = SubtextBoxSize.L,
+            titleText = stringResource(id = R.string.category_baby_items_title)
+        )
+
+        Box(modifier = modifier.fillMaxWidth()) {
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(20.dp)
-            )
-
-            SubtextBox(
-                size = SubtextBoxSize.L,
-                titleText = "도움이 필요한 주변 이웃",
-                rightButtonText = "더보기",
-                rightButtonOnClick = {
-                    NavigationUtils.navigate(navController, MainNav.Care.route)
-                }
-            )
-            Box(modifier = Modifier.padding(start = 32.dp, top = 28.dp, bottom = 36.dp)) {
-                LazyRow(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(32.dp)
-                ) {
-                    items(jobOffers) { item ->
-                        JobOfferBox(item = item)
-                    }
-                }
-            }
-
-            Divider(
-                color = Grey50,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(20.dp)
-            )
-
-            SubtextBox(size = SubtextBoxSize.L, titleText = "집 앞 육아용품 장터")
-
-            Box(modifier = Modifier.fillMaxWidth()) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            horizontal = 24.dp, vertical = 28.dp
-                        ),
-                ) {
-                    babyItems.chunked(2).forEach { rowItems ->
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(12.dp)
-                        ) {
-                            rowItems.forEach { item ->
-                                MarketListItemBox(modifier = Modifier.weight(1f), item = item)
-                            }
-                        }
-
-                        Spacer(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(24.dp)
-                        )
-                    }
-                }
-            }
-
-            if (babyItemsPagingMeta.currentPageNum <= MAX_MORE_BABY_ITEM_PAGE
-                && babyItemsPagingMeta.totalCount > 6
-                && ((babyItemsPagingMeta.currentPageNum - 1) * MORE_BABY_ITEM_PAGE_SIZE) + 6 < babyItemsPagingMeta.totalCount
+                    .padding(
+                        horizontal = 24.dp, vertical = 28.dp
+                    ),
             ) {
-                Button(
-                    modifier = Modifier
-                        .border(width = 1.dp, color = Color(0xFFF0F2F4))
-                        .fillMaxWidth(),
-                    onClick = {
-                        viewModel.fetchMoreBabyItems(currentCount = babyItemsPagingMeta.currentPageNum)
+                babyItems.chunked(2).forEach { rowItems ->
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        rowItems.forEach { item ->
+                            MarketListItemBox(modifier = Modifier.weight(1f), item = item)
+                        }
                     }
-                ) {
-                    Text(
+
+                    Spacer(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 20.dp, bottom = 20.dp),
-                        text = "더보기",
-                        style = MaterialTheme.typography.paragraph300.copy(
-                            fontWeight = FontWeight.Normal,
-                            color = Salmon600
-                        ),
-                        textAlign = TextAlign.Center
+                            .height(24.dp)
                     )
                 }
             }
+        }
 
-            Divider(
-                color = Grey50,
+        // 1.현재 페이지 <= MAX_MORE_BABY_ITEM_PAGE
+        // 2.현재까지 아이템 총 개수에 추가 되어야하는 아이템 개수를 더했을 때 보다 다음 페이지까지의 총 개수가 더 적을 경우
+        //  1 page -> 0 + 추가 되어야하는 아이템 개수 < 아이템의 총 개수
+        //  2 page -> (1 * 추가 되어야하는 아이템 개수) + 추가 되어야하는 아이템 개수 < 아이템의 총 개수
+
+        val shouldShowLoadMoreButton = babyItemsPagingMeta.currentPageNum <= MAX_MORE_BABY_ITEM_PAGE
+                && ((babyItemsPagingMeta.currentPageNum - 1) * MORE_BABY_ITEM_SIZE) + MORE_BABY_ITEM_SIZE < babyItemsPagingMeta.totalCount
+
+        if (shouldShowLoadMoreButton) {
+            Button(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(20.dp)
-            )
-
-            SubBanner(modifier = Modifier.fillMaxWidth())
-            FooterBox(modifier = Modifier.fillMaxWidth()) {}
+                    .border(width = 1.dp, color = Color(0xFFF0F2F4))
+                    .fillMaxWidth(),
+                onClick = {
+                    loadNextPage(babyItemsPagingMeta.currentPageNum)
+                }
+            ) {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 20.dp, bottom = 20.dp),
+                    text = stringResource(id = R.string.see_more),
+                    style = MaterialTheme.typography.paragraph300.copy(
+                        fontWeight = FontWeight.Normal,
+                        color = Salmon600
+                    ),
+                    textAlign = TextAlign.Center
+                )
+            }
         }
     }
+}
 
-    val sheetState =
-        rememberModalBottomSheetState(
-            ModalBottomSheetValue.Expanded,
-            skipHalfExpanded = true,
-            animationSpec = spring(
-                dampingRatio = 0.85f,
-                stiffness = 100f
-            )
+@Composable
+fun HomeDivider(
+    modifier: Modifier = Modifier
+) {
+    Divider(
+        color = Grey50,
+        modifier = modifier
+            .fillMaxWidth()
+            .height(20.dp)
+    )
+}
+
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun BottomSheetModal(
+    scope: CoroutineScope,
+    noticeSettings: List<Notification>
+) {
+
+    val sheetState = rememberModalBottomSheetState(
+        ModalBottomSheetValue.Expanded,
+        skipHalfExpanded = true,
+        animationSpec = spring(
+            dampingRatio = 0.85f,
+            stiffness = 100f
         )
-    val scope = rememberCoroutineScope()
+    )
 
     if (noticeSettings.isNotEmpty()) {
         ModalBottomSheetLayout(
@@ -246,15 +346,15 @@ fun MainHomeScreen(
             sheetContent = {
                 NoticeSettingListModal(
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 100.dp),
-                    onDismiss = {
-                        scope.launch { sheetState.hide() }
-                    },
+                    onDismiss = { scope.launch { sheetState.hide() } },
                     onItemSelected = { index, isChecked ->
-
+                        // TODO
                     },
-                    onComplete = { },
+                    onComplete = {
+                        // TODO
+                    },
                     itemList = noticeSettings,
-                    titleCheckBoxText = "꼭 필요한 알림만 보내드릴게요"
+                    titleCheckBoxText = stringResource(id = R.string.send_necessary_notifications)
                 )
             }
         ) {
@@ -265,6 +365,4 @@ fun MainHomeScreen(
             )
         }
     }
-
-
 }

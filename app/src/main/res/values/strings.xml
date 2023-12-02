@@ -3,4 +3,12 @@
 
     <string name="social_login_label">SNS 간편 로그인</string>
 
+    <string name="category_baby_items_title">집 앞 육아용품 장터</string>
+    <string name="category_job_offers_title">도움이 필요한 주변 이웃</string>
+    <string name="category_job_seekers_title">가장 가까운 시터님</string>
+
+    <string name="send_necessary_notifications">꼭 필요한 알림만 보내드릴게요</string>
+    <string name="see_more">더보기</string>
+    <string name="see_all">전체보기</string>
+
 </resources>

@@ -1,9 +1,7 @@
-package com.mommydndn.app.domain.usecase.caring
+package com.mommydndn.app.domain.usecase.care
 
 import com.mommydndn.app.data.model.care.JobSeeker
-import com.mommydndn.app.data.model.notification.Notification
 import com.mommydndn.app.domain.repository.CaringRepository
-import com.mommydndn.app.domain.repository.NotificationRepository
 import com.mommydndn.app.domain.usecase.UseCase
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject

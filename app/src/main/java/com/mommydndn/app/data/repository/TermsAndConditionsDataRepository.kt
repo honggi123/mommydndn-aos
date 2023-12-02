@@ -12,8 +12,7 @@ import javax.inject.Inject
 
 class TermsAndConditionsDataRepository @Inject constructor(
     private val termsAndConditionsService: TermsAndConditionsService,
-)
-    : TermsAndConditionsRepository {
+) : TermsAndConditionsRepository {
 
     override fun fetchAllTerms() = flow {
         termsAndConditionsService.fetchTermsItems().suspendOnSuccess {

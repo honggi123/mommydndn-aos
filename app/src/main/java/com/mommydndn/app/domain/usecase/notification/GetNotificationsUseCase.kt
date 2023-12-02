@@ -8,7 +8,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GetAllNotificationUseCase @Inject constructor(
+class GetNotificationsUseCase @Inject constructor(
     private val repository: NotificationRepository,
 ) : UseCase<Unit, List<Notification>>(Dispatchers.IO) {
 

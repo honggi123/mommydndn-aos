@@ -148,7 +148,7 @@ internal fun SignInScreen(
                 modifier = Modifier
                     .width(125.dp)
                     .height(121.dp),
-                painter = painterResource(id = R.drawable.ic_logo),
+                painter = painterResource(id = R.drawable.icon_logo),
                 contentDescription = ""
             )
 

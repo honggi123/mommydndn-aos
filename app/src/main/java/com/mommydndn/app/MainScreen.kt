@@ -7,6 +7,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -43,6 +44,7 @@ import com.mommydndn.app.ui.features.care.jobseeker.write.JobSeekerLocationSearc
 import com.mommydndn.app.ui.features.care.jobseeker.write.JobSeekerWriteScreen
 import com.mommydndn.app.ui.features.care.jobseeker.write.JobSeekerWriteViewModel
 import com.mommydndn.app.ui.features.care.jobseeker.write.preview.JobSeekerPreviewScreen
+import com.mommydndn.app.ui.features.home.HomeRoute
 import com.mommydndn.app.ui.features.home.MainHomeScreen
 import com.mommydndn.app.ui.features.signin.SignInScreen
 import com.mommydndn.app.ui.features.signup.NearestChoiceScreen
@@ -195,7 +197,9 @@ fun MainNavigationScreen(
         composable(
             route = MainNav.Home.route
         ) {
-            MainHomeScreen(navController = navController)
+            HomeRoute(
+                navigateToRoute = { route -> NavigationUtils.navigate(navController, route) }
+            )
         }
 
         composable(

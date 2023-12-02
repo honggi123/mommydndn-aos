@@ -1,4 +1,4 @@
-package com.mommydndn.app.data.model.banner
+package com.mommydndn.app.domain.model.banner
 
 import kotlinx.serialization.Serializable
 
