@@ -1,6 +1,7 @@
 package com.mommydndn.app.data.api.service
 
 import com.mommydndn.app.data.api.model.response.GetBannerResponse
+import com.mommydndn.app.data.api.model.response.GetBannersResponse
 import com.mommydndn.app.data.api.model.response.ImageResponse
 import com.skydoves.sandwich.ApiResponse
 import okhttp3.MultipartBody
@@ -12,7 +13,7 @@ import retrofit2.http.Part
 interface CommonService {
 
     @GET("/api/banner/home")
-    suspend fun fetchBanners(): List<GetBannerResponse>
+    suspend fun fetchBanners(): GetBannersResponse
 
     @Multipart
     @POST("/api/image")

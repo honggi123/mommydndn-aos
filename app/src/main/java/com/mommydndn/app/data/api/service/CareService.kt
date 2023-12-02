@@ -9,13 +9,13 @@ import com.mommydndn.app.data.api.model.request.JobSeekerListRequest
 import com.mommydndn.app.data.api.model.response.CaringTypeResponse
 import com.mommydndn.app.data.api.model.response.CompanyCreationResponse
 import com.mommydndn.app.data.api.model.response.CompanyEtcCheckItem
+import com.mommydndn.app.data.api.model.response.GetJobSeekersResponse
 import com.mommydndn.app.data.api.model.response.IndividualEtcCheckItem
 import com.mommydndn.app.data.api.model.response.JobOfferCreationResponse
 import com.mommydndn.app.data.api.model.response.JobOfferResponse
 import com.mommydndn.app.data.api.model.response.JobSeekerCreationResponse
-import com.mommydndn.app.data.api.model.response.NearestJobOfferResponse
+import com.mommydndn.app.data.api.model.response.GetNearestJobOffersResponse
 import com.mommydndn.app.data.model.care.summary.JobOfferSummary
-import com.mommydndn.app.data.model.care.JobSeeker
 import com.mommydndn.app.data.model.care.summary.JobSeekerSummary
 import com.mommydndn.app.data.model.care.MinHourlySalary
 import com.mommydndn.app.data.model.care.summary.CompanySummary
@@ -26,13 +26,13 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 
-interface CaringService {
+interface CareService {
 
     @GET("/api/caring/job-seeker/nearest")
-    suspend fun fetchNearestJobSeeker(): List<JobSeeker>
+    suspend fun fetchNearestJobSeeker(): GetJobSeekersResponse
 
     @GET("/api/caring/job-offer/nearest")
-    suspend fun fetchNearestJobOffer(): List<NearestJobOfferResponse>
+    suspend fun fetchNearestJobOffer(): GetNearestJobOffersResponse
 
     @GET("/api/caring/ind-other-condition")
     suspend fun fetchIndividualEtcCheckList(): ApiResponse<List<IndividualEtcCheckItem>>

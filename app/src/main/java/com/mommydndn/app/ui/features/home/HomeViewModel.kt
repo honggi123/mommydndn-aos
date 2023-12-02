@@ -43,7 +43,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
 
             fetchBabyItems(
-                pageNum = 1,
+                pageNum = uiState.value.babyItemsPagingMeta.currentPageNum,
                 pageSize = INITIAL_BABY_ITEM_PAGE_SIZE
             )
 

@@ -8,9 +8,9 @@ import com.mommydndn.app.data.api.model.response.JobSeekerCreationResponse
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.EtcCheckItem
-import com.mommydndn.app.data.model.care.JobOffer
+import com.mommydndn.app.domain.model.care.JobOffer
 import com.mommydndn.app.data.model.care.summary.JobOfferSummaryListItem
-import com.mommydndn.app.data.model.care.JobSeeker
+import com.mommydndn.app.domain.model.care.JobSeeker
 import com.mommydndn.app.data.model.care.summary.JobSeekerSummaryItem
 import com.mommydndn.app.data.model.care.MinHourlySalary
 import com.mommydndn.app.data.model.care.SalaryType
@@ -25,13 +25,13 @@ import okhttp3.MultipartBody
 import java.time.LocalDate
 import java.time.LocalTime
 
-interface CaringRepository {
+interface CareRepository {
 
     fun fetchJobOffer(jobOfferId: Int): Flow<JobOfferResponse>
 
-    suspend fun fetchNearestJobSeeker(): List<JobSeeker>
+    suspend fun fetchNearestJobSeekers(): List<JobSeeker>
 
-    suspend fun fetchNearestJobOffer(): List<JobOffer>
+    suspend fun fetchNearestJobOffers(): List<JobOffer>
 
     fun fetchEtcIndividualCheckList(): Flow<List<EtcCheckItem>>
 

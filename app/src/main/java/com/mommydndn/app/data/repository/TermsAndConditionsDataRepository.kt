@@ -32,13 +32,13 @@ class TermsAndConditionsDataRepository @Inject constructor(
     }.flowOn(Dispatchers.IO)
 
     override suspend fun updateTermsCheckedStatus(termsItems: List<TermsItem>) {
-        val approvalRequestList = termsItems.map {
-            UpdateTermsAndConditionsRequest(
-                termsId = it.termsId,
-                isApproved = it.isSelected
-            )
-        }
-        termsAndConditionsService.updateTermsApproval(approvalRequestList)
+//        val approvalRequestList = termsItems.map {
+//            UpdateTermsAndConditionsRequest(
+//                termsId = it.termsId,
+//                isApproved = it.isSelected
+//            )
+//        }
+//        termsAndConditionsService.updateTermsApproval(approvalRequestList)
     }
 
 }

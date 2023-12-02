@@ -4,6 +4,8 @@ package com.mommydndn.app.data.api.model.response
 import com.mommydndn.app.domain.model.banner.Banner
 import kotlinx.serialization.Serializable
 
+typealias GetBannersResponse = List<GetBannerResponse>
+
 @Serializable
 data class GetBannerResponse(
     val bannerId: Int,
@@ -11,10 +13,12 @@ data class GetBannerResponse(
     val url: String?
 )
 
-fun GetBannerResponse.toDomain(): Banner {
-    return Banner(
-        bannerId,
-        targetUrl ?: "",
-        url ?: ""
-    )
+fun GetBannersResponse.toDomain(): List<Banner> {
+    return this.map {
+        Banner(
+            bannerId = it.bannerId,
+            targetUrl = it.targetUrl ?: "",
+            url = it.url ?: ""
+        )
+    }
 }

@@ -14,7 +14,8 @@ import com.mommydndn.app.data.api.model.response.CompanyCreationResponse
 import com.mommydndn.app.data.api.model.response.JobOfferCreationResponse
 import com.mommydndn.app.data.api.model.response.JobOfferResponse
 import com.mommydndn.app.data.api.model.response.JobSeekerCreationResponse
-import com.mommydndn.app.data.api.service.CaringService
+import com.mommydndn.app.data.api.model.response.toDomain
+import com.mommydndn.app.data.api.service.CareService
 import com.mommydndn.app.data.api.service.CommonService
 import com.mommydndn.app.data.datasource.pagingsource.CompanySummaryPagingSource
 import com.mommydndn.app.data.datasource.pagingsource.JobOfferSummaryPagingSource
@@ -22,9 +23,9 @@ import com.mommydndn.app.data.datasource.pagingsource.JobSeekerSummaryPagingSour
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.EtcCheckItem
-import com.mommydndn.app.data.model.care.JobOffer
+import com.mommydndn.app.domain.model.care.JobOffer
 import com.mommydndn.app.data.model.care.summary.JobOfferSummaryListItem
-import com.mommydndn.app.data.model.care.JobSeeker
+import com.mommydndn.app.domain.model.care.JobSeeker
 import com.mommydndn.app.data.model.care.summary.JobSeekerSummaryItem
 import com.mommydndn.app.data.model.care.MinHourlySalary
 import com.mommydndn.app.data.model.care.SalaryType
@@ -34,7 +35,7 @@ import com.mommydndn.app.data.model.care.summary.CompanySummaryListItem
 import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.common.DayOfWeekType
 import com.mommydndn.app.data.model.map.EmdItem
-import com.mommydndn.app.domain.repository.CaringRepository
+import com.mommydndn.app.domain.repository.CareRepository
 import com.mommydndn.app.util.DateTimeUtils
 import com.skydoves.sandwich.getOrNull
 import com.skydoves.sandwich.suspendOnSuccess
@@ -48,35 +49,26 @@ import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
 
-class CaringDataRepository @Inject constructor(
-    private val caringService: CaringService,
+class CareDataRepository @Inject constructor(
+    private val careService: CareService,
     private val commonService: CommonService
-) : CaringRepository {
+) : CareRepository {
 
     override fun fetchJobOffer(jobOfferId: Int): Flow<JobOfferResponse> = flow<JobOfferResponse> {
-        caringService.fetchJobOffer(jobOfferId).suspendOnSuccess {
+        careService.fetchJobOffer(jobOfferId).suspendOnSuccess {
             emit(data)
         }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun fetchNearestJobSeeker(): List<JobSeeker> {
-        return caringService.fetchNearestJobSeeker()
-    }
+    override suspend fun fetchNearestJobSeekers(): List<JobSeeker> =
+        careService.fetchNearestJobSeeker().toDomain()
 
-    override suspend fun fetchNearestJobOffer(): List<JobOffer>  {
-       return caringService.fetchNearestJobOffer().map {
-           JobOffer(
-               title = it.title,
-               neighborhood = it.neighborhood,
-               salary = it.salary,
-               salaryType = it.salaryTypeCode,
-               caringType = it.caringTypeCode
-           )
-       }
-    }
+    override suspend fun fetchNearestJobOffers(): List<JobOffer> =
+        careService.fetchNearestJobOffer().toDomain()
+
 
     override fun fetchEtcIndividualCheckList(): Flow<List<EtcCheckItem>> = flow {
-        caringService.fetchIndividualEtcCheckList().suspendOnSuccess {
+        careService.fetchIndividualEtcCheckList().suspendOnSuccess {
             val list = data.map {
                 EtcCheckItem(
                     displayName = it.displayName,
@@ -89,7 +81,7 @@ class CaringDataRepository @Inject constructor(
     }.flowOn(Dispatchers.IO)
 
     override fun fetchCompanyEtcCheckList(): Flow<List<EtcCheckItem>> = flow {
-        caringService.fetchCompanyEtcCheckList().suspendOnSuccess {
+        careService.fetchCompanyEtcCheckList().suspendOnSuccess {
             val list = data.map {
                 EtcCheckItem(
                     displayName = it.displayName,
@@ -139,7 +131,7 @@ class CaringDataRepository @Inject constructor(
             pagingSourceFactory = {
                 JobOfferSummaryPagingSource(
                     jobOfferListRequest,
-                    caringService
+                    careService
                 )
             }
         ).flow
@@ -168,7 +160,7 @@ class CaringDataRepository @Inject constructor(
             pagingSourceFactory = {
                 JobSeekerSummaryPagingSource(
                     jobsSeekerListRequest,
-                    caringService
+                    careService
                 )
             }
         ).flow
@@ -199,14 +191,14 @@ class CaringDataRepository @Inject constructor(
             pagingSourceFactory = {
                 CompanySummaryPagingSource(
                     companyListRequest,
-                    caringService
+                    careService
                 )
             }
         ).flow
     }
 
     override fun fetchCaringTypeItems(): Flow<List<CaringTypeItem>> = flow {
-        caringService.fetchCaringTypesResponse().suspendOnSuccess {
+        careService.fetchCaringTypesResponse().suspendOnSuccess {
             val list = data.map {
                 CaringTypeItem(
                     caringType = it.caringTypeCode,
@@ -218,7 +210,7 @@ class CaringDataRepository @Inject constructor(
     }.flowOn(Dispatchers.IO)
 
     override fun fetchMinHourlySalary(): Flow<MinHourlySalary> = flow {
-        caringService.fetchMinHourlySalary().suspendOnSuccess {
+        careService.fetchMinHourlySalary().suspendOnSuccess {
             emit(data)
         }
     }.flowOn(Dispatchers.IO)
@@ -291,7 +283,7 @@ class CaringDataRepository @Inject constructor(
         }
 
 
-        caringService.createJobOffer(request).suspendOnSuccess {
+        careService.createJobOffer(request).suspendOnSuccess {
             emit(data)
         }
     }.flowOn(Dispatchers.IO)
@@ -316,7 +308,7 @@ class CaringDataRepository @Inject constructor(
             salary = salary,
             indOtherConditionIdList = etcCheckedList.map { it.id },
         )
-        caringService.createJobSeeker(request).suspendOnSuccess {
+        careService.createJobSeeker(request).suspendOnSuccess {
             emit(data)
         }
     }.flowOn(Dispatchers.IO)
@@ -349,7 +341,7 @@ class CaringDataRepository @Inject constructor(
             coverImageIdList = coverImageIdList
         )
 
-        caringService.createCompany(request).suspendOnSuccess {
+        careService.createCompany(request).suspendOnSuccess {
             emit(data)
         }
     }.flowOn(Dispatchers.IO)

@@ -6,12 +6,12 @@ import com.mommydndn.app.BuildConfig
 import com.mommydndn.app.data.api.interceptor.AuthenticationInterceptor
 import com.mommydndn.app.data.api.service.AuthenticationService
 import com.mommydndn.app.data.api.service.BabyItemService
-import com.mommydndn.app.data.api.service.CaringService
+import com.mommydndn.app.data.api.service.CareService
 import com.mommydndn.app.data.api.service.CommonService
 import com.mommydndn.app.data.api.service.GoogleApiService
 import com.mommydndn.app.data.api.service.KakaoApiService
 import com.mommydndn.app.data.api.service.MapService
-import com.mommydndn.app.data.api.service.NoticeService
+import com.mommydndn.app.data.api.service.NotificationService
 import com.mommydndn.app.data.api.service.TermsAndConditionsService
 import com.mommydndn.app.data.api.service.UserService
 import com.mommydndn.app.data.preferences.TokenManager
@@ -97,8 +97,8 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideNoticeService(retrofit: Retrofit): NoticeService {
-        return retrofit.create(NoticeService::class.java)
+    fun provideNoticeService(retrofit: Retrofit): NotificationService {
+        return retrofit.create(NotificationService::class.java)
     }
 
     @Singleton
@@ -109,8 +109,8 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideCaringService(retrofit: Retrofit): CaringService {
-        return retrofit.create(CaringService::class.java)
+    fun provideCaringService(retrofit: Retrofit): CareService {
+        return retrofit.create(CareService::class.java)
     }
 
     @Singleton

@@ -21,7 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.mommydndn.app.data.model.common.BadgeColorType
-import com.mommydndn.app.data.model.care.JobSeeker
+import com.mommydndn.app.domain.model.care.JobSeeker
 import com.mommydndn.app.ui.components.common.Badge
 import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.caption200

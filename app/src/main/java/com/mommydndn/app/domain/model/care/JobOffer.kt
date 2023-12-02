@@ -1,4 +1,7 @@
-package com.mommydndn.app.data.model.care
+package com.mommydndn.app.domain.model.care
+
+import com.mommydndn.app.data.model.care.CaringType
+import com.mommydndn.app.data.model.care.SalaryType
 
 data class JobOffer(
     val title: String,

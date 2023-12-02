@@ -1,9 +1,7 @@
 package com.mommydndn.app.domain.usecase.care
 
-import com.mommydndn.app.data.model.babyitem.BabyItemMeta
 import com.mommydndn.app.data.model.babyitem.BabyItemSummary
 import com.mommydndn.app.domain.repository.BabyItemRepository
-import com.mommydndn.app.domain.repository.CaringRepository
 import com.mommydndn.app.domain.usecase.FlowUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

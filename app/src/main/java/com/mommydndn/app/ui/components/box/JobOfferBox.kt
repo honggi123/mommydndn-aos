@@ -16,7 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.data.model.common.BadgeColorType
-import com.mommydndn.app.data.model.care.JobOffer
+import com.mommydndn.app.domain.model.care.JobOffer
 import com.mommydndn.app.ui.components.common.Badge
 import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.ui.theme.Grey50

@@ -10,8 +10,6 @@ class CommonDataRepository @Inject constructor(
     private val commonService: CommonService
 ) : CommonRepositoy {
     override suspend fun fetchBanners(): List<Banner> {
-        return commonService.fetchBanners().map {
-            it.toDomain()
-        }
+        return commonService.fetchBanners().toDomain()
     }
 }

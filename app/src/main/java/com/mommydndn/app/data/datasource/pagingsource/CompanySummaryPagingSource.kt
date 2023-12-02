@@ -4,20 +4,20 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.mommydndn.app.data.api.model.request.CompanyListRequest
 import com.mommydndn.app.data.api.model.request.PaginationRequest
-import com.mommydndn.app.data.api.service.CaringService
+import com.mommydndn.app.data.api.service.CareService
 import com.mommydndn.app.data.model.care.summary.CompanySummaryListItem
 import javax.inject.Inject
 
 private const val STARTING_PAGE_INDEX = 1
 class CompanySummaryPagingSource @Inject constructor(
     private val companyListRequest: CompanyListRequest,
-    private val caringService: CaringService
+    private val careService: CareService
 ) : PagingSource<Int, CompanySummaryListItem>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CompanySummaryListItem> {
         return try {
             val position = params.key ?: STARTING_PAGE_INDEX
-            val result = caringService.fetchCompanySummary(
+            val result = careService.fetchCompanySummary(
                 companyListRequest.copy(
                     paginationRequest = PaginationRequest(
                         pageNum = position,

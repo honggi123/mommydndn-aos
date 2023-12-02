@@ -30,7 +30,7 @@ import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph400
 import com.mommydndn.app.R
-import com.mommydndn.app.data.api.model.response.BabyItem
+import com.mommydndn.app.data.model.babyitem.BabyItem
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.util.NumberUtils
 import com.mommydndn.app.util.DateTimeUtils

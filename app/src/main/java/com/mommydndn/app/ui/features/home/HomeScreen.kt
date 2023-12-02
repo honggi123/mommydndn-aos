@@ -42,8 +42,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.babyitem.BabyItem
 import com.mommydndn.app.data.model.babyitem.BabyItemMeta
-import com.mommydndn.app.data.model.care.JobOffer
-import com.mommydndn.app.data.model.care.JobSeeker
+import com.mommydndn.app.domain.model.care.JobOffer
+import com.mommydndn.app.domain.model.care.JobSeeker
 import com.mommydndn.app.data.model.notification.Notification
 import com.mommydndn.app.ui.navigation.MainNav
 import com.mommydndn.app.ui.components.box.SubtextBox
@@ -110,8 +110,6 @@ fun MainHomeScreen(
                 items = uiState.banners
             )
 
-            HomeDivider(modifier = Modifier.fillMaxWidth())
-
             JobSeekerContent(
                 modifier = Modifier.fillMaxWidth(),
                 jobSeekers = uiState.jobSeekers
@@ -137,6 +135,7 @@ fun MainHomeScreen(
             HomeDivider(modifier = Modifier.fillMaxWidth())
 
             SubBanner(modifier = Modifier.fillMaxWidth())
+
             FooterBox(
                 modifier = Modifier.fillMaxWidth(),
                 onInquiryClick = {}
@@ -210,6 +209,7 @@ fun JobOfferContent(
         modifier = modifier.fillMaxWidth()
     ) {
         SubtextBox(
+            modifier = Modifier.fillMaxWidth(),
             size = SubtextBoxSize.L,
             titleText = stringResource(id = R.string.category_job_offers_title),
             rightButtonText = stringResource(id = R.string.see_more),
