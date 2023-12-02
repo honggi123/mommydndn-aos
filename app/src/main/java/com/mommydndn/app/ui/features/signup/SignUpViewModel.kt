@@ -86,7 +86,7 @@ class SignUpViewModel @Inject constructor(
             viewModelState.value.toUiState()
         )
 
-    val searchedNearest: Flow<PagingData<EmdItem>> = currentLocationFlow
+    val searchedNearestLocations: Flow<PagingData<EmdItem>> = currentLocationFlow
         .flatMapLatest { currentLocation ->
             getNearestLocationsUseCase.invoke(currentLocation)
                 .map { result ->
@@ -154,7 +154,7 @@ class SignUpViewModel @Inject constructor(
             )) {
                 is Result.Success -> {
                     saveUserToken(result.data.accessToken, result.data.refreshToken)
-                    updateTerms()
+                    updateTermsAndConditions()
                     setSignUpSuccessState()
                 }
 
@@ -180,7 +180,7 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    private fun updateTerms() {
+    private fun updateTermsAndConditions() {
         viewModelScope.launch {
             updateTermsAndConditionsStatusUseCase.invoke(UpdateTermsParams(viewModelState.value.termsAndConditions))
         }

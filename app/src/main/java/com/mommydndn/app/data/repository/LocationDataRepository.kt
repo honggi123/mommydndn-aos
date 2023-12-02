@@ -33,7 +33,7 @@ class LocationDataRepository @Inject constructor(
     }.flowOn(Dispatchers.IO)
 
 
-    override fun fetchNearestByLocation(
+    override fun fetchNearestLocations(
         locationInfo: LocationInfo
     ): Flow<PagingData<EmdItem>> {
         return Pager(

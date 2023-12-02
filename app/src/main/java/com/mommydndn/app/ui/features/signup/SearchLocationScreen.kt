@@ -103,7 +103,7 @@ internal fun LocationSearchRoute(
     val screenState = uiState as? SignUpUiState.LocationSearch
 
     val pagingItems = if (screenState?.locationSearchType == LocationSearchType.LOCATION) {
-        viewModel.searchedNearest.collectAsLazyPagingItems()
+        viewModel.searchedNearestLocations.collectAsLazyPagingItems()
     } else {
         viewModel.searchedLocations.collectAsLazyPagingItems()
     }

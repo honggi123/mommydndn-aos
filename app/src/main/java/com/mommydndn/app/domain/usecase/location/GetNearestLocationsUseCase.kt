@@ -16,7 +16,7 @@ class GetNearestLocationsUseCase @Inject constructor(
     private val locationRepository: LocationRepository,
 ) : FlowUseCase<LocationInfo, PagingData<EmdItem>>(Dispatchers.IO) {
     override suspend fun execute(parameters: LocationInfo): Flow<PagingData<EmdItem>> {
-        return locationRepository.fetchNearestByLocation(parameters)
+        return locationRepository.fetchNearestLocations(parameters)
     }
 
 }
