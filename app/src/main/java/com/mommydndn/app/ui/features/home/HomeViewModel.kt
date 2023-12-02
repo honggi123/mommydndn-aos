@@ -4,19 +4,23 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mommydndn.app.data.api.model.response.BabyItem
 import com.mommydndn.app.data.api.model.response.BabyItemMeta
-import com.mommydndn.app.data.model.notice.Notification
+import com.mommydndn.app.data.model.notification.Notification
 import com.mommydndn.app.domain.repository.BabyItemRepository
 import com.mommydndn.app.domain.repository.CaringRepository
 import com.mommydndn.app.domain.repository.CommonRepositoy
-import com.mommydndn.app.domain.repository.NoticeRepository
+import com.mommydndn.app.domain.repository.NotificationRepository
+import com.mommydndn.app.domain.usecase.caring.GetNearestJobOffersUseCase
+import com.mommydndn.app.domain.usecase.caring.GetNearestJobSeekersUseCase
+import com.mommydndn.app.domain.usecase.notification.GetAllNotificationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 const val INITIAL_BABY_ITEM_PAGE_SIZE = 10
@@ -24,35 +28,14 @@ const val MORE_BABY_ITEM_PAGE_SIZE = 10
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val noticeRepository: NoticeRepository,
-    private val caringRepository: CaringRepository,
     private val babyItemRepository: BabyItemRepository,
-    private val commonRepositoy: CommonRepositoy
+    private val getNearestJobOffersUseCase: GetNearestJobOffersUseCase,
+    private val getNearestJobSeekersUseCase: GetNearestJobSeekersUseCase,
+    private val getAllNotificationUseCase: GetAllNotificationUseCase
 ) : ViewModel() {
 
-    val noticeSettings = filteredNoticeSettings().stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.Lazily,
-        initialValue = emptyList()
-    )
-
-    val banners = commonRepositoy.fetchBanners().stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.Lazily,
-        initialValue = emptyList()
-    )
-
-    val jobSeekers = caringRepository.fetchNearestJobSeeker().stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.Lazily,
-        initialValue = emptyList()
-    )
-
-    val jobOffers = caringRepository.fetchNearestJobOffer().stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.Lazily,
-        initialValue = emptyList()
-    )
+    private val _uiState = MutableStateFlow(HomeUiState(isLoading = false))
+    val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
     private val _babyItems: MutableStateFlow<List<BabyItem>> = MutableStateFlow(emptyList())
     val babyItems: StateFlow<List<BabyItem>> = _babyItems
@@ -62,16 +45,36 @@ class HomeViewModel @Inject constructor(
     val babyItemsPagingMeta: StateFlow<BabyItemMeta> = _babyItemsPagingMeta
 
     init {
+        refreshAll()
+
         fetchBabyItems(
             pageNum = _babyItemsPagingMeta.value.currentPageNum,
             pageSize = INITIAL_BABY_ITEM_PAGE_SIZE
         )
     }
 
-    private fun filteredNoticeSettings(): Flow<List<Notification>> =
-        noticeRepository.fetchUserNoticeSettings().map { noticeSettings ->
-            noticeSettings.filter { !it.isApproved }
+    private fun refreshAll() {
+
+        viewModelScope.launch {
+            val notificationDeffered = async { getAllNotificationUseCase.invoke(Unit) }
+            val jobSeekerseffered = async { getNearestJobSeekersUseCase.invoke(Unit) }
+            val jobOffersDeffered =async { getNearestJobOffersUseCase.invoke(Unit) }
+
+            val jobSeekers = jobSeekerseffered.await()
+            val jobOffers = jobOffersDeffered.await()
+            val notifications = notificationDeffered.await()
+
+            _uiState.update {
+                it.copy(
+                    jobOffers = jobOffers,
+                    jobSeekers = jobSeekers,
+                    notifications = notifications
+                )
+            }
         }
+
+    }
+
 
     private fun fetchBabyItems(pageNum: Int, pageSize: Int) {
         viewModelScope.launch {

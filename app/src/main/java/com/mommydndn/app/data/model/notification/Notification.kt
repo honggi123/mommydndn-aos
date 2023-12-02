@@ -1,4 +1,4 @@
-package com.mommydndn.app.data.model.notice
+package com.mommydndn.app.data.model.notification
 
 data class Notification(
     val isApproved: Boolean,

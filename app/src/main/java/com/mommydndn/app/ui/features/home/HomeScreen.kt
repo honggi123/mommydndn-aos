@@ -67,10 +67,9 @@ fun MainHomeScreen(
     navController: NavHostController,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
-    val noticeSettings by viewModel.noticeSettings.collectAsState()
-    val banners by viewModel.banners.collectAsState()
-    val jobSeekers by viewModel.jobSeekers.collectAsState()
-    val jobOffers by viewModel.jobOffers.collectAsState()
+
+    val uiState by viewModel.uiState.collectAsState()
+
     val babyItems by viewModel.babyItems.collectAsState()
     val babyItemsPagingMeta by viewModel.babyItemsPagingMeta.collectAsState()
 

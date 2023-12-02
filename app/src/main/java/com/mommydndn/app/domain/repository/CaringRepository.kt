@@ -29,9 +29,9 @@ interface CaringRepository {
 
     fun fetchJobOffer(jobOfferId: Int): Flow<JobOfferResponse>
 
-    fun fetchNearestJobSeeker(): Flow<List<JobSeeker>>
+    suspend fun fetchNearestJobSeeker(): List<JobSeeker>
 
-    fun fetchNearestJobOffer(): Flow<List<JobOffer>>
+    suspend fun fetchNearestJobOffer(): List<JobOffer>
 
     fun fetchEtcIndividualCheckList(): Flow<List<EtcCheckItem>>
 

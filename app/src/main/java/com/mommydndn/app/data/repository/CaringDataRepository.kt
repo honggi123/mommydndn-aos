@@ -59,26 +59,21 @@ class CaringDataRepository @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    override fun fetchNearestJobSeeker(): Flow<List<JobSeeker>> = flow {
-        caringService.fetchNearestJobSeeker().suspendOnSuccess {
-            emit(data)
-        }
-    }.flowOn(Dispatchers.IO)
+    override suspend fun fetchNearestJobSeeker(): List<JobSeeker> {
+        return caringService.fetchNearestJobSeeker()
+    }
 
-    override fun fetchNearestJobOffer(): Flow<List<JobOffer>> = flow {
-        caringService.fetchNearestJobOffer().suspendOnSuccess {
-            val list = data.map {
-                JobOffer(
-                    title = it.title,
-                    neighborhood = it.neighborhood,
-                    salary = it.salary,
-                    salaryType = it.salaryTypeCode,
-                    caringType = it.caringTypeCode
-                )
-            }
-            emit(list)
-        }
-    }.flowOn(Dispatchers.IO)
+    override suspend fun fetchNearestJobOffer(): List<JobOffer>  {
+       return caringService.fetchNearestJobOffer().map {
+           JobOffer(
+               title = it.title,
+               neighborhood = it.neighborhood,
+               salary = it.salary,
+               salaryType = it.salaryTypeCode,
+               caringType = it.caringTypeCode
+           )
+       }
+    }
 
     override fun fetchEtcIndividualCheckList(): Flow<List<EtcCheckItem>> = flow {
         caringService.fetchIndividualEtcCheckList().suspendOnSuccess {

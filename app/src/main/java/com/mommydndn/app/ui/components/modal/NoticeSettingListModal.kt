@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.mommydndn.app.data.model.common.ButtonColor
 import com.mommydndn.app.data.model.common.ButtonColorType
 import com.mommydndn.app.data.model.common.ButtonSizeType
-import com.mommydndn.app.data.model.notice.Notification
+import com.mommydndn.app.data.model.notification.Notification
 import com.mommydndn.app.ui.components.button.MommyDndnButton
 import com.mommydndn.app.ui.components.list.CheckBoxListItem
 import com.mommydndn.app.ui.components.list.CheckMarkListItem

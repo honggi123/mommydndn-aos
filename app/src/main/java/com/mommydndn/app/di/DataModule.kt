@@ -5,7 +5,7 @@ import com.mommydndn.app.domain.repository.BabyItemRepository
 import com.mommydndn.app.domain.repository.CaringRepository
 import com.mommydndn.app.domain.repository.CommonRepositoy
 import com.mommydndn.app.domain.repository.LocationRepository
-import com.mommydndn.app.domain.repository.NoticeRepository
+import com.mommydndn.app.domain.repository.NotificationRepository
 import com.mommydndn.app.domain.repository.TermsAndConditionsRepository
 import com.mommydndn.app.domain.repository.UserRepository
 import com.mommydndn.app.data.repository.AccountDataRepository
@@ -40,7 +40,7 @@ interface DataModule {
 
     @Binds
     @Singleton
-    fun bindNoticeRepository(repository: NotificationDataRepository): NoticeRepository
+    fun bindNoticeRepository(repository: NotificationDataRepository): NotificationRepository
 
     @Binds
     @Singleton

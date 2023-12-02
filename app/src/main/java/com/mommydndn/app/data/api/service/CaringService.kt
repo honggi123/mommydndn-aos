@@ -29,10 +29,10 @@ import retrofit2.http.Path
 interface CaringService {
 
     @GET("/api/caring/job-seeker/nearest")
-    suspend fun fetchNearestJobSeeker(): ApiResponse<List<JobSeeker>>
+    suspend fun fetchNearestJobSeeker(): List<JobSeeker>
 
     @GET("/api/caring/job-offer/nearest")
-    suspend fun fetchNearestJobOffer(): ApiResponse<List<NearestJobOfferResponse>>
+    suspend fun fetchNearestJobOffer(): List<NearestJobOfferResponse>
 
     @GET("/api/caring/ind-other-condition")
     suspend fun fetchIndividualEtcCheckList(): ApiResponse<List<IndividualEtcCheckItem>>
