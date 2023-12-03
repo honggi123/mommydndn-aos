@@ -95,7 +95,7 @@ fun JobOfferSummaryBox(
                 }
 
                 Image(
-                    painter = painterResource(id = R.drawable.ic_heart_grey),
+                    painter = painterResource(id = R.drawable.icon_heart),
                     contentDescription = null,
                     modifier = Modifier
                         .size(36.dp)

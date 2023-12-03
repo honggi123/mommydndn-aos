@@ -64,7 +64,7 @@ fun RadioListItem(
                 Icon(
                     modifier = Modifier.size(32.dp),
                     painter = painterResource(
-                        id = if (isChecked) R.drawable.ic_radio_true else R.drawable.ic_radio_false
+                        id = if (isChecked) R.drawable.icon_selected_radio else R.drawable.icon_unselected_radio
                     ),
                     contentDescription = "",
                     tint = if (isChecked) Salmon600 else Grey200

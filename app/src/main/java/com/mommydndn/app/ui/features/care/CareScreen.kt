@@ -2,6 +2,7 @@ package com.mommydndn.app.ui.features.care
 
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
@@ -22,15 +24,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mommydndn.app.R
-import com.mommydndn.app.domain.model.care.WorkPeriod
 import com.mommydndn.app.domain.model.care.NearbyNeighborhoodDistance
+import com.mommydndn.app.domain.model.care.WorkPeriod
 import com.mommydndn.app.domain.model.user.Neighborhood
 import com.mommydndn.app.ui.components.chip.ChipWithBottomArrow
 import com.mommydndn.app.ui.components.common.Header
@@ -64,21 +68,21 @@ internal fun CareRoute(
         skipHalfExpanded = true,
     )
 
-    when (val uiStateValue = uiState.value) {
+    when (@Suppress("NAME_SHADOWING") val uiState = uiState.value) {
         CareUiState.Loading -> {
 
         }
         is CareUiState.Success -> CareScreen(
-            neighborhood = uiStateValue.neighborhood,
+            neighborhood = uiState.neighborhood,
             onNeighborhoodClick = onNeighborhoodClick,
             onSearchClick = onSearchClick,
             selectedTabIndex = selectedTabIndex.intValue,
             onTabSelected = {
                 selectedTabIndex.intValue = it
             },
-            order = uiStateValue.order,
+            order = uiState.order,
             onOrderClick = {},
-            filters = uiStateValue.filters,
+            filters = uiState.filters,
             onFilterClick = {
                 // todo: recompose twice?
                 selectedFilter.value = it
@@ -195,10 +199,11 @@ private fun CareTopAppBar(
             Button(
                 onClick = onSearchClick,
                 content = {
-                    Image(
+                    Icon(
                         painter = painterResource(id = R.drawable.icon_search),
                         contentDescription = "CareTopAppBar_Search",
-                        modifier = Modifier.size(36.dp)
+                        modifier = Modifier.size(36.dp).background(Color.Transparent),
+                        tint = Color.Unspecified
                     )
                 },
             )
@@ -296,14 +301,14 @@ private fun CareFilter.displayName(): String {
         }
         is PayFilter -> if (minimum != null && maximum != null) {
             stringResource(
-                R.string.hourly_pay,
+                R.string.hourly_pay_between,
                 String.format("%.1F", minimum / 10_000.0),
                 String.format("%.1F", maximum / 10_000.0)
             )
         } else {
             stringResource(R.string.pay)
         }
-        is WorkingDaysAndHoursFilter -> if (!selected) {
+        is WorkDaysAndHoursFilter -> if (!selected) {
             stringResource(R.string.time)
         } else {
             val daysOfWeekString = daysOfWeek.orEmpty().sorted().let { daysOfWeek ->
@@ -321,8 +326,8 @@ private fun CareFilter.displayName(): String {
                 )
             }
 
-            val hoursString = if (start != null && end != null) {
-                "${start.hour}시-${end.hour}시"
+            val hoursString = if (startTime != null && endTime != null) {
+                "${startTime.hour}시-${endTime.hour}시"
             } else {
                 ""
             }
@@ -346,20 +351,43 @@ private fun CareFilterModalBottomSheet(
     when (selectedFilter) {
         is NeighborhoodsFilter -> {
             NeighborhoodsFilterModalBottomSheet(
-                neighborhood = selectedFilter.neighborhood,
-                nearbyNeighborhoodDistance = selectedFilter.nearbyNeighborhoodDistance,
+                neighborhoodsFilter = selectedFilter,
                 onCloseClick = onCloseClick,
-                onUpdateClick = {
-                    onFilterUpdated(
-                        selectedFilter.copy(nearbyNeighborhoodDistance = it)
-                    )
-                },
+                onUpdateClick = onFilterUpdated,
                 modifier = Modifier,
             )
         }
         is CareTypesFilter -> TODO()
         is PayFilter -> TODO()
-        is WorkingDaysAndHoursFilter -> TODO()
+        is WorkDaysAndHoursFilter -> TODO()
         is WorkPeriodFilter -> TODO()
     }
+}
+
+@Preview
+@Composable
+private fun PreviewCareScreen() {
+    CareScreen(
+        neighborhood = Neighborhood(
+            name = "서초동",
+            latitude = 0.0,
+            longitude = 0.0,
+            nearbyNeighborhoods = emptyList(),
+            distantNeighborhoods = emptyList(),
+            veryDistantNeighborhoods = emptyList(),
+        ),
+        onNeighborhoodClick = {},
+        onSearchClick = {},
+        selectedTabIndex = 0,
+        onTabSelected = {},
+        order = CareOrderBy.LATEST,
+        onOrderClick = {},
+        filters = emptyList(),
+        onFilterClick = {},
+        selectedFilter = null,
+        sheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden),
+        onSheetCloseClick = {},
+        onFilterUpdated = {},
+        modifier = Modifier.fillMaxSize().background(Color.White),
+    )
 }

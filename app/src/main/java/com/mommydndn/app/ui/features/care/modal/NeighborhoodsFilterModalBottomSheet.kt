@@ -23,7 +23,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -34,10 +33,9 @@ import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.SliderPositions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -56,12 +54,11 @@ import androidx.compose.ui.unit.sp
 import com.mommydndn.app.R
 import com.mommydndn.app.domain.model.care.NearbyNeighborhoodDistance
 import com.mommydndn.app.domain.model.user.Neighborhood
-import com.mommydndn.app.ui.theme.Grey200
+import com.mommydndn.app.ui.features.care.NeighborhoodsFilter
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.Grey700
-import com.mommydndn.app.ui.theme.MommydndnaosTheme
 import com.mommydndn.app.ui.theme.Salmon100
 import com.mommydndn.app.ui.theme.Salmon200
 import com.mommydndn.app.ui.theme.Salmon300
@@ -75,14 +72,17 @@ import com.mommydndn.app.ui.theme.shadow700
 
 @Composable
 internal fun NeighborhoodsFilterModalBottomSheet(
-    neighborhood: Neighborhood,
-    nearbyNeighborhoodDistance: NearbyNeighborhoodDistance,
+    neighborhoodsFilter: NeighborhoodsFilter,
     onCloseClick: () -> Unit,
-    onUpdateClick: (NearbyNeighborhoodDistance) -> Unit,
+    onUpdateClick: (NeighborhoodsFilter) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var sliderPosition by remember {
-        mutableStateOf(nearbyNeighborhoodDistance.ordinal.toFloat())
+    val nearbyNeighborhoodDistance = remember {
+        mutableStateOf(neighborhoodsFilter.nearbyNeighborhoodDistance)
+    }
+
+    val sliderPosition = remember {
+        mutableFloatStateOf(nearbyNeighborhoodDistance.value.ordinal.toFloat())
     }
 
     Box(
@@ -101,24 +101,26 @@ internal fun NeighborhoodsFilterModalBottomSheet(
                 .padding(horizontal = 20.dp)
                 .padding(top = 10.dp, bottom = 24.dp),
         ) {
-            Box(
-                modifier = Modifier
-                    .width(64.dp)
-                    .height(6.dp)
-                    .background(
-                        color = Grey200,
-                        shape = RoundedCornerShape(size = 50.dp),
-                    )
-                    .align(Alignment.CenterHorizontally)
-            )
+            ModalBottomSheetHandleBar(modifier = Modifier.align(Alignment.CenterHorizontally))
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            val postfix = when (nearbyNeighborhoodDistance) {
+            val neighborhood = neighborhoodsFilter.neighborhood
+
+            val postfix = when (nearbyNeighborhoodDistance.value) {
                 NearbyNeighborhoodDistance.IMMEDIATE -> ""
-                NearbyNeighborhoodDistance.NEARBY -> " 외 근처 동네 ${neighborhood.nearbyNeighborhoods.size}곳"
-                NearbyNeighborhoodDistance.DISTANT -> " 외 근처 동네 ${neighborhood.distantNeighborhoods.size}곳"
-                NearbyNeighborhoodDistance.VERY_DISTANT -> " 외 근처 동네 ${neighborhood.veryDistantNeighborhoods.size}곳"
+                NearbyNeighborhoodDistance.NEARBY -> stringResource(
+                    R.string.nearby_neighborhoods_count,
+                    neighborhood.nearbyNeighborhoods.size
+                )
+                NearbyNeighborhoodDistance.DISTANT -> stringResource(
+                    R.string.nearby_neighborhoods_count,
+                    neighborhood.distantNeighborhoods.size
+                )
+                NearbyNeighborhoodDistance.VERY_DISTANT -> stringResource(
+                    R.string.nearby_neighborhoods_count,
+                    neighborhood.veryDistantNeighborhoods.size
+                )
             }
 
             NeighborhoodsFilterTitle(
@@ -126,18 +128,13 @@ internal fun NeighborhoodsFilterModalBottomSheet(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Divider(
-                color = Grey50,
-                thickness = 1.5.dp,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.Transparent)
-                    .padding(vertical = 12.dp)
+            ModalBottomSheetHorizontalDivider(
+                modifier = Modifier.padding(vertical = 12.dp)
             )
 
             NearbyNeighborhoodDistance(
                 neighborhoodName = neighborhood.name,
-                nearbyNeighborhoodDistance = nearbyNeighborhoodDistance,
+                nearbyNeighborhoodDistance = nearbyNeighborhoodDistance.value,
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(318F / 168F),
@@ -146,20 +143,24 @@ internal fun NeighborhoodsFilterModalBottomSheet(
             Spacer(modifier = Modifier.height(12.dp))
 
             NearbyNeighborhoodDistanceSlider(
-                sliderPosition = sliderPosition,
+                sliderPosition = sliderPosition.floatValue,
                 onValueChange = {
-                    sliderPosition = it
+                    sliderPosition.floatValue = it
                 },
                 modifier = Modifier.fillMaxWidth()
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            NeighborhoodsFilterModalBottomSheetButtons(
+            ModalBottomSheetButtons(
                 onCloseClick = onCloseClick,
                 onUpdateClick = {
                     onUpdateClick(
-                        NearbyNeighborhoodDistance.values()[sliderPosition.toInt()]
+                        neighborhoodsFilter.copy(
+                            nearbyNeighborhoodDistance = NearbyNeighborhoodDistance.values()[
+                                sliderPosition.floatValue.toInt()
+                            ]
+                        )
                     )
                 },
                 modifier = Modifier.fillMaxWidth(),
@@ -460,31 +461,91 @@ private fun NeighborhoodsFilterModalBottomSheetButtons(
     }
 }
 
+private val emptyNeighborhood = Neighborhood(
+    name = "",
+    latitude = 0.0,
+    longitude = 0.0,
+    nearbyNeighborhoods = emptyList(),
+    distantNeighborhoods = emptyList(),
+    veryDistantNeighborhoods = emptyList()
+)
+
 @Preview
 @Composable
-fun previewNeighborhoodsFilterModalBottomSheet() {
-    val dummy = Neighborhood(
-        name = "",
-        latitude = 0.0,
-        longitude = 0.0,
-        nearbyNeighborhoods = emptyList(),
-        distantNeighborhoods = emptyList(),
-        veryDistantNeighborhoods = emptyList()
-    )
-
-    MommydndnaosTheme {
-        NeighborhoodsFilterModalBottomSheet(
+private fun ImmediateNeighborhoodsFilter() {
+    NeighborhoodsFilterModalBottomSheet(
+        neighborhoodsFilter = NeighborhoodsFilter(
             neighborhood = Neighborhood(
                 name = "방배1동",
                 latitude = 0.0,
                 longitude = 0.0,
-                nearbyNeighborhoods = buildList(capacity = 5) { add(dummy) },
-                distantNeighborhoods = buildList(capacity = 11) { add(dummy) },
-                veryDistantNeighborhoods = buildList(capacity = 17) { add(dummy) }
+                nearbyNeighborhoods = List(5) { emptyNeighborhood },
+                distantNeighborhoods = List(9) { emptyNeighborhood },
+                veryDistantNeighborhoods = List(14) { emptyNeighborhood }
             ),
             nearbyNeighborhoodDistance = NearbyNeighborhoodDistance.IMMEDIATE,
-            onCloseClick = {},
-            onUpdateClick = {},
-        )
-    }
+        ),
+        onCloseClick = {},
+        onUpdateClick = {},
+    )
+}
+
+@Preview
+@Composable
+private fun NearbyNeighborhoodsFilter() {
+    NeighborhoodsFilterModalBottomSheet(
+        neighborhoodsFilter = NeighborhoodsFilter(
+            neighborhood = Neighborhood(
+                name = "방배1동",
+                latitude = 0.0,
+                longitude = 0.0,
+                nearbyNeighborhoods = List(5) { emptyNeighborhood },
+                distantNeighborhoods = List(9) { emptyNeighborhood },
+                veryDistantNeighborhoods = List(14) { emptyNeighborhood }
+            ),
+            nearbyNeighborhoodDistance = NearbyNeighborhoodDistance.NEARBY,
+        ),
+        onCloseClick = {},
+        onUpdateClick = {},
+    )
+}
+
+@Preview
+@Composable
+private fun DistantNeighborhoodsFilter() {
+    NeighborhoodsFilterModalBottomSheet(
+        neighborhoodsFilter = NeighborhoodsFilter(
+            neighborhood = Neighborhood(
+                name = "방배1동",
+                latitude = 0.0,
+                longitude = 0.0,
+                nearbyNeighborhoods = List(5) { emptyNeighborhood },
+                distantNeighborhoods = List(9) { emptyNeighborhood },
+                veryDistantNeighborhoods = List(14) { emptyNeighborhood }
+            ),
+            nearbyNeighborhoodDistance = NearbyNeighborhoodDistance.DISTANT,
+        ),
+        onCloseClick = {},
+        onUpdateClick = {},
+    )
+}
+
+@Preview
+@Composable
+private fun VeryDistantNeighborhoodsFilter() {
+    NeighborhoodsFilterModalBottomSheet(
+        neighborhoodsFilter = NeighborhoodsFilter(
+            neighborhood = Neighborhood(
+                name = "방배1동",
+                latitude = 0.0,
+                longitude = 0.0,
+                nearbyNeighborhoods = List(5) { emptyNeighborhood },
+                distantNeighborhoods = List(9) { emptyNeighborhood },
+                veryDistantNeighborhoods = List(14) { emptyNeighborhood }
+            ),
+            nearbyNeighborhoodDistance = NearbyNeighborhoodDistance.VERY_DISTANT,
+        ),
+        onCloseClick = {},
+        onUpdateClick = {},
+    )
 }

@@ -52,13 +52,13 @@ data class PayFilter(val minimum: Int?, val maximum: Int?) : CareFilter {
         }
 }
 
-data class WorkingDaysAndHoursFilter(
+data class WorkDaysAndHoursFilter(
     val daysOfWeek: List<DayOfWeek>?,
-    val start: LocalTime?,
-    val end: LocalTime?
+    val startTime: LocalTime?,
+    val endTime: LocalTime?
 ) : CareFilter {
 
-    override val state: State = if (daysOfWeek.isNullOrEmpty() && start == null && end == null) {
+    override val state: State = if (daysOfWeek.isNullOrEmpty() && startTime == null && endTime == null) {
         State.UNSELECTED
     } else {
         State.SELECTED
@@ -73,4 +73,3 @@ data class WorkPeriodFilter(val workPeriod: WorkPeriod?) : CareFilter {
         State.SELECTED
     }
 }
-

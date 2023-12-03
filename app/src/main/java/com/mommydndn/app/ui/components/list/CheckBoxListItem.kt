@@ -51,7 +51,7 @@ fun CheckBoxListItem(
             Image(
                 modifier = Modifier.size(32.dp),
                 painter = painterResource(
-                    id = if (checked) R.drawable.ic_checkbox_true else R.drawable.ic_checkbox_false
+                    id = if (checked) R.drawable.icon_checked_checkbox else R.drawable.icon_not_checked_checkbox
                 ),
                 contentScale = ContentScale.Crop,
                 contentDescription = ""

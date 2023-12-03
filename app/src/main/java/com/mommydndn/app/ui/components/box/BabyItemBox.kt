@@ -48,7 +48,7 @@ fun MarketListItemBox(
     )
 
     val isLikedPainter = rememberImagePainter(
-        data = if (item.isLiked) R.drawable.ic_heart_fill_salmon else R.drawable.ic_heart_fill,
+        data = if (item.isLiked) R.drawable.ic_heart_fill_salmon else R.drawable.icon_heart_fill,
     )
 
     Box(

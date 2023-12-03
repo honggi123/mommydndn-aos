@@ -62,6 +62,7 @@ fun ChipWithBottomArrow(
                     color = textColor
                 )
             )
+
             Image(
                 painter = painterResource(id = R.drawable.icon_arrow_down),
                 contentDescription = "ChipWithBottomArrow_ArrowDown",

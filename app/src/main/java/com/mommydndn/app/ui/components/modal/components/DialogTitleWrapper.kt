@@ -66,7 +66,7 @@ fun CheckDialogTitle(title: DialogTitle.Check) {
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Image(
-            painter = painterResource(id = if (title.isChecked) R.drawable.ic_checkbox_true else R.drawable.ic_checkbox_false),
+            painter = painterResource(id = if (title.isChecked) R.drawable.icon_checked_checkbox else R.drawable.icon_not_checked_checkbox),
             contentDescription = "",
             modifier = Modifier.size(26.dp)
         )
@@ -104,7 +104,7 @@ fun RefreshDialogTitle(title: DialogTitle.Refresh) {
             title.refreshAction()
         }) {
             Image(
-                painter = painterResource(id = R.drawable.ic_rewind),
+                painter = painterResource(id = R.drawable.icon_rewind),
                 contentDescription = "",
                 modifier = Modifier.size(24.dp)
             )
