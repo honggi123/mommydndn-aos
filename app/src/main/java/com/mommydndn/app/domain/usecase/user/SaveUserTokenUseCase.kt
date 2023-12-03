@@ -2,7 +2,6 @@ package com.mommydndn.app.domain.usecase.user
 
 import com.mommydndn.app.data.repository.AccountDataRepository
 import com.mommydndn.app.domain.usecase.UseCase
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 import javax.inject.Singleton

@@ -83,10 +83,10 @@ object JobOfferWritePreviewNav : Destination {
     fun routeWithArgName() = "${JobOfferWritePreviewNav.route}/{${JobOfferWritePreviewNav.argName}}"
 
     val arguments: List<NamedNavArgument> = listOf(
-        navArgument(argName) { type= NavType.StringType}
+        navArgument(argName) { type = NavType.StringType }
     )
 
-    fun navigateWithArg(item: JobOfferPreview): String  {
+    fun navigateWithArg(item: JobOfferPreview): String {
         val arg = GsonUtils.toJson(item)
         return "${JobOfferWritePreviewNav.route}/$arg"
     }
@@ -115,10 +115,10 @@ object JobSeekerWritePreviewNav : Destination {
     fun routeWithArgName() = "${JobSeekerWritePreviewNav.route}/{${JobSeekerWritePreviewNav.argName}}"
 
     val arguments: List<NamedNavArgument> = listOf(
-        navArgument(argName) { type= NavType.StringType}
+        navArgument(argName) { type = NavType.StringType }
     )
 
-    fun navigateWithArg(item: JobSeekerPreview): String  {
+    fun navigateWithArg(item: JobSeekerPreview): String {
         val arg = GsonUtils.toJson(item)
         return "${JobSeekerWritePreviewNav.route}/$arg"
     }
@@ -152,10 +152,10 @@ object CompanyWritePreviewNav : Destination {
     fun routeWithArgName() = "${CompanyWritePreviewNav.route}/{${CompanyWritePreviewNav.argName}}"
 
     val arguments: List<NamedNavArgument> = listOf(
-        navArgument(argName) { type= NavType.StringType}
+        navArgument(argName) { type = NavType.StringType }
     )
 
-    fun navigateWithArg(item: CompanyPreview): String  {
+    fun navigateWithArg(item: CompanyPreview): String {
         val arg = GsonUtils.toJson(item)
         return "${CompanyWritePreviewNav.route}/$arg"
     }
@@ -211,5 +211,4 @@ object NavigationTitle {
     const val SIGN_IN = "로그인"
     const val SIGN_UP_USER_TYPE = "개인&기업선택"
     const val SIGN_UP_LOCATION_SEARCH = "위치선택"
-
 }

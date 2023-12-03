@@ -2,9 +2,8 @@ package com.mommydndn.app.domain.repository
 
 import com.mommydndn.app.data.api.model.response.LoginGoogleResponse
 import com.mommydndn.app.data.api.model.response.LoginResponse
-import com.mommydndn.app.domain.model.user.OAuthType
-import com.mommydndn.app.data.model.user.SignUpInfo
 import com.mommydndn.app.data.api.model.response.SignUpResponse
+import com.mommydndn.app.domain.model.user.OAuthType
 import com.mommydndn.app.domain.model.user.UserType
 import com.skydoves.sandwich.ApiResponse
 

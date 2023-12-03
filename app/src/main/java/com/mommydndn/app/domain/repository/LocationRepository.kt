@@ -10,7 +10,7 @@ interface LocationRepository {
 
     suspend fun fetchEmdByLocation(locationInfo: LocationInfo): EmdItem?
 
-    fun fetchNearestByLocation(locationInfo: LocationInfo): Flow<PagingData<EmdItem>>
+    fun fetchNearestLocations(locationInfo: LocationInfo): Flow<PagingData<EmdItem>>
 
     fun fetchLocationsByKeyword(keyword: String): Flow<PagingData<EmdItem>>
 

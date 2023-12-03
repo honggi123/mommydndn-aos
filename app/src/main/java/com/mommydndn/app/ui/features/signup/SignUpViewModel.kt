@@ -6,32 +6,31 @@ import androidx.paging.PagingData
 import com.mommydndn.app.data.model.common.LocationSearchType
 import com.mommydndn.app.data.model.location.EmdItem
 import com.mommydndn.app.data.model.location.LocationInfo
-import com.mommydndn.app.domain.model.TermsAndConditions.TermsAndConditionsItem
 import com.mommydndn.app.data.model.user.SignUpInfo
 import com.mommydndn.app.data.model.user.shouldSkipSignUp
+import com.mommydndn.app.domain.model.TermsAndConditions.TermsAndConditionsItem
 import com.mommydndn.app.domain.model.user.UserType
 import com.mommydndn.app.domain.usecase.location.GetLocationsUseCase
 import com.mommydndn.app.domain.usecase.location.GetNearestLocationsUseCase
 import com.mommydndn.app.domain.usecase.termsAndConditions.GetAllTermsAndConditionsUseCase
+import com.mommydndn.app.domain.usecase.termsAndConditions.UpdateTermsAndConditionsParams
 import com.mommydndn.app.domain.usecase.termsAndConditions.UpdateTermsAndConditionsStatusUseCase
-import com.mommydndn.app.domain.usecase.termsAndConditions.UpdateTermsParams
 import com.mommydndn.app.domain.usecase.user.SaveTokenParams
 import com.mommydndn.app.domain.usecase.user.SaveUserTokenUseCase
 import com.mommydndn.app.domain.usecase.user.SignUpParams
 import com.mommydndn.app.domain.usecase.user.SignUpUseCase
+import com.mommydndn.app.util.result.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.launch
-import javax.inject.Inject
-import com.mommydndn.app.util.result.Result
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
-
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 private data class SignUpViewModelState(
     val signUpStep: SignUpStep = SignUpStep.USER_TYPE,
@@ -86,7 +85,7 @@ class SignUpViewModel @Inject constructor(
             viewModelState.value.toUiState()
         )
 
-    val searchedNearest: Flow<PagingData<EmdItem>> = currentLocationFlow
+    val searchedNearestLocations: Flow<PagingData<EmdItem>> = currentLocationFlow
         .flatMapLatest { currentLocation ->
             getNearestLocationsUseCase.invoke(currentLocation)
                 .map { result ->
@@ -144,17 +143,19 @@ class SignUpViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            when (val result = signUpUseCase.invoke(
-                SignUpParams(
-                    accessToken = signUpInfo!!.accessToken!!,
-                    oAuthType = signUpInfo.oAuthType!!,
-                    userType = signUpInfo.userType!!,
-                    emdId = signUpInfo.emdId!!
+            when (
+                val result = signUpUseCase.invoke(
+                    SignUpParams(
+                        accessToken = signUpInfo!!.accessToken!!,
+                        oAuthType = signUpInfo.oAuthType!!,
+                        userType = signUpInfo.userType!!,
+                        emdId = signUpInfo.emdId!!
+                    )
                 )
-            )) {
+            ) {
                 is Result.Success -> {
                     saveUserToken(result.data.accessToken, result.data.refreshToken)
-                    updateTerms()
+                    updateTermsAndConditions()
                     setSignUpSuccessState()
                 }
 
@@ -180,9 +181,9 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    private fun updateTerms() {
+    private fun updateTermsAndConditions() {
         viewModelScope.launch {
-            updateTermsAndConditionsStatusUseCase.invoke(UpdateTermsParams(viewModelState.value.termsAndConditions))
+            updateTermsAndConditionsStatusUseCase.invoke(UpdateTermsAndConditionsParams(viewModelState.value.termsAndConditions))
         }
     }
 
@@ -214,7 +215,6 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-
     fun setKeyword(keyword: String) {
         keywordFlow.value = keyword
         viewModelState.update {
@@ -233,11 +233,11 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    fun setTermsCheckStatus(termsId: Int, isChecked: Boolean) {
+    fun setTermsCheckStatus(id: Int, isChecked: Boolean) {
         viewModelState.update { currentState ->
             currentState.copy(
                 termsAndConditions = currentState.termsAndConditions.map { item ->
-                    if (item.termsId == termsId) {
+                    if (item.id == id) {
                         item.copy(isSelected = isChecked)
                     } else {
                         item
@@ -247,12 +247,9 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    fun setSignUpStep(signUpStep: SignUpStep){
+    fun setSignUpStep(signUpStep: SignUpStep) {
         viewModelState.update {
             it.copy(signUpStep = signUpStep)
         }
     }
-
 }
-
-

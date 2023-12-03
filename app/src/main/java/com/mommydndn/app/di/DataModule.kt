@@ -1,13 +1,5 @@
 package com.mommydndn.app.di
 
-import com.mommydndn.app.domain.repository.AccountRepository
-import com.mommydndn.app.domain.repository.BabyItemRepository
-import com.mommydndn.app.domain.repository.CaringRepository
-import com.mommydndn.app.domain.repository.CommonRepositoy
-import com.mommydndn.app.domain.repository.LocationRepository
-import com.mommydndn.app.domain.repository.NoticeRepository
-import com.mommydndn.app.domain.repository.TermsAndConditionsRepository
-import com.mommydndn.app.domain.repository.UserRepository
 import com.mommydndn.app.data.repository.AccountDataRepository
 import com.mommydndn.app.data.repository.BabyItemDataRepository
 import com.mommydndn.app.data.repository.CaringDataRepository
@@ -16,11 +8,19 @@ import com.mommydndn.app.data.repository.LocationDataRepository
 import com.mommydndn.app.data.repository.NotificationDataRepository
 import com.mommydndn.app.data.repository.TermsAndConditionsDataRepository
 import com.mommydndn.app.data.repository.UserDataRepository
+import com.mommydndn.app.domain.repository.AccountRepository
+import com.mommydndn.app.domain.repository.BabyItemRepository
+import com.mommydndn.app.domain.repository.CaringRepository
+import com.mommydndn.app.domain.repository.CommonRepositoy
+import com.mommydndn.app.domain.repository.LocationRepository
+import com.mommydndn.app.domain.repository.NoticeRepository
+import com.mommydndn.app.domain.repository.TermsAndConditionsRepository
+import com.mommydndn.app.domain.repository.UserRepository
+import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
-import dagger.Binds
 
 @Module
 @InstallIn(SingletonComponent::class)

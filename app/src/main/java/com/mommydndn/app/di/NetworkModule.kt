@@ -148,5 +148,4 @@ class NetworkModule {
             .build()
             .create(KakaoApiService::class.java)
     }
-
 }
