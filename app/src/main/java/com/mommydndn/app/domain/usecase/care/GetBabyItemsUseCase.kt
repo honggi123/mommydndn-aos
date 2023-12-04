@@ -13,7 +13,7 @@ class GetBabyItemsUseCase @Inject constructor(
     private val repository: BabyItemRepository,
 ) : FlowUseCase<GetBabyItemsParams, BabyItemSummary>(Dispatchers.IO) {
 
-    override suspend fun execute(parameters: GetBabyItemsParams): Flow<BabyItemSummary> {
+    override fun execute(parameters: GetBabyItemsParams): Flow<BabyItemSummary> {
         return parameters.let {
             repository.fetchNearestBabyItemSummary(
                 pageNum = it.pageNum,

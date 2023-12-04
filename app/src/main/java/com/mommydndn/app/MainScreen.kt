@@ -198,7 +198,7 @@ fun MainNavigationScreen(
             route = MainNav.Home.route
         ) {
             HomeRoute(
-                navigateToRoute = { route -> NavigationUtils.navigate(navController, route) }
+                onMoreJobOfferButtonClick = { }
             )
         }
 

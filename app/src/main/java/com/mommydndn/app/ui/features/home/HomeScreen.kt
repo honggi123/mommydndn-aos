@@ -65,7 +65,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun HomeRoute(
-    navigateToRoute: (String) -> Unit,
+    onMoreJobOfferButtonClick: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -75,7 +75,7 @@ fun HomeRoute(
     MainHomeScreen(
         modifier = Modifier.fillMaxSize(),
         uiState = uiState,
-        navigateToRoute = navigateToRoute,
+        onMoreJobOfferButtonClick = onMoreJobOfferButtonClick,
         loadNextBabyItemPage = { viewModel.fetchMoreBabyItems(it) }
     )
 
@@ -89,7 +89,7 @@ fun HomeRoute(
 @Composable
 fun MainHomeScreen(
     modifier: Modifier = Modifier,
-    navigateToRoute: (String) -> Unit,
+    onMoreJobOfferButtonClick: () -> Unit,
     loadNextBabyItemPage: (Int) -> Unit,
     uiState: HomeUiState
 ) {
@@ -120,7 +120,7 @@ fun MainHomeScreen(
             JobOfferContent(
                 modifier = Modifier.fillMaxWidth(),
                 jobOffers = uiState.jobOffers,
-                navigateToCareScreen = { navigateToRoute(MainNav.Care.route) }
+                navigateToCareScreen = { onMoreJobOfferButtonClick() }
             )
 
             HomeDivider(modifier = Modifier.fillMaxWidth())
@@ -174,8 +174,8 @@ fun HomeTopAppBar(
 
 @Composable
 fun JobSeekerContent(
-    modifier: Modifier = Modifier,
-    jobSeekers: List<JobSeeker>
+    jobSeekers: List<JobSeeker>,
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier.fillMaxWidth()
@@ -201,8 +201,8 @@ fun JobSeekerContent(
 
 @Composable
 fun JobOfferContent(
-    modifier: Modifier = Modifier,
     jobOffers: List<JobOffer> = emptyList(),
+    modifier: Modifier = Modifier,
     navigateToCareScreen: () -> Unit
 ) {
     Column(
@@ -232,10 +232,10 @@ fun JobOfferContent(
 
 @Composable
 fun BabyItemsContent(
+    babyItemsPagingMeta: BabyItemMeta,
+    loadNextPage: (Int) -> Unit,
     modifier: Modifier = Modifier,
     babyItems: List<BabyItem> = emptyList(),
-    babyItemsPagingMeta: BabyItemMeta,
-    loadNextPage: (Int) -> Unit
 ) {
     Column(
         modifier = modifier.fillMaxWidth()

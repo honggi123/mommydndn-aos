@@ -38,15 +38,15 @@ import com.mommydndn.app.ui.theme.caption200
 
 @Composable
 fun FooterBox(
-    modifier: Modifier = Modifier,
-    onInquiryClick: () -> Unit
+    onInquiryClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier
             .width(390.dp)
             .background(Grey50),
 
-    ) {
+        ) {
         Column(
             modifier = Modifier.padding(
                 start = 32.dp,
