@@ -36,12 +36,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.common.LocationSearchType
-import com.mommydndn.app.data.model.location.EmdItem
 import com.mommydndn.app.data.model.location.LocationInfo
-import com.mommydndn.app.data.model.location.displayName
-import com.mommydndn.app.domain.model.TermsAndConditions.TermsAndConditionsItem
+import com.mommydndn.app.data.api.model.response.displayName
+import com.mommydndn.app.domain.model.location.EmdItem
+import com.mommydndn.app.domain.model.tos.TermsOfService
 import com.mommydndn.app.ui.components.box.RadioListBox
 import com.mommydndn.app.ui.components.box.SearchUnderHeader
 import com.mommydndn.app.ui.components.inputfield.Searchbar
@@ -53,11 +54,11 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 internal fun LocationSearchRoute(
-    navigateToNextScreen: () -> Unit,
-    navigateToPreviousScreen: () -> Unit,
+    onBackButtonClick: () -> Unit,
+    onSignUpSuccess: () -> Unit,
     viewModel: SignUpViewModel = hiltViewModel(),
-    fusedLocationClient: FusedLocationProviderClient
 ) {
+
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
@@ -70,13 +71,17 @@ internal fun LocationSearchRoute(
         )
     )
 
+    val fusedLocationClient: FusedLocationProviderClient by lazy {
+        LocationServices.getFusedLocationProviderClient(context)
+    }
+
     val launcher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissionsMap ->
         val areGranted = permissionsMap.values.reduce { acc, next -> acc && next }
         if (areGranted) {
             Log.d("TownCheckScreen", "권한이 동의되었습니다.")
-            searchNearLocations(
+            searchNearByLocations(
                 fusedLocationClient,
                 searchAction = { latitude, longitude ->
                     viewModel.setLocationInfo(
@@ -112,7 +117,7 @@ internal fun LocationSearchRoute(
 
     screenState?.isSignUpSuccess?.let { isSuccess ->
         if (isSuccess) {
-            navigateToNextScreen()
+            onSignUpSuccess()
         }
     }
 
@@ -122,7 +127,7 @@ internal fun LocationSearchRoute(
             keyword = state.keyword,
             pagingItems = pagingItems,
             navigateToPreviousScreen = {
-                navigateToPreviousScreen()
+                onBackButtonClick()
                 viewModel.setSignUpStep(SignUpStep.USER_TYPE)
             },
             onSearchClick = {
@@ -158,7 +163,6 @@ internal fun LocationSearchRoute(
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun LocationSearchScreen(
-    modifier: Modifier = Modifier,
     keyword: String,
     onSearchClick: () -> Unit,
     navigateToPreviousScreen: () -> Unit,
@@ -168,10 +172,11 @@ fun LocationSearchScreen(
     pagingItems: LazyPagingItems<EmdItem>,
     scaffoldState: ScaffoldState,
     sheetState: ModalBottomSheetState,
-    itemList: List<TermsAndConditionsItem>,
+    itemList: List<TermsOfService>,
     onDialogItemSelected: (Int, Boolean) -> Unit,
     onDialogDismiss: () -> Unit,
     onDialogComplete: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
 
     Scaffold(
@@ -196,7 +201,7 @@ fun LocationSearchScreen(
                         onItemClick(item)
                     }
                 },
-                itemNameDisplay = EmdItem::displayName
+                itemNameDisplay = { item -> item.fullName }
             )
         }
     }
@@ -212,12 +217,12 @@ fun LocationSearchScreen(
 
 @Composable
 fun LocationSearchTopAppBar(
-    modifier: Modifier = Modifier,
     navigateToPreviousScreen: () -> Unit,
     onSearchClick: () -> Unit,
     onClearClick: () -> Unit,
     onKeywordChange: (String) -> Unit,
     keyword: String,
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
@@ -258,7 +263,7 @@ private fun requestAndSearchNearLocations(
         permissions,
         launcher,
         onPermissionGranted = {
-            searchNearLocations(
+            searchNearByLocations(
                 fusedLocationClient,
                 searchAction = { latitude, longitude ->
                     viewModel.setLocationInfo(
@@ -277,7 +282,7 @@ private fun requestAndSearchNearLocations(
 @Composable
 fun BottomSheetModal(
     sheetState: ModalBottomSheetState,
-    itemList: List<TermsAndConditionsItem>,
+    itemList: List<TermsOfService>,
     onDialogItemSelected: (Int, Boolean) -> Unit,
     onDialogDismiss: () -> Unit,
     onDialogComplete: () -> Unit,
@@ -307,7 +312,7 @@ fun BottomSheetModal(
     }
 }
 
-private fun searchNearLocations(
+private fun searchNearByLocations(
     fusedLocationClient: FusedLocationProviderClient,
     searchAction: (Double, Double) -> Unit
 ) {

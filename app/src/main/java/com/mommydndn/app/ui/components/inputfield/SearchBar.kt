@@ -46,11 +46,11 @@ import com.mommydndn.app.util.extension.bottomBorder
 
 @Composable
 fun Searchbar(
-    modifier: Modifier = Modifier,
     keyword: String,
-    placeHolderText: String = "",
     onValueChange: (String) -> Unit,
     backStackAction: () -> Unit,
+    modifier: Modifier = Modifier,
+    placeHolderText: String = "",
     searchAction: () -> Unit = {},
     clearAction: () -> Unit = {},
 ) {

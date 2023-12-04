@@ -2,9 +2,10 @@ package com.mommydndn.app.data.datasource.pagingsource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.mommydndn.app.data.api.model.response.toDomain
 import com.mommydndn.app.data.api.service.LocationService
-import com.mommydndn.app.data.model.location.EmdItem
 import com.mommydndn.app.data.model.location.LocationInfo
+import com.mommydndn.app.domain.model.location.EmdItem
 import com.skydoves.sandwich.getOrNull
 import javax.inject.Inject
 
@@ -26,7 +27,7 @@ class NearestByLocationPagingSource @Inject constructor(
                     limit = params.loadSize
                 )
 
-            val data = result.body()?.emdList ?: emptyList()
+            val data = result.body()?.emdList?.map { it.toDomain() } ?: emptyList()
 
             LoadResult.Page(
                 data = data,

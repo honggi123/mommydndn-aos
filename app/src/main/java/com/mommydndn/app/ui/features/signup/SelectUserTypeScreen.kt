@@ -30,8 +30,8 @@ import com.mommydndn.app.ui.theme.Grey400
 
 @Composable
 internal fun SelectUserTypeRoute(
-    navigateToNextScreen: () -> Unit,
-    navigateToPreviousScreen: () -> Unit,
+    onUserTypeSelect: () -> Unit,
+    onBackButtonClick: () -> Unit,
     signUpInfo: SignUpInfo?,
     viewModel: SignUpViewModel = hiltViewModel(),
 ) {
@@ -43,12 +43,12 @@ internal fun SelectUserTypeRoute(
         when (userType) {
             UserType.COMPANY -> {
                 viewModel.setUserType(UserType.COMPANY)
-                navigateToNextScreen()
+                onUserTypeSelect()
             }
 
             UserType.INDIVIDUAL -> {
                 viewModel.setUserType(UserType.INDIVIDUAL)
-                navigateToNextScreen()
+                onUserTypeSelect()
             }
         }
     }
@@ -59,7 +59,7 @@ internal fun SelectUserTypeRoute(
     screenState?.let {
         SelectUserTypeScreen(
             modifier = Modifier.fillMaxSize(),
-            navigateToPreviousScreen = navigateToPreviousScreen,
+            onBackButtonClick = onBackButtonClick,
             onUserTypeClick = onUserTypeClick,
             uiState = screenState
         )
@@ -68,16 +68,16 @@ internal fun SelectUserTypeRoute(
 
 @Composable
 fun SelectUserTypeScreen(
-    modifier: Modifier = Modifier,
-    navigateToPreviousScreen: () -> Unit,
+    onBackButtonClick: () -> Unit,
     onUserTypeClick: (UserType) -> Unit,
-    uiState: SignUpUiState.UserTypeSelect
+    uiState: SignUpUiState.UserTypeSelect,
+    modifier: Modifier = Modifier
 ) {
 
     Column(modifier = modifier.fillMaxSize()) {
         UserTypeTopAppBar(
             modifier = Modifier.fillMaxWidth(),
-            navigateToPreviousScreen = navigateToPreviousScreen
+            onBackButtonClick = onBackButtonClick
         )
 
         MaintextBox(
@@ -95,13 +95,13 @@ fun SelectUserTypeScreen(
 
 @Composable
 fun UserTypeTopAppBar(
-    modifier: Modifier = Modifier,
-    navigateToPreviousScreen: () -> Unit,
+    onBackButtonClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Header(
         modifier = modifier.fillMaxWidth(),
         leftContent = {
-            IconButton(onClick = { navigateToPreviousScreen() }) {
+            IconButton(onClick = { onBackButtonClick() }) {
                 Icon(
                     painter = painterResource(id = R.drawable.icon_arrow_left),
                     contentDescription = "icon_arrow_left",
@@ -114,8 +114,8 @@ fun UserTypeTopAppBar(
 
 @Composable
 fun UserTypeContent(
-    modifier: Modifier = Modifier,
-    onUserTypeClick: (UserType) -> Unit
+    onUserTypeClick: (UserType) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier

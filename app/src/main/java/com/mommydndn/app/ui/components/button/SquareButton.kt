@@ -44,13 +44,13 @@ import com.mommydndn.app.ui.theme.shadow500
 
 @Composable
 fun SquareButton(
-    modifier: Modifier = Modifier,
-    status: Boolean = false,
     imageResourceId: Int,
-    text: String = "",
+    text: String,
     onClick: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+    isSelected: Boolean = false
 ) {
-    Crossfade(modifier = modifier, targetState = status, label = "") { isSelected ->
+    Crossfade(modifier = modifier, targetState = isSelected, label = "") { isSelected ->
         Box(
             modifier = Modifier
                 .aspectRatio(1f)
@@ -59,7 +59,7 @@ fun SquareButton(
                     color = if (isSelected) Grey100 else Grey50,
                     shape = Shapes.large
                 )
-                .clickable(onClick = { onClick(!status) })
+                .clickable(onClick = { onClick(!isSelected) })
         ) {
             Column(
                 modifier = Modifier

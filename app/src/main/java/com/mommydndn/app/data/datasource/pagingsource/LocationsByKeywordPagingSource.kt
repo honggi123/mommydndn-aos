@@ -2,8 +2,9 @@ package com.mommydndn.app.data.datasource.pagingsource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.mommydndn.app.data.api.model.response.toDomain
 import com.mommydndn.app.data.api.service.LocationService
-import com.mommydndn.app.data.model.location.EmdItem
+import com.mommydndn.app.domain.model.location.EmdItem
 import javax.inject.Inject
 
 private const val STARTING_PAGE_INDEX = 1
@@ -22,7 +23,7 @@ class LocationsByKeywordPagingSource @Inject constructor(
                     limit = params.loadSize,
                     requestTimestamp = System.currentTimeMillis()
                 )
-            val data = result.body()?.emdList ?: emptyList()
+            val data = result.body()?.emdList?.map { it.toDomain() } ?: emptyList()
 
             LoadResult.Page(
                 data = data,

@@ -6,7 +6,7 @@ import com.mommydndn.app.data.repository.CaringDataRepository
 import com.mommydndn.app.data.repository.CommonDataRepository
 import com.mommydndn.app.data.repository.LocationDataRepository
 import com.mommydndn.app.data.repository.NotificationDataRepository
-import com.mommydndn.app.data.repository.TermsAndConditionsDataRepository
+import com.mommydndn.app.data.repository.TermsOfServiceDataRepository
 import com.mommydndn.app.data.repository.UserDataRepository
 import com.mommydndn.app.domain.repository.AccountRepository
 import com.mommydndn.app.domain.repository.BabyItemRepository
@@ -14,7 +14,7 @@ import com.mommydndn.app.domain.repository.CaringRepository
 import com.mommydndn.app.domain.repository.CommonRepositoy
 import com.mommydndn.app.domain.repository.LocationRepository
 import com.mommydndn.app.domain.repository.NoticeRepository
-import com.mommydndn.app.domain.repository.TermsAndConditionsRepository
+import com.mommydndn.app.domain.repository.TermsOfServiceRepository
 import com.mommydndn.app.domain.repository.UserRepository
 import dagger.Binds
 import dagger.Module
@@ -32,7 +32,7 @@ interface DataModule {
 
     @Binds
     @Singleton
-    fun bindTermsRepository(repository: TermsAndConditionsDataRepository): TermsAndConditionsRepository
+    fun bindTermsRepository(repository: TermsOfServiceDataRepository): TermsOfServiceRepository
 
     @Binds
     @Singleton

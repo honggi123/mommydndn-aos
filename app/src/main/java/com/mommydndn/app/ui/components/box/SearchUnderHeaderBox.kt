@@ -28,9 +28,9 @@ import com.mommydndn.app.util.extension.bottomBorder
 
 @Composable
 fun SearchUnderHeader(
+    searchAction: () -> Unit,
     modifier: Modifier = Modifier,
-    headerText: String = "",
-    searchAction: () -> Unit
+    headerText: String = ""
 ) {
     Box(
         modifier = modifier

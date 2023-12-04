@@ -14,21 +14,18 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
 import androidx.compose.material.Divider
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.data.model.common.ButtonColor
 import com.mommydndn.app.data.model.common.ButtonColorType
 import com.mommydndn.app.data.model.common.ButtonSizeType
-import com.mommydndn.app.domain.model.TermsAndConditions.TermsAndConditionsItem
+import com.mommydndn.app.domain.model.tos.TermsOfService
 import com.mommydndn.app.ui.components.button.MommyDndnButton
 import com.mommydndn.app.ui.components.list.CheckBoxListItem
 import com.mommydndn.app.ui.components.list.CheckMarkListItem
@@ -39,12 +36,12 @@ import com.mommydndn.app.ui.theme.shadow700
 
 @Composable
 fun TermsCheckListModal(
-    modifier: Modifier = Modifier,
-    titleCheckBoxText: String = "",
-    itemList: List<TermsAndConditionsItem>,
+    itemList: List<TermsOfService>,
     onItemSelected: (Int, Boolean) -> Unit,
     onDismiss: () -> Unit,
     onComplete: () -> Unit,
+    modifier: Modifier = Modifier,
+    titleCheckBoxText: String = "",
 ) {
 
     val (isAllChecked, setIsAllChecked) = remember { mutableStateOf(false) }
@@ -53,7 +50,7 @@ fun TermsCheckListModal(
 
     val isNextButtonEnabled by remember(requiredCheckList) {
         mutableStateOf(requiredCheckList.all { item ->
-            item.isSelected
+            item.isApproved
         })
     }
 
@@ -105,7 +102,7 @@ fun TermsCheckListModal(
 
             itemList.onEachIndexed { index, item ->
                 CheckMarkListItem(
-                    checked = itemList[index].isSelected,
+                    checked = itemList[index].isApproved,
                     onCheckedChange = { isChecked ->
                         onItemSelected(index, isChecked)
                     }, text = itemList[index].name

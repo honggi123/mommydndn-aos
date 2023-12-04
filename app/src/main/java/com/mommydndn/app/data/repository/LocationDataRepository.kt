@@ -8,8 +8,8 @@ import com.mommydndn.app.data.api.service.KakaoApiService
 import com.mommydndn.app.data.api.service.LocationService
 import com.mommydndn.app.data.datasource.pagingsource.LocationsByKeywordPagingSource
 import com.mommydndn.app.data.datasource.pagingsource.NearestByLocationPagingSource
-import com.mommydndn.app.data.model.location.EmdItem
 import com.mommydndn.app.data.model.location.LocationInfo
+import com.mommydndn.app.domain.model.location.EmdItem
 import com.mommydndn.app.domain.repository.LocationRepository
 import com.skydoves.sandwich.suspendOnSuccess
 import kotlinx.coroutines.Dispatchers
@@ -27,9 +27,7 @@ class LocationDataRepository @Inject constructor(
         locationService.fetchNearestByLocation(
             latitude = locationInfo.latitude,
             longitude = locationInfo.longitude
-        ).suspendOnSuccess {
-            emit(data.emdList.get(0))
-        }
+        )
     }.flowOn(Dispatchers.IO)
 
 

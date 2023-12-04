@@ -30,10 +30,10 @@ import com.mommydndn.app.ui.theme.paragraph300
 
 @Composable
 fun <T : Any> RadioListBox(
-    modifier: Modifier = Modifier,
-    pagingItems: LazyPagingItems<T>,
+    pagingItems: LazyPagingItems<T>
     onItemClick: (T?) -> Unit,
-    itemNameDisplay: (T) -> String
+    itemNameDisplay: (T) -> String,
+    modifier: Modifier = Modifier
 ) {
     var checkedStates by remember { mutableStateOf(List(pagingItems.itemCount) { false }) }
 
