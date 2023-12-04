@@ -3,6 +3,7 @@ package com.mommydndn.app.domain.model.care
 import java.time.LocalDate
 import java.time.LocalDateTime
 
+// todo
 data class CareJobOpening(
     val id: Int,
     val title: String,

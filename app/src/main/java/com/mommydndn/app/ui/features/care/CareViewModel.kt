@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -49,15 +48,28 @@ class CareViewModel @Inject constructor(
         getNearbyNeighborhoodDistanceUseCase()
             .map { result -> result.data }
             .filterNotNull()
-            .stateIn(viewModelScope, SharingStarted.Eagerly, NearbyNeighborhoodDistance.VERY_DISTANT)
+            .stateIn(
+                viewModelScope,
+                SharingStarted.Eagerly,
+                NearbyNeighborhoodDistance.VERY_DISTANT
+            )
 
-    private val _filters = MutableStateFlow<Map<Class<out CareFilter>, CareFilter>>(emptyMap())
+    private val _filters = MutableStateFlow<Map<Class<out CareFilter>, CareFilter>>(
+        buildList {
+            add(NeighborhoodsFilter())
+            add(CareTypesFilter())
+            add(PayFilter())
+            add(DaysOfWeekFilter())
+            add(WorkHoursFilter())
+            add(WorkPeriodFilter())
+        }.associateBy { it.javaClass }
+    )
     private val filters: StateFlow<List<CareFilter>> = neighborhood.filterNotNull()
         .combine(nearbyNeighborhoodDistance) { neighborhood, nearbyNeighborhoodDistance ->
             NeighborhoodsFilter(neighborhood, nearbyNeighborhoodDistance)
         }.combine(_filters) { neighborhoodsFilter, filters ->
             filters.toMutableMap()
-                .apply { put(NeighborhoodsFilter::class.java, neighborhoodsFilter) }
+                .apply { put(neighborhoodsFilter.javaClass, neighborhoodsFilter) }
                 .values
                 .toList()
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
@@ -66,12 +78,12 @@ class CareViewModel @Inject constructor(
         combine(
             neighborhood.filterNotNull(),
             order,
-            filters.filterNot { it.isEmpty() },
+            filters,
         ) { neighborhood, order, filters ->
             CareUiState.Success(
                 neighborhood = neighborhood,
                 order = order,
-                filters = filters
+                filters = filters,
             )
         }.stateIn(viewModelScope, SharingStarted.Eagerly, CareUiState.Loading)
 

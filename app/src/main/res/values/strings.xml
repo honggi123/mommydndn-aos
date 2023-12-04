@@ -47,4 +47,12 @@
     <string name="days_ago">%1$s일 전</string>
     <string name="minutes_ago">%1$s분 전</string>
     <string name="other_size">" 외 %1$s"</string>
+    <string name="job_opening">구인글</string>
+    <string name="job_hunting">시터님</string>
+    <string name="authenticated_agency">안심업체</string>
+    <string name="day_of_week">요일</string>
+    <string name="order_by_latest">최신순</string>
+    <string name="order_by_views">조회 많은 순</string>
+    <string name="order_by_highest_pay">급여 높은 순</string>
+    <string name="order_by_nearest">가까운 순</string>
 </resources>

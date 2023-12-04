@@ -1,17 +1,20 @@
 package com.mommydndn.app.ui.features.care
 
 import androidx.compose.animation.core.spring
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Button
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ModalBottomSheetState
@@ -23,29 +26,33 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mommydndn.app.R
-import com.mommydndn.app.domain.model.care.NearbyNeighborhoodDistance
+import com.mommydndn.app.domain.model.care.CareType
 import com.mommydndn.app.domain.model.care.WorkPeriod
 import com.mommydndn.app.domain.model.user.Neighborhood
 import com.mommydndn.app.ui.components.chip.ChipWithBottomArrow
-import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.components.modal.layout.BaseModalBottomSheetLayout
 import com.mommydndn.app.ui.components.tab.MediumTab
+import com.mommydndn.app.ui.features.care.jobopening.list.CareJobOpeningListFragment
+import com.mommydndn.app.ui.features.care.jobopening.list.model.CareJobOpeningListItem
+import com.mommydndn.app.ui.features.care.jobopening.list.model.mockCareJobOpeningListItems
 import com.mommydndn.app.ui.features.care.modal.NeighborhoodsFilterModalBottomSheet
 import com.mommydndn.app.ui.theme.Grey700
-import com.mommydndn.app.ui.theme.heading800
+import com.mommydndn.app.ui.theme.heading600
 import kotlinx.coroutines.launch
-import java.time.format.TextStyle
-import java.util.Locale
+import java.time.DayOfWeek
+import java.time.LocalTime
 
 @Composable
 internal fun CareRoute(
@@ -72,6 +79,7 @@ internal fun CareRoute(
         CareUiState.Loading -> {
 
         }
+
         is CareUiState.Success -> CareScreen(
             neighborhood = uiState.neighborhood,
             onNeighborhoodClick = onNeighborhoodClick,
@@ -80,7 +88,7 @@ internal fun CareRoute(
             onTabSelected = {
                 selectedTabIndex.intValue = it
             },
-            order = uiState.order,
+            orderBy = uiState.order,
             onOrderClick = {},
             filters = uiState.filters,
             onFilterClick = {
@@ -91,6 +99,7 @@ internal fun CareRoute(
                     sheetState.show()
                 }
             },
+            jobOpeningListItems = uiState.jobOpeningListItems,
             selectedFilter = selectedFilter.value,
             sheetState = sheetState,
             onSheetCloseClick = {
@@ -101,6 +110,7 @@ internal fun CareRoute(
             onFilterUpdated = viewModel::setFilter,
             modifier = modifier,
         )
+
         is CareUiState.Failure -> {
 
         }
@@ -114,10 +124,11 @@ private fun CareScreen(
     onSearchClick: () -> Unit,
     selectedTabIndex: Int,
     onTabSelected: (index: Int) -> Unit,
-    order: CareOrderBy,
+    orderBy: CareOrderBy,
     onOrderClick: () -> Unit,
     filters: List<CareFilter>,
     onFilterClick: (CareFilter) -> Unit,
+    jobOpeningListItems: List<CareJobOpeningListItem>,
     selectedFilter: CareFilter?,
     sheetState: ModalBottomSheetState,
     onSheetCloseClick: () -> Unit, // todo: rename?
@@ -143,7 +154,10 @@ private fun CareScreen(
                     neighborhoodName = neighborhood.name,
                     onNeighborhoodClick = onNeighborhoodClick,
                     onSearchClick = onSearchClick,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(topAppBarHeight)
+                        .padding(horizontal = 20.dp),
                 )
 
                 CareTabRow(
@@ -153,18 +167,25 @@ private fun CareScreen(
                 )
 
                 CareOrderAndFilters(
-                    order = order,
+                    orderBy = orderBy,
                     onOrderClick = onOrderClick,
-                    filters = filters.toList(),
+                    filters = filters,
                     onFilterClick = onFilterClick,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 12.dp),
                 )
 
-                // todo: tab_page_content
+                CareJobOpeningListFragment(
+                    items = jobOpeningListItems,
+                    modifier = Modifier.fillMaxSize(),
+                )
             }
         }
     }
 }
+
+internal val topAppBarHeight: Dp = 68.dp
 
 @Composable
 private fun CareTopAppBar(
@@ -173,42 +194,43 @@ private fun CareTopAppBar(
     onSearchClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Header(
+    Row(
         modifier = modifier,
-        leftContent = {
-            Button(
-                onClick = onNeighborhoodClick,
-                content = {
-                    Text(
-                        text = neighborhoodName,
-                        style = MaterialTheme.typography.heading800.merge(
-                            color = Grey700,
-                            fontWeight = FontWeight.Bold,
-                        )
-                    )
-
-                    Image(
-                        painter = painterResource(id = R.drawable.icon_arrow_down),
-                        contentDescription = "CareTopAppBar_Neighborhood_ArrowDown",
-                        modifier = Modifier.size(36.dp)
-                    )
-                },
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Row(
+            modifier = Modifier
+                .wrapContentSize()
+                .clickable(onClick = onNeighborhoodClick),
+            horizontalArrangement = Arrangement.spacedBy(2.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = neighborhoodName,
+                style = MaterialTheme.typography.heading600.merge(
+                    color = Grey700,
+                    fontWeight = FontWeight.Bold,
+                )
             )
-        },
-        rightContent = {
-            Button(
-                onClick = onSearchClick,
-                content = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.icon_search),
-                        contentDescription = "CareTopAppBar_Search",
-                        modifier = Modifier.size(36.dp).background(Color.Transparent),
-                        tint = Color.Unspecified
-                    )
-                },
+
+            Icon(
+                painter = painterResource(id = R.drawable.icon_arrow_down),
+                contentDescription = "CareTopAppBar_Neighborhood_ArrowDown",
+                modifier = Modifier.size(36.dp),
+                tint = Color.Unspecified,
             )
         }
-    )
+
+        Icon(
+            painter = painterResource(id = R.drawable.icon_search),
+            contentDescription = "CareTopAppBar_Search",
+            modifier = Modifier
+                .size(36.dp)
+                .clickable(onClick = onSearchClick),
+            tint = Color.Unspecified
+        )
+    }
 }
 
 @Composable
@@ -219,9 +241,9 @@ private fun CareTabRow(
 ) {
     // todo
     val tabNames = listOf(
-        "구인글",
-        "시터님",
-        "안심업체"
+        stringResource(R.string.job_opening),
+        stringResource(R.string.job_hunting),
+        stringResource(R.string.authenticated_agency)
     )
 
     MediumTab(
@@ -234,8 +256,7 @@ private fun CareTabRow(
 
 @Composable
 private fun CareOrderAndFilters(
-    // todo: rename?
-    order: CareOrderBy,
+    orderBy: CareOrderBy,
     onOrderClick: () -> Unit,
     filters: List<CareFilter>,
     onFilterClick: (CareFilter) -> Unit,
@@ -247,97 +268,24 @@ private fun CareOrderAndFilters(
     ) {
         item {
             ChipWithBottomArrow(
-                selected = true,
-                text = order.name, // todo
+                hasValue = true,
+                text = orderBy.displayName(),
                 onClick = onOrderClick,
+                modifier = Modifier.padding(start = 24.dp)
             )
         }
 
-        // todo: order
-        items(filters.sortedByDescending { it.selected }) { filter ->
+        itemsIndexed(filters.sortedByDescending { it.hasValue }) { index, filter ->
             ChipWithBottomArrow(
-                selected = filter.selected,
+                hasValue = filter.hasValue,
                 text = filter.displayName(),
-                onClick = { onFilterClick(filter) }
-            )
-        }
-    }
-}
-
-private val CareFilter.selected: Boolean get() = state == CareFilter.State.SELECTED
-
-@Composable
-private fun CareFilter.displayName(): String {
-    return when (this) {
-        is NeighborhoodsFilter -> {
-            val nearbyNeighborhoodsCount = when (nearbyNeighborhoodDistance) {
-                NearbyNeighborhoodDistance.IMMEDIATE -> 0
-                NearbyNeighborhoodDistance.NEARBY -> neighborhood.nearbyNeighborhoods.size
-                NearbyNeighborhoodDistance.DISTANT -> neighborhood.distantNeighborhoods.size
-                NearbyNeighborhoodDistance.VERY_DISTANT -> neighborhood.veryDistantNeighborhoods.size
-            }
-
-            if (nearbyNeighborhoodsCount == 0) {
-                neighborhood.name
-            } else {
-                stringResource(R.string.neighborhoods, neighborhood.name, nearbyNeighborhoodsCount)
-            }
-        }
-        is CareTypesFilter -> if (careTypes.isNullOrEmpty()) {
-            stringResource(R.string.care_type)
-        } else {
-            careTypes.sorted().let { careTypes ->
-                val postfix = if (careTypes.size > 2) {
-                    " 외 ${careTypes.size - 2}"
-                } else {
-                    ""
-                }
-
-                careTypes.drop(2).joinToString(
-                    postfix = postfix,
-                    transform = { it.name }
-                )
-            }
-        }
-        is PayFilter -> if (minimum != null && maximum != null) {
-            stringResource(
-                R.string.hourly_pay_between,
-                String.format("%.1F", minimum / 10_000.0),
-                String.format("%.1F", maximum / 10_000.0)
-            )
-        } else {
-            stringResource(R.string.pay)
-        }
-        is WorkDaysAndHoursFilter -> if (!selected) {
-            stringResource(R.string.time)
-        } else {
-            val daysOfWeekString = daysOfWeek.orEmpty().sorted().let { daysOfWeek ->
-                val postfix: String = if (daysOfWeek.size >= 4) {
-                    " 외 ${daysOfWeek.size - 3}"
-                } else {
-                    ""
-                }
-                daysOfWeek.drop(3).joinToString(
-                    separator = "",
-                    postfix = postfix,
-                    transform = {
-                        it.getDisplayName(TextStyle.NARROW_STANDALONE, Locale.KOREAN)
+                onClick = { onFilterClick(filter) },
+                modifier = Modifier.apply {
+                    if (index == filters.lastIndex) {
+                        padding(end = 24.dp)
                     }
-                )
-            }
-
-            val hoursString = if (startTime != null && endTime != null) {
-                "${startTime.hour}시-${endTime.hour}시"
-            } else {
-                ""
-            }
-
-            "$daysOfWeekString, $hoursString"
-        }
-        is WorkPeriodFilter -> when (workPeriod) {
-            WorkPeriod.ONE_TIME -> stringResource(R.string.one_time)
-            WorkPeriod.REGULAR -> stringResource(R.string.regular)
-            else -> stringResource(R.string.one_time_slash_regular)
+                }
+            )
         }
     }
 }
@@ -357,37 +305,196 @@ private fun CareFilterModalBottomSheet(
                 modifier = Modifier,
             )
         }
+
         is CareTypesFilter -> TODO()
         is PayFilter -> TODO()
-        is WorkDaysAndHoursFilter -> TODO()
+        is DaysOfWeekFilter -> TODO()
+        is WorkHoursFilter -> TODO()
         is WorkPeriodFilter -> TODO()
     }
 }
 
 @Preview
 @Composable
-private fun PreviewCareScreen() {
+private fun CareScreenPreview() {
+    val fakeNeighborhood = Neighborhood(
+        name = "",
+        latitude = 0.0,
+        longitude = 0.0,
+        nearbyNeighborhoods = emptyList(),
+        distantNeighborhoods = emptyList(),
+        veryDistantNeighborhoods = emptyList()
+    )
+
+    val neighborhood = Neighborhood(
+        name = "서초동",
+        latitude = 0.0,
+        longitude = 0.0,
+        nearbyNeighborhoods = buildList(4) { add(fakeNeighborhood) },
+        distantNeighborhoods = buildList(9) { add(fakeNeighborhood) },
+        veryDistantNeighborhoods = buildList(17) { add(fakeNeighborhood) },
+    )
+
     CareScreen(
-        neighborhood = Neighborhood(
-            name = "서초동",
-            latitude = 0.0,
-            longitude = 0.0,
-            nearbyNeighborhoods = emptyList(),
-            distantNeighborhoods = emptyList(),
-            veryDistantNeighborhoods = emptyList(),
-        ),
+        neighborhood = neighborhood,
         onNeighborhoodClick = {},
         onSearchClick = {},
         selectedTabIndex = 0,
         onTabSelected = {},
-        order = CareOrderBy.LATEST,
+        orderBy = CareOrderBy.LATEST,
         onOrderClick = {},
-        filters = emptyList(),
+        filters = buildList {
+            add(NeighborhoodsFilter(neighborhood = neighborhood))
+            add(CareTypesFilter())
+            add(PayFilter())
+            add(DaysOfWeekFilter())
+            add(WorkHoursFilter())
+            add(WorkPeriodFilter(workPeriod = WorkPeriod.REGULAR))
+        },
         onFilterClick = {},
+        jobOpeningListItems = mockCareJobOpeningListItems,
         selectedFilter = null,
         sheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden),
         onSheetCloseClick = {},
         onFilterUpdated = {},
-        modifier = Modifier.fillMaxSize().background(Color.White),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White),
     )
+}
+
+@Preview
+@Composable
+private fun CareTypesFilterChipPreview() {
+    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+        with(CareTypesFilter()) {
+            ChipWithBottomArrow(
+                hasValue = hasValue,
+                text = displayName(),
+                onClick = {}
+            )
+        }
+
+        val careTypes = listOf(
+            CareType.CHILD_CARE,
+            CareType.SCHOOL_TRANSPORTATION,
+            CareType.HOUSEKEEPING,
+        )
+
+        with(CareTypesFilter(careTypes = careTypes)) {
+            ChipWithBottomArrow(
+                hasValue = hasValue,
+                text = displayName(),
+                onClick = {}
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun PayFilterChipPreview() {
+    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+        with(PayFilter()) {
+            ChipWithBottomArrow(
+                hasValue = hasValue,
+                text = displayName(),
+                onClick = {}
+            )
+        }
+
+        with(PayFilter(minimum = 15000, maximum = 20000)) {
+            ChipWithBottomArrow(
+                hasValue = hasValue,
+                text = displayName(),
+                onClick = {}
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun DaysOfWeekFilterChipPreview() {
+    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+        with(DaysOfWeekFilter()) {
+            ChipWithBottomArrow(
+                hasValue = hasValue,
+                text = displayName(),
+                onClick = {}
+            )
+        }
+
+        val daysOfWeek = listOf(
+            DayOfWeek.TUESDAY,
+            DayOfWeek.FRIDAY,
+            DayOfWeek.WEDNESDAY,
+            DayOfWeek.SATURDAY,
+        )
+
+        with(DaysOfWeekFilter(daysOfWeek = daysOfWeek)) {
+            ChipWithBottomArrow(
+                hasValue = hasValue,
+                text = displayName(),
+                onClick = {}
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun WorkHoursFilterChipPreview() {
+    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+        with(WorkHoursFilter()) {
+            ChipWithBottomArrow(
+                hasValue = hasValue,
+                text = displayName(),
+                onClick = {}
+            )
+        }
+
+        with(
+            WorkHoursFilter(
+                startTime = LocalTime.of(12, 0),
+                endTime = LocalTime.of(18, 30),
+            )
+        ) {
+            ChipWithBottomArrow(
+                hasValue = hasValue,
+                text = displayName(),
+                onClick = {}
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun WorkPeriodFilterChipPreview() {
+    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+        with(WorkPeriodFilter()) {
+            ChipWithBottomArrow(
+                hasValue = hasValue,
+                text = displayName(),
+                onClick = {}
+            )
+        }
+
+        with(WorkPeriodFilter(WorkPeriod.ONE_TIME)) {
+            ChipWithBottomArrow(
+                hasValue = hasValue,
+                text = displayName(),
+                onClick = {}
+            )
+        }
+
+        with(WorkPeriodFilter(WorkPeriod.REGULAR)) {
+            ChipWithBottomArrow(
+                hasValue = hasValue,
+                text = displayName(),
+                onClick = {}
+            )
+        }
+    }
 }

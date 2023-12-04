@@ -41,8 +41,10 @@ fun MediumTab(
         }
     ) {
         tabNames.forEachIndexed { index, tabName ->
+            val selected = selectedTabIndex == index
+
             Tab(
-                selected = selectedTabIndex == index,
+                selected = selected,
                 onClick = {
                     onTabSelected(index)
                 },
@@ -50,6 +52,11 @@ fun MediumTab(
                     Text(
                         text = tabName,
                         style = MaterialTheme.typography.paragraph500.merge(
+                            color = if (selected) {
+                                Grey700
+                            } else {
+                                Grey500
+                            },
                             fontWeight = FontWeight.Medium
                         ),
                     )

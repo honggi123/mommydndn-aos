@@ -24,7 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
-import com.mommydndn.app.ui.features.care.WorkDaysAndHoursFilter
+import com.mommydndn.app.ui.features.care.WorkHoursFilter
 import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey800
@@ -34,33 +34,34 @@ import com.mommydndn.app.ui.theme.paragraph300
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
+// todo
 private val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
 
 @Composable
 internal fun WorkHoursFilterModalBottomSheet(
-    workDaysAndHoursFilter: WorkDaysAndHoursFilter,
+    workHoursFilter: WorkHoursFilter,
     onRefreshClick: () -> Unit,
     onCloseClick: () -> Unit,
-    onUpdateClick: (WorkDaysAndHoursFilter) -> Unit,
+    onUpdateClick: (WorkHoursFilter) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val filter = remember {
-        mutableStateOf(workDaysAndHoursFilter)
+        mutableStateOf(workHoursFilter)
     }
 
     val startTime = remember {
-        mutableStateOf(workDaysAndHoursFilter.startTime)
+        mutableStateOf(workHoursFilter.startTime)
     }
 
     val endTime = remember {
-        mutableStateOf(workDaysAndHoursFilter.endTime)
+        mutableStateOf(workHoursFilter.endTime)
     }
 
     CareFilterModalBottomSheet(
         onCloseClick = onCloseClick,
         onUpdateClick = {
             onUpdateClick(
-                workDaysAndHoursFilter.copy(
+                workHoursFilter.copy(
                     startTime = startTime.value,
                     endTime = endTime.value,
                 )
@@ -178,8 +179,7 @@ private fun WorkHour(
 private fun PreviewWorkHoursFilterModalBottomSheet() {
     MommydndnaosTheme {
         WorkHoursFilterModalBottomSheet(
-            workDaysAndHoursFilter = WorkDaysAndHoursFilter(
-                daysOfWeek = null,
+            workHoursFilter = WorkHoursFilter(
                 startTime = null,
                 endTime = null
             ),
@@ -196,8 +196,7 @@ private fun PreviewWorkHoursFilterModalBottomSheet() {
 private fun PreviewWorkHoursFilterModalBottomSheet_WithTimes() {
     MommydndnaosTheme {
         WorkHoursFilterModalBottomSheet(
-            workDaysAndHoursFilter = WorkDaysAndHoursFilter(
-                daysOfWeek = null,
+            workHoursFilter = WorkHoursFilter(
                 startTime = LocalTime.of(11, 0),
                 endTime = LocalTime.of(14, 0)
             ),

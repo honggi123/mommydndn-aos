@@ -31,18 +31,19 @@ import com.mommydndn.app.ui.theme.Salmon300
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption200
 
+// todo: rename
 @Composable
 fun ChipWithBottomArrow(
-    selected: Boolean,
+    hasValue: Boolean,
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val backgroundColor = if (selected) Salmon200 else White
-    val borderColor = if (selected) Salmon300 else Grey100
-    val fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium
-    val textColor = if (selected) Grey800 else Grey700
-    val tintColor = if (selected) Grey600 else Grey400
+    val backgroundColor = if (hasValue) Salmon200 else White
+    val borderColor = if (hasValue) Salmon300 else Grey100
+    val fontWeight = if (hasValue) FontWeight.Bold else FontWeight.Medium
+    val textColor = if (hasValue) Grey800 else Grey700
+    val tintColor = if (hasValue) Grey600 else Grey400
 
     Box(
         modifier = modifier
@@ -75,10 +76,20 @@ fun ChipWithBottomArrow(
 
 @Preview
 @Composable
-private fun MyChipWithArrowIconPreview() {
+private fun ChipWithBottomArrow_HasValue() {
     ChipWithBottomArrow(
-        selected = false,
-        text = "텍스트",
+        hasValue = true,
+        text = "서초동 외 6",
+        onClick = {}
+    )
+}
+
+@Preview
+@Composable
+private fun ChipWithBottomArrow_HasNotValue() {
+    ChipWithBottomArrow(
+        hasValue = false,
+        text = "돌봄종류",
         onClick = {}
     )
 }

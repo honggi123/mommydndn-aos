@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mommydndn.app.R
-import com.mommydndn.app.ui.features.care.WorkDaysAndHoursFilter
+import com.mommydndn.app.ui.features.care.DaysOfWeekFilter
 import com.mommydndn.app.ui.theme.Grey200
 import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.Salmon200
@@ -32,21 +32,21 @@ import java.util.Locale
 
 @Composable
 internal fun WorkDaysOfWeekFilterModalBottomSheet(
-    workDaysAndHoursFilter: WorkDaysAndHoursFilter,
+    daysOfWeekFilter: DaysOfWeekFilter,
     onRefreshClick: () -> Unit,
     onCloseClick: () -> Unit,
-    onUpdateClick: (WorkDaysAndHoursFilter) -> Unit,
+    onUpdateClick: (DaysOfWeekFilter) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val selectedDaysOfWeek = remember {
-        mutableStateOf(workDaysAndHoursFilter.daysOfWeek)
+        mutableStateOf(daysOfWeekFilter.daysOfWeek)
     }
 
     CareFilterModalBottomSheet(
         onCloseClick = onCloseClick,
         onUpdateClick = {
             onUpdateClick(
-                workDaysAndHoursFilter.copy(
+                DaysOfWeekFilter(
                     daysOfWeek = selectedDaysOfWeek.value?.takeIf {
                         it.isNotEmpty()
                     },
@@ -117,10 +117,8 @@ internal fun WorkDaysOfWeekFilterModalBottomSheet(
 @Composable
 private fun WorkDaysOfWeekFilter_EmptyDaysOfWeek() {
     WorkDaysOfWeekFilterModalBottomSheet(
-        workDaysAndHoursFilter = WorkDaysAndHoursFilter(
-            daysOfWeek = null,
-            startTime = null,
-            endTime = null,
+        daysOfWeekFilter = DaysOfWeekFilter(
+            daysOfWeek = emptyList(), // null,
         ),
         onRefreshClick = {},
         onCloseClick = {},
@@ -133,15 +131,13 @@ private fun WorkDaysOfWeekFilter_EmptyDaysOfWeek() {
 @Composable
 private fun WorkDaysOfWeekFilter_WithDaysOfWeek() {
     WorkDaysOfWeekFilterModalBottomSheet(
-        workDaysAndHoursFilter = WorkDaysAndHoursFilter(
+        daysOfWeekFilter = DaysOfWeekFilter(
             daysOfWeek = listOf(
                 DayOfWeek.MONDAY,
                 DayOfWeek.THURSDAY,
                 DayOfWeek.SATURDAY,
                 DayOfWeek.SUNDAY,
             ),
-            startTime = null,
-            endTime = null,
         ),
         onRefreshClick = {},
         onCloseClick = {},
