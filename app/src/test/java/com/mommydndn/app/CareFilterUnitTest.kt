@@ -1,7 +1,7 @@
 package com.mommydndn.app
 
-import com.mommydndn.app.ui.features.care.CareFilter
-import com.mommydndn.app.ui.features.care.CareTypesFilter
+import com.mommydndn.app.ui.features.care.filters.CareFilter
+import com.mommydndn.app.ui.features.care.filters.CareTypesFilter
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

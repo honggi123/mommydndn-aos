@@ -29,7 +29,7 @@ import com.mommydndn.app.R
 import com.mommydndn.app.domain.model.care.CareType
 import com.mommydndn.app.domain.model.care.PayPeriod
 import com.mommydndn.app.domain.model.care.WorkPeriod
-import com.mommydndn.app.ui.features.care.displayName
+import com.mommydndn.app.ui.features.care.filters.displayName
 import com.mommydndn.app.ui.features.care.jobopening.list.model.CareJobOpeningListItem
 import com.mommydndn.app.ui.features.care.jobopening.list.model.mockCareJobOpeningListItems
 import com.mommydndn.app.ui.theme.Grey50
@@ -54,7 +54,7 @@ internal fun CareJobOpeningListFragment(
     items: List<CareJobOpeningListItem>,
     modifier: Modifier = Modifier,
 ) {
-    // todo: background?
+    // todo: empty, background?
     LazyColumn(modifier = modifier.background(Color.White)) {
         itemsIndexed(items) { index, jobOpening ->
             with(jobOpening) {

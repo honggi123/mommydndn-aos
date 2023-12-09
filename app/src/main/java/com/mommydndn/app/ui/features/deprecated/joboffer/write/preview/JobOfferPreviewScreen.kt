@@ -155,7 +155,7 @@ fun JobOfferPreviewScreen(
                     .padding(20.dp)
             )
             SubtextBox(
-                titleText = "찾아오시는 길"
+                title = "찾아오시는 길"
             )
             Box(
                 modifier = Modifier.padding(
@@ -187,7 +187,7 @@ fun JobOfferPreviewScreen(
                     .padding(40.dp)
             )
             SubtextBox(
-                titleText = "워킹맘님은 이런 분이에요"
+                title = "워킹맘님은 이런 분이에요"
             )
             Box(
                 modifier = Modifier

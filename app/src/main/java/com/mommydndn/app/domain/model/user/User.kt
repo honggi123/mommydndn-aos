@@ -7,9 +7,14 @@ data class User(
 )
 
 data class Neighborhood(
+    val id: Int,
     val name: String,
-    val latitude: Double,
-    val longitude: Double,
+    // todo
+    val latitude: Double = 0.0,
+    val longitude: Double = 0.0,
+)
+
+data class NearbyNeighborhoods(
     val nearbyNeighborhoods: List<Neighborhood>,
     val distantNeighborhoods: List<Neighborhood>,
     val veryDistantNeighborhoods: List<Neighborhood>,

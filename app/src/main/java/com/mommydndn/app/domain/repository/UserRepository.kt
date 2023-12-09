@@ -1,6 +1,7 @@
 package com.mommydndn.app.domain.repository
 
 import com.mommydndn.app.domain.model.care.NearbyNeighborhoodDistance
+import com.mommydndn.app.domain.model.user.NearbyNeighborhoods
 import com.mommydndn.app.domain.model.user.Neighborhood
 import com.mommydndn.app.domain.model.user.OAuthProvider
 import com.mommydndn.app.domain.model.user.OAuthToken
@@ -17,4 +18,6 @@ interface UserRepository {
     fun getNeighborhood(): Flow<Neighborhood>
 
     fun getNearbyNeighborhoodDistance(): Flow<NearbyNeighborhoodDistance>
+
+    fun getNearbyNeighborhoods(): Flow<NearbyNeighborhoods>
 }

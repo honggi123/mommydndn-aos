@@ -23,5 +23,5 @@ class SignInUseCase @Inject constructor(
 
 data class SignInParams(
     val oAuthProvider: OAuthProvider,
-    val accessToken: String,
+    val accessToken: String
 )

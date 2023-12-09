@@ -119,7 +119,7 @@ fun JobSeekerPreviewScreen(
             }
 
             SubtextBox(
-                titleText = "${authorInfo?.nickname}에 대하여"
+                title = "${authorInfo?.nickname}에 대하여"
             )
 
             val salaryText = if (jobSeekerPreview?.salaryType != SalaryType.NEGOTIATION) {
@@ -146,7 +146,7 @@ fun JobSeekerPreviewScreen(
             )
 
             SubtextBox(
-                titleText = "자신있게 도와드릴 수 있는 분야는"
+                title = "자신있게 도와드릴 수 있는 분야는"
             )
             Box(
                 modifier = Modifier.padding(24.dp)
@@ -175,7 +175,7 @@ fun JobSeekerPreviewScreen(
             )
 
             SubtextBox(
-                titleText = "${authorInfo?.nickname}에게 남긴 후기"
+                title = "${authorInfo?.nickname}에게 남긴 후기"
             )
             Box(
                 modifier = Modifier

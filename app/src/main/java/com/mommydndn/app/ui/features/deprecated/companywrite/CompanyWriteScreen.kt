@@ -167,7 +167,7 @@ fun CompanyWriteScreen(
     ) {
         Header(leftContent = {
             Image(
-                painter = painterResource(id = R.drawable.ic_x),
+                painter = painterResource(id = R.drawable.icon_close),
                 contentDescription = "",
                 modifier = Modifier
                     .size(size = 36.dp)
@@ -190,8 +190,8 @@ fun CompanyWriteScreen(
             SubtextBox(
                 modifier = Modifier
                     .fillMaxWidth(),
-                titleText = "커버 사진",
-                subtitleText = "(필수)",
+                title = "커버 사진",
+                subtitle = "(필수)",
                 size = SubtextBoxSize.S
             )
 
@@ -254,8 +254,8 @@ fun CompanyWriteScreen(
             SubtextBox(
                 modifier = Modifier
                     .fillMaxWidth(),
-                titleText = "프로필 사진",
-                subtitleText = "(필수)",
+                title = "프로필 사진",
+                subtitle = "(필수)",
                 size = SubtextBoxSize.S
             )
 
@@ -313,8 +313,8 @@ fun CompanyWriteScreen(
             SubtextBox(
                 modifier = Modifier
                     .fillMaxWidth(),
-                titleText = "한 줄 소개",
-                subtitleText = "(필수)",
+                title = "한 줄 소개",
+                subtitle = "(필수)",
                 size = SubtextBoxSize.S
             )
 
@@ -345,8 +345,8 @@ fun CompanyWriteScreen(
             SubtextBox(
                 modifier = Modifier
                     .fillMaxWidth(),
-                titleText = "활동 가능한 동네",
-                subtitleText = "(필수)",
+                title = "활동 가능한 동네",
+                subtitle = "(필수)",
                 size = SubtextBoxSize.S
             )
 
@@ -394,8 +394,8 @@ fun CompanyWriteScreen(
             SubtextBox(
                 modifier = Modifier
                     .fillMaxWidth(),
-                titleText = "하고싶은 돌봄분야",
-                subtitleText = "(필수)",
+                title = "하고싶은 돌봄분야",
+                subtitle = "(필수)",
                 size = SubtextBoxSize.S
             )
 
@@ -430,8 +430,8 @@ fun CompanyWriteScreen(
             SubtextBox(
                 modifier = Modifier
                     .fillMaxWidth(),
-                titleText = "평균월급",
-                subtitleText = "(필수)",
+                title = "평균월급",
+                subtitle = "(필수)",
                 size = SubtextBoxSize.S
             )
 
@@ -491,8 +491,8 @@ fun CompanyWriteScreen(
             SubtextBox(
                 modifier = Modifier
                     .fillMaxWidth(),
-                titleText = "기타사항",
-                subtitleText = "(선택)",
+                title = "기타사항",
+                subtitle = "(선택)",
                 size = SubtextBoxSize.S
             )
 

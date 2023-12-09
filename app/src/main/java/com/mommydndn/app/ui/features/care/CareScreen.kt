@@ -44,6 +44,16 @@ import com.mommydndn.app.domain.model.user.Neighborhood
 import com.mommydndn.app.ui.components.chip.ChipWithBottomArrow
 import com.mommydndn.app.ui.components.modal.layout.BaseModalBottomSheetLayout
 import com.mommydndn.app.ui.components.tab.MediumTab
+import com.mommydndn.app.ui.features.care.filters.CareFilter
+import com.mommydndn.app.ui.features.care.filters.CareOrderBy
+import com.mommydndn.app.ui.features.care.filters.CareTypesFilter
+import com.mommydndn.app.ui.features.care.filters.DaysOfWeekFilter
+import com.mommydndn.app.ui.features.care.filters.NeighborhoodsFilter
+import com.mommydndn.app.ui.features.care.filters.PayFilter
+import com.mommydndn.app.ui.features.care.filters.WorkHoursFilter
+import com.mommydndn.app.ui.features.care.filters.WorkPeriodFilter
+import com.mommydndn.app.ui.features.care.filters.displayName
+import com.mommydndn.app.ui.features.care.filters.hasValue
 import com.mommydndn.app.ui.features.care.jobopening.list.CareJobOpeningListFragment
 import com.mommydndn.app.ui.features.care.jobopening.list.model.CareJobOpeningListItem
 import com.mommydndn.app.ui.features.care.jobopening.list.model.mockCareJobOpeningListItems
@@ -185,6 +195,7 @@ private fun CareScreen(
     }
 }
 
+// todo: design_system.dimension
 internal val topAppBarHeight: Dp = 68.dp
 
 @Composable
@@ -318,25 +329,14 @@ private fun CareFilterModalBottomSheet(
 @Composable
 private fun CareScreenPreview() {
     val fakeNeighborhood = Neighborhood(
-        name = "",
-        latitude = 0.0,
-        longitude = 0.0,
-        nearbyNeighborhoods = emptyList(),
-        distantNeighborhoods = emptyList(),
-        veryDistantNeighborhoods = emptyList()
-    )
-
-    val neighborhood = Neighborhood(
+        id = 0,
         name = "서초동",
         latitude = 0.0,
         longitude = 0.0,
-        nearbyNeighborhoods = buildList(4) { add(fakeNeighborhood) },
-        distantNeighborhoods = buildList(9) { add(fakeNeighborhood) },
-        veryDistantNeighborhoods = buildList(17) { add(fakeNeighborhood) },
     )
 
     CareScreen(
-        neighborhood = neighborhood,
+        neighborhood = fakeNeighborhood,
         onNeighborhoodClick = {},
         onSearchClick = {},
         selectedTabIndex = 0,
@@ -344,7 +344,7 @@ private fun CareScreenPreview() {
         orderBy = CareOrderBy.LATEST,
         onOrderClick = {},
         filters = buildList {
-            add(NeighborhoodsFilter(neighborhood = neighborhood))
+            add(NeighborhoodsFilter(neighborhood = fakeNeighborhood))
             add(CareTypesFilter())
             add(PayFilter())
             add(DaysOfWeekFilter())

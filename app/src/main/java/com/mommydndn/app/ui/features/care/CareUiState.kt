@@ -1,6 +1,8 @@
 package com.mommydndn.app.ui.features.care
 
 import com.mommydndn.app.domain.model.user.Neighborhood
+import com.mommydndn.app.ui.features.care.filters.CareFilter
+import com.mommydndn.app.ui.features.care.filters.CareOrderBy
 import com.mommydndn.app.ui.features.care.jobopening.list.model.CareJobOpeningListItem
 
 // todo: naming, filter selected, user canceled update filter ?

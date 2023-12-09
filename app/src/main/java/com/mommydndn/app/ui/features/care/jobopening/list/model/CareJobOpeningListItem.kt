@@ -1,5 +1,6 @@
 package com.mommydndn.app.ui.features.care.jobopening.list.model
 
+import com.mommydndn.app.domain.model.care.CareJobOpening
 import com.mommydndn.app.domain.model.care.CareType
 import com.mommydndn.app.domain.model.care.PayPeriod
 import com.mommydndn.app.domain.model.care.WorkPeriod
@@ -21,6 +22,29 @@ data class CareJobOpeningListItem(
     val payPeriod: PayPeriod,
     val pay: Int,
 )
+
+/*
+
+ */
+fun toListItem(jobOpening: CareJobOpening, neighborhoodName: String ) {
+    /*
+    CareJobOpeningListItem(
+        workPeriod = jobOpening.workPeriod,
+        careTypes = jobOpening.careTypes,
+        isClosed = false, // ?
+        title = jobOpening.title,
+        isLiked = true,
+        neighborhoodName = neighborhoodName,
+        createdAt = ZonedDateTime.of(jobOpening.createdAt, ZoneId.of("Asia/Seoul")),
+        daysOfWeek = emptyList(),
+        startTime = ,
+        endTime = ,
+        payPeriod = ,
+        pay = ,
+    )
+     */
+    TODO()
+}
 
 val mockCareJobOpeningListItems = buildList(capacity = 4) {
     add(

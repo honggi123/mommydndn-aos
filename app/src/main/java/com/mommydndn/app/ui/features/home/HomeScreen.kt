@@ -107,8 +107,8 @@ internal fun HomeScreen(
             SubtextBox(
                 modifier = Modifier.fillMaxWidth(),
                 size = SubtextBoxSize.L,
-                titleText = "가장 가까운 시터님",
-                rightButtonText = "전체보기"
+                title = "가장 가까운 시터님",
+                trailingButtonLabel = "전체보기"
             )
             LazyRow(
                 modifier = Modifier
@@ -129,9 +129,9 @@ internal fun HomeScreen(
 
             SubtextBox(
                 size = SubtextBoxSize.L,
-                titleText = "도움이 필요한 주변 이웃",
-                rightButtonText = "더보기",
-                rightButtonOnClick = {
+                title = "도움이 필요한 주변 이웃",
+                trailingButtonLabel = "더보기",
+                onClick = {
                     // NavigationUtils.navigate(navController, MainNav.Care.route)
                 }
             )
@@ -154,7 +154,7 @@ internal fun HomeScreen(
                     .height(20.dp)
             )
 
-            SubtextBox(size = SubtextBoxSize.L, titleText = "집 앞 육아용품 장터")
+            SubtextBox(size = SubtextBoxSize.L, title = "집 앞 육아용품 장터")
 
             Box(modifier = Modifier.fillMaxWidth()) {
                 Column(

@@ -220,7 +220,7 @@ fun JobOfferWriteScreen(
     ) {
         Header(leftContent = {
             Image(
-                painter = painterResource(id = R.drawable.ic_x),
+                painter = painterResource(id = R.drawable.icon_close),
                 contentDescription = "",
                 modifier = Modifier
                     .size(size = 36.dp)
@@ -271,8 +271,8 @@ fun JobOfferWriteScreen(
             SubtextBox(
                 modifier = Modifier
                     .fillMaxWidth(),
-                titleText = "필요한 돌봄",
-                subtitleText = "(필수)",
+                title = "필요한 돌봄",
+                subtitle = "(필수)",
                 size = SubtextBoxSize.S
             )
             Box(
@@ -305,8 +305,8 @@ fun JobOfferWriteScreen(
             SubtextBox(
                 modifier = Modifier
                     .fillMaxWidth(),
-                titleText = "일하는 시간",
-                subtitleText = "(필수)",
+                title = "일하는 시간",
+                subtitle = "(필수)",
                 size = SubtextBoxSize.S
             )
             Column(
@@ -449,8 +449,8 @@ fun JobOfferWriteScreen(
             SubtextBox(
                 modifier = Modifier
                     .fillMaxWidth(),
-                titleText = "일하는 장소",
-                subtitleText = "(필수)",
+                title = "일하는 장소",
+                subtitle = "(필수)",
                 size = SubtextBoxSize.S
             )
             Box(
@@ -482,8 +482,8 @@ fun JobOfferWriteScreen(
             SubtextBox(
                 modifier = Modifier
                     .fillMaxWidth(),
-                titleText = "임금",
-                subtitleText = "(필수)",
+                title = "임금",
+                subtitle = "(필수)",
                 size = SubtextBoxSize.S
             )
             Column(
@@ -558,8 +558,8 @@ fun JobOfferWriteScreen(
             SubtextBox(
                 modifier = Modifier
                     .fillMaxWidth(),
-                titleText = "사진",
-                subtitleText = "(선택)",
+                title = "사진",
+                subtitle = "(선택)",
                 size = SubtextBoxSize.S
             )
             Box(
@@ -620,8 +620,8 @@ fun JobOfferWriteScreen(
             SubtextBox(
                 modifier = Modifier
                     .fillMaxWidth(),
-                titleText = "기타조건",
-                subtitleText = "(선택)",
+                title = "기타조건",
+                subtitle = "(선택)",
                 size = SubtextBoxSize.S
             )
 

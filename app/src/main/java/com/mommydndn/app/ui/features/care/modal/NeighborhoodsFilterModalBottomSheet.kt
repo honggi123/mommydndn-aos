@@ -54,7 +54,7 @@ import androidx.compose.ui.unit.sp
 import com.mommydndn.app.R
 import com.mommydndn.app.domain.model.care.NearbyNeighborhoodDistance
 import com.mommydndn.app.domain.model.user.Neighborhood
-import com.mommydndn.app.ui.features.care.NeighborhoodsFilter
+import com.mommydndn.app.ui.features.care.filters.NeighborhoodsFilter
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey600
