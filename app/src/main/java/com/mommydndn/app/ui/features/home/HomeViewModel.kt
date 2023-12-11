@@ -19,8 +19,8 @@ import kotlinx.coroutines.launch
 import com.mommydndn.app.util.result.successOr
 import com.mommydndn.app.util.result.Result
 
-const val MAX_MORE_BABY_ITEM_PAGE = 4
-const val INITIAL_BABY_ITEM_PAGE_SIZE = 10
+const val MAX_MORE_BABY_ITEM_PAGES = 4
+const val INITIAL_BABY_ITEM_SIZE = 10
 const val MORE_BABY_ITEM_SIZE = 10
 
 @HiltViewModel
@@ -32,19 +32,22 @@ class HomeViewModel @Inject constructor(
     private val getNotificationsUseCase: GetNotificationsUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(HomeUiState(isLoading = false))
+    private val _babyItemsUiState = MutableStateFlow<HomeBabyItemUiState>(HomeBabyItemUiState.Loading())
+    val babyItemsUiState: StateFlow<HomeBabyItemUiState> = _babyItemsUiState.asStateFlow()
+
+    private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
     init {
-        refreshAll()
+        initAll()
     }
 
-    private fun refreshAll() {
+    private fun initAll() {
         viewModelScope.launch {
 
             fetchBabyItems(
-                pageNum = uiState.value.babyItemsPagingMeta.currentPageNum,
-                pageSize = INITIAL_BABY_ITEM_PAGE_SIZE
+                pageNum = 1,
+                pageSize = INITIAL_BABY_ITEM_SIZE
             )
 
             val bannersDeffered = async { getBannersUseCase.invoke(Unit) }
@@ -58,7 +61,7 @@ class HomeViewModel @Inject constructor(
             val notifications = notificationDeffered.await().successOr(emptyList())
 
             _uiState.update {
-                it.copy(
+                HomeUiState.Success(
                     banners = banners,
                     jobOffers = jobOffers,
                     jobSeekers = jobSeekers,
@@ -84,24 +87,31 @@ class HomeViewModel @Inject constructor(
                     System.currentTimeMillis()
                 )
             ).collect { result ->
-                when(result){
+                when (result) {
                     is Result.Success -> {
-                        _uiState.update {
-                            it.copy(
-                                babyItems = it.babyItems + result.data.itemSummaryList,
+                        _babyItemsUiState.update {
+                            HomeBabyItemUiState.Success(
+                                babyItems = result.data.itemSummaryList + result.data.itemSummaryList,
                                 babyItemsPagingMeta = result.data.meta
                             )
                         }
                     }
-                    else -> {
+
+                    is Result.Loading -> {
+                        _babyItemsUiState.update {
+                            HomeBabyItemUiState.Loading(
+                                babyItems = it.babyItems,
+                            )
+                        }
+                    }
+
+                    is Result.Failure -> {
                         // TODO
                     }
                 }
             }
         }
     }
-
-
 
 
 }

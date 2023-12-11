@@ -1,6 +1,7 @@
-package com.mommydndn.app.ui.components.box
+package com.mommydndn.app.ui.features.home.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,23 +29,26 @@ import com.mommydndn.app.util.NumberUtils
 
 @Composable
 fun JobOfferBox(
-    modifier: Modifier = Modifier,
-    item: JobOffer
+    item: JobOffer,
+    modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier
-            .width(216.dp)
             .background(shape = Shapes.large, color = Grey50)
     ) {
         Column(
-            modifier = Modifier.padding(start = 20.dp, top = 16.dp, end = 20.dp, bottom = 16.dp)
+            modifier = Modifier.padding(start = 20.dp, top = 16.dp, end = 20.dp, bottom = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             Row(modifier = Modifier.fillMaxWidth()) {
-                Badge(colorType = BadgeColorType.ORANGE, text = item.caringType.value)
+                Badge(
+                    colorType = BadgeColorType.ORANGE,
+                    text = item.caringType.value
+                )
                 Spacer(modifier = Modifier.padding(8.dp))
                 Text(
                     text = item.title,
-                    style = MaterialTheme.typography.paragraph300.copy(
+                    style = MaterialTheme.typography.paragraph300.merge(
                         fontWeight = FontWeight.Bold,
                         color = Grey800
                     ),
@@ -52,17 +56,18 @@ fun JobOfferBox(
                     overflow = TextOverflow.Ellipsis
                 )
             }
-            Spacer(modifier = Modifier.padding(24.dp))
+
             Text(
                 text = item.neighborhood,
-                style = MaterialTheme.typography.caption200.copy(
+                style = MaterialTheme.typography.caption200.merge(
                     fontWeight = FontWeight.Medium,
                     color = Grey400
                 )
             )
+
             Text(
                 text = "${item.salaryType.value} ${NumberUtils.getPriceString(item.salary)}",
-                style = MaterialTheme.typography.paragraph300.copy(
+                style = MaterialTheme.typography.paragraph300.merge(
                     fontWeight = FontWeight.Bold,
                     color = Grey800
                 )

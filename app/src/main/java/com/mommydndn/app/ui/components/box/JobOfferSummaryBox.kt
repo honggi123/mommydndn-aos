@@ -79,7 +79,7 @@ fun JobOfferSummaryBox(
                             )
                         )
                         Image(
-                            painter = painterResource(id = R.drawable.ic_ellipse),
+                            painter = painterResource(id = R.drawable.icon_circle),
                             contentDescription = null,
                             modifier = Modifier.align(Alignment.CenterVertically)
                         )
@@ -122,7 +122,7 @@ fun JobOfferSummaryBox(
                     )
                     Spacer(modifier = Modifier.size(4.dp))
                     Image(
-                        painter = painterResource(id = R.drawable.ic_ellipse),
+                        painter = painterResource(id = R.drawable.icon_circle),
                         contentDescription = null,
                         modifier = Modifier.align(Alignment.CenterVertically)
                     )

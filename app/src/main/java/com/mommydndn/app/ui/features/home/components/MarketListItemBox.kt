@@ -1,11 +1,13 @@
-package com.mommydndn.app.ui.components.box
+package com.mommydndn.app.ui.features.home.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -22,6 +24,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.mommydndn.app.ui.theme.Grey700
@@ -37,8 +40,8 @@ import com.mommydndn.app.util.DateTimeUtils
 
 @Composable
 fun MarketListItemBox(
-    modifier: Modifier = Modifier,
-    item: BabyItem
+    item: BabyItem,
+    modifier: Modifier = Modifier
 ) {
     val productPainter = rememberImagePainter(
         data = item.imageUrl,
@@ -53,14 +56,14 @@ fun MarketListItemBox(
 
     Box(
         modifier = modifier
-            .height(216.dp)
+            .aspectRatio(165f / 216f)
             .background(color = White, shape = RoundedCornerShape(10.dp))
     ) {
         Column {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(132.dp)
+                    .weight(132f / 216f)
             ) {
                 Image(
                     painter = productPainter,
@@ -80,10 +83,10 @@ fun MarketListItemBox(
                         .align(Alignment.BottomEnd)
                 )
             }
-            Spacer(modifier = Modifier.padding(8.dp))
+            Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = NumberUtils.getPriceString(item.price),
-                style = MaterialTheme.typography.paragraph400.copy(
+                style = MaterialTheme.typography.paragraph400.merge(
                     fontWeight = FontWeight.Bold,
                     color = Grey800,
                     textAlign = TextAlign.Center
@@ -91,32 +94,33 @@ fun MarketListItemBox(
             )
             Text(
                 text = item.title,
-                style = MaterialTheme.typography.caption200.copy(
+                style = MaterialTheme.typography.caption200.merge(
                     fontWeight = FontWeight.Normal,
                     color = Grey700,
                     textAlign = TextAlign.Center
                 )
             )
-            Row {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
                 Text(
                     text = item.neighborhood,
-                    style = MaterialTheme.typography.caption200.copy(
+                    style = MaterialTheme.typography.caption200.merge(
                         fontWeight = FontWeight.Normal,
                         color = Grey500,
                         textAlign = TextAlign.Center
                     )
                 )
-                Spacer(modifier = Modifier.padding(4.dp))
+
                 Image(
-                    painter = painterResource(id = R.drawable.ic_ellipse),
-                    contentDescription = null,
+                    painter = painterResource(id = R.drawable.icon_circle),
+                    contentDescription = "icon/circle",
                     modifier = Modifier.align(Alignment.CenterVertically)
                 )
-                Spacer(modifier = Modifier.padding(4.dp))
 
                 Text(
                     text = DateTimeUtils.getFormattedTimeAgo(item.createdAt),
-                    style = MaterialTheme.typography.caption200.copy(
+                    style = MaterialTheme.typography.caption200.merge(
                         fontWeight = FontWeight.Normal,
                         color = Grey500,
                         textAlign = TextAlign.Center
@@ -124,9 +128,26 @@ fun MarketListItemBox(
                 )
             }
         }
-
-
     }
 }
 
+@Preview
+@Composable
+fun MarketListScreen() {
+    val babyItems = listOf(
+        BabyItem(1, "", 10000, "Item 1", "Neighborhood 1", System.currentTimeMillis(), false),
+        BabyItem(2, "", 15000, "Item 2", "Neighborhood 2", System.currentTimeMillis(), true),
+    )
+
+    babyItems.chunked(2).forEach { rowItems ->
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            rowItems.forEach { item ->
+                MarketListItemBox(modifier = Modifier.weight(1f), item = item)
+            }
+        }
+    }
+}
 
