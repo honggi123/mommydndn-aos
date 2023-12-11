@@ -3,6 +3,7 @@ package com.mommydndn.app.ui.features.signup
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import com.mommydndn.app.data.api.model.response.Emd
 import com.mommydndn.app.data.model.common.LocationSearchType
 import com.mommydndn.app.data.model.location.LocationInfo
 import com.mommydndn.app.data.model.user.SignUpInfo
@@ -85,7 +86,7 @@ class SignUpViewModel @Inject constructor(
             viewModelState.value.toUiState()
         )
 
-    val searchedNearestLocations: Flow<PagingData<EmdItem>> = currentLocationFlow
+    val NearestLocations: Flow<PagingData<EmdItem>> = currentLocationFlow
         .flatMapLatest { currentLocation ->
             getNearestLocationsUseCase.invoke(currentLocation)
                 .map { result ->

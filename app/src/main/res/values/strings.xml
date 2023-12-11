@@ -12,5 +12,6 @@
     <string name="search_location_keyword">동명으로 검색해주세요 (ex. 서초동)</string>
     <string name="searched_neighborhood">근처동네를 찾아왔어요.</string>
     <string name="result_searched_neighborhood">%s 검색결과</string>
+    <string name="no_result_and_check_keyword">검색 결과가 없어요.&#10;동네 이름을 다시 확인해주세요!</string>
 
 </resources>
