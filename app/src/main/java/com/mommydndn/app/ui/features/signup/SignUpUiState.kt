@@ -6,25 +6,23 @@ import com.mommydndn.app.domain.model.tos.TermsOfService
 
 sealed interface SignUpUiState {
 
-    val isLoading: Boolean
-    val signUpInfo: SignUpInfo?
-    val errorMessages: String
+    sealed class UserTypeSelect : SignUpUiState {
+        object Loading : UserTypeSelect()
+        object Success : UserTypeSelect()
+        data class Failure(val exception: Exception) : UserTypeSelect()
+    }
 
-    data class UserTypeSelect(
-        override val isLoading: Boolean,
-        override val signUpInfo: SignUpInfo?,
-        override val errorMessages: String
-    ) : SignUpUiState
+    sealed class LocationSearch : SignUpUiState {
 
-    data class LocationSearch(
-        val locationSearchType: LocationSearchType,
-        val keyword: String,
-        val termsAndConditions: List<TermsOfService>,
-        val isSignUpSuccess: Boolean,
-        override val isLoading: Boolean,
-        override val signUpInfo: SignUpInfo?,
-        override val errorMessages: String
-    ) : SignUpUiState
+        var locationSearchType: LocationSearchType = LocationSearchType.LOCATION
+        var keyword: String = ""
+        var TOSList: List<TermsOfService> = emptyList()
+        object Loading : LocationSearch()
+
+        object SignUpSuccess : LocationSearch()
+
+        object Success : LocationSearch()
+
+        data class Failure(val exception: Exception) : LocationSearch()
+    }
 }
-
-enum class SignUpStep { USER_TYPE, SEARCH_LOCATION }

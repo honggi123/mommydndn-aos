@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.components.modal
+package com.mommydndn.app.ui.features.signup.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
