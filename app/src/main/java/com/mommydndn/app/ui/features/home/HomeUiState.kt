@@ -15,6 +15,7 @@ sealed interface HomeUiState {
         val jobSeekers: List<JobSeeker> = emptyList(),
         val jobOffers: List<JobOffer> = emptyList(),
         val banners: List<Banner> = emptyList(),
+        val babyItemUiState: HomeBabyItemUiState = HomeBabyItemUiState.Loading()
     ) : HomeUiState
 
     data class Failure(val exception: Exception) : HomeUiState

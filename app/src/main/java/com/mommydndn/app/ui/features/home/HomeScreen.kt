@@ -40,8 +40,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mommydndn.app.R
-import com.mommydndn.app.data.model.babyitem.BabyItem
-import com.mommydndn.app.data.model.babyitem.BabyItemMeta
 import com.mommydndn.app.domain.model.care.JobOffer
 import com.mommydndn.app.domain.model.care.JobSeeker
 import com.mommydndn.app.data.model.notification.Notification
@@ -68,7 +66,6 @@ fun HomeRoute(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val babyItemsUiState by viewModel.babyItemsUiState.collectAsStateWithLifecycle()
 
     val scope = rememberCoroutineScope()
 
@@ -82,7 +79,7 @@ fun HomeRoute(
             MainHomeScreen(
                 modifier = Modifier.fillMaxSize(),
                 uiState = uiState,
-                itemsUiState = babyItemsUiState,
+                itemsUiState = uiState.babyItemUiState,
                 onMoreJobOfferButtonClick = onMoreJobOfferButtonClick,
                 loadNextBabyItemPage = { viewModel.fetchMoreBabyItems(it) }
             )

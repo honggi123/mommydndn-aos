@@ -32,9 +32,6 @@ class HomeViewModel @Inject constructor(
     private val getNotificationsUseCase: GetNotificationsUseCase
 ) : ViewModel() {
 
-    private val _babyItemsUiState = MutableStateFlow<HomeBabyItemUiState>(HomeBabyItemUiState.Loading())
-    val babyItemsUiState: StateFlow<HomeBabyItemUiState> = _babyItemsUiState.asStateFlow()
-
     private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
@@ -89,19 +86,31 @@ class HomeViewModel @Inject constructor(
             ).collect { result ->
                 when (result) {
                     is Result.Success -> {
-                        _babyItemsUiState.update {
-                            HomeBabyItemUiState.Success(
-                                babyItems = result.data.itemSummaryList + result.data.itemSummaryList,
-                                babyItemsPagingMeta = result.data.meta
-                            )
+                        _uiState.update { state ->
+                            if (state is HomeUiState.Success) {
+                                state.copy(
+                                    babyItemUiState = HomeBabyItemUiState.Success(
+                                        babyItems = result.data.itemSummaryList + result.data.itemSummaryList,
+                                        babyItemsPagingMeta = result.data.meta
+                                    )
+                                )
+                            } else {
+                                state
+                            }
                         }
                     }
 
                     is Result.Loading -> {
-                        _babyItemsUiState.update {
-                            HomeBabyItemUiState.Loading(
-                                babyItems = it.babyItems,
-                            )
+                        _uiState.update { state ->
+                            if (state is HomeUiState.Success) {
+                                state.copy(
+                                    babyItemUiState = HomeBabyItemUiState.Loading(
+                                        babyItems = state.babyItemUiState.babyItems
+                                    )
+                                )
+                            } else {
+                                state
+                            }
                         }
                     }
 
