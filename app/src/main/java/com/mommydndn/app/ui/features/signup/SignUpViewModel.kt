@@ -142,7 +142,7 @@ class SignUpViewModel @Inject constructor(
             ) {
                 is Result.Success -> {
                     saveUserToken(result.data.accessToken, result.data.refreshToken)
-                    updateTermsOfService(list)
+                    updateCheckedTermsOfService(list)
                     _locationSearchUiState.update { SignUpUiState.LocationSearch.SignUpSuccess }
                 }
 
@@ -168,7 +168,7 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    private fun updateTermsOfService(list: List<TermsOfService>) {
+    private fun updateCheckedTermsOfService(list: List<TermsOfService>) {
         viewModelScope.launch {
             updateTermsOfServiceStatusUseCase.invoke(UpdateTermsOfServiceParams(list))
         }

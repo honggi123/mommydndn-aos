@@ -368,7 +368,6 @@ fun LocationsRadioListBox(
     onItemClick: (LocationInfo) -> Unit,
     modifier: Modifier = Modifier
 ) {
-
     if (pagingItems.itemCount == 0) {
         EmptyResultRadioListBox(modifier = modifier)
     } else {
@@ -408,6 +407,12 @@ fun HasResultRadioListBox(
     onItemClick: (LocationInfo) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var checkedStates by remember { mutableStateOf(List(pagingItems.itemCount) { false }) }
+
+    if (checkedStates.size != pagingItems.itemCount) {
+        checkedStates = List(pagingItems.itemCount) { false }
+    }
+
     LazyColumn(
         modifier = modifier
             .padding(top = 6.dp)
@@ -425,8 +430,14 @@ fun HasResultRadioListBox(
                             bottom = 16.dp
                         )
                         .clip(Shapes.large),
-                    checked = selectedLocation?.id == item?.id,
+                    checked = checkedStates[index],
                     onCheckedChange = { isChecked ->
+                        checkedStates = List(pagingItems.itemCount) { false }
+
+                        checkedStates = checkedStates.toMutableList().apply {
+                            this[index] = isChecked
+                        }
+
                         if (isChecked && item != null) {
                             onItemClick(item)
                         }
