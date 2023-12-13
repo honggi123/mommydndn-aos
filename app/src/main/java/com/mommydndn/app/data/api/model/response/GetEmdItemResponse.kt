@@ -1,6 +1,6 @@
 package com.mommydndn.app.data.api.model.response
 
-import com.mommydndn.app.domain.model.location.EmdItem
+import com.mommydndn.app.domain.model.location.LocationInfo
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -12,8 +12,8 @@ data class GetEmdItemResponse(
     val fullName: String
 )
 
-fun GetEmdItemResponse.toDomain() : EmdItem {
-    return EmdItem(
+fun GetEmdItemResponse.toDomain() : LocationInfo {
+    return LocationInfo(
         id = id,
         name = name,
         sigName = sigName,
@@ -22,6 +22,3 @@ fun GetEmdItemResponse.toDomain() : EmdItem {
     )
 }
 
-fun GetEmdItemResponse.displayName(): String {
-    return this.fullName
-}

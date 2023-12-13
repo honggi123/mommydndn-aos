@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -22,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mommydndn.app.R
-import com.mommydndn.app.data.model.user.SignUpInfo
+import com.mommydndn.app.domain.model.user.SignUpInfo
 import com.mommydndn.app.domain.model.user.UserType
 import com.mommydndn.app.ui.components.box.MaintextBox
 import com.mommydndn.app.ui.features.signup.component.SquareButton
@@ -61,7 +60,7 @@ internal fun SelectUserTypeRoute(
             // TODO
         }
 
-        is SignUpUiState.UserTypeSelect.Success -> {
+        is SignUpUiState.UserTypeSelect.LoadSuccess -> {
             SelectUserTypeScreen(
                 modifier = Modifier.fillMaxSize(),
                 onBackButtonClick = onBackButtonClick,

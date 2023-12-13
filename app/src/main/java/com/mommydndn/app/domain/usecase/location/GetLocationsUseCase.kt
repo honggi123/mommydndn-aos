@@ -1,7 +1,7 @@
 package com.mommydndn.app.domain.usecase.location
 
 import androidx.paging.PagingData
-import com.mommydndn.app.domain.model.location.EmdItem
+import com.mommydndn.app.domain.model.location.LocationInfo
 import com.mommydndn.app.domain.repository.LocationRepository
 import com.mommydndn.app.domain.usecase.FlowUseCase
 import kotlinx.coroutines.CoroutineDispatcher
@@ -14,8 +14,8 @@ import javax.inject.Singleton
 class GetLocationsUseCase @Inject constructor(
     private val repositiry: LocationRepository,
     private val coroutineDispatcher: CoroutineDispatcher
-) : FlowUseCase<String, PagingData<EmdItem>>(coroutineDispatcher) {
-    override fun execute(keyword: String): Flow<PagingData<EmdItem>> {
+) : FlowUseCase<String, PagingData<LocationInfo>>(coroutineDispatcher) {
+    override fun execute(keyword: String): Flow<PagingData<LocationInfo>> {
         return repositiry.fetchLocationsByKeyword(keyword)
     }
 }

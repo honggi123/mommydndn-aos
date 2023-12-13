@@ -5,5 +5,5 @@ data class TermsOfService(
     val name: String,
     val id: Int,
     val url: String,
-    val isApproved: Boolean
+    val isApproved: Boolean = false
 )

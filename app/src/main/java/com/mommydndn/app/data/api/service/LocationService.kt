@@ -9,7 +9,7 @@ import retrofit2.http.Query
 interface LocationService {
 
     @GET("/api/map/nearest")
-    suspend fun fetchNearestByLocation(
+    suspend fun fetchNearestByMyLocation(
         @Query("latitude") latitude: Double,
         @Query("longitude") longitude: Double,
         @Query("skip") skip: Int = 0,

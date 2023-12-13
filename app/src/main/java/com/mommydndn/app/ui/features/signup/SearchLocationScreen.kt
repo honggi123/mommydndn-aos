@@ -50,9 +50,9 @@ import androidx.paging.compose.itemsIndexed
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.mommydndn.app.R
-import com.mommydndn.app.data.model.common.LocationSearchType
-import com.mommydndn.app.data.model.location.LocationInfo
-import com.mommydndn.app.domain.model.location.EmdItem
+import com.mommydndn.app.domain.model.location.CoordinatesInfo
+import com.mommydndn.app.domain.model.location.LocationInfo
+import com.mommydndn.app.domain.model.location.SearchType
 import com.mommydndn.app.domain.model.tos.TermsOfService
 import com.mommydndn.app.ui.components.box.SearchUnderHeader
 import com.mommydndn.app.ui.components.inputfield.RadioListItem
@@ -100,7 +100,7 @@ internal fun LocationSearchRoute(
                 fusedLocationClient,
                 searchAction = { latitude, longitude ->
                     viewModel.updateLocationInfo(
-                        LocationInfo(
+                        CoordinatesInfo(
                             latitude = latitude,
                             longitude = longitude
                         )
@@ -113,7 +113,7 @@ internal fun LocationSearchRoute(
     }
 
     LaunchedEffect(Unit) {
-        requestAndSearchNearLocations(
+        searchNearbyLocationsWithPermission(
             context = context,
             launcher = launcher,
             fusedLocationClient = fusedLocationClient,
@@ -125,26 +125,23 @@ internal fun LocationSearchRoute(
 
     var currentPagingFlow by remember { mutableStateOf(viewModel.nearestLocations) }
 
-    LaunchedEffect(uiState.locationSearchType) {
-        currentPagingFlow = when (uiState.locationSearchType) {
-            LocationSearchType.KEYWORD -> viewModel.searchedLocations
-            LocationSearchType.LOCATION -> viewModel.nearestLocations
+    LaunchedEffect(uiState.searchType) {
+        currentPagingFlow = when (uiState.searchType) {
+            SearchType.KEYWORD -> viewModel.searchedLocations
+            SearchType.MY_LOCATION -> viewModel.nearestLocations
         }
     }
 
     val pagingItems = currentPagingFlow.collectAsLazyPagingItems()
 
-    when(val uiState = uiState){
+    when (val uiState = uiState) {
         is SignUpUiState.LocationSearch.Loading -> {
-
+            // TODO
         }
 
-        is SignUpUiState.LocationSearch.Failure -> {
-
-        }
-
-        is SignUpUiState.LocationSearch.Success -> {
+        is SignUpUiState.LocationSearch.LoadSuccess -> {
             LocationSearchScreen(
+                uiState = uiState,
                 modifier = Modifier.fillMaxSize(),
                 keyword = uiState.keyword,
                 pagingItems = pagingItems,
@@ -152,7 +149,7 @@ internal fun LocationSearchRoute(
                     onBackButtonClick()
                 },
                 onSearchClick = {
-                    requestAndSearchNearLocations(
+                    searchNearbyLocationsWithPermission(
                         context,
                         launcher,
                         fusedLocationClient,
@@ -161,7 +158,7 @@ internal fun LocationSearchRoute(
                 },
                 onItemClick = { item ->
                     scope.launch { sheetState.show() }
-                    viewModel.updateEmdId(item?.id)
+                    viewModel.updateLocationId(item?.id)
                 },
                 onDialogDismiss = { scope.launch { sheetState.hide() } },
                 onDialogItemSelected = { index, isChecked ->
@@ -179,6 +176,10 @@ internal fun LocationSearchRoute(
             )
         }
 
+        is SignUpUiState.LocationSearch.Failure -> {
+            // TODO
+        }
+
         is SignUpUiState.LocationSearch.SignUpSuccess -> {
             onSignUpSuccess()
         }
@@ -189,13 +190,14 @@ internal fun LocationSearchRoute(
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun LocationSearchScreen(
+    uiState: SignUpUiState.LocationSearch.LoadSuccess,
     keyword: String,
     onSearchClick: () -> Unit,
     navigateToPreviousScreen: () -> Unit,
     onClearClick: () -> Unit,
     onKeywordChange: (String) -> Unit,
-    onItemClick: (EmdItem) -> Unit,
-    pagingItems: LazyPagingItems<EmdItem>,
+    onItemClick: (LocationInfo) -> Unit,
+    pagingItems: LazyPagingItems<LocationInfo>,
     scaffoldState: ScaffoldState,
     sheetState: ModalBottomSheetState,
     itemList: List<TermsOfService>,
@@ -204,29 +206,29 @@ fun LocationSearchScreen(
     onDialogComplete: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-
     Scaffold(
         topBar = {
             LocationSearchTopAppBar(
-                modifier = Modifier.fillMaxWidth(),
                 navigateToPreviousScreen = { navigateToPreviousScreen() },
                 onSearchClick = { onSearchClick() },
                 keyword = keyword,
                 onClearClick = { onClearClick() },
                 onKeywordChange = { onKeywordChange(it) },
+                modifier = Modifier.fillMaxWidth()
             )
         },
         scaffoldState = scaffoldState,
     ) {
         Box(modifier = modifier.fillMaxSize()) {
             LocationsRadioListBox(
-                modifier = Modifier.fillMaxSize(),
+                uiState = uiState,
                 pagingItems = pagingItems,
                 onItemClick = { item ->
                     if (item != null) {
                         onItemClick(item)
                     }
-                }
+                },
+                modifier = Modifier.fillMaxSize()
             )
         }
     }
@@ -271,7 +273,8 @@ fun LocationSearchTopAppBar(
         )
     }
 }
-private fun requestAndSearchNearLocations(
+
+private fun searchNearbyLocationsWithPermission(
     context: Context,
     launcher: ManagedActivityResultLauncher<Array<String>, Map<String, Boolean>>,
     fusedLocationClient: FusedLocationProviderClient,
@@ -291,7 +294,7 @@ private fun requestAndSearchNearLocations(
                 fusedLocationClient,
                 searchAction = { latitude, longitude ->
                     viewModel.updateLocationInfo(
-                        LocationInfo(
+                        CoordinatesInfo(
                             latitude = latitude,
                             longitude = longitude
                         )
@@ -353,54 +356,21 @@ private fun searchNearByLocations(
 
 @Composable
 fun LocationsRadioListBox(
-    pagingItems: LazyPagingItems<EmdItem>,
-    onItemClick: (EmdItem) -> Unit,
+    uiState: SignUpUiState.LocationSearch.LoadSuccess,
+    pagingItems: LazyPagingItems<LocationInfo>,
+    onItemClick: (LocationInfo) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var checkedStates by remember { mutableStateOf(List(pagingItems.itemCount) { false }) }
-
-    if (checkedStates.size != pagingItems.itemCount) {
-        checkedStates = List(pagingItems.itemCount) { false }
-    }
 
     if (pagingItems.itemCount == 0) {
         EmptyResultRadioListBox(modifier = modifier)
     } else {
-        LazyColumn(
-            modifier = modifier
-                .padding(top = 6.dp)
-                .background(White),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            itemsIndexed(pagingItems) { index, item ->
-                key(item?.id ?: index) {
-                    RadioListItem(
-                        modifier = Modifier
-                            .padding(
-                                start = 12.dp,
-                                top = 16.dp,
-                                end = 12.dp,
-                                bottom = 16.dp
-                            )
-                            .clip(Shapes.large),
-                        checked = checkedStates[index],
-                        onCheckedChange = { isChecked ->
-
-                            checkedStates = List(pagingItems.itemCount) { false }
-
-                            checkedStates = checkedStates.toMutableList().apply {
-                                this[index] = isChecked
-                            }
-
-                            if (isChecked && item != null) {
-                                onItemClick(item)
-                            }
-                        },
-                        text = item?.fullName ?: ""
-                    )
-                }
-            }
-        }
+        HasResultRadioListBox(
+            pagingItems = pagingItems,
+            onItemClick = onItemClick,
+            selectedItemId = uiState.selectedLocationId,
+            modifier = Modifier
+        )
     }
 }
 
@@ -423,4 +393,42 @@ fun EmptyResultRadioListBox(
         )
     }
 }
+
+@Composable
+fun HasResultRadioListBox(
+    pagingItems: LazyPagingItems<LocationInfo>,
+    selectedItemId: Int,
+    onItemClick: (LocationInfo) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    LazyColumn(
+        modifier = modifier
+            .padding(top = 6.dp)
+            .background(White),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        itemsIndexed(pagingItems) { index, item ->
+            key(item?.id ?: index) {
+                RadioListItem(
+                    modifier = Modifier
+                        .padding(
+                            start = 12.dp,
+                            top = 16.dp,
+                            end = 12.dp,
+                            bottom = 16.dp
+                        )
+                        .clip(Shapes.large),
+                    checked = selectedItemId == item?.id,
+                    onCheckedChange = { isChecked ->
+                        if (isChecked && item != null) {
+                            onItemClick(item)
+                        }
+                    },
+                    text = item?.fullName ?: ""
+                )
+            }
+        }
+    }
+}
+
 

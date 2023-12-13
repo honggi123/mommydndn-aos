@@ -1,7 +1,7 @@
 package com.mommydndn.app.data.model.care
 
 import com.mommydndn.app.data.model.location.EmdItem
-import com.mommydndn.app.data.model.location.LocationInfo
+import com.mommydndn.app.domain.model.location.LocationInfo
 
 data class CompanyPreview(
     val introduce: String,

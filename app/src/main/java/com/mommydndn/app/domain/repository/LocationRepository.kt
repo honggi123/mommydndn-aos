@@ -2,17 +2,17 @@ package com.mommydndn.app.domain.repository
 
 import androidx.paging.PagingData
 import com.mommydndn.app.data.api.model.response.AddressResponse
-import com.mommydndn.app.data.model.location.LocationInfo
-import com.mommydndn.app.domain.model.location.EmdItem
+import com.mommydndn.app.domain.model.location.CoordinatesInfo
+import com.mommydndn.app.domain.model.location.LocationInfo
 import kotlinx.coroutines.flow.Flow
 
 interface LocationRepository {
 
-    fun fetchEmdByLocation(locationInfo: LocationInfo): EmdItem?
+    fun fetchNearestLocation(coordinatesInfo: CoordinatesInfo): LocationInfo?
 
-    fun fetchNearestLocations(locationInfo: LocationInfo): Flow<PagingData<EmdItem>>
+    fun fetchNearestLocations(coordinatesInfo: CoordinatesInfo): Flow<PagingData<LocationInfo>>
 
-    fun fetchLocationsByKeyword(keyword: String): Flow<PagingData<EmdItem>>
+    fun fetchLocationsByKeyword(keyword: String): Flow<PagingData<LocationInfo>>
 
     fun fetchAddressByKeyword(keyword: String): Flow<AddressResponse>
 }

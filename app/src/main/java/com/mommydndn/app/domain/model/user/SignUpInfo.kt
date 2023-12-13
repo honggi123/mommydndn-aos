@@ -1,7 +1,4 @@
-package com.mommydndn.app.data.model.user
-
-import com.mommydndn.app.domain.model.user.OAuthType
-import com.mommydndn.app.domain.model.user.UserType
+package com.mommydndn.app.domain.model.user
 
 data class SignUpInfo(
     val accessToken: String? = "",

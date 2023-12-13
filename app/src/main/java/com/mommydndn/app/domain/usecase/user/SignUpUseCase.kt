@@ -14,7 +14,7 @@ import javax.inject.Singleton
 class SignUpUseCase @Inject constructor(
     private val repository: AccountDataRepository,
     private val coroutineDispatcher: CoroutineDispatcher
-) : UseCase<SignUpParams, SignUpResponse>(Dispatchers.IO) {
+) : UseCase<SignUpParams, SignUpResponse>(coroutineDispatcher) {
 
     override suspend fun execute(parameters: SignUpParams): SignUpResponse {
         return with(parameters) {

@@ -3,12 +3,11 @@ package com.mommydndn.app.ui.features.signup
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
-import com.mommydndn.app.data.api.model.response.Emd
-import com.mommydndn.app.data.model.common.LocationSearchType
-import com.mommydndn.app.data.model.location.LocationInfo
-import com.mommydndn.app.data.model.user.SignUpInfo
-import com.mommydndn.app.data.model.user.canSignUp
-import com.mommydndn.app.domain.model.location.EmdItem
+import com.mommydndn.app.domain.model.location.CoordinatesInfo
+import com.mommydndn.app.domain.model.user.SignUpInfo
+import com.mommydndn.app.domain.model.user.canSignUp
+import com.mommydndn.app.domain.model.location.LocationInfo
+import com.mommydndn.app.domain.model.location.SearchType
 import com.mommydndn.app.domain.model.tos.TermsOfService
 import com.mommydndn.app.domain.model.user.UserType
 import com.mommydndn.app.domain.usecase.location.GetLocationsUseCase
@@ -26,7 +25,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -44,7 +42,7 @@ class SignUpViewModel @Inject constructor(
     private val getLocationsUseCase: GetLocationsUseCase
 ) : ViewModel() {
 
-    private val currentLocationFlow = MutableStateFlow(LocationInfo(0.0, 0.0))
+    private val currentLocationFlow = MutableStateFlow(CoordinatesInfo(0.0, 0.0))
     private val keywordFlow = MutableStateFlow<String>("")
 
     private lateinit var signUpInfo: SignUpInfo
@@ -66,7 +64,7 @@ class SignUpViewModel @Inject constructor(
             _locationSearchUiState.value
         )
 
-    val nearestLocations: Flow<PagingData<EmdItem>> = currentLocationFlow
+    val nearestLocations: Flow<PagingData<LocationInfo>> = currentLocationFlow
         .flatMapLatest { currentLocation ->
             getNearestLocationsUseCase.invoke(currentLocation)
                 .map { result ->
@@ -77,7 +75,7 @@ class SignUpViewModel @Inject constructor(
                 }
         }
 
-    val searchedLocations: Flow<PagingData<EmdItem>> = keywordFlow
+    val searchedLocations: Flow<PagingData<LocationInfo>> = keywordFlow
         .flatMapLatest { keyword ->
             getLocationsUseCase.invoke(keyword)
                 .map { result ->
@@ -125,8 +123,11 @@ class SignUpViewModel @Inject constructor(
         list: List<TermsOfService>
     ) {
         if (!signUpInfo.canSignUp()) {
-            // SignUpInfo 객체가 null 이거나 값들이 정상적으로 저장되어있지 않을때
-            return // todo Return fail
+            _locationSearchUiState.update {
+                SignUpUiState.LocationSearch.Failure(
+                    SignUpNotAllowedException("회원가입이 완료되지 않았습니다.")
+                )
+            }
         }
 
         viewModelScope.launch {
@@ -180,8 +181,13 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    fun updateEmdId(emdId: Int?) {
+    fun updateLocationId(emdId: Int?) {
         signUpInfo = signUpInfo.copy(emdId = emdId)
+
+        _locationSearchUiState.update { currentState ->
+            currentState.selectedLocationId = emdId ?: 0
+            currentState
+        }
     }
 
     fun updateUserType(userType: UserType?) {
@@ -191,29 +197,27 @@ class SignUpViewModel @Inject constructor(
     fun updateKeyword(keyword: String) {
         keywordFlow.value = keyword
         _locationSearchUiState.update { currentState ->
-            currentState.locationSearchType = LocationSearchType.KEYWORD
+            currentState.searchType = SearchType.KEYWORD
             currentState
         }
     }
 
 
-    fun updateLocationInfo(locationInfo: LocationInfo) {
-        currentLocationFlow.value = locationInfo
+    fun updateLocationInfo(coordinatesInfo: CoordinatesInfo) {
+        currentLocationFlow.value = coordinatesInfo
         _locationSearchUiState.update { currentState ->
-            currentState.locationSearchType = LocationSearchType.LOCATION
+            currentState.searchType = SearchType.MY_LOCATION
             currentState
         }
     }
 
     fun updateTermsApprovalStatus(id: Int, isChecked: Boolean) {
         _locationSearchUiState.update { currentState ->
-            if (currentState is SignUpUiState.LocationSearch.Success) {
-                currentState.TOSList.map { item ->
-                    if (item.id == id) {
-                        item.copy(isApproved = isChecked)
-                    } else {
-                        item
-                    }
+            currentState.TOSList.map { item ->
+                if (item.id == id) {
+                    item.copy(isApproved = isChecked)
+                } else {
+                    item
                 }
             }
             currentState
@@ -223,6 +227,6 @@ class SignUpViewModel @Inject constructor(
     fun clearKeyword() {
         keywordFlow.value = ""
     }
-
-
 }
+
+class SignUpNotAllowedException(message: String) : Exception(message)

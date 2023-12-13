@@ -1,6 +1,6 @@
 package com.mommydndn.app.domain.model.location
 
-data class EmdItem(
+data class LocationInfo(
     val id: Int,
     val name: String,
     val sigName: String,
