@@ -60,7 +60,7 @@ internal fun SelectUserTypeRoute(
             // TODO
         }
 
-        is SignUpUiState.UserTypeSelect.LoadSuccess -> {
+        is SignUpUiState.UserTypeSelect.Success -> {
             SelectUserTypeScreen(
                 modifier = Modifier.fillMaxSize(),
                 onBackButtonClick = onBackButtonClick,

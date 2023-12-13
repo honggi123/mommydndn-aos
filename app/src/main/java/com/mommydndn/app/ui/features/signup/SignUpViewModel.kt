@@ -42,8 +42,7 @@ class SignUpViewModel @Inject constructor(
     private val getLocationsUseCase: GetLocationsUseCase
 ) : ViewModel() {
 
-    private val currentLocationFlow = MutableStateFlow(CoordinatesInfo(0.0, 0.0))
-    private val keywordFlow = MutableStateFlow<String>("")
+    private val searchManager = SearchManager()
 
     private lateinit var signUpInfo: SignUpInfo
 
@@ -51,7 +50,7 @@ class SignUpViewModel @Inject constructor(
         MutableStateFlow<SignUpUiState.UserTypeSelect>(SignUpUiState.UserTypeSelect.Loading)
     val userTypeSelectUiState = _userTypeSelectUiState.stateIn(
         viewModelScope,
-        SharingStarted.Eagerly,
+        SharingStarted.WhileSubscribed(5000),
         _userTypeSelectUiState.value
     )
 
@@ -60,11 +59,11 @@ class SignUpViewModel @Inject constructor(
     val locationSearchUiState = _locationSearchUiState
         .stateIn(
             viewModelScope,
-            SharingStarted.Eagerly,
+            SharingStarted.WhileSubscribed(5000),
             _locationSearchUiState.value
         )
 
-    val nearestLocations: Flow<PagingData<LocationInfo>> = currentLocationFlow
+    val nearbyLocations: Flow<PagingData<LocationInfo>> = searchManager.currentLocationFlow
         .flatMapLatest { currentLocation ->
             getNearestLocationsUseCase.invoke(currentLocation)
                 .map { result ->
@@ -75,7 +74,7 @@ class SignUpViewModel @Inject constructor(
                 }
         }
 
-    val searchedLocations: Flow<PagingData<LocationInfo>> = keywordFlow
+    val searchedLocations: Flow<PagingData<LocationInfo>> = searchManager.keywordFlow
         .flatMapLatest { keyword ->
             getLocationsUseCase.invoke(keyword)
                 .map { result ->
@@ -88,19 +87,18 @@ class SignUpViewModel @Inject constructor(
 
     init {
         fetchTermsOfService()
-        observeKeywordFlow()
-    }
 
-    private fun observeKeywordFlow() {
         viewModelScope.launch {
-            keywordFlow.collectLatest { keyword ->
+            searchManager.keywordFlow.collectLatest { keyword ->
                 _locationSearchUiState.update { state ->
-                    state.keyword = keyword
-                    state
+                    state.takeIfSuccess {
+                        this.copy(keyword = keyword)
+                    }
                 }
             }
         }
     }
+
 
     private fun fetchTermsOfService() {
         viewModelScope.launch {
@@ -109,8 +107,9 @@ class SignUpViewModel @Inject constructor(
             _locationSearchUiState.update { state ->
                 when (result) {
                     is Result.Success -> {
-                        state.TOSList = result.data
-                        state
+                        state.takeIfSuccess {
+                            this.copy(TOSList = result.data)
+                        }
                     }
 
                     else -> state
@@ -125,7 +124,7 @@ class SignUpViewModel @Inject constructor(
         if (!signUpInfo.canSignUp()) {
             _locationSearchUiState.update {
                 SignUpUiState.LocationSearch.Failure(
-                    SignUpNotAllowedException("회원가입이 완료되지 않았습니다.")
+                    SignUpNotAllowedException("")
                 )
             }
         }
@@ -181,12 +180,11 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    fun updateLocationId(emdId: Int?) {
-        signUpInfo = signUpInfo.copy(emdId = emdId)
+    fun updateMyLocation(locationInfo: LocationInfo?) {
+        signUpInfo = signUpInfo.copy(emdId = locationInfo?.id)
 
-        _locationSearchUiState.update { currentState ->
-            currentState.selectedLocationId = emdId ?: 0
-            currentState
+        _locationSearchUiState.update { state ->
+            state.takeIfSuccess { this.copy(selectedLocation = locationInfo) }
         }
     }
 
@@ -194,39 +192,33 @@ class SignUpViewModel @Inject constructor(
         signUpInfo = signUpInfo.copy(userType = userType)
     }
 
-    fun updateKeyword(keyword: String) {
-        keywordFlow.value = keyword
-        _locationSearchUiState.update { currentState ->
-            currentState.searchType = SearchType.KEYWORD
-            currentState
-        }
-    }
-
-
-    fun updateLocationInfo(coordinatesInfo: CoordinatesInfo) {
-        currentLocationFlow.value = coordinatesInfo
-        _locationSearchUiState.update { currentState ->
-            currentState.searchType = SearchType.MY_LOCATION
-            currentState
-        }
-    }
-
     fun updateTermsApprovalStatus(id: Int, isChecked: Boolean) {
-        _locationSearchUiState.update { currentState ->
-            currentState.TOSList.map { item ->
-                if (item.id == id) {
-                    item.copy(isApproved = isChecked)
-                } else {
-                    item
+        _locationSearchUiState.update { state ->
+            state.takeIfSuccess {
+                val list = this.TOSList.map { item ->
+                    if (item.id == id) {
+                        item.copy(isApproved = isChecked)
+                    } else {
+                        item
+                    }
                 }
+                this.copy(TOSList = list)
             }
-            currentState
         }
+    }
+
+    fun search(keyword: String) {
+        searchManager.updateKeyword(keyword = keyword)
+    }
+
+    fun searchNearby(coordinatesInfo: CoordinatesInfo) {
+        searchManager.updateMyLocation(coordinatesInfo = coordinatesInfo)
     }
 
     fun clearKeyword() {
-        keywordFlow.value = ""
+        searchManager.clearKeyword()
     }
+
 }
 
 class SignUpNotAllowedException(message: String) : Exception(message)
