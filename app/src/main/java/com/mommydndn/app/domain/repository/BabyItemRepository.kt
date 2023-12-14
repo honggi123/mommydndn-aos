@@ -1,7 +1,6 @@
 package com.mommydndn.app.domain.repository
 
-import com.mommydndn.app.data.api.model.response.GetBabyItemSummaryResponse
-import com.mommydndn.app.data.model.babyitem.BabyItemSummary
+import com.mommydndn.app.domain.model.care.BabyItemsWithMeta
 import kotlinx.coroutines.flow.Flow
 
 interface BabyItemRepository {
@@ -10,6 +9,6 @@ interface BabyItemRepository {
         pageNum: Int,
         pageSize: Int,
         currentTimestamp: Long
-    ): Flow<BabyItemSummary>
+    ): Flow<BabyItemsWithMeta>
 
 }

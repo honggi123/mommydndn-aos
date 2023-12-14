@@ -1,8 +1,8 @@
 package com.mommydndn.app.data.api.model.response
 
-import com.mommydndn.app.data.model.babyitem.BabyItem
-import com.mommydndn.app.data.model.babyitem.BabyItemMeta
-import com.mommydndn.app.data.model.babyitem.BabyItemSummary
+import com.mommydndn.app.domain.model.care.BabyItem
+import com.mommydndn.app.domain.model.care.BabyItemMeta
+import com.mommydndn.app.domain.model.care.BabyItemsWithMeta
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -51,8 +51,8 @@ fun GetBabyItemMetaResponse.toDomain(): BabyItemMeta {
     )
 }
 
-fun GetBabyItemSummaryResponse.toDomain(): BabyItemSummary {
-    return BabyItemSummary(
+fun GetBabyItemSummaryResponse.toDomain(): BabyItemsWithMeta {
+    return BabyItemsWithMeta(
         itemSummaryList = itemSummaryList.map { it.toDomain() },
         meta = meta.toDomain()
     )

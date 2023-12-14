@@ -1,9 +1,6 @@
-package com.mommydndn.app.data.model.babyitem
+package com.mommydndn.app.domain.model.care
 
-import com.mommydndn.app.data.api.model.response.GetBabyItemMetaResponse
-import com.mommydndn.app.data.api.model.response.GetBabyItemResponse
-
-data class BabyItemSummary(
+data class BabyItemsWithMeta(
     val itemSummaryList: List<BabyItem>,
     val meta: BabyItemMeta
 )

@@ -2,8 +2,7 @@ package com.mommydndn.app.data.repository
 
 import com.mommydndn.app.data.api.model.response.toDomain
 import com.mommydndn.app.data.api.service.BabyItemService
-import com.mommydndn.app.data.model.babyitem.BabyItem
-import com.mommydndn.app.data.model.babyitem.BabyItemSummary
+import com.mommydndn.app.domain.model.care.BabyItemsWithMeta
 import com.mommydndn.app.domain.repository.BabyItemRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -19,7 +18,7 @@ class BabyItemDataRepository @Inject constructor(
         pageNum: Int,
         pageSize: Int,
         currentTimeStamp: Long
-    ): Flow<BabyItemSummary> = flow {
+    ): Flow<BabyItemsWithMeta> = flow {
         emit(
             babyItemService.fetchNearestBabyItemSummary(
                 pageSize = pageSize,

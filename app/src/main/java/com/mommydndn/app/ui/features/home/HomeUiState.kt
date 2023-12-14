@@ -1,7 +1,7 @@
 package com.mommydndn.app.ui.features.home
 
-import com.mommydndn.app.data.model.babyitem.BabyItem
-import com.mommydndn.app.data.model.babyitem.BabyItemMeta
+import com.mommydndn.app.domain.model.care.BabyItem
+import com.mommydndn.app.domain.model.care.BabyItemMeta
 import com.mommydndn.app.domain.model.banner.Banner
 import com.mommydndn.app.domain.model.care.JobOffer
 import com.mommydndn.app.domain.model.care.JobSeeker
