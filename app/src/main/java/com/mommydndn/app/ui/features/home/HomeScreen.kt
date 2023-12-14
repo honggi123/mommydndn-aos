@@ -134,7 +134,7 @@ fun MainHomeScreen(
             JobOfferContent(
                 modifier = Modifier.fillMaxWidth(),
                 jobOffers = uiState.jobOffers,
-                navigateToCareScreen = { onMoreJobOfferButtonClick() }
+                onMoreButtonClick = { onMoreJobOfferButtonClick() }
             )
 
             HomeDivider(modifier = Modifier.fillMaxWidth())
@@ -219,7 +219,7 @@ fun JobSeekerContent(
 fun JobOfferContent(
     jobOffers: List<JobOffer> = emptyList(),
     modifier: Modifier = Modifier,
-    navigateToCareScreen: () -> Unit
+    onMoreButtonClick: () -> Unit
 ) {
     if (jobOffers.isEmpty()) {
         return
@@ -233,7 +233,7 @@ fun JobOfferContent(
             size = SubtextBoxSize.L,
             titleText = stringResource(id = R.string.category_job_offers_title),
             rightButtonText = stringResource(id = R.string.see_more),
-            rightButtonOnClick = { navigateToCareScreen() }
+            rightButtonOnClick = { onMoreButtonClick() }
         )
 
         Box(modifier = Modifier.padding(start = 32.dp, top = 28.dp, bottom = 36.dp)) {
@@ -309,7 +309,7 @@ fun BabyItemsContent(
                 //  2 page -> (1 * 추가 되어야하는 아이템 개수) + 추가 되어야하는 아이템 개수 < 아이템의 총 개수
 
                 val shouldShowLoadMoreButton =
-                    babyItemUiState.babyItemsPagingMeta.currentPageNum <= MAX_MORE_BABY_ITEM_PAGES
+                    babyItemUiState.babyItemsPagingMeta.currentPageNum <= MAX_BABY_ITEM_PAGES
                             && ((babyItemUiState.babyItemsPagingMeta.currentPageNum - 1) * MORE_BABY_ITEM_SIZE) + MORE_BABY_ITEM_SIZE < babyItemUiState.babyItemsPagingMeta.totalCount
 
                 if (shouldShowLoadMoreButton) {

@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 import com.mommydndn.app.util.result.successOr
 import com.mommydndn.app.util.result.Result
 
-const val MAX_MORE_BABY_ITEM_PAGES = 4
+const val MAX_BABY_ITEM_PAGES = 4
 const val INITIAL_BABY_ITEM_SIZE = 10
 const val MORE_BABY_ITEM_SIZE = 10
 
