@@ -4,6 +4,5 @@ data class TermsOfService(
     val isRequired: Boolean,
     val name: String,
     val id: Int,
-    val url: String,
-    val isApproved: Boolean = false
+    val url: String
 )

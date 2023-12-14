@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -35,22 +36,28 @@ import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.shadow700
 
 @Composable
-fun TermsCheckListModal(
+fun TosCheckListModal(
     itemList: List<TermsOfService>,
-    onItemSelected: (Int, Boolean) -> Unit,
     onDismiss: () -> Unit,
-    onComplete: () -> Unit,
+    onComplete: (List<TermsOfService>) -> Unit,
     modifier: Modifier = Modifier,
     titleCheckBoxText: String = "",
 ) {
 
     val (isAllChecked, setIsAllChecked) = remember { mutableStateOf(false) }
 
+    var checkedStates by remember { mutableStateOf(List(itemList.size) { false }) }
+
+    if (checkedStates.size != itemList.size) {
+        checkedStates = List(itemList.size) { false }
+    }
+
     val requiredCheckList = itemList.filter { it.isRequired }
 
-    val isNextButtonEnabled by remember(requiredCheckList) {
+    val isNextButtonEnabled by remember(checkedStates) {
         mutableStateOf(requiredCheckList.all { item ->
-            item.isApproved
+            val itemIndex = itemList.indexOf(item)
+            checkedStates.getOrNull(itemIndex) == true
         })
     }
 
@@ -80,10 +87,13 @@ fun TermsCheckListModal(
 
             CheckBoxListItem(
                 checked = isAllChecked,
-                onCheckedChange = { checked ->
+                onCheckedChange = { isChecked ->
                     itemList.onEachIndexed { index, _ ->
-                        setIsAllChecked(checked)
-                        onItemSelected(index, checked)
+                        setIsAllChecked(isChecked)
+
+                        checkedStates = checkedStates.toMutableList().apply {
+                            this[index] = isChecked
+                        }
                     }
                 },
                 text = titleCheckBoxText
@@ -102,9 +112,11 @@ fun TermsCheckListModal(
 
             itemList.onEachIndexed { index, item ->
                 CheckMarkListItem(
-                    checked = itemList[index].isApproved,
+                    checked = checkedStates[index],
                     onCheckedChange = { isChecked ->
-                        onItemSelected(index, isChecked)
+                        checkedStates = checkedStates.toMutableList().apply {
+                            this[index] = isChecked
+                        }
                     }, text = itemList[index].name
                 )
                 if (index < itemList.size - 1) {
@@ -127,13 +139,18 @@ fun TermsCheckListModal(
                     color = ButtonColor.SALMON,
                     colorType = ButtonColorType.FILLED,
                     sizeType = ButtonSizeType.LARGE,
-                    onClick = { onComplete() },
+                    onClick = {
+                        val checkedList = itemList.filterIndexed { index, _ ->
+                            checkedStates.getOrNull(index) == true
+                        }
+
+                        onComplete(checkedList)
+                    },
                     text = "다음으로",
                     enabled = isNextButtonEnabled
                 )
             }
         }
-
     }
 }
 

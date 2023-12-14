@@ -20,7 +20,7 @@ sealed interface SignUpUiState {
         data class Success(
             val selectedLocation: LocationInfo? = null,
             val keyword: String = "",
-            val TOSList: List<TermsOfService> = emptyList()
+            val tosList: List<TermsOfService> = emptyList()
         ) : LocationSearch()
 
         data class Failure(val exception: Exception) : LocationSearch()

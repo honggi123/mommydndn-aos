@@ -7,14 +7,14 @@ import com.mommydndn.app.domain.model.location.CoordinatesInfo
 import com.mommydndn.app.domain.model.user.SignUpInfo
 import com.mommydndn.app.domain.model.user.canSignUp
 import com.mommydndn.app.domain.model.location.LocationInfo
-import com.mommydndn.app.domain.model.location.SearchType
+import com.mommydndn.app.domain.model.tos.TosAgreementStatus
 import com.mommydndn.app.domain.model.tos.TermsOfService
 import com.mommydndn.app.domain.model.user.UserType
 import com.mommydndn.app.domain.usecase.location.GetLocationsUseCase
 import com.mommydndn.app.domain.usecase.location.GetNearestLocationsUseCase
 import com.mommydndn.app.domain.usecase.tos.GetTermsOfServiceUseCase
-import com.mommydndn.app.domain.usecase.tos.UpdateTermsOfServiceParams
-import com.mommydndn.app.domain.usecase.tos.UpdateTermsOfServiceStatusUseCase
+import com.mommydndn.app.domain.usecase.tos.UpdateTosParams
+import com.mommydndn.app.domain.usecase.tos.UpdateTosStatusUseCase
 import com.mommydndn.app.domain.usecase.user.SaveTokenParams
 import com.mommydndn.app.domain.usecase.user.SaveUserTokenUseCase
 import com.mommydndn.app.domain.usecase.user.SignUpParams
@@ -34,7 +34,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val updateTermsOfServiceStatusUseCase: UpdateTermsOfServiceStatusUseCase,
+    private val updateTosStatusUseCase: UpdateTosStatusUseCase,
     private val signUpUseCase: SignUpUseCase,
     private val getTermsOfServiceUseCase: GetTermsOfServiceUseCase,
     private val saveUserTokenUseCase: SaveUserTokenUseCase,
@@ -108,7 +108,7 @@ class SignUpViewModel @Inject constructor(
                 when (result) {
                     is Result.Success -> {
                         state.takeIfSuccess {
-                            this.copy(TOSList = result.data)
+                            this.copy(tosList = result.data)
                         }
                     }
 
@@ -119,7 +119,8 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun signUp(
-        list: List<TermsOfService>
+        approvedTermsList: List<TermsOfService>,
+        allTermsList: List<TermsOfService>
     ) {
         if (!signUpInfo.canSignUp()) {
             _locationSearchUiState.update {
@@ -142,7 +143,7 @@ class SignUpViewModel @Inject constructor(
             ) {
                 is Result.Success -> {
                     saveUserToken(result.data.accessToken, result.data.refreshToken)
-                    updateCheckedTermsOfService(list)
+                    updateCheckedTermsOfService(approvedTermsList, allTermsList)
                     _locationSearchUiState.update { SignUpUiState.LocationSearch.SignUpSuccess }
                 }
 
@@ -168,9 +169,15 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    private fun updateCheckedTermsOfService(list: List<TermsOfService>) {
+    private fun updateCheckedTermsOfService(approvedTermsList: List<TermsOfService>, allTermsList: List<TermsOfService>) {
+
+        val statusList = allTermsList.map { term ->
+            val isApproved = approvedTermsList.any { approvedTerm -> approvedTerm.id == term.id }
+            TosAgreementStatus(term.id, isApproved)
+        }
+
         viewModelScope.launch {
-            updateTermsOfServiceStatusUseCase.invoke(UpdateTermsOfServiceParams(list))
+            updateTosStatusUseCase.invoke(UpdateTosParams(statusList))
         }
     }
 
@@ -190,21 +197,6 @@ class SignUpViewModel @Inject constructor(
 
     fun updateUserType(userType: UserType?) {
         signUpInfo = signUpInfo.copy(userType = userType)
-    }
-
-    fun updateTermsApprovalStatus(id: Int, isChecked: Boolean) {
-        _locationSearchUiState.update { state ->
-            state.takeIfSuccess {
-                val list = this.TOSList.map { item ->
-                    if (item.id == id) {
-                        item.copy(isApproved = isChecked)
-                    } else {
-                        item
-                    }
-                }
-                this.copy(TOSList = list)
-            }
-        }
     }
 
     fun search(keyword: String) {

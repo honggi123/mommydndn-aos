@@ -57,7 +57,7 @@ import com.mommydndn.app.domain.model.tos.TermsOfService
 import com.mommydndn.app.ui.components.box.SearchUnderHeader
 import com.mommydndn.app.ui.components.inputfield.RadioListItem
 import com.mommydndn.app.ui.components.inputfield.Searchbar
-import com.mommydndn.app.ui.features.signup.component.TermsCheckListModal
+import com.mommydndn.app.ui.features.signup.component.TosCheckListModal
 import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.ui.theme.GreyOpacity400
 import com.mommydndn.app.ui.theme.Shapes
@@ -163,14 +163,13 @@ internal fun LocationSearchRoute(
                     viewModel.updateMyLocation(item)
                 },
                 onDialogDismiss = { scope.launch { sheetState.hide() } },
-                onDialogItemSelected = { index, isChecked ->
-                    viewModel.updateTermsApprovalStatus(
-                        id = uiState.TOSList[index].id,
-                        isChecked = isChecked
+                itemList = uiState.tosList,
+                onDialogComplete = {
+                    viewModel.signUp(
+                        approvedTermsList = it,
+                        allTermsList = uiState.tosList
                     )
                 },
-                itemList = uiState.TOSList,
-                onDialogComplete = { viewModel.signUp(uiState.TOSList) },
                 scaffoldState = scaffoldState,
                 sheetState = sheetState,
                 onClearClick = { viewModel.clearKeyword() },
@@ -205,9 +204,8 @@ fun LocationSearchScreen(
     scaffoldState: ScaffoldState,
     sheetState: ModalBottomSheetState,
     itemList: List<TermsOfService>,
-    onDialogItemSelected: (Int, Boolean) -> Unit,
     onDialogDismiss: () -> Unit,
-    onDialogComplete: () -> Unit,
+    onDialogComplete: (List<TermsOfService>) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
@@ -239,7 +237,6 @@ fun LocationSearchScreen(
     BottomSheetModal(
         sheetState = sheetState,
         itemList = itemList,
-        onDialogItemSelected = onDialogItemSelected,
         onDialogDismiss = onDialogDismiss,
         onDialogComplete = onDialogComplete,
     )
@@ -317,9 +314,8 @@ private fun searchNearbyLocationsWithPermission(
 fun BottomSheetModal(
     sheetState: ModalBottomSheetState,
     itemList: List<TermsOfService>,
-    onDialogItemSelected: (Int, Boolean) -> Unit,
     onDialogDismiss: () -> Unit,
-    onDialogComplete: () -> Unit,
+    onDialogComplete: (List<TermsOfService>) -> Unit,
 ) {
     ModalBottomSheetLayout(
         sheetState = sheetState,
@@ -328,11 +324,10 @@ fun BottomSheetModal(
         scrimColor = GreyOpacity400,
         sheetElevation = 0.dp,
         sheetContent = {
-            TermsCheckListModal(
+            TosCheckListModal(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 32.dp),
                 onDismiss = { onDialogDismiss() },
-                onItemSelected = { index, isChecked -> onDialogItemSelected(index, isChecked) },
-                onComplete = { onDialogComplete() },
+                onComplete = { onDialogComplete(it) },
                 itemList = itemList,
                 titleCheckBoxText = stringResource(R.string.total_terms_agreement)
             )

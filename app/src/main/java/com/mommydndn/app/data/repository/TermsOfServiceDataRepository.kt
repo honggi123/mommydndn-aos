@@ -3,6 +3,7 @@ package com.mommydndn.app.data.repository
 import com.mommydndn.app.data.api.model.request.UpdateTermsOfServiceRequest
 import com.mommydndn.app.data.api.model.response.toDomain
 import com.mommydndn.app.data.api.service.TermsOfServiceService
+import com.mommydndn.app.domain.model.tos.TosAgreementStatus
 import com.mommydndn.app.domain.model.tos.TermsOfService
 import com.mommydndn.app.domain.repository.TermsOfServiceRepository
 import javax.inject.Inject
@@ -15,13 +16,13 @@ class TermsOfServiceDataRepository @Inject constructor(
         return service.fetchTermsOfService().map { it.toDomain() }
     }
 
-    override suspend fun updateTermsCheckedStatus(termsItems: List<TermsOfService>) {
-        val approvalRequestList = termsItems.map {
+    override suspend fun updateTosApprovedStatus(tosItems: List<TosAgreementStatus>) {
+        val approvalRequestList = tosItems.map {
             UpdateTermsOfServiceRequest(
                 termsId = it.id,
                 isApproved = it.isApproved
             )
         }
-        service.updateTermsApproval(approvalRequestList)
+        service.updateTosApproval(approvalRequestList)
     }
 }
