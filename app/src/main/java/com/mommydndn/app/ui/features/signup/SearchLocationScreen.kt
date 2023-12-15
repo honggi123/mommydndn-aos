@@ -32,6 +32,7 @@ import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -90,27 +91,39 @@ internal fun LocationSearchRoute(
         LocationServices.getFusedLocationProviderClient(context)
     }
 
-    val launcher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissionsMap ->
-        val areGranted = permissionsMap.values.reduce { acc, next -> acc && next }
-        if (areGranted) {
-            Log.d("TownCheckScreen", "권한이 동의되었습니다.")
-            searchNearByLocations(
-                fusedLocationClient,
-                searchAction = { latitude, longitude ->
-                    viewModel.searchNearby(
-                        coordinatesInfo = CoordinatesInfo(
-                            latitude = latitude,
-                            longitude = longitude
-                        )
-                    )
-                }
-            )
-        } else {
-            Log.d("TownCheckScreen", "권한이 거부되었습니다.")
+    var currentPagingFlow by rememberSaveable { mutableStateOf(viewModel.nearbyLocations) }
+    var searchType by rememberSaveable { mutableStateOf<SearchType>(SearchType.MY_LOCATION) }
+
+    LaunchedEffect(searchType) {
+        currentPagingFlow = when (searchType) {
+            SearchType.KEYWORD -> viewModel.searchedLocations
+            SearchType.MY_LOCATION -> viewModel.nearbyLocations
         }
     }
+
+    val pagingItems = currentPagingFlow.collectAsLazyPagingItems()
+
+    val launcher =
+        rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissionsMap ->
+            val areGranted = permissionsMap.values.reduce { acc, next -> acc && next }
+            if (areGranted) {
+                Log.d("LocationSearchRoute", "권한이 동의되었습니다.")
+                searchNearByLocations(
+                    fusedLocationClient,
+                    searchAction = { latitude, longitude ->
+                        viewModel.searchNearby(
+                            coordinatesInfo = CoordinatesInfo(
+                                latitude = latitude,
+                                longitude = longitude
+                            )
+                        )
+                        searchType = SearchType.MY_LOCATION
+                    }
+                )
+            } else {
+                Log.d("LocationSearchRoute", "권한이 거부되었습니다.")
+            }
+        }
 
     LaunchedEffect(Unit) {
         searchNearbyLocationsWithPermission(
@@ -129,26 +142,11 @@ internal fun LocationSearchRoute(
         }
 
         is SignUpUiState.LocationSearch.Success -> {
-
-            var currentPagingFlow by remember { mutableStateOf(viewModel.nearbyLocations) }
-            var searchType by remember { mutableStateOf<SearchType>(SearchType.MY_LOCATION) }
-
-            LaunchedEffect(searchType) {
-                currentPagingFlow = when (searchType) {
-                    SearchType.KEYWORD -> viewModel.searchedLocations
-                    SearchType.MY_LOCATION -> viewModel.nearbyLocations
-                }
-            }
-
-            val pagingItems = currentPagingFlow.collectAsLazyPagingItems()
-
             LocationSearchScreen(
                 uiState = uiState,
                 modifier = Modifier.fillMaxSize(),
                 pagingItems = pagingItems,
-                navigateToPreviousScreen = {
-                    onBackButtonClick()
-                },
+                onBackButtonClick = { onBackButtonClick() },
                 onSearchClick = {
                     searchNearbyLocationsWithPermission(
                         context,
@@ -172,6 +170,7 @@ internal fun LocationSearchRoute(
                 },
                 scaffoldState = scaffoldState,
                 sheetState = sheetState,
+                onSearchTypeChange = { searchType = it },
                 onClearClick = { viewModel.clearKeyword() },
                 onKeywordChange = {
                     viewModel.search(it)
@@ -196,8 +195,9 @@ internal fun LocationSearchRoute(
 fun LocationSearchScreen(
     uiState: SignUpUiState.LocationSearch.Success,
     onSearchClick: () -> Unit,
-    navigateToPreviousScreen: () -> Unit,
+    onBackButtonClick: () -> Unit,
     onClearClick: () -> Unit,
+    onSearchTypeChange: (SearchType) -> Unit,
     onKeywordChange: (String) -> Unit,
     onItemClick: (LocationInfo) -> Unit,
     pagingItems: LazyPagingItems<LocationInfo>,
@@ -211,9 +211,10 @@ fun LocationSearchScreen(
     Scaffold(
         topBar = {
             LocationSearchTopAppBar(
-                navigateToPreviousScreen = { navigateToPreviousScreen() },
-                onSearchClick = { onSearchClick() },
-                onClearClick = { onClearClick() },
+                onBackButtonClick = onBackButtonClick,
+                onSearchClick = onSearchClick,
+                onClearClick = onClearClick,
+                onSearchTypeChange = onSearchTypeChange,
                 onKeywordChange = { onKeywordChange(it) },
                 modifier = Modifier.fillMaxWidth()
             )
@@ -244,13 +245,14 @@ fun LocationSearchScreen(
 
 @Composable
 fun LocationSearchTopAppBar(
-    navigateToPreviousScreen: () -> Unit,
+    onBackButtonClick: () -> Unit,
     onSearchClick: () -> Unit,
     onClearClick: () -> Unit,
+    onSearchTypeChange: (SearchType) -> Unit,
     onKeywordChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var keyword by remember { mutableStateOf("") }
+    var keyword by rememberSaveable { mutableStateOf("") }
 
     Column(
         modifier = modifier
@@ -261,10 +263,11 @@ fun LocationSearchTopAppBar(
             onValueChange = {
                 onKeywordChange(it)
                 keyword = it
+                onSearchTypeChange(SearchType.KEYWORD)
             },
             clearAction = { onClearClick() },
             placeHolderText = stringResource(R.string.searched_neighborhood),
-            backStackAction = { navigateToPreviousScreen() },
+            backStackAction = { onBackButtonClick() },
         )
         SearchUnderHeader(
             modifier = Modifier.fillMaxWidth(),
@@ -343,7 +346,7 @@ fun BottomSheetModal(
 
 private fun searchNearByLocations(
     fusedLocationClient: FusedLocationProviderClient,
-    searchAction: (Double, Double) -> Unit
+    searchAction: (Double, Double) -> Unit,
 ) {
     try {
         fusedLocationClient.lastLocation.addOnSuccessListener {
@@ -400,7 +403,7 @@ fun HasResultRadioListBox(
     onItemClick: (LocationInfo) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var checkedStates by remember { mutableStateOf(List(pagingItems.itemCount) { false }) }
+    var checkedStates by rememberSaveable { mutableStateOf(List(pagingItems.itemCount) { false }) }
 
     if (checkedStates.size != pagingItems.itemCount) {
         checkedStates = List(pagingItems.itemCount) { false }
@@ -425,8 +428,6 @@ fun HasResultRadioListBox(
                         .clip(Shapes.large),
                     checked = checkedStates[index],
                     onCheckedChange = { isChecked ->
-                        checkedStates = List(pagingItems.itemCount) { false }
-
                         checkedStates = checkedStates.toMutableList().apply {
                             this[index] = isChecked
                         }

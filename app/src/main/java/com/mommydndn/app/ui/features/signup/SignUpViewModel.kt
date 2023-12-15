@@ -46,8 +46,7 @@ class SignUpViewModel @Inject constructor(
 
     private lateinit var signUpInfo: SignUpInfo
 
-    private val _userTypeSelectUiState =
-        MutableStateFlow<SignUpUiState.UserTypeSelect>(SignUpUiState.UserTypeSelect.Loading)
+    private val _userTypeSelectUiState = MutableStateFlow<SignUpUiState.UserTypeSelect>(SignUpUiState.UserTypeSelect.Loading)
     val userTypeSelectUiState = _userTypeSelectUiState.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(5000),
