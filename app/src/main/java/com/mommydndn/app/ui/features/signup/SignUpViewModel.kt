@@ -87,18 +87,7 @@ class SignUpViewModel @Inject constructor(
 
     init {
         fetchTermsOfService()
-
-        viewModelScope.launch {
-            searchManager.keywordFlow.collectLatest { keyword ->
-                _locationSearchUiState.update { state ->
-                    state.takeIfSuccess {
-                        this.copy(keyword = keyword)
-                    }
-                }
-            }
-        }
     }
-
 
     private fun fetchTermsOfService() {
         viewModelScope.launch {
@@ -189,10 +178,6 @@ class SignUpViewModel @Inject constructor(
 
     fun updateMyLocation(locationInfo: LocationInfo?) {
         signUpInfo = signUpInfo.copy(emdId = locationInfo?.id)
-
-        _locationSearchUiState.update { state ->
-            state.takeIfSuccess { this.copy(selectedLocation = locationInfo) }
-        }
     }
 
     fun updateUserType(userType: UserType?) {

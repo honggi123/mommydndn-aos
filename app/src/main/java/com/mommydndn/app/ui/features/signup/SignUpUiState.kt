@@ -8,9 +8,11 @@ import com.mommydndn.app.domain.model.tos.TermsOfService
 sealed interface SignUpUiState {
 
     sealed class UserTypeSelect : SignUpUiState {
+
         object Loading : UserTypeSelect()
         object Success : UserTypeSelect()
         data class Failure(val exception: Exception) : UserTypeSelect()
+
     }
 
     sealed class LocationSearch : SignUpUiState {
@@ -18,8 +20,6 @@ sealed interface SignUpUiState {
         object Loading : LocationSearch()
 
         data class Success(
-            val selectedLocation: LocationInfo? = null,
-            val keyword: String = "",
             val tosList: List<TermsOfService> = emptyList()
         ) : LocationSearch()
 

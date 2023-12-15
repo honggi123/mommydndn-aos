@@ -369,7 +369,6 @@ fun LocationsRadioListBox(
         HasResultRadioListBox(
             pagingItems = pagingItems,
             onItemClick = onItemClick,
-            selectedLocation = uiState.selectedLocation,
             modifier = Modifier
         )
     }
@@ -398,7 +397,6 @@ fun EmptyResultRadioListBox(
 @Composable
 fun HasResultRadioListBox(
     pagingItems: LazyPagingItems<LocationInfo>,
-    selectedLocation: LocationInfo?,
     onItemClick: (LocationInfo) -> Unit,
     modifier: Modifier = Modifier
 ) {
