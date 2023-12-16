@@ -320,6 +320,24 @@ fun BottomSheetModal(
     onDialogDismiss: () -> Unit,
     onDialogComplete: (List<TermsOfService>) -> Unit,
 ) {
+
+    val (isAllChecked, setIsAllChecked) = remember { mutableStateOf(false) }
+
+    var checkedStates by remember { mutableStateOf(List(itemList.size) { false }) }
+
+    if (checkedStates.size != itemList.size) {
+        checkedStates = List(itemList.size) { false }
+    }
+
+    val requiredCheckList = itemList.filter { it.isRequired }
+
+    val isNextButtonEnabled by remember(checkedStates) {
+        mutableStateOf(requiredCheckList.all { item ->
+            val itemIndex = itemList.indexOf(item)
+            checkedStates.getOrNull(itemIndex) == true
+        })
+    }
+
     ModalBottomSheetLayout(
         sheetState = sheetState,
         sheetContentColor = Color.Transparent,
@@ -328,11 +346,11 @@ fun BottomSheetModal(
         sheetElevation = 0.dp,
         sheetContent = {
             TosCheckListModal(
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 32.dp),
                 onDismiss = { onDialogDismiss() },
                 onComplete = { onDialogComplete(it) },
                 itemList = itemList,
-                titleCheckBoxText = stringResource(R.string.total_terms_agreement)
+                checkBoxTitle = stringResource(R.string.total_terms_agreement),
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 32.dp)
             )
         }
     ) {

@@ -22,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.data.model.common.ButtonColor
 import com.mommydndn.app.data.model.common.ButtonColorType
@@ -34,14 +35,15 @@ import com.mommydndn.app.ui.theme.Grey200
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.shadow700
+import com.mommydndn.app.R
 
 @Composable
 fun TosCheckListModal(
+    checkBoxTitle: String,
     itemList: List<TermsOfService>,
     onDismiss: () -> Unit,
     onComplete: (List<TermsOfService>) -> Unit,
-    modifier: Modifier = Modifier,
-    titleCheckBoxText: String = "",
+    modifier: Modifier = Modifier
 ) {
 
     val (isAllChecked, setIsAllChecked) = remember { mutableStateOf(false) }
@@ -96,7 +98,7 @@ fun TosCheckListModal(
                         }
                     }
                 },
-                text = titleCheckBoxText
+                text = checkBoxTitle
             )
 
             Spacer(modifier = Modifier.size(12.dp))
@@ -132,7 +134,7 @@ fun TosCheckListModal(
                     colorType = ButtonColorType.WEAK,
                     sizeType = ButtonSizeType.LARGE,
                     onClick = { onDismiss() },
-                    text = "닫기"
+                    text = stringResource(id = R.string.close)
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 MommyDndnButton(
@@ -146,7 +148,7 @@ fun TosCheckListModal(
 
                         onComplete(checkedList)
                     },
-                    text = "다음으로",
+                    text = stringResource(id = R.string.move_on),
                     enabled = isNextButtonEnabled
                 )
             }

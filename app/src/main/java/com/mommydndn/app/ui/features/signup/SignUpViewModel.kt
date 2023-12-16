@@ -46,7 +46,8 @@ class SignUpViewModel @Inject constructor(
 
     private lateinit var signUpInfo: SignUpInfo
 
-    private val _userTypeSelectUiState = MutableStateFlow<SignUpUiState.UserTypeSelect>(SignUpUiState.UserTypeSelect.Loading)
+    private val _userTypeSelectUiState =
+        MutableStateFlow<SignUpUiState.UserTypeSelect>(SignUpUiState.UserTypeSelect.Loading)
     val userTypeSelectUiState = _userTypeSelectUiState.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(5000),
@@ -95,9 +96,7 @@ class SignUpViewModel @Inject constructor(
             _locationSearchUiState.update { state ->
                 when (result) {
                     is Result.Success -> {
-                        state.takeIfSuccess {
-                            this.copy(tosList = result.data)
-                        }
+                        SignUpUiState.LocationSearch.Success(tosList = result.data)
                     }
 
                     else -> state
@@ -157,7 +156,10 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    private fun updateCheckedTermsOfService(approvedTermsList: List<TermsOfService>, allTermsList: List<TermsOfService>) {
+    private fun updateCheckedTermsOfService(
+        approvedTermsList: List<TermsOfService>,
+        allTermsList: List<TermsOfService>
+    ) {
 
         val statusList = allTermsList.map { term ->
             val isApproved = approvedTermsList.any { approvedTerm -> approvedTerm.id == term.id }

@@ -29,16 +29,3 @@ sealed interface SignUpUiState {
 
     }
 }
-
-inline fun SignUpUiState.LocationSearch.takeIfSuccess(
-    transform: SignUpUiState.LocationSearch.Success.() -> SignUpUiState.LocationSearch.Success
-): SignUpUiState.LocationSearch {
-    return when (this) {
-        is SignUpUiState.LocationSearch.Success -> {
-            val updatedState = transform()
-            if (updatedState != this) updatedState else this
-        }
-
-        else -> this
-    }
-}
