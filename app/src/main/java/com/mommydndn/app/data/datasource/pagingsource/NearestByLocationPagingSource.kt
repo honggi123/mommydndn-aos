@@ -19,7 +19,7 @@ class NearestByLocationPagingSource @Inject constructor(
         return try {
             val position = params.key ?: STARTING_PAGE_INDEX
             val result =
-                locationService.fetchNearestByLocation(
+                locationService.fetchNearestByMyLocation(
                     latitude = coordinatesInfo.latitude,
                     longitude = coordinatesInfo.longitude,
                     skip = (position - 1) * params.loadSize,

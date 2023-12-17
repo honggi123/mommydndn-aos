@@ -64,26 +64,10 @@ class SignUpViewModel @Inject constructor(
         )
 
     val nearbyLocations: Flow<PagingData<LocationInfo>> = searchManager.currentLocationFlow
-        .flatMapLatest { currentLocation ->
-            getNearestLocationsUseCase.invoke(currentLocation)
-                .map { result ->
-                    when (result) {
-                        is Result.Success -> result.data
-                        else -> PagingData.empty()
-                    }
-                }
-        }
+        .flatMapLatest { currentLocation -> getNearestLocationsUseCase.invoke(currentLocation) }
 
     val searchedLocations: Flow<PagingData<LocationInfo>> = searchManager.keywordFlow
-        .flatMapLatest { keyword ->
-            getLocationsUseCase.invoke(keyword)
-                .map { result ->
-                    when (result) {
-                        is Result.Success -> result.data
-                        else -> PagingData.empty()
-                    }
-                }
-        }
+        .flatMapLatest { keyword -> getLocationsUseCase.invoke(keyword) }
 
     init {
         fetchTermsOfService()
