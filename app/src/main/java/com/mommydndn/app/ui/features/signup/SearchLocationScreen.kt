@@ -66,6 +66,7 @@ import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.util.PermissionUtils
 import kotlinx.coroutines.launch
+import java.security.Permission
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -103,13 +104,12 @@ internal fun LocationSearchRoute(
 
     val pagingItems = currentPagingFlow.collectAsLazyPagingItems()
 
-    val launcher =
-        rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissionsMap ->
+    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissionsMap ->
             val areGranted = permissionsMap.values.reduce { acc, next -> acc && next }
             if (areGranted) {
                 Log.d("LocationSearchRoute", "권한이 동의되었습니다.")
                 searchNearByLocations(
-                    fusedLocationClient,
+                    fusedLocationClient = fusedLocationClient,
                     searchAction = { latitude, longitude ->
                         viewModel.searchNearby(
                             coordinatesInfo = CoordinatesInfo(
@@ -126,11 +126,20 @@ internal fun LocationSearchRoute(
         }
 
     LaunchedEffect(Unit) {
-        searchNearbyLocationsWithPermission(
+        requestPermissions(
             context = context,
             launcher = launcher,
-            fusedLocationClient = fusedLocationClient,
-            viewModel = viewModel
+            permissions = viewModel.permissions,
+            onResult = {
+                searchNearByLocations(
+                    fusedLocationClient = fusedLocationClient,
+                    searchAction = { latitude, longitude ->
+                        viewModel.searchNearby(
+                            coordinatesInfo = CoordinatesInfo(latitude = latitude, longitude = longitude)
+                        )
+                    }
+                )
+            }
         )
     }
 
@@ -148,11 +157,20 @@ internal fun LocationSearchRoute(
                 pagingItems = pagingItems,
                 onBackButtonClick = { onBackButtonClick() },
                 onSearchClick = {
-                    searchNearbyLocationsWithPermission(
-                        context,
-                        launcher,
-                        fusedLocationClient,
-                        viewModel
+                    requestPermissions(
+                        context = context,
+                        launcher = launcher,
+                        permissions = viewModel.permissions,
+                        onResult = {
+                            searchNearByLocations(
+                                fusedLocationClient = fusedLocationClient,
+                                searchAction = { latitude, longitude ->
+                                    viewModel.searchNearby(
+                                        coordinatesInfo = CoordinatesInfo(latitude = latitude, longitude = longitude)
+                                    )
+                                }
+                            )
+                        }
                     )
                     searchType = SearchType.MY_LOCATION
                 },
@@ -281,34 +299,17 @@ fun LocationSearchTopAppBar(
     }
 }
 
-private fun searchNearbyLocationsWithPermission(
+private fun requestPermissions(
+    permissions: Array<String>,
     context: Context,
     launcher: ManagedActivityResultLauncher<Array<String>, Map<String, Boolean>>,
-    fusedLocationClient: FusedLocationProviderClient,
-    viewModel: SignUpViewModel
+    onResult: () -> Unit,
 ) {
-    val permissions = arrayOf(
-        Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.ACCESS_FINE_LOCATION
-    )
-
     PermissionUtils.checkAndRequestPermissions(
         context,
         permissions,
         launcher,
-        onPermissionGranted = {
-            searchNearByLocations(
-                fusedLocationClient,
-                searchAction = { latitude, longitude ->
-                    viewModel.searchNearby(
-                        coordinatesInfo = CoordinatesInfo(
-                            latitude = latitude,
-                            longitude = longitude
-                        )
-                    )
-                }
-            )
-        }
+        onPermissionGranted = { onResult() }
     )
 }
 

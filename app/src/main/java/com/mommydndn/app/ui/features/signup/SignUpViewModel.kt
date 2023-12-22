@@ -1,5 +1,6 @@
 package com.mommydndn.app.ui.features.signup
 
+import android.Manifest
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -41,6 +42,11 @@ class SignUpViewModel @Inject constructor(
     private val getNearestLocationsUseCase: GetNearestLocationsUseCase,
     private val getLocationsUseCase: GetLocationsUseCase
 ) : ViewModel() {
+
+    val permissions = arrayOf(
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+        Manifest.permission.ACCESS_FINE_LOCATION
+    )
 
     private val searchManager = SearchManager()
 
