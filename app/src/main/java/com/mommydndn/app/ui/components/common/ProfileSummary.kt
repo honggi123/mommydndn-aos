@@ -29,9 +29,7 @@ import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.Salmon600
-import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption100
-import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.ui.theme.paragraph400
 
@@ -126,7 +124,7 @@ fun ProfileBar(
                     )
                     if (isAuthenticated) {
                         Image(
-                            painter = painterResource(id = R.drawable.ic_certificate),
+                            painter = painterResource(id = R.drawable.icon_certificate),
                             contentDescription = "Icon/certificate",
                             modifier = Modifier
                                 .size(size = 16.dp)

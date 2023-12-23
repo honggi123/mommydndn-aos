@@ -9,14 +9,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -24,7 +22,6 @@ import com.mommydndn.app.R
 import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey800
-import com.mommydndn.app.ui.theme.GreyOpacity200
 import com.mommydndn.app.ui.theme.paragraph300
 
 @Composable
@@ -59,7 +56,7 @@ fun DateBox(
             )
         )
         Image(
-            painter = painterResource(id = R.drawable.ic_x_circe_light_grey),
+            painter = painterResource(id = R.drawable.icon_circle_x_light_grey),
             contentDescription = "Icon/ic_x_circle",
             modifier = Modifier
                 .size(size = 21.dp)

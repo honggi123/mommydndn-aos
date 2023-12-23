@@ -19,3 +19,11 @@ data class CareFilters(
     val workHoursFilter: WorkHoursFilter = WorkHoursFilter(),
     val workPeriodFilter: WorkPeriodFilter = WorkPeriodFilter(),
 )
+
+fun CareFilters.toMap(): Map<Class<out CareFilter<*>>, CareFilter<*>> = buildMap {
+    put(neighborhoodsFilter.javaClass, neighborhoodsFilter)
+    put(careTypesFilter.javaClass, careTypesFilter)
+    put(daysOfWeekFilter.javaClass, daysOfWeekFilter)
+    put(workHoursFilter.javaClass, workHoursFilter)
+    put(workPeriodFilter.javaClass, workPeriodFilter)
+}

@@ -3,24 +3,19 @@ package com.mommydndn.app.ui.features.care
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mommydndn.app.domain.model.care.CareJobOpening
-import com.mommydndn.app.domain.model.care.NearbyNeighborhoodDistance
 import com.mommydndn.app.domain.model.user.NearbyNeighborhoods
 import com.mommydndn.app.domain.model.user.Neighborhood
+import com.mommydndn.app.domain.model.user.NeighborhoodDistance
 import com.mommydndn.app.domain.usecase.care.GetNearbyCareJobOpeningsParams
 import com.mommydndn.app.domain.usecase.care.GetNearbyCareJobOpeningsUseCase
 import com.mommydndn.app.domain.usecase.invoke
-import com.mommydndn.app.domain.usecase.user.GetNearbyNeighborhoodDistanceUseCase
+import com.mommydndn.app.domain.usecase.user.GetNeighborhoodDistanceUseCase
+import com.mommydndn.app.domain.usecase.user.GetNearbyNeighborhoodsParams
 import com.mommydndn.app.domain.usecase.user.GetNearbyNeighborhoodsUseCase
 import com.mommydndn.app.domain.usecase.user.GetNeighborhoodUseCase
 import com.mommydndn.app.ui.features.care.filters.CareFilter
-import com.mommydndn.app.ui.features.care.filters.CareFilters
 import com.mommydndn.app.ui.features.care.filters.CareOrderBy
-import com.mommydndn.app.ui.features.care.filters.CareTypesFilter
-import com.mommydndn.app.ui.features.care.filters.DaysOfWeekFilter
 import com.mommydndn.app.ui.features.care.filters.NeighborhoodsFilter
-import com.mommydndn.app.ui.features.care.filters.PayFilter
-import com.mommydndn.app.ui.features.care.filters.WorkHoursFilter
-import com.mommydndn.app.ui.features.care.filters.WorkPeriodFilter
 import com.mommydndn.app.util.result.data
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -38,7 +33,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CareViewModel @Inject constructor(
     getNeighborhoodUseCase: GetNeighborhoodUseCase,
-    getNearbyNeighborhoodDistanceUseCase: GetNearbyNeighborhoodDistanceUseCase,
+    getNeighborhoodDistanceUseCase: GetNeighborhoodDistanceUseCase,
     getNearbyNeighborhoodsUseCase: GetNearbyNeighborhoodsUseCase,
     private val getNearbyCareJobOpeningsUseCase: GetNearbyCareJobOpeningsUseCase,
 ) : ViewModel() {
@@ -63,29 +58,32 @@ class CareViewModel @Inject constructor(
         .filterNotNull()
         .stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
-    private val nearbyNeighborhoodDistance: StateFlow<NearbyNeighborhoodDistance> =
-        getNearbyNeighborhoodDistanceUseCase()
+    private val neighborhoodDistance: StateFlow<NeighborhoodDistance> =
+        getNeighborhoodDistanceUseCase()
             .map { result -> result.data }
             .filterNotNull()
-            .stateIn(
-                viewModelScope,
-                SharingStarted.Eagerly,
-                NearbyNeighborhoodDistance.VERY_DISTANT
-            )
+            .stateIn(viewModelScope, SharingStarted.Eagerly, NeighborhoodDistance.VERY_DISTANT)
 
-    private val nearbyNeighborhoods: StateFlow<NearbyNeighborhoods> = get
+    private val nearbyNeighborhoods = neighborhood.filterNotNull()
+        .map { neighborhood ->
+            with(neighborhood) {
+                getNearbyNeighborhoodsUseCase(
+                    GetNearbyNeighborhoodsParams(latitude, longitude)
+                )
+            }
+        }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, NearbyNeighborhoods())
 
-    private val _filters = MutableStateFlow(CareFilters())
+    private val _filters =
+        MutableStateFlow<Map<Class<out CareFilter<*>>, CareFilter<*>>>(emptyMap())
 
-    private val filters: StateFlow<List<CareFilter>> = neighborhood.filterNotNull()
-        .combine(nearbyNeighborhoodDistance) { neighborhood, nearbyNeighborhoodDistance ->
-            NeighborhoodsFilter(neighborhood, nearbyNeighborhoodDistance)
-        }.combine(_filters) { neighborhoodsFilter, filters ->
-            filters.toMutableMap()
+    private val filters = neighborhood.filterNotNull()
+        .map { neighborhood -> NeighborhoodsFilter(neighborhood) }
+        .combine(_filters) { neighborhoodsFilter, filters ->
+            filters
+                .toMutableMap()
                 .apply { put(neighborhoodsFilter.javaClass, neighborhoodsFilter) }
-                .values
-                .toList()
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyMap())
 
     private val jobOpenings: StateFlow<List<CareJobOpening>> = neighborhood.filterNotNull()
         .flatMapLatest { neighborhood ->
@@ -100,11 +98,13 @@ class CareViewModel @Inject constructor(
         .filterNot { it.isEmpty() }
         .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
+    /*
     private val filteredJobOpenings = jobOpenings.combine(filters) { jobOpenings, filters ->
         jobOpenings.filter {
 
         }
     }
+     */
 
     val uiState: StateFlow<CareUiState> =
         combine(
@@ -116,15 +116,14 @@ class CareViewModel @Inject constructor(
             CareUiState.Success(
                 neighborhood = neighborhood,
                 order = order,
-                filters = filters,
-                jobOpeningListItems = jobOpenings
+                filters = filters.values.toList(),
+                jobOpeningListItems = emptyList() // todo
             )
         }.stateIn(viewModelScope, SharingStarted.Eagerly, CareUiState.Loading)
 
 
-    fun setFilter(filter: CareFilter) {
+    fun setFilter(filter: CareFilter<*>) {
         _filters.value = filters.value
-            .associateBy { it::class.java }
             .toMutableMap()
             .apply { put(filter.javaClass, filter) }
     }

@@ -25,15 +25,15 @@ data class Meta(
     val requestedAt: Long,
 )
 
-data class GetCareJobOfferListResponse(
+data class GetCareJobOpeningListResponse(
     @SerialName("jobOfferSummaryList")
-    val items: List<GetCareJobOfferListItem>,
+    val items: List<GetCareJobOpeningListItem>,
     @SerialName("meta")
     val meta: Meta,
 )
 
 @Serializable
-data class GetCareJobOfferListItem(
+data class GetCareJobOpeningListItem(
     @SerialName("jobOfferId")
     val id: Int,
     @SerialName("neighborhood")

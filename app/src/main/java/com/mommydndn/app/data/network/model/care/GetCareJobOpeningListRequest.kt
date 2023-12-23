@@ -9,7 +9,7 @@ import java.time.DayOfWeek
 
 // todo: order + filter?
 @Serializable
-data class GetCareJobOfferListRequest(
+data class GetCareJobOpeningListRequest(
     @SerialName("paginationRequest")
     val pageMeta: PageMeta,
     @SerialName("keyword")
@@ -17,7 +17,7 @@ data class GetCareJobOfferListRequest(
     @SerialName("emdId") // ?
     val neighborhoodId: Int,
     @SerialName("neighborhoodScope")
-    val neighborhoodScope: Int,
+    val nearbyNeighborhoodDistance: Int,
     @SerialName("caringTypeCodeList")
     val careTypes: List<@Serializable(with = CareTypeSerializer::class) CareType>,
     @SerialName("days")

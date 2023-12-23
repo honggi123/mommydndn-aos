@@ -1,8 +1,8 @@
 package com.mommydndn.app.domain.repository
 
-import com.mommydndn.app.domain.model.care.NearbyNeighborhoodDistance
 import com.mommydndn.app.domain.model.user.NearbyNeighborhoods
 import com.mommydndn.app.domain.model.user.Neighborhood
+import com.mommydndn.app.domain.model.user.NeighborhoodDistance
 import com.mommydndn.app.domain.model.user.OAuthProvider
 import com.mommydndn.app.domain.model.user.OAuthToken
 import kotlinx.coroutines.flow.Flow
@@ -17,7 +17,7 @@ interface UserRepository {
     // todo: parameters
     fun getNeighborhood(): Flow<Neighborhood>
 
-    fun getNearbyNeighborhoodDistance(): Flow<NearbyNeighborhoodDistance>
+    fun getNearbyNeighborhoodDistance(): Flow<NeighborhoodDistance>
 
-    fun getNearbyNeighborhoods(): Flow<NearbyNeighborhoods>
+    fun getNearbyNeighborhoods(latitude: Double, longitude: Double): Flow<NearbyNeighborhoods>
 }

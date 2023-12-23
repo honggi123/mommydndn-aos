@@ -1,8 +1,9 @@
 package com.mommydndn.app.data.repository
 
 import com.mommydndn.app.data.network.service.UserService
-import com.mommydndn.app.domain.model.care.NearbyNeighborhoodDistance
+import com.mommydndn.app.domain.model.user.NearbyNeighborhoods
 import com.mommydndn.app.domain.model.user.Neighborhood
+import com.mommydndn.app.domain.model.user.NeighborhoodDistance
 import com.mommydndn.app.domain.model.user.OAuthProvider
 import com.mommydndn.app.domain.model.user.OAuthToken
 import com.mommydndn.app.domain.repository.UserRepository
@@ -28,7 +29,14 @@ class UserDataRepository @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun getNearbyNeighborhoodDistance(): Flow<NearbyNeighborhoodDistance> {
+    override fun getNearbyNeighborhoodDistance(): Flow<NeighborhoodDistance> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getNearbyNeighborhoods(
+        latitude: Double,
+        longitude: Double
+    ): Flow<NearbyNeighborhoods> {
         TODO("Not yet implemented")
     }
 }

@@ -43,6 +43,7 @@ import com.mommydndn.app.ui.components.box.InfoBox
 import com.mommydndn.app.ui.components.box.MapContainerBox
 import com.mommydndn.app.ui.components.box.ReviewBox
 import com.mommydndn.app.ui.components.box.SubtextBox
+import com.mommydndn.app.ui.components.box.SubtextBoxSize
 import com.mommydndn.app.ui.components.box.TitleSectionBox
 import com.mommydndn.app.ui.components.button.MommyDndnButton
 import com.mommydndn.app.ui.components.common.Header
@@ -77,7 +78,7 @@ fun JobOfferPreviewScreen(
 
         Header(leftContent = {
             Image(
-                painter = painterResource(id = R.drawable.arrow_left),
+                painter = painterResource(id = R.drawable.icon_arrow_left),
                 contentDescription = "",
                 modifier = Modifier
                     .size(size = 36.dp)
@@ -155,7 +156,9 @@ fun JobOfferPreviewScreen(
                     .padding(20.dp)
             )
             SubtextBox(
-                title = "찾아오시는 길"
+                size = SubtextBoxSize.M,
+                title = "찾아오시는 길",
+                subtitle = "",
             )
             Box(
                 modifier = Modifier.padding(
@@ -186,9 +189,13 @@ fun JobOfferPreviewScreen(
                     .background(color = Grey50)
                     .padding(40.dp)
             )
+
             SubtextBox(
-                title = "워킹맘님은 이런 분이에요"
+                size = SubtextBoxSize.M,
+                title = "워킹맘님은 이런 분이에요",
+                subtitle = "",
             )
+
             Box(
                 modifier = Modifier
                     .padding(

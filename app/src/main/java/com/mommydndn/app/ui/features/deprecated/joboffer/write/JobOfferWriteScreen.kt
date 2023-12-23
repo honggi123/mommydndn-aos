@@ -257,8 +257,8 @@ fun JobOfferWriteScreen(
                     .padding(horizontal = 24.dp, vertical = 6.dp),
                 title = title,
                 content = content,
-                onTitleTextChanged = { viewModel.setTitle(it) },
-                onContentTextChanged = { viewModel.setContent(it) }
+                onTitleChange = { viewModel.setTitle(it) },
+                onContentChange = { viewModel.setContent(it) }
             )
 
             Divider(
@@ -398,7 +398,7 @@ fun JobOfferWriteScreen(
                         rangeType = MinMaxRange.MAX,
                         text = "날짜 추가",
                         onClick = { datePicker.show() },
-                        iconResourceId = R.drawable.ic_plus
+                        iconResourceId = R.drawable.icon_plus
                     )
 
                     Spacer(modifier = Modifier.height(6.dp))

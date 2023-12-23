@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
-import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -55,7 +54,7 @@ fun MediumProfileInfoStack(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.ic_certificate),
+                            painter = painterResource(id = R.drawable.icon_certificate),
                             contentDescription = "Icon/certificate",
                             modifier = Modifier
                                 .requiredSize(size = 16.dp)

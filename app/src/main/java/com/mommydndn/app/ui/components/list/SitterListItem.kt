@@ -91,7 +91,7 @@ fun SitterListItem(
                     )
                     if (isDndnAuthenticated) {
                         Image(
-                            painter = painterResource(id = R.drawable.ic_certificate),
+                            painter = painterResource(id = R.drawable.icon_certificate),
                             contentDescription = "Icon/certificate",
                             modifier = Modifier
                                 .align(alignment = Alignment.BottomEnd)

@@ -13,7 +13,7 @@ sealed interface CareUiState {
     data class Success(
         val neighborhood: Neighborhood,
         val order: CareOrderBy,
-        val filters: List<CareFilter>,
+        val filters: List<CareFilter<*>>,
         val jobOpeningListItems: List<CareJobOpeningListItem>,
         // todo: care_provider_list, agency_list
     ) : CareUiState

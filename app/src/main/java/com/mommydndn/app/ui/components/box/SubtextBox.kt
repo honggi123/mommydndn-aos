@@ -2,7 +2,9 @@ package com.mommydndn.app.ui.components.box
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mommydndn.app.ui.theme.Grey200
 import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.ui.theme.Grey800
 import com.mommydndn.app.ui.theme.White
@@ -23,16 +26,17 @@ import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.heading600
 import com.mommydndn.app.ui.theme.paragraph300
 
+// todo
 enum class SubtextBoxSize { L, M, S }
 
-// todo: rename?
+// todo: rename
 @Composable
 fun SubtextBox(
     size: SubtextBoxSize,
     title: String,
     subtitle: String,
     modifier: Modifier = Modifier,
-    trailingButtonLabel: String? = null,
+    trailingLabel: String? = null,
     onClick: (() -> Unit)? = null,
 ) {
     val buttonTextStyle = when (size) {
@@ -83,9 +87,9 @@ fun SubtextBox(
 
             Spacer(modifier = Modifier.weight(1F))
 
-            if (trailingButtonLabel != null) {
+            if (trailingLabel != null) {
                 Text(
-                    text = trailingButtonLabel,
+                    text = trailingLabel,
                     modifier = Modifier.run {
                         if (onClick != null) {
                             clickable(onClick = onClick)
@@ -103,23 +107,68 @@ fun SubtextBox(
 @Preview
 @Composable
 private fun PreviewSubtextBox() {
-    SubtextBox(
-        size = SubtextBoxSize.L,
-        title = "title",
-        subtitle = "sub샤싣",
-        trailingButtonLabel = "right",
-        onClick = {},
-        modifier = Modifier.background(White),
-    )
+    Column(
+        modifier = Modifier.background(Grey200),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        SubtextBox(
+            size = SubtextBoxSize.L,
+            title = "title",
+            subtitle = "subtitle",
+            trailingLabel = "right",
+            onClick = {},
+            modifier = Modifier.background(White),
+        )
+
+        SubtextBox(
+            size = SubtextBoxSize.M,
+            title = "title",
+            subtitle = "subtitle",
+            trailingLabel = "right",
+            onClick = {},
+            modifier = Modifier.background(White),
+        )
+
+        SubtextBox(
+            size = SubtextBoxSize.S,
+            title = "title",
+            subtitle = "subtitle",
+            trailingLabel = "right",
+            onClick = {},
+            modifier = Modifier.background(White),
+        )
+    }
 }
 
 @Preview
 @Composable
 private fun PreviewNoTrailingButtonSubtextBox() {
-    SubtextBox(
-        size = SubtextBoxSize.L,
-        title = "title",
-        subtitle = "sub",
-        modifier = Modifier.background(White),
-    )
+    Column(
+        modifier = Modifier.background(Grey200),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        SubtextBox(
+            size = SubtextBoxSize.L,
+            title = "title",
+            subtitle = "subtitle",
+            onClick = {},
+            modifier = Modifier.background(White),
+        )
+
+        SubtextBox(
+            size = SubtextBoxSize.M,
+            title = "title",
+            subtitle = "subtitle",
+            onClick = {},
+            modifier = Modifier.background(White),
+        )
+
+        SubtextBox(
+            size = SubtextBoxSize.S,
+            title = "title",
+            subtitle = "subtitle",
+            onClick = {},
+            modifier = Modifier.background(White),
+        )
+    }
 }

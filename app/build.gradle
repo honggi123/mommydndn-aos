@@ -141,8 +141,9 @@ dependencies {
 
     implementation "com.google.android.gms:play-services-location:18.0.0"
 
-    implementation("androidx.paging:paging-runtime:3.1.1")
-    implementation("androidx.paging:paging-compose:1.0.0-alpha18")
+    implementation("androidx.paging:paging-runtime-ktx:3.2.1")
+    implementation("androidx.paging:paging-compose:3.2.1")
+    implementation("androidx.paging:paging-common-ktx:3.2.1")
 
     implementation "io.coil-kt:coil-compose:1.4.0"
     implementation "com.google.accompanist:accompanist-pager:0.20.1"

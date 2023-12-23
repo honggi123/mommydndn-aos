@@ -78,7 +78,7 @@ fun EnterpriseListItem(
             ) {
                 Row {
                     Image(
-                        painter = painterResource(id = R.drawable.ic_certificate),
+                        painter = painterResource(id = R.drawable.icon_certificate),
                         contentDescription = "Icon/certificate",
                         modifier = Modifier.size(24.dp),
                         contentScale = ContentScale.Crop

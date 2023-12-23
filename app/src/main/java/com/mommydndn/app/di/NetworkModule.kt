@@ -6,6 +6,7 @@ import com.mommydndn.app.BuildConfig
 import com.mommydndn.app.data.network.interceptor.AuthenticationInterceptor
 import com.mommydndn.app.data.network.service.AuthenticationService
 import com.mommydndn.app.data.network.service.BabyItemService
+import com.mommydndn.app.data.network.service.CareService
 import com.mommydndn.app.data.network.service.CaringService
 import com.mommydndn.app.data.network.service.CommonService
 import com.mommydndn.app.data.network.service.GoogleApiService
@@ -111,6 +112,12 @@ class NetworkModule {
     @Provides
     fun provideCaringService(retrofit: Retrofit): CaringService {
         return retrofit.create(CaringService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCareService(retrofit: Retrofit): CareService {
+        return retrofit.create(CareService::class.java)
     }
 
     @Singleton

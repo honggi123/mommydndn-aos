@@ -33,7 +33,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -42,6 +41,7 @@ import com.mommydndn.app.domain.model.care.CareType
 import com.mommydndn.app.domain.model.care.WorkPeriod
 import com.mommydndn.app.domain.model.user.Neighborhood
 import com.mommydndn.app.ui.components.chip.ChipWithBottomArrow
+import com.mommydndn.app.ui.components.common.TopAppBarHeight
 import com.mommydndn.app.ui.components.modal.layout.BaseModalBottomSheetLayout
 import com.mommydndn.app.ui.components.tab.MediumTab
 import com.mommydndn.app.ui.features.care.filters.CareFilter
@@ -49,11 +49,9 @@ import com.mommydndn.app.ui.features.care.filters.CareOrderBy
 import com.mommydndn.app.ui.features.care.filters.CareTypesFilter
 import com.mommydndn.app.ui.features.care.filters.DaysOfWeekFilter
 import com.mommydndn.app.ui.features.care.filters.NeighborhoodsFilter
-import com.mommydndn.app.ui.features.care.filters.PayFilter
 import com.mommydndn.app.ui.features.care.filters.WorkHoursFilter
 import com.mommydndn.app.ui.features.care.filters.WorkPeriodFilter
 import com.mommydndn.app.ui.features.care.filters.displayName
-import com.mommydndn.app.ui.features.care.filters.hasValue
 import com.mommydndn.app.ui.features.care.jobopening.list.CareJobOpeningListFragment
 import com.mommydndn.app.ui.features.care.jobopening.list.model.CareJobOpeningListItem
 import com.mommydndn.app.ui.features.care.jobopening.list.model.mockCareJobOpeningListItems
@@ -75,7 +73,7 @@ internal fun CareRoute(
 
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
-    val selectedFilter = remember { mutableStateOf<CareFilter?>(null) }
+    val selectedFilter = remember { mutableStateOf<CareFilter<*>?>(null) }
 
     val coroutineScope = rememberCoroutineScope()
 
@@ -85,22 +83,21 @@ internal fun CareRoute(
         skipHalfExpanded = true,
     )
 
-    when (@Suppress("NAME_SHADOWING") val uiState = uiState.value) {
+    when (val kUiState = uiState.value) {
         CareUiState.Loading -> {
 
         }
-
         is CareUiState.Success -> CareScreen(
-            neighborhood = uiState.neighborhood,
+            neighborhood = kUiState.neighborhood,
             onNeighborhoodClick = onNeighborhoodClick,
             onSearchClick = onSearchClick,
             selectedTabIndex = selectedTabIndex.intValue,
             onTabSelected = {
                 selectedTabIndex.intValue = it
             },
-            orderBy = uiState.order,
+            orderBy = kUiState.order,
             onOrderClick = {},
-            filters = uiState.filters,
+            filters = kUiState.filters,
             onFilterClick = {
                 // todo: recompose twice?
                 selectedFilter.value = it
@@ -109,7 +106,7 @@ internal fun CareRoute(
                     sheetState.show()
                 }
             },
-            jobOpeningListItems = uiState.jobOpeningListItems,
+            jobOpeningListItems = kUiState.jobOpeningListItems,
             selectedFilter = selectedFilter.value,
             sheetState = sheetState,
             onSheetCloseClick = {
@@ -120,7 +117,6 @@ internal fun CareRoute(
             onFilterUpdated = viewModel::setFilter,
             modifier = modifier,
         )
-
         is CareUiState.Failure -> {
 
         }
@@ -136,13 +132,13 @@ private fun CareScreen(
     onTabSelected: (index: Int) -> Unit,
     orderBy: CareOrderBy,
     onOrderClick: () -> Unit,
-    filters: List<CareFilter>,
-    onFilterClick: (CareFilter) -> Unit,
+    filters: List<CareFilter<*>>,
+    onFilterClick: (CareFilter<*>) -> Unit,
     jobOpeningListItems: List<CareJobOpeningListItem>,
-    selectedFilter: CareFilter?,
+    selectedFilter: CareFilter<*>?,
     sheetState: ModalBottomSheetState,
     onSheetCloseClick: () -> Unit, // todo: rename?
-    onFilterUpdated: (CareFilter) -> Unit,
+    onFilterUpdated: (CareFilter<*>) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     BaseModalBottomSheetLayout(
@@ -166,7 +162,7 @@ private fun CareScreen(
                     onSearchClick = onSearchClick,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(topAppBarHeight)
+                        .height(TopAppBarHeight)
                         .padding(horizontal = 20.dp),
                 )
 
@@ -194,9 +190,6 @@ private fun CareScreen(
         }
     }
 }
-
-// todo: design_system.dimension
-internal val topAppBarHeight: Dp = 68.dp
 
 @Composable
 private fun CareTopAppBar(
@@ -269,8 +262,8 @@ private fun CareTabRow(
 private fun CareOrderAndFilters(
     orderBy: CareOrderBy,
     onOrderClick: () -> Unit,
-    filters: List<CareFilter>,
-    onFilterClick: (CareFilter) -> Unit,
+    filters: List<CareFilter<*>>,
+    onFilterClick: (CareFilter<*>) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyRow(
@@ -303,22 +296,20 @@ private fun CareOrderAndFilters(
 
 @Composable
 private fun CareFilterModalBottomSheet(
-    selectedFilter: CareFilter,
+    selectedFilter: CareFilter<*>,
     onCloseClick: () -> Unit,
-    onFilterUpdated: (CareFilter) -> Unit,
+    onFilterUpdated: (CareFilter<*>) -> Unit,
 ) {
     when (selectedFilter) {
         is NeighborhoodsFilter -> {
             NeighborhoodsFilterModalBottomSheet(
-                neighborhoodsFilter = selectedFilter,
+                filter = selectedFilter,
                 onCloseClick = onCloseClick,
                 onUpdateClick = onFilterUpdated,
                 modifier = Modifier,
             )
         }
-
         is CareTypesFilter -> TODO()
-        is PayFilter -> TODO()
         is DaysOfWeekFilter -> TODO()
         is WorkHoursFilter -> TODO()
         is WorkPeriodFilter -> TODO()
@@ -331,6 +322,7 @@ private fun CareScreenPreview() {
     val fakeNeighborhood = Neighborhood(
         id = 0,
         name = "서초동",
+        address = "서울 서초구 서초중앙로 15",
         latitude = 0.0,
         longitude = 0.0,
     )
@@ -346,7 +338,6 @@ private fun CareScreenPreview() {
         filters = buildList {
             add(NeighborhoodsFilter(neighborhood = fakeNeighborhood))
             add(CareTypesFilter())
-            add(PayFilter())
             add(DaysOfWeekFilter())
             add(WorkHoursFilter())
             add(WorkPeriodFilter(workPeriod = WorkPeriod.REGULAR))
@@ -382,28 +373,6 @@ private fun CareTypesFilterChipPreview() {
         )
 
         with(CareTypesFilter(careTypes = careTypes)) {
-            ChipWithBottomArrow(
-                hasValue = hasValue,
-                text = displayName(),
-                onClick = {}
-            )
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun PayFilterChipPreview() {
-    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-        with(PayFilter()) {
-            ChipWithBottomArrow(
-                hasValue = hasValue,
-                text = displayName(),
-                onClick = {}
-            )
-        }
-
-        with(PayFilter(minimum = 15000, maximum = 20000)) {
             ChipWithBottomArrow(
                 hasValue = hasValue,
                 text = displayName(),

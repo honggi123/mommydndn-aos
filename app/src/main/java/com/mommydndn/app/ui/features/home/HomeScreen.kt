@@ -39,15 +39,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mommydndn.app.R
-import com.mommydndn.app.ui.components.box.SubtextBox
-import com.mommydndn.app.ui.components.box.SubtextBoxSize
-import com.mommydndn.app.ui.components.list.BannerList
 import com.mommydndn.app.ui.components.box.FooterBox
 import com.mommydndn.app.ui.components.box.JobOfferBox
 import com.mommydndn.app.ui.components.box.MarketListItemBox
 import com.mommydndn.app.ui.components.box.SitterBox
+import com.mommydndn.app.ui.components.box.SubtextBox
+import com.mommydndn.app.ui.components.box.SubtextBoxSize
 import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.components.common.SubBanner
+import com.mommydndn.app.ui.components.list.BannerList
 import com.mommydndn.app.ui.components.modal.NoticeSettingListModal
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.GreyOpacity400
@@ -108,8 +108,10 @@ internal fun HomeScreen(
                 modifier = Modifier.fillMaxWidth(),
                 size = SubtextBoxSize.L,
                 title = "가장 가까운 시터님",
-                trailingButtonLabel = "전체보기"
+                subtitle = "",
+                trailingLabel = "전체보기",
             )
+
             LazyRow(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -130,7 +132,8 @@ internal fun HomeScreen(
             SubtextBox(
                 size = SubtextBoxSize.L,
                 title = "도움이 필요한 주변 이웃",
-                trailingButtonLabel = "더보기",
+                subtitle = "",
+                trailingLabel = "더보기",
                 onClick = {
                     // NavigationUtils.navigate(navController, MainNav.Care.route)
                 }
@@ -154,7 +157,11 @@ internal fun HomeScreen(
                     .height(20.dp)
             )
 
-            SubtextBox(size = SubtextBoxSize.L, title = "집 앞 육아용품 장터")
+            SubtextBox(
+                size = SubtextBoxSize.L,
+                title = "집 앞 육아용품 장터",
+                subtitle = "",
+            )
 
             Box(modifier = Modifier.fillMaxWidth()) {
                 Column(

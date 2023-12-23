@@ -21,7 +21,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.itemsIndexed
 import com.mommydndn.app.ui.components.inputfield.RadioListItem
 import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.ui.theme.Shapes
@@ -68,7 +67,10 @@ fun <T : Any> RadioListBox(
                 .background(White),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            itemsIndexed(pagingItems) { index, item ->
+
+            items(pagingItems.itemCount) { index ->
+                val item = pagingItems[index]
+
                 RadioListItem(
                     modifier = Modifier
                         .padding(
@@ -96,5 +98,4 @@ fun <T : Any> RadioListBox(
             }
         }
     }
-
 }

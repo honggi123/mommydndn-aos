@@ -23,9 +23,7 @@ data class CareJobOpeningListItem(
     val pay: Int,
 )
 
-/*
-
- */
+// todo
 fun toListItem(jobOpening: CareJobOpening, neighborhoodName: String ) {
     /*
     CareJobOpeningListItem(

@@ -27,8 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mommydndn.app.R
 import com.mommydndn.app.domain.model.care.CareType
+import com.mommydndn.app.ui.features.care.displayName
 import com.mommydndn.app.ui.features.care.filters.CareTypesFilter
-import com.mommydndn.app.ui.features.care.filters.displayName
 import com.mommydndn.app.ui.theme.Grey200
 import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.Salmon600

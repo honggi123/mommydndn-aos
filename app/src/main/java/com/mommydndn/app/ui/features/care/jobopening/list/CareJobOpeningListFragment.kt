@@ -29,7 +29,7 @@ import com.mommydndn.app.R
 import com.mommydndn.app.domain.model.care.CareType
 import com.mommydndn.app.domain.model.care.PayPeriod
 import com.mommydndn.app.domain.model.care.WorkPeriod
-import com.mommydndn.app.ui.features.care.filters.displayName
+import com.mommydndn.app.ui.features.care.displayName
 import com.mommydndn.app.ui.features.care.jobopening.list.model.CareJobOpeningListItem
 import com.mommydndn.app.ui.features.care.jobopening.list.model.mockCareJobOpeningListItems
 import com.mommydndn.app.ui.theme.Grey50

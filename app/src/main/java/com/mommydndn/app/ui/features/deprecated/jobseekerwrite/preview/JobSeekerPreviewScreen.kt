@@ -39,6 +39,7 @@ import com.mommydndn.app.data.model.common.ButtonSizeType
 import com.mommydndn.app.data.model.common.MinMaxRange
 import com.mommydndn.app.ui.components.box.ReviewBox
 import com.mommydndn.app.ui.components.box.SubtextBox
+import com.mommydndn.app.ui.components.box.SubtextBoxSize
 import com.mommydndn.app.ui.components.box.UserIntroductionBox
 import com.mommydndn.app.ui.components.button.MommyDndnButton
 import com.mommydndn.app.ui.components.common.Header
@@ -71,7 +72,7 @@ fun JobSeekerPreviewScreen(
 
         Header(leftContent = {
             Image(
-                painter = painterResource(id = R.drawable.arrow_left),
+                painter = painterResource(id = R.drawable.icon_arrow_left),
                 contentDescription = "",
                 modifier = Modifier
                     .size(size = 36.dp)
@@ -119,7 +120,9 @@ fun JobSeekerPreviewScreen(
             }
 
             SubtextBox(
-                title = "${authorInfo?.nickname}에 대하여"
+                size = SubtextBoxSize.M,
+                title = "${authorInfo?.nickname}에 대하여",
+                subtitle = "",
             )
 
             val salaryText = if (jobSeekerPreview?.salaryType != SalaryType.NEGOTIATION) {
@@ -146,8 +149,11 @@ fun JobSeekerPreviewScreen(
             )
 
             SubtextBox(
-                title = "자신있게 도와드릴 수 있는 분야는"
+                size = SubtextBoxSize.M,
+                title = "자신있게 도와드릴 수 있는 분야는",
+                subtitle = "",
             )
+
             Box(
                 modifier = Modifier.padding(24.dp)
             ) {
@@ -175,8 +181,11 @@ fun JobSeekerPreviewScreen(
             )
 
             SubtextBox(
-                title = "${authorInfo?.nickname}에게 남긴 후기"
+                size = SubtextBoxSize.M,
+                title = "${authorInfo?.nickname}에게 남긴 후기",
+                subtitle = "",
             )
+
             Box(
                 modifier = Modifier
                     .padding(

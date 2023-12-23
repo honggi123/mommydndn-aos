@@ -1,7 +1,7 @@
 package com.mommydndn.app.domain.usecase.user
 
 import com.mommydndn.app.di.IODispatcher
-import com.mommydndn.app.domain.model.care.NearbyNeighborhoodDistance
+import com.mommydndn.app.domain.model.user.NeighborhoodDistance
 import com.mommydndn.app.domain.repository.UserRepository
 import com.mommydndn.app.domain.usecase.FlowUseCase
 import kotlinx.coroutines.CoroutineDispatcher
@@ -10,12 +10,12 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GetNearbyNeighborhoodDistanceUseCase @Inject constructor(
+class GetNeighborhoodDistanceUseCase @Inject constructor(
     @IODispatcher coroutineDispatcher: CoroutineDispatcher,
     private val repository: UserRepository,
-) : FlowUseCase<Unit, NearbyNeighborhoodDistance>(coroutineDispatcher) {
+) : FlowUseCase<Unit, NeighborhoodDistance>(coroutineDispatcher) {
 
-    override fun execute(parameters: Unit): Flow<NearbyNeighborhoodDistance> {
+    override fun execute(parameters: Unit): Flow<NeighborhoodDistance> {
         return repository.getNearbyNeighborhoodDistance()
     }
 }
