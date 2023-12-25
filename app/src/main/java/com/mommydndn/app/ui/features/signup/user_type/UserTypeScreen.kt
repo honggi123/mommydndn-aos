@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.features.signup
+package com.mommydndn.app.ui.features.signup.user_type
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,55 +26,9 @@ import com.mommydndn.app.domain.model.user.UserType
 import com.mommydndn.app.ui.components.box.MaintextBox
 import com.mommydndn.app.ui.features.signup.component.SquareButton
 import com.mommydndn.app.ui.components.common.Header
+import com.mommydndn.app.ui.features.signup.SignUpUiState
+import com.mommydndn.app.ui.features.signup.SignUpViewModel
 import com.mommydndn.app.ui.theme.Grey400
-
-@Composable
-internal fun SelectUserTypeRoute(
-    onUserTypeSelect: () -> Unit,
-    onBackButtonClick: () -> Unit,
-    signUpInfo: SignUpInfo?,
-    viewModel: SignUpViewModel = hiltViewModel(),
-) {
-    LaunchedEffect(Unit) {
-        viewModel.updateSignUpInfo(signUpInfo)
-    }
-
-    val onUserTypeClick: (UserType) -> Unit = { userType ->
-        when (userType) {
-            UserType.COMPANY -> {
-                viewModel.updateUserType(UserType.COMPANY)
-                onUserTypeSelect()
-            }
-
-            UserType.INDIVIDUAL -> {
-                viewModel.updateUserType(UserType.INDIVIDUAL)
-                onUserTypeSelect()
-            }
-        }
-    }
-
-    val uiState by viewModel.userTypeSelectUiState.collectAsStateWithLifecycle()
-
-    when (val uiState = uiState) {
-        is SignUpUiState.UserTypeSelect.Loading -> {
-            // TODO
-        }
-
-        is SignUpUiState.UserTypeSelect.Success -> {
-            SelectUserTypeScreen(
-                modifier = Modifier.fillMaxSize(),
-                onBackButtonClick = onBackButtonClick,
-                onUserTypeClick = onUserTypeClick,
-                uiState = uiState
-            )
-        }
-
-        is SignUpUiState.UserTypeSelect.Failure -> {
-            // TODO
-        }
-    }
-
-}
 
 @Composable
 fun SelectUserTypeScreen(

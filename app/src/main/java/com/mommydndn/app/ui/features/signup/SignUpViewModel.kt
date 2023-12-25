@@ -56,7 +56,7 @@ class SignUpViewModel @Inject constructor(
         MutableStateFlow<SignUpUiState.UserTypeSelect>(SignUpUiState.UserTypeSelect.Loading)
     val userTypeSelectUiState = _userTypeSelectUiState.stateIn(
         viewModelScope,
-        SharingStarted.WhileSubscribed(5000),
+        SharingStarted.WhileSubscribed(5_000),
         _userTypeSelectUiState.value
     )
 
@@ -65,7 +65,7 @@ class SignUpViewModel @Inject constructor(
     val locationSearchUiState = _locationSearchUiState
         .stateIn(
             viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
+            SharingStarted.WhileSubscribed(5_000),
             _locationSearchUiState.value
         )
 

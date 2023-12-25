@@ -28,12 +28,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.google.android.gms.location.FusedLocationProviderClient
 import com.mommydndn.app.ui.features.home.MainHomeScreen
 import com.mommydndn.app.ui.features.signin.SignInScreen
-import com.mommydndn.app.ui.features.signup.LocationSearchRoute
-import com.mommydndn.app.ui.features.signup.SelectUserTypeRoute
+import com.mommydndn.app.ui.features.signup.location.LocationRoute
 import com.mommydndn.app.ui.features.signup.SignUpViewModel
+import com.mommydndn.app.ui.features.signup.user_type.UserTypeRoute
 import com.mommydndn.app.ui.navigation.LocationSearchNav
 import com.mommydndn.app.ui.navigation.MainNav
 import com.mommydndn.app.ui.navigation.SignInNav
@@ -147,7 +146,7 @@ fun MainNavigationScreen(
             val signUpInfo = UserTypeNav.findArgument(it)
             val accessToken = Uri.decode(signUpInfo?.accessToken)
 
-            SelectUserTypeRoute(
+            UserTypeRoute(
                 onUserTypeSelect = { NavigationUtils.navigate(navController, LocationSearchNav.route) },
                 onBackButtonClick = { navController.popBackStack() },
                 signUpInfo = signUpInfo?.copy(accessToken = accessToken),
@@ -160,7 +159,7 @@ fun MainNavigationScreen(
             enterTransition = { slideEnterTransition },
             exitTransition = { slideExitTransition }
         ) {
-            LocationSearchRoute(
+            LocationRoute(
                 onSignUpSuccess = { NavigationUtils.navigate(navController, MainNav.Home.route) },
                 onBackButtonClick = { navController.popBackStack() },
                 viewModel = signUpViewModel
