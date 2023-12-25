@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.features.care.filters
+package com.mommydndn.app.feature.care.filters
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
@@ -11,11 +11,11 @@ data class DaysOfWeekFilter(
     val daysOfWeek: List<DayOfWeek>? = null
 ) : CareFilter<List<DayOfWeek>> {
 
-    override val hasValue: Boolean = !daysOfWeek.isNullOrEmpty()
+    override val selected: Boolean = !daysOfWeek.isNullOrEmpty()
 
     @Composable
     override fun displayName(): String {
-        return if (!hasValue) {
+        return if (!selected) {
             stringResource(R.string.day_of_week)
         } else {
             requireNotNull(daysOfWeek)
@@ -39,7 +39,7 @@ data class DaysOfWeekFilter(
     }
 
     override fun predicate(value: List<DayOfWeek>): Boolean {
-        return if (!hasValue) {
+        return if (!selected) {
             true
         } else {
             requireNotNull(daysOfWeek).containsAll(value)

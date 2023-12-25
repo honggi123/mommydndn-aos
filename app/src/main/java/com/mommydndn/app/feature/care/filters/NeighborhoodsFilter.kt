@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.features.care.filters
+package com.mommydndn.app.feature.care.filters
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
@@ -19,7 +19,7 @@ data class NeighborhoodsFilter(
     ),
 ) : CareFilter<Nothing> {
 
-    override val hasValue: Boolean = true
+    override val selected: Boolean = true
 
     @Composable
     override fun displayName(): String {

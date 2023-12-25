@@ -29,9 +29,6 @@ import com.mommydndn.app.domain.model.care.CareType
 import com.mommydndn.app.domain.model.care.PayPeriod
 import com.mommydndn.app.domain.model.care.WorkPeriod
 import com.mommydndn.app.feature.care.screen.displayName
-import com.mommydndn.app.ui.features.care.jobopening.list.CareJobOpeningCareType
-import com.mommydndn.app.ui.features.care.jobopening.list.CareJobOpeningWorkPeriod
-import com.mommydndn.app.ui.features.care.jobopening.list.ClosedCareJobOpening
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey700

@@ -1,10 +1,10 @@
-package com.mommydndn.app.ui.features.care.filters
+package com.mommydndn.app.feature.care.filters
 
 import androidx.compose.runtime.Composable
 
 sealed interface CareFilter<T> {
 
-    val hasValue: Boolean
+    val selected: Boolean
 
     @Composable
     fun displayName(): String

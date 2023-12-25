@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.features.care.filters
+package com.mommydndn.app.feature.care.filters
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
@@ -10,11 +10,11 @@ data class CareTypesFilter(
     val careTypes: List<CareType>? = null
 ) : CareFilter<List<CareType>> {
 
-    override val hasValue: Boolean = !careTypes.isNullOrEmpty()
+    override val selected: Boolean = !careTypes.isNullOrEmpty()
 
     @Composable
     override fun displayName(): String {
-        return if (!hasValue) {
+        return if (!selected) {
             return stringResource(R.string.care_type)
         } else {
             requireNotNull(careTypes)
@@ -35,7 +35,7 @@ data class CareTypesFilter(
     }
 
     override fun predicate(value: List<CareType>): Boolean {
-        return if (!hasValue) {
+        return if (!selected) {
             true
         } else {
             requireNotNull(careTypes).containsAll(value)

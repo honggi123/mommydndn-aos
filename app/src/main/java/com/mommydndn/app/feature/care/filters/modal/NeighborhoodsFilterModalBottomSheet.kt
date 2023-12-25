@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.features.care.modal
+package com.mommydndn.app.feature.care.filters.modal
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -56,8 +56,8 @@ import com.mommydndn.app.R
 import com.mommydndn.app.domain.model.user.NearbyNeighborhoods
 import com.mommydndn.app.domain.model.user.Neighborhood
 import com.mommydndn.app.domain.model.user.NeighborhoodDistance
-import com.mommydndn.app.ui.features.care.filters.NeighborhoodsFilter
-import com.mommydndn.app.ui.features.care.filters.displayName
+import com.mommydndn.app.feature.care.filters.NeighborhoodsFilter
+import com.mommydndn.app.feature.care.filters.displayName
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey600

@@ -27,7 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
 import com.mommydndn.app.domain.model.user.Neighborhood
-import com.mommydndn.app.ui.features.care.filters.displayName
+import com.mommydndn.app.feature.care.filters.displayName
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey600

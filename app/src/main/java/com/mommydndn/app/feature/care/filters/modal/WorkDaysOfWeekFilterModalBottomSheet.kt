@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.features.care.modal
+package com.mommydndn.app.feature.care.filters.modal
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mommydndn.app.R
-import com.mommydndn.app.ui.features.care.filters.DaysOfWeekFilter
+import com.mommydndn.app.feature.care.filters.DaysOfWeekFilter
 import com.mommydndn.app.ui.theme.Grey200
 import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.Salmon200

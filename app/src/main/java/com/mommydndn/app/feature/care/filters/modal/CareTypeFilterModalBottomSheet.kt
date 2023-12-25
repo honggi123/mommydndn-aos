@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.features.care.modal
+package com.mommydndn.app.feature.care.filters.modal
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.sp
 import com.mommydndn.app.R
 import com.mommydndn.app.domain.model.care.CareType
 import com.mommydndn.app.feature.care.screen.displayName
-import com.mommydndn.app.ui.features.care.filters.CareTypesFilter
+import com.mommydndn.app.feature.care.filters.CareTypesFilter
 import com.mommydndn.app.ui.theme.Grey200
 import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.Salmon600

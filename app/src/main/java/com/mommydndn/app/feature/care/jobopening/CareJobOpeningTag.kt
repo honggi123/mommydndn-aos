@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.features.care.jobopening.list
+package com.mommydndn.app.feature.care.jobopening
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.features.care.filters
+package com.mommydndn.app.feature.care.filters
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
@@ -11,7 +11,7 @@ data class WorkHoursFilter(
     val endTime: LocalTime? = null,
 ) : CareFilter<WorkHours> {
 
-    override val hasValue: Boolean = startTime != null && endTime != null
+    override val selected: Boolean = startTime != null && endTime != null
 
     @Composable
     override fun displayName(): String = if (startTime != null && endTime != null) {
@@ -21,7 +21,7 @@ data class WorkHoursFilter(
     }
 
     override fun predicate(value: WorkHours): Boolean {
-        return if (!hasValue) {
+        return if (!selected) {
             true
         } else {
             value.start >= startTime && value.end <= endTime

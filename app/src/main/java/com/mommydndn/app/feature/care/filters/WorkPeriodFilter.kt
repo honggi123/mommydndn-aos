@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.features.care.filters
+package com.mommydndn.app.feature.care.filters
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
@@ -9,7 +9,7 @@ data class WorkPeriodFilter(
     val workPeriod: WorkPeriod? = null
 ) : CareFilter<WorkPeriod> {
 
-    override val hasValue: Boolean = workPeriod != null
+    override val selected: Boolean = workPeriod != null
 
     @Composable
     override fun displayName(): String = when (workPeriod) {

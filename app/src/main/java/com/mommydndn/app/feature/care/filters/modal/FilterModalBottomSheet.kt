@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.features.care.modal
+package com.mommydndn.app.feature.care.filters.modal
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
