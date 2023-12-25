@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.mommydndn.app.R
 import com.mommydndn.app.domain.model.care.CareType
-import com.mommydndn.app.ui.features.care.displayName
+import com.mommydndn.app.feature.care.screen.displayName
 
 data class CareTypesFilter(
     val careTypes: List<CareType>? = null

@@ -1,9 +1,10 @@
 package com.mommydndn.app.domain.model.care
 
-enum class OtherCondition {
+enum class OtherOption {
     Pets,
     CCTV,
     Occupancy,
     NonSmoker,
-    Atheism
+    Atheism,
+    AS
 }
