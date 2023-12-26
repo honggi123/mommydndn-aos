@@ -69,18 +69,56 @@ import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.util.PermissionUtils
 import kotlinx.coroutines.launch
 
+
+data class PagingListContent(val searchType: SearchType, val content: @Composable () -> Unit)
+
+@Composable
+fun rememberPagingItems(viewModel: SignUpViewModel, onItemClick: (LocationInfo) -> Unit) : List<PagingListContent> {
+    val searchedPagingItems = viewModel.searchedLocations.collectAsLazyPagingItems()
+    val searchedPagingContent = PagingListContent(
+        SearchType.MY_LOCATION, {
+            LocationsRadioListBox(
+                pagingItems = searchedPagingItems,
+                onItemClick = { item ->
+                    if (item != null) {
+                        onItemClick(item)
+                    }
+                },
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+    )
+
+    val nearbyPagingItems = viewModel.nearbyLocations.collectAsLazyPagingItems()
+    val nearbyPagingContent = PagingListContent(
+        SearchType.MY_LOCATION, {
+            LocationsRadioListBox(
+                pagingItems = nearbyPagingItems,
+                onItemClick = { item ->
+                    if (item != null) {
+                        onItemClick(item)
+                    }
+                },
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+    )
+
+    return listOf(searchedPagingContent, nearbyPagingContent)
+}
+
 @OptIn(ExperimentalMaterialApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun LocationScreen(
     uiState: SignUpUiState.LocationSearch.Success,
+    currentSearchType: SearchType,
+    pagingContents: List<PagingListContent>,
     onSearchClick: () -> Unit,
     onBackButtonClick: () -> Unit,
     onClearClick: () -> Unit,
     onSearchTypeChange: (SearchType) -> Unit,
     onKeywordChange: (String) -> Unit,
-    onItemClick: (LocationInfo) -> Unit,
-    pagingItems: LazyPagingItems<LocationInfo>,
     scaffoldState: ScaffoldState,
     sheetState: ModalBottomSheetState,
     itemList: List<TermsOfService>,
@@ -102,16 +140,11 @@ fun LocationScreen(
         scaffoldState = scaffoldState,
     ) {
         Box(modifier = modifier.fillMaxSize()) {
-            LocationsRadioListBox(
-                uiState = uiState,
-                pagingItems = pagingItems,
-                onItemClick = { item ->
-                    if (item != null) {
-                        onItemClick(item)
-                    }
-                },
-                modifier = Modifier.fillMaxSize()
-            )
+            pagingContents.forEach {
+                if(it.searchType == currentSearchType){
+                    it.content()
+                }
+            }
         }
     }
 
@@ -160,7 +193,6 @@ fun LocationSearchTopAppBar(
         )
     }
 }
-
 
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -220,7 +252,6 @@ fun BottomSheetModal(
 
 @Composable
 fun LocationsRadioListBox(
-    uiState: SignUpUiState.LocationSearch.Success,
     pagingItems: LazyPagingItems<LocationInfo>,
     onItemClick: (LocationInfo) -> Unit,
     modifier: Modifier = Modifier

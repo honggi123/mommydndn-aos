@@ -56,17 +56,11 @@ internal fun LocationRoute(
         LocationServices.getFusedLocationProviderClient(context)
     }
 
-    var currentPagingFlow by rememberSaveable { mutableStateOf(viewModel.nearbyLocations) }
     val (currentSearchType, updateSearchType) = rememberSaveable { mutableStateOf(SearchType.MY_LOCATION) }
-
-    LaunchedEffect(currentSearchType) {
-        currentPagingFlow = when (currentSearchType) {
-            SearchType.KEYWORD -> viewModel.searchedLocations
-            SearchType.MY_LOCATION -> viewModel.nearbyLocations
-        }
-    }
-
-    val pagingItems = currentPagingFlow.collectAsLazyPagingItems()
+    val pagingContents = rememberPagingItems(viewModel, onItemClick = { item ->
+        scope.launch { sheetState.show() }
+        viewModel.updateMyLocation(item)
+    })
 
     val launcher =
         rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissionsMap ->
@@ -121,7 +115,8 @@ internal fun LocationRoute(
             LocationScreen(
                 uiState = uiState,
                 modifier = Modifier.fillMaxSize(),
-                pagingItems = pagingItems,
+                currentSearchType = currentSearchType,
+                pagingContents = pagingContents,
                 onBackButtonClick = { onBackButtonClick() },
                 onSearchClick = {
                     PermissionUtils.checkAndRequestPermissions(
@@ -131,10 +126,6 @@ internal fun LocationRoute(
                         onPermissionGranted = { onSearchResult() }
                     )
                     updateSearchType(SearchType.MY_LOCATION)
-                },
-                onItemClick = { item ->
-                    scope.launch { sheetState.show() }
-                    viewModel.updateMyLocation(item)
                 },
                 onDialogDismiss = { scope.launch { sheetState.hide() } },
                 itemList = uiState.tosList,
