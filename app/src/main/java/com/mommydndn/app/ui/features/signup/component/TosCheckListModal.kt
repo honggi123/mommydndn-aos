@@ -43,26 +43,13 @@ fun TosCheckListModal(
     itemList: List<TermsOfService>,
     onDismiss: () -> Unit,
     onComplete: (List<TermsOfService>) -> Unit,
+    checkedStates: List<Boolean>,
+    onCheckedChange: (Int, Boolean) -> Unit,
+    isAllChecked: Boolean,
+    onIsAllCheckedChange: (Boolean) -> Unit,
+    isNextButtonEnabled: Boolean,
     modifier: Modifier = Modifier
 ) {
-
-    val (isAllChecked, setIsAllChecked) = remember { mutableStateOf(false) }
-
-    var checkedStates by remember { mutableStateOf(List(itemList.size) { false }) }
-
-    if (checkedStates.size != itemList.size) {
-        checkedStates = List(itemList.size) { false }
-    }
-
-    val requiredCheckList = itemList.filter { it.isRequired }
-
-    val isNextButtonEnabled by remember(checkedStates) {
-        mutableStateOf(requiredCheckList.all { item ->
-            val itemIndex = itemList.indexOf(item)
-            checkedStates.getOrNull(itemIndex) == true
-        })
-    }
-
     Box(
         modifier = modifier
             .wrapContentSize()
@@ -70,7 +57,6 @@ fun TosCheckListModal(
             .background(color = White, shape = RoundedCornerShape(24.dp)),
         contentAlignment = Alignment.TopCenter
     ) {
-
         Box(
             modifier = Modifier
                 .offset(y = 10.dp)
@@ -90,13 +76,10 @@ fun TosCheckListModal(
             CheckBoxListItem(
                 checked = isAllChecked,
                 onCheckedChange = { isChecked ->
-                    itemList.onEachIndexed { index, _ ->
-                        setIsAllChecked(isChecked)
-
-                        checkedStates = checkedStates.toMutableList().apply {
-                            this[index] = isChecked
-                        }
+                    itemList.onEachIndexed{ index, item ->
+                        onCheckedChange(index, isChecked)
                     }
+                    onIsAllCheckedChange(isChecked)
                 },
                 text = checkBoxTitle
             )
@@ -116,9 +99,7 @@ fun TosCheckListModal(
                 CheckMarkListItem(
                     checked = checkedStates[index],
                     onCheckedChange = { isChecked ->
-                        checkedStates = checkedStates.toMutableList().apply {
-                            this[index] = isChecked
-                        }
+                        onCheckedChange(index, isChecked)
                     }, text = itemList[index].name
                 )
                 if (index < itemList.size - 1) {

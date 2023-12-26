@@ -26,6 +26,7 @@ import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
@@ -170,22 +171,18 @@ fun BottomSheetModal(
     onDialogDismiss: () -> Unit,
     onDialogComplete: (List<TermsOfService>) -> Unit,
 ) {
-
     val (isAllChecked, setIsAllChecked) = remember { mutableStateOf(false) }
-
     var checkedStates by remember { mutableStateOf(List(itemList.size) { false }) }
-
-    if (checkedStates.size != itemList.size) {
-        checkedStates = List(itemList.size) { false }
-    }
 
     val requiredCheckList = itemList.filter { it.isRequired }
 
     val isNextButtonEnabled by remember(checkedStates) {
-        mutableStateOf(requiredCheckList.all { item ->
-            val itemIndex = itemList.indexOf(item)
-            checkedStates.getOrNull(itemIndex) == true
-        })
+        derivedStateOf {
+            requiredCheckList.all { item ->
+                val itemIndex = itemList.indexOf(item)
+                checkedStates.getOrNull(itemIndex) == true
+            }
+        }
     }
 
     ModalBottomSheetLayout(
@@ -200,6 +197,15 @@ fun BottomSheetModal(
                 onComplete = { onDialogComplete(it) },
                 itemList = itemList,
                 checkBoxTitle = stringResource(R.string.total_terms_agreement),
+                isAllChecked = isAllChecked,
+                checkedStates = checkedStates,
+                onCheckedChange = { index, isChecked ->
+                    checkedStates = checkedStates.toMutableList().apply {
+                        this[index] = isChecked
+                    }
+                },
+                isNextButtonEnabled = isNextButtonEnabled,
+                onIsAllCheckedChange = { isChecked -> setIsAllChecked(isChecked) },
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 32.dp)
             )
         }
