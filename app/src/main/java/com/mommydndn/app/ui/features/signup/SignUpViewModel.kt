@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import com.mommydndn.app.domain.model.location.CoordinatesInfo
 import com.mommydndn.app.domain.model.user.SignUpInfo
-import com.mommydndn.app.domain.model.user.canSignUp
 import com.mommydndn.app.domain.model.location.LocationInfo
 import com.mommydndn.app.domain.model.tos.TosAgreementStatus
 import com.mommydndn.app.domain.model.tos.TermsOfService
@@ -99,14 +98,6 @@ class SignUpViewModel @Inject constructor(
         approvedTermsList: List<TermsOfService>,
         allTermsList: List<TermsOfService>
     ) {
-        if (!signUpInfo.canSignUp()) {
-            _locationSearchUiState.update {
-                SignUpUiState.LocationSearch.Failure(
-                    SignUpNotAllowedException("")
-                )
-            }
-        }
-
         viewModelScope.launch {
             when (
                 val result = signUpUseCase.invoke(
@@ -189,4 +180,3 @@ class SignUpViewModel @Inject constructor(
 
 }
 
-class SignUpNotAllowedException(message: String) : Exception(message)
