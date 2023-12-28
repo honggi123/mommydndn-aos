@@ -11,6 +11,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,9 +29,9 @@ import com.mommydndn.app.util.extension.bottomBorder
 
 @Composable
 fun SearchUnderHeader(
-    searchAction: () -> Unit,
+    onSearchClick: () -> Unit,
+    headerText: String,
     modifier: Modifier = Modifier,
-    headerText: String = ""
 ) {
     Box(
         modifier = modifier
@@ -44,11 +45,12 @@ fun SearchUnderHeader(
                 .bottomBorder(1.dp, Grey100)
         ) {
             MommyDndnButton(
-                text = "현재 위치로 찾기",
+                text = stringResource(id = R.string.search_by_current_location),
                 iconResourceId = R.drawable.ic_navigation,
                 color = ButtonColor.SALMON,
                 colorType = ButtonColorType.WEAK,
-                rangeType = MinMaxRange.MAX
+                rangeType = MinMaxRange.MAX,
+                onClick = { onSearchClick() }
             )
             Spacer(modifier = Modifier.padding(10.dp))
             Column(
@@ -77,6 +79,6 @@ fun SearchUnderHeader(
 @Composable
 fun previewSearchUnderHeader() {
     MommydndnaosTheme {
-        SearchUnderHeader(headerText = "근처 동네", searchAction = {})
+        SearchUnderHeader(headerText = "근처 동네", onSearchClick = {})
     }
 }

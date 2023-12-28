@@ -189,7 +189,7 @@ fun LocationSearchTopAppBar(
             } else {
                 stringResource(R.string.result_searched_neighborhood, keyword)
             },
-            searchAction = { onSearchClick() }
+            onSearchClick = { onSearchClick() }
         )
     }
 }
@@ -278,7 +278,7 @@ fun EmptyResultRadioListBox(
         Text(
             modifier = Modifier.padding(start = 97.5.dp, top = 96.dp),
             text = stringResource(id = R.string.no_result_and_check_keyword),
-            style = MaterialTheme.typography.paragraph300.copy(
+            style = MaterialTheme.typography.paragraph300.merge(
                 fontWeight = FontWeight.Normal,
                 color = Grey400,
                 textAlign = TextAlign.Center
@@ -286,6 +286,7 @@ fun EmptyResultRadioListBox(
         )
     }
 }
+
 
 @Composable
 fun HasResultRadioListBox(
@@ -318,6 +319,8 @@ fun HasResultRadioListBox(
                         .clip(Shapes.large),
                     checked = checkedStates[index],
                     onCheckedChange = { isChecked ->
+                        checkedStates = List(pagingItems.itemCount) { false }
+
                         checkedStates = checkedStates.toMutableList().apply {
                             this[index] = isChecked
                         }
@@ -332,5 +335,6 @@ fun HasResultRadioListBox(
         }
     }
 }
+
 
 

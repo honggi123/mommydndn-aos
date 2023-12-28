@@ -49,7 +49,7 @@ class SignUpViewModel @Inject constructor(
 
     private val searchManager = SearchManager()
 
-    private lateinit var signUpInfo: SignUpInfo
+    private var signUpInfo = SignUpInfo()
 
     private val _userTypeSelectUiState =
         MutableStateFlow<SignUpUiState.UserTypeSelect>(SignUpUiState.UserTypeSelect.Loading)

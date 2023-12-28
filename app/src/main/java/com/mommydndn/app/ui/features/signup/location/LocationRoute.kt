@@ -62,28 +62,6 @@ internal fun LocationRoute(
         viewModel.updateMyLocation(item)
     })
 
-    val launcher =
-        rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissionsMap ->
-            val areGranted = permissionsMap.values.reduce { acc, next -> acc && next }
-            if (areGranted) {
-                Log.d("LocationSearchRoute", "권한이 동의되었습니다.")
-                searchNearByLocations(
-                    fusedLocationClient = fusedLocationClient,
-                    searchAction = { latitude, longitude ->
-                        viewModel.searchNearby(
-                            coordinatesInfo = CoordinatesInfo(
-                                latitude = latitude,
-                                longitude = longitude
-                            )
-                        )
-                        updateSearchType(SearchType.MY_LOCATION)
-                    }
-                )
-            } else {
-                Log.d("LocationSearchRoute", "권한이 거부되었습니다.")
-            }
-        }
-
     val onSearchResult: () -> Unit = {
         searchNearByLocations(
             fusedLocationClient = fusedLocationClient,
@@ -91,9 +69,21 @@ internal fun LocationRoute(
                 viewModel.searchNearby(
                     coordinatesInfo = CoordinatesInfo(latitude = latitude, longitude = longitude)
                 )
+                updateSearchType(SearchType.MY_LOCATION)
             }
         )
     }
+
+    val launcher =
+        rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissionsMap ->
+            val areGranted = permissionsMap.values.reduce { acc, next -> acc && next }
+            if (areGranted) {
+                Log.d("LocationSearchRoute", "권한이 동의되었습니다.")
+                onSearchResult()
+            } else {
+                Log.d("LocationSearchRoute", "권한이 거부되었습니다.")
+            }
+        }
 
     LaunchedEffect(Unit) {
         PermissionUtils.checkAndRequestPermissions(
@@ -125,7 +115,6 @@ internal fun LocationRoute(
                         launcher,
                         onPermissionGranted = { onSearchResult() }
                     )
-                    updateSearchType(SearchType.MY_LOCATION)
                 },
                 onDialogDismiss = { scope.launch { sheetState.hide() } },
                 itemList = uiState.tosList,

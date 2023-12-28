@@ -15,5 +15,5 @@
     <string name="no_result_and_check_keyword">검색 결과가 없어요.&#10;동네 이름을 다시 확인해주세요!</string>
     <string name="move_on">다음으로</string>
     <string name="close">닫기</string>
-
+    <string name="search_by_current_location">현재 위치로 찾기</string>
 </resources>
