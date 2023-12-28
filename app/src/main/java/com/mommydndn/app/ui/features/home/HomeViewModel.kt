@@ -19,9 +19,9 @@ import kotlinx.coroutines.launch
 import com.mommydndn.app.util.result.successOr
 import com.mommydndn.app.util.result.Result
 
-const val MAX_BABY_ITEM_PAGES = 4
-const val INITIAL_BABY_ITEM_SIZE = 10
-const val MORE_BABY_ITEM_SIZE = 10
+//const val MAX_BABY_ITEM_PAGES = 4
+//const val INITIAL_BABY_ITEM_SIZE = 10
+//const val MORE_BABY_ITEM_SIZE = 10
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -41,11 +41,6 @@ class HomeViewModel @Inject constructor(
 
     private fun initAll() {
         viewModelScope.launch {
-
-            fetchBabyItems(
-                pageNum = 1,
-                pageSize = INITIAL_BABY_ITEM_SIZE
-            )
 
             val bannersDeffered = async { getBannersUseCase.invoke(Unit) }
             val notificationDeffered = async { getNotificationsUseCase.invoke(Unit) }
@@ -68,59 +63,59 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun fetchMoreBabyItems(currentPage: Int) {
-        fetchBabyItems(
-            pageNum = currentPage + 1,
-            pageSize = MORE_BABY_ITEM_SIZE
-        )
-    }
+//    fun fetchMoreBabyItems(currentPage: Int) {
+//        fetchBabyItems(
+//            pageNum = currentPage + 1,
+//            pageSize = MORE_BABY_ITEM_SIZE
+//        )
+//    }
 
-    private fun fetchBabyItems(pageNum: Int, pageSize: Int) {
-        viewModelScope.launch {
-            getBabyItemsUseCase(
-                GetBabyItemsParams(
-                    pageNum,
-                    pageSize,
-                    System.currentTimeMillis()
-                )
-            ).collect { result ->
-                when (result) {
-                    is Result.Success -> {
-                        _uiState.update { state ->
-                            if (state is HomeUiState.Success) {
-                                state.copy(
-                                    babyItemUiState = HomeBabyItemUiState.Success(
-                                        babyItems = result.data.itemSummaryList + result.data.itemSummaryList,
-                                        babyItemsPagingMeta = result.data.meta
-                                    )
-                                )
-                            } else {
-                                state
-                            }
-                        }
-                    }
-
-                    is Result.Loading -> {
-                        _uiState.update { state ->
-                            if (state is HomeUiState.Success) {
-                                state.copy(
-                                    babyItemUiState = HomeBabyItemUiState.Loading(
-                                        babyItems = state.babyItemUiState.babyItems
-                                    )
-                                )
-                            } else {
-                                state
-                            }
-                        }
-                    }
-
-                    is Result.Failure -> {
-                        // TODO
-                    }
-                }
-            }
-        }
-    }
+//    private fun fetchBabyItems(pageNum: Int, pageSize: Int) {
+//        viewModelScope.launch {
+//            getBabyItemsUseCase(
+//                GetBabyItemsParams(
+//                    pageNum,
+//                    pageSize,
+//                    System.currentTimeMillis()
+//                )
+//            ).collect { result ->
+//                when (result) {
+//                    is Result.Success -> {
+//                        _uiState.update { state ->
+//                            if (state is HomeUiState.Success) {
+//                                state.copy(
+//                                    babyItemUiState = HomeBabyItemUiState.Success(
+//                                        babyItems = result.data.itemSummaryList + result.data.itemSummaryList,
+//                                        babyItemsPagingMeta = result.data.meta
+//                                    )
+//                                )
+//                            } else {
+//                                state
+//                            }
+//                        }
+//                    }
+//
+//                    is Result.Loading -> {
+//                        _uiState.update { state ->
+//                            if (state is HomeUiState.Success) {
+//                                state.copy(
+//                                    babyItemUiState = HomeBabyItemUiState.Loading(
+//                                        babyItems = state.babyItemUiState.babyItems
+//                                    )
+//                                )
+//                            } else {
+//                                state
+//                            }
+//                        }
+//                    }
+//
+//                    is Result.Failure -> {
+//                        // TODO
+//                    }
+//                }
+//            }
+//        }
+//    }
 
 
 }

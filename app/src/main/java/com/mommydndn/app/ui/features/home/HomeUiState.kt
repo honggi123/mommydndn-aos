@@ -15,22 +15,22 @@ sealed interface HomeUiState {
         val jobSeekers: List<JobSeeker> = emptyList(),
         val jobOffers: List<JobOffer> = emptyList(),
         val banners: List<Banner> = emptyList(),
-        val babyItemUiState: HomeBabyItemUiState = HomeBabyItemUiState.Loading()
+//        val babyItemUiState: HomeBabyItemUiState = HomeBabyItemUiState.Loading()
     ) : HomeUiState
 
     data class Failure(val exception: Exception) : HomeUiState
 }
 
-sealed interface HomeBabyItemUiState {
-
-    val babyItems: List<BabyItem>
-
-    data class Loading(
-        override val babyItems: List<BabyItem> = emptyList(),
-    ) : HomeBabyItemUiState
-
-    data class Success(
-        override val babyItems: List<BabyItem> = emptyList(),
-        val babyItemsPagingMeta: BabyItemMeta = BabyItemMeta(0, 1, 0)
-    ) : HomeBabyItemUiState
-}
+//sealed interface HomeBabyItemUiState {
+//
+//    val babyItems: List<BabyItem>
+//
+//    data class Loading(
+//        override val babyItems: List<BabyItem> = emptyList(),
+//    ) : HomeBabyItemUiState
+//
+//    data class Success(
+//        override val babyItems: List<BabyItem> = emptyList(),
+//        val babyItemsPagingMeta: BabyItemMeta = BabyItemMeta(0, 1, 0)
+//    ) : HomeBabyItemUiState
+//}
