@@ -8,6 +8,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface MapService {
+
     @GET("/api/map/nearest")
     suspend fun fetchNearestByLocation(
         @Query("latitude") latitude: Double,
@@ -24,4 +25,3 @@ interface MapService {
         @Query("requestTimestamp") requestTimestamp: Long
     ): Response<LocationSearchResponse>
 }
-

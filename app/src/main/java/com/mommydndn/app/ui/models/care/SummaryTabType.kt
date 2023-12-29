@@ -1,8 +1,8 @@
 package com.mommydndn.app.ui.models.care
 
 enum class SummaryTabType(val index: Int) {
-    JOBOFFER(0),
-    JOBSEEKER(1),
+    JOB_OFFER(0),
+    JOB_SEEKER(1),
     COMPANY(2);
 
     companion object {

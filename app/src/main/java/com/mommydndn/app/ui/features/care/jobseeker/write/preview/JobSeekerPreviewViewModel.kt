@@ -1,30 +1,22 @@
 package com.mommydndn.app.ui.features.care.jobseeker.write.preview
 
-import android.content.Context
-import android.net.Uri
-import androidx.core.net.toUri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
-import com.mommydndn.app.data.api.model.response.UserResponse
-import com.mommydndn.app.data.model.care.JobOfferPreview
+import com.mommydndn.app.data.api.model.response.GetUserResponse
 import com.mommydndn.app.data.model.care.JobSeekerPreview
-import com.mommydndn.app.data.model.map.LocationInfo
-import com.mommydndn.app.data.respository.CaringRepository
-import com.mommydndn.app.data.respository.LocationRepository
-import com.mommydndn.app.data.respository.UserRepository
-import com.mommydndn.app.ui.extensions.asMultipart
+import com.mommydndn.app.domain.repository.CaringRepository
+import com.mommydndn.app.domain.repository.LocationRepository
+import com.mommydndn.app.domain.repository.UserRepository
 import com.mommydndn.app.ui.navigation.MainNav
-import com.mommydndn.app.utils.NavigationUtils
+import com.mommydndn.app.util.NavigationUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import okhttp3.MultipartBody
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,7 +27,7 @@ class JobSeekerPreviewViewModel @Inject constructor(
     private val locationRepository: LocationRepository
 ) : ViewModel() {
 
-    val authorInfo: StateFlow<UserResponse?> = userRepository.fetchUserInfo().stateIn(
+    val authorInfo: StateFlow<GetUserResponse?> = userRepository.getUser().stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
         initialValue = null

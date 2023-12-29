@@ -111,7 +111,7 @@ fun ContentBox(
                 )
                 if (index < subDescriptionList.size-1){
                     Image(
-                        painter = painterResource(id = R.drawable.ic_ellipse),
+                        painter = painterResource(id = R.drawable.icon_circle),
                         contentDescription = null,
                         modifier = Modifier.align(Alignment.CenterVertically)
                     )

@@ -7,14 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.EtcCheckItem
 import com.mommydndn.app.data.model.care.MinHourlySalary
-import com.mommydndn.app.data.model.care.SalaryType
-import com.mommydndn.app.data.model.care.SalaryTypeItem
 import com.mommydndn.app.data.model.map.EmdItem
 import com.mommydndn.app.data.model.map.LocationInfo
-import com.mommydndn.app.data.respository.CaringRepository
-import com.mommydndn.app.data.respository.LocationRepository
-import com.mommydndn.app.data.respository.UserRepository
-import com.mommydndn.app.utils.NumberUtils
+import com.mommydndn.app.domain.repository.CaringRepository
+import com.mommydndn.app.domain.repository.LocationRepository
+import com.mommydndn.app.domain.repository.UserRepository
+import com.mommydndn.app.util.NumberUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -149,7 +147,7 @@ class CompanyWriteViewModel @Inject constructor(
 
     fun fetchUserInfo() {
         viewModelScope.launch {
-            userRepository.fetchUserInfo().collect { userInfo ->
+            userRepository.getUser().collect { userInfo ->
                 _emdItem.value = userInfo.emd
                 _photo.value = userInfo.profileUrl?.toUri()
             }

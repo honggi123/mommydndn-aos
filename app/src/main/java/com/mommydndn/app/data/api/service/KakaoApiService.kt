@@ -17,5 +17,4 @@ interface KakaoApiService {
         @Header("Authorization") key: String = "KakaoAK ${BuildConfig.KAKAO_API_KEY}",
         @Query("query") query: String,
     ): ApiResponse<AddressResponse>
-
 }

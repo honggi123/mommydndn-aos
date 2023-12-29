@@ -14,11 +14,11 @@ import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.SalaryTypeItem
 import com.mommydndn.app.data.model.map.EmdItem
 import com.mommydndn.app.data.model.map.LocationInfo
-import com.mommydndn.app.data.respository.CaringRepository
-import com.mommydndn.app.data.respository.LocationRepository
-import com.mommydndn.app.data.respository.UserRepository
-import com.mommydndn.app.ui.extensions.asMultipart
-import com.mommydndn.app.utils.NumberUtils
+import com.mommydndn.app.domain.repository.CaringRepository
+import com.mommydndn.app.domain.repository.LocationRepository
+import com.mommydndn.app.domain.repository.UserRepository
+import com.mommydndn.app.util.NumberUtils
+import com.mommydndn.app.util.extension.asMultipart
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -117,7 +117,7 @@ class JobSeekerWriteViewModel @Inject constructor(
         viewModelScope.launch {
             val photoPart = convertToImagePart(selectedPhoto, context)
             photoPart?.let {
-                userRepository.updateProfile(photoPart).collect {
+                userRepository.updateProfileImage(photoPart).collect {
                     _photo.value = selectedPhoto
                 }
             }
@@ -161,11 +161,13 @@ class JobSeekerWriteViewModel @Inject constructor(
 
     fun fetchUserInfo() {
         viewModelScope.launch {
-            userRepository.fetchUserInfo().collect { userInfo ->
+            /*
+            userRepository.getUser().collect { userInfo ->
                 _emdItem.value = userInfo.emd
                 _photo.value = userInfo.profileUrl?.toUri()
                 _certificationList.value = userInfo.certificationList
             }
+             */
         }
     }
 

@@ -1,30 +1,26 @@
 package com.mommydndn.app.di
 
-import android.content.Context
-import com.mommydndn.app.data.datasource.TokenManager
-import com.mommydndn.app.data.respository.AccountRepository
-import com.mommydndn.app.data.respository.BabyItemRepository
-import com.mommydndn.app.data.respository.CaringRepository
-import com.mommydndn.app.data.respository.CommonRepositoy
-import com.mommydndn.app.data.respository.LocationRepository
-import com.mommydndn.app.data.respository.NoticeRepository
-import com.mommydndn.app.data.respository.TermsRepository
-import com.mommydndn.app.data.respository.UserRepository
-import com.mommydndn.app.data.respository.impl.AccountRepositoryImpl
-import com.mommydndn.app.data.respository.impl.BabyItemRepositoryImpl
-import com.mommydndn.app.data.respository.impl.CaringRepositoryImpl
-import com.mommydndn.app.data.respository.impl.CommonRepositoryImpl
-import com.mommydndn.app.data.respository.impl.LocationRepositoryImpl
-import com.mommydndn.app.data.respository.impl.NoticeRespositoryIml
-import com.mommydndn.app.data.respository.impl.TermsRepositoryImpl
-import com.mommydndn.app.data.respository.impl.UserRepositoryImpl
+import com.mommydndn.app.domain.repository.AccountRepository
+import com.mommydndn.app.domain.repository.BabyItemRepository
+import com.mommydndn.app.domain.repository.CareRepository
+import com.mommydndn.app.domain.repository.CommonRepositoy
+import com.mommydndn.app.domain.repository.LocationRepository
+import com.mommydndn.app.domain.repository.NotificationRepository
+import com.mommydndn.app.domain.repository.TermsAndConditionsRepository
+import com.mommydndn.app.domain.repository.UserRepository
+import com.mommydndn.app.data.repository.AccountDataRepository
+import com.mommydndn.app.data.repository.BabyItemDataRepository
+import com.mommydndn.app.data.repository.CareDataRepository
+import com.mommydndn.app.data.repository.CommonDataRepository
+import com.mommydndn.app.data.repository.LocationDataRepository
+import com.mommydndn.app.data.repository.NotificationDataRepository
+import com.mommydndn.app.data.repository.TermsAndConditionsDataRepository
+import com.mommydndn.app.data.repository.UserDataRepository
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 import dagger.Binds
-import dagger.Provides
-import dagger.hilt.android.qualifiers.ApplicationContext
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -32,49 +28,33 @@ interface DataModule {
 
     @Binds
     @Singleton
-    fun bindAccountRepository(
-        accountRepository: AccountRepositoryImpl
-    ): AccountRepository
+    fun bindAccountRepository(repository: AccountDataRepository): AccountRepository
 
     @Binds
     @Singleton
-    fun bindTermsRepository(
-        termsRepository: TermsRepositoryImpl
-    ): TermsRepository
+    fun bindTermsRepository(repository: TermsAndConditionsDataRepository): TermsAndConditionsRepository
 
     @Binds
     @Singleton
-    fun bindLocationRepository(
-        locationRepository: LocationRepositoryImpl
-    ): LocationRepository
+    fun bindLocationRepository(repository: LocationDataRepository): LocationRepository
 
     @Binds
     @Singleton
-    fun bindNoticeRepository(
-        noticeRepository: NoticeRespositoryIml
-    ): NoticeRepository
+    fun bindNoticeRepository(repository: NotificationDataRepository): NotificationRepository
 
     @Binds
     @Singleton
-    fun bindCaringRepository(
-        caringRepository: CaringRepositoryImpl
-    ): CaringRepository
+    fun bindCaringRepository(repository: CareDataRepository): CareRepository
 
     @Binds
     @Singleton
-    fun bindCommonRepository(
-        commonRepositoryImpl: CommonRepositoryImpl
-    ): CommonRepositoy
+    fun bindCommonRepository(repository: CommonDataRepository): CommonRepositoy
 
     @Binds
     @Singleton
-    fun bindBabyItemRepository(
-        babyItemRepository: BabyItemRepositoryImpl
-    ): BabyItemRepository
+    fun bindBabyItemRepository(repository: BabyItemDataRepository): BabyItemRepository
 
     @Binds
     @Singleton
-    fun bindUserRepository(
-        userRepository: UserRepositoryImpl
-    ): UserRepository
+    fun bindUserRepository(repository: UserDataRepository): UserRepository
 }

@@ -40,7 +40,7 @@ import com.mommydndn.app.ui.theme.MommydndnaosTheme
 import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
-import com.mommydndn.app.ui.extensions.bottomBorder
+import com.mommydndn.app.util.extension.bottomBorder
 
 @Composable
 fun Searchbar(

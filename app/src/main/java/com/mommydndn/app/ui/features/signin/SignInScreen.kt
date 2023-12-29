@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -35,17 +34,31 @@ import androidx.navigation.NavHostController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.Task
-import com.mommydndn.app.data.model.user.OAuthType
+import com.mommydndn.app.BuildConfig
+import com.mommydndn.app.domain.model.user.OAuthType
 import com.mommydndn.app.ui.theme.Salmon600
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.OAuthLoginCallback
 
+private fun getGoogleSignInClient(
+    context: Context,
+    googleSignInOptions: GoogleSignInOptions = GoogleSignInOptions.DEFAULT_SIGN_IN,
+    serverClientId: String = BuildConfig.GOOGLE_CLIENT_ID
+): GoogleSignInClient {
+    return GoogleSignInOptions.Builder(googleSignInOptions)
+        .requestEmail()
+        .requestServerAuthCode(serverClientId)
+        .build()
+        .let { options -> GoogleSignIn.getClient(context, options) }
+}
+
 @Composable
-fun SignInScreen(
+internal fun SignInScreen(
     viewModel: SignInViewModel = hiltViewModel(),
     navHostController: NavHostController,
-    googleSignInClient: GoogleSignInClient
+    googleSignInClient: GoogleSignInClient = getGoogleSignInClient(LocalContext.current)
 ) {
     val TAG = "SignInScreen"
     val context = LocalContext.current
@@ -61,8 +74,7 @@ fun SignInScreen(
                     GoogleSignIn.getSignedInAccountFromIntent(data)
 
                 viewModel.handleGoogleSignInResult(
-                    task,
-                    navHostController
+                    task, navHostController
                 )
 
             }
@@ -100,41 +112,31 @@ fun SignInScreen(
         }
     }
     Scaffold(topBar = {
-        Header(
-            rightContent = {
-                TextButton(
-                    onClick = {},
-                    contentPadding = PaddingValues(
-                        top = 6.dp,
-                        bottom = 6.dp,
-                        start = 8.dp,
-                        end = 8.dp
+        Header(rightContent = {
+            TextButton(
+                onClick = {}, contentPadding = PaddingValues(
+                    top = 6.dp, bottom = 6.dp, start = 8.dp, end = 8.dp
+                )
+            ) {
+                Text(
+                    modifier = Modifier.padding(0.dp),
+                    text = "먼저 둘러보기",
+                    style = MaterialTheme.typography.paragraph300.copy(
+                        color = Grey500, fontWeight = FontWeight.Medium
                     )
-                ) {
-                    Text(
-                        modifier = Modifier.padding(0.dp),
-                        text = "먼저 둘러보기",
-                        style = MaterialTheme.typography.paragraph300.copy(
-                            color = Grey500,
-                            fontWeight = FontWeight.Medium
-                        )
-                    )
-                }
+                )
             }
-        )
+        })
     }, bottomBar = {
-        SocialLoginBox(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 96.dp),
+        SocialLoginBox(modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 96.dp),
             onClickGoogle = {
                 startForResult.launch(signInIntent)
             },
             onClickKakao = { loginKakao(context, kakaoCallback) },
-            onClickNaver = { loginNaver(context, naverCallback) }
-        )
-    }
-    ) { innerPadding ->
+            onClickNaver = { loginNaver(context, naverCallback) })
+    }) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -146,23 +148,25 @@ fun SignInScreen(
                 modifier = Modifier
                     .width(125.dp)
                     .height(121.dp),
-                painter = painterResource(id = R.drawable.ic_logo),
+                painter = painterResource(id = R.drawable.icon_logo),
                 contentDescription = ""
             )
+
             Spacer(modifier = Modifier.height(Paddings.extra))
+
             Text(
                 text = "우리 동네 엄마 찾기",
                 style = MaterialTheme.typography.heading800.copy(
-                    color = Salmon600,
-                    fontWeight = FontWeight.Bold
+                    color = Salmon600, fontWeight = FontWeight.Bold
                 ),
             )
+
             Spacer(modifier = Modifier.height(Paddings.large))
+
             Text(
                 text = "내 아이를 맡길 수 있는\n따뜻한 동네 엄마를 찾아보세요",
                 style = MaterialTheme.typography.paragraph300.copy(
-                    color = Grey500,
-                    fontWeight = FontWeight.Medium
+                    color = Grey500, fontWeight = FontWeight.Medium
                 ),
                 textAlign = TextAlign.Center
             )
@@ -172,9 +176,7 @@ fun SignInScreen(
 
 
 private fun loginWithKakaoNickName(
-    token: OAuthToken,
-    viewModel: SignInViewModel,
-    navHostController: NavHostController
+    token: OAuthToken, viewModel: SignInViewModel, navHostController: NavHostController
 ) {
     UserApiClient.instance.me { user, error ->
         when {
@@ -184,9 +186,7 @@ private fun loginWithKakaoNickName(
 
             user != null -> {
                 viewModel.signIn(
-                    tokenId = token.accessToken,
-                    type = OAuthType.KAKAO,
-                    navHostController
+                    tokenId = token.accessToken, type = OAuthType.KAKAO, navHostController
                 )
             }
         }

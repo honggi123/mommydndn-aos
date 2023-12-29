@@ -5,7 +5,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.mommydndn.app.data.api.model.request.JobSeekerListRequest
 import com.mommydndn.app.data.api.model.request.PaginationRequest
-import com.mommydndn.app.data.api.service.CaringService
+import com.mommydndn.app.data.api.service.CareService
 import com.mommydndn.app.data.model.care.summary.JobSeekerSummaryItem
 import javax.inject.Inject
 
@@ -13,13 +13,13 @@ private const val STARTING_PAGE_INDEX = 1
 
 class JobSeekerSummaryPagingSource  @Inject constructor(
     private val jobSeekerListRequest: JobSeekerListRequest,
-    private val caringService: CaringService
+    private val careService: CareService
 ) : PagingSource<Int, JobSeekerSummaryItem>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, JobSeekerSummaryItem> {
         return try {
             val position = params.key ?: STARTING_PAGE_INDEX
-            val result = caringService.fetchJobSeekerSummary(
+            val result = careService.fetchJobSeekerSummary(
                 jobSeekerListRequest.copy(
                     paginationRequest = PaginationRequest(
                         pageNum = position,

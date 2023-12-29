@@ -30,8 +30,8 @@ import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.ui.components.common.Badge
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey800
-import com.mommydndn.app.utils.DateTimeUtils
-import com.mommydndn.app.utils.NumberUtils
+import com.mommydndn.app.util.DateTimeUtils
+import com.mommydndn.app.util.NumberUtils
 
 @Composable
 fun JobOfferSummaryBox(
@@ -79,7 +79,7 @@ fun JobOfferSummaryBox(
                             )
                         )
                         Image(
-                            painter = painterResource(id = R.drawable.ic_ellipse),
+                            painter = painterResource(id = R.drawable.icon_circle),
                             contentDescription = null,
                             modifier = Modifier.align(Alignment.CenterVertically)
                         )
@@ -122,7 +122,7 @@ fun JobOfferSummaryBox(
                     )
                     Spacer(modifier = Modifier.size(4.dp))
                     Image(
-                        painter = painterResource(id = R.drawable.ic_ellipse),
+                        painter = painterResource(id = R.drawable.icon_circle),
                         contentDescription = null,
                         modifier = Modifier.align(Alignment.CenterVertically)
                     )

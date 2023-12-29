@@ -5,8 +5,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.mommydndn.app.BuildConfig
-import com.mommydndn.app.R
-import com.mommydndn.app.data.datasource.TokenManager
+import com.mommydndn.app.data.preferences.TokenManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,20 +16,14 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
     @Singleton
     @Provides
     fun provideGoogleSignInOptions(@ApplicationContext context: Context): GoogleSignInClient {
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        return GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .requestServerAuthCode(BuildConfig.GOOGLE_CLIENT_ID)
             .build()
-        return GoogleSignIn.getClient(context, gso)
+            .let { options -> GoogleSignIn.getClient(context, options) }
     }
-
-    @Provides
-    @Singleton
-    fun provideTokenManager(@ApplicationContext context: Context): TokenManager {
-        return TokenManager(context)
-    }
-
 }

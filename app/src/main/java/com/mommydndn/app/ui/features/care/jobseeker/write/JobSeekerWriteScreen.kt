@@ -60,7 +60,6 @@ import com.mommydndn.app.data.model.common.ButtonSizeType
 import com.mommydndn.app.data.model.common.ImageInputFieldType
 import com.mommydndn.app.data.model.common.MinMaxRange
 import com.mommydndn.app.data.model.map.EmdItem
-import com.mommydndn.app.data.model.map.LocationInfo
 import com.mommydndn.app.ui.components.box.SubtextBox
 import com.mommydndn.app.ui.components.box.SubtextBoxSize
 import com.mommydndn.app.ui.components.button.MommyDndnButton
@@ -70,7 +69,7 @@ import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.components.inputfield.ImageInputField
 import com.mommydndn.app.ui.components.inputfield.SelectField
 import com.mommydndn.app.ui.components.inputfield.TextInpuField
-import com.mommydndn.app.ui.extensions.addFocusCleaner
+import com.mommydndn.app.util.extension.addFocusCleaner
 import com.mommydndn.app.ui.navigation.JobSeekerLocationSearchNav
 import com.mommydndn.app.ui.navigation.JobSeekerWritePreviewNav
 import com.mommydndn.app.ui.theme.Grey100
@@ -80,10 +79,10 @@ import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph400
-import com.mommydndn.app.utils.NavigationUtils
-import com.mommydndn.app.utils.NumberCommaVisualTransformation
-import com.mommydndn.app.utils.NumberUtils
-import com.mommydndn.app.utils.PermissionUtils
+import com.mommydndn.app.util.NavigationUtils
+import com.mommydndn.app.util.NumberCommaVisualTransformation
+import com.mommydndn.app.util.NumberUtils
+import com.mommydndn.app.util.PermissionUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

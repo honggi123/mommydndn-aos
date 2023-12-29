@@ -52,20 +52,13 @@ import androidx.navigation.NavHostController
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.CompanyPreview
-import com.mommydndn.app.data.model.care.EtcCheckItem
-import com.mommydndn.app.data.model.care.JobOfferPreview
-import com.mommydndn.app.data.model.care.JobSeekerPreview
 import com.mommydndn.app.data.model.care.MinHourlySalary
-import com.mommydndn.app.data.model.care.SalaryType
-import com.mommydndn.app.data.model.care.WorkPeriodType
 import com.mommydndn.app.data.model.common.ButtonColor
 import com.mommydndn.app.data.model.common.ButtonColorType
 import com.mommydndn.app.data.model.common.ButtonSizeType
-import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.common.ImageInputFieldType
 import com.mommydndn.app.data.model.common.MinMaxRange
 import com.mommydndn.app.data.model.map.EmdItem
-import com.mommydndn.app.ui.components.box.SelectScopeBox
 import com.mommydndn.app.ui.components.box.SubtextBox
 import com.mommydndn.app.ui.components.box.SubtextBoxSize
 import com.mommydndn.app.ui.components.button.MommyDndnButton
@@ -76,14 +69,9 @@ import com.mommydndn.app.ui.components.inputfield.SelectField
 import com.mommydndn.app.ui.components.inputfield.TextInpuField
 import com.mommydndn.app.ui.components.inputfield.TextInputScopeBox
 import com.mommydndn.app.ui.components.list.CheckBoxListItem
-import com.mommydndn.app.ui.extensions.addFocusCleaner
-import com.mommydndn.app.ui.features.care.jobseeker.write.JobSeekerWriteViewModel
+import com.mommydndn.app.util.extension.addFocusCleaner
 import com.mommydndn.app.ui.navigation.CompanyLocationSearchNav
-import com.mommydndn.app.ui.navigation.CompanyWriteNav
 import com.mommydndn.app.ui.navigation.CompanyWritePreviewNav
-import com.mommydndn.app.ui.navigation.JobOfferWritePreviewNav
-import com.mommydndn.app.ui.navigation.JobSeekerLocationSearchNav
-import com.mommydndn.app.ui.navigation.JobSeekerWritePreviewNav
 import com.mommydndn.app.ui.theme.Grey100
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey600
@@ -91,15 +79,11 @@ import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph400
-import com.mommydndn.app.utils.DateTimeUtils
-import com.mommydndn.app.utils.NavigationUtils
-import com.mommydndn.app.utils.NumberCommaVisualTransformation
-import com.mommydndn.app.utils.NumberUtils
-import com.mommydndn.app.utils.PermissionUtils
+import com.mommydndn.app.util.NavigationUtils
+import com.mommydndn.app.util.NumberCommaVisualTransformation
+import com.mommydndn.app.util.PermissionUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import java.time.LocalDate
-import java.time.LocalTime
 
 @Composable
 fun CompanyWriteScreen(
