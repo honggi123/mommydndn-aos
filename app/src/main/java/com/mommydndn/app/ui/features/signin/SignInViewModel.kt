@@ -11,7 +11,7 @@ import com.mommydndn.app.domain.repository.AccountRepository
 import kotlinx.coroutines.Dispatchers
 import androidx.navigation.NavHostController
 import com.mommydndn.app.data.api.model.response.LoginResponse
-import com.mommydndn.app.data.model.user.SignUpInfo
+import com.mommydndn.app.domain.model.user.SignUpInfo
 import com.mommydndn.app.ui.navigation.MainNav
 import com.mommydndn.app.ui.navigation.UserTypeNav
 import com.mommydndn.app.util.NavigationUtils

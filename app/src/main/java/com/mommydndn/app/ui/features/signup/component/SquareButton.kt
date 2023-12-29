@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.components.button
+package com.mommydndn.app.ui.features.signup.component
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
@@ -8,22 +8,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -32,25 +24,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
-import com.mommydndn.app.domain.model.user.UserType
 import com.mommydndn.app.ui.theme.Grey100
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
 import com.mommydndn.app.ui.theme.Shapes
-import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph500
 import com.mommydndn.app.ui.theme.shadow500
 
 @Composable
 fun SquareButton(
-    modifier: Modifier = Modifier,
-    status: Boolean = false,
     imageResourceId: Int,
-    text: String = "",
+    text: String,
     onClick: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+    isSelected: Boolean = false
 ) {
-    Crossfade(modifier = modifier, targetState = status, label = "") { isSelected ->
+    Crossfade(modifier = modifier, targetState = isSelected, label = "") { isSelected ->
         Box(
             modifier = Modifier
                 .aspectRatio(1f)
@@ -59,7 +49,7 @@ fun SquareButton(
                     color = if (isSelected) Grey100 else Grey50,
                     shape = Shapes.large
                 )
-                .clickable(onClick = { onClick(!status) })
+                .clickable(onClick = { onClick(!isSelected) })
         ) {
             Column(
                 modifier = Modifier

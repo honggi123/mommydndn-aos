@@ -9,7 +9,7 @@ import com.mommydndn.app.R
 import com.mommydndn.app.data.model.care.CompanyPreview
 import com.mommydndn.app.data.model.care.JobOfferPreview
 import com.mommydndn.app.data.model.care.JobSeekerPreview
-import com.mommydndn.app.data.model.user.SignUpInfo
+import com.mommydndn.app.domain.model.user.SignUpInfo
 import com.mommydndn.app.ui.navigation.NavigationRouteName.MAIN_CARE
 import com.mommydndn.app.ui.navigation.NavigationRouteName.MAIN_HOME
 import com.mommydndn.app.util.GsonUtils

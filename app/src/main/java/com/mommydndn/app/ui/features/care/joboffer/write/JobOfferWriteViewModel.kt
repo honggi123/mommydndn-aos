@@ -14,7 +14,7 @@ import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.SalaryTypeItem
 import com.mommydndn.app.data.model.care.WorkPeriodType
 import com.mommydndn.app.data.model.care.WorkPeriodTypeItem
-import com.mommydndn.app.data.model.location.LocationInfo
+import com.mommydndn.app.domain.model.location.LocationInfo
 import com.mommydndn.app.domain.repository.CaringRepository
 import com.mommydndn.app.domain.repository.LocationRepository
 import com.mommydndn.app.domain.repository.UserRepository

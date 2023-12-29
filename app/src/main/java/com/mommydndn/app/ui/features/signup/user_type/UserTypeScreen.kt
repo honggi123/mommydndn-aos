@@ -1,12 +1,12 @@
-package com.mommydndn.app.ui.features.signup
+package com.mommydndn.app.ui.features.signup.user_type
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -21,63 +21,27 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mommydndn.app.R
-import com.mommydndn.app.data.model.user.SignUpInfo
+import com.mommydndn.app.domain.model.user.SignUpInfo
 import com.mommydndn.app.domain.model.user.UserType
 import com.mommydndn.app.ui.components.box.MaintextBox
-import com.mommydndn.app.ui.components.button.SquareButton
+import com.mommydndn.app.ui.features.signup.component.SquareButton
 import com.mommydndn.app.ui.components.common.Header
+import com.mommydndn.app.ui.features.signup.SignUpUiState
+import com.mommydndn.app.ui.features.signup.SignUpViewModel
 import com.mommydndn.app.ui.theme.Grey400
 
 @Composable
-internal fun SelectUserTypeRoute(
-    navigateToNextScreen: () -> Unit,
-    navigateToPreviousScreen: () -> Unit,
-    signUpInfo: SignUpInfo?,
-    viewModel: SignUpViewModel = hiltViewModel(),
-) {
-    LaunchedEffect(Unit) {
-        viewModel.setSignUpInfo(signUpInfo)
-    }
-
-    val onUserTypeClick: (UserType) -> Unit = { userType ->
-        when (userType) {
-            UserType.COMPANY -> {
-                viewModel.setUserType(UserType.COMPANY)
-                navigateToNextScreen()
-            }
-
-            UserType.INDIVIDUAL -> {
-                viewModel.setUserType(UserType.INDIVIDUAL)
-                navigateToNextScreen()
-            }
-        }
-    }
-
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val screenState = uiState as? SignUpUiState.UserTypeSelect
-
-    screenState?.let {
-        SelectUserTypeScreen(
-            modifier = Modifier.fillMaxSize(),
-            navigateToPreviousScreen = navigateToPreviousScreen,
-            onUserTypeClick = onUserTypeClick,
-            uiState = screenState
-        )
-    }
-}
-
-@Composable
 fun SelectUserTypeScreen(
-    modifier: Modifier = Modifier,
-    navigateToPreviousScreen: () -> Unit,
+    onBackButtonClick: () -> Unit,
     onUserTypeClick: (UserType) -> Unit,
-    uiState: SignUpUiState.UserTypeSelect
+    uiState: SignUpUiState.UserTypeSelect,
+    modifier: Modifier = Modifier
 ) {
 
     Column(modifier = modifier.fillMaxSize()) {
         UserTypeTopAppBar(
             modifier = Modifier.fillMaxWidth(),
-            navigateToPreviousScreen = navigateToPreviousScreen
+            onBackButtonClick = onBackButtonClick
         )
 
         MaintextBox(
@@ -95,13 +59,13 @@ fun SelectUserTypeScreen(
 
 @Composable
 fun UserTypeTopAppBar(
-    modifier: Modifier = Modifier,
-    navigateToPreviousScreen: () -> Unit,
+    onBackButtonClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Header(
         modifier = modifier.fillMaxWidth(),
         leftContent = {
-            IconButton(onClick = { navigateToPreviousScreen() }) {
+            IconButton(onClick = { onBackButtonClick() }) {
                 Icon(
                     painter = painterResource(id = R.drawable.icon_arrow_left),
                     contentDescription = "icon_arrow_left",
@@ -114,13 +78,13 @@ fun UserTypeTopAppBar(
 
 @Composable
 fun UserTypeContent(
-    modifier: Modifier = Modifier,
-    onUserTypeClick: (UserType) -> Unit
+    onUserTypeClick: (UserType) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(368.dp),
+            .aspectRatio(390f / 368f),
     ) {
         Row(
             modifier = Modifier

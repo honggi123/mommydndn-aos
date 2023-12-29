@@ -12,7 +12,7 @@ import com.mommydndn.app.data.api.service.GoogleApiService
 import com.mommydndn.app.data.api.service.KakaoApiService
 import com.mommydndn.app.data.api.service.LocationService
 import com.mommydndn.app.data.api.service.NoticeService
-import com.mommydndn.app.data.api.service.TermsAndConditionsService
+import com.mommydndn.app.data.api.service.TermsOfServiceService
 import com.mommydndn.app.data.api.service.UserService
 import com.mommydndn.app.data.preferences.TokenManager
 import com.skydoves.sandwich.adapters.ApiResponseCallAdapterFactory
@@ -91,8 +91,8 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideTermsService(retrofit: Retrofit): TermsAndConditionsService {
-        return retrofit.create(TermsAndConditionsService::class.java)
+    fun provideTermsService(retrofit: Retrofit): TermsOfServiceService {
+        return retrofit.create(TermsOfServiceService::class.java)
     }
 
     @Singleton

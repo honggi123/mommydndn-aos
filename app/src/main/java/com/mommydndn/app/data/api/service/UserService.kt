@@ -2,8 +2,8 @@ package com.mommydndn.app.data.api.service
 
 import com.mommydndn.app.data.api.model.request.SignInRequest
 import com.mommydndn.app.data.api.model.request.SignUpRequest
-import com.mommydndn.app.data.api.model.request.UpdateTermsAndConditionsRequest
 import com.mommydndn.app.data.api.model.request.UpdateProfileImageRequest
+import com.mommydndn.app.data.api.model.request.UpdateTermsOfServiceListRequest
 import com.mommydndn.app.data.api.model.response.GetUserResponse
 import com.mommydndn.app.data.api.model.response.LoginResponse
 import com.mommydndn.app.data.api.model.response.RefreshAccessTokenResponse
@@ -26,7 +26,7 @@ interface UserService {
     suspend fun refreshAccessToken(): ApiResponse<RefreshAccessTokenResponse>
 
     @POST("api/user/terms")
-    suspend fun updateTermsAndConditions(@Body request: UpdateTermsAndConditionsRequest)
+    suspend fun updateTos(@Body request: UpdateTermsOfServiceListRequest)
 
     @GET("/api/user")
     suspend fun getUser(): GetUserResponse

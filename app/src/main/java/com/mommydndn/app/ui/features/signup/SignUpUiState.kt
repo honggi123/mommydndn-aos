@@ -1,30 +1,31 @@
 package com.mommydndn.app.ui.features.signup
 
-import com.mommydndn.app.data.model.common.LocationSearchType
-import com.mommydndn.app.data.model.user.SignUpInfo
-import com.mommydndn.app.domain.model.TermsAndConditions.TermsAndConditionsItem
+import androidx.paging.PagingData
+import com.mommydndn.app.domain.model.location.LocationInfo
+import com.mommydndn.app.domain.model.location.SearchType
+import com.mommydndn.app.domain.model.tos.TermsOfService
 
 sealed interface SignUpUiState {
 
-    val isLoading: Boolean
-    val signUpInfo: SignUpInfo?
-    val errorMessages: String
+    sealed class UserTypeSelect : SignUpUiState {
 
-    data class UserTypeSelect(
-        override val isLoading: Boolean,
-        override val signUpInfo: SignUpInfo?,
-        override val errorMessages: String
-    ) : SignUpUiState
+        object Loading : UserTypeSelect()
+        object Success : UserTypeSelect()
+        data class Failure(val exception: Exception) : UserTypeSelect()
 
-    data class LocationSearch(
-        val locationSearchType: LocationSearchType,
-        val keyword: String,
-        val termsAndConditions: List<TermsAndConditionsItem>,
-        val isSignUpSuccess: Boolean,
-        override val isLoading: Boolean,
-        override val signUpInfo: SignUpInfo?,
-        override val errorMessages: String
-    ) : SignUpUiState
+    }
+
+    sealed class LocationSearch : SignUpUiState {
+
+        object Loading : LocationSearch()
+
+        data class Success(
+            val tosList: List<TermsOfService> = emptyList()
+        ) : LocationSearch()
+
+        data class Failure(val exception: Exception) : LocationSearch()
+
+        object SignUpSuccess : LocationSearch()
+
+    }
 }
-
-enum class SignUpStep { USER_TYPE, SEARCH_LOCATION }

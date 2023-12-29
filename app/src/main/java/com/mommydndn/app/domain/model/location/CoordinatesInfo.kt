@@ -1,6 +1,6 @@
-package com.mommydndn.app.data.model.location
+package com.mommydndn.app.domain.model.location
 
-data class LocationInfo(
+data class CoordinatesInfo(
     val latitude: Double,
     val longitude: Double,
     val address: String = ""

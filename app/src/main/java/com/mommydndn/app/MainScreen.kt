@@ -18,7 +18,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -29,22 +28,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.google.android.gms.location.FusedLocationProviderClient
 import com.mommydndn.app.ui.features.home.MainHomeScreen
 import com.mommydndn.app.ui.features.signin.SignInScreen
-import com.mommydndn.app.ui.features.signup.LocationSearchRoute
-import com.mommydndn.app.ui.features.signup.LocationSearchScreen
-import com.mommydndn.app.ui.features.signup.SelectUserTypeRoute
+import com.mommydndn.app.ui.features.signup.location.LocationRoute
 import com.mommydndn.app.ui.features.signup.SignUpViewModel
-import com.mommydndn.app.ui.navigation.CompanyLocationSearchNav
-import com.mommydndn.app.ui.navigation.CompanyWriteNav
-import com.mommydndn.app.ui.navigation.CompanyWritePreviewNav
-import com.mommydndn.app.ui.navigation.JobOfferLocationSearchNav
-import com.mommydndn.app.ui.navigation.JobOfferWriteNav
-import com.mommydndn.app.ui.navigation.JobOfferWritePreviewNav
-import com.mommydndn.app.ui.navigation.JobSeekerLocationSearchNav
-import com.mommydndn.app.ui.navigation.JobSeekerWriteNav
-import com.mommydndn.app.ui.navigation.JobSeekerWritePreviewNav
+import com.mommydndn.app.ui.features.signup.user_type.UserTypeRoute
 import com.mommydndn.app.ui.navigation.LocationSearchNav
 import com.mommydndn.app.ui.navigation.MainNav
 import com.mommydndn.app.ui.navigation.SignInNav
@@ -55,7 +43,7 @@ import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.util.NavigationUtils
 
 @Composable
-internal fun MainScreen(fusedLocationClient: FusedLocationProviderClient) {
+internal fun MainScreen() {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -78,7 +66,6 @@ internal fun MainScreen(fusedLocationClient: FusedLocationProviderClient) {
 
         MainNavigationScreen(
             navController,
-            fusedLocationClient,
             scaffoldState
         )
     }
@@ -129,7 +116,6 @@ fun MainBottomNavigationBar(
 @Composable
 fun MainNavigationScreen(
     navController: NavHostController,
-    fusedLocationClient: FusedLocationProviderClient,
     scaffoldState: ScaffoldState
 ) {
     val signUpViewModel = hiltViewModel<SignUpViewModel>()
@@ -160,9 +146,9 @@ fun MainNavigationScreen(
             val signUpInfo = UserTypeNav.findArgument(it)
             val accessToken = Uri.decode(signUpInfo?.accessToken)
 
-            SelectUserTypeRoute(
-                navigateToNextScreen = { NavigationUtils.navigate(navController, LocationSearchNav.route) },
-                navigateToPreviousScreen = { navController.popBackStack() },
+            UserTypeRoute(
+                onUserTypeSelect = { NavigationUtils.navigate(navController, LocationSearchNav.route) },
+                onBackButtonClick = { navController.popBackStack() },
                 signUpInfo = signUpInfo?.copy(accessToken = accessToken),
                 viewModel = signUpViewModel
             )
@@ -173,10 +159,9 @@ fun MainNavigationScreen(
             enterTransition = { slideEnterTransition },
             exitTransition = { slideExitTransition }
         ) {
-            LocationSearchRoute(
-                navigateToNextScreen = {},
-                navigateToPreviousScreen = { navController.popBackStack() },
-                fusedLocationClient = fusedLocationClient,
+            LocationRoute(
+                onSignUpSuccess = { NavigationUtils.navigate(navController, MainNav.Home.route) },
+                onBackButtonClick = { navController.popBackStack() },
                 viewModel = signUpViewModel
             )
         }

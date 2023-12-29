@@ -7,15 +7,18 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 
 abstract class FlowUseCase<in P, R>(private val coroutineDispatcher: CoroutineDispatcher) {
 
-    suspend operator fun invoke(parameters: P): Flow<Result<R>> = execute(parameters)
-        .map { Result.Success(it) }
-        .catch { throwable -> emitError(throwable) }
+    @Suppress("USELESS_CAST")
+    operator fun invoke(parameters: P): Flow<Result<R>> = execute(parameters)
+        .map { Result.Success(it) as Result<R> }
+        .onStart { emit(Result.Loading) }
+        .catch { throwable -> emit(Result.Failure(Exception(throwable))) }
         .flowOn(coroutineDispatcher)
 
-    private fun emitError(throwable: Throwable): Flow<Result<R>> = flow { Result.Failure(exception = Exception(throwable)) }
-
-    protected abstract suspend fun execute(parameters: P): Flow<R>
+    protected abstract fun execute(parameters: P): Flow<R>
 }
+
+operator fun <R> FlowUseCase<Unit, R>.invoke(): Flow<Result<R>> = invoke(Unit)
