@@ -6,7 +6,7 @@ import com.navercorp.nid.NaverIdLoginSDK
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class MommyDnDnApplication : Application() {
+class MainApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()

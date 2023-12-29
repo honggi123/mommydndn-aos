@@ -5,11 +5,11 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.mommydndn.app.data.api.model.response.AddressResponse
 import com.mommydndn.app.data.api.service.KakaoApiService
-import com.mommydndn.app.data.api.service.MapService
+import com.mommydndn.app.data.api.service.LocationService
 import com.mommydndn.app.data.datasource.pagingsource.LocationsByKeywordPagingSource
 import com.mommydndn.app.data.datasource.pagingsource.NearestByLocationPagingSource
-import com.mommydndn.app.data.model.map.EmdItem
-import com.mommydndn.app.data.model.map.LocationInfo
+import com.mommydndn.app.domain.model.location.CoordinatesInfo
+import com.mommydndn.app.domain.model.location.LocationInfo
 import com.mommydndn.app.domain.repository.LocationRepository
 import com.skydoves.sandwich.suspendOnSuccess
 import kotlinx.coroutines.Dispatchers
@@ -19,37 +19,33 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class LocationDataRepository @Inject constructor(
-    private val mapService: MapService,
+    private val locationService: LocationService,
     private val kakaoApiService: KakaoApiService
 ) : LocationRepository {
 
-    override fun fetchEmdByLocation(locationInfo: LocationInfo): Flow<EmdItem?> = flow {
-        mapService.fetchNearestByLocation(
-            latitude = locationInfo.latitude,
-            longitude = locationInfo.longitude
-        ).suspendOnSuccess {
-            emit(data.emdList.get(0))
-        }
-    }.flowOn(Dispatchers.IO)
+    override fun fetchNearestLocation(coordinatesInfo: CoordinatesInfo): LocationInfo? {
+       return locationService.fetchNearestByMyLocation(
+            latitude = coordinatesInfo.latitude,
+            longitude = coordinatesInfo.longitude
+        ).body()
+    }
 
 
-    override fun fetchNearestByLocation(
-        locationInfo: LocationInfo
-    ): Flow<PagingData<EmdItem>> {
+    override fun fetchNearestLocations(coordinatesInfo: CoordinatesInfo): Flow<PagingData<LocationInfo>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 15, enablePlaceholders = false
             ),
-            pagingSourceFactory = { NearestByLocationPagingSource(locationInfo, mapService) }
+            pagingSourceFactory = { NearestByLocationPagingSource(coordinatesInfo, locationService) }
         ).flow
     }
 
-    override fun fetchLocationsByKeyword(keyword: String): Flow<PagingData<EmdItem>> {
+    override fun fetchLocationsByKeyword(keyword: String): Flow<PagingData<LocationInfo>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 15, enablePlaceholders = false
             ),
-            pagingSourceFactory = { LocationsByKeywordPagingSource(keyword, mapService) }
+            pagingSourceFactory = { LocationsByKeywordPagingSource(keyword, locationService) }
         ).flow
     }
 

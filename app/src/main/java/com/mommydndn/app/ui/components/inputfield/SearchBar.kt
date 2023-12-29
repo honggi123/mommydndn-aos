@@ -1,6 +1,8 @@
 package com.mommydndn.app.ui.components.inputfield
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -44,13 +46,13 @@ import com.mommydndn.app.util.extension.bottomBorder
 
 @Composable
 fun Searchbar(
-    modifier: Modifier = Modifier,
     keyword: String,
-    placeHolderText: String = "",
     onValueChange: (String) -> Unit,
     backStackAction: () -> Unit,
-    searchAction: () -> Unit,
-    clearAction: () -> Unit,
+    modifier: Modifier = Modifier,
+    placeHolderText: String = "",
+    searchAction: () -> Unit = {},
+    clearAction: () -> Unit = {},
 ) {
     Column(
         modifier
@@ -72,7 +74,7 @@ fun Searchbar(
                 backStackAction()
             }) {
                 Icon(
-                    painter = painterResource(id = R.drawable.arrow_left),
+                    painter = painterResource(id = R.drawable.icon_arrow_left),
                     contentDescription = "",
                     tint = Grey400
                 )
@@ -116,17 +118,14 @@ fun Searchbar(
                 onValueChange = onValueChange,
                 trailingIcon = {
                     if (!keyword.isEmpty()) {
-                        IconButton(
-                            onClick = { clearAction() },
-                            modifier = Modifier.size(36.dp)
-                        ) {
-                            Icon(
-                                modifier = Modifier
-                                    .padding(8.dp),
-                                painter = painterResource(id = R.drawable.ic_x_circle),
-                                contentDescription = ""
-                            )
-                        }
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_x_circle),
+                            contentDescription = "",
+                            modifier = Modifier
+                                .size(36.dp)
+                                .clickable { clearAction() }
+                                .padding(8.dp)
+                        )
                     }
                 }
             )

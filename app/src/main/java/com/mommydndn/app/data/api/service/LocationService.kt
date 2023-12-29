@@ -1,21 +1,20 @@
 package com.mommydndn.app.data.api.service
 
-import com.mommydndn.app.data.api.model.response.LocationSearchResponse
-import com.mommydndn.app.data.api.model.response.NearestResponse
-import com.skydoves.sandwich.ApiResponse
+import com.mommydndn.app.data.api.model.response.GetLocationResponse
+import com.mommydndn.app.data.api.model.response.GetNearestResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface MapService {
+interface LocationService {
 
     @GET("/api/map/nearest")
-    suspend fun fetchNearestByLocation(
+    suspend fun fetchNearestByMyLocation(
         @Query("latitude") latitude: Double,
         @Query("longitude") longitude: Double,
         @Query("skip") skip: Int = 0,
         @Query("limit") limit: Int = 20
-    ): ApiResponse<NearestResponse>
+    ): Response<GetNearestResponse>
 
     @GET("/api/map/search")
     suspend fun fetchLocationsByKeyword(
@@ -23,5 +22,5 @@ interface MapService {
         @Query("skip") skip: Int = 0,
         @Query("limit") limit: Int = 20,
         @Query("requestTimestamp") requestTimestamp: Long
-    ): Response<LocationSearchResponse>
+    ): Response<GetLocationResponse>
 }

@@ -13,5 +13,4 @@ sealed class DialogButton(
         override val title: String,
         override val action: (() -> Unit)? = null
     ) : DialogButton(title, action)
-
 }

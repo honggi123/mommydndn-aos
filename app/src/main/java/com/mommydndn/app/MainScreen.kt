@@ -7,7 +7,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -19,7 +18,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -30,46 +28,22 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.mommydndn.app.ui.features.care.CareScreen
-import com.mommydndn.app.ui.features.care.company.write.CompanyLocationSearchScreen
-import com.mommydndn.app.ui.features.care.company.write.CompanyWriteScreen
-import com.mommydndn.app.ui.features.care.company.write.CompanyWriteViewModel
-import com.mommydndn.app.ui.features.care.company.write.preview.CompanyPreviewScreen
-import com.mommydndn.app.ui.features.care.joboffer.write.JobOfferLocationSearchScreen
-import com.mommydndn.app.ui.features.care.joboffer.write.JobOfferWriteScreen
-import com.mommydndn.app.ui.features.care.joboffer.write.JobOfferWriteViewModel
-import com.mommydndn.app.ui.features.care.joboffer.write.preview.JobOfferPreviewScreen
-import com.mommydndn.app.ui.features.care.jobseeker.write.JobSeekerLocationSearchScreen
-import com.mommydndn.app.ui.features.care.jobseeker.write.JobSeekerWriteScreen
-import com.mommydndn.app.ui.features.care.jobseeker.write.JobSeekerWriteViewModel
-import com.mommydndn.app.ui.features.care.jobseeker.write.preview.JobSeekerPreviewScreen
-import com.mommydndn.app.ui.features.home.HomeRoute
 import com.mommydndn.app.ui.features.home.MainHomeScreen
 import com.mommydndn.app.ui.features.signin.SignInScreen
-import com.mommydndn.app.ui.features.signup.NearestChoiceScreen
+import com.mommydndn.app.ui.features.signup.location.LocationRoute
 import com.mommydndn.app.ui.features.signup.SignUpViewModel
-import com.mommydndn.app.ui.features.signup.UserTypeChoiceScreen
-import com.mommydndn.app.ui.navigation.CompanyLocationSearchNav
-import com.mommydndn.app.ui.navigation.CompanyWriteNav
-import com.mommydndn.app.ui.navigation.CompanyWritePreviewNav
-import com.mommydndn.app.ui.navigation.JobOfferLocationSearchNav
-import com.mommydndn.app.ui.navigation.JobOfferWriteNav
-import com.mommydndn.app.ui.navigation.JobOfferWritePreviewNav
-import com.mommydndn.app.ui.navigation.JobSeekerLocationSearchNav
-import com.mommydndn.app.ui.navigation.JobSeekerWriteNav
-import com.mommydndn.app.ui.navigation.JobSeekerWritePreviewNav
+import com.mommydndn.app.ui.features.signup.user_type.UserTypeRoute
+import com.mommydndn.app.ui.navigation.LocationSearchNav
 import com.mommydndn.app.ui.navigation.MainNav
 import com.mommydndn.app.ui.navigation.SignInNav
-import com.mommydndn.app.ui.navigation.TownCheckNav
-import com.mommydndn.app.ui.navigation.TypeChoiceNav
+import com.mommydndn.app.ui.navigation.UserTypeNav
 import com.mommydndn.app.ui.theme.Grey300
 import com.mommydndn.app.ui.theme.Grey800
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.util.NavigationUtils
 
 @Composable
-internal fun MainScreen(fusedLocationClient: FusedLocationProviderClient) {
+internal fun MainScreen() {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -92,7 +66,6 @@ internal fun MainScreen(fusedLocationClient: FusedLocationProviderClient) {
 
         MainNavigationScreen(
             navController,
-            fusedLocationClient,
             scaffoldState
         )
     }
@@ -143,7 +116,6 @@ fun MainBottomNavigationBar(
 @Composable
 fun MainNavigationScreen(
     navController: NavHostController,
-    fusedLocationClient: FusedLocationProviderClient,
     scaffoldState: ScaffoldState
 ) {
     val signUpViewModel = hiltViewModel<SignUpViewModel>()
@@ -158,7 +130,7 @@ fun MainNavigationScreen(
         animationSpec = tween(durationMillis = 400, easing = FastOutSlowInEasing)
     )
 
-    NavHost(navController = navController, startDestination = SignInNav.route) {
+    NavHost(navController = navController, startDestination = UserTypeNav.routeWithArgName()) {
         composable(
             route = SignInNav.route,
         ) {
@@ -166,30 +138,30 @@ fun MainNavigationScreen(
         }
 
         composable(
-            route = TypeChoiceNav.routeWithArgName(),
-            arguments = TypeChoiceNav.arguments,
-
+            route = UserTypeNav.routeWithArgName(),
+            arguments = UserTypeNav.arguments,
             enterTransition = { slideEnterTransition },
             exitTransition = { slideExitTransition }
         ) {
-            val signUpInfo = TypeChoiceNav.findArgument(it)
+            val signUpInfo = UserTypeNav.findArgument(it)
             val accessToken = Uri.decode(signUpInfo?.accessToken)
 
-            UserTypeChoiceScreen(
+            UserTypeRoute(
+                onUserTypeSelect = { NavigationUtils.navigate(navController, LocationSearchNav.route) },
+                onBackButtonClick = { navController.popBackStack() },
                 signUpInfo = signUpInfo?.copy(accessToken = accessToken),
-                navHostController = navController,
                 viewModel = signUpViewModel
             )
         }
 
         composable(
-            route = TownCheckNav.route,
+            route = LocationSearchNav.route,
             enterTransition = { slideEnterTransition },
             exitTransition = { slideExitTransition }
         ) {
-            NearestChoiceScreen(
-                navHostController = navController,
-                fusedLocationClient = fusedLocationClient,
+            LocationRoute(
+                onSignUpSuccess = { NavigationUtils.navigate(navController, MainNav.Home.route) },
+                onBackButtonClick = { navController.popBackStack() },
                 viewModel = signUpViewModel
             )
         }
@@ -197,187 +169,9 @@ fun MainNavigationScreen(
         composable(
             route = MainNav.Home.route
         ) {
-            HomeRoute(
-                onMoreJobOfferButtonClick = { }
-            )
+            MainHomeScreen(navController = navController)
         }
 
-        composable(
-            route = MainNav.Care.route
-        ) {
-            CareScreen(
-                navController = navController,
-                scaffoldState = scaffoldState
-            )
-        }
-
-        composable(
-            route = JobOfferWriteNav.route,
-            enterTransition = { slideEnterTransition },
-            exitTransition = { slideExitTransition }
-        ) { backStackEntry ->
-            val JobOfferWriteStackEntry = remember(backStackEntry) {
-                navController.getBackStackEntry(JobOfferWriteNav.route)
-            }
-            val jobOfferWriteViewModel =
-                hiltViewModel<JobOfferWriteViewModel>(JobOfferWriteStackEntry)
-            JobOfferWriteScreen(
-                navController = navController,
-                viewModel = jobOfferWriteViewModel,
-                scaffoldState = scaffoldState
-            )
-        }
-
-        composable(
-            route = JobOfferLocationSearchNav.route,
-            enterTransition = { slideEnterTransition },
-            exitTransition = { slideExitTransition }
-        ) { backStackEntry ->
-            val JobOfferWriteStackEntry = remember(backStackEntry) {
-                navController.getBackStackEntry(JobOfferWriteNav.route)
-            }
-            val jobOfferWriteViewModel =
-                hiltViewModel<JobOfferWriteViewModel>(JobOfferWriteStackEntry)
-            JobOfferLocationSearchScreen(
-                navController = navController,
-                viewModel = jobOfferWriteViewModel
-            )
-        }
-
-        composable(
-            route = JobOfferWritePreviewNav.routeWithArgName(),
-            arguments = JobOfferWritePreviewNav.arguments,
-
-            enterTransition = { slideEnterTransition },
-            exitTransition = { slideExitTransition }
-        ) {
-            val jobOfferPreview = JobOfferWritePreviewNav.findArgument(it)
-
-            JobOfferPreviewScreen(
-                jobOfferPreview = jobOfferPreview, navController = navController
-            )
-        }
-
-        composable(
-            route = JobSeekerWriteNav.route,
-            enterTransition = { slideEnterTransition },
-            exitTransition = { slideExitTransition }
-        ) { backStackEntry ->
-            val JobSeekerWriteStackEntry = remember(backStackEntry) {
-                navController.getBackStackEntry(JobSeekerWriteNav.route)
-            }
-
-            val jobSeekerWriteViewModel =
-                hiltViewModel<JobSeekerWriteViewModel>(JobSeekerWriteStackEntry)
-
-            JobSeekerWriteScreen(
-                navController = navController,
-                viewModel = jobSeekerWriteViewModel,
-                scaffoldState = scaffoldState
-            )
-        }
-
-        composable(
-            route = JobSeekerWriteNav.route,
-            enterTransition = { slideEnterTransition },
-            exitTransition = { slideExitTransition }
-        ) { backStackEntry ->
-            val JobSeekerWriteStackEntry = remember(backStackEntry) {
-                navController.getBackStackEntry(JobSeekerWriteNav.route)
-            }
-
-            val jobSeekerWriteViewModel =
-                hiltViewModel<JobSeekerWriteViewModel>(JobSeekerWriteStackEntry)
-
-            JobSeekerWriteScreen(
-                navController = navController,
-                viewModel = jobSeekerWriteViewModel,
-                scaffoldState = scaffoldState
-            )
-        }
-
-        composable(
-            route = JobSeekerWritePreviewNav.routeWithArgName(),
-            arguments = JobSeekerWritePreviewNav.arguments,
-
-            enterTransition = { slideEnterTransition },
-            exitTransition = { slideExitTransition }
-        ) {
-            val jobSeekerPreview = JobSeekerWritePreviewNav.findArgument(it)
-
-            JobSeekerPreviewScreen(
-                jobSeekerPreview = jobSeekerPreview, navController = navController
-            )
-        }
-
-        composable(
-            route = JobSeekerLocationSearchNav.route,
-            enterTransition = { slideEnterTransition },
-            exitTransition = { slideExitTransition }
-        ) { backStackEntry ->
-            val JobSeekerWriteStackEntry = remember(backStackEntry) {
-                navController.getBackStackEntry(JobSeekerWriteNav.route)
-            }
-
-            val jobSeekerWriteViewModel =
-                hiltViewModel<JobSeekerWriteViewModel>(JobSeekerWriteStackEntry)
-
-            JobSeekerLocationSearchScreen(
-                navController = navController,
-                viewModel = jobSeekerWriteViewModel
-            )
-        }
-
-        composable(
-            route = CompanyWriteNav.route,
-            enterTransition = { slideEnterTransition },
-            exitTransition = { slideExitTransition }
-        ) { backStackEntry ->
-            val CompanyWriteNavStackEntry = remember(backStackEntry) {
-                navController.getBackStackEntry(CompanyWriteNav.route)
-            }
-
-            val companyWriteViewModel =
-                hiltViewModel<CompanyWriteViewModel>(CompanyWriteNavStackEntry)
-
-            CompanyWriteScreen(
-                navController = navController,
-                viewModel = companyWriteViewModel,
-                scaffoldState = scaffoldState
-            )
-        }
-
-        composable(
-            route = CompanyLocationSearchNav.route,
-            enterTransition = { slideEnterTransition },
-            exitTransition = { slideExitTransition }
-        ) { backStackEntry ->
-            val CompanyWriteStackEntry = remember(backStackEntry) {
-                navController.getBackStackEntry(CompanyWriteNav.route)
-            }
-
-            val companyWriteViewModel =
-                hiltViewModel<CompanyWriteViewModel>(CompanyWriteStackEntry)
-
-            CompanyLocationSearchScreen(
-                navController = navController,
-                viewModel = companyWriteViewModel
-            )
-        }
-
-        composable(
-            route = CompanyWritePreviewNav.routeWithArgName(),
-            arguments = CompanyWritePreviewNav.arguments,
-
-            enterTransition = { slideEnterTransition },
-            exitTransition = { slideExitTransition }
-        ) {
-            val companyPreview = CompanyWritePreviewNav.findArgument(it)
-
-            CompanyPreviewScreen(
-                companyPreiew = companyPreview, navController = navController
-            )
-        }
 
     }
 

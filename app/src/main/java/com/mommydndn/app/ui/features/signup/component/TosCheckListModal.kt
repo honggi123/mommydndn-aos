@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.components.modal
+package com.mommydndn.app.ui.features.signup.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -14,46 +14,42 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
 import androidx.compose.material.Divider
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.mommydndn.app.data.model.terms.TermsItem
+import com.mommydndn.app.data.model.common.ButtonColor
+import com.mommydndn.app.data.model.common.ButtonColorType
+import com.mommydndn.app.data.model.common.ButtonSizeType
+import com.mommydndn.app.domain.model.tos.TermsOfService
+import com.mommydndn.app.ui.components.button.MommyDndnButton
 import com.mommydndn.app.ui.components.list.CheckBoxListItem
 import com.mommydndn.app.ui.components.list.CheckMarkListItem
 import com.mommydndn.app.ui.theme.Grey200
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.shadow700
+import com.mommydndn.app.R
 
 @Composable
-fun TermsCheckListModal(
-    modifier: Modifier = Modifier,
-    titleCheckBoxText: String = "",
-    itemList: List<TermsItem>,
-
-    onItemSelected: (Int, Boolean) -> Unit,
+fun TosCheckListModal(
+    checkBoxTitle: String,
+    itemList: List<TermsOfService>,
     onDismiss: () -> Unit,
-    onComplete: () -> Unit,
+    onComplete: (List<TermsOfService>) -> Unit,
+    checkedStates: List<Boolean>,
+    onCheckedChange: (Int, Boolean) -> Unit,
+    isAllChecked: Boolean,
+    onIsAllCheckedChange: (Boolean) -> Unit,
+    isNextButtonEnabled: Boolean,
+    modifier: Modifier = Modifier
 ) {
-
-    val (isAllChecked, setIsAllChecked) = remember { mutableStateOf(false) }
-
-    val requiredCheckList = itemList.filter { it.isRequired }
-
-    val isNextButtonEnabled by remember(requiredCheckList) {
-        mutableStateOf(requiredCheckList.all { item ->
-            item.isSelected
-        })
-    }
-
     Box(
         modifier = modifier
             .wrapContentSize()
@@ -61,7 +57,6 @@ fun TermsCheckListModal(
             .background(color = White, shape = RoundedCornerShape(24.dp)),
         contentAlignment = Alignment.TopCenter
     ) {
-
         Box(
             modifier = Modifier
                 .offset(y = 10.dp)
@@ -80,13 +75,13 @@ fun TermsCheckListModal(
 
             CheckBoxListItem(
                 checked = isAllChecked,
-                onCheckedChange = { checked ->
-                    itemList.onEachIndexed { index, _ ->
-                        setIsAllChecked(checked)
-                        onItemSelected(index, checked)
+                onCheckedChange = { isChecked ->
+                    itemList.onEachIndexed{ index, item ->
+                        onCheckedChange(index, isChecked)
                     }
+                    onIsAllCheckedChange(isChecked)
                 },
-                text = titleCheckBoxText
+                text = checkBoxTitle
             )
 
             Spacer(modifier = Modifier.size(12.dp))
@@ -102,9 +97,9 @@ fun TermsCheckListModal(
 
             itemList.onEachIndexed { index, item ->
                 CheckMarkListItem(
-                    checked = itemList[index].isSelected,
+                    checked = checkedStates[index],
                     onCheckedChange = { isChecked ->
-                        onItemSelected(index, isChecked)
+                        onCheckedChange(index, isChecked)
                     }, text = itemList[index].name
                 )
                 if (index < itemList.size - 1) {
@@ -115,20 +110,30 @@ fun TermsCheckListModal(
             Spacer(modifier = Modifier.size(28.dp))
 
             Row(modifier = Modifier.fillMaxWidth()) {
-                Button(modifier = Modifier.weight(1f), onClick = { onDismiss() }) {
-                    Text(text = "닫기", color = Color.Black)
-                }
+                MommyDndnButton(
+                    color = ButtonColor.SALMON,
+                    colorType = ButtonColorType.WEAK,
+                    sizeType = ButtonSizeType.LARGE,
+                    onClick = { onDismiss() },
+                    text = stringResource(id = R.string.close)
+                )
                 Spacer(modifier = Modifier.size(12.dp))
-                Button(
-                    modifier = Modifier.weight(1f),
-                    onClick = { onComplete() },
+                MommyDndnButton(
+                    color = ButtonColor.SALMON,
+                    colorType = ButtonColorType.FILLED,
+                    sizeType = ButtonSizeType.LARGE,
+                    onClick = {
+                        val checkedList = itemList.filterIndexed { index, _ ->
+                            checkedStates.getOrNull(index) == true
+                        }
+
+                        onComplete(checkedList)
+                    },
+                    text = stringResource(id = R.string.move_on),
                     enabled = isNextButtonEnabled
-                ) {
-                    Text(text = "다음으로", color = Color.Black)
-                }
+                )
             }
         }
-
     }
 }
 

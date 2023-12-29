@@ -77,7 +77,7 @@ fun JobOfferPreviewScreen(
 
         Header(leftContent = {
             Image(
-                painter = painterResource(id = R.drawable.arrow_left),
+                painter = painterResource(id = R.drawable.icon_arrow_left),
                 contentDescription = "",
                 modifier = Modifier
                     .size(size = 36.dp)

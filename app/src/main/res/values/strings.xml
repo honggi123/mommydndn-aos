@@ -11,4 +11,17 @@
     <string name="see_more">더보기</string>
     <string name="see_all">전체보기</string>
 
+    <string name="welcome_message">마미든든에 어서오세요 :)</string>
+    <string name="ask_user_type">어떤 회원이신가요?</string>
+    <string name="company_user">업체 회원</string>
+    <string name="individual_user">개인 회원</string>
+
+    <string name="total_terms_agreement">[필수] 통합 이용약관 동의</string>
+    <string name="search_location_keyword">동명으로 검색해주세요 (ex. 서초동)</string>
+    <string name="searched_neighborhood">근처동네를 찾아왔어요.</string>
+    <string name="result_searched_neighborhood">%s 검색결과</string>
+    <string name="no_result_and_check_keyword">검색 결과가 없어요.&#10;동네 이름을 다시 확인해주세요!</string>
+    <string name="move_on">다음으로</string>
+    <string name="close">닫기</string>
+    <string name="search_by_current_location">현재 위치로 찾기</string>
 </resources>

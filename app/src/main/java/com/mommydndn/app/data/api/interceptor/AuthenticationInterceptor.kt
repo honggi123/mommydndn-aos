@@ -13,10 +13,10 @@ class AuthenticationInterceptor constructor(
             val accessToken = tokenManager.getAccessToken()
             val urlString = request.url.toString()
 
-            if (accessToken == null
-                || urlString.endsWith("/api/terms")
-                || urlString.endsWith("/api/auth/signup")
-                || urlString.endsWith("/api/auth/login")
+            if (accessToken == null ||
+                urlString.endsWith("/api/terms") ||
+                urlString.endsWith("/api/auth/signup") ||
+                urlString.endsWith("/api/auth/login")
             ) {
                 request
             } else {
