@@ -41,7 +41,7 @@ fun SmallProfileInfoStack(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.ic_certificate),
+                        painter = painterResource(id = R.drawable.icon_certificate),
                         contentDescription = "Icon/certificate",
                         modifier = Modifier
                             .requiredSize(size = 16.dp)

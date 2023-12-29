@@ -1,5 +1,6 @@
 package com.mommydndn.app.util.result
 
+import kotlinx.coroutines.flow.MutableStateFlow
 import java.lang.Exception
 
 sealed class Result<out R> {
@@ -11,6 +12,11 @@ sealed class Result<out R> {
     data class Failure(val exception: Exception): Result<Nothing>()
 }
 
-fun <T> Result<T>.successOr(fallback: T): T {
-    return (this as? Result.Success<T>)?.data ?: fallback
+val <T> Result<T>.data: T?
+    get() = (this as? Result.Success)?.data
+
+inline fun <reified T> Result<T>.updateOnSuccess(stateFlow: MutableStateFlow<T>) {
+    if (this is Result.Success) {
+        stateFlow.value = data
+    }
 }

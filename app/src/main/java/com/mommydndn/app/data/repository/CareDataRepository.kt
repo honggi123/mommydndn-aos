@@ -3,6 +3,7 @@ package com.mommydndn.app.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+<<<<<<<< HEAD:app/src/main/java/com/mommydndn/app/data/repository/CareDataRepository.kt
 import com.mommydndn.app.data.api.model.request.CompanyCreationRequest
 import com.mommydndn.app.data.api.model.request.CompanyListRequest
 import com.mommydndn.app.data.api.model.request.JobOfferListRequest
@@ -20,6 +21,24 @@ import com.mommydndn.app.data.api.service.CommonService
 import com.mommydndn.app.data.datasource.pagingsource.CompanySummaryPagingSource
 import com.mommydndn.app.data.datasource.pagingsource.JobOfferSummaryPagingSource
 import com.mommydndn.app.data.datasource.pagingsource.JobSeekerSummaryPagingSource
+========
+import com.mommydndn.app.data.network.model.request.CompanyCreationRequest
+import com.mommydndn.app.data.network.model.request.CompanyListRequest
+import com.mommydndn.app.data.network.model.request.JobOfferListRequest
+import com.mommydndn.app.data.network.model.request.JobOfferCreationRequest
+import com.mommydndn.app.data.network.model.request.JobSeekerCreationRequest
+import com.mommydndn.app.data.network.model.request.JobSeekerListRequest
+import com.mommydndn.app.data.network.model.request.PaginationRequest
+import com.mommydndn.app.data.network.model.response.CompanyCreationResponse
+import com.mommydndn.app.data.network.model.response.JobOfferCreationResponse
+import com.mommydndn.app.data.network.model.response.JobOfferResponse
+import com.mommydndn.app.data.network.model.response.JobSeekerCreationResponse
+import com.mommydndn.app.data.network.service.CaringService
+import com.mommydndn.app.data.network.service.CommonService
+import com.mommydndn.app.data.source.pagingsource.CompanySummaryPagingSource
+import com.mommydndn.app.data.source.pagingsource.JobOfferSummaryPagingSource
+import com.mommydndn.app.data.source.pagingsource.JobSeekerSummaryPagingSource
+>>>>>>>> refactor/code_care:app/src/main/java/com/mommydndn/app/data/repository/CaringDataRepository.kt
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.EtcCheckItem
@@ -352,4 +371,55 @@ class CareDataRepository @Inject constructor(
         }
 
 
+import com.mommydndn.app.data.model.care.SortingType
+import com.mommydndn.app.data.network.model.care.GetCareJobOpeningListRequest
+import com.mommydndn.app.data.network.model.care.PageMeta
+import com.mommydndn.app.data.network.service.CareService
+import com.mommydndn.app.data.source.paging.JobOpeningListPagingSource
+import com.mommydndn.app.domain.model.care.CareJobOpening
+import com.mommydndn.app.domain.repository.CareRepository
+import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class CareDataRepository @Inject constructor(
+    private val careService: CareService
+) : CareRepository {
+
+    override fun getNearbyCareJobOpenings(
+        latitude: Double,
+        longitude: Double
+    ): Flow<PagingData<CareJobOpening>> {
+        val page = 1
+
+        val pageSize = 20
+
+        val request = GetCareJobOpeningListRequest(
+            pageMeta = PageMeta(
+                page = page,
+                size = pageSize,
+                requestedAt = System.currentTimeMillis(),
+            ),
+            keyword = null,
+            neighborhoodId = -1,
+            nearbyNeighborhoodDistance = -1,
+            careTypes = emptyList(),
+            daysOfWeek = emptyList(),
+            orderBy = SortingType.LATEST,
+            startTime = null,
+            endTime = null,
+            workPeriods = emptyList(),
+        )
+
+        return Pager(
+            config = PagingConfig(pageSize = 20),
+            pagingSourceFactory = {
+                JobOpeningListPagingSource(
+                    request = request,
+                    careService = careService
+                )
+            }
+        ).flow
+    }
 }

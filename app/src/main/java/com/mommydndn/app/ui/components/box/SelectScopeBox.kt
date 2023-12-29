@@ -21,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -108,7 +107,7 @@ fun SelectScopeBox(
                     )
                 )
                 Image(
-                    painter = painterResource(id = R.drawable.ic_arrow_down),
+                    painter = painterResource(id = R.drawable.icon_arrow_down),
                     contentDescription = "Icon/arrow-down-line",
                     modifier = Modifier
                         .size(size = 28.dp)
@@ -153,7 +152,7 @@ fun SelectScopeBox(
                     )
                 )
                 Image(
-                    painter = painterResource(id = R.drawable.ic_arrow_down),
+                    painter = painterResource(id = R.drawable.icon_arrow_down),
                     contentDescription = "",
                     modifier = Modifier
                         .size(size = 28.dp)

@@ -56,7 +56,7 @@ fun CheckMarkListItem(
             Icon(
                 modifier = Modifier.size(32.dp),
                 painter = painterResource(
-                    id = if (checked) R.drawable.ic_checkmark_true else R.drawable.ic_checkmark_false
+                    id = if (checked) R.drawable.icon_checked_mark else R.drawable.icon_not_checked_mark
                 ),
                 contentDescription = "",
                 tint = if (checked) Salmon600 else Grey200

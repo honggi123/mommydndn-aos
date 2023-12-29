@@ -50,7 +50,7 @@ fun ImageInputField(
                     .clickable { inputType.onClick?.let { it() } }
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_camera),
+                    painter = painterResource(id = R.drawable.icon_camera),
                     contentDescription = "",
                     tint = Grey300
                 )
@@ -82,7 +82,7 @@ fun ImageInputField(
                     contentScale = ContentScale.Crop
                 )
                 Image(
-                    painter = painterResource(id = R.drawable.ic_x_circle),
+                    painter = painterResource(id = R.drawable.icon_circle_x),
                     contentDescription = "",
                     modifier = Modifier
                         .size(24.dp)

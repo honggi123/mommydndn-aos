@@ -1,103 +1,174 @@
 package com.mommydndn.app.ui.components.box
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mommydndn.app.ui.theme.Grey200
 import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.ui.theme.Grey800
-import com.mommydndn.app.ui.theme.MommydndnaosTheme
+import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.heading600
 import com.mommydndn.app.ui.theme.paragraph300
 
+// todo
 enum class SubtextBoxSize { L, M, S }
 
+// todo: rename
 @Composable
 fun SubtextBox(
+    size: SubtextBoxSize,
+    title: String,
+    subtitle: String,
     modifier: Modifier = Modifier,
-    size: SubtextBoxSize = SubtextBoxSize.M,
-    titleText: String = "",
-    subtitleText: String = "",
-    rightButtonText: String = "",
-    rightButtonOnClick: () -> Unit = {}
+    trailingLabel: String? = null,
+    onClick: (() -> Unit)? = null,
 ) {
+    val buttonTextStyle = when (size) {
+        SubtextBoxSize.L -> MaterialTheme.typography.paragraph300.merge(
+            fontWeight = FontWeight.Medium
+        )
 
-    val titleTextStyle = MaterialTheme.typography.heading600.copy(
-        fontWeight = FontWeight.Bold,
-        color = Grey800
-    )
-
-    val subtitleTextStyle = MaterialTheme.typography.caption200.copy(
-        fontWeight = FontWeight.Normal,
-        color = Grey400
-    )
-
-    val rightTextStyle = when (size) {
-        SubtextBoxSize.L -> MaterialTheme.typography.paragraph300.copy(fontWeight = FontWeight.Medium)
         SubtextBoxSize.S, SubtextBoxSize.M -> MaterialTheme.typography.caption200
-    }.copy(
+    }.merge(
         color = Grey400
     )
 
-    val padding = when (size) {
-        SubtextBoxSize.S -> PaddingValues(start = 24.dp, top = 28.dp, end = 24.dp, bottom = 12.dp)
-        SubtextBoxSize.M -> PaddingValues(start = 24.dp, top = 40.dp, end = 24.dp, bottom = 12.dp)
-        SubtextBoxSize.L -> PaddingValues(start = 24.dp, top = 46.dp, end = 24.dp, bottom = 12.dp)
+    val topPaddingValue = when (size) {
+        SubtextBoxSize.S -> 28.dp
+        SubtextBoxSize.M -> 40.dp
+        SubtextBoxSize.L -> 46.dp
     }
 
-    Box(
-        modifier = modifier
-            .wrapContentHeight(),
-    ) {
+    Box(modifier = modifier.wrapContentHeight()) {
         Row(
-            modifier = Modifier.padding(padding),
-            verticalAlignment = Alignment.Bottom
+            modifier = Modifier.padding(
+                PaddingValues(
+                    top = topPaddingValue,
+                    start = 24.dp,
+                    end = 24.dp,
+                    bottom = 12.dp,
+                ),
+            ),
+            verticalAlignment = Alignment.Bottom,
         ) {
             Text(
-                text = titleText,
-                style = titleTextStyle
+                text = title,
+                style = MaterialTheme.typography.heading600.merge(
+                    color = Grey800,
+                    fontWeight = FontWeight.Bold,
+                )
             )
 
             Spacer(modifier = Modifier.padding(4.dp))
+
             Text(
-                text = subtitleText,
-                style = subtitleTextStyle
+                text = subtitle,
+                style = MaterialTheme.typography.caption200.merge(
+                    color = Grey400,
+                    fontWeight = FontWeight.Normal,
+                )
             )
-            Spacer(modifier = Modifier.weight(1f))
-            Text(
-                text = rightButtonText,
-                style = rightTextStyle,
-                modifier = Modifier.clickable {
-                    rightButtonOnClick()
-                }
-            )
+
+            Spacer(modifier = Modifier.weight(1F))
+
+            if (trailingLabel != null) {
+                Text(
+                    text = trailingLabel,
+                    modifier = Modifier.run {
+                        if (onClick != null) {
+                            clickable(onClick = onClick)
+                        } else {
+                            this
+                        }
+                    },
+                    style = buttonTextStyle,
+                )
+            }
         }
     }
 }
 
 @Preview
 @Composable
-fun previewSubtextBox() {
-    MommydndnaosTheme {
+private fun PreviewSubtextBox() {
+    Column(
+        modifier = Modifier.background(Grey200),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
         SubtextBox(
             size = SubtextBoxSize.L,
-            titleText = "title",
-            subtitleText = "sub",
-            rightButtonText = "right"
+            title = "title",
+            subtitle = "subtitle",
+            trailingLabel = "right",
+            onClick = {},
+            modifier = Modifier.background(White),
+        )
+
+        SubtextBox(
+            size = SubtextBoxSize.M,
+            title = "title",
+            subtitle = "subtitle",
+            trailingLabel = "right",
+            onClick = {},
+            modifier = Modifier.background(White),
+        )
+
+        SubtextBox(
+            size = SubtextBoxSize.S,
+            title = "title",
+            subtitle = "subtitle",
+            trailingLabel = "right",
+            onClick = {},
+            modifier = Modifier.background(White),
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewNoTrailingButtonSubtextBox() {
+    Column(
+        modifier = Modifier.background(Grey200),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        SubtextBox(
+            size = SubtextBoxSize.L,
+            title = "title",
+            subtitle = "subtitle",
+            onClick = {},
+            modifier = Modifier.background(White),
+        )
+
+        SubtextBox(
+            size = SubtextBoxSize.M,
+            title = "title",
+            subtitle = "subtitle",
+            onClick = {},
+            modifier = Modifier.background(White),
+        )
+
+        SubtextBox(
+            size = SubtextBoxSize.S,
+            title = "title",
+            subtitle = "subtitle",
+            onClick = {},
+            modifier = Modifier.background(White),
         )
     }
 }

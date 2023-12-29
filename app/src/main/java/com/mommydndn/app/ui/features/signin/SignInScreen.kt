@@ -1,219 +1,273 @@
 package com.mommydndn.app.ui.features.signin
 
 import android.app.Activity
-import android.content.Context
-import android.content.Intent
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.mommydndn.app.ui.components.common.Header
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
-import com.mommydndn.app.ui.components.box.SocialLoginBox
-import com.mommydndn.app.ui.theme.Grey500
-import com.mommydndn.app.ui.theme.heading800
-import com.mommydndn.app.R
-import com.mommydndn.app.ui.theme.Paddings
-import com.mommydndn.app.ui.theme.paragraph300
-import androidx.navigation.NavHostController
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.tasks.Task
 import com.mommydndn.app.BuildConfig
-import com.mommydndn.app.domain.model.user.OAuthType
+import com.mommydndn.app.R
+import com.mommydndn.app.domain.model.user.OAuthProvider
+import com.mommydndn.app.ui.components.common.Header
+import com.mommydndn.app.ui.theme.Grey500
+import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.Salmon600
+import com.mommydndn.app.ui.theme.heading800
+import com.mommydndn.app.ui.theme.paragraph300
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.OAuthLoginCallback
 
-private fun getGoogleSignInClient(
-    context: Context,
-    googleSignInOptions: GoogleSignInOptions = GoogleSignInOptions.DEFAULT_SIGN_IN,
-    serverClientId: String = BuildConfig.GOOGLE_CLIENT_ID
-): GoogleSignInClient {
-    return GoogleSignInOptions.Builder(googleSignInOptions)
-        .requestEmail()
-        .requestServerAuthCode(serverClientId)
-        .build()
-        .let { options -> GoogleSignIn.getClient(context, options) }
+@Composable
+internal fun SignInRoute(
+    onExploreClick: () -> Unit,
+    onSignInSuccess: () -> Unit,
+    onSignUpNeeded: (accessToken: String, oAuthProvider: OAuthProvider) -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: SignInViewModel = hiltViewModel(),
+) {
+    val context = LocalContext.current
+
+    val launcherForActivityResult =
+        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                GoogleSignIn.getSignedInAccountFromIntent(result.data)
+                    .addOnSuccessListener { account ->
+                        account.serverAuthCode?.let { serverAuthCode ->
+                            viewModel.signInWithGoogle(serverAuthCode)
+                        }
+                    }.addOnFailureListener {
+                        // todo: crashlytics_report
+                    }
+            }
+        }
+
+    val onSignInClick: (OAuthProvider) -> Unit = { oAuthProvider ->
+        when (oAuthProvider) {
+            OAuthProvider.NAVER -> {
+                NaverIdLoginSDK.authenticate(context, object : OAuthLoginCallback {
+                    override fun onSuccess() {
+                        NaverIdLoginSDK.getAccessToken()?.let { accessToken ->
+                            viewModel.signIn(oAuthProvider, accessToken)
+                        }
+                    }
+
+                    override fun onFailure(httpStatus: Int, message: String) {
+                        // todo: crashlytics_report
+                    }
+
+                    override fun onError(errorCode: Int, message: String) {
+                        onFailure(errorCode, message)
+                    }
+                })
+            }
+
+            OAuthProvider.KAKAO -> {
+                val callback: (token: OAuthToken?, error: Throwable?) -> Unit = { token, error ->
+                    if (error != null) {
+                        if (error !is ClientError || error.reason != ClientErrorCause.Cancelled) {
+                            // todo: crashlytics_report
+                        }
+                    } else {
+                        token?.accessToken?.let { accessToken ->
+                            viewModel.signIn(oAuthProvider, accessToken)
+                        }
+                    }
+                }
+                if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
+                    UserApiClient.instance.loginWithKakaoTalk(context, callback = callback)
+                } else {
+                    UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)
+                }
+            }
+
+            OAuthProvider.GOOGLE -> {
+                val options =
+                    GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail()
+                        .requestServerAuthCode(BuildConfig.GOOGLE_CLIENT_ID).build()
+
+                with(GoogleSignIn.getClient(context, options)) {
+                    launcherForActivityResult.launch(signInIntent)
+                }
+            }
+        }
+    }
+
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    when (val state = uiState) {
+        SignInUiState.Loading -> SignInScreen(
+            onExploreClick = onExploreClick,
+            onSignInClick = onSignInClick,
+            modifier = modifier,
+        )
+
+        SignInUiState.Success -> onSignInSuccess()
+        is SignInUiState.NotSignedUpYet -> with(state) {
+            onSignUpNeeded(accessToken, oAuthProvider)
+        }
+
+        is SignInUiState.Failure -> {
+            // todo
+        }
+    }
 }
 
 @Composable
-internal fun SignInScreen(
-    viewModel: SignInViewModel = hiltViewModel(),
-    navHostController: NavHostController,
-    googleSignInClient: GoogleSignInClient = getGoogleSignInClient(LocalContext.current)
+private fun SignInScreen(
+    onExploreClick: () -> Unit,
+    onSignInClick: (OAuthProvider) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    val TAG = "SignInScreen"
-    val context = LocalContext.current
-
-    val signInIntent = googleSignInClient.signInIntent
-
-    val startForResult =
-        rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            Log.e(TAG, result.resultCode.toString())
-            if (result.resultCode == Activity.RESULT_OK) {
-                val data: Intent? = result.data
-                val task: Task<GoogleSignInAccount> =
-                    GoogleSignIn.getSignedInAccountFromIntent(data)
-
-                viewModel.handleGoogleSignInResult(
-                    task, navHostController
-                )
-
-            }
-        }
-
-    val kakaoCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
-        when {
-            error != null -> {
-                Log.e("Kakao", "카카오 계정 로그인 실패", error)
-            }
-
-            token != null -> {
-                loginWithKakaoNickName(token, viewModel, navHostController)
-            }
-        }
-    }
-    val naverCallback = object : OAuthLoginCallback {
-        override fun onSuccess() {
-            Log.e(TAG, "로그인 성공")
-
-            val token = NaverIdLoginSDK.getAccessToken()
-            if (token != null) {
-                viewModel.signIn(tokenId = token, type = OAuthType.NAVER, navHostController)
-            }
-        }
-
-        override fun onFailure(httpStatus: Int, message: String) {
-            val errorCode = NaverIdLoginSDK.getLastErrorCode().code
-            val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
-            Log.e(TAG, "errorCode:$errorCode errorDesc:$errorDescription")
-        }
-
-        override fun onError(errorCode: Int, message: String) {
-            onFailure(errorCode, message)
-        }
-    }
-    Scaffold(topBar = {
-        Header(rightContent = {
-            TextButton(
-                onClick = {}, contentPadding = PaddingValues(
-                    top = 6.dp, bottom = 6.dp, start = 8.dp, end = 8.dp
-                )
-            ) {
-                Text(
-                    modifier = Modifier.padding(0.dp),
-                    text = "먼저 둘러보기",
-                    style = MaterialTheme.typography.paragraph300.copy(
-                        color = Grey500, fontWeight = FontWeight.Medium
-                    )
-                )
-            }
-        })
+    Scaffold(modifier = modifier, topBar = {
+        SignInTopAppBar(onExploreClick)
     }, bottomBar = {
-        SocialLoginBox(modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 96.dp),
-            onClickGoogle = {
-                startForResult.launch(signInIntent)
-            },
-            onClickKakao = { loginKakao(context, kakaoCallback) },
-            onClickNaver = { loginNaver(context, naverCallback) })
-    }) { innerPadding ->
+        SocialLogin(onSignInClick)
+    }) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding),
+                .padding(paddingValues),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
         ) {
             Image(
-                modifier = Modifier
-                    .width(125.dp)
-                    .height(121.dp),
+                modifier = Modifier.width(125.dp),
                 painter = painterResource(id = R.drawable.icon_logo),
-                contentDescription = ""
+                contentDescription = "LogoImage"
             )
 
-            Spacer(modifier = Modifier.height(Paddings.extra))
+            Spacer(modifier = Modifier)
 
             Text(
-                text = "우리 동네 엄마 찾기",
+                text = stringResource(id = R.string.find_babysitters_near_me),
                 style = MaterialTheme.typography.heading800.copy(
-                    color = Salmon600, fontWeight = FontWeight.Bold
+                    color = Salmon600,
+                    fontWeight = FontWeight.Bold,
                 ),
             )
-
-            Spacer(modifier = Modifier.height(Paddings.large))
 
             Text(
-                text = "내 아이를 맡길 수 있는\n따뜻한 동네 엄마를 찾아보세요",
+                text = stringResource(id = R.string.find_babysitters_near_me_description),
                 style = MaterialTheme.typography.paragraph300.copy(
-                    color = Grey500, fontWeight = FontWeight.Medium
+                    color = Grey500,
+                    fontWeight = FontWeight.Medium,
                 ),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
         }
     }
 }
 
-
-private fun loginWithKakaoNickName(
-    token: OAuthToken, viewModel: SignInViewModel, navHostController: NavHostController
+@Composable
+private fun SignInTopAppBar(
+    onExploreClick: () -> Unit, modifier: Modifier = Modifier
 ) {
-    UserApiClient.instance.me { user, error ->
-        when {
-            error != null -> {
-                Log.e("Kakao", "사용자 정보 실패", error)
-            }
-
-            user != null -> {
-                viewModel.signIn(
-                    tokenId = token.accessToken, type = OAuthType.KAKAO, navHostController
+    Header(modifier = modifier, rightContent = {
+        TextButton(
+            onClick = onExploreClick, contentPadding = PaddingValues(
+                top = 6.dp,
+                start = 8.dp,
+                end = 8.dp,
+                bottom = 6.dp,
+            )
+        ) {
+            Text(
+                modifier = Modifier,
+                text = stringResource(id = R.string.explore),
+                style = MaterialTheme.typography.paragraph300.copy(
+                    color = Grey500,
+                    fontWeight = FontWeight.Medium,
                 )
-            }
+            )
+        }
+    })
+}
+
+@Composable
+private fun SocialLogin(
+    onClick: (OAuthProvider) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 96.dp),
+        verticalArrangement = Arrangement.spacedBy(24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = stringResource(id = R.string.social_login),
+            style = MaterialTheme.typography.paragraph300.copy(
+                color = Grey700,
+                fontWeight = FontWeight.Medium,
+            ),
+        )
+
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            SocialLoginIconButton(
+                onClick = { onClick(OAuthProvider.NAVER) },
+                iconResource = painterResource(id = R.drawable.icon_naver)
+            )
+
+            SocialLoginIconButton(
+                onClick = { onClick(OAuthProvider.KAKAO) },
+                iconResource = painterResource(id = R.drawable.icon_kakao)
+            )
+
+            SocialLoginIconButton(
+                onClick = { onClick(OAuthProvider.GOOGLE) },
+                iconResource = painterResource(id = R.drawable.icon_google)
+            )
         }
     }
 }
 
-private fun loginKakao(context: Context, kakaoCallback: (OAuthToken?, Throwable?) -> Unit) {
-    if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
-        // 카카오 설치
-        UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
-            if (error != null) {
-                Log.e("Kakao", "카카오톡 로그인 실패", error)
-            }
-
-            if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
-                return@loginWithKakaoTalk
-            }
-
-            UserApiClient.instance.loginWithKakaoAccount(context, callback = kakaoCallback)
-        }
-    } else {
-        // 카카오 미설치
-        UserApiClient.instance.loginWithKakaoAccount(context, callback = kakaoCallback)
+@Composable
+private fun SocialLoginIconButton(
+    onClick: () -> Unit,
+    iconResource: Painter,
+    contentDescription: String = "SocialLoginIconButton",
+    modifier: Modifier = Modifier,
+) {
+    IconButton(onClick = onClick) {
+        Image(
+            painter = iconResource,
+            contentDescription = contentDescription,
+            modifier = modifier,
+        )
     }
 }
-
-private fun loginNaver(context: Context, oAuthLoginCallback: OAuthLoginCallback) {
-    NaverIdLoginSDK.authenticate(context, oAuthLoginCallback)
-}
-

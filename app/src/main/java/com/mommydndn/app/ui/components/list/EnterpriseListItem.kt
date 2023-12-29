@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -29,8 +28,6 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.care.CaringType
-import com.mommydndn.app.data.model.care.CaringTypeSerializer
-import com.mommydndn.app.data.model.care.summary.CompanySummaryListItem
 import com.mommydndn.app.data.model.common.BadgeColorType
 import com.mommydndn.app.ui.components.box.ProfileDataBox
 import com.mommydndn.app.ui.components.common.Badge
@@ -40,8 +37,6 @@ import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph300
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 
 @Composable
 fun EnterpriseListItem(
@@ -83,7 +78,7 @@ fun EnterpriseListItem(
             ) {
                 Row {
                     Image(
-                        painter = painterResource(id = R.drawable.ic_certificate),
+                        painter = painterResource(id = R.drawable.icon_certificate),
                         contentDescription = "Icon/certificate",
                         modifier = Modifier.size(24.dp),
                         contentScale = ContentScale.Crop
@@ -164,7 +159,7 @@ fun EnterpriseListItem(
                         contentScale = ContentScale.Crop
                     )
                     Image(
-                        painter = painterResource(id = R.drawable.ic_heart_grey),
+                        painter = painterResource(id = R.drawable.icon_heart),
                         contentDescription = "",
                         modifier = Modifier
                             .requiredSize(size = 36.dp)

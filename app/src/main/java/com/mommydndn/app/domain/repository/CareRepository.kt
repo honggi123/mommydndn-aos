@@ -1,22 +1,29 @@
 package com.mommydndn.app.domain.repository
 
 import androidx.paging.PagingData
-import com.mommydndn.app.data.api.model.response.CompanyCreationResponse
-import com.mommydndn.app.data.api.model.response.JobOfferCreationResponse
-import com.mommydndn.app.data.api.model.response.JobOfferResponse
-import com.mommydndn.app.data.api.model.response.JobSeekerCreationResponse
+import com.mommydndn.app.data.network.model.response.CompanyCreationResponse
+import com.mommydndn.app.data.network.model.response.JobOfferCreationResponse
+import com.mommydndn.app.data.network.model.response.JobOfferResponse
+import com.mommydndn.app.data.network.model.response.JobSeekerCreationResponse
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.EtcCheckItem
+<<<<<<<< HEAD:app/src/main/java/com/mommydndn/app/domain/repository/CareRepository.kt
 import com.mommydndn.app.domain.model.care.JobOffer
 import com.mommydndn.app.data.model.care.summary.JobOfferSummaryListItem
 import com.mommydndn.app.domain.model.care.JobSeeker
 import com.mommydndn.app.data.model.care.summary.JobSeekerSummaryItem
+========
+import com.mommydndn.app.data.model.care.JobOffer
+import com.mommydndn.app.data.model.care.JobSeeker
+>>>>>>>> refactor/code_care:app/src/main/java/com/mommydndn/app/domain/repository/CaringRepository.kt
 import com.mommydndn.app.data.model.care.MinHourlySalary
 import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.SortingType
 import com.mommydndn.app.data.model.care.WorkPeriodType
 import com.mommydndn.app.data.model.care.summary.CompanySummaryListItem
+import com.mommydndn.app.data.model.care.summary.JobOfferSummaryListItem
+import com.mommydndn.app.data.model.care.summary.JobSeekerSummaryItem
 import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.common.DayOfWeekType
 import com.mommydndn.app.data.model.location.EmdItem
@@ -112,4 +119,11 @@ interface CareRepository {
         etcCheckedList: List<EtcCheckItem>,
         commission: Int
     ): Flow<CompanyCreationResponse>
+import androidx.paging.PagingData // from paging-common: without Android dependencies
+import com.mommydndn.app.domain.model.care.CareJobOpening
+import kotlinx.coroutines.flow.Flow
+
+interface CareRepository {
+
+    fun getNearbyCareJobOpenings(latitude: Double, longitude: Double): Flow<PagingData<CareJobOpening>>
 }
