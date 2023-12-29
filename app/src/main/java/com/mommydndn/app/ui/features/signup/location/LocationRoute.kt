@@ -1,5 +1,6 @@
 package com.mommydndn.app.ui.features.signup.location
 
+import android.Manifest
 import android.content.Context
 import android.util.Log
 import androidx.activity.compose.ManagedActivityResultLauncher
@@ -39,6 +40,10 @@ internal fun LocationRoute(
     onSignUpSuccess: () -> Unit,
     viewModel: SignUpViewModel = hiltViewModel(),
 ) {
+    val permissions = arrayOf(
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+        Manifest.permission.ACCESS_FINE_LOCATION
+    )
 
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -63,11 +68,14 @@ internal fun LocationRoute(
     })
 
     val onSearchResult: () -> Unit = {
-        searchNearByLocations(
+        viewModel.getCurrentLocation(
             fusedLocationClient = fusedLocationClient,
-            searchAction = { latitude, longitude ->
+            locationCallback = { latitude, longitude ->
                 viewModel.searchNearby(
-                    coordinatesInfo = CoordinatesInfo(latitude = latitude, longitude = longitude)
+                    coordinatesInfo = CoordinatesInfo(
+                        latitude = latitude,
+                        longitude = longitude
+                    )
                 )
                 updateSearchType(SearchType.MY_LOCATION)
             }
@@ -88,7 +96,7 @@ internal fun LocationRoute(
     LaunchedEffect(Unit) {
         PermissionUtils.checkAndRequestPermissions(
             context,
-            viewModel.permissions,
+            permissions,
             launcher,
             onPermissionGranted = { onSearchResult() }
         )
@@ -111,7 +119,7 @@ internal fun LocationRoute(
                 onSearchClick = {
                     PermissionUtils.checkAndRequestPermissions(
                         context,
-                        viewModel.permissions,
+                        permissions,
                         launcher,
                         onPermissionGranted = { onSearchResult() }
                     )
@@ -145,17 +153,3 @@ internal fun LocationRoute(
     }
 }
 
-private fun searchNearByLocations(
-    fusedLocationClient: FusedLocationProviderClient,
-    searchAction: (Double, Double) -> Unit,
-) {
-    try {
-        fusedLocationClient.lastLocation.addOnSuccessListener {
-            it?.let {
-                searchAction(it.latitude, it.longitude)
-            }
-        }
-    } catch (e: SecurityException) {
-        Log.d("TownCheckScreen", e.stackTraceToString())
-    }
-}

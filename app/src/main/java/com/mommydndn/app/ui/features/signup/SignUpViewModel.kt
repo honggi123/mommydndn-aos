@@ -1,9 +1,11 @@
 package com.mommydndn.app.ui.features.signup
 
 import android.Manifest
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import com.google.android.gms.location.FusedLocationProviderClient
 import com.mommydndn.app.domain.model.location.CoordinatesInfo
 import com.mommydndn.app.domain.model.user.SignUpInfo
 import com.mommydndn.app.domain.model.location.LocationInfo
@@ -41,11 +43,6 @@ class SignUpViewModel @Inject constructor(
     private val getNearestLocationsUseCase: GetNearestLocationsUseCase,
     private val getLocationsUseCase: GetLocationsUseCase
 ) : ViewModel() {
-
-    val permissions = arrayOf(
-        Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.ACCESS_FINE_LOCATION
-    )
 
     private val searchManager = SearchManager()
 
@@ -176,6 +173,19 @@ class SignUpViewModel @Inject constructor(
 
     fun clearKeyword() {
         searchManager.clearKeyword()
+    }
+
+    fun getCurrentLocation(
+        fusedLocationClient: FusedLocationProviderClient,
+        locationCallback: (Double, Double) -> Unit,
+    ) {
+        try {
+            fusedLocationClient.lastLocation.addOnSuccessListener {
+                it?.let { locationCallback(it.latitude, it.longitude) }
+            }
+        } catch (e: SecurityException) {
+            Log.d("SignUpViewModel", e.stackTraceToString())
+        }
     }
 
 }
