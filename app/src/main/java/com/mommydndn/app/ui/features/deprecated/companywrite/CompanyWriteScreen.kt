@@ -562,7 +562,6 @@ fun CompanyWriteScreen(
                                         introduce = introduce,
                                         caringTypeList = careTypes.filter { it.isSelected }
                                             .map { it.caringType },
-                                        emd = emdItem!!,
                                         startSalary = startSalary!!,
                                         endSalary = endSalary!!,
                                         etcCheckedList = etcCheckList.map {

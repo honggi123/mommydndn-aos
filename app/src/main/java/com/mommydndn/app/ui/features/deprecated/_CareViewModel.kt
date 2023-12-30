@@ -1,7 +1,7 @@
 package com.mommydndn.app.ui.features.deprecated
 
 import androidx.lifecycle.ViewModel
-import com.mommydndn.app.domain.repository.CaringRepository
+import com.mommydndn.app.domain.repository.CareRepository
 import com.mommydndn.app.domain.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class _CareViewModel @Inject constructor(
-    private val caringRepository: CaringRepository,
+    private val caringRepository: CareRepository,
     private val userRepository: UserRepository
 ) : ViewModel() {
 

@@ -171,7 +171,7 @@ fun JobOfferPreviewScreen(
                 MapContainerBox(
                     modifier = Modifier.fillMaxWidth(),
                     mapView = kakaoMapView,
-                    addressText = jobOfferPreview?.emd?.fullName ?: "",
+                    addressText = "", // jobOfferPreview?.emd?.fullName ?: "",
                     latitude = jobOfferPreview?.latitude ?: 37.5666805,
                     longtitude = jobOfferPreview?.longitude ?: 126.9784147,
                     openMapAction = {

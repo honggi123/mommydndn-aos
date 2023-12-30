@@ -3,57 +3,35 @@ package com.mommydndn.app.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-<<<<<<<< HEAD:app/src/main/java/com/mommydndn/app/data/repository/CareDataRepository.kt
-import com.mommydndn.app.data.api.model.request.CompanyCreationRequest
-import com.mommydndn.app.data.api.model.request.CompanyListRequest
-import com.mommydndn.app.data.api.model.request.JobOfferListRequest
-import com.mommydndn.app.data.api.model.request.JobOfferCreationRequest
-import com.mommydndn.app.data.api.model.request.JobSeekerCreationRequest
-import com.mommydndn.app.data.api.model.request.JobSeekerListRequest
-import com.mommydndn.app.data.api.model.request.PaginationRequest
-import com.mommydndn.app.data.api.model.response.CompanyCreationResponse
-import com.mommydndn.app.data.api.model.response.JobOfferCreationResponse
-import com.mommydndn.app.data.api.model.response.JobOfferResponse
-import com.mommydndn.app.data.api.model.response.JobSeekerCreationResponse
 import com.mommydndn.app.data.api.model.response.toDomain
-import com.mommydndn.app.data.api.service.CareService
 import com.mommydndn.app.data.api.service.CommonService
-import com.mommydndn.app.data.datasource.pagingsource.CompanySummaryPagingSource
-import com.mommydndn.app.data.datasource.pagingsource.JobOfferSummaryPagingSource
+import com.mommydndn.app.data.source.pagingsource.CompanySummaryPagingSource
+import com.mommydndn.app.data.source.pagingsource.JobOfferSummaryPagingSource
 import com.mommydndn.app.data.datasource.pagingsource.JobSeekerSummaryPagingSource
-========
-import com.mommydndn.app.data.network.model.request.CompanyCreationRequest
+import com.mommydndn.app.data.model.care.CaringType
+import com.mommydndn.app.data.model.care.CaringTypeItem
+import com.mommydndn.app.data.model.care.EtcCheckItem
+import com.mommydndn.app.data.model.care.MinHourlySalary
+import com.mommydndn.app.data.model.care.SalaryType
+import com.mommydndn.app.data.model.care.SortingType
+import com.mommydndn.app.data.model.care.WorkPeriodType
+import com.mommydndn.app.data.model.care.summary.CompanySummaryListItem
+import com.mommydndn.app.data.model.care.summary.JobOfferSummaryListItem
+import com.mommydndn.app.data.model.care.summary.JobSeekerSummaryItem
+import com.mommydndn.app.data.model.common.DayOfWeekItem
+import com.mommydndn.app.data.model.common.DayOfWeekType
 import com.mommydndn.app.data.network.model.request.CompanyListRequest
 import com.mommydndn.app.data.network.model.request.JobOfferListRequest
-import com.mommydndn.app.data.network.model.request.JobOfferCreationRequest
-import com.mommydndn.app.data.network.model.request.JobSeekerCreationRequest
 import com.mommydndn.app.data.network.model.request.JobSeekerListRequest
 import com.mommydndn.app.data.network.model.request.PaginationRequest
 import com.mommydndn.app.data.network.model.response.CompanyCreationResponse
 import com.mommydndn.app.data.network.model.response.JobOfferCreationResponse
 import com.mommydndn.app.data.network.model.response.JobOfferResponse
 import com.mommydndn.app.data.network.model.response.JobSeekerCreationResponse
-import com.mommydndn.app.data.network.service.CaringService
-import com.mommydndn.app.data.network.service.CommonService
-import com.mommydndn.app.data.source.pagingsource.CompanySummaryPagingSource
-import com.mommydndn.app.data.source.pagingsource.JobOfferSummaryPagingSource
-import com.mommydndn.app.data.source.pagingsource.JobSeekerSummaryPagingSource
->>>>>>>> refactor/code_care:app/src/main/java/com/mommydndn/app/data/repository/CaringDataRepository.kt
-import com.mommydndn.app.data.model.care.CaringType
-import com.mommydndn.app.data.model.care.CaringTypeItem
-import com.mommydndn.app.data.model.care.EtcCheckItem
+import com.mommydndn.app.data.network.model.response.toDomain
+import com.mommydndn.app.data.network.service.CareService
 import com.mommydndn.app.domain.model.care.JobOffer
-import com.mommydndn.app.data.model.care.summary.JobOfferSummaryListItem
 import com.mommydndn.app.domain.model.care.JobSeeker
-import com.mommydndn.app.data.model.care.summary.JobSeekerSummaryItem
-import com.mommydndn.app.data.model.care.MinHourlySalary
-import com.mommydndn.app.data.model.care.SalaryType
-import com.mommydndn.app.data.model.care.SortingType
-import com.mommydndn.app.data.model.care.WorkPeriodType
-import com.mommydndn.app.data.model.care.summary.CompanySummaryListItem
-import com.mommydndn.app.data.model.common.DayOfWeekItem
-import com.mommydndn.app.data.model.common.DayOfWeekType
-import com.mommydndn.app.data.model.map.EmdItem
 import com.mommydndn.app.domain.repository.CareRepository
 import com.mommydndn.app.util.DateTimeUtils
 import com.skydoves.sandwich.getOrNull
@@ -245,6 +223,54 @@ class CareDataRepository @Inject constructor(
         endDate: LocalDate?,
         startTime: LocalTime?,
         endTime: LocalTime?,
+        latitude: Double,
+        longitude: Double,
+        salaryType: SalaryType,
+        salary: Int,
+        etcCheckedList: List<EtcCheckItem>,
+        imageList: List<MultipartBody.Part>
+    ): Flow<JobOfferCreationResponse> {
+        TODO("Not yet implemented")
+    }
+
+    override fun createJobSeeker(
+        introduce: String,
+        caringTypeList: List<CaringType>,
+        latitude: Double?,
+        longitude: Double?,
+        salaryType: SalaryType,
+        salary: Int,
+        etcCheckedList: List<EtcCheckItem>
+    ): Flow<JobSeekerCreationResponse> {
+        TODO("Not yet implemented")
+    }
+
+    override fun createCompany(
+        introduce: String,
+        coverImageList: List<MultipartBody.Part>,
+        caringTypeList: List<CaringType>,
+        latitude: Double?,
+        longitude: Double?,
+        minSalary: Int,
+        maxSalary: Int,
+        etcCheckedList: List<EtcCheckItem>,
+        commission: Int
+    ): Flow<CompanyCreationResponse> {
+        TODO("Not yet implemented")
+    }
+
+    /*
+    override fun createJobOffer(
+        title: String,
+        content: String,
+        caringTypeList: List<CaringType>,
+        taskType: WorkPeriodType,
+        dateList: List<LocalDate>?,
+        days: List<DayOfWeekItem>,
+        startDate: LocalDate?,
+        endDate: LocalDate?,
+        startTime: LocalTime?,
+        endTime: LocalTime?,
         emd: EmdItem,
         latitude: Double,
         longitude: Double,
@@ -364,25 +390,15 @@ class CareDataRepository @Inject constructor(
             emit(data)
         }
     }.flowOn(Dispatchers.IO)
+     */
 
     private suspend fun fetchImageId(imagePart: MultipartBody.Part): Int? =
         withContext(Dispatchers.IO) {
             commonService.fetchImageResponse(image = imagePart).getOrNull()?.imageId
         }
-
-
-import com.mommydndn.app.data.model.care.SortingType
-import com.mommydndn.app.data.network.model.care.GetCareJobOpeningListRequest
-import com.mommydndn.app.data.network.model.care.PageMeta
-import com.mommydndn.app.data.network.service.CareService
-import com.mommydndn.app.data.source.paging.JobOpeningListPagingSource
-import com.mommydndn.app.domain.model.care.CareJobOpening
-import com.mommydndn.app.domain.repository.CareRepository
-import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
-import javax.inject.Singleton
-
-@Singleton
+}
+    /*
+    @Singleton
 class CareDataRepository @Inject constructor(
     private val careService: CareService
 ) : CareRepository {
@@ -423,3 +439,4 @@ class CareDataRepository @Inject constructor(
         ).flow
     }
 }
+     */

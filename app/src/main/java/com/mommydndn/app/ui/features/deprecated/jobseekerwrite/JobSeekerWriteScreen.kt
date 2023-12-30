@@ -80,7 +80,6 @@ import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph400
 import com.mommydndn.app.util.NavigationUtils
 import com.mommydndn.app.util.NumberCommaVisualTransformation
-import com.mommydndn.app.util.NumberUtils
 import com.mommydndn.app.util.PermissionUtils
 import com.mommydndn.app.util.extension.addFocusCleaner
 import kotlinx.coroutines.CoroutineScope
@@ -111,7 +110,7 @@ fun JobSeekerWriteScreen(
 
     val photo by viewModel.photo.collectAsState()
 
-    val minHourlySalary by viewModel.minHourlySalary.collectAsState()
+    // val minHourlySalary by viewModel.minHourlySalary.collectAsState()
 
     val etcCheckList by viewModel.etcCheckList.collectAsState()
 
@@ -435,7 +434,7 @@ fun JobSeekerWriteScreen(
                 Spacer(modifier = Modifier.height(24.dp))
 
                 var isSalaryBelowMin by remember { mutableStateOf(false) }
-                val minSalary = minHourlySalary?.minHourlySalary
+                val minSalary = 10000 // minHourlySalary?.minHourlySalary
 
                 if (minSalary != null && salary != null) {
                     if (minSalary > salary!!) isSalaryBelowMin = true
@@ -445,9 +444,12 @@ fun JobSeekerWriteScreen(
                 val salaryDescription = if (isSalaryBelowMin) {
                     "시급이 최저시급보다 낮습니다."
                 } else {
+                    /*
                     minSalary?.let {
                         "2023년 최저시급은 " + NumberUtils.getPriceString(it) + "원이에요"
                     } ?: ""
+                     */
+                    ""
                 }
 
                 val selectedSalaryType = salaryTypes.find { it.isSelected }
@@ -538,7 +540,7 @@ fun JobSeekerWriteScreen(
                             careTypes = careTypes.filter { it.isSelected },
                             salary = salary,
                             salaryType = salaryTypes.filter { it.isSelected }.first().salaryType,
-                            minHourlySalary = minHourlySalary,
+                            minHourlySalary = null,
                             photo = photo,
                             coroutineScope = coroutineScope,
                             scaffoldState = scaffoldState
@@ -551,7 +553,7 @@ fun JobSeekerWriteScreen(
                                         introduce = introduce,
                                         caringTypeList = careTypes.filter { it.isSelected }
                                             .map { it.caringType },
-                                        emd = emdItem!!,
+                                        // emd = emdItem!!,
                                         salaryType = salaryTypes.filter { it.isSelected }
                                             .first().salaryType,
                                         salary = salary!!,

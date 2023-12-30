@@ -2,24 +2,19 @@ package com.mommydndn.app.ui.features.deprecated.joboffer.write.preview
 
 import android.content.Context
 import android.net.Uri
-import androidx.core.net.toUri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
-import com.mommydndn.app.data.network.model.response.GetUserResponse
 import com.mommydndn.app.data.model.care.JobOfferPreview
-import com.mommydndn.app.domain.repository.CaringRepository
+import com.mommydndn.app.data.network.model.response.GetUserResponse
 import com.mommydndn.app.domain.repository.LocationRepository
 import com.mommydndn.app.domain.repository.UserRepository
-import com.mommydndn.app.ui.navigation.MainNav
-import com.mommydndn.app.util.NavigationUtils
 import com.mommydndn.app.util.extension.asMultipart
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
@@ -28,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class JobOfferPreviewViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val caringRepository: CaringRepository,
+    // private val caringRepository: CaringRepository,
     private val userRepository: UserRepository,
     private val locationRepository: LocationRepository
 ) : ViewModel() {
@@ -46,6 +41,7 @@ class JobOfferPreviewViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             jobOfferPreview.apply {
+                /*
                 caringRepository.createJobOffer(
                     title = title,
                     content = content,
@@ -71,6 +67,7 @@ class JobOfferPreviewViewModel @Inject constructor(
                         isLaunchSingleTop = true
                     )
                 }
+                 */
             }
 
         }

@@ -1,22 +1,9 @@
 package com.mommydndn.app.domain.repository
 
 import androidx.paging.PagingData
-import com.mommydndn.app.data.network.model.response.CompanyCreationResponse
-import com.mommydndn.app.data.network.model.response.JobOfferCreationResponse
-import com.mommydndn.app.data.network.model.response.JobOfferResponse
-import com.mommydndn.app.data.network.model.response.JobSeekerCreationResponse
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.EtcCheckItem
-<<<<<<<< HEAD:app/src/main/java/com/mommydndn/app/domain/repository/CareRepository.kt
-import com.mommydndn.app.domain.model.care.JobOffer
-import com.mommydndn.app.data.model.care.summary.JobOfferSummaryListItem
-import com.mommydndn.app.domain.model.care.JobSeeker
-import com.mommydndn.app.data.model.care.summary.JobSeekerSummaryItem
-========
-import com.mommydndn.app.data.model.care.JobOffer
-import com.mommydndn.app.data.model.care.JobSeeker
->>>>>>>> refactor/code_care:app/src/main/java/com/mommydndn/app/domain/repository/CaringRepository.kt
 import com.mommydndn.app.data.model.care.MinHourlySalary
 import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.SortingType
@@ -26,7 +13,12 @@ import com.mommydndn.app.data.model.care.summary.JobOfferSummaryListItem
 import com.mommydndn.app.data.model.care.summary.JobSeekerSummaryItem
 import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.common.DayOfWeekType
-import com.mommydndn.app.data.model.location.EmdItem
+import com.mommydndn.app.data.network.model.response.CompanyCreationResponse
+import com.mommydndn.app.data.network.model.response.JobOfferCreationResponse
+import com.mommydndn.app.data.network.model.response.JobOfferResponse
+import com.mommydndn.app.data.network.model.response.JobSeekerCreationResponse
+import com.mommydndn.app.domain.model.care.JobOffer
+import com.mommydndn.app.domain.model.care.JobSeeker
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
 import java.time.LocalDate
@@ -50,7 +42,7 @@ interface CareRepository {
         emdId: Int,
         neighborhoodScope: Int,
         caringTypeList: List<CaringType>,
-        days:List<DayOfWeekType>,
+        days: List<DayOfWeekType>,
         startTime: LocalTime?,
         endTime: LocalTime?,
         workPeriodType: WorkPeriodType?
@@ -87,7 +79,7 @@ interface CareRepository {
         endDate: LocalDate?,
         startTime: LocalTime?,
         endTime: LocalTime?,
-        emd: EmdItem,
+//        emd: EmdItem,
         latitude: Double,
         longitude: Double,
         salaryType: SalaryType,
@@ -99,7 +91,7 @@ interface CareRepository {
     fun createJobSeeker(
         introduce: String,
         caringTypeList: List<CaringType>,
-        emd: EmdItem,
+//        emd: EmdItem,
         latitude: Double?,
         longitude: Double?,
         salaryType: SalaryType,
@@ -111,7 +103,7 @@ interface CareRepository {
         introduce: String,
         coverImageList: List<MultipartBody.Part>,
         caringTypeList: List<CaringType>,
-        emd: EmdItem,
+//        emd: EmdItem,
         latitude: Double?,
         longitude: Double?,
         minSalary: Int,
@@ -119,11 +111,4 @@ interface CareRepository {
         etcCheckedList: List<EtcCheckItem>,
         commission: Int
     ): Flow<CompanyCreationResponse>
-import androidx.paging.PagingData // from paging-common: without Android dependencies
-import com.mommydndn.app.domain.model.care.CareJobOpening
-import kotlinx.coroutines.flow.Flow
-
-interface CareRepository {
-
-    fun getNearbyCareJobOpenings(latitude: Double, longitude: Double): Flow<PagingData<CareJobOpening>>
 }

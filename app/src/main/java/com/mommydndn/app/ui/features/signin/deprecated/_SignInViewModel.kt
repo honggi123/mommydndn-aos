@@ -1,19 +1,14 @@
 package com.mommydndn.app.ui.features.signin.deprecated
 
-import android.net.Uri
-import dagger.hilt.android.lifecycle.HiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavHostController
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
+import com.mommydndn.app.data.network.model.response.LoginResponse
 import com.mommydndn.app.domain.model.user.OAuthProvider
 import com.mommydndn.app.domain.repository.AccountRepository
-import kotlinx.coroutines.Dispatchers
-import androidx.navigation.NavHostController
-import com.mommydndn.app.data.network.model.response.LoginResponse
-import com.mommydndn.app.data.model.user.SignUpInfo
 import com.mommydndn.app.ui.navigation.MainNav
-import com.mommydndn.app.ui.navigation.TypeChoiceNav
 import com.mommydndn.app.util.NavigationUtils
 import com.skydoves.sandwich.ApiResponse
 import com.skydoves.sandwich.StatusCode
@@ -22,6 +17,8 @@ import com.skydoves.sandwich.message
 import com.skydoves.sandwich.onError
 import com.skydoves.sandwich.onException
 import com.skydoves.sandwich.onSuccess
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -94,6 +91,7 @@ class _SignInViewModel @Inject constructor(
                 val message = when (statusCode) {
                     StatusCode.InternalServerError -> "InternalServerError"
                     StatusCode.Forbidden -> {
+                        /*
                         NavigationUtils.navigate(
                             navHostController, TypeChoiceNav.navigateWithArg(
                                 SignUpInfo(
@@ -102,6 +100,8 @@ class _SignInViewModel @Inject constructor(
                                 )
                             )
                         )
+                         */
+
                         "Forbidden"
                     }
 

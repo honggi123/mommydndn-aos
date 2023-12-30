@@ -1,21 +1,6 @@
 package com.mommydndn.app.ui.features.deprecated.joboffer.write
 
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
-import android.webkit.JavascriptInterface
-import androidx.compose.foundation.layout.Box
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
-import com.google.accompanist.web.AccompanistWebChromeClient
-import com.google.accompanist.web.AccompanistWebViewClient
-import com.google.accompanist.web.WebView
-import com.google.accompanist.web.rememberWebViewNavigator
-import com.google.accompanist.web.rememberWebViewState
-import org.json.JSONObject
-
-
+/*
 @Composable
 fun JobOfferLocationSearchScreen(
     navController: NavHostController,
@@ -73,3 +58,4 @@ class MyJavaScriptInterface(
         onReceivedData(jibunAddress)
     }
 }
+ */

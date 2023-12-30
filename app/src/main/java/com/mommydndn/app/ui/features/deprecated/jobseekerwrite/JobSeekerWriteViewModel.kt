@@ -5,32 +5,28 @@ import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mommydndn.app.data.network.model.response.Certification
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.EtcCheckItem
-import com.mommydndn.app.data.model.care.MinHourlySalary
 import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.SalaryTypeItem
 import com.mommydndn.app.data.model.location.EmdItem
+import com.mommydndn.app.data.network.model.response.Certification
 import com.mommydndn.app.domain.model.location.LocationInfo
-import com.mommydndn.app.domain.repository.CaringRepository
 import com.mommydndn.app.domain.repository.LocationRepository
 import com.mommydndn.app.domain.repository.UserRepository
 import com.mommydndn.app.util.NumberUtils
 import com.mommydndn.app.util.extension.asMultipart
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import javax.inject.Inject
 
 @HiltViewModel
 class JobSeekerWriteViewModel @Inject constructor(
-    private val caringRepository: CaringRepository,
+    // private val caringRepository: CaringRepository,
     private val userRepository: UserRepository,
     private val locationRepository: LocationRepository,
     private val savedStateHandle: SavedStateHandle
@@ -74,12 +70,15 @@ class JobSeekerWriteViewModel @Inject constructor(
         MutableStateFlow<LocationInfo?>(null)
     val locationInfo: StateFlow<LocationInfo?> = _locationInfo
 
+    /*
     val minHourlySalary: StateFlow<MinHourlySalary?> =
         caringRepository.fetchMinHourlySalary().stateIn(
             viewModelScope,
             started = SharingStarted.Lazily,
             initialValue = null
         )
+     */
+
 
     init {
         fetchEtcCheckList()
@@ -129,10 +128,13 @@ class JobSeekerWriteViewModel @Inject constructor(
         viewModelScope.launch {
             locationRepository.fetchAddressByKeyword(address).collectLatest {
                 val address = it.documents.get(0).address
+
+                /*
                 _locationInfo.value = LocationInfo(
                     latitude = address.y.toDouble(),
                     longitude = address.x.toDouble()
                 )
+                 */
 
                 _emdItem.value = EmdItem(
                     id = Integer.parseInt(address.bCode.subSequence(0, 7).toString()),
@@ -154,9 +156,11 @@ class JobSeekerWriteViewModel @Inject constructor(
 
     fun fetchCaringTypeItems() {
         viewModelScope.launch {
+            /*
             caringRepository.fetchCaringTypeItems().collect { types ->
                 _careTypes.value = types
             }
+             */
         }
     }
 
@@ -175,9 +179,12 @@ class JobSeekerWriteViewModel @Inject constructor(
 
     fun fetchEtcCheckList() {
         viewModelScope.launch {
+            /*
             caringRepository.fetchEtcIndividualCheckList().collect {
                 _etcCheckList.value = it
             }
+             */
+
         }
     }
 

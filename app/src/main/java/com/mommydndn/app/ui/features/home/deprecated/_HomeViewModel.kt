@@ -2,8 +2,8 @@
 //
 //import androidx.lifecycle.ViewModel
 //import androidx.lifecycle.viewModelScope
-//import com.mommydndn.app.data.api.model.response.BabyItem
-//import com.mommydndn.app.data.api.model.response.BabyItemMeta
+//import com.mommydndn.app.data.api.model.response.com.mommydndn.app.domain.model.care.BabyItem
+//import com.mommydndn.app.data.api.model.response.com.mommydndn.app.domain.model.care.BabyItemMeta
 //import com.mommydndn.app.data.model.notification.Notification
 //import com.mommydndn.app.domain.repository.BabyItemRepository
 //import com.mommydndn.app.domain.repository.CaringRepository
@@ -54,12 +54,12 @@
 //        initialValue = emptyList()
 //    )
 //
-//    private val _babyItems: MutableStateFlow<List<BabyItem>> = MutableStateFlow(emptyList())
-//    val babyItems: StateFlow<List<BabyItem>> = _babyItems
+//    private val _babyItems: MutableStateFlow<List<com.mommydndn.app.domain.model.care.BabyItem>> = MutableStateFlow(emptyList())
+//    val babyItems: StateFlow<List<com.mommydndn.app.domain.model.care.BabyItem>> = _babyItems
 //
-//    private val _babyItemsPagingMeta: MutableStateFlow<BabyItemMeta> =
-//        MutableStateFlow(BabyItemMeta(totalCount = 0, currentPageNum = 1, requestTimestamp = 0))
-//    val babyItemsPagingMeta: StateFlow<BabyItemMeta> = _babyItemsPagingMeta
+//    private val _babyItemsPagingMeta: MutableStateFlow<com.mommydndn.app.domain.model.care.BabyItemMeta> =
+//        MutableStateFlow(com.mommydndn.app.domain.model.care.BabyItemMeta(totalCount = 0, currentPageNum = 1, requestTimestamp = 0))
+//    val babyItemsPagingMeta: StateFlow<com.mommydndn.app.domain.model.care.BabyItemMeta> = _babyItemsPagingMeta
 //
 //    init {
 //        fetchBabyItems(

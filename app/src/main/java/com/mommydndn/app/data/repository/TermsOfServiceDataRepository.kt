@@ -1,14 +1,13 @@
 package com.mommydndn.app.data.repository
 
-import com.mommydndn.app.data.api.model.request.UpdateTermsOfServiceRequest
 import com.mommydndn.app.data.api.model.response.toDomain
-import com.mommydndn.app.data.api.service.TermsOfServiceService
-import com.mommydndn.app.domain.model.tos.TosAgreementStatus
+import com.mommydndn.app.data.network.model.request.UpdateTermsOfServiceRequest
+import com.mommydndn.app.data.network.service.TermsOfServiceService
 import com.mommydndn.app.domain.model.tos.TermsOfService
+import com.mommydndn.app.domain.model.tos.TosAgreementStatus
 import com.mommydndn.app.domain.repository.TermsOfServiceRepository
-import javax.inject.Inject
 
-class TermsOfServiceDataRepository @Inject constructor(
+class TermsOfServiceDataRepository constructor(
     private val service: TermsOfServiceService,
 ) : TermsOfServiceRepository {
 

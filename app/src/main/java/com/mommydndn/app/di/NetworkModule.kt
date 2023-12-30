@@ -3,29 +3,15 @@ package com.mommydndn.app.di
 import android.content.SharedPreferences
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.mommydndn.app.BuildConfig
+import com.mommydndn.app.data.api.service.BabyItemService
+import com.mommydndn.app.data.api.service.CommonService
+import com.mommydndn.app.data.api.service.NotificationService
 import com.mommydndn.app.data.network.interceptor.AuthenticationInterceptor
 import com.mommydndn.app.data.network.service.AuthenticationService
-import com.mommydndn.app.data.network.service.BabyItemService
 import com.mommydndn.app.data.network.service.CareService
-import com.mommydndn.app.data.network.service.CaringService
-import com.mommydndn.app.data.network.service.CommonService
 import com.mommydndn.app.data.network.service.GoogleApiService
 import com.mommydndn.app.data.network.service.KakaoApiService
-import com.mommydndn.app.data.network.service.MapService
-import com.mommydndn.app.data.network.service.NoticeService
-import com.mommydndn.app.data.network.service.TermsAndConditionsService
 import com.mommydndn.app.data.network.service.UserService
-import com.mommydndn.app.data.api.interceptor.AuthenticationInterceptor
-import com.mommydndn.app.data.api.service.AuthenticationService
-import com.mommydndn.app.data.api.service.BabyItemService
-import com.mommydndn.app.data.api.service.CareService
-import com.mommydndn.app.data.api.service.CommonService
-import com.mommydndn.app.data.api.service.GoogleApiService
-import com.mommydndn.app.data.api.service.KakaoApiService
-import com.mommydndn.app.data.api.service.MapService
-import com.mommydndn.app.data.api.service.NotificationService
-import com.mommydndn.app.data.api.service.TermsAndConditionsService
-import com.mommydndn.app.data.api.service.UserService
 import com.mommydndn.app.data.preferences.TokenManager
 import com.skydoves.sandwich.adapters.ApiResponseCallAdapterFactory
 import dagger.Module
@@ -95,6 +81,7 @@ class NetworkModule {
         return retrofit.create(AuthenticationService::class.java)
     }
 
+    /*
     @Singleton
     @Provides
     fun provideMapService(retrofit: Retrofit): MapService {
@@ -106,6 +93,7 @@ class NetworkModule {
     fun provideTermsService(retrofit: Retrofit): TermsAndConditionsService {
         return retrofit.create(TermsAndConditionsService::class.java)
     }
+     */
 
     @Singleton
     @Provides
@@ -119,11 +107,13 @@ class NetworkModule {
         return retrofit.create(BabyItemService::class.java)
     }
 
+    /*
     @Singleton
     @Provides
     fun provideCaringService(retrofit: Retrofit): CareService {
         return retrofit.create(CareService::class.java)
     }
+     */
 
     @Provides
     @Singleton

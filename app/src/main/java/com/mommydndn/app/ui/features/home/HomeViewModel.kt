@@ -2,29 +2,24 @@ package com.mommydndn.app.ui.features.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mommydndn.app.domain.usecase.care.GetBabyItemsParams
 import com.mommydndn.app.domain.usecase.care.GetBabyItemsUseCase
 import com.mommydndn.app.domain.usecase.care.GetNearestJobOffersUseCase
 import com.mommydndn.app.domain.usecase.care.GetNearestJobSeekersUseCase
 import com.mommydndn.app.domain.usecase.common.GetBannersUseCase
 import com.mommydndn.app.domain.usecase.notification.GetNotificationsUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.mommydndn.app.util.result.data
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
-import javax.inject.Inject
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import com.mommydndn.app.util.result.successOr
-import com.mommydndn.app.util.result.Result
 
 //const val MAX_BABY_ITEM_PAGES = 4
 //const val INITIAL_BABY_ITEM_SIZE = 10
 //const val MORE_BABY_ITEM_SIZE = 10
 
-@HiltViewModel
-class HomeViewModel @Inject constructor(
+class HomeViewModel constructor(
     private val getBabyItemsUseCase: GetBabyItemsUseCase,
     private val getBannersUseCase: GetBannersUseCase,
     private val getNearestJobOffersUseCase: GetNearestJobOffersUseCase,
@@ -47,10 +42,10 @@ class HomeViewModel @Inject constructor(
             val jobSeekerDeffered = async { getNearestJobSeekersUseCase.invoke(Unit) }
             val jobOffersDeffered = async { getNearestJobOffersUseCase.invoke(Unit) }
 
-            val banners = bannersDeffered.await().successOr(emptyList())
-            val jobSeekers = jobSeekerDeffered.await().successOr(emptyList())
-            val jobOffers = jobOffersDeffered.await().successOr(emptyList())
-            val notifications = notificationDeffered.await().successOr(emptyList())
+            val banners = bannersDeffered.await().data ?: emptyList()
+            val jobSeekers = jobSeekerDeffered.await().data ?: emptyList()
+            val jobOffers = jobOffersDeffered.await().data ?: emptyList()
+            val notifications = notificationDeffered.await().data ?: emptyList()
 
             _uiState.update {
                 HomeUiState.Success(

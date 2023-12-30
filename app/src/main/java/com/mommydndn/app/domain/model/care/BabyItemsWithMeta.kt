@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:app/src/main/java/com/mommydndn/app/domain/model/care/BabyItemsWithMeta.kt
 package com.mommydndn.app.domain.model.care
-========
-package com.mommydndn.app.data.network.model.response
->>>>>>>> refactor/code_care:app/src/main/java/com/mommydndn/app/data/network/model/response/BabyItemSummaryResponse.kt
 
 data class BabyItemsWithMeta(
     val itemSummaryList: List<BabyItem>,

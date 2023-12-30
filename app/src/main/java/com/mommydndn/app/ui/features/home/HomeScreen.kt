@@ -4,12 +4,9 @@ import android.annotation.SuppressLint
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,13 +17,10 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
 import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.Text
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -35,36 +29,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mommydndn.app.R
+import com.mommydndn.app.data.model.notification.Notification
 import com.mommydndn.app.domain.model.care.JobOffer
 import com.mommydndn.app.domain.model.care.JobSeeker
-import com.mommydndn.app.data.model.notification.Notification
+import com.mommydndn.app.ui.components.box.FooterBox
 import com.mommydndn.app.ui.components.box.SubtextBox
 import com.mommydndn.app.ui.components.box.SubtextBoxSize
-import com.mommydndn.app.ui.components.list.BannerList
-import com.mommydndn.app.ui.components.box.FooterBox
-import com.mommydndn.app.ui.features.home.components.JobOfferBox
-import com.mommydndn.app.ui.features.home.components.SitterBox
 import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.components.common.SubBanner
+import com.mommydndn.app.ui.components.list.BannerList
 import com.mommydndn.app.ui.components.modal.NoticeSettingListModal
-import com.mommydndn.app.ui.features.home.components.MarketListItemBox
+import com.mommydndn.app.ui.features.home.components.JobOfferBox
+import com.mommydndn.app.ui.features.home.components.SitterBox
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.GreyOpacity400
-import com.mommydndn.app.ui.theme.Salmon600
-import com.mommydndn.app.ui.theme.paragraph300
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
 fun HomeRoute(
     onMoreJobOfferButtonClick: () -> Unit,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = viewModel() // hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -196,8 +185,9 @@ fun JobSeekerContent(
         SubtextBox(
             modifier = Modifier.fillMaxWidth(),
             size = SubtextBoxSize.L,
-            titleText = stringResource(id = R.string.category_job_seekers_title),
-            rightButtonText = stringResource(id = R.string.see_all)
+            title = stringResource(id = R.string.category_job_seekers_title),
+            subtitle = "",
+            trailingLabel = stringResource(id = R.string.see_all)
         )
         LazyRow(
             modifier = Modifier
@@ -228,9 +218,10 @@ fun JobOfferContent(
         SubtextBox(
             modifier = Modifier.fillMaxWidth(),
             size = SubtextBoxSize.L,
-            titleText = stringResource(id = R.string.category_job_offers_title),
-            rightButtonText = stringResource(id = R.string.see_more),
-            rightButtonOnClick = { onMoreButtonClick() }
+            title = stringResource(id = R.string.category_job_offers_title),
+            subtitle = "",
+            trailingLabel = stringResource(id = R.string.see_more),
+            onClick = { onMoreButtonClick() }
         )
 
         Box(modifier = Modifier.padding(start = 32.dp, top = 28.dp, bottom = 36.dp)) {

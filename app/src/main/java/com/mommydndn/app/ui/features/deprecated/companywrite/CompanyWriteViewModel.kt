@@ -8,7 +8,7 @@ import com.mommydndn.app.data.model.care.EtcCheckItem
 import com.mommydndn.app.data.model.care.MinHourlySalary
 import com.mommydndn.app.data.model.location.EmdItem
 import com.mommydndn.app.domain.model.location.LocationInfo
-import com.mommydndn.app.domain.repository.CaringRepository
+import com.mommydndn.app.domain.repository.CareRepository
 import com.mommydndn.app.domain.repository.LocationRepository
 import com.mommydndn.app.domain.repository.UserRepository
 import com.mommydndn.app.util.NumberUtils
@@ -23,7 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CompanyWriteViewModel @Inject constructor(
-    private val caringRepository: CaringRepository,
+    private val caringRepository: CareRepository,
     private val userRepository: UserRepository,
     private val locationRepository: LocationRepository
 ) : ViewModel() {
@@ -106,6 +106,7 @@ class CompanyWriteViewModel @Inject constructor(
     fun searchLocationByAddress(address: String) {
         viewModelScope.launch {
             locationRepository.fetchAddressByKeyword(address).collectLatest {
+                /*
                 val address = it.documents.get(0).address
                 _locationInfo.value = LocationInfo(
                     latitude = address.y.toDouble(),
@@ -119,6 +120,7 @@ class CompanyWriteViewModel @Inject constructor(
                     ctprvnName = address.region1DepthName,
                     fullName = "${address.region1DepthName} ${address.region2DepthName} ${address.region3DepthHName}"
                 )
+                 */
             }
         }
     }

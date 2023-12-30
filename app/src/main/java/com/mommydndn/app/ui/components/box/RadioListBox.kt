@@ -29,7 +29,7 @@ import com.mommydndn.app.ui.theme.paragraph300
 
 @Composable
 fun <T : Any> RadioListBox(
-    pagingItems: LazyPagingItems<T>
+    pagingItems: LazyPagingItems<T>,
     onItemClick: (T?) -> Unit,
     itemNameDisplay: (T) -> String,
     modifier: Modifier = Modifier

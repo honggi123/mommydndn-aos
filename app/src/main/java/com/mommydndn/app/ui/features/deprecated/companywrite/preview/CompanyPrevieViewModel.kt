@@ -1,7 +1,6 @@
 package com.mommydndn.app.ui.features.deprecated.companywrite.preview
 
 import androidx.lifecycle.ViewModel
-import com.mommydndn.app.domain.repository.CaringRepository
 import com.mommydndn.app.domain.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -9,7 +8,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CompanyPrevieViewModel @Inject constructor(
     private val userRepository: UserRepository,
-    private val caringRepository: CaringRepository
+    // private val caringRepository: CaringRepository
 ) : ViewModel() {
 
     /*

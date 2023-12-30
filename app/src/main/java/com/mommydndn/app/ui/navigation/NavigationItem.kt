@@ -9,7 +9,6 @@ import com.mommydndn.app.R
 import com.mommydndn.app.data.model.care.CompanyPreview
 import com.mommydndn.app.data.model.care.JobOfferPreview
 import com.mommydndn.app.data.model.care.JobSeekerPreview
-import com.mommydndn.app.domain.model.user.SignUpInfo
 import com.mommydndn.app.ui.navigation.NavigationRouteName.MAIN_CARE
 import com.mommydndn.app.ui.navigation.NavigationRouteName.MAIN_HOME
 import com.mommydndn.app.util.GsonUtils
@@ -54,6 +53,7 @@ object UserTypeNav : Destination {
 
     fun routeWithArgName() = "$route/{$argName}"
 
+    /*
     fun navigateWithArg(item: SignUpInfo): String {
         val arg = GsonUtils.toJson(item)
         return "$route/$arg"
@@ -63,6 +63,8 @@ object UserTypeNav : Destination {
         val signUpInfoString = navBackStackEntry.arguments?.getString(argName)
         return GsonUtils.fromJson<SignUpInfo>(signUpInfoString)
     }
+     */
+
 }
 
 object LocationSearchNav : Destination {

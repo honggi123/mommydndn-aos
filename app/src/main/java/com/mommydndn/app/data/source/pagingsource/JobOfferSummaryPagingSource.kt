@@ -1,12 +1,12 @@
-package com.mommydndn.app.data.datasource.pagingsource
+package com.mommydndn.app.data.source.pagingsource
 
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.mommydndn.app.data.api.model.request.JobOfferListRequest
-import com.mommydndn.app.data.api.model.request.PaginationRequest
-import com.mommydndn.app.data.api.service.CareService
 import com.mommydndn.app.data.model.care.summary.JobOfferSummaryListItem
+import com.mommydndn.app.data.network.model.request.JobOfferListRequest
+import com.mommydndn.app.data.network.model.request.PaginationRequest
+import com.mommydndn.app.data.network.service.CareService
 import javax.inject.Inject
 
 private const val STARTING_PAGE_INDEX = 1

@@ -1,13 +1,13 @@
-package com.mommydndn.app.data.api.service
+package com.mommydndn.app.data.network.service
 
-import com.mommydndn.app.data.api.model.request.SignInRequest
-import com.mommydndn.app.data.api.model.request.SignUpRequest
-import com.mommydndn.app.data.api.model.request.UpdateProfileImageRequest
-import com.mommydndn.app.data.api.model.request.UpdateTermsOfServiceListRequest
-import com.mommydndn.app.data.api.model.response.GetUserResponse
-import com.mommydndn.app.data.api.model.response.LoginResponse
-import com.mommydndn.app.data.api.model.response.RefreshAccessTokenResponse
-import com.mommydndn.app.data.api.model.response.SignUpResponse
+import com.mommydndn.app.data.network.model.request.SignInRequest
+import com.mommydndn.app.data.network.model.request.SignUpRequest
+import com.mommydndn.app.data.network.model.request.UpdateProfileImageRequest
+import com.mommydndn.app.data.network.model.request.UpdateTermsOfServiceListRequest
+import com.mommydndn.app.data.network.model.response.GetUserResponse
+import com.mommydndn.app.data.network.model.response.LoginResponse
+import com.mommydndn.app.data.network.model.response.RefreshAccessTokenResponse
+import com.mommydndn.app.data.network.model.response.SignUpResponse
 import com.skydoves.sandwich.ApiResponse
 import retrofit2.http.Body
 import retrofit2.http.GET

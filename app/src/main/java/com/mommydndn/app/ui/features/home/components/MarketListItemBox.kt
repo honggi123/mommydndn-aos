@@ -27,16 +27,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
+import com.mommydndn.app.R
+import com.mommydndn.app.domain.model.care.BabyItem
+import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.Grey800
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph400
-import com.mommydndn.app.R
-import com.mommydndn.app.domain.model.care.BabyItem
-import com.mommydndn.app.ui.theme.Grey500
-import com.mommydndn.app.util.NumberUtils
 import com.mommydndn.app.util.DateTimeUtils
+import com.mommydndn.app.util.NumberUtils
 
 @Composable
 fun MarketListItemBox(
@@ -51,7 +51,7 @@ fun MarketListItemBox(
     )
 
     val isLikedPainter = rememberImagePainter(
-        data = if (item.isLiked) R.drawable.ic_heart_fill_salmon else R.drawable.ic_heart_fill,
+        data = if (item.isLiked) R.drawable.ic_heart_fill_salmon else R.drawable.icon_heart_fill,
     )
 
     Box(

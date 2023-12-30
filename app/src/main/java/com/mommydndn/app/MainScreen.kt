@@ -1,6 +1,5 @@
 package com.mommydndn.app
 
-import android.net.Uri
 import android.util.Log
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
@@ -22,17 +21,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.mommydndn.app.ui.features.home.MainHomeScreen
-import com.mommydndn.app.ui.features.signin.SignInScreen
-import com.mommydndn.app.ui.features.signup.location.LocationRoute
 import com.mommydndn.app.ui.features.signup.SignUpViewModel
-import com.mommydndn.app.ui.features.signup.user_type.UserTypeRoute
+import com.mommydndn.app.ui.features.signup.location.LocationRoute
 import com.mommydndn.app.ui.navigation.LocationSearchNav
 import com.mommydndn.app.ui.navigation.MainNav
 import com.mommydndn.app.ui.navigation.SignInNav
@@ -118,7 +114,7 @@ fun MainNavigationScreen(
     navController: NavHostController,
     scaffoldState: ScaffoldState
 ) {
-    val signUpViewModel = hiltViewModel<SignUpViewModel>()
+    val signUpViewModel = viewModel<SignUpViewModel>() // ?
 
     val slideEnterTransition = slideInHorizontally(
         initialOffsetX = { -it },
@@ -134,7 +130,7 @@ fun MainNavigationScreen(
         composable(
             route = SignInNav.route,
         ) {
-            SignInScreen(navHostController = navController)
+            // SignInScreen(navHostController = navController)
         }
 
         composable(
@@ -143,6 +139,7 @@ fun MainNavigationScreen(
             enterTransition = { slideEnterTransition },
             exitTransition = { slideExitTransition }
         ) {
+            /*
             val signUpInfo = UserTypeNav.findArgument(it)
             val accessToken = Uri.decode(signUpInfo?.accessToken)
 
@@ -152,6 +149,8 @@ fun MainNavigationScreen(
                 signUpInfo = signUpInfo?.copy(accessToken = accessToken),
                 viewModel = signUpViewModel
             )
+             */
+
         }
 
         composable(
@@ -169,10 +168,8 @@ fun MainNavigationScreen(
         composable(
             route = MainNav.Home.route
         ) {
-            MainHomeScreen(navController = navController)
+            // MainHomeScreen(navController = navController)
         }
-
-
     }
 
 }

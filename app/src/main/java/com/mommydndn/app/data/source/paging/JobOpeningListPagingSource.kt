@@ -6,8 +6,6 @@ import com.mommydndn.app.data.network.model.care.GetCareJobOpeningListItem
 import com.mommydndn.app.data.network.model.care.GetCareJobOpeningListRequest
 import com.mommydndn.app.data.network.service.CareService
 import com.mommydndn.app.domain.model.care.CareJobOpening
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class JobOpeningListPagingSource constructor(
     private val request: GetCareJobOpeningListRequest,
@@ -22,22 +20,28 @@ class JobOpeningListPagingSource constructor(
         return try {
             val page = params.key ?: 1
 
+            /*
             val response = withContext(Dispatchers.IO) {
                 careService.getCareJobOpeningList(request)
             }
+             */
+
 
             LoadResult.Page(
-                data = response.items.map(::toEntity),
+                data = emptyList(), // response.items.map(::toEntity),
                 prevKey = if (page == 1) {
                     null
                 } else {
                     page - 1
                 },
-                nextKey = if (response.items.isEmpty()) {
+                nextKey = page + 1,
+                /*
+                if (response.items.isEmpty()) {
                     null
                 } else {
                     page + 1
                 }
+                 */
             )
         } catch (exception: Exception) {
             LoadResult.Error(exception)

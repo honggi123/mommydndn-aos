@@ -119,7 +119,7 @@ fun Searchbar(
                 trailingIcon = {
                     if (!keyword.isEmpty()) {
                         Image(
-                            painter = painterResource(id = R.drawable.ic_x_circle),
+                            painter = painterResource(id = R.drawable.icon_circle_x),
                             contentDescription = "",
                             modifier = Modifier
                                 .size(36.dp)

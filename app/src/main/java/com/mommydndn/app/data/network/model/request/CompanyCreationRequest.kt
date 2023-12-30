@@ -1,4 +1,4 @@
-package com.mommydndn.app.data.api.model.request
+package com.mommydndn.app.data.network.model.request
 
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeSerializer

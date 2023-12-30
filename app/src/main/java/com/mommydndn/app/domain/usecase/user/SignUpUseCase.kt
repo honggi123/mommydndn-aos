@@ -1,19 +1,15 @@
 package com.mommydndn.app.domain.usecase.user
 
-import com.mommydndn.app.data.api.model.response.SignUpResponse
+import com.mommydndn.app.data.network.model.response.SignUpResponse
 import com.mommydndn.app.data.repository.AccountDataRepository
-import com.mommydndn.app.domain.model.user.OAuthType
-import com.mommydndn.app.domain.model.user.SignUpInfo
+import com.mommydndn.app.domain.model.user.OAuthProvider
 import com.mommydndn.app.domain.model.user.UserType
 import com.mommydndn.app.domain.usecase.UseCase
-import com.mommydndn.app.util.result.Result
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
-class SignUpUseCase @Inject constructor(
+class SignUpUseCase constructor(
     private val repository: AccountDataRepository,
     private val coroutineDispatcher: CoroutineDispatcher
 ) : UseCase<SignUpParams, SignUpResponse>(coroutineDispatcher) {
@@ -36,7 +32,7 @@ class SignUpUseCase @Inject constructor(
 
 data class SignUpParams(
     val accessToken: String,
-    val oAuthType: OAuthType,
+    val oAuthType: OAuthProvider,
     val userType: UserType,
     val emdId: Int
 )

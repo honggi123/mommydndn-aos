@@ -17,7 +17,7 @@ class GetNearbyCareJobOpeningsUseCase @Inject constructor(
 
     override fun execute(parameters: GetNearbyCareJobOpeningsParams): Flow<List<CareJobOpening>> {
         with(parameters) {
-            repository.getNearbyCareJobOpenings(latitude, longitude)
+            // repository.getNearbyCareJobOpenings(latitude, longitude)
         }
 
         TODO()

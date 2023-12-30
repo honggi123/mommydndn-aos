@@ -1,9 +1,7 @@
 package com.mommydndn.app.ui.features.signup.location
 
 import android.Manifest
-import android.content.Context
 import android.util.Log
-import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.spring
@@ -18,12 +16,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.mommydndn.app.domain.model.location.CoordinatesInfo
@@ -38,7 +34,7 @@ import kotlinx.coroutines.launch
 internal fun LocationRoute(
     onBackButtonClick: () -> Unit,
     onSignUpSuccess: () -> Unit,
-    viewModel: SignUpViewModel = hiltViewModel(),
+    viewModel: SignUpViewModel = viewModel(),
 ) {
     val permissions = arrayOf(
         Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -64,7 +60,7 @@ internal fun LocationRoute(
     val (currentSearchType, updateSearchType) = rememberSaveable { mutableStateOf(SearchType.MY_LOCATION) }
     val pagingContents = rememberPagingItems(viewModel, onItemClick = { item ->
         scope.launch { sheetState.show() }
-        viewModel.updateMyLocation(item)
+        // viewModel.updateMyLocation(item)
     })
 
     val onSearchResult: () -> Unit = {

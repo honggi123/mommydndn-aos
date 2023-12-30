@@ -8,8 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
-class GetNotificationsUseCase @Inject constructor(
+class GetNotificationsUseCase constructor(
     private val repository: NotificationRepository,
     private val coroutineDispatcher: CoroutineDispatcher
 ) : UseCase<Unit, List<Notification>>(coroutineDispatcher) {

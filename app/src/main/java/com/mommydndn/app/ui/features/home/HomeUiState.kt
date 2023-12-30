@@ -1,11 +1,9 @@
 package com.mommydndn.app.ui.features.home
 
-import com.mommydndn.app.domain.model.care.BabyItem
-import com.mommydndn.app.domain.model.care.BabyItemMeta
+import com.mommydndn.app.data.model.notification.Notification
 import com.mommydndn.app.domain.model.banner.Banner
 import com.mommydndn.app.domain.model.care.JobOffer
 import com.mommydndn.app.domain.model.care.JobSeeker
-import com.mommydndn.app.data.model.notification.Notification
 
 sealed interface HomeUiState {
 
@@ -23,14 +21,14 @@ sealed interface HomeUiState {
 
 //sealed interface HomeBabyItemUiState {
 //
-//    val babyItems: List<BabyItem>
+//    val babyItems: List<com.mommydndn.app.domain.model.care.BabyItem>
 //
 //    data class Loading(
-//        override val babyItems: List<BabyItem> = emptyList(),
+//        override val babyItems: List<com.mommydndn.app.domain.model.care.BabyItem> = emptyList(),
 //    ) : HomeBabyItemUiState
 //
 //    data class Success(
-//        override val babyItems: List<BabyItem> = emptyList(),
-//        val babyItemsPagingMeta: BabyItemMeta = BabyItemMeta(0, 1, 0)
+//        override val babyItems: List<com.mommydndn.app.domain.model.care.BabyItem> = emptyList(),
+//        val babyItemsPagingMeta: com.mommydndn.app.domain.model.care.BabyItemMeta = com.mommydndn.app.domain.model.care.BabyItemMeta(0, 1, 0)
 //    ) : HomeBabyItemUiState
 //}

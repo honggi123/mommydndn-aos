@@ -5,9 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.mommydndn.app.domain.model.user.SignUpInfo
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mommydndn.app.domain.model.user.UserType
 import com.mommydndn.app.ui.features.signup.SignUpUiState
 import com.mommydndn.app.ui.features.signup.SignUpViewModel
@@ -16,22 +15,22 @@ import com.mommydndn.app.ui.features.signup.SignUpViewModel
 internal fun UserTypeRoute(
     onUserTypeSelect: () -> Unit,
     onBackButtonClick: () -> Unit,
-    signUpInfo: SignUpInfo?,
-    viewModel: SignUpViewModel = hiltViewModel(),
+    // signUpInfo: SignUpInfo?,
+    viewModel: SignUpViewModel = viewModel(),
 ) {
     LaunchedEffect(Unit) {
-        viewModel.updateSignUpInfo(signUpInfo)
+        // viewModel.updateSignUpInfo(signUpInfo)
     }
 
     val onUserTypeClick: (UserType) -> Unit = { userType ->
         when (userType) {
             UserType.COMPANY -> {
-                viewModel.updateUserType(UserType.COMPANY)
+                // viewModel.updateUserType(UserType.COMPANY)
                 onUserTypeSelect()
             }
 
             UserType.INDIVIDUAL -> {
-                viewModel.updateUserType(UserType.INDIVIDUAL)
+                // viewModel.updateUserType(UserType.INDIVIDUAL)
                 onUserTypeSelect()
             }
         }

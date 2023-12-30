@@ -11,23 +11,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mommydndn.app.R
-import com.mommydndn.app.domain.model.user.SignUpInfo
 import com.mommydndn.app.domain.model.user.UserType
 import com.mommydndn.app.ui.components.box.MaintextBox
-import com.mommydndn.app.ui.features.signup.component.SquareButton
 import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.features.signup.SignUpUiState
-import com.mommydndn.app.ui.features.signup.SignUpViewModel
+import com.mommydndn.app.ui.features.signup.component.SquareButton
 import com.mommydndn.app.ui.theme.Grey400
 
 @Composable

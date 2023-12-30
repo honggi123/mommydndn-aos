@@ -156,7 +156,7 @@ dependencies {
 
     implementation 'com.github.commandiron:WheelPickerCompose:1.1.11'
 
-    implementation "androidx.lifecycle:lifecycle-runtime-compose:2.6.0"
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
 
     implementation "com.google.accompanist:accompanist-webview:0.24.13-rc"
 

@@ -1,5 +1,6 @@
 package com.mommydndn.app.data.network.model.response
 
+import com.mommydndn.app.data.api.model.response.GetEmdItemResponse
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeSerializer
 import com.mommydndn.app.data.model.care.CertificationType

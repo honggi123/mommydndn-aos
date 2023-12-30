@@ -1,13 +1,7 @@
 package com.mommydndn.app.data.network.service
 
-<<<<<<<< HEAD:app/src/main/java/com/mommydndn/app/data/network/service/LocationService.kt
-import com.mommydndn.app.data.api.model.response.GetLocationResponse
-import com.mommydndn.app.data.api.model.response.GetNearestResponse
-========
-import com.mommydndn.app.data.network.model.response.LocationSearchResponse
-import com.mommydndn.app.data.network.model.response.NearestResponse
-import com.skydoves.sandwich.ApiResponse
->>>>>>>> refactor/code_care:app/src/main/java/com/mommydndn/app/data/network/service/MapService.kt
+import com.mommydndn.app.data.network.model.response.GetLocationResponse
+import com.mommydndn.app.data.network.model.response.GetNearestResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

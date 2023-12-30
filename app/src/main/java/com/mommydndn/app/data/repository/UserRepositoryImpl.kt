@@ -1,8 +1,8 @@
 package com.mommydndn.app.data.repository
 
 import android.util.Log
+import com.mommydndn.app.data.api.service.CommonService
 import com.mommydndn.app.data.network.model.request.UpdateProfileImageRequest
-import com.mommydndn.app.data.network.service.CommonService
 import com.mommydndn.app.data.network.service.UserService
 import com.mommydndn.app.domain.model.user.NearbyNeighborhoods
 import com.mommydndn.app.domain.model.user.Neighborhood

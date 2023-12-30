@@ -1,7 +1,6 @@
 package com.mommydndn.app.data.model.care
 
 import com.mommydndn.app.data.model.common.DayOfWeekItem
-import com.mommydndn.app.data.model.location.EmdItem
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -14,7 +13,7 @@ data class JobOfferPreview(
     val days: List<DayOfWeekItem>,
     val startTime: LocalTime?,
     val endTime: LocalTime?,
-    val emd: EmdItem,
+    // val emd: EmdItem,
     val latitude: Double,
     val longitude: Double,
     val salaryType: SalaryType,

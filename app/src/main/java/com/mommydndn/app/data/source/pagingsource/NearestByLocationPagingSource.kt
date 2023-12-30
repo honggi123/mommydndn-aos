@@ -1,9 +1,9 @@
-package com.mommydndn.app.data.datasource.pagingsource
+package com.mommydndn.app.data.source.pagingsource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.mommydndn.app.data.api.model.response.toDomain
-import com.mommydndn.app.data.api.service.LocationService
+import com.mommydndn.app.data.network.service.LocationService
 import com.mommydndn.app.domain.model.location.CoordinatesInfo
 import com.mommydndn.app.domain.model.location.LocationInfo
 import javax.inject.Inject

@@ -1,19 +1,12 @@
 package com.mommydndn.app.data.api.interceptor
 
 import android.util.Log
-import com.mommydndn.app.BuildConfig
-import com.mommydndn.app.data.api.service.AuthenticationService
 import com.mommydndn.app.data.preferences.TokenManager
-import com.skydoves.sandwich.adapters.ApiResponseCallAdapterFactory
-import com.skydoves.sandwich.onSuccess
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
-import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class TokenAuthenticator(
     private val tokenManager: TokenManager,
@@ -50,6 +43,7 @@ class TokenAuthenticator(
     ): String? {
         var accessToken: String? = null
 
+        /*
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(AuthenticationInterceptor(tokenManager = tokenManager))
             .build()
@@ -65,6 +59,7 @@ class TokenAuthenticator(
         authenticationService.reissue(authorizationHeader = refreshToken).onSuccess {
             accessToken = data.accessToken
         }
+         */
 
         return accessToken
     }

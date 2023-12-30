@@ -1,8 +1,7 @@
 package com.mommydndn.app.data.api.service
 
-import com.mommydndn.app.data.api.model.response.GetBannerResponse
 import com.mommydndn.app.data.api.model.response.GetBannersResponse
-import com.mommydndn.app.data.api.model.response.ImageResponse
+import com.mommydndn.app.data.network.model.response.ImageResponse
 import com.skydoves.sandwich.ApiResponse
 import okhttp3.MultipartBody
 import retrofit2.http.GET

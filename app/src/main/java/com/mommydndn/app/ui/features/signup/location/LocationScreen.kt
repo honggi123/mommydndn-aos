@@ -1,12 +1,6 @@
 package com.mommydndn.app.ui.features.signup.location
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.util.Log
-import androidx.activity.compose.ManagedActivityResultLauncher
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,56 +12,38 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetState
-import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
-import androidx.compose.material.rememberModalBottomSheetState
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.itemsIndexed
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import com.mommydndn.app.R
-import com.mommydndn.app.domain.model.location.CoordinatesInfo
 import com.mommydndn.app.domain.model.location.LocationInfo
 import com.mommydndn.app.domain.model.location.SearchType
 import com.mommydndn.app.domain.model.tos.TermsOfService
 import com.mommydndn.app.ui.components.box.SearchUnderHeader
-import com.mommydndn.app.ui.components.inputfield.RadioListItem
 import com.mommydndn.app.ui.components.inputfield.Searchbar
 import com.mommydndn.app.ui.features.signup.SignUpUiState
 import com.mommydndn.app.ui.features.signup.SignUpViewModel
 import com.mommydndn.app.ui.features.signup.component.TosCheckListModal
 import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.ui.theme.GreyOpacity400
-import com.mommydndn.app.ui.theme.Shapes
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
-import com.mommydndn.app.util.PermissionUtils
-import kotlinx.coroutines.launch
 
 
 data class PagingListContent(val searchType: SearchType, val content: @Composable () -> Unit)
@@ -306,6 +282,7 @@ fun HasResultRadioListBox(
             .background(White),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        /*
         itemsIndexed(pagingItems) { index, item ->
             key(item?.id ?: index) {
                 RadioListItem(
@@ -333,6 +310,7 @@ fun HasResultRadioListBox(
                 )
             }
         }
+         */
     }
 }
 
