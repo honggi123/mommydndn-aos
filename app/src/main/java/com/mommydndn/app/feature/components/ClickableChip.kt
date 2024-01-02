@@ -24,7 +24,7 @@ import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption200
 
 @Composable
-internal fun ClickableChip(
+fun ClickableChip(
     text: String,
     selected: Boolean,
     onClick: () -> Unit,

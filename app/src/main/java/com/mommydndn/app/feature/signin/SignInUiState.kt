@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.features.signin
+package com.mommydndn.app.feature.signin
 
 import com.mommydndn.app.domain.model.user.OAuthProvider
 
@@ -10,5 +10,6 @@ sealed interface SignInUiState {
 
     data class Failure(val exception: Exception) : SignInUiState
 
-    data class NotSignedUpYet(val accessToken: String, val oAuthProvider: OAuthProvider) : SignInUiState
+    data class NotSignedUpYet(val accessToken: String, val oAuthProvider: OAuthProvider) :
+        SignInUiState
 }

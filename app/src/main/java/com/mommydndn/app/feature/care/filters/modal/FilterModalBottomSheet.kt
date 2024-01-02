@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -37,7 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mommydndn.app.R
-import com.mommydndn.app.ui.theme.Grey200
+import com.mommydndn.app.feature.components.ModalBottomSheetHandleBar
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.Grey700
@@ -87,19 +86,6 @@ internal fun CareFilterModalBottomSheet(
             )
         }
     }
-}
-
-@Composable
-internal fun ModalBottomSheetHandleBar(modifier: Modifier = Modifier) {
-    Box(
-        modifier = modifier
-            .width(64.dp)
-            .height(6.dp)
-            .background(
-                color = Grey200,
-                shape = RoundedCornerShape(size = 50.dp),
-            )
-    )
 }
 
 @Composable

@@ -16,14 +16,12 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mommydndn.app.R
 import com.mommydndn.app.data.model.common.ButtonColor
 import com.mommydndn.app.data.model.common.ButtonColorType
 import com.mommydndn.app.data.model.common.ButtonSizeType
@@ -35,7 +33,6 @@ import com.mommydndn.app.ui.theme.Grey200
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.shadow700
-import com.mommydndn.app.R
 
 @Composable
 fun TosCheckListModal(
@@ -137,4 +134,20 @@ fun TosCheckListModal(
     }
 }
 
+@Preview
+@Composable
+private fun Tos_Preview() {
+    TosCheckListModal(
+        checkBoxTitle = "",
+        itemList = listOf(),
+        onDismiss = {},
+        onComplete = {},
+        checkedStates = listOf(),
+        onCheckedChange = { i: Int, b: Boolean -> },
+        isAllChecked = false,
+        onIsAllCheckedChange = {},
+        isNextButtonEnabled = false,
+        modifier = Modifier
+    )
+}
 

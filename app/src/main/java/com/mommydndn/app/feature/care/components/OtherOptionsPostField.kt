@@ -101,7 +101,7 @@ internal fun CheckboxListItem(
                     id = if (checked) {
                         R.drawable.icon_checked_checkbox
                     } else {
-                        R.drawable.icon_not_checked_checkbox
+                        R.drawable.icon_unchecked_checkbox
                     }
                 ),
                 contentDescription = "CheckboxListItem_Checkbox",

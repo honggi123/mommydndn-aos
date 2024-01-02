@@ -30,7 +30,7 @@ import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
 import com.mommydndn.app.ui.theme.Shapes
 import com.mommydndn.app.ui.theme.paragraph500
-import com.mommydndn.app.ui.theme.shadow500
+import com.mommydndn.app.ui.theme.Shadow500
 
 @Composable
 fun SquareButton(
@@ -44,7 +44,7 @@ fun SquareButton(
         Box(
             modifier = Modifier
                 .aspectRatio(1f)
-                .then(if (isSelected) shadow500 else modifier)
+                .then(if (isSelected) Shadow500 else modifier)
                 .background(
                     color = if (isSelected) Grey100 else Grey50,
                     shape = Shapes.large

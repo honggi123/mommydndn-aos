@@ -51,6 +51,9 @@ val WhiteOpacity700 = Color(0xBFFFFFFF)
 val WhiteOpacity800 = Color(0xD9FFFFFF)
 val WhiteOpacity900 = Color(0xF2FFFFFF)
 
+val Green100 = Color(0xFFEBF9EC)
+val Green600 = Color(0xFF36C244)
+
 val Blue50 = Color(0xFFF3F9FF)
 val Blue600 = Color(0xFF2781FF)
 

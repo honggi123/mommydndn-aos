@@ -12,10 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.mommydndn.app.data.model.common.BadgeColorType
-import com.mommydndn.app.ui.components.common.Badge
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey800
 import com.mommydndn.app.ui.theme.caption100
@@ -47,7 +44,8 @@ fun TitleSectionBox(
             horizontalArrangement = Arrangement.spacedBy(3.dp, Alignment.Start)
         ) {
             badgeStringList.forEach {
-                Badge(colorType = BadgeColorType.ORANGE, text = it)
+                // TODO
+                // TagLabel(colorType = BadgeColorType.ORANGE, text = it)
             }
         }
         Row(

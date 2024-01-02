@@ -1,4 +1,4 @@
-package com.mommydndn.app.util.extension
+package com.mommydndn.app.util.extensions
 
 import android.graphics.BlurMaskFilter
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -23,37 +23,38 @@ internal fun Modifier.coloredShadow(
     offsetY: Dp = 0.dp,
     offsetX: Dp = 0.dp,
     spread: Float = 0f,
-    modifier: Modifier = Modifier,
-) = this.then(
-    modifier.drawBehind {
-        this.drawIntoCanvas {
-            val paint = Paint()
-            val frameworkPaint = paint.asFrameworkPaint()
-            val spreadPixel = spread.dp.toPx()
-            val leftPixel = (0f - spreadPixel) + offsetX.toPx()
-            val topPixel = (0f - spreadPixel) + offsetY.toPx()
-            val rightPixel = (this.size.width + spreadPixel)
-            val bottomPixel = (this.size.height + spreadPixel)
+) = drawBehind {
+    drawIntoCanvas { canvas ->
+        val paint = Paint()
+        val frameworkPaint = paint.asFrameworkPaint()
 
-            if (blurRadius != 0.dp) {
+        val spreadPixel = spread.dp.toPx()
 
-                frameworkPaint.maskFilter =
-                    (BlurMaskFilter(blurRadius.toPx(), BlurMaskFilter.Blur.NORMAL))
-            }
+        val leftPixel = (0f - spreadPixel) + offsetX.toPx()
+        val topPixel = (0f - spreadPixel) + offsetY.toPx()
+        val rightPixel = (this.size.width + spreadPixel)
+        val bottomPixel = (this.size.height + spreadPixel)
 
-            frameworkPaint.color = color.toArgb()
-            it.drawRoundRect(
-                left = leftPixel,
-                top = topPixel,
-                right = rightPixel,
-                bottom = bottomPixel,
-                radiusX = borderRadius.toPx(),
-                radiusY = borderRadius.toPx(),
-                paint
+        if (blurRadius > 0.dp) {
+            frameworkPaint.maskFilter = BlurMaskFilter(
+                blurRadius.toPx(),
+                BlurMaskFilter.Blur.NORMAL
             )
         }
+
+        frameworkPaint.color = color.toArgb()
+
+        canvas.drawRoundRect(
+            left = leftPixel,
+            top = topPixel,
+            right = rightPixel,
+            bottom = bottomPixel,
+            radiusX = borderRadius.toPx(),
+            radiusY = borderRadius.toPx(),
+            paint = paint
+        )
     }
-)
+}
 
 fun Modifier.bottomBorder(strokeWidth: Dp, color: Color) = composed(
     factory = {

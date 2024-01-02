@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -21,8 +20,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.mommydndn.app.data.model.common.BadgeColorType
-import com.mommydndn.app.ui.components.common.Badge
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.caption200
@@ -70,10 +67,14 @@ fun AddressListItem(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                Badge(
+                // TODO
+                /*
+TagLabel(
                     colorType = BadgeColorType.ORANGE,
                     text = "도로명"
                 )
+                 */
+
                 Text(
                     text = roadAddressText,
                     style = MaterialTheme.typography.caption200.copy(
@@ -87,11 +88,15 @@ fun AddressListItem(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                Badge(
+                // TODO
+                /*
+                TagLabel(
                     modifier = Modifier.width(47.dp),
                     colorType = BadgeColorType.ORANGE,
                     text = "지 번"
                 )
+                 */
+
                 Text(
                     text = streetAddressText,
                     style = MaterialTheme.typography.caption200.copy(

@@ -47,7 +47,7 @@ import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
-import com.mommydndn.app.util.extension.checkImagesPermission
+import com.mommydndn.app.util.extensions.checkImagesPermission
 import kotlin.math.max
 
 @Composable

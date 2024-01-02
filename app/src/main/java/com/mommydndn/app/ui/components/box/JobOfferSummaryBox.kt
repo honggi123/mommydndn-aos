@@ -21,15 +21,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.care.summary.JobOfferSummaryListItem
-import com.mommydndn.app.data.model.common.BadgeColorType
+import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey700
+import com.mommydndn.app.ui.theme.Grey800
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption100
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph300
-import com.mommydndn.app.ui.components.common.Badge
-import com.mommydndn.app.ui.theme.Grey500
-import com.mommydndn.app.ui.theme.Grey800
 import com.mommydndn.app.util.DateTimeUtils
 import com.mommydndn.app.util.NumberUtils
 
@@ -53,8 +51,9 @@ fun JobOfferSummaryBox(
                 ) {
                     Row {
                         item.caringTypeCodeList.forEach {
-                            if (it.equals("마감")) Badge(colorType = BadgeColorType.ORANGE, text = it.value)
-                            else Badge(colorType = BadgeColorType.ORANGE, text = it.value)
+                            // TODO
+//                            if (it.equals("마감")) TagLabel(colorType = BadgeColorType.ORANGE, text = it.value)
+//                            else TagLabel(colorType = BadgeColorType.ORANGE, text = it.value)
                             Spacer(modifier = Modifier.width(3.dp))
                         }
                     }

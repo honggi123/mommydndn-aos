@@ -25,7 +25,7 @@ import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.MommydndnaosTheme
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
-import com.mommydndn.app.util.extension.bottomBorder
+import com.mommydndn.app.util.extensions.bottomBorder
 
 @Composable
 fun SearchUnderHeader(
@@ -46,7 +46,7 @@ fun SearchUnderHeader(
         ) {
             MommyDndnButton(
                 text = stringResource(id = R.string.search_by_current_location),
-                iconResourceId = R.drawable.ic_navigation,
+                iconResourceId = R.drawable.icon_current_location,
                 color = ButtonColor.SALMON,
                 colorType = ButtonColorType.WEAK,
                 rangeType = MinMaxRange.MAX,

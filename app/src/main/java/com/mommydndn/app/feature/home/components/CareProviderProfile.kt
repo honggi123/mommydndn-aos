@@ -1,17 +1,13 @@
-package com.mommydndn.app.ui.features.home.components
+package com.mommydndn.app.feature.home.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -27,23 +23,27 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.mommydndn.app.data.model.care.CaringType
-import com.mommydndn.app.data.model.common.BadgeColorType
 import com.mommydndn.app.domain.model.care.JobSeeker
-import com.mommydndn.app.ui.components.common.Badge
+import com.mommydndn.app.feature.components.TagLabel
+import com.mommydndn.app.ui.theme.DeepOrange
+import com.mommydndn.app.ui.theme.Green100
+import com.mommydndn.app.ui.theme.Green600
 import com.mommydndn.app.ui.theme.Grey600
+import com.mommydndn.app.ui.theme.Orange100
 import com.mommydndn.app.ui.theme.caption200
 
 @Composable
-fun SitterBox(
-    item: JobSeeker,
-    modifier: Modifier = Modifier
+internal fun CareProviderProfile(
+    profileUrl: String,
+    name: String,
+    age: String,
+    gender: String,
+    careType: String,
+    modifier: Modifier = Modifier,
 ) {
-    val profilePainter = rememberImagePainter(
-        data = item.profileUrl,
-        builder = {
-            crossfade(true)
-        }
-    )
+    val profileImagePainter = rememberImagePainter(data = profileUrl) {
+        crossfade(true)
+    }
 
     Box(
         contentAlignment = Alignment.Center
@@ -54,7 +54,7 @@ fun SitterBox(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Image(
-                painter = profilePainter,
+                painter = profileImagePainter,
                 contentDescription = null,
                 modifier = Modifier
                     .size(108.dp)
@@ -65,7 +65,7 @@ fun SitterBox(
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 overflow = TextOverflow.Ellipsis,
-                text = item.nickname,
+                text = name,
                 style = MaterialTheme.typography.caption200.copy(
                     fontWeight = FontWeight.Medium,
                     color = Grey600,
@@ -73,10 +73,25 @@ fun SitterBox(
                 )
             )
 
-            Row(modifier = Modifier.fillMaxWidth()) {
-                Badge(colorType = BadgeColorType.GREEN, text = item.ageAndGender)
-                Spacer(modifier = Modifier.padding(6.dp))
-                Badge(colorType = BadgeColorType.ORANGE, text = item.caringType.value)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight(),
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+            ) {
+                TagLabel(
+                    text = "$age $gender",
+                    textColor = Green600,
+                    backgroundColor = Green100,
+                    modifier = Modifier,
+                )
+
+                TagLabel(
+                    text = careType,
+                    textColor = DeepOrange,
+                    backgroundColor = Orange100,
+                    modifier = Modifier,
+                )
             }
         }
     }
@@ -84,7 +99,7 @@ fun SitterBox(
 
 @Preview
 @Composable
-fun SitterBoxPreview() {
+private fun CareProviderProfile_Preview() {
     val mockJobSeeker = JobSeeker(
         nickname = "김홍기",
         ageAndGender = "20대 남자",
@@ -93,8 +108,10 @@ fun SitterBoxPreview() {
         profileUrl = ""
     )
 
-    SitterBox(
+    /*
+    CareProviderProfile(
         mockJobSeeker,
         modifier = Modifier.width(116.dp)
     )
+     */
 }

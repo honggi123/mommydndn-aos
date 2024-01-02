@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.features.home
+package com.mommydndn.app.feature.home
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.core.spring
@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -43,8 +42,6 @@ import com.mommydndn.app.ui.components.common.Header
 import com.mommydndn.app.ui.components.common.SubBanner
 import com.mommydndn.app.ui.components.list.BannerList
 import com.mommydndn.app.ui.components.modal.NoticeSettingListModal
-import com.mommydndn.app.ui.features.home.components.JobOfferBox
-import com.mommydndn.app.ui.features.home.components.SitterBox
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.GreyOpacity400
 import kotlinx.coroutines.CoroutineScope
@@ -66,7 +63,7 @@ fun HomeRoute(
 
         is HomeUiState.Success -> {
 
-            MainHomeScreen(
+            HomeScreen(
                 modifier = Modifier.fillMaxSize(),
                 uiState = uiState,
                 onMoreJobOfferButtonClick = onMoreJobOfferButtonClick,
@@ -88,7 +85,7 @@ fun HomeRoute(
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun MainHomeScreen(
+fun HomeScreen(
     modifier: Modifier = Modifier,
     onMoreJobOfferButtonClick: () -> Unit,
     uiState: HomeUiState.Success,
@@ -196,7 +193,8 @@ fun JobSeekerContent(
             horizontalArrangement = Arrangement.spacedBy(32.dp)
         ) {
             items(jobSeekers) { item ->
-                SitterBox(item)
+                // TODO
+                // CareProviderProfile(item)
             }
         }
     }
@@ -230,12 +228,14 @@ fun JobOfferContent(
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(32.dp)
             ) {
-                items(jobOffers) { item ->
+                /*
+items(jobOffers) { item ->
                     JobOfferBox(
                         modifier = Modifier.width(216.dp),
                         item = item
                     )
                 }
+                 */
             }
         }
     }

@@ -28,9 +28,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.care.CaringType
-import com.mommydndn.app.data.model.common.BadgeColorType
 import com.mommydndn.app.ui.components.box.ProfileDataBox
-import com.mommydndn.app.ui.components.common.Badge
 import com.mommydndn.app.ui.models.care.ProfileBoxType
 import com.mommydndn.app.ui.theme.Grey300
 import com.mommydndn.app.ui.theme.Grey600
@@ -83,7 +81,8 @@ fun EnterpriseListItem(
                         modifier = Modifier.size(24.dp),
                         contentScale = ContentScale.Crop
                     )
-                    Badge(colorType = BadgeColorType.BLUE, text = "안심업체 인증")
+                    // TODO
+                    // TagLabel(colorType = BadgeColorType.BLUE, text = "안심업체 인증")
                 }
 
                 Text(
@@ -138,7 +137,8 @@ fun EnterpriseListItem(
                         horizontalArrangement = Arrangement.spacedBy(3.dp, Alignment.Start)
                     ) {
                         caringTypeCodeList?.forEach {
-                            Badge(colorType = BadgeColorType.ORANGE, text = it.value)
+                            // TODO
+                            // TagLabel(colorType = BadgeColorType.ORANGE, text = it.value)
                         }
                     }
                 }

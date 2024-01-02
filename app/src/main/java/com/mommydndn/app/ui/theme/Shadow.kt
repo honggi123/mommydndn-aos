@@ -3,7 +3,8 @@ package com.mommydndn.app.ui.theme
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.mommydndn.app.util.extension.coloredShadow
+import com.mommydndn.app.util.extensions.coloredShadow
+import com.mommydndn.app.util.extensions.drawShadow
 
 val shadow100 = Modifier.coloredShadow(
     color = Color(0xff1D34610D),
@@ -61,20 +62,20 @@ val shadow400 = Modifier
         spread = -2f
     )
 
-val shadow500 = Modifier
-    .coloredShadow(
-        color = Color(0xff1D346114),
+val Shadow500 = Modifier
+    .drawShadow(
+        color = Color(0x141D3461),
+        blurRadius = 24.dp,
+        spread = 6.dp,
         offsetX = 0.dp,
         offsetY = 20.dp,
-        blurRadius = 24.dp,
-        spread = -6f
     )
-    .coloredShadow(
-        color = Color(0xff1D346108),
+    .drawShadow(
+        color = Color(0x081D3461),
+        blurRadius = 8.dp,
+        spread = 4.dp,
         offsetX = 0.dp,
         offsetY = 8.dp,
-        blurRadius = 8.dp,
-        spread = -4f
     )
 
 val shadow600 = Modifier.coloredShadow(
@@ -86,7 +87,7 @@ val shadow600 = Modifier.coloredShadow(
 )
 
 val shadow700 = Modifier.coloredShadow(
-    color = Color(0xff1D346124),
+    color = Color(0x241D3461),
     offsetX = 0.dp,
     offsetY = 32.dp,
     blurRadius = 54.dp,

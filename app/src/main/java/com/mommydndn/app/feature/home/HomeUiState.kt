@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.features.home
+package com.mommydndn.app.feature.home
 
 import com.mommydndn.app.data.model.notification.Notification
 import com.mommydndn.app.domain.model.banner.Banner

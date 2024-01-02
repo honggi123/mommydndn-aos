@@ -437,7 +437,7 @@ internal fun Negotiable(
                 id = if (checked) {
                     R.drawable.icon_checked_mark
                 } else {
-                    R.drawable.icon_not_checked_mark
+                    R.drawable.icon_unchecked_mark
                 }
             ),
             contentDescription = "Negotiable_check_mark",

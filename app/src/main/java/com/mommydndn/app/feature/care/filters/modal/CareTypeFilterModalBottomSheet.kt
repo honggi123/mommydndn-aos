@@ -27,8 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mommydndn.app.R
 import com.mommydndn.app.domain.model.care.CareType
-import com.mommydndn.app.feature.care.screen.displayName
 import com.mommydndn.app.feature.care.filters.CareTypesFilter
+import com.mommydndn.app.feature.care.screen.displayName
 import com.mommydndn.app.ui.theme.Grey200
 import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.Salmon600
@@ -129,7 +129,7 @@ private fun AllCareTypesFilter(
                     id = if (checked) {
                         R.drawable.icon_checked_checkbox
                     } else {
-                        R.drawable.icon_not_checked_checkbox
+                        R.drawable.icon_unchecked_checkbox
                     }
                 ),
                 contentDescription = "CareTypeCheckBox_CheckBox",
@@ -176,7 +176,7 @@ private fun CareTypeFilterListItem(
                     id = if (checked) {
                         R.drawable.icon_checked_mark
                     } else {
-                        R.drawable.icon_not_checked_mark
+                        R.drawable.icon_unchecked_mark
                     }
                 ),
                 contentDescription = "CareTypeCheckBox_CheckMark",

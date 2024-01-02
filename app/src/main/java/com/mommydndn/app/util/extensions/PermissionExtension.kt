@@ -1,4 +1,4 @@
-package com.mommydndn.app.util.extension
+package com.mommydndn.app.util.extensions
 
 import android.Manifest
 import android.content.Context

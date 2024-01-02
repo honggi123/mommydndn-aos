@@ -66,7 +66,7 @@ fun CheckDialogTitle(title: DialogTitle.Check) {
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Image(
-            painter = painterResource(id = if (title.isChecked) R.drawable.icon_checked_checkbox else R.drawable.icon_not_checked_checkbox),
+            painter = painterResource(id = if (title.isChecked) R.drawable.icon_checked_checkbox else R.drawable.icon_unchecked_checkbox),
             contentDescription = "",
             modifier = Modifier.size(26.dp)
         )

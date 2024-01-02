@@ -81,7 +81,7 @@ import com.mommydndn.app.ui.theme.paragraph400
 import com.mommydndn.app.util.NavigationUtils
 import com.mommydndn.app.util.NumberCommaVisualTransformation
 import com.mommydndn.app.util.PermissionUtils
-import com.mommydndn.app.util.extension.addFocusCleaner
+import com.mommydndn.app.util.extensions.addFocusCleaner
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

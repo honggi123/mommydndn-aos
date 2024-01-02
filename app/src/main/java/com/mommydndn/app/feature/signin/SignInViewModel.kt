@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.features.signin
+package com.mommydndn.app.feature.signin
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -43,7 +43,7 @@ class SignInViewModel @Inject constructor(
         viewModelScope.launch {
             signInUseCase(SignInParams(oAuthProvider, accessToken)).let { result ->
                 val uiState = if (result is Result.Failure) {
-                    // todo: check if just not signed up yet
+                    // todo: not signed up yet
                     /*
                     SignInUiState.NotSignedUpYet(accessToken, oAuthProvider)
                      */
@@ -57,4 +57,3 @@ class SignInViewModel @Inject constructor(
         }
     }
 }
-
