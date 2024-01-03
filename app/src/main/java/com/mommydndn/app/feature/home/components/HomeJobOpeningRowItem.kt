@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.mommydndn.app.feature.components.TagLabel
+import com.mommydndn.app.ui.components.TagLabel
 import com.mommydndn.app.ui.theme.DeepOrange
 import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.ui.theme.Grey50

@@ -12,8 +12,6 @@ import com.mommydndn.app.data.preferences.TokenManager
 import com.mommydndn.app.domain.model.user.OAuthProvider
 import com.mommydndn.app.domain.model.user.UserType
 import com.mommydndn.app.domain.repository.AccountRepository
-import com.skydoves.sandwich.ApiResponse
-import com.skydoves.sandwich.suspendOnSuccess
 import javax.inject.Inject
 
 class AccountDataRepository @Inject constructor(
@@ -25,7 +23,7 @@ class AccountDataRepository @Inject constructor(
     override suspend fun signIn(
         acessToken: String,
         OAuthProvider: OAuthProvider
-    ): ApiResponse<LoginResponse> {
+    ): LoginResponse {
 
         val response = authenticationService
             .login(
@@ -34,10 +32,6 @@ class AccountDataRepository @Inject constructor(
                     oAuthProvider = OAuthProvider.name
                 )
             )
-            .suspendOnSuccess {
-                tokenManager.putAccessToken(data?.accessToken)
-                tokenManager.putRefreshToken(data?.refreshToken)
-            }
 
         return response
     }
@@ -63,7 +57,7 @@ class AccountDataRepository @Inject constructor(
 
     override suspend fun getGoogleAccessToken(
         authCode: String
-    ): ApiResponse<LoginGoogleResponse> = googleApiService.getAccessToken(
+    ): LoginGoogleResponse = googleApiService.getAccessToken(
         GoogleLoginRequest(
             grant_type = "authorization_code",
             client_id = BuildConfig.GOOGLE_CLIENT_ID,

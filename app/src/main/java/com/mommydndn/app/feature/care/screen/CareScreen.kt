@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Text
@@ -42,12 +43,6 @@ import com.mommydndn.app.domain.model.care.CareType
 import com.mommydndn.app.domain.model.care.WorkPeriod
 import com.mommydndn.app.domain.model.user.Neighborhood
 import com.mommydndn.app.feature.care.components.TopAppBarHeight
-import com.mommydndn.app.feature.care.jobopening.CareJobOpeningListFragment
-import com.mommydndn.app.feature.care.jobopening.CareJobOpeningListItem
-import com.mommydndn.app.feature.care.jobopening.mockCareJobOpeningListItems
-import com.mommydndn.app.ui.components.chip.ChipWithBottomArrow
-import com.mommydndn.app.ui.components.modal.layout.BaseModalBottomSheetLayout
-import com.mommydndn.app.ui.components.tab.MediumTab
 import com.mommydndn.app.feature.care.filters.CareFilter
 import com.mommydndn.app.feature.care.filters.CareOrderBy
 import com.mommydndn.app.feature.care.filters.CareTypesFilter
@@ -57,7 +52,13 @@ import com.mommydndn.app.feature.care.filters.WorkHoursFilter
 import com.mommydndn.app.feature.care.filters.WorkPeriodFilter
 import com.mommydndn.app.feature.care.filters.displayName
 import com.mommydndn.app.feature.care.filters.modal.NeighborhoodsFilterModalBottomSheet
+import com.mommydndn.app.feature.care.jobopening.CareJobOpeningListFragment
+import com.mommydndn.app.feature.care.jobopening.CareJobOpeningListItem
+import com.mommydndn.app.feature.care.jobopening.mockCareJobOpeningListItems
+import com.mommydndn.app.ui.components.tab.MediumTab
+import com.mommydndn.app.ui.components.chip.FilterChip
 import com.mommydndn.app.ui.theme.Grey700
+import com.mommydndn.app.ui.theme.GreyOpacity400
 import com.mommydndn.app.ui.theme.heading600
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
@@ -139,13 +140,13 @@ private fun CareScreen(
     jobOpeningListItems: List<CareJobOpeningListItem>,
     selectedFilter: CareFilter<*>?,
     sheetState: ModalBottomSheetState,
-    onSheetCloseClick: () -> Unit, // todo: rename?
+    onSheetCloseClick: () -> Unit,
     onFilterUpdated: (CareFilter<*>) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    BaseModalBottomSheetLayout(
+    ModalBottomSheetLayout(
         sheetContent = {
-            if (selectedFilter != null) {
+            if (selectedFilter != null) { // TODO
                 CareFilterModalBottomSheet(
                     selectedFilter = selectedFilter,
                     onCloseClick = onSheetCloseClick,
@@ -154,6 +155,9 @@ private fun CareScreen(
             }
         },
         sheetState = sheetState,
+        sheetBackgroundColor = Color.Transparent,
+        sheetContentColor = Color.Transparent,
+        scrimColor = GreyOpacity400,
         modifier = modifier,
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -243,15 +247,13 @@ private fun CareTopAppBar(
 private fun CareTabRow(
     selectedTabIndex: Int,
     onTabSelected: (index: Int) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    // todo
-    val tabNames = listOf(
+    modifier: Modifier = Modifier,
+    tabNames: List<String> = listOf(
         stringResource(R.string.job_opening),
         stringResource(R.string.job_hunting),
         stringResource(R.string.authenticated_agency)
     )
-
+) {
     MediumTab(
         tabNames = tabNames,
         selectedTabIndex = selectedTabIndex,
@@ -273,8 +275,8 @@ private fun CareOrderAndFilters(
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         item {
-            ChipWithBottomArrow(
-                hasValue = true,
+            FilterChip(
+                selected = true,
                 text = orderBy.displayName(),
                 onClick = onOrderClick,
                 modifier = Modifier.padding(start = 24.dp)
@@ -282,8 +284,8 @@ private fun CareOrderAndFilters(
         }
 
         itemsIndexed(filters.sortedByDescending { it.selected }) { index, filter ->
-            ChipWithBottomArrow(
-                hasValue = filter.selected,
+            FilterChip(
+                selected = filter.selected,
                 text = filter.displayName(),
                 onClick = { onFilterClick(filter) },
                 modifier = Modifier.apply {
@@ -361,8 +363,8 @@ private fun CareScreenPreview() {
 private fun CareTypesFilterChipPreview() {
     Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
         with(CareTypesFilter()) {
-            ChipWithBottomArrow(
-                hasValue = selected,
+            FilterChip(
+                selected = selected,
                 text = displayName(),
                 onClick = {}
             )
@@ -375,8 +377,8 @@ private fun CareTypesFilterChipPreview() {
         )
 
         with(CareTypesFilter(careTypes = careTypes)) {
-            ChipWithBottomArrow(
-                hasValue = selected,
+            FilterChip(
+                selected = selected,
                 text = displayName(),
                 onClick = {}
             )
@@ -389,8 +391,8 @@ private fun CareTypesFilterChipPreview() {
 private fun DaysOfWeekFilterChipPreview() {
     Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
         with(DaysOfWeekFilter()) {
-            ChipWithBottomArrow(
-                hasValue = selected,
+            FilterChip(
+                selected = selected,
                 text = displayName(),
                 onClick = {}
             )
@@ -404,8 +406,8 @@ private fun DaysOfWeekFilterChipPreview() {
         )
 
         with(DaysOfWeekFilter(daysOfWeek = daysOfWeek)) {
-            ChipWithBottomArrow(
-                hasValue = selected,
+            FilterChip(
+                selected = selected,
                 text = displayName(),
                 onClick = {}
             )
@@ -418,8 +420,8 @@ private fun DaysOfWeekFilterChipPreview() {
 private fun WorkHoursFilterChipPreview() {
     Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
         with(WorkHoursFilter()) {
-            ChipWithBottomArrow(
-                hasValue = selected,
+            FilterChip(
+                selected = selected,
                 text = displayName(),
                 onClick = {}
             )
@@ -431,8 +433,8 @@ private fun WorkHoursFilterChipPreview() {
                 endTime = LocalTime.of(18, 30),
             )
         ) {
-            ChipWithBottomArrow(
-                hasValue = selected,
+            FilterChip(
+                selected = selected,
                 text = displayName(),
                 onClick = {}
             )
@@ -445,24 +447,24 @@ private fun WorkHoursFilterChipPreview() {
 private fun WorkPeriodFilterChipPreview() {
     Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
         with(WorkPeriodFilter()) {
-            ChipWithBottomArrow(
-                hasValue = selected,
+            FilterChip(
+                selected = selected,
                 text = displayName(),
                 onClick = {}
             )
         }
 
         with(WorkPeriodFilter(WorkPeriod.ONE_TIME)) {
-            ChipWithBottomArrow(
-                hasValue = selected,
+            FilterChip(
+                selected = selected,
                 text = displayName(),
                 onClick = {}
             )
         }
 
         with(WorkPeriodFilter(WorkPeriod.REGULAR)) {
-            ChipWithBottomArrow(
-                hasValue = selected,
+            FilterChip(
+                selected = selected,
                 text = displayName(),
                 onClick = {}
             )

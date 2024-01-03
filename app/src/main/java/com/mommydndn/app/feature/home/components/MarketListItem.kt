@@ -24,6 +24,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.mommydndn.app.BuildConfig
 import com.mommydndn.app.R
@@ -46,11 +47,10 @@ fun MarketListItem(
     time: String,
     modifier: Modifier = Modifier
 ) {
-    val productImagePainter = rememberImagePainter(data = imageUrl) {
-        crossfade(true)
-    }
+    // TODO: crossfade(true)
+    val productImagePainter = rememberAsyncImagePainter(imageUrl)
 
-    // todo: isLiked -> recomposition?
+    // TODO: isLiked -> recomposition?
     val isLikedImagePainter = rememberImagePainter(
         data = if (isLiked) {
             R.drawable.icon_heart_fill_salmon

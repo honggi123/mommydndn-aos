@@ -1,18 +1,13 @@
 package com.mommydndn.app.domain.repository
 
 import androidx.paging.PagingData
-import com.mommydndn.app.data.network.model.response.AddressResponse
-import com.mommydndn.app.domain.model.location.CoordinatesInfo
-import com.mommydndn.app.domain.model.location.LocationInfo
+import com.mommydndn.app.domain.model.location.Coordinates
+import com.mommydndn.app.domain.model.location.Neighborhood
 import kotlinx.coroutines.flow.Flow
 
 interface LocationRepository {
 
-    suspend fun fetchNearestLocation(coordinatesInfo: CoordinatesInfo): LocationInfo?
+    fun searchNeighborhoodByCoordinates(coordinates: Coordinates): Flow<PagingData<Neighborhood>>
 
-    fun fetchNearestLocations(coordinatesInfo: CoordinatesInfo): Flow<PagingData<LocationInfo>>
-
-    fun fetchLocationsByKeyword(keyword: String): Flow<PagingData<LocationInfo>>
-
-    fun fetchAddressByKeyword(keyword: String): Flow<AddressResponse>
+    fun searchNeighborhoodByQuery(keyword: String): Flow<PagingData<Neighborhood>>
 }

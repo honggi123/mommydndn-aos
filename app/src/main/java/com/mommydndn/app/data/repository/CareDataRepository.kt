@@ -4,9 +4,6 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.mommydndn.app.data.api.model.response.toDomain
-import com.mommydndn.app.data.api.service.CommonService
-import com.mommydndn.app.data.source.pagingsource.CompanySummaryPagingSource
-import com.mommydndn.app.data.source.pagingsource.JobOfferSummaryPagingSource
 import com.mommydndn.app.data.datasource.pagingsource.JobSeekerSummaryPagingSource
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeItem
@@ -30,12 +27,13 @@ import com.mommydndn.app.data.network.model.response.JobOfferResponse
 import com.mommydndn.app.data.network.model.response.JobSeekerCreationResponse
 import com.mommydndn.app.data.network.model.response.toDomain
 import com.mommydndn.app.data.network.service.CareService
+import com.mommydndn.app.data.network.service.CommonService
+import com.mommydndn.app.data.source.pagingsource.CompanySummaryPagingSource
+import com.mommydndn.app.data.source.pagingsource.JobOfferSummaryPagingSource
 import com.mommydndn.app.domain.model.care.JobOffer
 import com.mommydndn.app.domain.model.care.JobSeeker
 import com.mommydndn.app.domain.repository.CareRepository
 import com.mommydndn.app.util.DateTimeUtils
-import com.skydoves.sandwich.getOrNull
-import com.skydoves.sandwich.suspendOnSuccess
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -52,9 +50,8 @@ class CareDataRepository @Inject constructor(
 ) : CareRepository {
 
     override fun fetchJobOffer(jobOfferId: Int): Flow<JobOfferResponse> = flow<JobOfferResponse> {
-        careService.fetchJobOffer(jobOfferId).suspendOnSuccess {
-            emit(data)
-        }
+        careService.fetchJobOffer(jobOfferId)
+            // .suspendOnSuccess { emit(data) }
     }.flowOn(Dispatchers.IO)
 
     override suspend fun fetchNearestJobSeekers(): List<JobSeeker> =
@@ -64,8 +61,10 @@ class CareDataRepository @Inject constructor(
         careService.fetchNearestJobOffer().toDomain()
 
 
-    override fun fetchEtcIndividualCheckList(): Flow<List<EtcCheckItem>> = flow {
-        careService.fetchIndividualEtcCheckList().suspendOnSuccess {
+    override fun fetchEtcIndividualCheckList(): Flow<List<EtcCheckItem>> = flow<List<EtcCheckItem>> {
+        careService.fetchIndividualEtcCheckList()
+            /*
+            .suspendOnSuccess {
             val list = data.map {
                 EtcCheckItem(
                     displayName = it.displayName,
@@ -74,11 +73,14 @@ class CareDataRepository @Inject constructor(
                 )
             }
             emit(list)
-        }
+            }
+             */
     }.flowOn(Dispatchers.IO)
 
-    override fun fetchCompanyEtcCheckList(): Flow<List<EtcCheckItem>> = flow {
-        careService.fetchCompanyEtcCheckList().suspendOnSuccess {
+    override fun fetchCompanyEtcCheckList(): Flow<List<EtcCheckItem>> = flow<List<EtcCheckItem>> {
+        careService.fetchCompanyEtcCheckList()
+        /*
+        .suspendOnSuccess {
             val list = data.map {
                 EtcCheckItem(
                     displayName = it.displayName,
@@ -88,6 +90,7 @@ class CareDataRepository @Inject constructor(
             }
             emit(list)
         }
+         */
     }.flowOn(Dispatchers.IO)
 
     override fun fetchJobOfferSummary(
@@ -194,22 +197,29 @@ class CareDataRepository @Inject constructor(
         ).flow
     }
 
-    override fun fetchCaringTypeItems(): Flow<List<CaringTypeItem>> = flow {
-        careService.fetchCaringTypesResponse().suspendOnSuccess {
-            val list = data.map {
-                CaringTypeItem(
-                    caringType = it.caringTypeCode,
-                    displayName = it.displayName,
-                )
+    override fun fetchCaringTypeItems(): Flow<List<CaringTypeItem>> = flow<List<CaringTypeItem>> {
+        careService.fetchCaringTypesResponse()
+            /*
+            .suspendOnSuccess {
+                val list = data.map {
+                    CaringTypeItem(
+                        caringType = it.caringTypeCode,
+                        displayName = it.displayName,
+                    )
+                }
+                emit(list)
             }
-            emit(list)
-        }
+             */
+
     }.flowOn(Dispatchers.IO)
 
-    override fun fetchMinHourlySalary(): Flow<MinHourlySalary> = flow {
-        careService.fetchMinHourlySalary().suspendOnSuccess {
-            emit(data)
-        }
+    override fun fetchMinHourlySalary(): Flow<MinHourlySalary> = flow<MinHourlySalary> {
+        careService.fetchMinHourlySalary()
+            /*
+            .suspendOnSuccess {
+                emit(data)
+            }
+             */
     }.flowOn(Dispatchers.IO)
 
     override fun createJobOffer(
@@ -392,9 +402,9 @@ class CareDataRepository @Inject constructor(
     }.flowOn(Dispatchers.IO)
      */
 
-    private suspend fun fetchImageId(imagePart: MultipartBody.Part): Int? =
+    private suspend fun fetchImageId(imagePart: MultipartBody.Part): Int =
         withContext(Dispatchers.IO) {
-            commonService.fetchImageResponse(image = imagePart).getOrNull()?.imageId
+            commonService.fetchImageResponse(image = imagePart).imageId
         }
 }
     /*

@@ -5,6 +5,7 @@ import com.mommydndn.app.domain.model.user.Neighborhood
 import com.mommydndn.app.domain.model.user.NeighborhoodDistance
 import com.mommydndn.app.domain.model.user.OAuthProvider
 import com.mommydndn.app.domain.model.user.OAuthToken
+import com.mommydndn.app.domain.model.user.UserType
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
@@ -20,4 +21,11 @@ interface UserRepository {
     fun getNearbyNeighborhoodDistance(): Flow<NeighborhoodDistance>
 
     fun getNearbyNeighborhoods(latitude: Double, longitude: Double): Flow<NearbyNeighborhoods>
+
+    suspend fun signUp(
+        oAuthProvider: OAuthProvider,
+        accessToken: String,
+        userType: UserType,
+        neighborhoodId: Int
+    ): OAuthToken
 }

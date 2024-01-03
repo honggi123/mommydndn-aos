@@ -30,10 +30,6 @@ interface RepositoryModule {
 
     @Binds
     @Singleton
-    fun bindTermsRepository(repository: TermsOfServiceDataRepository): TermsOfServiceRepository
-
-    @Binds
-    @Singleton
     fun bindLocationRepository(repository: LocationDataRepository): LocationRepository
 
     /*
@@ -61,4 +57,8 @@ interface RepositoryModule {
     @Binds
     @Singleton
     fun bindUserRepository(repository: UserDataRepository): UserRepository
+
+    @Binds
+    @Singleton
+    fun bindTermsOfServiceRepository(repository: TermsOfServiceDataRepository): TermsOfServiceRepository
 }

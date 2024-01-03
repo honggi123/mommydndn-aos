@@ -5,11 +5,10 @@ import com.mommydndn.app.data.network.model.response.LoginResponse
 import com.mommydndn.app.data.network.model.response.SignUpResponse
 import com.mommydndn.app.domain.model.user.OAuthProvider
 import com.mommydndn.app.domain.model.user.UserType
-import com.skydoves.sandwich.ApiResponse
 
 interface AccountRepository {
 
-    suspend fun signIn(accessToken: String, OAuthProvider: OAuthProvider): ApiResponse<LoginResponse>
+    suspend fun signIn(accessToken: String, OAuthProvider: OAuthProvider): LoginResponse
 
     suspend fun signUp(
         accessToken: String,
@@ -23,5 +22,5 @@ interface AccountRepository {
         refreshToken: String
     ): Unit
 
-    suspend fun getGoogleAccessToken(authCode: String): ApiResponse<LoginGoogleResponse>
+    suspend fun getGoogleAccessToken(authCode: String): LoginGoogleResponse
 }

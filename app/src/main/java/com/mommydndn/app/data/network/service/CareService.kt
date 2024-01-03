@@ -19,7 +19,6 @@ import com.mommydndn.app.data.network.model.response.IndividualEtcCheckItem
 import com.mommydndn.app.data.network.model.response.JobOfferCreationResponse
 import com.mommydndn.app.data.network.model.response.JobOfferResponse
 import com.mommydndn.app.data.network.model.response.JobSeekerCreationResponse
-import com.skydoves.sandwich.ApiResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -35,28 +34,28 @@ interface CareService {
     suspend fun fetchNearestJobOffer(): GetNearestJobOffersResponse
 
     @GET("/api/caring/ind-other-condition")
-    suspend fun fetchIndividualEtcCheckList(): ApiResponse<List<IndividualEtcCheckItem>>
+    suspend fun fetchIndividualEtcCheckList(): List<IndividualEtcCheckItem>
 
     @GET("/api/caring/com-other-condition")
-    suspend fun fetchCompanyEtcCheckList(): ApiResponse<List<CompanyEtcCheckItem>>
+    suspend fun fetchCompanyEtcCheckList(): List<CompanyEtcCheckItem>
 
     @GET("/api/caring/caring-type")
-    suspend fun fetchCaringTypesResponse(): ApiResponse<List<CaringTypeResponse>>
+    suspend fun fetchCaringTypesResponse(): List<CaringTypeResponse>
 
     @GET("/api/caring/min-hourly-salary")
-    suspend fun fetchMinHourlySalary(): ApiResponse<MinHourlySalary>
+    suspend fun fetchMinHourlySalary(): MinHourlySalary
 
     @POST("/api/caring/job-offer")
-    suspend fun createJobOffer(@Body request: JobOfferCreationRequest): ApiResponse<JobOfferCreationResponse>
+    suspend fun createJobOffer(@Body request: JobOfferCreationRequest): JobOfferCreationResponse
 
     @POST("/api/caring/company")
-    suspend fun createCompany(@Body request: CompanyCreationRequest): ApiResponse<CompanyCreationResponse>
+    suspend fun createCompany(@Body request: CompanyCreationRequest): CompanyCreationResponse
 
     @POST("/api/caring/job-seeker")
-    suspend fun createJobSeeker(@Body request: JobSeekerCreationRequest): ApiResponse<JobSeekerCreationResponse>
+    suspend fun createJobSeeker(@Body request: JobSeekerCreationRequest): JobSeekerCreationResponse
 
     @GET("/api/caring/job-offer/{jobOfferId}")
-    suspend fun fetchJobOffer(@Path("jobOfferId") id: Int): ApiResponse<JobOfferResponse>
+    suspend fun fetchJobOffer(@Path("jobOfferId") id: Int): JobOfferResponse
 
     @POST("/api/caring/job-offer/list")
     suspend fun fetchJobOfferSummary(@Body request: JobOfferListRequest): Response<JobOfferSummary>

@@ -36,7 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mommydndn.app.R
-import com.mommydndn.app.feature.components.ModalBottomSheetHandleBar
+import com.mommydndn.app.ui.components.ModalBottomSheetHandleBar
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.Grey700

@@ -1,8 +1,7 @@
-package com.mommydndn.app.data.api.service
+package com.mommydndn.app.data.network.service
 
 import com.mommydndn.app.data.api.model.response.GetBannersResponse
 import com.mommydndn.app.data.network.model.response.ImageResponse
-import com.skydoves.sandwich.ApiResponse
 import okhttp3.MultipartBody
 import retrofit2.http.GET
 import retrofit2.http.Multipart
@@ -16,5 +15,5 @@ interface CommonService {
 
     @Multipart
     @POST("/api/image")
-    suspend fun fetchImageResponse(@Part image: MultipartBody.Part): ApiResponse<ImageResponse>
+    suspend fun fetchImageResponse(@Part image: MultipartBody.Part): ImageResponse
 }

@@ -1,6 +1,6 @@
-package com.mommydndn.app.data.api.model.response
+package com.mommydndn.app.data.network.model.response
 
-import com.mommydndn.app.domain.model.location.LocationInfo
+import com.mommydndn.app.domain.model.location.Neighborhood
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -12,13 +12,11 @@ data class GetEmdItemResponse(
     val fullName: String
 )
 
-fun GetEmdItemResponse.toDomain() : LocationInfo {
-    return LocationInfo(
+fun GetEmdItemResponse.toDomain() : Neighborhood {
+    return Neighborhood(
         id = id,
         name = name,
-        sigName = sigName,
-        ctprvnName = ctprvnName,
-        fullName = fullName
+        address = fullName
     )
 }
 

@@ -58,7 +58,7 @@ import com.mommydndn.app.domain.model.user.Neighborhood
 import com.mommydndn.app.domain.model.user.NeighborhoodDistance
 import com.mommydndn.app.feature.care.filters.NeighborhoodsFilter
 import com.mommydndn.app.feature.care.filters.displayName
-import com.mommydndn.app.feature.components.ModalBottomSheetHandleBar
+import com.mommydndn.app.ui.components.ModalBottomSheetHandleBar
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey600

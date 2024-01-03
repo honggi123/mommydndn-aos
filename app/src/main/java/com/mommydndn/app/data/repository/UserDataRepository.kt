@@ -6,6 +6,7 @@ import com.mommydndn.app.domain.model.user.Neighborhood
 import com.mommydndn.app.domain.model.user.NeighborhoodDistance
 import com.mommydndn.app.domain.model.user.OAuthProvider
 import com.mommydndn.app.domain.model.user.OAuthToken
+import com.mommydndn.app.domain.model.user.UserType
 import com.mommydndn.app.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -37,6 +38,15 @@ class UserDataRepository @Inject constructor(
         latitude: Double,
         longitude: Double
     ): Flow<NearbyNeighborhoods> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun signUp(
+        oAuthProvider: OAuthProvider,
+        accessToken: String,
+        userType: UserType,
+        neighborhoodId: Int
+    ): OAuthToken {
         TODO("Not yet implemented")
     }
 }

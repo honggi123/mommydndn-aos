@@ -11,8 +11,11 @@ import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mommydndn.app.R
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.White
@@ -51,12 +54,12 @@ fun MediumTab(
                 text = {
                     Text(
                         text = tabName,
+                        color = if (selected) {
+                            Grey700
+                        } else {
+                            Grey500
+                        },
                         style = MaterialTheme.typography.paragraph500.merge(
-                            color = if (selected) {
-                                Grey700
-                            } else {
-                                Grey500
-                            },
                             fontWeight = FontWeight.Medium
                         ),
                     )
@@ -64,4 +67,21 @@ fun MediumTab(
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun MediumTab_Preview() {
+    val tabNames = listOf(
+        stringResource(R.string.job_opening),
+        stringResource(R.string.job_hunting),
+        stringResource(R.string.authenticated_agency)
+    )
+
+    MediumTab(
+        tabNames = tabNames,
+        selectedTabIndex = 0,
+        onTabSelected = {},
+        modifier = Modifier,
+    )
 }
