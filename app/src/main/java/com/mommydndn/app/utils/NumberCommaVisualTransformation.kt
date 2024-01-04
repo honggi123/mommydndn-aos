@@ -1,4 +1,4 @@
-package com.mommydndn.app.util
+package com.mommydndn.app.utils
 
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping

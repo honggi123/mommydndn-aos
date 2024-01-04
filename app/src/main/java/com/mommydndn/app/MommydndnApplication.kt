@@ -6,11 +6,12 @@ import com.navercorp.nid.NaverIdLoginSDK
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class MainApplication : Application() {
+class MommydndnApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
 
+        // TODO
         KakaoSdk.init(this, BuildConfig.KAKAO_APP_KEY)
 
         NaverIdLoginSDK.initialize(

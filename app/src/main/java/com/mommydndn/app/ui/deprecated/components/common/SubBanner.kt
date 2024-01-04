@@ -26,7 +26,7 @@ import com.mommydndn.app.data.model.common.MinMaxRange
 import com.mommydndn.app.ui.deprecated.components.button.MommyDndnButton
 import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.ui.theme.Grey600
-import com.mommydndn.app.ui.theme.AppTheme
+import com.mommydndn.app.ui.theme.MommydndnTheme
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption200
 
@@ -90,7 +90,7 @@ fun SubBanner(
 @Preview
 @Composable
 fun previewSubBanner() {
-    AppTheme {
+    MommydndnTheme {
         SubBanner()
     }
 }

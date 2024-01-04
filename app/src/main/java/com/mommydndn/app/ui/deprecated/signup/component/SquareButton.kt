@@ -27,7 +27,7 @@ import com.mommydndn.app.R
 import com.mommydndn.app.ui.theme.Grey100
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey600
-import com.mommydndn.app.ui.theme.AppTheme
+import com.mommydndn.app.ui.theme.MommydndnTheme
 import com.mommydndn.app.ui.theme.Shapes
 import com.mommydndn.app.ui.theme.paragraph500
 import com.mommydndn.app.ui.theme.Shadow500
@@ -82,7 +82,7 @@ fun SquareButton(
 @Preview
 @Composable
 fun previewSquareButton() {
-    AppTheme {
+    MommydndnTheme {
         Box(
             modifier = Modifier
                 .fillMaxWidth()

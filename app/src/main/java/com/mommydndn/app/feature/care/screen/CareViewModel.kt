@@ -16,7 +16,7 @@ import com.mommydndn.app.domain.usecase.user.GetNeighborhoodUseCase
 import com.mommydndn.app.feature.care.filters.CareFilter
 import com.mommydndn.app.feature.care.filters.CareOrderBy
 import com.mommydndn.app.feature.care.filters.NeighborhoodsFilter
-import com.mommydndn.app.util.result.data
+import com.mommydndn.app.utils.result.data
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

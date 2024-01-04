@@ -3,8 +3,8 @@ package com.mommydndn.app.ui.theme
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.mommydndn.app.util.extensions.coloredShadow
-import com.mommydndn.app.util.extensions.drawShadow
+import com.mommydndn.app.utils.extensions.coloredShadow
+import com.mommydndn.app.utils.extensions.drawShadow
 
 val shadow100 = Modifier.coloredShadow(
     color = Color(0xff1D34610D),

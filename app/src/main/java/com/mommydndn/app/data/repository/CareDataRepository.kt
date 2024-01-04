@@ -33,7 +33,7 @@ import com.mommydndn.app.data.source.pagingsource.JobOfferSummaryPagingSource
 import com.mommydndn.app.domain.model.care.JobOffer
 import com.mommydndn.app.domain.model.care.JobSeeker
 import com.mommydndn.app.domain.repository.CareRepository
-import com.mommydndn.app.util.DateTimeUtils
+import com.mommydndn.app.utils.DateTimeUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

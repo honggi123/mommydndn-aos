@@ -28,7 +28,7 @@ import com.mommydndn.app.feature.care.filters.WorkHoursFilter
 import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey800
-import com.mommydndn.app.ui.theme.AppTheme
+import com.mommydndn.app.ui.theme.MommydndnTheme
 import com.mommydndn.app.ui.theme.heading700
 import com.mommydndn.app.ui.theme.paragraph300
 import java.time.LocalTime
@@ -177,7 +177,7 @@ private fun WorkHour(
 @Preview
 @Composable
 private fun PreviewWorkHoursFilterModalBottomSheet() {
-    AppTheme {
+    MommydndnTheme {
         WorkHoursFilterModalBottomSheet(
             workHoursFilter = WorkHoursFilter(
                 startTime = null,
@@ -194,7 +194,7 @@ private fun PreviewWorkHoursFilterModalBottomSheet() {
 @Preview
 @Composable
 private fun PreviewWorkHoursFilterModalBottomSheet_WithTimes() {
-    AppTheme {
+    MommydndnTheme {
         WorkHoursFilterModalBottomSheet(
             workHoursFilter = WorkHoursFilter(
                 startTime = LocalTime.of(11, 0),

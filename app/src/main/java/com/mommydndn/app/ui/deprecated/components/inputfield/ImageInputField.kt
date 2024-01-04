@@ -23,6 +23,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.common.ImageInputFieldType
@@ -73,7 +74,7 @@ fun ImageInputField(
                     .height(height = 96.dp)
             ) {
                 Image(
-                    painter = rememberImagePainter(inputType.imageUri),
+                    painter = rememberAsyncImagePainter(inputType.imageUri),
                     contentDescription = "",
                     modifier = Modifier
                         .width(width = 108.dp)
@@ -108,7 +109,7 @@ fun ImageInputField(
                     .clickable { inputType.onClick?.let { it() } }
             ) {
                 Image(
-                    painter = rememberImagePainter(inputType.imageUri),
+                    painter = rememberAsyncImagePainter(inputType.imageUri),
                     contentDescription = "",
                     modifier = Modifier
                         .fillMaxSize()

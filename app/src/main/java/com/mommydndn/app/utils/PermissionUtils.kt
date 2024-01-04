@@ -1,4 +1,4 @@
-package com.mommydndn.app.util
+package com.mommydndn.app.utils
 
 import android.content.Context
 import android.content.pm.PackageManager

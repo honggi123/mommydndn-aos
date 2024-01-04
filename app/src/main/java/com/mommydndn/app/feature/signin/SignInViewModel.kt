@@ -7,8 +7,8 @@ import com.mommydndn.app.domain.usecase.user.GetAccessTokenParams
 import com.mommydndn.app.domain.usecase.user.GetAccessTokenUseCase
 import com.mommydndn.app.domain.usecase.user.SignInParams
 import com.mommydndn.app.domain.usecase.user.SignInUseCase
-import com.mommydndn.app.util.result.Result
-import com.mommydndn.app.util.result.data
+import com.mommydndn.app.utils.result.Result
+import com.mommydndn.app.utils.result.data
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey700
-import com.mommydndn.app.ui.theme.AppTheme
+import com.mommydndn.app.ui.theme.MommydndnTheme
 import com.mommydndn.app.ui.theme.heading800
 import com.mommydndn.app.ui.theme.paragraph300
 
@@ -54,7 +54,7 @@ fun MaintextBox(
 @Preview
 @Composable
 fun previewMaintextBox() {
-    AppTheme {
+    MommydndnTheme {
         MaintextBox(
             captionText = "caption",
             titleText = "title"

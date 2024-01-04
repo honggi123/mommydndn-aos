@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.components
+package com.mommydndn.app.ui.components.toast
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
@@ -115,8 +115,8 @@ private fun Toast_Preview() {
             .background(White),
     ) {
         Toast(
-            iconPainter = painterResource(id = R.drawable.ic_check_circle),
-            message = "로그인 성공했어요!",
+            iconPainter = painterResource(id = R.drawable.icon_hand_color),
+            message = "마미든든에 어서오세요!",
             modifier = Modifier.offset {
                 IntOffset(
                     x = 0,

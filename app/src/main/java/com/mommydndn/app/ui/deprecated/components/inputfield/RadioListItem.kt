@@ -29,7 +29,7 @@ import com.mommydndn.app.R
 import com.mommydndn.app.ui.theme.Grey200
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey700
-import com.mommydndn.app.ui.theme.AppTheme
+import com.mommydndn.app.ui.theme.MommydndnTheme
 import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
@@ -86,7 +86,7 @@ fun RadioListItem(
 @Preview
 @Composable
 fun previewListItem() {
-    AppTheme {
+    MommydndnTheme {
         var state by remember { mutableStateOf(false) }
         RadioListItem(state, { state = it }, "리스트 아이템")
     }

@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import com.mommydndn.app.ui.theme.AppTheme
+import com.mommydndn.app.ui.theme.MommydndnTheme
 import com.mommydndn.app.ui.theme.Grey100
 import com.mommydndn.app.ui.theme.Grey300
 import com.mommydndn.app.ui.theme.Paddings
@@ -60,7 +60,7 @@ fun CtaButton(
 @Preview
 @Composable
 fun CtaButtonPreview() {
-    AppTheme {
+    MommydndnTheme {
         CtaButton(
             text = "CTA"
         ) {}

@@ -1,4 +1,4 @@
-package com.mommydndn.app.util
+package com.mommydndn.app.utils
 
 import android.util.Log
 import java.text.SimpleDateFormat

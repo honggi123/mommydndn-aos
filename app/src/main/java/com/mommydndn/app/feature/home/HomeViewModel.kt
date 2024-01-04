@@ -7,7 +7,7 @@ import com.mommydndn.app.domain.usecase.care.GetNearestJobOffersUseCase
 import com.mommydndn.app.domain.usecase.care.GetNearestJobSeekersUseCase
 import com.mommydndn.app.domain.usecase.common.GetBannersUseCase
 import com.mommydndn.app.domain.usecase.notification.GetNotificationsUseCase
-import com.mommydndn.app.util.result.data
+import com.mommydndn.app.utils.result.data
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,9 +15,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-//const val MAX_BABY_ITEM_PAGES = 4
-//const val INITIAL_BABY_ITEM_SIZE = 10
-//const val MORE_BABY_ITEM_SIZE = 10
+// const val MAX_BABY_ITEM_PAGES = 4
+// const val INITIAL_BABY_ITEM_SIZE = 10
+// const val MORE_BABY_ITEM_SIZE = 10
 
 class HomeViewModel constructor(
     private val getBabyItemsUseCase: GetBabyItemsUseCase,
@@ -49,10 +49,10 @@ class HomeViewModel constructor(
 
             _uiState.update {
                 HomeUiState.Success(
-                    banners = banners,
-                    jobOffers = jobOffers,
-                    jobSeekers = jobSeekers,
-                    notifications = notifications.filter { !it.isApproved }
+//                    banners = banners,
+//                    jobOffers = jobOffers,
+//                    jobSeekers = jobSeekers,
+//                    notifications = notifications.filter { !it.isApproved }
                 )
             }
         }

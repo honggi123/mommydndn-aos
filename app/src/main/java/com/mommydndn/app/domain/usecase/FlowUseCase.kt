@@ -1,10 +1,9 @@
 package com.mommydndn.app.domain.usecase
 
-import com.mommydndn.app.util.result.Result
+import com.mommydndn.app.utils.result.Result
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart

@@ -38,11 +38,11 @@ import com.mommydndn.app.R
 import com.mommydndn.app.ui.theme.Grey100
 import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.ui.theme.Grey700
-import com.mommydndn.app.ui.theme.AppTheme
+import com.mommydndn.app.ui.theme.MommydndnTheme
 import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
-import com.mommydndn.app.util.extensions.bottomBorder
+import com.mommydndn.app.utils.extensions.bottomBorder
 
 @Composable
 fun Searchbar(
@@ -136,7 +136,7 @@ fun Searchbar(
 @Preview
 @Composable
 fun previewSearchbar() {
-    AppTheme {
+    MommydndnTheme {
         var textFieldValue by remember { mutableStateOf("") }
         Searchbar(
             keyword = textFieldValue,

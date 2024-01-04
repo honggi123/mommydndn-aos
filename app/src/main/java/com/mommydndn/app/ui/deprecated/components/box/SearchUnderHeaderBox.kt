@@ -22,10 +22,10 @@ import com.mommydndn.app.data.model.common.MinMaxRange
 import com.mommydndn.app.ui.deprecated.components.button.MommyDndnButton
 import com.mommydndn.app.ui.theme.Grey100
 import com.mommydndn.app.ui.theme.Grey700
-import com.mommydndn.app.ui.theme.AppTheme
+import com.mommydndn.app.ui.theme.MommydndnTheme
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
-import com.mommydndn.app.util.extensions.bottomBorder
+import com.mommydndn.app.utils.extensions.bottomBorder
 
 @Composable
 fun SearchUnderHeader(
@@ -78,7 +78,7 @@ fun SearchUnderHeader(
 @Preview
 @Composable
 fun previewSearchUnderHeader() {
-    AppTheme {
+    MommydndnTheme {
         SearchUnderHeader(headerText = "근처 동네", onSearchClick = {})
     }
 }

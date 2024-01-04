@@ -10,7 +10,7 @@ import com.mommydndn.app.data.model.care.JobOfferPreview
 import com.mommydndn.app.data.network.model.response.GetUserResponse
 import com.mommydndn.app.domain.repository.LocationRepository
 import com.mommydndn.app.domain.repository.UserRepository
-import com.mommydndn.app.util.extensions.asMultipart
+import com.mommydndn.app.utils.extensions.asMultipart
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

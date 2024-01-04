@@ -27,8 +27,8 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.mommydndn.app.domain.model.banner.Banner
+import com.mommydndn.app.ui.theme.MommydndnTheme
 import com.mommydndn.app.ui.theme.Grey100
-import com.mommydndn.app.ui.theme.AppTheme
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption100
 
@@ -115,7 +115,7 @@ fun Banner(
 @Preview
 @Composable
 fun previewBanner() {
-    AppTheme {
+    MommydndnTheme {
         Banner(
             imgUrl = "https://via.placeholder.com/400x200.png",
             pageNum = 1,

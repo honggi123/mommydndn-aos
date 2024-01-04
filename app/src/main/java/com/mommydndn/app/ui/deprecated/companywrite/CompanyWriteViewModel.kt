@@ -11,7 +11,7 @@ import com.mommydndn.app.domain.model.location.Neighborhood
 import com.mommydndn.app.domain.repository.CareRepository
 import com.mommydndn.app.domain.repository.LocationRepository
 import com.mommydndn.app.domain.repository.UserRepository
-import com.mommydndn.app.util.NumberUtils
+import com.mommydndn.app.utils.NumberUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

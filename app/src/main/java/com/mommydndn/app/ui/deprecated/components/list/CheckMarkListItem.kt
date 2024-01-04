@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
 import com.mommydndn.app.ui.theme.Grey200
 import com.mommydndn.app.ui.theme.Grey600
-import com.mommydndn.app.ui.theme.AppTheme
+import com.mommydndn.app.ui.theme.MommydndnTheme
 import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
@@ -78,7 +78,7 @@ fun CheckMarkListItem(
 @Preview
 @Composable
 fun previewCheckMarkListItem() {
-    AppTheme {
+    MommydndnTheme {
         var state by remember { mutableStateOf(false) }
         CheckMarkListItem(state, { state = it }, "리스트 아이템")
     }

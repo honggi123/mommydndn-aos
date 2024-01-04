@@ -25,7 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
 import com.mommydndn.app.ui.theme.Grey600
-import com.mommydndn.app.ui.theme.AppTheme
+import com.mommydndn.app.ui.theme.MommydndnTheme
 import com.mommydndn.app.ui.theme.paragraph300
 
 @Composable
@@ -73,7 +73,7 @@ fun CheckBoxListItem(
 @Preview
 @Composable
 fun previewCheckListItem() {
-    AppTheme {
+    MommydndnTheme {
         var state by remember { mutableStateOf(false) }
         CheckBoxListItem(state, { state = it }, "리스트 아이템")
     }

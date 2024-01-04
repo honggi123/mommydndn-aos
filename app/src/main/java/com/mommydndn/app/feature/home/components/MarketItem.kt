@@ -25,7 +25,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import com.mommydndn.app.BuildConfig
 import com.mommydndn.app.R
 import com.mommydndn.app.ui.theme.Grey50
@@ -38,25 +37,23 @@ import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph400
 
 @Composable
-fun MarketListItem(
+internal fun MarketItem(
     imageUrl: String,
     isLiked: Boolean,
     price: String,
     title: String,
     neighborhood: String,
     time: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    // TODO: crossfade(true)
-    val productImagePainter = rememberAsyncImagePainter(imageUrl)
+    val productImagePainter = rememberAsyncImagePainter(imageUrl) // todo: crossfade
 
-    // TODO: isLiked -> recomposition?
-    val isLikedImagePainter = rememberImagePainter(
-        data = if (isLiked) {
+    val isLikedImagePainter = rememberAsyncImagePainter(
+        model = if (isLiked) {
             R.drawable.icon_heart_fill_salmon
         } else {
             R.drawable.icon_heart_fill
-        },
+        }
     )
 
     Box(modifier = modifier) {
@@ -124,7 +121,7 @@ fun MarketListItem(
 @Preview
 @Composable
 private fun MarketListItem_Preview() {
-    MarketListItem(
+    MarketItem(
         imageUrl = "",
         isLiked = true,
         price = "5,000원",

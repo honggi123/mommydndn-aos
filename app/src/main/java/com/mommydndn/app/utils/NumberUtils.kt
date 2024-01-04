@@ -1,4 +1,4 @@
-package com.mommydndn.app.util
+package com.mommydndn.app.utils
 
 import java.text.NumberFormat
 import java.util.Locale

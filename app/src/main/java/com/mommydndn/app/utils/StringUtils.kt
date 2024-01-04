@@ -1,4 +1,4 @@
-package com.mommydndn.app.util
+package com.mommydndn.app.utils
 
 object StringUtils {
     fun getConcatenatedCommasString(data: List<String>): String {

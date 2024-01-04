@@ -1,6 +1,6 @@
 package com.mommydndn.app.domain.usecase
 
-import com.mommydndn.app.util.result.Result
+import com.mommydndn.app.utils.result.Result
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 

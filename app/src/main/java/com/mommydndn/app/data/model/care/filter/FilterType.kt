@@ -1,7 +1,7 @@
 package com.mommydndn.app.data.model.care.filter
 
-import com.mommydndn.app.util.DateTimeUtils
-import com.mommydndn.app.util.StringUtils
+import com.mommydndn.app.utils.DateTimeUtils
+import com.mommydndn.app.utils.StringUtils
 
 sealed class FilterType(
     open val items: FilterItemsType,

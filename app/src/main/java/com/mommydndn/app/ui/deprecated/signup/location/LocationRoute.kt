@@ -26,7 +26,7 @@ import com.mommydndn.app.domain.model.location.CoordinatesInfo
 import com.mommydndn.app.domain.model.location.SearchType
 import com.mommydndn.app.ui.deprecated.signup.SignUpUiState
 import com.mommydndn.app.ui.deprecated.signup.SignUpViewModel
-import com.mommydndn.app.util.PermissionUtils
+import com.mommydndn.app.utils.PermissionUtils
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)

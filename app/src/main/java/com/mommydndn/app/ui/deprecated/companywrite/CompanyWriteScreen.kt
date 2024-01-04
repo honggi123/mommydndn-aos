@@ -75,9 +75,9 @@ import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph400
-import com.mommydndn.app.util.NumberCommaVisualTransformation
-import com.mommydndn.app.util.PermissionUtils
-import com.mommydndn.app.util.extensions.addFocusCleaner
+import com.mommydndn.app.utils.NumberCommaVisualTransformation
+import com.mommydndn.app.utils.PermissionUtils
+import com.mommydndn.app.utils.extensions.addFocusCleaner
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

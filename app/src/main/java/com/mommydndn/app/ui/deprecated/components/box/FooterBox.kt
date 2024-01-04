@@ -30,7 +30,7 @@ import com.mommydndn.app.data.model.common.ButtonSizeType
 import com.mommydndn.app.data.model.common.MinMaxRange
 import com.mommydndn.app.ui.deprecated.components.button.MommyDndnButton
 import com.mommydndn.app.ui.theme.Grey50
-import com.mommydndn.app.ui.theme.AppTheme
+import com.mommydndn.app.ui.theme.MommydndnTheme
 import com.mommydndn.app.ui.theme.caption200
 
 @Composable
@@ -186,7 +186,7 @@ fun FooterBox(
 @Preview
 @Composable
 fun previewCFooter() {
-    AppTheme {
+    MommydndnTheme {
         FooterBox(onInquiryClick = {})
     }
 }

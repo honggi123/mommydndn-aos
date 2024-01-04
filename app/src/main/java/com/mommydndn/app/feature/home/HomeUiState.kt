@@ -1,19 +1,19 @@
 package com.mommydndn.app.feature.home
 
-import com.mommydndn.app.data.model.notification.Notification
-import com.mommydndn.app.domain.model.banner.Banner
-import com.mommydndn.app.domain.model.care.JobOffer
-import com.mommydndn.app.domain.model.care.JobSeeker
+import com.mommydndn.app.feature.home.components.Banner
+import com.mommydndn.app.feature.home.components.NearbyJobOpening
+import com.mommydndn.app.feature.home.components.NearestCareProvider
 
 sealed interface HomeUiState {
 
-    object Loading : HomeUiState
+    data object Loading : HomeUiState
+
     data class Success(
-        val notifications: List<Notification> = emptyList(),
-        val jobSeekers: List<JobSeeker> = emptyList(),
-        val jobOffers: List<JobOffer> = emptyList(),
+        val hasUnreadNotification: Boolean = false,
         val banners: List<Banner> = emptyList(),
-//        val babyItemUiState: HomeBabyItemUiState = HomeBabyItemUiState.Loading()
+        val nearestCareProviders: List<NearestCareProvider> = emptyList(),
+        val nearbyJobOpenings: List<NearbyJobOpening> = emptyList(),
+        // baby_items?
     ) : HomeUiState
 
     data class Failure(val exception: Exception) : HomeUiState

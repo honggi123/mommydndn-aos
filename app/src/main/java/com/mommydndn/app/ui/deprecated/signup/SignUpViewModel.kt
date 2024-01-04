@@ -15,7 +15,7 @@ import com.mommydndn.app.domain.usecase.tos.GetTermsOfServiceUseCase
 import com.mommydndn.app.domain.usecase.user.SaveTokenParams
 import com.mommydndn.app.domain.usecase.user.SaveUserTokenUseCase
 import com.mommydndn.app.domain.usecase.user.SignUpUseCase
-import com.mommydndn.app.util.result.Result
+import com.mommydndn.app.utils.result.Result
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

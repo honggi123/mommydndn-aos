@@ -14,8 +14,8 @@ import com.mommydndn.app.data.network.model.response.Certification
 import com.mommydndn.app.domain.model.location.Neighborhood
 import com.mommydndn.app.domain.repository.LocationRepository
 import com.mommydndn.app.domain.repository.UserRepository
-import com.mommydndn.app.util.NumberUtils
-import com.mommydndn.app.util.extensions.asMultipart
+import com.mommydndn.app.utils.NumberUtils
+import com.mommydndn.app.utils.extensions.asMultipart
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

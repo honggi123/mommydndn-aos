@@ -55,8 +55,8 @@ import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph400
-import com.mommydndn.app.util.DateTimeUtils
-import com.mommydndn.app.util.NumberUtils
+import com.mommydndn.app.utils.DateTimeUtils
+import com.mommydndn.app.utils.NumberUtils
 import net.daum.mf.map.api.MapView
 
 @Composable

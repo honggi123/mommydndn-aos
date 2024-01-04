@@ -54,7 +54,7 @@ fun SectionButton(
 @Preview
 @Composable
 fun SectionButtonPreview() {
-    AppTheme {
+    MommydndnTheme {
         CtaButton(
             text = "Section"
         ) {}

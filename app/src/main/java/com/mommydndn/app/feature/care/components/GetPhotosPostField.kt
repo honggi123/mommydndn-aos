@@ -39,6 +39,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.mommydndn.app.BuildConfig
 import com.mommydndn.app.R
@@ -47,7 +48,7 @@ import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
-import com.mommydndn.app.util.extensions.checkImagesPermission
+import com.mommydndn.app.utils.extensions.checkImagesPermission
 import kotlin.math.max
 
 @Composable
@@ -177,7 +178,7 @@ internal fun PhotoCell(
 ) {
     Box(modifier = modifier) {
         Image(
-            painter = rememberImagePainter(uri),
+            painter = rememberAsyncImagePainter(uri),
             contentDescription = "PhotoCell_UriPhoto",
             modifier = Modifier
                 .fillMaxWidth()

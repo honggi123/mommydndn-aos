@@ -32,8 +32,21 @@ import com.mommydndn.app.ui.theme.Orange100
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption200
 
+data class NearestCareProvider(
+    val profileUrl: String,
+    val name: String,
+    val ageRange: String,
+    val gender: String,
+    val careType: String,
+)
+
 @Composable
-internal fun CareProviderProfile(
+internal fun NearestCareProvidersField() {
+    
+}
+
+@Composable
+internal fun NearestCareProviderItem(
     profileUrl: String,
     name: String,
     age: String,
@@ -95,7 +108,7 @@ internal fun CareProviderProfile(
 @Preview
 @Composable
 private fun CareProviderProfile_Preview() {
-    CareProviderProfile(
+    NearestCareProviderItem(
         profileUrl = "",
         name = "김홍기",
         age = "20대",

@@ -1,4 +1,4 @@
-package com.mommydndn.app
+package com.mommydndn.app.feature.main
 
 import android.util.Log
 import androidx.compose.material.Scaffold

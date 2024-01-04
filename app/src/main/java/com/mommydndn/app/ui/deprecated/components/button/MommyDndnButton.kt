@@ -31,7 +31,7 @@ import com.mommydndn.app.data.model.common.MinMaxRange
 import com.mommydndn.app.ui.theme.Grey100
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey600
-import com.mommydndn.app.ui.theme.AppTheme
+import com.mommydndn.app.ui.theme.MommydndnTheme
 import com.mommydndn.app.ui.theme.Salmon200
 import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.White
@@ -123,7 +123,7 @@ fun MommyDndnButton(
 @Preview
 @Composable
 fun CustomButtonPreview() {
-    AppTheme {
+    MommydndnTheme {
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(16.dp)

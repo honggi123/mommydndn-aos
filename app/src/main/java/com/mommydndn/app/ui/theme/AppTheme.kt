@@ -19,7 +19,7 @@ private val lightColors = lightColors(
 )
 
 @Composable
-internal fun AppTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
+internal fun MommydndnTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     MaterialTheme(
         colors = lightColors,
         typography = typography,

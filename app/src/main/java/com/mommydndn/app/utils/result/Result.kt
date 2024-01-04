@@ -1,4 +1,4 @@
-package com.mommydndn.app.util.result
+package com.mommydndn.app.utils.result
 
 sealed class Result<out R> {
 

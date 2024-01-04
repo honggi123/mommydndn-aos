@@ -14,7 +14,7 @@ import com.mommydndn.app.domain.usecase.location.SearchNeighborhoodByQueryUseCas
 import com.mommydndn.app.domain.usecase.tos.GetTermsOfServiceUseCase
 import com.mommydndn.app.domain.usecase.tos.UpdateTermsOfServiceStateUseCase
 import com.mommydndn.app.domain.usecase.user.SignUpUseCase
-import com.mommydndn.app.util.result.Result
+import com.mommydndn.app.utils.result.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

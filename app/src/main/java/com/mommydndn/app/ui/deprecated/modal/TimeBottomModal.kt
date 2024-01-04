@@ -40,7 +40,7 @@ import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.ui.theme.shadow700
 import com.mommydndn.app.ui.theme.typography
-import com.mommydndn.app.util.DateTimeUtils
+import com.mommydndn.app.utils.DateTimeUtils
 
 @Composable
 fun TimeBottomModal(
