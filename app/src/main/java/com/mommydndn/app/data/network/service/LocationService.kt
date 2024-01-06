@@ -1,7 +1,7 @@
 package com.mommydndn.app.data.network.service
 
-import com.mommydndn.app.data.network.model.response.GetLocationResponse
-import com.mommydndn.app.data.network.model.response.GetNearestResponse
+import com.mommydndn.app.data.network.model.location.response.GetLocationResponse
+import com.mommydndn.app.data.network.model.location.response.GetNearestNeighborhoodListResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -14,7 +14,7 @@ interface LocationService {
         @Query("longitude") longitude: Double,
         @Query("skip") skip: Int = 0,
         @Query("limit") limit: Int = 20
-    ): Response<GetNearestResponse>
+    ): Response<GetNearestNeighborhoodListResponse>
 
     @GET("/api/map/search")
     suspend fun fetchLocationsByKeyword(

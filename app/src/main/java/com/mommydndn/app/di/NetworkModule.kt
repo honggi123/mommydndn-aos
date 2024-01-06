@@ -11,7 +11,7 @@ import com.mommydndn.app.data.network.service.CareService
 import com.mommydndn.app.data.network.service.CommonService
 import com.mommydndn.app.data.network.service.GoogleApiService
 import com.mommydndn.app.data.network.service.KakaoApiService
-import com.mommydndn.app.data.network.service.TermsOfServiceService
+import com.mommydndn.app.data.network.service.TosService
 import com.mommydndn.app.data.network.service.UserService
 import com.mommydndn.app.data.preferences.TokenManager
 import dagger.Module
@@ -91,8 +91,8 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideTermsService(retrofit: Retrofit): TermsOfServiceService {
-        return retrofit.create(TermsOfServiceService::class.java)
+    fun provideTermsService(retrofit: Retrofit): TosService {
+        return retrofit.create(TosService::class.java)
     }
 
     @Singleton

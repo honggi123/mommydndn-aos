@@ -20,7 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
-import com.mommydndn.app.data.model.care.summary.JobOfferSummaryListItem
+import com.mommydndn.app.data.network.model.care.response.JobOfferSummaryListItem
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.Grey800

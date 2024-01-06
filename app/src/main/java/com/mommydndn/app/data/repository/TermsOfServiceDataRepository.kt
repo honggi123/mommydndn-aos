@@ -1,8 +1,8 @@
 package com.mommydndn.app.data.repository
 
-import com.mommydndn.app.data.network.model.request.UpdateTermsOfService
-import com.mommydndn.app.data.network.model.response.GetTermsOfServiceItem
-import com.mommydndn.app.data.network.service.TermsOfServiceService
+import com.mommydndn.app.data.network.model.tos.UpdateTosAgreementRequest
+import com.mommydndn.app.data.network.model.tos.GetTosItemResponse
+import com.mommydndn.app.data.network.service.TosService
 import com.mommydndn.app.domain.model.tos.TermsOfService
 import com.mommydndn.app.domain.repository.TermsOfServiceRepository
 import javax.inject.Inject
@@ -10,7 +10,7 @@ import javax.inject.Singleton
 
 @Singleton
 class TermsOfServiceDataRepository @Inject constructor(
-    private val service: TermsOfServiceService,
+    private val service: TosService,
 ) : TermsOfServiceRepository {
 
     override suspend fun getTermsOfService(): List<TermsOfService> {
@@ -19,7 +19,7 @@ class TermsOfServiceDataRepository @Inject constructor(
 
     override suspend fun updateTermsOfServiceState(termsOfService: Map<TermsOfService, Boolean>) {
         termsOfService.map { entry ->
-            UpdateTermsOfService(entry.key.id, entry.value)
+            UpdateTosAgreementRequest(entry.key.id, entry.value)
         }.let {
             service.updateTermsOfServiceState(it)
         }
@@ -27,7 +27,7 @@ class TermsOfServiceDataRepository @Inject constructor(
 }
 
 // TODO
-fun toEntity(item: GetTermsOfServiceItem) = with(item) {
+fun toEntity(item: GetTosItemResponse) = with(item) {
     TermsOfService(
         id = termsId,
         name = name,

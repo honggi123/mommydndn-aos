@@ -2,15 +2,15 @@ package com.mommydndn.app.data.source.pagingsource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.mommydndn.app.data.model.care.summary.CompanySummaryListItem
-import com.mommydndn.app.data.network.model.request.CompanyListRequest
-import com.mommydndn.app.data.network.model.request.PaginationRequest
+import com.mommydndn.app.data.network.model.care.response.CompanySummaryListItem
+import com.mommydndn.app.data.network.model.care.request.GetAgencyCareProviderListRequest
+import com.mommydndn.app.data.network.model.common.PaginationRequest
 import com.mommydndn.app.data.network.service.CareService
 import javax.inject.Inject
 
 private const val STARTING_PAGE_INDEX = 1
 class CompanySummaryPagingSource @Inject constructor(
-    private val companyListRequest: CompanyListRequest,
+    private val companyListRequest: GetAgencyCareProviderListRequest,
     private val careService: CareService
 ) : PagingSource<Int, CompanySummaryListItem>() {
 

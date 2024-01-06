@@ -1,11 +1,11 @@
 package com.mommydndn.app.data.repository
 
 import com.mommydndn.app.BuildConfig
-import com.mommydndn.app.data.network.model.request.GoogleLoginRequest
-import com.mommydndn.app.data.network.model.request.SignInRequest
-import com.mommydndn.app.data.network.model.request.SignUpRequest
-import com.mommydndn.app.data.network.model.response.LoginGoogleResponse
-import com.mommydndn.app.data.network.model.response.LoginResponse
+import com.mommydndn.app.data.network.model.auth.request.GetGoogleAccessTokenRequest
+import com.mommydndn.app.data.network.model.auth.request.SignInRequest
+import com.mommydndn.app.data.network.model.auth.request.SignUpRequest
+import com.mommydndn.app.data.network.model.auth.request.GetGoogleAccessTokenResponse
+import com.mommydndn.app.data.network.model.user.response.SignInResponse
 import com.mommydndn.app.data.network.service.AuthenticationService
 import com.mommydndn.app.data.network.service.GoogleApiService
 import com.mommydndn.app.data.preferences.TokenManager
@@ -23,7 +23,7 @@ class AccountDataRepository @Inject constructor(
     override suspend fun signIn(
         acessToken: String,
         OAuthProvider: OAuthProvider
-    ): LoginResponse {
+    ): SignInResponse {
 
         val response = authenticationService
             .login(
@@ -57,8 +57,8 @@ class AccountDataRepository @Inject constructor(
 
     override suspend fun getGoogleAccessToken(
         authCode: String
-    ): LoginGoogleResponse = googleApiService.getAccessToken(
-        GoogleLoginRequest(
+    ): GetGoogleAccessTokenResponse = googleApiService.getAccessToken(
+        GetGoogleAccessTokenRequest(
             grant_type = "authorization_code",
             client_id = BuildConfig.GOOGLE_CLIENT_ID,
             client_secret = BuildConfig.GOOGLE_CLIENT_SECRET,

@@ -3,16 +3,16 @@ package com.mommydndn.app.data.source.pagingsource
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.mommydndn.app.data.model.care.summary.JobOfferSummaryListItem
-import com.mommydndn.app.data.network.model.request.JobOfferListRequest
-import com.mommydndn.app.data.network.model.request.PaginationRequest
+import com.mommydndn.app.data.network.model.care.response.JobOfferSummaryListItem
+import com.mommydndn.app.data.network.model.care.request.GetJobOpeningListRequest
+import com.mommydndn.app.data.network.model.common.PaginationRequest
 import com.mommydndn.app.data.network.service.CareService
 import javax.inject.Inject
 
 private const val STARTING_PAGE_INDEX = 1
 
 class JobOfferSummaryPagingSource @Inject constructor(
-    private val jobOfferListRequest: JobOfferListRequest,
+    private val getJobOpeningListRequest: GetJobOpeningListRequest,
     private val careService: CareService
 ) : PagingSource<Int, JobOfferSummaryListItem>() {
 
@@ -20,7 +20,7 @@ class JobOfferSummaryPagingSource @Inject constructor(
         return try {
             val position = params.key ?: STARTING_PAGE_INDEX
             val result = careService.fetchJobOfferSummary(
-                jobOfferListRequest.copy(
+                getJobOpeningListRequest.copy(
                     paginationRequest = PaginationRequest(
                         pageNum = position,
                         pageSize = 5,

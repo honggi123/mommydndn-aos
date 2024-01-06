@@ -8,24 +8,24 @@ import com.mommydndn.app.data.datasource.pagingsource.JobSeekerSummaryPagingSour
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.EtcCheckItem
-import com.mommydndn.app.data.model.care.MinHourlySalary
+import com.mommydndn.app.data.network.model.care.response.GetMinHourlySalaryResponse
 import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.SortingType
 import com.mommydndn.app.data.model.care.WorkPeriodType
-import com.mommydndn.app.data.model.care.summary.CompanySummaryListItem
-import com.mommydndn.app.data.model.care.summary.JobOfferSummaryListItem
-import com.mommydndn.app.data.model.care.summary.JobSeekerSummaryItem
+import com.mommydndn.app.data.network.model.care.response.CompanySummaryListItem
+import com.mommydndn.app.data.network.model.care.response.JobOfferSummaryListItem
+import com.mommydndn.app.data.network.model.care.response.JobSeekerSummaryItem
 import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.common.DayOfWeekType
-import com.mommydndn.app.data.network.model.request.CompanyListRequest
-import com.mommydndn.app.data.network.model.request.JobOfferListRequest
-import com.mommydndn.app.data.network.model.request.JobSeekerListRequest
-import com.mommydndn.app.data.network.model.request.PaginationRequest
-import com.mommydndn.app.data.network.model.response.CompanyCreationResponse
-import com.mommydndn.app.data.network.model.response.JobOfferCreationResponse
-import com.mommydndn.app.data.network.model.response.JobOfferResponse
-import com.mommydndn.app.data.network.model.response.JobSeekerCreationResponse
-import com.mommydndn.app.data.network.model.response.toDomain
+import com.mommydndn.app.data.network.model.care.request.GetAgencyCareProviderListRequest
+import com.mommydndn.app.data.network.model.care.request.GetJobOpeningListRequest
+import com.mommydndn.app.data.network.model.care.request.GetCareProviderListRequest
+import com.mommydndn.app.data.network.model.common.PaginationRequest
+import com.mommydndn.app.data.network.model.care.response.CreateAgencyCareProviderResponse
+import com.mommydndn.app.data.network.model.care.response.CreateJobOpeningResponse
+import com.mommydndn.app.data.network.model.care.JobOfferResponse
+import com.mommydndn.app.data.network.model.care.response.CreateCareProviderResponse
+import com.mommydndn.app.data.network.model.location.response.toDomain
 import com.mommydndn.app.data.network.service.CareService
 import com.mommydndn.app.data.network.service.CommonService
 import com.mommydndn.app.data.source.pagingsource.CompanySummaryPagingSource
@@ -111,7 +111,7 @@ class CareDataRepository @Inject constructor(
             listOf(workPeriodType)
         }
 
-        val jobOfferListRequest = JobOfferListRequest(
+        val getJobOpeningListRequest = GetJobOpeningListRequest(
             caringTypeCodeList = caringTypeList,
             days = days,
             emdId = emdId,
@@ -130,7 +130,7 @@ class CareDataRepository @Inject constructor(
             ),
             pagingSourceFactory = {
                 JobOfferSummaryPagingSource(
-                    jobOfferListRequest,
+                    getJobOpeningListRequest,
                     careService
                 )
             }
@@ -144,7 +144,7 @@ class CareDataRepository @Inject constructor(
         neighborhoodScope: Int,
         caringTypeList: List<CaringType>
     ): Flow<PagingData<JobSeekerSummaryItem>> {
-        val jobsSeekerListRequest = JobSeekerListRequest(
+        val jobsSeekerListRequest = GetCareProviderListRequest(
             caringTypeCodeList = caringTypeList,
             emdId = emdId,
             keyword = keyword,
@@ -173,7 +173,7 @@ class CareDataRepository @Inject constructor(
         neighborhoodScope: Int,
         caringTypeList: List<CaringType>
     ): Flow<PagingData<CompanySummaryListItem>> {
-        val companyListRequest = CompanyListRequest(
+        val companyListRequest = GetAgencyCareProviderListRequest(
             caringTypeCodeList = caringTypeList,
             emdId = emdId,
             keyword = keyword,
@@ -213,7 +213,7 @@ class CareDataRepository @Inject constructor(
 
     }.flowOn(Dispatchers.IO)
 
-    override fun fetchMinHourlySalary(): Flow<MinHourlySalary> = flow<MinHourlySalary> {
+    override fun fetchMinHourlySalary(): Flow<GetMinHourlySalaryResponse> = flow<GetMinHourlySalaryResponse> {
         careService.fetchMinHourlySalary()
             /*
             .suspendOnSuccess {
@@ -239,7 +239,7 @@ class CareDataRepository @Inject constructor(
         salary: Int,
         etcCheckedList: List<EtcCheckItem>,
         imageList: List<MultipartBody.Part>
-    ): Flow<JobOfferCreationResponse> {
+    ): Flow<CreateJobOpeningResponse> {
         TODO("Not yet implemented")
     }
 
@@ -251,7 +251,7 @@ class CareDataRepository @Inject constructor(
         salaryType: SalaryType,
         salary: Int,
         etcCheckedList: List<EtcCheckItem>
-    ): Flow<JobSeekerCreationResponse> {
+    ): Flow<CreateCareProviderResponse> {
         TODO("Not yet implemented")
     }
 
@@ -265,7 +265,7 @@ class CareDataRepository @Inject constructor(
         maxSalary: Int,
         etcCheckedList: List<EtcCheckItem>,
         commission: Int
-    ): Flow<CompanyCreationResponse> {
+    ): Flow<CreateAgencyCareProviderResponse> {
         TODO("Not yet implemented")
     }
 

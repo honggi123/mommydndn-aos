@@ -2,7 +2,7 @@ package com.mommydndn.app.data.source.pagingsource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.mommydndn.app.data.network.model.response.toDomain
+import com.mommydndn.app.data.network.model.location.response.toDomain
 import com.mommydndn.app.data.network.service.LocationService
 import com.mommydndn.app.domain.model.location.Neighborhood
 import javax.inject.Inject

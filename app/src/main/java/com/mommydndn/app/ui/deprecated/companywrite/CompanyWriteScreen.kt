@@ -51,7 +51,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.care.CaringTypeItem
-import com.mommydndn.app.data.model.care.MinHourlySalary
+import com.mommydndn.app.data.network.model.care.response.GetMinHourlySalaryResponse
 import com.mommydndn.app.data.model.common.ButtonColor
 import com.mommydndn.app.data.model.common.ButtonColorType
 import com.mommydndn.app.data.model.common.ButtonSizeType
@@ -111,7 +111,7 @@ fun CompanyWriteScreen(
 
     val commission by viewModel.commission.collectAsState()
 
-    val minHourlySalary by viewModel.minHourlySalary.collectAsState()
+    val minHourlySalary by viewModel.getMinHourlySalaryResponse.collectAsState()
 
     val etcCheckList by viewModel.etcCheckList.collectAsState()
 
@@ -542,7 +542,7 @@ fun CompanyWriteScreen(
                             endSalary = endSalary,
                             commission = commission,
                             profileImage = photo,
-                            minHourlySalary = minHourlySalary,
+                            getMinHourlySalaryResponse = minHourlySalary,
                             coroutineScope = coroutineScope,
                             scaffoldState = scaffoldState,
                         )
@@ -588,12 +588,12 @@ private fun isValidationSuccessful(
     endSalary: Int?,
     commission: Int?,
     profileImage: Uri?,
-    minHourlySalary: MinHourlySalary?,
+    getMinHourlySalaryResponse: GetMinHourlySalaryResponse?,
     coroutineScope: CoroutineScope,
     scaffoldState: ScaffoldState,
 ): Boolean {
 
-    if (minHourlySalary == null) {
+    if (getMinHourlySalaryResponse == null) {
         return false
     }
 

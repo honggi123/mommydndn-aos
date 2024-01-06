@@ -4,19 +4,19 @@ import androidx.paging.PagingData
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.EtcCheckItem
-import com.mommydndn.app.data.model.care.MinHourlySalary
+import com.mommydndn.app.data.network.model.care.response.GetMinHourlySalaryResponse
 import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.SortingType
 import com.mommydndn.app.data.model.care.WorkPeriodType
-import com.mommydndn.app.data.model.care.summary.CompanySummaryListItem
-import com.mommydndn.app.data.model.care.summary.JobOfferSummaryListItem
-import com.mommydndn.app.data.model.care.summary.JobSeekerSummaryItem
+import com.mommydndn.app.data.network.model.care.response.CompanySummaryListItem
+import com.mommydndn.app.data.network.model.care.response.JobOfferSummaryListItem
+import com.mommydndn.app.data.network.model.care.response.JobSeekerSummaryItem
 import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.common.DayOfWeekType
-import com.mommydndn.app.data.network.model.response.CompanyCreationResponse
-import com.mommydndn.app.data.network.model.response.JobOfferCreationResponse
-import com.mommydndn.app.data.network.model.response.JobOfferResponse
-import com.mommydndn.app.data.network.model.response.JobSeekerCreationResponse
+import com.mommydndn.app.data.network.model.care.response.CreateAgencyCareProviderResponse
+import com.mommydndn.app.data.network.model.care.response.CreateJobOpeningResponse
+import com.mommydndn.app.data.network.model.care.JobOfferResponse
+import com.mommydndn.app.data.network.model.care.response.CreateCareProviderResponse
 import com.mommydndn.app.domain.model.care.JobOffer
 import com.mommydndn.app.domain.model.care.JobSeeker
 import kotlinx.coroutines.flow.Flow
@@ -66,7 +66,7 @@ interface CareRepository {
 
     fun fetchCaringTypeItems(): Flow<List<CaringTypeItem>>
 
-    fun fetchMinHourlySalary(): Flow<MinHourlySalary>
+    fun fetchMinHourlySalary(): Flow<GetMinHourlySalaryResponse>
 
     fun createJobOffer(
         title: String,
@@ -86,7 +86,7 @@ interface CareRepository {
         salary: Int,
         etcCheckedList: List<EtcCheckItem>,
         imageList: List<MultipartBody.Part>,
-    ): Flow<JobOfferCreationResponse>
+    ): Flow<CreateJobOpeningResponse>
 
     fun createJobSeeker(
         introduce: String,
@@ -97,7 +97,7 @@ interface CareRepository {
         salaryType: SalaryType,
         salary: Int,
         etcCheckedList: List<EtcCheckItem>
-    ): Flow<JobSeekerCreationResponse>
+    ): Flow<CreateCareProviderResponse>
 
     fun createCompany(
         introduce: String,
@@ -110,5 +110,5 @@ interface CareRepository {
         maxSalary: Int,
         etcCheckedList: List<EtcCheckItem>,
         commission: Int
-    ): Flow<CompanyCreationResponse>
+    ): Flow<CreateAgencyCareProviderResponse>
 }

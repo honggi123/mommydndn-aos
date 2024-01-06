@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.EtcCheckItem
-import com.mommydndn.app.data.model.care.MinHourlySalary
+import com.mommydndn.app.data.network.model.care.response.GetMinHourlySalaryResponse
 import com.mommydndn.app.data.model.location.EmdItem
 import com.mommydndn.app.domain.model.location.Neighborhood
 import com.mommydndn.app.domain.repository.CareRepository
@@ -58,7 +58,7 @@ class CompanyWriteViewModel @Inject constructor(
         MutableStateFlow<Neighborhood?>(null)
     val neighborhood: StateFlow<Neighborhood?> = _neighborhood
 
-    val minHourlySalary: StateFlow<MinHourlySalary?> =
+    val getMinHourlySalaryResponse: StateFlow<GetMinHourlySalaryResponse?> =
         caringRepository.fetchMinHourlySalary().stateIn(
             viewModelScope,
             started = SharingStarted.Lazily,

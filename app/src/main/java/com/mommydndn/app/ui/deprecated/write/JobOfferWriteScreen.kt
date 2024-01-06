@@ -56,7 +56,7 @@
 //import com.mommydndn.app.R
 //import com.mommydndn.app.data.model.care.CaringTypeItem
 //import com.mommydndn.app.data.model.care.JobOfferPreview
-//import com.mommydndn.app.data.model.care.MinHourlySalary
+//import com.mommydndn.app.data.network.model.care.response.MinHourlySalary
 //import com.mommydndn.app.data.model.care.SalaryType
 //import com.mommydndn.app.data.model.care.WorkPeriodType
 //import com.mommydndn.app.data.model.common.ButtonColor

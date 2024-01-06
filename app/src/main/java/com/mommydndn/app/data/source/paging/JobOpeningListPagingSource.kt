@@ -2,8 +2,8 @@ package com.mommydndn.app.data.source.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.mommydndn.app.data.network.model.care.GetCareJobOpeningListItem
-import com.mommydndn.app.data.network.model.care.GetCareJobOpeningListRequest
+import com.mommydndn.app.data.network.model.care.response.GetCareJobOpeningListItem
+import com.mommydndn.app.data.network.model.care.request.GetCareJobOpeningListRequest
 import com.mommydndn.app.data.network.service.CareService
 import com.mommydndn.app.domain.model.care.CareJobOpening
 

@@ -51,7 +51,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.care.CaringTypeItem
-import com.mommydndn.app.data.model.care.MinHourlySalary
+import com.mommydndn.app.data.network.model.care.response.GetMinHourlySalaryResponse
 import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.common.ButtonColor
 import com.mommydndn.app.data.model.common.ButtonColorType
@@ -536,7 +536,7 @@ fun JobSeekerWriteScreen(
                             careTypes = careTypes.filter { it.isSelected },
                             salary = salary,
                             salaryType = salaryTypes.filter { it.isSelected }.first().salaryType,
-                            minHourlySalary = null,
+                            getMinHourlySalaryResponse = null,
                             photo = photo,
                             coroutineScope = coroutineScope,
                             scaffoldState = scaffoldState
@@ -577,13 +577,13 @@ fun isValidationSuccessful(
     careTypes: List<CaringTypeItem>,
     salary: Int?,
     salaryType: SalaryType,
-    minHourlySalary: MinHourlySalary?,
+    getMinHourlySalaryResponse: GetMinHourlySalaryResponse?,
     photo: Uri?,
     coroutineScope: CoroutineScope,
     scaffoldState: ScaffoldState
 ): Boolean {
 
-    if (minHourlySalary == null) {
+    if (getMinHourlySalaryResponse == null) {
         return false
     }
 
@@ -597,7 +597,7 @@ fun isValidationSuccessful(
         "일하는 장소를 선택해주세요."
     } else if (salaryType != SalaryType.NEGOTIATION && salary == null) {
         "임금이 입력되지 않았습니다."
-    } else if (salaryType != SalaryType.NEGOTIATION && salary!! < minHourlySalary.minHourlySalary) {
+    } else if (salaryType != SalaryType.NEGOTIATION && salary!! < getMinHourlySalaryResponse.minHourlySalary) {
         "임금은 최저시급 보다 높아야 합니다."
     } else null
 
