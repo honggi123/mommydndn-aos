@@ -1,4 +1,4 @@
-package com.mommydndn.app.data.network.model.auth.request
+package com.mommydndn.app.data.network.model.user.request
 
 import kotlinx.serialization.Serializable
 

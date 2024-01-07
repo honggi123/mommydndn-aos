@@ -4,13 +4,13 @@ import com.mommydndn.app.data.model.notification.Notification
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-typealias GetNotificationSettingListResponse = List<NotificationSettingResponse>
+typealias GetNotificationSettingListResponse = List<NotificationSettingApiModel>
 
 @Serializable
-@SerialName("NoticeSettingResponse")
-data class NotificationSettingResponse(
+data class NotificationSettingApiModel(
+    @SerialName("noticeTypeId")
+    val id: Int,
     val isApproved: Boolean,
-    val noticeTypeId: Int,
     val noticeTypeName: String
 )
 
@@ -18,7 +18,7 @@ fun GetNotificationSettingListResponse.toDomain(): List<Notification> {
     return this.map {
         Notification(
             isApproved = it.isApproved,
-            noticeTypeId = it.noticeTypeId,
+            noticeTypeId = it.id,
             noticeTypeName = it.noticeTypeName,
             isSelected = false
         )

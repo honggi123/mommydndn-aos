@@ -6,14 +6,14 @@ import com.mommydndn.app.data.model.care.CaringTypeSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-typealias GetCareTypeListResponse = List<CareTypeResponse>
+typealias GetCareTypeListResponse = List<CareTypeApiModel>
 
 @Serializable
-data class CareTypeResponse(
+data class CareTypeApiModel(
+    @SerialName("caringTypeId")
+    val id: Int,
     @Serializable(with = CaringTypeSerializer::class)
     @SerialName("caringTypeCode")
-    val careTypeCode: CaringType,
-    @SerialName("caringTypeId")
-    val careTypeId: Int,
+    val careType: CaringType,
     val displayName: String
 )

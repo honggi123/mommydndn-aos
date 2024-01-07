@@ -1,4 +1,4 @@
-package com.mommydndn.app.data.network.model.care.response
+package com.mommydndn.app.data.network.model.care.response.deprecated
 
 import com.mommydndn.app.domain.model.care.CareType
 import com.mommydndn.app.domain.model.care.PayPeriod

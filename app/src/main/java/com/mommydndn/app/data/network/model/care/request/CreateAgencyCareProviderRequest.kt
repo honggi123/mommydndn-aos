@@ -2,24 +2,24 @@ package com.mommydndn.app.data.network.model.care.request
 
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeSerializer
-import com.mommydndn.app.data.model.location.EmdItem
+import com.mommydndn.app.data.network.model.common.LocationApiModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class CreateAgencyCareProviderRequest(
-    @SerialName("caringTypeCodeList")
-    val careTypeList: List<@Serializable(with = CaringTypeSerializer::class) CaringType>,
     @SerialName("emd")
-    val emd: EmdItem,
+    val workingNeighborhood: LocationApiModel,
     @SerialName("comOtherConditionIdList")
-    val comOtherConditionIdList: List<Int>,
+    val agencyOtherConditionIdList: List<Int>,
     @SerialName("introLine")
     val introduction: String,
     @SerialName("minMonthlySalary")
-    val minMonthlySalary: Int,
+    val minSalary: Int,
     @SerialName("maxMonthlySalary")
-    val maxMonthlySalary: Int,
+    val maxSalary: Int,
+    @SerialName("caringTypeCodeList")
+    val careTypeList: List<@Serializable(with = CaringTypeSerializer::class) CaringType>,
     val coverImageIdList: List<Int>,
     val commission: Int,
     val latitude: Double?,

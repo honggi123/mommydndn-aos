@@ -1,9 +1,9 @@
 package com.mommydndn.app.data.network.model.care.request
 
 import com.mommydndn.app.data.model.care.SortingType
-import com.mommydndn.app.data.network.model.care.response.CareTypeSerializer
-import com.mommydndn.app.data.network.model.care.response.DayOfWeekSerializer
-import com.mommydndn.app.data.network.model.care.response.WorkPeriodSerializer
+import com.mommydndn.app.data.network.model.care.response.deprecated.CareTypeSerializer
+import com.mommydndn.app.data.network.model.care.response.deprecated.DayOfWeekSerializer
+import com.mommydndn.app.data.network.model.care.response.deprecated.WorkPeriodSerializer
 import com.mommydndn.app.domain.model.care.CareType
 import com.mommydndn.app.domain.model.care.WorkPeriod
 import kotlinx.serialization.SerialName

@@ -1,59 +1,78 @@
 package com.mommydndn.app.data.network.model.location.response
 
+import com.mommydndn.app.data.network.model.common.MetaApiModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class AddressResponse(
-    @SerialName("meta") val meta: MetaData,
-    @SerialName("documents") val documents: List<AddressDocument>
+data class GetAddressResponse(
+    @SerialName("documents")
+    val documents: List<AddressDocumentApiModel>,
+    @SerialName("meta")
+    val meta: MetaApiModel
 )
 
 @Serializable
-data class MetaData(
-    @SerialName("total_count") val totalCount: Int,
-    @SerialName("pageable_count") val pageableCount: Int,
-    @SerialName("is_end") val isEnd: Boolean
+data class AddressDocumentApiModel(
+    @SerialName("address_name")
+    val addressName: String,
+    @SerialName("address_type")
+    val addressType: String,
+    val address: AddressApiModel,
+    @SerialName("road_address")
+    val roadAddress: RoadAddressApiModel?,
+    val y: String,
+    val x: String,
 )
 
 @Serializable
-data class AddressDocument(
-    @SerialName("address_name") val addressName: String,
-    @SerialName("y") val y: String,
-    @SerialName("x") val x: String,
-    @SerialName("address_type") val addressType: String,
-    @SerialName("address") val address: Address,
-    @SerialName("road_address") val roadAddress: RoadAddress?
+data class AddressApiModel(
+    @SerialName("address_name")
+    val addressName: String,
+    @SerialName("region_1depth_name")
+    val region1DepthName: String,
+    @SerialName("region_2depth_name")
+    val region2DepthName: String,
+    @SerialName("region_3depth_name")
+    val region3DepthName: String,
+    @SerialName("region_3depth_h_name")
+    val region3DepthHName: String,
+    @SerialName("h_code")
+    val hCode: String,
+    @SerialName("b_code")
+    val bCode: String,
+    @SerialName("mountain_yn")
+    val mountainYN: String,
+    @SerialName("main_address_no")
+    val mainAddressNo: String,
+    @SerialName("sub_address_no")
+    val subAddressNo: String,
+    val x: String,
+    val y: String
 )
 
 @Serializable
-data class Address(
-    @SerialName("address_name") val addressName: String,
-    @SerialName("region_1depth_name") val region1DepthName: String,
-    @SerialName("region_2depth_name") val region2DepthName: String,
-    @SerialName("region_3depth_name") val region3DepthName: String,
-    @SerialName("region_3depth_h_name") val region3DepthHName: String,
-    @SerialName("h_code") val hCode: String,
-    @SerialName("b_code") val bCode: String,
-    @SerialName("mountain_yn") val mountainYN: String,
-    @SerialName("main_address_no") val mainAddressNo: String,
-    @SerialName("sub_address_no") val subAddressNo: String,
-    @SerialName("x") val x: String,
-    @SerialName("y") val y: String
-)
-
-@Serializable
-data class RoadAddress(
-    @SerialName("address_name") val addressName: String,
-    @SerialName("region_1depth_name") val region1DepthName: String,
-    @SerialName("region_2depth_name") val region2DepthName: String,
-    @SerialName("region_3depth_name") val region3DepthName: String,
-    @SerialName("road_name") val roadName: String,
-    @SerialName("underground_yn") val undergroundYN: String,
-    @SerialName("main_building_no") val mainBuildingNo: String,
-    @SerialName("sub_building_no") val subBuildingNo: String,
-    @SerialName("building_name") val buildingName: String,
-    @SerialName("zone_no") val zoneNo: String,
-    @SerialName("x") val x: String,
-    @SerialName("y") val y: String
+data class RoadAddressApiModel(
+    @SerialName("address_name")
+    val addressName: String,
+    @SerialName("region_1depth_name")
+    val region1DepthName: String,
+    @SerialName("region_2depth_name")
+    val region2DepthName: String,
+    @SerialName("region_3depth_name")
+    val region3DepthName: String,
+    @SerialName("road_name")
+    val roadName: String,
+    @SerialName("underground_yn")
+    val undergroundYN: String,
+    @SerialName("main_building_no")
+    val mainBuildingNo: String,
+    @SerialName("sub_building_no")
+    val subBuildingNo: String,
+    @SerialName("building_name")
+    val buildingName: String,
+    @SerialName("zone_no")
+    val zoneNo: String,
+    val x: String,
+    val y: String
 )

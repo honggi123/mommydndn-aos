@@ -2,41 +2,33 @@ package com.mommydndn.app.data.network.model.care.response
 
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeSerializer
+import com.mommydndn.app.data.network.model.common.MetaApiModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class GetAgencyCareProviderSummaryListResponse(
     @SerialName("companySummaryList")
-    val items: List<CompanySummaryListItem>,
+    val items: List<AgencyCareProviderSummaryApiModel>,
     @SerialName("meta")
-    val meta: Meta
+    val meta: MetaApiModel
 )
 
 @Serializable
-data class CompanySummaryListItem(
+data class AgencyCareProviderSummaryApiModel(
     @SerialName("companyId")
-    val companyId: Int,
-    @SerialName("authorId")
-    val authorId: Int,
-    @SerialName("nickname")
-    val nickname: String,
+    val id: Int,
     @SerialName("neighborhood")
-    val neighborhood: String,
-    @SerialName("profileUrl")
-    val profileUrl: String,
-    @SerialName("isDndnAuthenticated")
-    val isDndnAuthenticated: Boolean,
-    @SerialName("dndnScore")
-    val dndnScore: Double,
+    val neighborhoodName: String,
     @SerialName("caringTypeCodeList")
-    val caringTypeCodeList: List<@Serializable(with = CaringTypeSerializer::class) CaringType>,
-    @SerialName("matchingCount")
+    val careTypeList: List<@Serializable(with = CaringTypeSerializer::class) CaringType>,
     val matchingCount: Int,
-    @SerialName("reviewCount")
     val reviewCount: Int,
-    @SerialName("responseRate")
     val responseRate: String,
-    @SerialName("isLiked")
-    val isLiked: Boolean
+    val isLiked: Boolean,
+    val dndnScore: Double,
+    val authorId: Int,
+    val nickname: String,
+    val profileUrl: String,
+    val isDndnAuthenticated: Boolean
 )

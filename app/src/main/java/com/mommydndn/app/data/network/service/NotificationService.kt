@@ -5,6 +5,4 @@ import retrofit2.http.GET
 
 interface NotificationService {
 
-    @GET("/api/notice/setting")
-    suspend fun fetchUserNotificationSettings(): GetNotificationSettingListResponse
 }

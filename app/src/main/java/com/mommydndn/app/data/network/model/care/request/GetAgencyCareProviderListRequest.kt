@@ -3,15 +3,12 @@ package com.mommydndn.app.data.network.model.care.request
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeSerializer
 import com.mommydndn.app.data.model.care.SortingType
+import com.mommydndn.app.data.network.model.common.PaginationApiModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class GetAgencyCareProviderListRequest(
-    @SerialName("keyword")
-    val keyword: String?,
-    @SerialName("paginationRequest")
-    val paginationRequest: AgencyCareProviderPaginationRequest,
     @SerialName("sortingCondition")
     val sortingType: SortingType,
     @SerialName("emdId")
@@ -23,15 +20,9 @@ data class GetAgencyCareProviderListRequest(
     @SerialName("minMonthlySalary")
     val minMonthlySalary: Int?,
     @SerialName("maxMonthlySalary")
-    val maxMonthlySalary: Int?
+    val maxMonthlySalary: Int?,
+    @SerialName("paginationRequest")
+    val pageMeta: PaginationApiModel,
+    val keyword: String?
 )
 
-@Serializable
-data class AgencyCareProviderPaginationRequest(
-    @SerialName("pageNum")
-    val pageNum: Int,
-    @SerialName("pageSize")
-    val pageSize: Int,
-    @SerialName("requestTimestamp")
-    val requestTimestamp: Long
-)

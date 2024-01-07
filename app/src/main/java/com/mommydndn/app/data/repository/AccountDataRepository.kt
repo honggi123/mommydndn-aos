@@ -2,11 +2,11 @@ package com.mommydndn.app.data.repository
 
 import com.mommydndn.app.BuildConfig
 import com.mommydndn.app.data.network.model.auth.request.GetGoogleAccessTokenRequest
-import com.mommydndn.app.data.network.model.auth.request.SignInRequest
-import com.mommydndn.app.data.network.model.auth.request.SignUpRequest
+import com.mommydndn.app.data.network.model.user.request.SignInRequest
+import com.mommydndn.app.data.network.model.user.request.SignUpRequest
 import com.mommydndn.app.data.network.model.auth.request.GetGoogleAccessTokenResponse
 import com.mommydndn.app.data.network.model.user.response.SignInResponse
-import com.mommydndn.app.data.network.service.AuthenticationService
+import com.mommydndn.app.data.network.service.AuthService
 import com.mommydndn.app.data.network.service.GoogleApiService
 import com.mommydndn.app.data.preferences.TokenManager
 import com.mommydndn.app.domain.model.user.OAuthProvider
@@ -15,7 +15,7 @@ import com.mommydndn.app.domain.repository.AccountRepository
 import javax.inject.Inject
 
 class AccountDataRepository @Inject constructor(
-    private val authenticationService: AuthenticationService,
+    private val authService: AuthService,
     private val googleApiService: GoogleApiService,
     private val tokenManager: TokenManager
 ) : AccountRepository {
@@ -25,7 +25,7 @@ class AccountDataRepository @Inject constructor(
         OAuthProvider: OAuthProvider
     ): SignInResponse {
 
-        val response = authenticationService
+        val response = authService
             .login(
                 SignInRequest(
                     accessToken = acessToken,
@@ -41,7 +41,7 @@ class AccountDataRepository @Inject constructor(
         oAuthType: OAuthProvider,
         userType: UserType,
         emdId: Int
-    ) = authenticationService.signUp(
+    ) = authService.signUp(
         SignUpRequest(
             accessToken = accessToken,
             oauthProvider = oAuthType.name,

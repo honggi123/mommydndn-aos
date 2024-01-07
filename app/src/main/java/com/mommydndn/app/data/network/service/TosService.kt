@@ -9,6 +9,6 @@ import retrofit2.http.POST
 interface TosService {
 
     @GET("/api/terms")
-    suspend fun getTermsOfService(): GetTosListResponse
+    suspend fun getTosList(): GetTosListResponse
 
 }

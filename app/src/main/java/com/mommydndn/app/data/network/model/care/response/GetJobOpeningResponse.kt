@@ -7,99 +7,83 @@ import com.mommydndn.app.data.model.care.EtcConditionType
 import com.mommydndn.app.data.model.care.EtcConditionTypeSerializer
 import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.SalaryTypeSerializer
-import com.mommydndn.app.data.network.model.common.GetImageIdResponse
+import com.mommydndn.app.data.network.model.common.LocationApiModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+// TODO
 @Serializable
 data class GetJobOpeningResponse(
-    @SerialName("applicantCount")
-    val applicantCount: Int,
-    @SerialName("caringTypeCodeList")
-    val caringTypeCodeList: List<@Serializable(with = CaringTypeSerializer::class) CaringType>,
-    @SerialName("content")
-    val content: String,
-    @SerialName("createdAt")
-    val createdAt: Long,
+    @SerialName("jobOfferId")
+    val id: Int,
+    @SerialName("emd")
+    val workingNeighborhood: LocationApiModel,
     @SerialName("days")
-    val days: List<String>?,
+    val daysOfWeek: List<String>?,
+    @SerialName("startDate")
+    val startDate: Long?,
     @SerialName("endDate")
     val endDate: Long?,
     @SerialName("endTime")
     val endTime: String?,
-    @SerialName("hits")
-    val hits: Int,
-    @SerialName("imageList")
-    val imageList: List<GetImageIdResponse>,
-    @SerialName("indOtherConditionCodeList")
-    val indOtherConditionCodeList: List<@Serializable(with = EtcConditionTypeSerializer::class) EtcConditionType>,
-    @SerialName("isClosed")
-    val isClosed: Boolean,
-    @SerialName("isLiked")
-    val isLiked: Boolean,
-    @SerialName("jobOfferAuthor")
-    val jobOfferAuthor: JobOfferAuthor,
-    @SerialName("jobOfferId")
-    val jobOfferId: Int,
-    @SerialName("latitude")
-    val latitude: Double,
-    @SerialName("likeCount")
-    val likeCount: Int,
-    @SerialName("longitude")
-    val longitude: Double,
-    @SerialName("salary")
-    val salary: Int?,
-    @Serializable(with = SalaryTypeSerializer::class)
-    @SerialName("salaryTypeCode")
-    val salaryTypeCode: SalaryType,
-    @SerialName("startDate")
-    val startDate: Long?,
     @SerialName("startTime")
     val startTime: String?,
-    @SerialName("title")
-    val title: String
+    @SerialName("jobOfferAuthor")
+    val jobOpeningAuthor: JobOpeningAuthorApiModel,
+    @SerialName("hits")
+    val views: Int,
+    @SerialName("salary")
+    val pay: Int?,
+    @Serializable(with = SalaryTypeSerializer::class)
+    @SerialName("salaryTypeCode")
+    val salaryType: SalaryType,
+    @SerialName("caringTypeCodeList")
+    val careTypes: List<@Serializable(with = CaringTypeSerializer::class) CaringType>,
+    @SerialName("indOtherConditionCodeList")
+    val indOtherConditionCodeList: List<@Serializable(with = EtcConditionTypeSerializer::class) EtcConditionType>,
+    val title: String,
+    val content: String,
+    val createdAt: Long,
+    val applicantCount: Int,
+    val isClosed: Boolean,
+    val isLiked: Boolean,
+    val latitude: Double,
+    val likeCount: Int,
+    val longitude: Double,
+    val imageList: List<ImageApiModel>
 )
 
 @Serializable
-data class JobOfferAuthor(
-    @SerialName("certificationName")
+data class JobOpeningAuthorApiModel(
     val certificationName: String?,
-    @SerialName("createdAt")
     val createdAt: Long,
-    @SerialName("dndnScore")
     val dndnScore: Double,
-    @SerialName("isDnDnAuthenticated")
     val isDnDnAuthenticated: Boolean,
-    @SerialName("latestReview")
-    val latestReview: LatestReview?,
-    @SerialName("matchingCount")
+    val latestReview: LatestReviewApiModel?,
     val matchingCount: Int,
-    @SerialName("neighborhood")
     val neighborhood: String,
-    @SerialName("nickname")
     val nickname: String,
-    @SerialName("profileUrl")
     val profileUrl: String?,
-    @SerialName("responseRate")
     val responseRate: String,
-    @SerialName("reviewCount")
     val reviewCount: Int,
-    @SerialName("userId")
     val userId: Int
 )
 
 @Serializable
-data class LatestReview(
+data class LatestReviewApiModel(
     @SerialName("caringReviewId")
-    val caringReviewId: Int,
+    val id: Int,
     @SerialName("caringTypeCodeList")
-    val caringTypeCodeList: List<String>,
-    @SerialName("content")
+    val careTypeList: List<String>,
     val content: String,
-    @SerialName("createdAt")
     val createdAt: Long,
-    @SerialName("nickname")
     val nickname: String,
-    @SerialName("rate")
     val rate: Double
+)
+
+@Serializable
+data class ImageApiModel(
+    @SerialName("imageId")
+    val id: Int,
+    val url: String
 )

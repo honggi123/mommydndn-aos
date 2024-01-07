@@ -9,17 +9,19 @@ import com.mommydndn.app.domain.model.care.JobOffer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-typealias GetNearestJobOpeningListResponse = List<GetNearestJobOfferResponse>
+typealias GetNearestJobOpeningListResponse = List<NearestJobOpeningApiModel>
 
 @Serializable
-data class GetNearestJobOfferResponse(
+data class NearestJobOpeningApiModel(
+    @SerialName("jobOfferId")
+    val id: Int,
+    @SerialName("neighborhood")
+    val neighborhoodName: String,
     @Serializable(with = SalaryTypeSerializer::class)
     val salaryTypeCode: SalaryType,
     @Serializable(with = CaringTypeSerializer::class)
     @SerialName("caringTypeCode")
-    val caringTypeCode: CaringType,
-    val jobOfferId: Int,
-    val neighborhood: String,
+    val careType: CaringType,
     val salary: Int,
     val title: String
 )
@@ -28,10 +30,10 @@ fun GetNearestJobOpeningListResponse.toDomain(): List<JobOffer> {
     return this.map {
         JobOffer(
             title = it.title,
-            neighborhood = it.neighborhood,
+            neighborhood = it.neighborhoodName,
             salary = it.salary,
             salaryType = it.salaryTypeCode,
-            caringType = it.caringTypeCode
+            caringType = it.careType
         )
     }
 }

@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetMinHourlyWageResponse(
+data class GetMinimumWageResponse(
     @SerialName("minHourlySalary")
-    val minHourlyWage: Int
+    val minWage: Int
 )

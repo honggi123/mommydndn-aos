@@ -8,6 +8,7 @@ import com.mommydndn.app.data.model.care.WorkPeriodType
 import com.mommydndn.app.data.model.care.WorkPeriodTypeSerializer
 import com.mommydndn.app.data.model.common.DayOfWeekType
 import com.mommydndn.app.data.model.common.DayOfWeekTypeSerializer
+import com.mommydndn.app.data.network.model.common.PaginationApiModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -15,34 +16,23 @@ typealias GetJobOpeningListRequest = List<GetJobOpeningRequest>
 
 @Serializable
 data class GetJobOpeningRequest(
-    @SerialName("caringTypeCodeList")
-    val caringTypeCodeList: List<@Serializable(with = CaringTypeSerializer::class) CaringType>,
-    @SerialName("days")
-    val days: List<@Serializable(with = DayOfWeekTypeSerializer::class) DayOfWeekType>,
     @SerialName("emdId")
-    val emdId: Int,
-    @SerialName("endTime")
-    val endTime: String?,
-    @SerialName("keyword")
-    val keyword: String?,
-    @SerialName("neighborhoodScope")
-    val neighborhoodScope: Int,
-    @SerialName("paginationRequest")
-    val paginationRequest: GetJobOpeningRequestPaginationRequest,
+    val currentNeighborhhoodId: Int,
     @SerialName("sortingCondition")
-    val sortingCondition: SortingType,
+    val sortingType: SortingType,
     @SerialName("startTime")
     val startTime: String?,
+    @SerialName("endTime")
+    val endTime: String?,
+    @SerialName("paginationRequest")
+    val pageMeta: PaginationApiModel,
+    @SerialName("caringTypeCodeList")
+    val careTypes: List<@Serializable(with = CaringTypeSerializer::class) CaringType>,
+    @SerialName("days")
+    val daysOfWeek: List<@Serializable(with = DayOfWeekTypeSerializer::class) DayOfWeekType>,
     @SerialName("taskTypeCodeList")
-    val taskTypeCodeList: List<@Serializable(with = WorkPeriodTypeSerializer::class) WorkPeriodType>
+    val workPeriodTypes: List<@Serializable(with = WorkPeriodTypeSerializer::class) WorkPeriodType>,
+    val keyword: String?,
+    val neighborhoodScope: Int
 )
 
-@Serializable
-data class GetJobOpeningRequestPaginationRequest(
-    @SerialName("pageNum")
-    val pageNum: Int,
-    @SerialName("pageSize")
-    val pageSize: Int,
-    @SerialName("requestTimestamp")
-    val requestTimestamp: Long
-)

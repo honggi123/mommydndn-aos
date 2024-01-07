@@ -1,16 +1,9 @@
-package com.mommydndn.app.data.network.model.location.response
+package com.mommydndn.app.data.network.model.common
 
 import com.mommydndn.app.domain.model.location.Neighborhood
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-
 @Serializable
-data class GetNearestNeighborhoodListResponse(
-    @SerialName("emdList")
-    val neighborhoodList: List<EmdItemResponse>
-)
-@Serializable
-data class EmdItemResponse(
+data class LocationApiModel(
     val id: Int,
     val name: String,
     val sigName: String,
@@ -18,7 +11,11 @@ data class EmdItemResponse(
     val fullName: String
 )
 
-fun EmdItemResponse.toDomain() : Neighborhood {
+fun LocationApiModel.displayName(): String {
+    return this.fullName
+}
+
+fun LocationApiModel.toDomain() : Neighborhood {
     return Neighborhood(
         id = id,
         name = name,

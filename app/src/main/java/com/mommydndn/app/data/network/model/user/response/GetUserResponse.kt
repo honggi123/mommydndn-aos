@@ -10,7 +10,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class GetUserResponse(
-    @SerialName("age")
     val age: Int?,
     @SerialName("caringReviewList")
     val caringReviewList: List<CaringReview>,
