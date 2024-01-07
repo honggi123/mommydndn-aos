@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.ui.theme.Grey700
-import com.mommydndn.app.ui.theme.typography
+import com.mommydndn.app.ui.theme.Typography
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption100
 
@@ -66,7 +66,7 @@ fun SittingCategory(
             text = caringType.value,
             color = Grey700,
             textAlign = TextAlign.Center,
-            style = typography.caption100.copy(
+            style = Typography.caption100.copy(
                 color = Grey700,
                 fontWeight = FontWeight.Normal
             ),

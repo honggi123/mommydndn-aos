@@ -47,16 +47,15 @@ import com.mommydndn.app.feature.care.filters.CareFilter
 import com.mommydndn.app.feature.care.filters.CareOrderBy
 import com.mommydndn.app.feature.care.filters.CareTypesFilter
 import com.mommydndn.app.feature.care.filters.DaysOfWeekFilter
-import com.mommydndn.app.feature.care.filters.NeighborhoodsFilter
+import com.mommydndn.app.feature.care.filters.NeighborhoodFilter
 import com.mommydndn.app.feature.care.filters.WorkHoursFilter
 import com.mommydndn.app.feature.care.filters.WorkPeriodFilter
 import com.mommydndn.app.feature.care.filters.displayName
-import com.mommydndn.app.feature.care.filters.modal.NeighborhoodsFilterModalBottomSheet
-import com.mommydndn.app.feature.care.jobopening.CareJobOpeningListFragment
+import com.mommydndn.app.feature.care.jobopening.CareJobOpeningList
 import com.mommydndn.app.feature.care.jobopening.CareJobOpeningListItem
 import com.mommydndn.app.feature.care.jobopening.mockCareJobOpeningListItems
-import com.mommydndn.app.ui.components.tab.MediumTab
 import com.mommydndn.app.ui.components.chip.FilterChip
+import com.mommydndn.app.ui.components.tab.MediumTab
 import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.GreyOpacity400
 import com.mommydndn.app.ui.theme.heading600
@@ -188,7 +187,7 @@ private fun CareScreen(
                         .padding(vertical = 12.dp),
                 )
 
-                CareJobOpeningListFragment(
+                CareJobOpeningList(
                     items = jobOpeningListItems,
                     modifier = Modifier.fillMaxSize(),
                 )
@@ -305,14 +304,7 @@ private fun CareFilterModalBottomSheet(
     onFilterUpdated: (CareFilter<*>) -> Unit,
 ) {
     when (selectedFilter) {
-        is NeighborhoodsFilter -> {
-            NeighborhoodsFilterModalBottomSheet(
-                filter = selectedFilter,
-                onCloseClick = onCloseClick,
-                onUpdateClick = onFilterUpdated,
-                modifier = Modifier,
-            )
-        }
+        is NeighborhoodFilter -> TODO()
         is CareTypesFilter -> TODO()
         is DaysOfWeekFilter -> TODO()
         is WorkHoursFilter -> TODO()
@@ -340,7 +332,7 @@ private fun CareScreenPreview() {
         orderBy = CareOrderBy.LATEST,
         onOrderClick = {},
         filters = buildList {
-            add(NeighborhoodsFilter(neighborhood = fakeNeighborhood))
+            add(NeighborhoodFilter(neighborhood = fakeNeighborhood))
             add(CareTypesFilter())
             add(DaysOfWeekFilter())
             add(WorkHoursFilter())

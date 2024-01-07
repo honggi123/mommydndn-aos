@@ -39,7 +39,7 @@ import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.ui.theme.shadow700
-import com.mommydndn.app.ui.theme.typography
+import com.mommydndn.app.ui.theme.Typography
 import com.mommydndn.app.utils.DateTimeUtils
 
 @Composable
@@ -129,7 +129,7 @@ fun TimeBottomModal(
                 WheelTimePicker(
                     timeFormat = TimeFormat.AM_PM,
                     size = DpSize(220.dp, 140.dp),
-                    textStyle = typography.paragraph300.copy(
+                    textStyle = Typography.paragraph300.copy(
                         color = Grey700,
                         fontWeight = FontWeight.Bold
                     ),

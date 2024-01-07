@@ -141,7 +141,7 @@ internal fun RangeBox(
 
 @Preview
 @Composable
-private fun PreviewRangeBox_NoValues() {
+private fun RangeBoxNoValuePreview() {
     RangeBox(
         label = "시간",
         option1Hint = "시작시간",
@@ -156,7 +156,7 @@ private fun PreviewRangeBox_NoValues() {
 
 @Preview
 @Composable
-private fun PreviewRangeBox_WithValues() {
+private fun RangeBoxValuesPreview() {
     RangeBox(
         label = "시간",
         option1Hint = "시작시간",
@@ -173,7 +173,7 @@ private fun PreviewRangeBox_WithValues() {
 
 @Preview
 @Composable
-private fun PreviewRangeBox_WithValue() {
+private fun RangeBoxSingleValuePreview() {
     RangeBox(
         label = "시간",
         option1Hint = "시작시간",

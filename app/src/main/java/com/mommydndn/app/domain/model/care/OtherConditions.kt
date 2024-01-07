@@ -5,6 +5,6 @@ enum class OtherOption {
     CCTV,
     Occupancy,
     NonSmoker,
-    Atheism,
+    NoReligion,
     AS
 }

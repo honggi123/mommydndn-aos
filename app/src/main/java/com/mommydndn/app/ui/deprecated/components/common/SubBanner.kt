@@ -61,7 +61,7 @@ fun SubBanner(
     ) {
         Row {
             Image(
-                painter = painterResource(id = R.drawable.ic_heartletter),
+                painter = painterResource(id = R.drawable.icon_heart_letter),
                 contentDescription = null
             )
             Spacer(modifier = Modifier.padding(24.dp))

@@ -15,7 +15,7 @@ import com.mommydndn.app.domain.usecase.user.GetNeighborhoodDistanceUseCase
 import com.mommydndn.app.domain.usecase.user.GetNeighborhoodUseCase
 import com.mommydndn.app.feature.care.filters.CareFilter
 import com.mommydndn.app.feature.care.filters.CareOrderBy
-import com.mommydndn.app.feature.care.filters.NeighborhoodsFilter
+import com.mommydndn.app.feature.care.filters.NeighborhoodFilter
 import com.mommydndn.app.utils.result.data
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -78,7 +78,7 @@ class CareViewModel @Inject constructor(
         MutableStateFlow<Map<Class<out CareFilter<*>>, CareFilter<*>>>(emptyMap())
 
     private val filters = neighborhood.filterNotNull()
-        .map { neighborhood -> NeighborhoodsFilter(neighborhood) }
+        .map { neighborhood -> NeighborhoodFilter(neighborhood) }
         .combine(_filters) { neighborhoodsFilter, filters ->
             filters
                 .toMutableMap()

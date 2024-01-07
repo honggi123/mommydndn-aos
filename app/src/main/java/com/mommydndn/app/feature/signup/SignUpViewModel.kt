@@ -52,6 +52,7 @@ class SignUpViewModel @Inject constructor(
 
     private val searchByQueryResult = query.filterNotNull()
         .filter { it.isNotEmpty() }
+        // TODO
         .debounce(500.milliseconds)
         .flatMapLatest { query -> searchNeighborhoodByQueryUseCase(query) }
         .conflate()
@@ -61,7 +62,7 @@ class SignUpViewModel @Inject constructor(
     private val searchByCoordinatesResult = coordinates.filterNotNull()
         .flatMapConcat { coordinates -> searchNeighborhoodByCoordinatesUseCase(coordinates) }
 
-    // TODO: 테스트
+    // TODO
     val searchResults = flowOf(searchByQueryResult, searchByCoordinatesResult)
         .flattenConcat()
         .filterIsInstance<Result.Success<PagingData<Neighborhood>>>()

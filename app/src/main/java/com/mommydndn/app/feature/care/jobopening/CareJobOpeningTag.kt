@@ -65,7 +65,7 @@ internal fun ClosedCareJobOpening(
 }
 
 @Composable
-private fun CareJobOpeningTag(
+internal fun CareJobOpeningTag(
     text: String,
     backgroundColor: Color,
     textColor: Color,
@@ -85,7 +85,7 @@ private fun CareJobOpeningTag(
 
 @Preview
 @Composable
-private fun PreviewCareJobOpeningTags() {
+private fun CareJobOpeningTagsPreview() {
     Row(horizontalArrangement = Arrangement.spacedBy(3.dp)) {
         CareJobOpeningWorkPeriod(
             workPeriod = WorkPeriod.REGULAR,
@@ -106,6 +106,6 @@ private fun PreviewCareJobOpeningTags() {
 
 @Preview
 @Composable
-private fun PreviewClosedCareJobOpeningTag() {
-    ClosedCareJobOpening(modifier = Modifier,)
+private fun ClosedCareJobOpeningTagPreview() {
+    ClosedCareJobOpening(modifier = Modifier)
 }

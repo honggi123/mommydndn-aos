@@ -31,15 +31,15 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mommydndn.app.R
 import com.mommydndn.app.domain.model.care.CareType
 import com.mommydndn.app.domain.model.care.WorkPeriod
-import com.mommydndn.app.feature.care.components.CareTypesPostField
 import com.mommydndn.app.feature.care.components.ContentTextField
-import com.mommydndn.app.feature.care.components.GetPhotosPostField
 import com.mommydndn.app.feature.care.components.PostDatePicker
 import com.mommydndn.app.feature.care.components.PostNextButton
 import com.mommydndn.app.feature.care.components.PostTopAppBar
 import com.mommydndn.app.feature.care.components.TitleTextField
-import com.mommydndn.app.feature.care.components.WorkDateTimesPostField
-import com.mommydndn.app.feature.care.components.WorkPlacePostField
+import com.mommydndn.app.feature.care.components.section.CareTypesPostSection
+import com.mommydndn.app.feature.care.components.section.GetPhotosPostSection
+import com.mommydndn.app.feature.care.components.section.WorkDateTimesPostSection
+import com.mommydndn.app.feature.care.components.section.WorkPlacePostSection
 import com.mommydndn.app.ui.theme.Grey300
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
@@ -272,9 +272,9 @@ internal fun PostCareJobOpeningScreen(
             }
 
             item {
-                CareTypesPostField(
+                CareTypesPostSection(
                     selectedCareTypes = careTypes,
-                    onClick = onCareTypeClick,
+                    onCareTypeClick = onCareTypeClick,
                     modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentHeight(),
@@ -282,7 +282,7 @@ internal fun PostCareJobOpeningScreen(
             }
 
             item {
-                WorkDateTimesPostField(
+                WorkDateTimesPostSection(
                     selectedWorkPeriod = workDateTimes.workPeriod,
                     onWorkPeriodSelected = onWorkPeriodSelected,
                     selectedDates = workDateTimes.dates,
@@ -307,7 +307,7 @@ internal fun PostCareJobOpeningScreen(
             }
 
             item {
-                WorkPlacePostField(
+                WorkPlacePostSection(
                     address = workPlace.address.orEmpty(),
                     onAddressClick = { /*TODO*/ },
                     modifier = Modifier
@@ -317,7 +317,7 @@ internal fun PostCareJobOpeningScreen(
             }
 
             item {
-                GetPhotosPostField(
+                GetPhotosPostSection(
                     uris = photoUris,
                     onPhotosChange = onPhotosChange,
                     onRemoveClick = onRemovePhotoClick,

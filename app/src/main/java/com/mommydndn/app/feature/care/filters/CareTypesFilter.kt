@@ -26,7 +26,6 @@ data class CareTypesFilter(
                     ""
                 }
 
-                @Suppress("SimplifiableCallChain")
                 careTypes.take(2)
                     .map { it.displayName() }
                     .joinToString(postfix = postfix)

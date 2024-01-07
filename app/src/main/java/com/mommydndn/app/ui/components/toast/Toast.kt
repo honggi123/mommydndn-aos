@@ -1,5 +1,6 @@
 package com.mommydndn.app.ui.components.toast
 
+import androidx.annotation.DrawableRes
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -24,7 +25,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -42,7 +42,7 @@ import kotlin.math.roundToInt
 
 @Composable
 fun Toast(
-    iconPainter: Painter,
+    @DrawableRes iconDrawableId: Int,
     message: String,
     modifier: Modifier = Modifier,
 ) {
@@ -66,7 +66,7 @@ fun Toast(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Icon(
-                painter = iconPainter,
+                painter = painterResource(id = iconDrawableId),
                 contentDescription = "Toast_Icon",
                 modifier = Modifier.size(24.dp),
                 tint = Color.Unspecified,
@@ -115,7 +115,7 @@ private fun Toast_Preview() {
             .background(White),
     ) {
         Toast(
-            iconPainter = painterResource(id = R.drawable.icon_hand_color),
+            iconDrawableId = R.drawable.icon_hand_color,
             message = "마미든든에 어서오세요!",
             modifier = Modifier.offset {
                 IntOffset(

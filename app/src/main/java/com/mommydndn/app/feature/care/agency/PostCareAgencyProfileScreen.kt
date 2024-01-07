@@ -18,16 +18,14 @@ import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
 import com.mommydndn.app.domain.model.care.CareType
 import com.mommydndn.app.domain.model.care.OtherOption
-import com.mommydndn.app.domain.model.user.NearbyNeighborhoods
-import com.mommydndn.app.domain.model.user.Neighborhood
-import com.mommydndn.app.domain.model.user.NeighborhoodDistance
-import com.mommydndn.app.feature.care.components.BioPostField
-import com.mommydndn.app.feature.care.components.CareTypesPostField
-import com.mommydndn.app.feature.care.components.GetPhotoPostField
-import com.mommydndn.app.feature.care.components.GetPhotosPostField
-import com.mommydndn.app.feature.care.components.NeighborhoodPostField
-import com.mommydndn.app.feature.care.components.OtherOptionsPostField
 import com.mommydndn.app.feature.care.components.PostTopAppBar
+import com.mommydndn.app.feature.care.components.section.BioPostSection
+import com.mommydndn.app.feature.care.components.section.CareTypesPostSection
+import com.mommydndn.app.feature.care.components.section.GetPhotoPostSection
+import com.mommydndn.app.feature.care.components.section.GetPhotosPostSection
+import com.mommydndn.app.feature.care.components.section.NeighborhoodPostSection
+import com.mommydndn.app.feature.care.components.section.NeighborhoodUiModel
+import com.mommydndn.app.feature.care.components.section.OtherOptionsPostSection
 import com.mommydndn.app.ui.theme.Grey300
 import com.mommydndn.app.ui.theme.Grey50
 import java.util.Collections
@@ -42,7 +40,7 @@ internal fun RegisterCareAgencyScreen(
     onProfilePhotoChange: (Uri?) -> Unit,
     bio: String,
     onBioChange: (String) -> Unit,
-    neighborhood: Neighborhood,
+    neighborhood: NeighborhoodUiModel,
     onNeighborhoodClick: () -> Unit,
     onNearbyNeighborhoodsClick: () -> Unit,
     careTypes: List<CareType>,
@@ -71,7 +69,7 @@ internal fun RegisterCareAgencyScreen(
             verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
             item {
-                GetPhotosPostField(
+                GetPhotosPostSection(
                     title = stringResource(R.string.cover_photo),
                     subtitle = stringResource(id = R.string.required),
                     uris = coverPhotoUris,
@@ -85,7 +83,7 @@ internal fun RegisterCareAgencyScreen(
             }
 
             item {
-                GetPhotoPostField(
+                GetPhotoPostSection(
                     uri = profilePhotoUri,
                     onPhotoChange = onProfilePhotoChange,
                     modifier = Modifier
@@ -95,7 +93,7 @@ internal fun RegisterCareAgencyScreen(
             }
 
             item {
-                BioPostField(
+                BioPostSection(
                     bio = bio,
                     onBioChange = onBioChange,
                     modifier = Modifier
@@ -105,7 +103,7 @@ internal fun RegisterCareAgencyScreen(
             }
 
             item {
-                NeighborhoodPostField(
+                NeighborhoodPostSection(
                     neighborhood = neighborhood,
                     onNeighborhoodClick = onNeighborhoodClick,
                     onNearbyNeighborhoodsClick = onNearbyNeighborhoodsClick,
@@ -116,9 +114,9 @@ internal fun RegisterCareAgencyScreen(
             }
 
             item {
-                CareTypesPostField(
+                CareTypesPostSection(
                     selectedCareTypes = careTypes,
-                    onClick = onCareTypeClick,
+                    onCareTypeClick = onCareTypeClick,
                     modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentHeight(),
@@ -126,7 +124,7 @@ internal fun RegisterCareAgencyScreen(
             }
 
             item {
-                OtherOptionsPostField(
+                OtherOptionsPostSection(
                     options = Collections.singletonList(OtherOption.AS),
                     selectedOptions = options,
                     onClick = onOptionClick,
@@ -141,7 +139,7 @@ internal fun RegisterCareAgencyScreen(
 
 @Preview
 @Composable
-private fun PostCareAgencyProfile_Preview() {
+private fun PostCareAgencyProfilePreview() {
     RegisterCareAgencyScreen(
         onCloseClick = {},
         coverPhotoUris = emptyList(),
@@ -151,19 +149,10 @@ private fun PostCareAgencyProfile_Preview() {
         onProfilePhotoChange = {},
         bio = "",
         onBioChange = {},
-        neighborhood = Neighborhood(
-            id = 0,
-            name = "",
-            address = "",
-            latitude = 0.0,
-            longitude = 0.0,
-            distance = NeighborhoodDistance.IMMEDIATE,
-            nearbyNeighborhoods = NearbyNeighborhoods(
-                immediateNeighborhoods = emptyList(),
-                nearbyNeighborhoods = emptyList(),
-                distantNeighborhoods = emptyList(),
-                veryDistantNeighborhoods = emptyList()
-            )
+        neighborhood = NeighborhoodUiModel(
+            name = "서초동",
+            address = "서울 서초구 서초중앙로 15",
+            nearbyNeighborhoodsCount = 24,
         ),
         onNeighborhoodClick = {},
         onNearbyNeighborhoodsClick = {},

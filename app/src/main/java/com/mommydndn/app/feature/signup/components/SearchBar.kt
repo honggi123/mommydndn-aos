@@ -1,6 +1,5 @@
 package com.mommydndn.app.feature.signup.components
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
@@ -58,11 +57,7 @@ internal fun SearchBar(
             contentDescription = "SearchBar_ArrowLeft",
             modifier = Modifier
                 .size(36.dp)
-                .clickable(
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = null,
-                    onClick = onBackClick,
-                ),
+                .clickable(onClick = onBackClick),
             tint = Grey400,
         )
 
@@ -88,8 +83,8 @@ internal fun SearchBar(
             singleLine = true,
             placeholder = {
                 Text(
-                    text = placeholderText, // todo: ex. 뒤로 짤림
-                    modifier = Modifier.weight(1F).border(1.dp, Color.Red),
+                    text = placeholderText, // TODO: ex. 뒤로 짤림
+                    modifier = Modifier.weight(1F),
                     color = Grey400,
                     maxLines = 1,
                     style = MaterialTheme.typography.paragraph300.merge(

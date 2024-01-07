@@ -3,7 +3,6 @@ package com.mommydndn.app.feature.home.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,7 +12,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,7 +21,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
@@ -41,22 +38,21 @@ internal fun BannerPager(
     banners: List<Banner>,
     modifier: Modifier = Modifier,
     pagerState: PagerState = rememberPagerState(),
-    ratio: Float = 1.95F, // TODO
+    // TODO
+    ratio: Float = 1.95F,
 ) {
     Box(modifier = modifier) {
         HorizontalPager(
             count = banners.size,
             modifier = Modifier
-                .aspectRatio(ratio)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .aspectRatio(ratio),
             state = pagerState,
         ) { page ->
             with(banners[page]) {
                 BannerContent(
                     imageUrl = imageUrl,
                     onClick = {
-                        // open_url
-                        url
                     },
                     modifier = Modifier,
                 )
@@ -93,44 +89,16 @@ private fun BannerContent(
         contentDescription = "BannerContent_Image",
         modifier = modifier
             .fillMaxSize()
-            .clickable(
-                interactionSource = remember {
-                    MutableInteractionSource()
-                },
-                indication = null,
-                onClick = onClick,
-            ),
+            .clickable(onClick = onClick),
         contentScale = ContentScale.FillWidth,
     )
 }
 
-
-@OptIn(ExperimentalPagerApi::class)
 @Preview
 @Composable
-private fun BannerPager_Preview() {
-    val banners = buildList {
-        add(
-            Banner(
-                id = 0,
-                imageUrl = "https://images.pexels.com/photos/11634900/pexels-photo-11634900.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-                url = ""
-            )
-        )
-        add(
-            Banner(
-                id = 1,
-                imageUrl = "https://images.pexels.com/photos/7050090/pexels-photo-7050090.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-                url = ""
-            )
-        )
-    }
-
-    val pagerState = rememberPagerState()
-
+private fun BannerPagerPreview() {
     BannerPager(
         banners = banners,
         modifier = Modifier,
-        pagerState = pagerState,
     )
 }
