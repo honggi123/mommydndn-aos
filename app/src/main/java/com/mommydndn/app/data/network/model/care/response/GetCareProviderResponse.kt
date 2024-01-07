@@ -1,6 +1,9 @@
 package com.mommydndn.app.data.network.model.care.response
 
 
+import com.mommydndn.app.data.network.model.care.CareTypeApiModel
+import com.mommydndn.app.data.network.model.care.IndividualOtherConditionApiModel
+import com.mommydndn.app.data.network.model.care.SalaryTypeApiModel
 import com.mommydndn.app.data.network.model.common.LocationApiModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -16,11 +19,11 @@ data class GetCareProviderResponse(
     @SerialName("jobSeekerAuthor")
     val writer: JobSeekerWriter,
     @SerialName("salaryTypeCode")
-    val salaryType: String,
+    val salaryType: SalaryTypeApiModel,
     @SerialName("caringTypeCodeList")
-    val careTypes: List<String>,
+    val careTypes: List<CareTypeApiModel>,
     @SerialName("indOtherConditionList")
-    val indOtherConditionList: List<String>,
+    val otherConditionList: List<IndividualOtherConditionApiModel>,
     val latitude: Int,
     val longitude: Int,
     val salary: Int,
@@ -59,11 +62,11 @@ data class ReviewApiModel(
 
 @Serializable
 data class CertificationApiModel(
+    @SerialName("userCertificationId")
+    val id: Int,
     @SerialName("certificationName")
     val certificationName: String,
     @SerialName("certificationTypeCode")
-    val certificationTypeCode: String,
-    @SerialName("userCertificationId")
-    val id: Int,
+    val certificationType: String,
     val updatedAt: Int
 )

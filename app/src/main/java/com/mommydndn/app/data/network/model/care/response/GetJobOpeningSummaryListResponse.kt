@@ -7,6 +7,9 @@ import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.SalaryTypeSerializer
 import com.mommydndn.app.data.model.common.DayOfWeekType
 import com.mommydndn.app.data.model.common.DayOfWeekTypeSerializer
+import com.mommydndn.app.data.network.model.care.CareTypeApiModel
+import com.mommydndn.app.data.network.model.care.DayOfWeekApiModel
+import com.mommydndn.app.data.network.model.care.SalaryTypeApiModel
 import com.mommydndn.app.data.network.model.common.MetaApiModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -15,7 +18,6 @@ import kotlinx.serialization.Serializable
 data class GetJobOpeningSummaryListResponse(
     @SerialName("jobOfferSummaryList")
     val items: List<JobOpeningSummaryApiModel>,
-    @SerialName("meta")
     val meta: MetaApiModel
 )
 
@@ -35,13 +37,12 @@ data class JobOpeningSummaryApiModel(
     val regularWorkStartTime: String?,
     @SerialName("endTime")
     val regularWorkEndTime: String?,
-    @Serializable(with = SalaryTypeSerializer::class)
     @SerialName("salaryTypeCode")
-    val salaryType: SalaryType,
+    val salaryType: SalaryTypeApiModel,
     @SerialName("days")
-    val daysOfWeek: List<@Serializable(with = DayOfWeekTypeSerializer::class) DayOfWeekType>,
+    val daysOfWeek: List<DayOfWeekApiModel>,
     @SerialName("caringTypeCodeList")
-    val careTypes: List<@Serializable(with = CaringTypeSerializer::class) CaringType>,
+    val careTypes: List<CareTypeApiModel>,
     val title: String,
     val isClosed: Boolean,
     val isLiked: Boolean,

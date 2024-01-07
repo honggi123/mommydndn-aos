@@ -8,18 +8,20 @@ import com.mommydndn.app.data.model.care.WorkPeriodType
 import com.mommydndn.app.data.model.care.WorkPeriodTypeSerializer
 import com.mommydndn.app.data.model.common.DayOfWeekType
 import com.mommydndn.app.data.model.common.DayOfWeekTypeSerializer
+import com.mommydndn.app.data.network.model.care.CareTypeApiModel
+import com.mommydndn.app.data.network.model.care.DayOfWeekApiModel
+import com.mommydndn.app.data.network.model.care.SortingTypeApiModel
+import com.mommydndn.app.data.network.model.care.WorkPeriodTypeApiModel
 import com.mommydndn.app.data.network.model.common.PaginationApiModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-typealias GetJobOpeningListRequest = List<GetJobOpeningRequest>
+typealias GetJobOpeningListRequest = List<JobOpeningRequestApiModel>
 
 @Serializable
-data class GetJobOpeningRequest(
+data class JobOpeningRequestApiModel(
     @SerialName("emdId")
     val currentNeighborhhoodId: Int,
-    @SerialName("sortingCondition")
-    val sortingType: SortingType,
     @SerialName("startTime")
     val startTime: String?,
     @SerialName("endTime")
@@ -27,11 +29,13 @@ data class GetJobOpeningRequest(
     @SerialName("paginationRequest")
     val pageMeta: PaginationApiModel,
     @SerialName("caringTypeCodeList")
-    val careTypes: List<@Serializable(with = CaringTypeSerializer::class) CaringType>,
+    val careTypes: List<CareTypeApiModel>,
     @SerialName("days")
-    val daysOfWeek: List<@Serializable(with = DayOfWeekTypeSerializer::class) DayOfWeekType>,
+    val daysOfWeek: List<DayOfWeekApiModel>,
     @SerialName("taskTypeCodeList")
-    val workPeriodTypes: List<@Serializable(with = WorkPeriodTypeSerializer::class) WorkPeriodType>,
+    val workPeriodTypes: List<WorkPeriodTypeApiModel>,
+    @SerialName("sortingCondition")
+    val sortingType: SortingTypeApiModel,
     val keyword: String?,
     val neighborhoodScope: Int
 )

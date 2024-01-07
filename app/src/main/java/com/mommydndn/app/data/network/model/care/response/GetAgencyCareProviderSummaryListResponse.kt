@@ -2,6 +2,7 @@ package com.mommydndn.app.data.network.model.care.response
 
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeSerializer
+import com.mommydndn.app.data.network.model.care.CareTypeApiModel
 import com.mommydndn.app.data.network.model.common.MetaApiModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -21,7 +22,7 @@ data class AgencyCareProviderSummaryApiModel(
     @SerialName("neighborhood")
     val neighborhoodName: String,
     @SerialName("caringTypeCodeList")
-    val careTypes: List<@Serializable(with = CaringTypeSerializer::class) CaringType>,
+    val careTypes: List<CareTypeApiModel>,
     val matchingCount: Int,
     val reviewCount: Int,
     val responseRate: String,
@@ -38,7 +39,7 @@ data class Review(
     @SerialName("caringReviewId")
     val id: Int,
     @SerialName("caringTypeCodeList")
-    val careTypes: List<String>,
+    val careTypes: List<CareTypeApiModel>,
     @SerialName("rate")
     val rate: Int,
     val content: String,

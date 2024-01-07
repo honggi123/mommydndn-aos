@@ -8,6 +8,10 @@ import com.mommydndn.app.data.model.care.WorkPeriodType
 import com.mommydndn.app.data.model.care.WorkPeriodTypeSerializer
 import com.mommydndn.app.data.model.common.DayOfWeekType
 import com.mommydndn.app.data.model.common.DayOfWeekTypeSerializer
+import com.mommydndn.app.data.network.model.care.CareTypeApiModel
+import com.mommydndn.app.data.network.model.care.DayOfWeekApiModel
+import com.mommydndn.app.data.network.model.care.SalaryTypeApiModel
+import com.mommydndn.app.data.network.model.care.WorkPeriodTypeApiModel
 import com.mommydndn.app.data.network.model.common.LocationApiModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -26,18 +30,16 @@ data class CreateJobOpeningRequest(
     val regularWorkEndTime: String?,
     @SerialName("emd")
     val workingNeighborhood: LocationApiModel,
-    @Serializable(with = SalaryTypeSerializer::class)
-    @SerialName("salaryTypeCode")
-    val salaryType: SalaryType,
     @SerialName("indOtherConditionIdList")
     val individualOtherConditionIdList: List<Int>,
-    @Serializable(with = WorkPeriodTypeSerializer::class)
     @SerialName("taskTypeCode")
-    val workPeriodType: WorkPeriodType,
+    val workPeriodType: WorkPeriodTypeApiModel,
     @SerialName("days")
-    val oneTimeWorkDaysOfWeek: List<@Serializable(with = DayOfWeekTypeSerializer::class) DayOfWeekType>?,
+    val oneTimeWorkDaysOfWeek: List<DayOfWeekApiModel>?,
     @SerialName("caringTypeCodeList")
-    val careTypes: List<@Serializable(with = CaringTypeSerializer::class) CaringType>,
+    val careTypes: List<CareTypeApiModel>,
+    @SerialName("salaryTypeCode")
+    val salaryType: SalaryTypeApiModel,
     val title: String,
     val content: String,
     val imageIdList: List<Int>,

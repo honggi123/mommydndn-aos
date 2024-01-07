@@ -7,6 +7,9 @@ import com.mommydndn.app.data.model.care.EtcConditionType
 import com.mommydndn.app.data.model.care.EtcConditionTypeSerializer
 import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.SalaryTypeSerializer
+import com.mommydndn.app.data.network.model.care.CareTypeApiModel
+import com.mommydndn.app.data.network.model.care.IndividualOtherConditionApiModel
+import com.mommydndn.app.data.network.model.care.SalaryTypeApiModel
 import com.mommydndn.app.data.network.model.common.LocationApiModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -37,13 +40,12 @@ data class GetJobOpeningResponse(
     val pay: Int?,
     @SerialName("imageList")
     val images: List<ImageApiModel>,
-    @Serializable(with = SalaryTypeSerializer::class)
     @SerialName("salaryTypeCode")
-    val salaryType: SalaryType,
+    val salaryType: SalaryTypeApiModel,
     @SerialName("caringTypeCodeList")
-    val careTypes: List<@Serializable(with = CaringTypeSerializer::class) CaringType>,
+    val careTypes: List<CareTypeApiModel>,
     @SerialName("indOtherConditionCodeList")
-    val indOtherConditionList: List<@Serializable(with = EtcConditionTypeSerializer::class) EtcConditionType>,
+    val indOtherConditionList: List<IndividualOtherConditionApiModel>,
     val title: String,
     val content: String,
     val createdAt: Long,
