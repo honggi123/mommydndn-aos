@@ -26,7 +26,7 @@ import com.mommydndn.app.ui.theme.paragraph300
 internal fun CheckboxListItem(
     checked: Boolean,
     onClick: () -> Unit,
-    name: String,
+    text: String,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -63,7 +63,7 @@ internal fun CheckboxListItem(
             )
 
             Text(
-                text = name,
+                text = text,
                 modifier = Modifier.weight(1F),
                 style = MaterialTheme.typography.paragraph300.copy(
                     color = Grey600,

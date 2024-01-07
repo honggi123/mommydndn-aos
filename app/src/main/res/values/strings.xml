@@ -27,7 +27,7 @@
     <string name="move_on">다음으로</string>
     <string name="search_by_current_location">현재 위치로 찾기</string>
     <string name="which_user_type_question">어떤 회원이신가요?</string>
-    <string name="company_user">업체 회원</string>
+    <string name="agency_user">업체 회원</string>
     <string name="indivisual_user">개인 회원</string>
     <string name="close">닫기</string>
     <string name="immediate_neighborhood">내 동네</string>

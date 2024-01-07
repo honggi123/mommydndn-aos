@@ -98,7 +98,7 @@ fun previewSquareButton() {
                 SquareButton(
                     modifier = Modifier.weight(1f),
                     imageResourceId = R.drawable.icon_building,
-                    text = stringResource(R.string.company_user),
+                    text = stringResource(R.string.agency_user),
                     onClick = { }
                 )
                 SquareButton(
