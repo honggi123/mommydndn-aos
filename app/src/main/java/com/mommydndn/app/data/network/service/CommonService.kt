@@ -11,7 +11,7 @@ import retrofit2.http.Part
 interface CommonService {
 
     @GET("/api/banner/home")
-    suspend fun getBanners(): GetBannerListResponse
+    suspend fun fetchBanners(): GetBannerListResponse
 
     @Multipart
     @POST("/api/image")

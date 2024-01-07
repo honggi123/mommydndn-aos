@@ -16,6 +16,12 @@ import retrofit2.http.PUT
 
 interface UserService {
 
+    @GET("/api/user")
+    suspend fun fetchUser(): GetUserResponse
+
+    @GET("/api/notice/setting")
+    suspend fun fetchNotificationSettings(): GetNotificationSettingListResponse
+
     @POST("/api/auth/login")
     suspend fun signIn(@Body request: SignInRequest): SignInResponse
 
@@ -31,10 +37,5 @@ interface UserService {
     @PUT("/api/user/profile-image")
     suspend fun updateProfileImage(@Body request: UpdateProfileImageRequest)
 
-    @GET("/api/user")
-    suspend fun getUser(): GetUserResponse
-
-    @GET("/api/notice/setting")
-    suspend fun getNotificationSettings(): GetNotificationSettingListResponse
 }
 

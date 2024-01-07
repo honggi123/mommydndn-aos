@@ -21,7 +21,7 @@ data class AgencyCareProviderSummaryApiModel(
     @SerialName("neighborhood")
     val neighborhoodName: String,
     @SerialName("caringTypeCodeList")
-    val careTypeList: List<@Serializable(with = CaringTypeSerializer::class) CaringType>,
+    val careTypes: List<@Serializable(with = CaringTypeSerializer::class) CaringType>,
     val matchingCount: Int,
     val reviewCount: Int,
     val responseRate: String,
@@ -31,4 +31,17 @@ data class AgencyCareProviderSummaryApiModel(
     val nickname: String,
     val profileUrl: String,
     val isDndnAuthenticated: Boolean
+)
+
+@Serializable
+data class Review(
+    @SerialName("caringReviewId")
+    val id: Int,
+    @SerialName("caringTypeCodeList")
+    val careTypes: List<String>,
+    @SerialName("rate")
+    val rate: Int,
+    val content: String,
+    val nickname: String,
+    val createdAt: String
 )

@@ -11,7 +11,6 @@ import com.mommydndn.app.data.network.model.common.LocationApiModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-// TODO
 @Serializable
 data class GetJobOpeningResponse(
     @SerialName("jobOfferId")
@@ -20,27 +19,31 @@ data class GetJobOpeningResponse(
     val workingNeighborhood: LocationApiModel,
     @SerialName("days")
     val daysOfWeek: List<String>?,
+    @SerialName("dateList")
+    val oneTimeWorkDateList: List<String>,
     @SerialName("startDate")
-    val startDate: Long?,
+    val regularWorkStartDate: Long?,
     @SerialName("endDate")
-    val endDate: Long?,
-    @SerialName("endTime")
-    val endTime: String?,
+    val regularWorkEndDate: Long?,
     @SerialName("startTime")
-    val startTime: String?,
+    val regularWorkStartTime: String?,
+    @SerialName("endTime")
+    val regularWorkEndTime: String?,
     @SerialName("jobOfferAuthor")
-    val jobOpeningAuthor: JobOpeningAuthorApiModel,
+    val writer: JobOpeningWriterApiModel,
     @SerialName("hits")
     val views: Int,
     @SerialName("salary")
     val pay: Int?,
+    @SerialName("imageList")
+    val images: List<ImageApiModel>,
     @Serializable(with = SalaryTypeSerializer::class)
     @SerialName("salaryTypeCode")
     val salaryType: SalaryType,
     @SerialName("caringTypeCodeList")
     val careTypes: List<@Serializable(with = CaringTypeSerializer::class) CaringType>,
     @SerialName("indOtherConditionCodeList")
-    val indOtherConditionCodeList: List<@Serializable(with = EtcConditionTypeSerializer::class) EtcConditionType>,
+    val indOtherConditionList: List<@Serializable(with = EtcConditionTypeSerializer::class) EtcConditionType>,
     val title: String,
     val content: String,
     val createdAt: Long,
@@ -49,24 +52,24 @@ data class GetJobOpeningResponse(
     val isLiked: Boolean,
     val latitude: Double,
     val likeCount: Int,
-    val longitude: Double,
-    val imageList: List<ImageApiModel>
+    val longitude: Double
 )
 
 @Serializable
-data class JobOpeningAuthorApiModel(
+data class JobOpeningWriterApiModel(
+    @SerialName("neighborhood")
+    val neighborhoodName: String,
+    val userId: Int,
     val certificationName: String?,
     val createdAt: Long,
     val dndnScore: Double,
     val isDnDnAuthenticated: Boolean,
     val latestReview: LatestReviewApiModel?,
     val matchingCount: Int,
-    val neighborhood: String,
     val nickname: String,
     val profileUrl: String?,
     val responseRate: String,
     val reviewCount: Int,
-    val userId: Int
 )
 
 @Serializable
@@ -76,9 +79,9 @@ data class LatestReviewApiModel(
     @SerialName("caringTypeCodeList")
     val careTypeList: List<String>,
     val content: String,
-    val createdAt: Long,
     val nickname: String,
-    val rate: Double
+    val rate: Double,
+    val createdAt: Long
 )
 
 @Serializable

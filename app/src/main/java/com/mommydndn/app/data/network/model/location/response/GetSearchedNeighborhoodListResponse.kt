@@ -6,9 +6,8 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetSearchLocationsResponse(
+data class GetSearchedNeighborhoodListResponse(
     @SerialName("emdList")
-    val locations: List<LocationApiModel>,
-    @SerialName("meta")
+    val items: List<LocationApiModel>,
     val meta: MetaApiModel
 )
