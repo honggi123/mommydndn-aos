@@ -1,11 +1,12 @@
 package com.mommydndn.app.data.network.model.care.response
 
 
+import com.mommydndn.app.data.network.model.care.AgencyOtherConditionApiModel
+import com.mommydndn.app.data.network.model.care.CareTypeApiModel
 import com.mommydndn.app.data.network.model.common.LocationApiModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-// TODO
 @Serializable
 data class GetAgencyCareProviderResponse(
     @SerialName("companyId")
@@ -15,7 +16,7 @@ data class GetAgencyCareProviderResponse(
     @SerialName("coverImageList")
     val coverImages: List<AgencyCareProviderCoverImageApiModel>,
     @SerialName("emd")
-    val neighborhhod: LocationApiModel,
+    val neighborhood: LocationApiModel,
     @SerialName("introLine")
     val introduction: String,
     @SerialName("maxMonthlySalary")
@@ -23,9 +24,9 @@ data class GetAgencyCareProviderResponse(
     @SerialName("minMonthlySalary")
     val minSalary: Int,
     @SerialName("caringTypeCodeList")
-    val careTypes: List<String>,
+    val careTypes: List<CareTypeApiModel>,
     @SerialName("comOtherConditionList")
-    val comOtherConditionList: List<String>,
+    val otherConditions: List<AgencyOtherConditionApiModel>,
     val isLiked: Boolean,
     val commission: Int,
 )

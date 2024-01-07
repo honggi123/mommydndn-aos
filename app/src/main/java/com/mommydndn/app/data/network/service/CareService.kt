@@ -9,6 +9,7 @@ import com.mommydndn.app.data.network.model.care.request.GetCareProviderListRequ
 import com.mommydndn.app.data.network.model.care.response.CreateAgencyCareProviderResponse
 import com.mommydndn.app.data.network.model.care.response.CreateJobOpeningResponse
 import com.mommydndn.app.data.network.model.care.response.CreateCareProviderResponse
+import com.mommydndn.app.data.network.model.care.response.GetAgencyCareProviderResponse
 import com.mommydndn.app.data.network.model.care.response.GetAgencyCareProviderSummaryListResponse
 import com.mommydndn.app.data.network.model.care.response.GetCareProviderResponse
 import com.mommydndn.app.data.network.model.care.response.GetCareProviderSummaryListResponse
@@ -40,6 +41,9 @@ interface CareService {
     @GET("/api/caring/job-seeker/{jobSeekerId}")
     suspend fun fetchCareProvider(@Path("jobSeekerId") id: Int): GetCareProviderResponse
 
+    @GET("/api/caring/company/{companyId}")
+    suspend fun fetchAgencyCareProvider(@Path("companyId") id: Int): GetAgencyCareProviderResponse
+
     @POST("/api/caring/job-offer/list")
     suspend fun fetchJobOpeningSummaryList(@Body request: GetJobOpeningListRequest): Response<GetJobOpeningSummaryListResponse>
 
@@ -59,7 +63,7 @@ interface CareService {
     suspend fun fetchOtherAgencyCondtions(): GetOtherAgenyConditionListResponse
 
     @GET("/api/caring/caring-type")
-    suspend fun fetchCaringTypesResponse(): GetCareTypeListResponse
+    suspend fun fetchCareTypes(): GetCareTypeListResponse
 
     @POST("/api/caring/job-offer")
     suspend fun createJobOpening(@Body request: CreateJobOpeningRequest): CreateJobOpeningResponse
