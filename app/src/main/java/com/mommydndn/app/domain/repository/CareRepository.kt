@@ -4,19 +4,15 @@ import androidx.paging.PagingData
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.EtcCheckItem
-import com.mommydndn.app.data.network.feature.care.response.GetMinHourlySalaryResponse
 import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.SortingType
 import com.mommydndn.app.data.model.care.WorkPeriodType
-import com.mommydndn.app.data.network.feature.care.response.CompanySummaryListItem
-import com.mommydndn.app.data.network.feature.care.response.JobOfferSummaryListItem
-import com.mommydndn.app.data.network.feature.care.response.JobSeekerSummaryItem
 import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.common.DayOfWeekType
-import com.mommydndn.app.data.network.feature.care.response.CreateAgencyCareProviderResponse
-import com.mommydndn.app.data.network.feature.care.response.CreateJobOpeningResponse
-import com.mommydndn.app.data.network.feature.care.JobOfferResponse
-import com.mommydndn.app.data.network.feature.care.response.CreateCareProviderResponse
+import com.mommydndn.app.data.network.service.care.response.AgencyCareProviderSummaryApiModel
+import com.mommydndn.app.data.network.service.care.response.CareProviderSummaryApiModel
+import com.mommydndn.app.data.network.service.care.response.GetMinimumWageResponse
+import com.mommydndn.app.data.network.service.care.response.JobOpeningSummaryApiModel
 import com.mommydndn.app.domain.model.care.JobOffer
 import com.mommydndn.app.domain.model.care.JobSeeker
 import kotlinx.coroutines.flow.Flow
@@ -26,7 +22,7 @@ import java.time.LocalTime
 
 interface CareRepository {
 
-    fun fetchJobOffer(jobOfferId: Int): Flow<JobOfferResponse>
+    fun fetchJobOffer(jobOfferId: Int): Flow<JobOffer>
 
     suspend fun fetchNearestJobSeekers(): List<JobSeeker>
 
@@ -46,7 +42,7 @@ interface CareRepository {
         startTime: LocalTime?,
         endTime: LocalTime?,
         workPeriodType: WorkPeriodType?
-    ): Flow<PagingData<JobOfferSummaryListItem>>
+    ): Flow<PagingData<JobOpeningSummaryApiModel>>
 
     fun fetchJobSeekerSummary(
         keyword: String?,
@@ -54,7 +50,7 @@ interface CareRepository {
         emdId: Int,
         neighborhoodScope: Int,
         caringTypeList: List<CaringType>,
-    ): Flow<PagingData<JobSeekerSummaryItem>>
+    ): Flow<PagingData<CareProviderSummaryApiModel>>
 
     fun fetchCompanySummary(
         keyword: String?,
@@ -62,11 +58,11 @@ interface CareRepository {
         emdId: Int,
         neighborhoodScope: Int,
         caringTypeList: List<CaringType>,
-    ): Flow<PagingData<CompanySummaryListItem>>
+    ): Flow<PagingData<AgencyCareProviderSummaryApiModel>>
 
     fun fetchCaringTypeItems(): Flow<List<CaringTypeItem>>
 
-    fun fetchMinHourlySalary(): Flow<GetMinHourlySalaryResponse>
+    fun fetchMinHourlySalary(): Flow<GetMinimumWageResponse>
 
     fun createJobOffer(
         title: String,
@@ -86,7 +82,7 @@ interface CareRepository {
         salary: Int,
         etcCheckedList: List<EtcCheckItem>,
         imageList: List<MultipartBody.Part>,
-    ): Flow<com.mommydndn.app.data.network.feature.care.response.CreateJobOpeningResponse>
+    ): Flow<com.mommydndn.app.data.network.service.care.response.CreateJobOpeningResponse>
 
     fun createJobSeeker(
         introduce: String,
@@ -97,7 +93,7 @@ interface CareRepository {
         salaryType: SalaryType,
         salary: Int,
         etcCheckedList: List<EtcCheckItem>
-    ): Flow<com.mommydndn.app.data.network.feature.care.response.CreateCareProviderResponse>
+    ): Flow<com.mommydndn.app.data.network.service.care.response.CreateCareProviderResponse>
 
     fun createCompany(
         introduce: String,
@@ -110,5 +106,5 @@ interface CareRepository {
         maxSalary: Int,
         etcCheckedList: List<EtcCheckItem>,
         commission: Int
-    ): Flow<com.mommydndn.app.data.network.feature.care.response.CreateAgencyCareProviderResponse>
+    ): Flow<com.mommydndn.app.data.network.service.care.response.CreateAgencyCareProviderResponse>
 }

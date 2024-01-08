@@ -20,15 +20,3 @@ data class SalaryTypeItem(
     var isSelected: Boolean = false
 )
 
-object SalaryTypeSerializer : KSerializer<SalaryType> {
-    override val descriptor: SerialDescriptor =
-        PrimitiveSerialDescriptor("SalaryType", PrimitiveKind.STRING)
-
-    override fun serialize(encoder: Encoder, value: SalaryType) {
-        encoder.encodeString(value.name)
-    }
-
-    override fun deserialize(decoder: Decoder): SalaryType {
-        return SalaryType.valueOf(decoder.decodeString())
-    }
-}

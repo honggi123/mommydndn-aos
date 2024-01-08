@@ -1,13 +1,15 @@
 package com.mommydndn.app.data.repository
 
 import com.mommydndn.app.BuildConfig
-import com.mommydndn.app.data.network.feature.google.request.GetGoogleAccessTokenRequest
-import com.mommydndn.app.data.network.feature.user.request.SignInRequest
-import com.mommydndn.app.data.network.feature.user.request.SignUpRequest
-import com.mommydndn.app.data.network.feature.google.response.GetGoogleAccessTokenResponse
-import com.mommydndn.app.data.network.feature.user.response.SignInResponse
-import com.mommydndn.app.data.network.feature.auth.AuthService
-import com.mommydndn.app.data.network.feature.google.GoogleApiService
+import com.mommydndn.app.data.network.service.google.request.GetGoogleAccessTokenRequest
+import com.mommydndn.app.data.network.service.user.request.SignInRequest
+import com.mommydndn.app.data.network.service.user.request.SignUpRequest
+import com.mommydndn.app.data.network.service.google.response.GetGoogleAccessTokenResponse
+import com.mommydndn.app.data.network.service.user.response.SignInResponse
+import com.mommydndn.app.data.network.service.auth.AuthService
+import com.mommydndn.app.data.network.service.google.GoogleApiService
+import com.mommydndn.app.data.network.service.user.UserService
+import com.mommydndn.app.data.network.service.user.response.SignUpResponse
 import com.mommydndn.app.data.preferences.TokenManager
 import com.mommydndn.app.domain.model.user.OAuthProvider
 import com.mommydndn.app.domain.model.user.UserType
@@ -15,7 +17,7 @@ import com.mommydndn.app.domain.repository.AccountRepository
 import javax.inject.Inject
 
 class AccountDataRepository @Inject constructor(
-    private val authService: AuthService,
+    private val userService: UserService,
     private val googleApiService: GoogleApiService,
     private val tokenManager: TokenManager
 ) : AccountRepository {
@@ -24,16 +26,12 @@ class AccountDataRepository @Inject constructor(
         acessToken: String,
         OAuthProvider: OAuthProvider
     ): SignInResponse {
-
-        val response = authService
-            .login(
-                SignInRequest(
-                    accessToken = acessToken,
-                    oAuthProvider = OAuthProvider.name
-                )
+        return userService.signIn(
+            SignInRequest(
+                accessToken = acessToken,
+                oAuthProvider = OAuthProvider.name
             )
-
-        return response
+        )
     }
 
     override suspend fun signUp(
@@ -41,14 +39,16 @@ class AccountDataRepository @Inject constructor(
         oAuthType: OAuthProvider,
         userType: UserType,
         emdId: Int
-    ) = authService.signUp(
-        SignUpRequest(
-            accessToken = accessToken,
-            oauthProvider = oAuthType.name,
-            userType = userType.name,
-            emdId = emdId
+    ): SignUpResponse {
+       return userService.signUp(
+            SignUpRequest(
+                accessToken = accessToken,
+                oauthProvider = oAuthType.name,
+                userType = userType.name,
+                emdId = emdId
+            )
         )
-    )
+    }
 
     override suspend fun saveUserToken(accessToken: String, refreshToken: String) {
         tokenManager.putAccessToken(accessToken)
@@ -57,11 +57,11 @@ class AccountDataRepository @Inject constructor(
 
     override suspend fun getGoogleAccessToken(
         authCode: String
-    ): GetGoogleAccessTokenResponse = googleApiService.getAccessToken(
+    ): GetGoogleAccessTokenResponse = googleApiService.fetchAccessToken(
         GetGoogleAccessTokenRequest(
-            grant_type = "authorization_code",
-            client_id = BuildConfig.GOOGLE_CLIENT_ID,
-            client_secret = BuildConfig.GOOGLE_CLIENT_SECRET,
+            grantType = "authorization_code",
+            clientId = BuildConfig.GOOGLE_CLIENT_ID,
+            clientSecret = BuildConfig.GOOGLE_CLIENT_SECRET,
             code = authCode.orEmpty()
         )
     )

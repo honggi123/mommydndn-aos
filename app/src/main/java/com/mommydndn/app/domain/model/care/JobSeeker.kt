@@ -1,7 +1,6 @@
 package com.mommydndn.app.domain.model.care
 
 import com.mommydndn.app.data.model.care.CaringType
-import com.mommydndn.app.data.model.care.CaringTypeSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
