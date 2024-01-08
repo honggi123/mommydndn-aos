@@ -1,4 +1,4 @@
-package com.mommydndn.app.data.network.model.tos
+package com.mommydndn.app.data.network.model.user.request
 
 import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.Serializable

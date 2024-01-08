@@ -1,4 +1,4 @@
-package com.mommydndn.app.data.network.model.Image
+package com.mommydndn.app.data.network.model.common
 
 
 import kotlinx.serialization.SerialName

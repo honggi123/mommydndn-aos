@@ -1,6 +1,6 @@
 package com.mommydndn.app.data.repository
 
-import com.mommydndn.app.data.network.model.tos.UpdateTosAgreementRequest
+import com.mommydndn.app.data.network.model.user.request.UpdateTosAgreementRequest
 import com.mommydndn.app.data.network.model.tos.GetTosItemResponse
 import com.mommydndn.app.data.network.service.TosService
 import com.mommydndn.app.domain.model.tos.TermsOfService

@@ -8,7 +8,7 @@ import com.mommydndn.app.data.network.model.user.response.GetUserResponse
 import com.mommydndn.app.data.network.model.user.response.SignInResponse
 import com.mommydndn.app.data.network.model.user.response.RefreshAccessTokenResponse
 import com.mommydndn.app.data.network.model.user.response.SignUpResponse
-import com.mommydndn.app.data.network.model.tos.UpdateTosAgreementRequest
+import com.mommydndn.app.data.network.model.user.request.UpdateTosAgreementRequest
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST

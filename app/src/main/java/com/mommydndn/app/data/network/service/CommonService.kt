@@ -1,7 +1,7 @@
 package com.mommydndn.app.data.network.service
 
 import com.mommydndn.app.data.api.model.response.GetBannerListResponse
-import com.mommydndn.app.data.network.model.Image.UpdateImageResponse
+import com.mommydndn.app.data.network.model.common.UpdateImageResponse
 import okhttp3.MultipartBody
 import retrofit2.http.GET
 import retrofit2.http.Multipart

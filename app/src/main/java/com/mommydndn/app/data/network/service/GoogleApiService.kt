@@ -1,7 +1,7 @@
 package com.mommydndn.app.data.network.service
 
-import com.mommydndn.app.data.network.model.auth.request.GetGoogleAccessTokenRequest
-import com.mommydndn.app.data.network.model.auth.request.GetGoogleAccessTokenResponse
+import com.mommydndn.app.data.network.model.auth.google.request.GetGoogleAccessTokenRequest
+import com.mommydndn.app.data.network.model.auth.google.request.GetGoogleAccessTokenResponse
 import retrofit2.http.Body
 import retrofit2.http.POST
 

@@ -1,7 +1,7 @@
 package com.mommydndn.app.data.network.service
 
 import com.mommydndn.app.BuildConfig
-import com.mommydndn.app.data.network.model.location.response.GetAddressResponse
+import com.mommydndn.app.data.network.model.location.response.GetKakaoAddressResponse
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
@@ -14,5 +14,5 @@ interface KakaoApiService {
     suspend fun fetchAddressInfo(
         @Header("Authorization") key: String = "KakaoAK ${BuildConfig.KAKAO_API_KEY}",
         @Query("query") query: String,
-    ): GetAddressResponse
+    ): GetKakaoAddressResponse
 }

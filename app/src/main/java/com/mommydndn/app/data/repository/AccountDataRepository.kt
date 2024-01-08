@@ -1,10 +1,10 @@
 package com.mommydndn.app.data.repository
 
 import com.mommydndn.app.BuildConfig
-import com.mommydndn.app.data.network.model.auth.request.GetGoogleAccessTokenRequest
+import com.mommydndn.app.data.network.model.auth.google.request.GetGoogleAccessTokenRequest
 import com.mommydndn.app.data.network.model.user.request.SignInRequest
 import com.mommydndn.app.data.network.model.user.request.SignUpRequest
-import com.mommydndn.app.data.network.model.auth.request.GetGoogleAccessTokenResponse
+import com.mommydndn.app.data.network.model.auth.google.request.GetGoogleAccessTokenResponse
 import com.mommydndn.app.data.network.model.user.response.SignInResponse
 import com.mommydndn.app.data.network.service.AuthService
 import com.mommydndn.app.data.network.service.GoogleApiService

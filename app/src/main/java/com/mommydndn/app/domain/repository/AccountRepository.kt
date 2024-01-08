@@ -1,6 +1,6 @@
 package com.mommydndn.app.domain.repository
 
-import com.mommydndn.app.data.network.model.auth.request.GetGoogleAccessTokenResponse
+import com.mommydndn.app.data.network.model.auth.google.request.GetGoogleAccessTokenResponse
 import com.mommydndn.app.data.network.model.user.response.SignInResponse
 import com.mommydndn.app.data.network.model.user.response.SignUpResponse
 import com.mommydndn.app.domain.model.user.OAuthProvider
