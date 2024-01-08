@@ -1,6 +1,5 @@
 package com.mommydndn.app.data.network.feature.user
 
-import com.mommydndn.app.data.api.model.response.GetNotificationSettingListResponse
 import com.mommydndn.app.data.network.feature.user.request.SignInRequest
 import com.mommydndn.app.data.network.feature.user.request.SignUpRequest
 import com.mommydndn.app.data.network.feature.user.request.UpdateProfileImageRequest
@@ -9,6 +8,7 @@ import com.mommydndn.app.data.network.feature.user.response.SignInResponse
 import com.mommydndn.app.data.network.feature.user.response.RefreshAccessTokenResponse
 import com.mommydndn.app.data.network.feature.user.response.SignUpResponse
 import com.mommydndn.app.data.network.feature.user.request.UpdateTosAgreementRequest
+import com.mommydndn.app.data.network.feature.user.response.GetNotificationSettingListResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST

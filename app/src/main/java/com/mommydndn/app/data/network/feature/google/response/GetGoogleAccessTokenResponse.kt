@@ -1,4 +1,4 @@
-package com.mommydndn.app.data.network.feature.google.request
+package com.mommydndn.app.data.network.feature.google.response
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
