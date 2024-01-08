@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mommydndn.app.R
@@ -42,10 +43,10 @@ import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.Salmon200
 import com.mommydndn.app.ui.theme.Salmon600
+import com.mommydndn.app.ui.theme.Shadow700
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph400
-import com.mommydndn.app.ui.theme.shadow700
 
 @Composable
 internal fun CareFilterModal(
@@ -57,7 +58,7 @@ internal fun CareFilterModal(
     Box(
         modifier = modifier
             .wrapContentSize()
-            .then(shadow700)
+            .then(Shadow700)
             .background(
                 color = White,
                 shape = RoundedCornerShape(24.dp),
@@ -220,9 +221,28 @@ internal fun ModalBottomSheetSelectableButton(
             .border(
                 border = BorderStroke(1.dp, borderColor),
                 shape = CircleShape,
-            ).clickable {
+            )
+            .clickable {
                 onClick(!selected)
             },
         content = content,
     )
+}
+
+@Preview
+@Composable
+private fun CareFilterModalPreview() {
+    Box(
+        modifier = Modifier
+            .background(White)
+            .padding(24.dp),
+    ) {
+        CareFilterModal(
+            onCloseClick = {},
+            onApplyClick = {},
+            modifier = Modifier,
+        ) {
+
+        }
+    }
 }

@@ -38,7 +38,7 @@ import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
-import com.mommydndn.app.ui.theme.shadow700
+import com.mommydndn.app.ui.theme.Shadow700
 import com.mommydndn.app.ui.theme.Typography
 import com.mommydndn.app.utils.DateTimeUtils
 
@@ -62,7 +62,7 @@ fun TimeBottomModal(
     Box(
         modifier = modifier
             .wrapContentSize()
-            .then(shadow700)
+            .then(Shadow700)
             .background(color = White, shape = RoundedCornerShape(24.dp)),
         contentAlignment = Alignment.TopCenter
     ) {

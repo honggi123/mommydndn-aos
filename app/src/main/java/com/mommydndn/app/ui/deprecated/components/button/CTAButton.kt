@@ -15,10 +15,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import com.mommydndn.app.ui.theme.MommydndnTheme
+import androidx.compose.ui.unit.dp
 import com.mommydndn.app.ui.theme.Grey100
 import com.mommydndn.app.ui.theme.Grey300
-import com.mommydndn.app.ui.theme.Paddings
+import com.mommydndn.app.ui.theme.MommydndnTheme
 import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph500
@@ -41,7 +41,7 @@ fun CtaButton(
             disabledContentColor = Grey300,
             disabledBackgroundColor = Grey100
         ),
-        contentPadding = PaddingValues(Paddings.xlarge)
+        contentPadding = PaddingValues(16.dp)
     ) {
         Row(
             horizontalArrangement = Arrangement.Center,

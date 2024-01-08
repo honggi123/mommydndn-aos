@@ -33,7 +33,7 @@ import com.mommydndn.app.ui.deprecated.models.dialog.DialogTitle
 import com.mommydndn.app.ui.theme.Grey200
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.White
-import com.mommydndn.app.ui.theme.shadow700
+import com.mommydndn.app.ui.theme.Shadow700
 import kotlinx.coroutines.CoroutineScope
 
 
@@ -53,7 +53,7 @@ fun CaringBottomModal(
     Box(
         modifier = modifier
             .wrapContentSize()
-            .then(shadow700)
+            .then(Shadow700)
             .background(color = White, shape = RoundedCornerShape(24.dp)),
         contentAlignment = Alignment.TopCenter
     ) {

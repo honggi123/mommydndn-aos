@@ -119,8 +119,7 @@ internal fun NeighborhoodSearchScreen(
             items(searchResults) { searchResult ->
                 with(searchResult) {
                     NeighborhoodSearchResult(
-                        selectedNeighborhoodId = selectedSearchResult?.id,
-                        id = id,
+                        selected = selectedSearchResult?.id == id,
                         address = address,
                         onClick = {
                             onSearchResultClick(this)
@@ -134,8 +133,7 @@ internal fun NeighborhoodSearchScreen(
 
 @Composable
 private fun NeighborhoodSearchResult(
-    selectedNeighborhoodId: Int?,
-    id: Int,
+    selected: Boolean,
     address: String,
     onClick: () -> Unit,
 ) {
@@ -144,7 +142,7 @@ private fun NeighborhoodSearchResult(
             .fillMaxWidth()
             .wrapContentHeight()
             .run {
-                if (selectedNeighborhoodId == id) {
+                if (selected) {
                     background(Grey50, RoundedCornerShape(12.dp))
                 } else {
                     this
@@ -161,7 +159,7 @@ private fun NeighborhoodSearchResult(
     ) {
         Icon(
             painter = painterResource(
-                id = if (selectedNeighborhoodId == id) {
+                id = if (selected) {
                     R.drawable.icon_selected_radio
                 } else {
                     R.drawable.icon_unselected_radio

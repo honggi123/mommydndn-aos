@@ -86,7 +86,7 @@ val shadow600 = Modifier.coloredShadow(
     spread = -12f
 )
 
-val shadow700 = Modifier.coloredShadow(
+val Shadow700 = Modifier.coloredShadow(
     color = Color(0x241D3461),
     offsetX = 0.dp,
     offsetY = 32.dp,
