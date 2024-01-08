@@ -17,7 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
-import com.mommydndn.app.feature.care.components.post.TopAppBarHeight
+import com.mommydndn.app.ui.care.components.post.TopAppBarHeight
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300

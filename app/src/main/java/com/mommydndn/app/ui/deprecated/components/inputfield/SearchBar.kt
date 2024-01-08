@@ -35,14 +35,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
-import com.mommydndn.app.ui.theme.Grey100
 import com.mommydndn.app.ui.theme.Grey400
 import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.MommydndnTheme
 import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
-import com.mommydndn.app.utils.extensions.bottomBorder
 
 @Composable
 fun Searchbar(
@@ -59,7 +57,7 @@ fun Searchbar(
             .fillMaxWidth()
             .height(68.dp)
             .background(color = White)
-            .bottomBorder(2.dp, Grey100)
+            // .bottomBorder(2.dp, Grey100)
     ) {
         Row(
             modifier = Modifier

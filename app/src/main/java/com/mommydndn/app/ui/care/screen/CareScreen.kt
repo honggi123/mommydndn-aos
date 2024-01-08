@@ -42,18 +42,18 @@ import com.mommydndn.app.R
 import com.mommydndn.app.domain.model.care.CareType
 import com.mommydndn.app.domain.model.care.WorkPeriod
 import com.mommydndn.app.domain.model.user.Neighborhood
-import com.mommydndn.app.feature.care.components.post.TopAppBarHeight
-import com.mommydndn.app.feature.care.filters.CareFilter
-import com.mommydndn.app.feature.care.filters.CareOrderBy
-import com.mommydndn.app.feature.care.filters.CareTypesFilter
-import com.mommydndn.app.feature.care.filters.DaysOfWeekFilter
-import com.mommydndn.app.feature.care.filters.NeighborhoodFilter
-import com.mommydndn.app.feature.care.filters.WorkHoursFilter
-import com.mommydndn.app.feature.care.filters.WorkPeriodFilter
-import com.mommydndn.app.feature.care.filters.displayName
-import com.mommydndn.app.feature.care.jobopening.CareJobOpeningList
-import com.mommydndn.app.feature.care.jobopening.CareJobOpeningListItem
-import com.mommydndn.app.feature.care.jobopening.mockCareJobOpeningListItems
+import com.mommydndn.app.ui.care.components.post.TopAppBarHeight
+import com.mommydndn.app.ui.care.filters.CareFilter
+import com.mommydndn.app.ui.care.filters.CareOrderBy
+import com.mommydndn.app.ui.care.filters.CareTypesFilter
+import com.mommydndn.app.ui.care.filters.DaysOfWeekFilter
+import com.mommydndn.app.ui.care.filters.NeighborhoodFilter
+import com.mommydndn.app.ui.care.filters.WorkHoursFilter
+import com.mommydndn.app.ui.care.filters.WorkPeriodFilter
+import com.mommydndn.app.ui.care.filters.displayName
+import com.mommydndn.app.ui.care.jobopening.CareJobOpeningList
+import com.mommydndn.app.ui.care.jobopening.CareJobOpeningUiModel
+import com.mommydndn.app.ui.care.jobopening.mockCareJobOpeningUiModels
 import com.mommydndn.app.ui.components.chip.FilterChip
 import com.mommydndn.app.ui.components.tab.MediumTab
 import com.mommydndn.app.ui.theme.Grey700
@@ -136,7 +136,7 @@ private fun CareScreen(
     onOrderClick: () -> Unit,
     filters: List<CareFilter<*>>,
     onFilterClick: (CareFilter<*>) -> Unit,
-    jobOpeningListItems: List<CareJobOpeningListItem>,
+    jobOpeningListItems: List<CareJobOpeningUiModel>,
     selectedFilter: CareFilter<*>?,
     sheetState: ModalBottomSheetState,
     onSheetCloseClick: () -> Unit,
@@ -339,7 +339,7 @@ private fun CareScreenPreview() {
             add(WorkPeriodFilter(workPeriod = WorkPeriod.REGULAR))
         },
         onFilterClick = {},
-        jobOpeningListItems = mockCareJobOpeningListItems,
+        jobOpeningListItems = mockCareJobOpeningUiModels,
         selectedFilter = null,
         sheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden),
         onSheetCloseClick = {},

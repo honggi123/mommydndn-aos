@@ -1,8 +1,8 @@
 package com.mommydndn.app.ui.home
 
-import com.mommydndn.app.feature.home.components.BannerUiModel
-import com.mommydndn.app.feature.home.components.NearbyJobOpening
-import com.mommydndn.app.feature.home.components.NearestCareProvider
+import com.mommydndn.app.ui.home.components.BannerUiModel
+import com.mommydndn.app.ui.home.components.NearbyJobOpening
+import com.mommydndn.app.ui.home.components.NearestCareProvider
 
 sealed interface HomeUiState {
 

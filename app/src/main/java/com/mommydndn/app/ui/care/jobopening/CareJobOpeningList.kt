@@ -28,7 +28,7 @@ import com.mommydndn.app.R
 import com.mommydndn.app.domain.model.care.CareType
 import com.mommydndn.app.domain.model.care.PayPeriod
 import com.mommydndn.app.domain.model.care.WorkPeriod
-import com.mommydndn.app.feature.care.screen.displayName
+import com.mommydndn.app.ui.care.screen.displayName
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey700
@@ -48,7 +48,7 @@ import java.util.Locale
 
 @Composable
 internal fun CareJobOpeningList(
-    items: List<CareJobOpeningListItem>,
+    items: List<CareJobOpeningUiModel>,
     modifier: Modifier = Modifier,
 ) {
     // todo: empty, background?
@@ -356,7 +356,7 @@ private fun CareJobOpeningListItemPreview() {
 @Composable
 private fun CareJobOpeningListPreview() {
     CareJobOpeningList(
-        items = mockCareJobOpeningListItems,
+        items = mockCareJobOpeningUiModels,
         modifier = Modifier.fillMaxSize().background(Color.White),
     )
 }

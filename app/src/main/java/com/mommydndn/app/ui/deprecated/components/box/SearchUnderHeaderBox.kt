@@ -20,12 +20,10 @@ import com.mommydndn.app.data.model.common.ButtonColor
 import com.mommydndn.app.data.model.common.ButtonColorType
 import com.mommydndn.app.data.model.common.MinMaxRange
 import com.mommydndn.app.ui.deprecated.components.button.MommyDndnButton
-import com.mommydndn.app.ui.theme.Grey100
 import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.MommydndnTheme
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
-import com.mommydndn.app.utils.extensions.bottomBorder
 
 @Composable
 fun SearchUnderHeader(
@@ -42,7 +40,7 @@ fun SearchUnderHeader(
         Column(
             modifier = Modifier
                 .padding(start = 24.dp, top = 16.dp, end = 24.dp, bottom = 16.dp)
-                .bottomBorder(1.dp, Grey100)
+                // .bottomBorder(1.dp, Grey100)
         ) {
             MommyDndnButton(
                 text = stringResource(id = R.string.search_by_current_location),

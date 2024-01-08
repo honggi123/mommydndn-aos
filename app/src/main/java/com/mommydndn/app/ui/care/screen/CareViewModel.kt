@@ -13,9 +13,9 @@ import com.mommydndn.app.domain.usecase.user.GetNearbyNeighborhoodsParams
 import com.mommydndn.app.domain.usecase.user.GetNearbyNeighborhoodsUseCase
 import com.mommydndn.app.domain.usecase.user.GetNeighborhoodDistanceUseCase
 import com.mommydndn.app.domain.usecase.user.GetNeighborhoodUseCase
-import com.mommydndn.app.feature.care.filters.CareFilter
-import com.mommydndn.app.feature.care.filters.CareOrderBy
-import com.mommydndn.app.feature.care.filters.NeighborhoodFilter
+import com.mommydndn.app.ui.care.filters.CareFilter
+import com.mommydndn.app.ui.care.filters.CareOrderBy
+import com.mommydndn.app.ui.care.filters.NeighborhoodFilter
 import com.mommydndn.app.utils.result.data
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

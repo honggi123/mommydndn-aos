@@ -35,8 +35,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
 import com.mommydndn.app.domain.model.location.Coordinates
-import com.mommydndn.app.feature.signup.components.SearchBar
-import com.mommydndn.app.feature.signup.components.SearchByCurrentLocationButton
+import com.mommydndn.app.ui.signup.components.SearchBar
+import com.mommydndn.app.ui.signup.components.SearchByCurrentLocationButton
 import com.mommydndn.app.ui.theme.Grey100
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey700

@@ -129,4 +129,6 @@
     <string name="review">의견 남기기</string>
     <string name="start">시작하기</string>
     <string name="only_necessary_notifications">꼭 필요한 알림만 보내드릴게요</string>
+    <string name="street_address">도로명</string>
+    <string name="land_lot_address">지번</string>
 </resources>

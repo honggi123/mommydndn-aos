@@ -35,8 +35,8 @@ import com.kakao.sdk.user.UserApiClient
 import com.mommydndn.app.BuildConfig
 import com.mommydndn.app.R
 import com.mommydndn.app.domain.model.user.OAuthProvider
-import com.mommydndn.app.feature.signin.components.SignInTopAppBar
-import com.mommydndn.app.feature.signin.components.SocialLogin
+import com.mommydndn.app.ui.signin.components.SignInTopAppBar
+import com.mommydndn.app.ui.signin.components.SocialLogin
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.White

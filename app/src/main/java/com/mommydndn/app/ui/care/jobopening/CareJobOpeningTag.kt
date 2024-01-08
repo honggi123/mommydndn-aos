@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
 import com.mommydndn.app.domain.model.care.CareType
 import com.mommydndn.app.domain.model.care.WorkPeriod
-import com.mommydndn.app.feature.care.screen.displayName
+import com.mommydndn.app.ui.care.screen.displayName
 import com.mommydndn.app.ui.theme.Blue50
 import com.mommydndn.app.ui.theme.Blue600
 import com.mommydndn.app.ui.theme.DeepOrange

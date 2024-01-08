@@ -22,16 +22,16 @@ import com.mommydndn.app.R
 import com.mommydndn.app.domain.model.care.CareType
 import com.mommydndn.app.domain.model.care.OtherOption
 import com.mommydndn.app.domain.model.user.NeighborhoodDistance
-import com.mommydndn.app.feature.care.components.post.AuthenticationPostSection
-import com.mommydndn.app.feature.care.components.post.BioPostSection
-import com.mommydndn.app.feature.care.components.post.CareTypesPostSection
-import com.mommydndn.app.feature.care.components.post.GetPhotoPostSection
-import com.mommydndn.app.feature.care.components.post.NeighborhoodPostSection
-import com.mommydndn.app.feature.care.components.post.NeighborhoodUiModel
-import com.mommydndn.app.feature.care.components.post.OtherOptionsPostSection
-import com.mommydndn.app.feature.care.components.post.PostNextButton
-import com.mommydndn.app.feature.care.components.post.PostTopAppBar
-import com.mommydndn.app.feature.care.components.post.TopAppBarHeight
+import com.mommydndn.app.ui.care.components.post.AuthenticationPostSection
+import com.mommydndn.app.ui.care.components.post.BioPostSection
+import com.mommydndn.app.ui.care.components.post.CareTypesPostSection
+import com.mommydndn.app.ui.care.components.post.GetPhotoPostSection
+import com.mommydndn.app.ui.care.components.post.NeighborhoodPostSection
+import com.mommydndn.app.ui.care.components.post.NeighborhoodUiModel
+import com.mommydndn.app.ui.care.components.post.OtherOptionsPostSection
+import com.mommydndn.app.ui.care.components.post.PostNextButton
+import com.mommydndn.app.ui.care.components.post.PostTopAppBar
+import com.mommydndn.app.ui.care.components.post.TopAppBarHeight
 import com.mommydndn.app.ui.theme.Grey300
 import com.mommydndn.app.ui.theme.Grey50
 

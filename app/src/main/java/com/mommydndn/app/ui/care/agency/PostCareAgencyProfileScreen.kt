@@ -18,14 +18,14 @@ import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
 import com.mommydndn.app.domain.model.care.CareType
 import com.mommydndn.app.domain.model.care.OtherOption
-import com.mommydndn.app.feature.care.components.post.PostTopAppBar
-import com.mommydndn.app.feature.care.components.post.BioPostSection
-import com.mommydndn.app.feature.care.components.post.CareTypesPostSection
-import com.mommydndn.app.feature.care.components.post.GetPhotoPostSection
-import com.mommydndn.app.feature.care.components.post.GetPhotosPostSection
-import com.mommydndn.app.feature.care.components.post.NeighborhoodPostSection
-import com.mommydndn.app.feature.care.components.post.NeighborhoodUiModel
-import com.mommydndn.app.feature.care.components.post.OtherOptionsPostSection
+import com.mommydndn.app.ui.care.components.post.BioPostSection
+import com.mommydndn.app.ui.care.components.post.CareTypesPostSection
+import com.mommydndn.app.ui.care.components.post.GetPhotoPostSection
+import com.mommydndn.app.ui.care.components.post.GetPhotosPostSection
+import com.mommydndn.app.ui.care.components.post.NeighborhoodPostSection
+import com.mommydndn.app.ui.care.components.post.NeighborhoodUiModel
+import com.mommydndn.app.ui.care.components.post.OtherOptionsPostSection
+import com.mommydndn.app.ui.care.components.post.PostTopAppBar
 import com.mommydndn.app.ui.theme.Grey300
 import com.mommydndn.app.ui.theme.Grey50
 import java.util.Collections
@@ -64,6 +64,7 @@ internal fun RegisterCareAgencyScreen(
             modifier = Modifier,
         )
 
+        // TODO: COLUMN
         LazyColumn(
             modifier = Modifier.background(Grey50),
             verticalArrangement = Arrangement.spacedBy(20.dp),
