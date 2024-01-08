@@ -1,4 +1,4 @@
-package com.mommydndn.app.data.api.model.response
+package com.mommydndn.app.data.network.feature.user.response
 
 import com.mommydndn.app.data.model.notification.Notification
 import kotlinx.serialization.SerialName

@@ -1,4 +1,4 @@
-package com.mommydndn.app.data.network.feature.tos
+package com.mommydndn.app.data.network.feature.tos.response
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

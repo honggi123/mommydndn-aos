@@ -27,13 +27,13 @@ data class GetJobOpeningResponse(
     @SerialName("endTime")
     val regularWorkEndTime: String?,
     @SerialName("jobOfferAuthor")
-    val writer: com.mommydndn.app.data.network.feature.care.response.JobOpeningWriterApiModel,
+    val writer: JobOpeningWriterApiModel,
     @SerialName("hits")
     val views: Int,
     @SerialName("salary")
     val pay: Int?,
     @SerialName("imageList")
-    val images: List<com.mommydndn.app.data.network.feature.care.response.ImageApiModel>,
+    val images: List<ImageApiModel>,
     @SerialName("salaryTypeCode")
     val salaryType: SalaryTypeApiModel,
     @SerialName("caringTypeCodeList")

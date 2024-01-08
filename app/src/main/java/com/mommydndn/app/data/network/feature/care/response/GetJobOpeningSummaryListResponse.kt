@@ -11,7 +11,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class GetJobOpeningSummaryListResponse(
     @SerialName("jobOfferSummaryList")
-    val items: List<com.mommydndn.app.data.network.feature.care.response.JobOpeningSummaryApiModel>,
+    val items: List<JobOpeningSummaryApiModel>,
     val meta: MetaApiModel
 )
 

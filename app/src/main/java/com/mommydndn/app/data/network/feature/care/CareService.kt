@@ -28,7 +28,6 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface CareService {
-
     @GET("/api/caring/job-seeker/nearest")
     suspend fun fetchNearestCareProviderList(): GetNearestCareProviderListResponse
 
@@ -36,41 +35,41 @@ interface CareService {
     suspend fun fetchNearestJobOpeningList(): GetNearestJobOpeningListResponse
 
     @GET("/api/caring/job-offer/{jobOfferId}")
-    suspend fun fetchJobOpening(@Path("jobOfferId") id: Int): com.mommydndn.app.data.network.feature.care.response.GetJobOpeningResponse
+    suspend fun fetchJobOpening(@Path("jobOfferId") id: Int): GetJobOpeningResponse
 
     @GET("/api/caring/job-seeker/{jobSeekerId}")
-    suspend fun fetchCareProvider(@Path("jobSeekerId") id: Int): com.mommydndn.app.data.network.feature.care.response.GetCareProviderResponse
+    suspend fun fetchCareProvider(@Path("jobSeekerId") id: Int): GetCareProviderResponse
 
     @GET("/api/caring/company/{companyId}")
-    suspend fun fetchAgencyCareProvider(@Path("companyId") id: Int): com.mommydndn.app.data.network.feature.care.response.GetAgencyCareProviderResponse
+    suspend fun fetchAgencyCareProvider(@Path("companyId") id: Int): GetAgencyCareProviderResponse
 
     @POST("/api/caring/job-offer/list")
-    suspend fun fetchJobOpeningSummaryList(@Body request: com.mommydndn.app.data.network.feature.care.request.GetJobOpeningListRequest): Response<com.mommydndn.app.data.network.feature.care.response.GetJobOpeningSummaryListResponse>
+    suspend fun fetchJobOpeningSummaryList(@Body request: GetJobOpeningListRequest): Response<GetJobOpeningSummaryListResponse>
 
     @POST("/api/caring/job-seeker/list")
-    suspend fun fetchCareProviderSummaryList(@Body request: com.mommydndn.app.data.network.feature.care.request.GetCareProviderListRequest): Response<com.mommydndn.app.data.network.feature.care.response.GetCareProviderSummaryListResponse>
+    suspend fun fetchCareProviderSummaryList(@Body request: GetCareProviderListRequest): Response<GetCareProviderSummaryListResponse>
 
     @POST("/api/caring/company/list")
-    suspend fun fetchAgencyCareProviderSummaryList(@Body request: com.mommydndn.app.data.network.feature.care.request.GetAgencyCareProviderListRequest): Response<com.mommydndn.app.data.network.feature.care.response.GetAgencyCareProviderSummaryListResponse>
+    suspend fun fetchAgencyCareProviderSummaryList(@Body request: GetAgencyCareProviderListRequest): Response<GetAgencyCareProviderSummaryListResponse>
 
     @GET("/api/caring/min-hourly-salary")
-    suspend fun fetchMininumWage(): com.mommydndn.app.data.network.feature.care.response.GetMinimumWageResponse
+    suspend fun fetchMininumWage(): GetMinimumWageResponse
 
     @GET("/api/caring/ind-other-condition")
-    suspend fun fetchOtherIndividualConditions(): com.mommydndn.app.data.network.feature.care.response.GetOtherIndividualConditionListResponse
+    suspend fun fetchOtherIndividualConditions(): GetOtherIndividualConditionListResponse
 
     @GET("/api/caring/com-other-condition")
-    suspend fun fetchOtherAgencyCondtions(): com.mommydndn.app.data.network.feature.care.response.GetOtherAgenyConditionListResponse
+    suspend fun fetchOtherAgencyCondtions(): GetOtherAgenyConditionListResponse
 
     @GET("/api/caring/caring-type")
-    suspend fun fetchCareTypes(): com.mommydndn.app.data.network.feature.care.response.GetCareTypeListResponse
+    suspend fun fetchCareTypes(): GetCareTypeListResponse
 
     @POST("/api/caring/job-offer")
-    suspend fun createJobOpening(@Body request: com.mommydndn.app.data.network.feature.care.request.CreateJobOpeningRequest): com.mommydndn.app.data.network.feature.care.response.CreateJobOpeningResponse
+    suspend fun createJobOpening(@Body request: CreateJobOpeningRequest): CreateJobOpeningResponse
 
     @POST("/api/caring/job-seeker")
-    suspend fun createCareProvider(@Body request: com.mommydndn.app.data.network.feature.care.request.CreateCareProviderRequest): com.mommydndn.app.data.network.feature.care.response.CreateCareProviderResponse
+    suspend fun createCareProvider(@Body request: CreateCareProviderRequest): CreateCareProviderResponse
 
     @POST("/api/caring/company")
-    suspend fun createAgencyCareProvider(@Body request: com.mommydndn.app.data.network.feature.care.request.CreateAgencyCareProviderRequest): com.mommydndn.app.data.network.feature.care.response.CreateAgencyCareProviderResponse
+    suspend fun createAgencyCareProvider(@Body request: CreateAgencyCareProviderRequest): CreateAgencyCareProviderResponse
 }

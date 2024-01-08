@@ -1,14 +1,14 @@
-package com.mommydndn.app.data.api.model.response
+package com.mommydndn.app.data.network.feature.common.response
 
 
 import com.mommydndn.app.domain.model.banner.Banner
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-typealias GetBannerListResponse = List<GetBannerResponse>
+typealias GetBannerListResponse = List<BannerApiModel>
 
 @Serializable
-data class GetBannerResponse(
+data class BannerApiModel(
     @SerialName("bannerId")
     val id: Int,
     val targetUrl: String?,

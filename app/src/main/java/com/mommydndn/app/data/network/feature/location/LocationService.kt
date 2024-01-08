@@ -7,7 +7,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface LocationService {
-
     @GET("/api/map/nearest")
     suspend fun fetchNearestByMyLocation(
         @Query("latitude") latitude: Double,
