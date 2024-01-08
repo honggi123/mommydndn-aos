@@ -2,9 +2,9 @@ package com.mommydndn.app.data.source.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.mommydndn.app.data.network.model.care.response.deprecated.GetCareJobOpeningListItem
-import com.mommydndn.app.data.network.model.care.request.deprecated.GetCareJobOpeningListRequest
-import com.mommydndn.app.data.network.service.CareService
+import com.mommydndn.app.data.network.feature.care.response.deprecated.GetCareJobOpeningListItem
+import com.mommydndn.app.data.network.feature.care.request.deprecated.GetCareJobOpeningListRequest
+import com.mommydndn.app.data.network.feature.care.CareService
 import com.mommydndn.app.domain.model.care.CareJobOpening
 
 class JobOpeningListPagingSource constructor(
@@ -49,4 +49,4 @@ class JobOpeningListPagingSource constructor(
     }
 }
 
-fun toEntity(item: GetCareJobOpeningListItem): CareJobOpening = TODO()
+fun toEntity(item: com.mommydndn.app.data.network.feature.care.response.deprecated.GetCareJobOpeningListItem): CareJobOpening = TODO()

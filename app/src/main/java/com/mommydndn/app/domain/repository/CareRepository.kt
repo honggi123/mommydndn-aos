@@ -4,19 +4,19 @@ import androidx.paging.PagingData
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.EtcCheckItem
-import com.mommydndn.app.data.network.model.care.response.GetMinHourlySalaryResponse
+import com.mommydndn.app.data.network.feature.care.response.GetMinHourlySalaryResponse
 import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.SortingType
 import com.mommydndn.app.data.model.care.WorkPeriodType
-import com.mommydndn.app.data.network.model.care.response.CompanySummaryListItem
-import com.mommydndn.app.data.network.model.care.response.JobOfferSummaryListItem
-import com.mommydndn.app.data.network.model.care.response.JobSeekerSummaryItem
+import com.mommydndn.app.data.network.feature.care.response.CompanySummaryListItem
+import com.mommydndn.app.data.network.feature.care.response.JobOfferSummaryListItem
+import com.mommydndn.app.data.network.feature.care.response.JobSeekerSummaryItem
 import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.common.DayOfWeekType
-import com.mommydndn.app.data.network.model.care.response.CreateAgencyCareProviderResponse
-import com.mommydndn.app.data.network.model.care.response.CreateJobOpeningResponse
-import com.mommydndn.app.data.network.model.care.JobOfferResponse
-import com.mommydndn.app.data.network.model.care.response.CreateCareProviderResponse
+import com.mommydndn.app.data.network.feature.care.response.CreateAgencyCareProviderResponse
+import com.mommydndn.app.data.network.feature.care.response.CreateJobOpeningResponse
+import com.mommydndn.app.data.network.feature.care.JobOfferResponse
+import com.mommydndn.app.data.network.feature.care.response.CreateCareProviderResponse
 import com.mommydndn.app.domain.model.care.JobOffer
 import com.mommydndn.app.domain.model.care.JobSeeker
 import kotlinx.coroutines.flow.Flow
@@ -86,7 +86,7 @@ interface CareRepository {
         salary: Int,
         etcCheckedList: List<EtcCheckItem>,
         imageList: List<MultipartBody.Part>,
-    ): Flow<CreateJobOpeningResponse>
+    ): Flow<com.mommydndn.app.data.network.feature.care.response.CreateJobOpeningResponse>
 
     fun createJobSeeker(
         introduce: String,
@@ -97,7 +97,7 @@ interface CareRepository {
         salaryType: SalaryType,
         salary: Int,
         etcCheckedList: List<EtcCheckItem>
-    ): Flow<CreateCareProviderResponse>
+    ): Flow<com.mommydndn.app.data.network.feature.care.response.CreateCareProviderResponse>
 
     fun createCompany(
         introduce: String,
@@ -110,5 +110,5 @@ interface CareRepository {
         maxSalary: Int,
         etcCheckedList: List<EtcCheckItem>,
         commission: Int
-    ): Flow<CreateAgencyCareProviderResponse>
+    ): Flow<com.mommydndn.app.data.network.feature.care.response.CreateAgencyCareProviderResponse>
 }

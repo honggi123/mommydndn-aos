@@ -1,7 +1,7 @@
 package com.mommydndn.app.data.repository
 
 import com.mommydndn.app.data.api.model.response.toDomain
-import com.mommydndn.app.data.api.service.NotificationService
+import com.mommydndn.app.data.network.feature.notification.NotificationService
 import com.mommydndn.app.data.model.notification.Notification
 import com.mommydndn.app.domain.repository.NotificationRepository
 

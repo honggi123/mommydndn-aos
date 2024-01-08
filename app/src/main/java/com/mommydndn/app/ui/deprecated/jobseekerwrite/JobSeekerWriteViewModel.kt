@@ -10,7 +10,7 @@ import com.mommydndn.app.data.model.care.EtcCheckItem
 import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.SalaryTypeItem
 import com.mommydndn.app.data.model.location.EmdItem
-import com.mommydndn.app.data.network.model.user.response.Certification
+import com.mommydndn.app.data.network.feature.user.response.Certification
 import com.mommydndn.app.domain.model.location.Neighborhood
 import com.mommydndn.app.domain.repository.LocationRepository
 import com.mommydndn.app.domain.repository.UserRepository

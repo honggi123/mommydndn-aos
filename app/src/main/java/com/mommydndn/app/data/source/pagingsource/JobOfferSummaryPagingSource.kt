@@ -3,16 +3,16 @@ package com.mommydndn.app.data.source.pagingsource
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.mommydndn.app.data.network.model.care.response.JobOfferSummaryListItem
-import com.mommydndn.app.data.network.model.care.request.GetJobOpeningListRequest
-import com.mommydndn.app.data.network.model.common.PaginationRequest
-import com.mommydndn.app.data.network.service.CareService
+import com.mommydndn.app.data.network.feature.care.response.JobOfferSummaryListItem
+import com.mommydndn.app.data.network.feature.care.request.GetJobOpeningListRequest
+import com.mommydndn.app.data.network.feature.common.PaginationRequest
+import com.mommydndn.app.data.network.feature.care.CareService
 import javax.inject.Inject
 
 private const val STARTING_PAGE_INDEX = 1
 
 class JobOfferSummaryPagingSource @Inject constructor(
-    private val getJobOpeningListRequest: GetJobOpeningListRequest,
+    private val getJobOpeningListRequest: com.mommydndn.app.data.network.feature.care.request.GetJobOpeningListRequest,
     private val careService: CareService
 ) : PagingSource<Int, JobOfferSummaryListItem>() {
 

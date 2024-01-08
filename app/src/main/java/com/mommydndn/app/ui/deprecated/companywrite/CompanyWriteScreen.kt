@@ -51,7 +51,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.care.CaringTypeItem
-import com.mommydndn.app.data.network.model.care.response.GetMinHourlySalaryResponse
+import com.mommydndn.app.data.network.feature.care.response.GetMinHourlySalaryResponse
 import com.mommydndn.app.data.model.common.ButtonColor
 import com.mommydndn.app.data.model.common.ButtonColorType
 import com.mommydndn.app.data.model.common.ButtonSizeType

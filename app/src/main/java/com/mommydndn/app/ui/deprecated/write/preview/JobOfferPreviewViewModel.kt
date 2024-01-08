@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.mommydndn.app.data.model.care.JobOfferPreview
-import com.mommydndn.app.data.network.model.user.response.GetUserResponse
+import com.mommydndn.app.data.network.feature.user.response.GetUserResponse
 import com.mommydndn.app.domain.repository.LocationRepository
 import com.mommydndn.app.domain.repository.UserRepository
 import com.mommydndn.app.utils.extensions.asMultipart
