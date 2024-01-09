@@ -2,11 +2,10 @@ package com.mommydndn.app.data.network.service.user.response
 
 import com.mommydndn.app.data.network.service.care.model.CareTypeApiModel
 import com.mommydndn.app.data.network.service.care.model.CertificationTypeApiModel
-import com.mommydndn.app.data.network.service.common.model.LocationApiModel
+import com.mommydndn.app.data.network.service.location.model.LocationApiModel
 import com.mommydndn.app.data.network.service.user.model.GenderTypeApiModel
 import com.mommydndn.app.data.network.service.user.model.UserStatusApiModel
 import com.mommydndn.app.data.network.service.user.model.UserTypeApiModel
-import com.mommydndn.app.domain.model.location.Neighborhood
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

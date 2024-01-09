@@ -1,4 +1,4 @@
-package com.mommydndn.app.data.source.pagingsource
+package com.mommydndn.app.data.source.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
@@ -9,6 +9,7 @@ import com.mommydndn.app.data.network.service.common.model.PaginationApiModel
 import javax.inject.Inject
 
 private const val STARTING_PAGE_INDEX = 1
+
 class AgencyCareProviderSummaryPagingSource @Inject constructor(
     private val companyListRequest: GetAgencyCareProviderListRequest,
     private val careService: CareService

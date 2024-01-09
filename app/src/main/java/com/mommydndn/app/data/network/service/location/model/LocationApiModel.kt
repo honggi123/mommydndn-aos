@@ -1,6 +1,5 @@
-package com.mommydndn.app.data.network.service.common.model
+package com.mommydndn.app.data.network.service.location.model
 
-import com.mommydndn.app.domain.model.location.Neighborhood
 import kotlinx.serialization.Serializable
 @Serializable
 data class LocationApiModel(

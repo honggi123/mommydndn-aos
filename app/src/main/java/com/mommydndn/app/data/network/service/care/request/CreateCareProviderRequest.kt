@@ -3,7 +3,7 @@ package com.mommydndn.app.data.network.service.care.request
 
 import com.mommydndn.app.data.network.service.care.model.CareTypeApiModel
 import com.mommydndn.app.data.network.service.care.model.SalaryTypeApiModel
-import com.mommydndn.app.data.network.service.common.model.LocationApiModel
+import com.mommydndn.app.data.network.service.location.model.LocationApiModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

@@ -1,11 +1,10 @@
-package com.mommydndn.app.data.source.pagingsource
+package com.mommydndn.app.data.source.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.mommydndn.app.data.network.service.common.model.LocationApiModel
+import com.mommydndn.app.data.network.service.location.model.LocationApiModel
 import com.mommydndn.app.data.network.service.location.LocationService
 import com.mommydndn.app.domain.model.location.CoordinatesInfo
-import com.mommydndn.app.domain.model.location.Neighborhood
 import javax.inject.Inject
 
 private const val STARTING_PAGE_INDEX = 1

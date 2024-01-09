@@ -59,7 +59,7 @@ class AccountDataRepository @Inject constructor(
 
     override suspend fun getGoogleAccessToken(
         authCode: String
-    ): GetGoogleAccessTokenResponse = googleApiService.fetchAccessToken(
+    ): GetGoogleAccessTokenResponse = googleApiService.getAccessToken(
         GetGoogleAccessTokenRequest(
             grantType = "authorization_code",
             clientId = BuildConfig.GOOGLE_CLIENT_ID,
