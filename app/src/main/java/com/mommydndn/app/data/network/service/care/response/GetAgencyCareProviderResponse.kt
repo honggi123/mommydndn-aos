@@ -12,9 +12,9 @@ data class GetAgencyCareProviderResponse(
     @SerialName("companyId")
     val id: Int,
     @SerialName("companyAuthor")
-    val writer: com.mommydndn.app.data.network.service.care.response.AgencyCareProviderWriterApiModel,
+    val writer: AgencyCareProviderWriterApiModel,
     @SerialName("coverImageList")
-    val coverImages: List<com.mommydndn.app.data.network.service.care.response.AgencyCareProviderCoverImageApiModel>,
+    val coverImages: List<AgencyCareProviderCoverImageApiModel>,
     @SerialName("emd")
     val neighborhood: LocationApiModel,
     @SerialName("introLine")
@@ -43,13 +43,26 @@ data class AgencyCareProviderWriterApiModel(
     @SerialName("userId")
     val id: Int,
     @SerialName("reviewList")
-    val reviews: List<com.mommydndn.app.data.network.service.care.response.Review>,
-    val createdAt: Int,
+    val reviews: List<AgencyCareProviderReviewApiModel>,
     val dndnScore: Int,
     val isDnDnAuthenticated: Boolean,
     val matchingCount: Int,
     val nickname: String,
     val profileUrl: String,
     val responseRate: String,
-    val reviewCount: Int
+    val reviewCount: Int,
+    val createdAt: Int
+)
+
+@Serializable
+data class AgencyCareProviderReviewApiModel(
+    @SerialName("caringReviewId")
+    val id: Int,
+    @SerialName("caringTypeCodeList")
+    val careTypes: List<CareTypeApiModel>,
+    @SerialName("rate")
+    val rate: Int,
+    val content: String,
+    val nickname: String,
+    val createdAt: String
 )

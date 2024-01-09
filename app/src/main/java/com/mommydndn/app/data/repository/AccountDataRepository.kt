@@ -26,12 +26,13 @@ class AccountDataRepository @Inject constructor(
         acessToken: String,
         OAuthProvider: OAuthProvider
     ): SignInResponse {
-        return userService.signIn(
-            SignInRequest(
-                accessToken = acessToken,
-                oAuthProvider = OAuthProvider.name
-            )
-        )
+//        return userService.signIn(
+//            SignInRequest(
+//                accessToken = acessToken,
+//                oAuthProvider = OAuthProvider
+//            )
+//        )
+        TODO()
     }
 
     override suspend fun signUp(
@@ -40,14 +41,15 @@ class AccountDataRepository @Inject constructor(
         userType: UserType,
         emdId: Int
     ): SignUpResponse {
-       return userService.signUp(
-            SignUpRequest(
-                accessToken = accessToken,
-                oauthProvider = oAuthType.name,
-                userType = userType.name,
-                emdId = emdId
-            )
-        )
+//       return userService.signUp(
+//            SignUpRequest(
+//                accessToken = accessToken,
+//                oauthProvider = oAuthType.name,
+//                userType = userType,
+//                locationId = emdId
+//            )
+//        )
+        TODO()
     }
 
     override suspend fun saveUserToken(accessToken: String, refreshToken: String) {

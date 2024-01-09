@@ -19,7 +19,7 @@ data class GetUserResponse(
     @SerialName("certificationList")
     val certifications: List<Certification>,
     @SerialName("emd")
-    val neightborhood: LocationApiModel,
+    val location: LocationApiModel,
     @SerialName("hasJobSeeker")
     val isCareProviderCreated: Boolean,
     @SerialName("jobSeekerId")

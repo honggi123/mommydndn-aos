@@ -5,7 +5,7 @@ import com.mommydndn.app.data.network.service.care.model.CareTypeApiModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-typealias GetCareTypeListResponse = List<com.mommydndn.app.data.network.service.care.response.CareTypeResponseApiModel>
+typealias GetCareTypeListResponse = List<CareTypeResponseApiModel>
 
 @Serializable
 data class CareTypeResponseApiModel(

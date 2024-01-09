@@ -8,20 +8,16 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class GetAgencyCareProviderListRequest(
-    @SerialName("sortingCondition")
-    val sortingType: SortingType,
     @SerialName("emdId")
-    val emdId: Int,
+    val locationId: Int,
     @SerialName("neighborhoodScope")
     val neighborhoodScope: Int,
-    @SerialName("minMonthlySalary")
-    val minMonthlySalary: Int?,
-    @SerialName("maxMonthlySalary")
-    val maxMonthlySalary: Int?,
     @SerialName("paginationRequest")
     val pageMeta: PaginationApiModel,
+    @SerialName("sortingCondition")
+    val sortingType: SortingType,
     @SerialName("caringTypeCodeList")
-    val careTypeList: List<CareTypeApiModel>,
+    val careTypes: List<CareTypeApiModel>,
     val keyword: String?
 )
 

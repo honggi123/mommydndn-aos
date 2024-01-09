@@ -7,8 +7,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CreateAgencyCareProviderRequest(
-    @SerialName("emd")
-    val workingNeighborhood: LocationApiModel,
     @SerialName("comOtherConditionIdList")
     val agencyOtherConditionIdList: List<Int>,
     @SerialName("introLine")
@@ -17,8 +15,10 @@ data class CreateAgencyCareProviderRequest(
     val minSalary: Int,
     @SerialName("maxMonthlySalary")
     val maxSalary: Int,
+    @SerialName("emd")
+    val workingLocation: LocationApiModel,
     @SerialName("caringTypeCodeList")
-    val careTypeList: List<CareTypeApiModel>,
+    val careTypes: List<CareTypeApiModel>,
     val coverImageIdList: List<Int>,
     val commission: Int,
     val latitude: Double?,

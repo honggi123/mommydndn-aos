@@ -14,11 +14,7 @@ typealias GetJobOpeningListRequest = List<JobOpeningRequestApiModel>
 @Serializable
 data class JobOpeningRequestApiModel(
     @SerialName("emdId")
-    val currentNeighborhhoodId: Int,
-    @SerialName("startTime")
-    val startTime: String?,
-    @SerialName("endTime")
-    val endTime: String?,
+    val locationId: Int,
     @SerialName("paginationRequest")
     val pageMeta: PaginationApiModel,
     @SerialName("caringTypeCodeList")
@@ -30,6 +26,8 @@ data class JobOpeningRequestApiModel(
     @SerialName("sortingCondition")
     val sortingType: SortingTypeApiModel,
     val keyword: String?,
+    val startTime: String?,
+    val endTime: String?,
     val neighborhoodScope: Int
 )
 

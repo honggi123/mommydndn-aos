@@ -9,14 +9,14 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CreateCareProviderRequest(
-    @SerialName("emd")
-    val workingNeighborhood: LocationApiModel,
     @SerialName("indOtherConditionIdList")
-    val otherCondtions: List<Int>,
+    val otherConditions: List<Int>,
     @SerialName("introLine")
     val introduction: String,
     @SerialName("salaryTypeCode")
     val salaryType: SalaryTypeApiModel,
+    @SerialName("emd")
+    val workingLocation: LocationApiModel,
     @SerialName("caringTypeCodeList")
     val careTypes: List<CareTypeApiModel>,
     val salary: Int,

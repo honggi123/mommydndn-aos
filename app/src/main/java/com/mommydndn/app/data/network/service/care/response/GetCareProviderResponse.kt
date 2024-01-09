@@ -17,7 +17,7 @@ data class GetCareProviderResponse(
     @SerialName("introLine")
     val introduction: String,
     @SerialName("jobSeekerAuthor")
-    val writer: com.mommydndn.app.data.network.service.care.response.JobSeekerWriter,
+    val writer: CareProviderWriter,
     @SerialName("salaryTypeCode")
     val salaryType: SalaryTypeApiModel,
     @SerialName("caringTypeCodeList")
@@ -31,13 +31,13 @@ data class GetCareProviderResponse(
 )
 
 @Serializable
-data class JobSeekerWriter(
+data class CareProviderWriter(
     @SerialName("userId")
     val userId: Int,
     @SerialName("reviewList")
-    val reviews: List<com.mommydndn.app.data.network.service.care.response.ReviewApiModel>,
+    val reviews: List<CareProviderReviewApiModel>,
     @SerialName("certificationList")
-    val certifications: List<com.mommydndn.app.data.network.service.care.response.CertificationApiModel>,
+    val certifications: List<CareProviderCertificationApiModel>,
     val matchingCount: Int,
     val nickname: String,
     val profileUrl: String,
@@ -49,7 +49,7 @@ data class JobSeekerWriter(
 )
 
 @Serializable
-data class ReviewApiModel(
+data class CareProviderReviewApiModel(
     @SerialName("caringReviewId")
     val id: Int,
     @SerialName("caringTypeCodeList")
@@ -61,11 +61,11 @@ data class ReviewApiModel(
 )
 
 @Serializable
-data class CertificationApiModel(
+data class CareProviderCertificationApiModel(
     @SerialName("userCertificationId")
     val id: Int,
     @SerialName("certificationName")
-    val certificationName: String,
+    val name: String,
     @SerialName("certificationTypeCode")
     val certificationType: String,
     val updatedAt: Int

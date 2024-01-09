@@ -21,7 +21,7 @@ data class CreateJobOpeningRequest(
     @SerialName("endTime")
     val regularWorkEndTime: String?,
     @SerialName("emd")
-    val workingNeighborhood: LocationApiModel,
+    val workingLocation: LocationApiModel,
     @SerialName("indOtherConditionIdList")
     val individualOtherConditionIdList: List<Int>,
     @SerialName("taskTypeCode")
