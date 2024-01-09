@@ -44,7 +44,7 @@ private fun WorkPeriodUiModel.displayName(): String = when (this) {
 }
 
 @Composable
-internal fun WorkPeriodFilterModal(
+fun WorkPeriodFilterModal(
     workPeriod: WorkPeriodUiModel,
     onCloseClick: () -> Unit,
     onApplyClick: (WorkPeriodUiModel) -> Unit,

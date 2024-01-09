@@ -77,7 +77,7 @@ data class NeighborhoodFilterUiModel(
 )
 
 @Composable
-internal fun NeighborhoodFilterModal(
+fun NeighborhoodFilterModal(
     neighborhood: NeighborhoodFilterUiModel,
     onCloseClick: () -> Unit,
     onApplyClick: (NeighborhoodFilterUiModel) -> Unit,

@@ -19,7 +19,7 @@ import com.mommydndn.app.ui.components.check.CheckboxListItem
 import java.util.Collections
 
 @Composable
-internal fun OtherOptionsPostSection(
+fun OtherOptionsPostSection(
     selectedOptions: List<OtherOption>,
     onClick: (OtherOption) -> Unit,
     modifier: Modifier = Modifier,

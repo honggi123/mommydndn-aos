@@ -43,8 +43,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import com.mommydndn.app.R
 import com.mommydndn.app.domain.model.care.WorkPeriod
-import com.mommydndn.app.ui.components.range.RangeBox
 import com.mommydndn.app.ui.components.chip.ClickableChip
+import com.mommydndn.app.ui.components.range.RangeBox
 import com.mommydndn.app.ui.theme.Grey200
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
@@ -64,7 +64,7 @@ import java.util.Locale
 import kotlin.math.max
 
 @Composable
-internal fun WorkDateTimesPostSection(
+fun WorkDateTimesPostSection(
     selectedWorkPeriod: WorkPeriod,
     onWorkPeriodSelected: (WorkPeriod) -> Unit,
     selectedDates: List<LocalDate>,
@@ -85,7 +85,7 @@ internal fun WorkDateTimesPostSection(
     modifier: Modifier = Modifier,
     title: String = stringResource(R.string.work_hours),
     subtitle: String = stringResource(R.string.required),
-    workPeriods: List<WorkPeriod> = WorkPeriod.values().toList(),
+    workPeriods: List<WorkPeriod> = WorkPeriod.entries,
 ) {
     PostSection(
         title = title,
@@ -233,7 +233,6 @@ private fun OneTimeWorkDates(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // calculate and set height because this is measured with an infinity maximum height constaints
         val height = if (selectedDates.isEmpty()) {
             0.dp
         } else {
@@ -291,7 +290,7 @@ private fun DaysOfWeek(
     selectedDaysOfWeek: List<DayOfWeek>,
     onDayOfWeekClick: (DayOfWeek) -> Unit,
     modifier: Modifier = Modifier,
-    daysOfWeek: List<DayOfWeek> = DayOfWeek.values().toList(),
+    daysOfWeek: List<DayOfWeek> = DayOfWeek.entries,
 ) {
     Column(
         modifier = modifier,
@@ -419,7 +418,7 @@ private fun WorkTimes(
 }
 
 @Composable
-internal fun Negotiable(
+fun Negotiable(
     checked: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -478,9 +477,7 @@ private fun WorkDateTimes_OneTime() {
         onEndTimeClick = {},
         negotiable = false,
         onNegotiableClick = {},
-        modifier = Modifier
-            .background(White)
-            .padding(horizontal = 28.dp),
+        modifier = Modifier,
     )
 }
 

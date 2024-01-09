@@ -41,7 +41,7 @@ data class WorkHoursUiModel(
 )
 
 @Composable
-internal fun WorkHoursFilterModal(
+fun WorkHoursFilterModal(
     workHours: WorkHoursUiModel,
     onResetClick: () -> Unit,
     onCloseClick: () -> Unit,

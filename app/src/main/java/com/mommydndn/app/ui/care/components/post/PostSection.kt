@@ -22,7 +22,7 @@ val PostSectionPadding = PaddingValues(
 )
 
 @Composable
-internal fun PostSection(
+fun PostSection(
     title: String,
     subtitle: String,
     modifier: Modifier = Modifier,

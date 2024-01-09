@@ -40,7 +40,7 @@ data class NeighborhoodUiModel(
 )
 
 @Composable
-internal fun NeighborhoodPostSection(
+fun NeighborhoodPostSection(
     neighborhood: NeighborhoodUiModel,
     onNeighborhoodClick: () -> Unit,
     onNearbyNeighborhoodsClick: () -> Unit,

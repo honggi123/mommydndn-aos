@@ -28,7 +28,7 @@ import com.mommydndn.app.ui.theme.Grey800
 import com.mommydndn.app.ui.theme.paragraph300
 
 @Composable
-internal fun WorkPlacePostSection(
+fun WorkPlacePostSection(
     address: String,
     onAddressClick: () -> Unit,
     modifier: Modifier = Modifier,

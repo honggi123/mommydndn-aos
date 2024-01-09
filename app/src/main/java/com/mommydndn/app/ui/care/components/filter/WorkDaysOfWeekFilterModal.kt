@@ -31,7 +31,7 @@ import java.time.format.TextStyle
 import java.util.Locale
 
 @Composable
-internal fun WorkDaysOfWeekFilterModal(
+fun WorkDaysOfWeekFilterModal(
     selectedDaysOfWeek: List<DayOfWeek>,
     onRefreshClick: () -> Unit,
     onCloseClick: () -> Unit,

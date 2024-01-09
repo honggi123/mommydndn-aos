@@ -7,7 +7,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -29,6 +30,15 @@ import com.mommydndn.app.ui.care.components.post.PostTopAppBar
 import com.mommydndn.app.ui.theme.Grey300
 import com.mommydndn.app.ui.theme.Grey50
 import java.util.Collections
+
+data class PostCareAgencyProfileUiModel(
+    val coverPhotos: List<Uri>,
+    val profilePhoto: Uri,
+    val bio: String,
+    val neighborhood: NeighborhoodUiModel,
+    val careTypes: List<CareType>,
+    val otherOptions: List<OtherOption>,
+)
 
 @Composable
 internal fun RegisterCareAgencyScreen(
@@ -64,76 +74,65 @@ internal fun RegisterCareAgencyScreen(
             modifier = Modifier,
         )
 
-        // TODO: COLUMN
-        LazyColumn(
-            modifier = Modifier.background(Grey50),
+        Column(
+            modifier = Modifier
+                .background(Grey50)
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
-            item {
-                GetPhotosPostSection(
-                    title = stringResource(R.string.cover_photo),
-                    subtitle = stringResource(id = R.string.required),
-                    uris = coverPhotoUris,
-                    onPhotosChange = onCoverPhotosAdded,
-                    onRemoveClick = onRemoveCoverPhotoClick,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight(),
-                    maxSize = 5,
-                )
-            }
+            GetPhotosPostSection(
+                title = stringResource(R.string.cover_photo),
+                subtitle = stringResource(id = R.string.required),
+                uris = coverPhotoUris,
+                onPhotosChange = onCoverPhotosAdded,
+                onRemoveClick = onRemoveCoverPhotoClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight(),
+                maxSize = 5,
+            )
 
-            item {
-                GetPhotoPostSection(
-                    uri = profilePhotoUri,
-                    onPhotoChange = onProfilePhotoChange,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight(),
-                )
-            }
+            GetPhotoPostSection(
+                uri = profilePhotoUri,
+                onPhotoChange = onProfilePhotoChange,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight(),
+            )
 
-            item {
-                BioPostSection(
-                    bio = bio,
-                    onBioChange = onBioChange,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight(),
-                )
-            }
+            BioPostSection(
+                bio = bio,
+                onBioChange = onBioChange,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight(),
+            )
 
-            item {
-                NeighborhoodPostSection(
-                    neighborhood = neighborhood,
-                    onNeighborhoodClick = onNeighborhoodClick,
-                    onNearbyNeighborhoodsClick = onNearbyNeighborhoodsClick,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight(),
-                )
-            }
+            NeighborhoodPostSection(
+                neighborhood = neighborhood,
+                onNeighborhoodClick = onNeighborhoodClick,
+                onNearbyNeighborhoodsClick = onNearbyNeighborhoodsClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight(),
+            )
 
-            item {
-                CareTypesPostSection(
-                    selectedCareTypes = careTypes,
-                    onCareTypeClick = onCareTypeClick,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight(),
-                )
-            }
+            CareTypesPostSection(
+                selectedCareTypes = careTypes,
+                onCareTypeClick = onCareTypeClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight(),
+            )
 
-            item {
-                OtherOptionsPostSection(
-                    options = Collections.singletonList(OtherOption.AS),
-                    selectedOptions = options,
-                    onClick = onOptionClick,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight(),
-                )
-            }
+            OtherOptionsPostSection(
+                options = Collections.singletonList(OtherOption.AS),
+                selectedOptions = options,
+                onClick = onOptionClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight(),
+            )
         }
     }
 }

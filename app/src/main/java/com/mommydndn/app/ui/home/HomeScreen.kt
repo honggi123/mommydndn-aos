@@ -15,7 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.notification.Notification
-import com.mommydndn.app.ui.deprecated.components.modal.NoticeSettingListModal
+import com.mommydndn.app.deprecated.components.modal.NoticeSettingListModal
 import com.mommydndn.app.ui.theme.GreyOpacity400
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

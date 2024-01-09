@@ -161,7 +161,7 @@ fun ContentTextField(
 
 @Preview
 @Composable
-private fun TitleTextField_EmptyText() {
+private fun TitleTextFieldEmptyText() {
     TitleTextField(
         title = "",
         onTitleChange = {},
@@ -173,7 +173,7 @@ private fun TitleTextField_EmptyText() {
 
 @Preview
 @Composable
-private fun TitleTextField_WithText() {
+private fun TitleTextFieldText() {
     TitleTextField(
         title = "글 제목",
         onTitleChange = {},
@@ -185,7 +185,7 @@ private fun TitleTextField_WithText() {
 
 @Preview
 @Composable
-private fun ContentTextField_EmptyText() {
+private fun ContentTextFieldEmptyText() {
     ContentTextField(
         content = "",
         onContentChange = {},
@@ -195,7 +195,7 @@ private fun ContentTextField_EmptyText() {
 
 @Preview
 @Composable
-private fun ContentTextField_WithText() {
+private fun ContentTextFieldText() {
     ContentTextField(
         content = stringResource(R.string.lorem_ipsum),
         onContentChange = {},

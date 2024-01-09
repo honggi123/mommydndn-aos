@@ -32,7 +32,7 @@ import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph300
 
 @Composable
-internal fun AuthenticationPostSection(
+fun AuthenticationPostSection(
     authentications: List<String>,
     onAuthenticateClick: () -> Unit,
     modifier: Modifier = Modifier,

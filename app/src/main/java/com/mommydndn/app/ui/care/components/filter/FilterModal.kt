@@ -49,7 +49,7 @@ import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph400
 
 @Composable
-internal fun CareFilterModal(
+fun CareFilterModal(
     onCloseClick: () -> Unit,
     onApplyClick: () -> Unit,
     modifier: Modifier = Modifier,

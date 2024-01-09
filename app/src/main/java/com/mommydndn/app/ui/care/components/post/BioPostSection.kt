@@ -28,7 +28,7 @@ import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.paragraph300
 
 @Composable
-internal fun BioPostSection(
+fun BioPostSection(
     bio: String,
     onBioChange: (String) -> Unit,
     modifier: Modifier = Modifier,

@@ -51,7 +51,7 @@ import com.mommydndn.app.utils.extensions.checkImagesPermission
 import kotlin.math.max
 
 @Composable
-internal fun GetPhotosPostSection(
+fun GetPhotosPostSection(
     uris: List<Uri>,
     onPhotosChange: (List<Uri>) -> Unit,
     onRemoveClick: (Uri) -> Unit,

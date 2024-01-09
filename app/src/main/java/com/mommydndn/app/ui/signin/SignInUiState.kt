@@ -2,6 +2,7 @@ package com.mommydndn.app.ui.signin
 
 import com.mommydndn.app.domain.model.user.OAuthProvider
 
+// TODO
 sealed interface SignInUiState {
 
     object Loading : SignInUiState

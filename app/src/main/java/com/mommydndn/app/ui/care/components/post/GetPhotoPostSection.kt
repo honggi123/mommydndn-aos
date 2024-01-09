@@ -27,7 +27,7 @@ import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.utils.extensions.checkImagesPermission
 
 @Composable
-internal fun GetPhotoPostSection(
+fun GetPhotoPostSection(
     uri: Uri?,
     onPhotoChange: (Uri?) -> Unit,
     modifier: Modifier = Modifier,

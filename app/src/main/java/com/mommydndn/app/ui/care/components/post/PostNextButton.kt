@@ -28,7 +28,7 @@ import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph400
 
 @Composable
-internal fun PostNextButton(
+fun PostNextButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
