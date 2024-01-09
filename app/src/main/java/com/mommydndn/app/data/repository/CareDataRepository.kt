@@ -44,7 +44,7 @@ class CareDataRepository @Inject constructor(
     }
 
     override suspend fun fetchNearestJobOffers(): List<JobOffer> {
-//       return careService.fetchNearestJobOpeningList().toDomain()
+//       return careService.fetchNearestJobOpeningList().       toDomain()
         TODO()
     }
 

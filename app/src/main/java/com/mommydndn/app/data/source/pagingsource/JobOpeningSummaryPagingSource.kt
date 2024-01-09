@@ -19,7 +19,7 @@ class JobOpeningSummaryPagingSource @Inject constructor(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, JobOpeningSummaryApiModel> {
         return try {
             val position = params.key ?: STARTING_PAGE_INDEX
-            val result = careService.fetchJobOpeningSummaryList(
+            val result = careService.getJobOpeningSummaryList(
                 getJobOpeningListRequest.map {
                     it.copy(
                         pageMeta = PaginationApiModel(

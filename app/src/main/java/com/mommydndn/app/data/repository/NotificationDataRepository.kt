@@ -1,6 +1,5 @@
 package com.mommydndn.app.data.repository
 
-import com.mommydndn.app.data.api.model.response.toDomain
 import com.mommydndn.app.data.network.service.notification.NotificationService
 import com.mommydndn.app.data.model.notification.Notification
 import com.mommydndn.app.data.network.service.common.response.GetBannerListResponse
@@ -18,12 +17,3 @@ class NotificationDataRepository constructor(
     }
 }
 
-fun GetBannerListResponse.toDomain(): List<Banner> {
-    return this.map {
-        Banner(
-            bannerId = it.id,
-            targetUrl = it.targetUrl ?: "",
-            url = it.url ?: ""
-        )
-    }
-}

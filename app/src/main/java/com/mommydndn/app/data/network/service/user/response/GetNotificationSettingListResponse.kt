@@ -14,13 +14,3 @@ data class NotificationSettingApiModel(
     val noticeTypeName: String
 )
 
-fun GetNotificationSettingListResponse.toDomain(): List<Notification> {
-    return this.map {
-        Notification(
-            isApproved = it.isApproved,
-            noticeTypeId = it.id,
-            noticeTypeName = it.noticeTypeName,
-            isSelected = false
-        )
-    }
-}

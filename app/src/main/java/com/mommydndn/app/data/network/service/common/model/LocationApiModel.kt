@@ -15,10 +15,3 @@ fun LocationApiModel.displayName(): String {
     return this.fullName
 }
 
-fun LocationApiModel.toDomain() : Neighborhood {
-    return Neighborhood(
-        id = id,
-        name = name,
-        address = fullName
-    )
-}

@@ -17,7 +17,7 @@ class LocationsByKeywordPagingSource @Inject constructor(
         return try {
             val position = params.key ?: STARTING_PAGE_INDEX
             val result =
-                locationService.fetchLocationsByKeyword(
+                locationService.getLocationsByKeyword(
                     keyWord,
                     skip = (position - 1) * params.loadSize,
                     limit = params.loadSize,

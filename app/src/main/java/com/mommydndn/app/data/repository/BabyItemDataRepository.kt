@@ -1,6 +1,5 @@
 package com.mommydndn.app.data.repository
 
-import com.mommydndn.app.data.api.model.response.toDomain
 import com.mommydndn.app.data.network.service.babyitem.BabyItemService
 import com.mommydndn.app.domain.model.care.BabyItemsWithMeta
 import com.mommydndn.app.domain.repository.BabyItemRepository
@@ -19,13 +18,13 @@ class BabyItemDataRepository @Inject constructor(
         pageSize: Int,
         currentTimeStamp: Long
     ): Flow<BabyItemsWithMeta> = flow {
-        emit(
-            babyItemService.fetchNearestBabyItemSummary(
-                size = pageSize,
-                page = pageNum,
-                requestedAt = currentTimeStamp
-            ).toDomain()
-        )
-    }.flowOn(Dispatchers.IO)
+//        emit(
+//            babyItemService.fetchNearestBabyItemSummary(
+//                size = pageSize,
+//                page = pageNum,
+//                requestedAt = currentTimeStamp
+//            )
+//        )
+    }
 
 }

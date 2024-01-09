@@ -17,7 +17,7 @@ class AgencyCareProviderSummaryPagingSource @Inject constructor(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, AgencyCareProviderSummaryApiModel> {
         return try {
             val position = params.key ?: STARTING_PAGE_INDEX
-            val result = careService.fetchAgencyCareProviderSummaryList(
+            val result = careService.getAgencyCareProviderSummaryList(
                 companyListRequest.copy(
                     pageMeta = PaginationApiModel(
                         page = position,

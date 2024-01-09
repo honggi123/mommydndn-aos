@@ -6,7 +6,7 @@ import retrofit2.http.Query
 
 interface BabyItemService {
     @GET("/api/item/nearest")
-    suspend fun fetchNearestBabyItemSummary(
+    suspend fun getNearestBabyItemSummary(
         @Query("pageSize") size: Int,
         @Query("pageNum") page: Int,
         @Query("requestTimestamp") requestedAt: Long

@@ -32,29 +32,3 @@ data class BabyItemMetaResponse(
     val requestTimestamp: Long
 )
 
-fun BabyItemResponse.toDomain(): BabyItem {
-    return BabyItem(
-        itemId = id,
-        imageUrl = imageUrl,
-        price = price,
-        title = title,
-        neighborhood = neighborhood,
-        createdAt = createdAt,
-        isLiked = isLiked
-    )
-}
-
-fun BabyItemMetaResponse.toDomain(): BabyItemMeta {
-    return BabyItemMeta(
-        totalCount = totalCount,
-        currentPageNum = currentPageNum,
-        requestTimestamp = requestTimestamp
-    )
-}
-
-fun GetBabyItemSummaryListResponse.toDomain(): BabyItemsWithMeta {
-    return BabyItemsWithMeta(
-        itemSummaryList = items.map { it.toDomain() },
-        meta = meta.toDomain()
-    )
-}

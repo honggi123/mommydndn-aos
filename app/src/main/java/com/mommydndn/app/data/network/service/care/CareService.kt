@@ -29,40 +29,40 @@ import retrofit2.http.Path
 
 interface CareService {
     @GET("/api/caring/job-seeker/nearest")
-    suspend fun fetchNearestCareProviderList(): GetNearestCareProviderListResponse
+    suspend fun getNearestCareProviderList(): GetNearestCareProviderListResponse
 
     @GET("/api/caring/job-offer/nearest")
-    suspend fun fetchNearestJobOpeningList(): GetNearestJobOpeningListResponse
+    suspend fun getNearestJobOpeningList(): GetNearestJobOpeningListResponse
 
     @GET("/api/caring/job-offer/{jobOfferId}")
-    suspend fun fetchJobOpening(@Path("jobOfferId") id: Int): GetJobOpeningResponse
+    suspend fun getJobOpening(@Path("jobOfferId") id: Int): GetJobOpeningResponse
 
     @GET("/api/caring/job-seeker/{jobSeekerId}")
-    suspend fun fetchCareProvider(@Path("jobSeekerId") id: Int): GetCareProviderResponse
+    suspend fun getCareProvider(@Path("jobSeekerId") id: Int): GetCareProviderResponse
 
     @GET("/api/caring/company/{companyId}")
-    suspend fun fetchAgencyCareProvider(@Path("companyId") id: Int): GetAgencyCareProviderResponse
+    suspend fun getAgencyCareProvider(@Path("companyId") id: Int): GetAgencyCareProviderResponse
 
     @POST("/api/caring/job-offer/list")
-    suspend fun fetchJobOpeningSummaryList(@Body request: GetJobOpeningListRequest): GetJobOpeningSummaryListResponse
+    suspend fun getJobOpeningSummaryList(@Body request: GetJobOpeningListRequest): GetJobOpeningSummaryListResponse
 
     @POST("/api/caring/job-seeker/list")
-    suspend fun fetchCareProviderSummaryList(@Body request: GetCareProviderListRequest): GetCareProviderSummaryListResponse
+    suspend fun getCareProviderSummaryList(@Body request: GetCareProviderListRequest): GetCareProviderSummaryListResponse
 
     @POST("/api/caring/company/list")
-    suspend fun fetchAgencyCareProviderSummaryList(@Body request: GetAgencyCareProviderListRequest): GetAgencyCareProviderSummaryListResponse
+    suspend fun getAgencyCareProviderSummaryList(@Body request: GetAgencyCareProviderListRequest): GetAgencyCareProviderSummaryListResponse
 
     @GET("/api/caring/min-hourly-salary")
-    suspend fun fetchMininumWage(): GetMinimumWageResponse
+    suspend fun getMininumWage(): GetMinimumWageResponse
 
     @GET("/api/caring/ind-other-condition")
-    suspend fun fetchOtherIndividualConditions(): GetOtherIndividualConditionListResponse
+    suspend fun getOtherIndividualConditions(): GetOtherIndividualConditionListResponse
 
     @GET("/api/caring/com-other-condition")
-    suspend fun fetchOtherAgencyCondtions(): GetOtherAgenyConditionListResponse
+    suspend fun getOtherAgencyCondtions(): GetOtherAgenyConditionListResponse
 
     @GET("/api/caring/caring-type")
-    suspend fun fetchCareTypes(): GetCareTypeListResponse
+    suspend fun getCareTypes(): GetCareTypeListResponse
 
     @POST("/api/caring/job-offer")
     suspend fun createJobOpening(@Body request: CreateJobOpeningRequest): CreateJobOpeningResponse

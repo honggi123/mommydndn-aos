@@ -2,108 +2,72 @@ package com.mommydndn.app.data.network.service.user.response
 
 import com.mommydndn.app.data.network.service.care.model.CareTypeApiModel
 import com.mommydndn.app.data.network.service.care.model.CertificationTypeApiModel
+import com.mommydndn.app.data.network.service.common.model.LocationApiModel
+import com.mommydndn.app.data.network.service.user.model.GenderTypeApiModel
+import com.mommydndn.app.data.network.service.user.model.UserStatusApiModel
+import com.mommydndn.app.data.network.service.user.model.UserTypeApiModel
 import com.mommydndn.app.domain.model.location.Neighborhood
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class GetUserResponse(
-    val age: Int?,
-    @SerialName("caringReviewList")
-    val caringReviewList: List<CaringReview>,
-    @SerialName("certificationList")
-    val certificationList: List<Certification>,
-    @SerialName("companyId")
-    val companyId: Int?,
-    @SerialName("createdAt")
-    val createdAt: Long,
-    @SerialName("dndnScore")
-    val dndnScore: Double,
-    @SerialName("emd")
-    val emd: EmdItemResponse,
-    @SerialName("gender")
-    val gender: String?,
-    @SerialName("hasCompany")
-    val hasCompany: Boolean,
-    @SerialName("hasJobSeeker")
-    val hasJobSeeker: Boolean,
-    @SerialName("isDnDnAuthenticated")
-    val isDnDnAuthenticated: Boolean,
-    @SerialName("jobSeekerId")
-    val jobSeekerId: Int?,
-    @SerialName("matchingCount")
-    val matchingCount: Int,
-    @SerialName("nickname")
-    val nickname: String,
-    @SerialName("profileUrl")
-    val profileUrl: String?,
-    @SerialName("responseRate")
-    val responseRate: String,
-    @SerialName("reviewCount")
-    val reviewCount: Int,
     @SerialName("userId")
     val userId: Int,
+    @SerialName("caringReviewList")
+    val reviews: List<CaringReview>,
+    @SerialName("certificationList")
+    val certifications: List<Certification>,
+    @SerialName("emd")
+    val neightborhood: LocationApiModel,
+    @SerialName("hasJobSeeker")
+    val isCareProviderCreated: Boolean,
+    @SerialName("jobSeekerId")
+    val careProviderId: Int?,
+    @SerialName("hasCompany")
+    val isAgencyCareProviderCreated: Boolean,
+    @SerialName("companyId")
+    val agencyCareProviderId: Int?,
     @SerialName("userStatus")
-    val userStatus: String,
+    val userStatus: UserStatusApiModel,
     @SerialName("userType")
-    val userType: String
+    val userType: UserTypeApiModel,
+    @SerialName("gender")
+    val gender: GenderTypeApiModel?,
+    val age: Int?,
+    val birthDate: String?,
+    val profileUrl: String?,
+    val dndnScore: Double,
+    val responseRate: String,
+    val reviewCount: Int,
+    val isDnDnAuthenticated: Boolean,
+    val matchingCount: Int,
+    val nickname: String,
+    val createdAt: Long
 )
 
 @Serializable
 data class CaringReview(
     @SerialName("caringReviewId")
-    val caringReviewId: Int,
+    val id: Int,
     @SerialName("caringTypeCodeList")
-    val caringTypeCodeList: List<CareTypeApiModel>,
-    @SerialName("content")
+    val careTypes: List<CareTypeApiModel>,
     val content: String,
-    @SerialName("createdAt")
-    val createdAt: Long,
-    @SerialName("nickname")
     val nickname: String,
-    @SerialName("rate")
-    val rate: Double
+    val rate: Double,
+    val createdAt: Long
 )
 
 @Serializable
 data class Certification(
-    @SerialName("certificationName")
-    val certificationName: String,
-    @SerialName("certificationTypeCode")
-    val certificationTypeCode: CertificationTypeApiModel,
-    @SerialName("updatedAt")
-    val updatedAt: Long,
     @SerialName("userCertificationId")
-    val userCertificationId: Int
-)
-
-@Serializable
-data class Emd(
-    @SerialName("ctprvnName")
-    val ctprvnName: String,
-    @SerialName("fullName")
-    val fullName: String,
-    @SerialName("id")
     val id: Int,
-    @SerialName("name")
+    @SerialName("certificationName")
     val name: String,
-    @SerialName("sigName")
-    val sigName: String
+    @SerialName("certificationTypeCode")
+    val type: CertificationTypeApiModel,
+    val updatedAt: Long,
 )
 
-@Serializable
-data class EmdItemResponse(
-    val id: Int,
-    val name: String,
-    val sigName: String,
-    val ctprvnName: String,
-    val fullName: String
-)
 
-fun EmdItemResponse.toDomain() : Neighborhood {
-    return Neighborhood(
-        id = id,
-        name = name,
-        address = fullName
-    )
-}
+

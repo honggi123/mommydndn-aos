@@ -8,7 +8,7 @@ import retrofit2.http.Query
 
 interface LocationService {
     @GET("/api/map/nearest")
-    suspend fun fetchNearbyMyLocation(
+    suspend fun getNearbyMyLocation(
         @Query("latitude") latitude: Double,
         @Query("longitude") longitude: Double,
         @Query("skip") skip: Int = 0,
@@ -16,7 +16,7 @@ interface LocationService {
     ): GetNearestNeighborhoodListResponse
 
     @GET("/api/map/search")
-    suspend fun fetchLocationsByKeyword(
+    suspend fun getLocationsByKeyword(
         @Query("keyword") keyword: String,
         @Query("skip") skip: Int = 0,
         @Query("limit") limit: Int = 20,
