@@ -4,7 +4,7 @@ import com.mommydndn.app.data.network.service.care.model.AgencyOtherConditionApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-typealias GetOtherAgenyConditionListResponse = List<com.mommydndn.app.data.network.service.care.response.OtherAgenyConditionApiModel>
+typealias GetOtherAgenyConditionListResponse = List<OtherAgenyConditionApiModel>
 
 @Serializable
 data class OtherAgenyConditionApiModel(

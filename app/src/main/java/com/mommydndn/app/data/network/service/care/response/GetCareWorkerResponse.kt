@@ -9,15 +9,15 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetCareProviderResponse(
+data class GetCareWorkerResponse(
     @SerialName("jobSeekerId")
     val id: Int,
     @SerialName("emd")
-    val neighborhood: LocationApiModel,
+    val location: LocationApiModel,
     @SerialName("introLine")
     val introduction: String,
     @SerialName("jobSeekerAuthor")
-    val writer: CareProviderWriter,
+    val writer: CareWorkerWriter,
     @SerialName("salaryTypeCode")
     val salaryType: SalaryTypeApiModel,
     @SerialName("caringTypeCodeList")
@@ -31,13 +31,13 @@ data class GetCareProviderResponse(
 )
 
 @Serializable
-data class CareProviderWriter(
+data class CareWorkerWriter(
     @SerialName("userId")
     val userId: Int,
     @SerialName("reviewList")
-    val reviews: List<CareProviderReviewApiModel>,
+    val reviews: List<CareWorkerReviewApiModel>,
     @SerialName("certificationList")
-    val certifications: List<CareProviderCertificationApiModel>,
+    val certifications: List<CareWorkerCertificationApiModel>,
     val matchingCount: Int,
     val nickname: String,
     val profileUrl: String,
@@ -49,7 +49,7 @@ data class CareProviderWriter(
 )
 
 @Serializable
-data class CareProviderReviewApiModel(
+data class CareWorkerReviewApiModel(
     @SerialName("caringReviewId")
     val id: Int,
     @SerialName("caringTypeCodeList")
@@ -61,7 +61,7 @@ data class CareProviderReviewApiModel(
 )
 
 @Serializable
-data class CareProviderCertificationApiModel(
+data class CareWorkerCertificationApiModel(
     @SerialName("userCertificationId")
     val id: Int,
     @SerialName("certificationName")

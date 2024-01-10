@@ -9,14 +9,14 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetJobOpeningSummaryListResponse(
+data class GetCareJobSummaryListResponse(
     @SerialName("jobOfferSummaryList")
-    val items: List<JobOpeningSummaryApiModel>,
+    val items: List<CareJobSummaryApiModel>,
     val meta: MetaApiModel
 )
 
 @Serializable
-data class JobOpeningSummaryApiModel(
+data class CareJobSummaryApiModel(
     @SerialName("jobOfferId")
     val id: Int,
     @SerialName("dateList")

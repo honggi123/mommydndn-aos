@@ -9,7 +9,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetJobOpeningResponse(
+data class GetCareJobResponse(
     @SerialName("jobOfferId")
     val id: Int,
     @SerialName("emd")
@@ -27,13 +27,13 @@ data class GetJobOpeningResponse(
     @SerialName("endTime")
     val regularWorkEndTime: String?,
     @SerialName("jobOfferAuthor")
-    val writer: JobOpeningWriterApiModel,
+    val writer: CareJobWriterApiModel,
     @SerialName("hits")
     val views: Int,
     @SerialName("salary")
     val pay: Int?,
     @SerialName("imageList")
-    val images: List<ImageApiModel>,
+    val images: List<CareJobImageApiModel>,
     @SerialName("salaryTypeCode")
     val salaryType: SalaryTypeApiModel,
     @SerialName("caringTypeCodeList")
@@ -52,7 +52,7 @@ data class GetJobOpeningResponse(
 )
 
 @Serializable
-data class JobOpeningWriterApiModel(
+data class CareJobWriterApiModel(
     @SerialName("neighborhood")
     val neighborhoodName: String,
     val userId: Int,
@@ -60,7 +60,7 @@ data class JobOpeningWriterApiModel(
     val createdAt: Long,
     val dndnScore: Double,
     val isDnDnAuthenticated: Boolean,
-    val latestReview: com.mommydndn.app.data.network.service.care.response.LatestReviewApiModel?,
+    val latestReview: CareJobReviewApiModel?,
     val matchingCount: Int,
     val nickname: String,
     val profileUrl: String?,
@@ -69,7 +69,7 @@ data class JobOpeningWriterApiModel(
 )
 
 @Serializable
-data class LatestReviewApiModel(
+data class CareJobReviewApiModel(
     @SerialName("caringReviewId")
     val id: Int,
     @SerialName("caringTypeCodeList")
@@ -81,7 +81,7 @@ data class LatestReviewApiModel(
 )
 
 @Serializable
-data class ImageApiModel(
+data class CareJobImageApiModel(
     @SerialName("imageId")
     val id: Int,
     val url: String

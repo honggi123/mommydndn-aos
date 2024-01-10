@@ -1,27 +1,26 @@
 package com.mommydndn.app.data.network.service.care
 
-import com.mommydndn.app.data.network.service.care.request.CreateAgencyCareProviderRequest
-import com.mommydndn.app.data.network.service.care.request.GetAgencyCareProviderListRequest
-import com.mommydndn.app.data.network.service.care.request.CreateJobOpeningRequest
-import com.mommydndn.app.data.network.service.care.request.GetJobOpeningListRequest
-import com.mommydndn.app.data.network.service.care.request.CreateCareProviderRequest
-import com.mommydndn.app.data.network.service.care.request.GetCareProviderListRequest
-import com.mommydndn.app.data.network.service.care.response.CreateAgencyCareProviderResponse
-import com.mommydndn.app.data.network.service.care.response.CreateJobOpeningResponse
-import com.mommydndn.app.data.network.service.care.response.CreateCareProviderResponse
-import com.mommydndn.app.data.network.service.care.response.GetAgencyCareProviderResponse
-import com.mommydndn.app.data.network.service.care.response.GetAgencyCareProviderSummaryListResponse
-import com.mommydndn.app.data.network.service.care.response.GetCareProviderResponse
-import com.mommydndn.app.data.network.service.care.response.GetCareProviderSummaryListResponse
+import com.mommydndn.app.data.network.service.care.request.CreateAgencyCareWorkerRequest
+import com.mommydndn.app.data.network.service.care.request.GetAgencyCareWorkerListRequest
+import com.mommydndn.app.data.network.service.care.request.CreateCareJobRequest
+import com.mommydndn.app.data.network.service.care.request.GetCareJobListRequest
+import com.mommydndn.app.data.network.service.care.request.CreateCareWorkerRequest
+import com.mommydndn.app.data.network.service.care.request.GetCareWorkerListRequest
+import com.mommydndn.app.data.network.service.care.response.CreateAgencyCareWorkerResponse
+import com.mommydndn.app.data.network.service.care.response.CreateCareJobResponse
+import com.mommydndn.app.data.network.service.care.response.CreateCareWorkerResponse
+import com.mommydndn.app.data.network.service.care.response.GetAgencyCareWorkerResponse
+import com.mommydndn.app.data.network.service.care.response.GetAgencyCareWorkerSummaryListResponse
+import com.mommydndn.app.data.network.service.care.response.GetCareWorkerResponse
+import com.mommydndn.app.data.network.service.care.response.GetCareWorkerSummaryListResponse
 import com.mommydndn.app.data.network.service.care.response.GetCareTypeListResponse
-import com.mommydndn.app.data.network.service.care.response.GetJobOpeningResponse
-import com.mommydndn.app.data.network.service.care.response.GetJobOpeningSummaryListResponse
+import com.mommydndn.app.data.network.service.care.response.GetCareJobResponse
+import com.mommydndn.app.data.network.service.care.response.GetCareJobSummaryListResponse
 import com.mommydndn.app.data.network.service.care.response.GetMinimumWageResponse
 import com.mommydndn.app.data.network.service.care.response.GetOtherAgenyConditionListResponse
 import com.mommydndn.app.data.network.service.care.response.GetOtherIndividualConditionListResponse
-import com.mommydndn.app.data.network.service.location.response.GetNearestCareProviderListResponse
-import com.mommydndn.app.data.network.service.location.response.GetNearestJobOpeningListResponse
-import retrofit2.Response
+import com.mommydndn.app.data.network.service.location.response.GetNearestCareJobListResponse
+import com.mommydndn.app.data.network.service.location.response.GetNearestCareWorkerListResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -29,28 +28,28 @@ import retrofit2.http.Path
 
 interface CareService {
     @GET("/api/caring/job-seeker/nearest")
-    suspend fun getNearestCareProviderList(): GetNearestCareProviderListResponse
+    suspend fun getNearestCareWorkerList(): GetNearestCareWorkerListResponse
 
     @GET("/api/caring/job-offer/nearest")
-    suspend fun getNearestJobOpeningList(): GetNearestJobOpeningListResponse
+    suspend fun getNearestJobOpeningList(): GetNearestCareJobListResponse
 
     @GET("/api/caring/job-offer/{jobOfferId}")
-    suspend fun getJobOpening(@Path("jobOfferId") id: Int): GetJobOpeningResponse
+    suspend fun getJobOpening(@Path("jobOfferId") id: Int): GetCareJobResponse
 
     @GET("/api/caring/job-seeker/{jobSeekerId}")
-    suspend fun getCareProvider(@Path("jobSeekerId") id: Int): GetCareProviderResponse
+    suspend fun getCareWorker(@Path("jobSeekerId") id: Int): GetCareWorkerResponse
 
     @GET("/api/caring/company/{companyId}")
-    suspend fun getAgencyCareProvider(@Path("companyId") id: Int): GetAgencyCareProviderResponse
+    suspend fun getAgencyCareWorker(@Path("companyId") id: Int): GetAgencyCareWorkerResponse
 
     @POST("/api/caring/job-offer/list")
-    suspend fun getJobOpeningSummaryList(@Body request: GetJobOpeningListRequest): GetJobOpeningSummaryListResponse
+    suspend fun getJobOpeningSummaryList(@Body request: GetCareJobListRequest): GetCareJobSummaryListResponse
 
     @POST("/api/caring/job-seeker/list")
-    suspend fun getCareProviderSummaryList(@Body request: GetCareProviderListRequest): GetCareProviderSummaryListResponse
+    suspend fun getCareWorkerSummaryList(@Body request: GetCareWorkerListRequest): GetCareWorkerSummaryListResponse
 
     @POST("/api/caring/company/list")
-    suspend fun getAgencyCareProviderSummaryList(@Body request: GetAgencyCareProviderListRequest): GetAgencyCareProviderSummaryListResponse
+    suspend fun getAgencyCareWorkerSummaryList(@Body request: GetAgencyCareWorkerListRequest): GetAgencyCareWorkerSummaryListResponse
 
     @GET("/api/caring/min-hourly-salary")
     suspend fun getMininumWage(): GetMinimumWageResponse
@@ -65,11 +64,11 @@ interface CareService {
     suspend fun getCareTypes(): GetCareTypeListResponse
 
     @POST("/api/caring/job-offer")
-    suspend fun createJobOpening(@Body request: CreateJobOpeningRequest): CreateJobOpeningResponse
+    suspend fun createJobOpening(@Body request: CreateCareJobRequest): CreateCareJobResponse
 
     @POST("/api/caring/job-seeker")
-    suspend fun createCareProvider(@Body request: CreateCareProviderRequest): CreateCareProviderResponse
+    suspend fun createCareWorker(@Body request: CreateCareWorkerRequest): CreateCareWorkerResponse
 
     @POST("/api/caring/company")
-    suspend fun createAgencyCareProvider(@Body request: CreateAgencyCareProviderRequest): CreateAgencyCareProviderResponse
+    suspend fun createAgencyCareWorker(@Body request: CreateAgencyCareWorkerRequest): CreateAgencyCareWorkerResponse
 }

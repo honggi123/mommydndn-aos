@@ -6,10 +6,10 @@ import com.mommydndn.app.data.network.service.common.model.PaginationApiModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-typealias GetCareProviderListRequest = List<CareProviderRequestApiModel>
+typealias GetCareWorkerListRequest = List<CareWorkerRequestApiModel>
 
 @Serializable
-data class CareProviderRequestApiModel(
+data class CareWorkerRequestApiModel(
     @SerialName("emdId")
     val locationId: Int,
     @SerialName("neighborhoodScope")

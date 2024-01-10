@@ -4,10 +4,10 @@ import com.mommydndn.app.data.network.service.care.model.CareTypeApiModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-typealias GetNearestCareProviderListResponse = List<NearestCareProviderApiModel>
+typealias GetNearestCareWorkerListResponse = List<NearestCareWorkerApiModel>
 
 @Serializable
-data class NearestCareProviderApiModel(
+data class NearestCareWorkerApiModel(
     @SerialName("jobSeekerId")
     val id: Int,
     @SerialName("caringType")

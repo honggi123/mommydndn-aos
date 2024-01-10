@@ -7,7 +7,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetAgencyCareProviderListRequest(
+data class GetAgencyCareWorkerListRequest(
     @SerialName("emdId")
     val locationId: Int,
     @SerialName("neighborhoodScope")

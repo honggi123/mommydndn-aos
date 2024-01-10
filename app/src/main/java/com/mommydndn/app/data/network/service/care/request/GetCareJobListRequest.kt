@@ -9,10 +9,10 @@ import com.mommydndn.app.data.network.service.common.model.PaginationApiModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-typealias GetJobOpeningListRequest = List<JobOpeningRequestApiModel>
+typealias GetCareJobListRequest = List<CareJobRequestApiModel>
 
 @Serializable
-data class JobOpeningRequestApiModel(
+data class CareJobRequestApiModel(
     @SerialName("emdId")
     val locationId: Int,
     @SerialName("paginationRequest")

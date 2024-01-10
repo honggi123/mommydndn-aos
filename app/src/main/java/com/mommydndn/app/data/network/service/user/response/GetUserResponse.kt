@@ -20,13 +20,13 @@ data class GetUserResponse(
     @SerialName("emd")
     val location: LocationApiModel,
     @SerialName("hasJobSeeker")
-    val isCareProviderCreated: Boolean,
+    val isCareWorkerCreated: Boolean,
     @SerialName("jobSeekerId")
-    val careProviderId: Int?,
+    val CareWorkerId: Int?,
     @SerialName("hasCompany")
-    val isAgencyCareProviderCreated: Boolean,
+    val isAgencyCareWorkerCreated: Boolean,
     @SerialName("companyId")
-    val agencyCareProviderId: Int?,
+    val agencyCareWorkerId: Int?,
     @SerialName("userStatus")
     val userStatus: UserStatusApiModel,
     @SerialName("userType")

@@ -8,13 +8,13 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetAgencyCareProviderResponse(
+data class GetAgencyCareWorkerResponse(
     @SerialName("companyId")
     val id: Int,
     @SerialName("companyAuthor")
-    val writer: AgencyCareProviderWriterApiModel,
+    val writer: AgencyCareWorkerWriterApiModel,
     @SerialName("coverImageList")
-    val coverImages: List<AgencyCareProviderCoverImageApiModel>,
+    val coverImages: List<AgencyCareWorkerCoverImageApiModel>,
     @SerialName("emd")
     val neighborhood: LocationApiModel,
     @SerialName("introLine")
@@ -32,18 +32,18 @@ data class GetAgencyCareProviderResponse(
 )
 
 @Serializable
-data class AgencyCareProviderCoverImageApiModel(
+data class AgencyCareWorkerCoverImageApiModel(
     @SerialName("imageId")
     val id: Int,
     val url: String
 )
 
 @Serializable
-data class AgencyCareProviderWriterApiModel(
+data class AgencyCareWorkerWriterApiModel(
     @SerialName("userId")
     val id: Int,
     @SerialName("reviewList")
-    val reviews: List<AgencyCareProviderReviewApiModel>,
+    val reviews: List<AgencyCareWorkerReviewApiModel>,
     val dndnScore: Int,
     val isDnDnAuthenticated: Boolean,
     val matchingCount: Int,
@@ -55,7 +55,7 @@ data class AgencyCareProviderWriterApiModel(
 )
 
 @Serializable
-data class AgencyCareProviderReviewApiModel(
+data class AgencyCareWorkerReviewApiModel(
     @SerialName("caringReviewId")
     val id: Int,
     @SerialName("caringTypeCodeList")

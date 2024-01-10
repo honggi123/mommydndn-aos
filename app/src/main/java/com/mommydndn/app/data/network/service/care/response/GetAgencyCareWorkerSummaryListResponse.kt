@@ -6,15 +6,15 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetAgencyCareProviderSummaryListResponse(
+data class GetAgencyCareWorkerSummaryListResponse(
     @SerialName("companySummaryList")
-    val items: List<AgencyCareProviderSummaryApiModel>,
+    val items: List<AgencyCareWorkerSummaryApiModel>,
     @SerialName("meta")
     val meta: MetaApiModel
 )
 
 @Serializable
-data class AgencyCareProviderSummaryApiModel(
+data class AgencyCareWorkerSummaryApiModel(
     @SerialName("companyId")
     val id: Int,
     @SerialName("authorId")

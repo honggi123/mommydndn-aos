@@ -10,10 +10,10 @@ import com.mommydndn.app.data.model.care.WorkPeriodType
 import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.common.DayOfWeekType
 import com.mommydndn.app.data.network.service.care.CareService
-import com.mommydndn.app.data.network.service.care.response.AgencyCareProviderSummaryApiModel
-import com.mommydndn.app.data.network.service.care.response.CareProviderSummaryApiModel
+import com.mommydndn.app.data.network.service.care.response.AgencyCareWorkerSummaryApiModel
+import com.mommydndn.app.data.network.service.care.response.CareWorkerSummaryApiModel
 import com.mommydndn.app.data.network.service.care.response.GetMinimumWageResponse
-import com.mommydndn.app.data.network.service.care.response.JobOpeningSummaryApiModel
+import com.mommydndn.app.data.network.service.care.response.CareJobSummaryApiModel
 import com.mommydndn.app.data.network.service.common.CommonService
 import com.mommydndn.app.domain.model.care.JobOffer
 import com.mommydndn.app.domain.model.care.JobSeeker
@@ -34,17 +34,17 @@ class CareDataRepository @Inject constructor(
 ) : CareRepository {
 
     override fun fetchJobOffer(jobOfferId: Int): Flow<JobOffer> {
-//       return careService.fetchJobOpening(jobOfferId)
+//       return careService.fetchCareJob(jobOfferId)
         TODO()
     }
 
     override suspend fun fetchNearestJobSeekers(): List<JobSeeker> {
-//       return careService.fetchNearestCareProviderList()
+//       return careService.fetchNearestCareWorkerList()
         TODO()
     }
 
     override suspend fun fetchNearestJobOffers(): List<JobOffer> {
-//       return careService.fetchNearestJobOpeningList().       toDomain()
+//       return careService.fetchNearestCareJobList().       toDomain()
         TODO()
     }
 
@@ -68,7 +68,7 @@ class CareDataRepository @Inject constructor(
         startTime: LocalTime?,
         endTime: LocalTime?,
         workPeriodType: WorkPeriodType?
-    ): Flow<PagingData<JobOpeningSummaryApiModel>> {
+    ): Flow<PagingData<CareJobSummaryApiModel>> {
 
 //        val workPeriodTypeList = if (workPeriodType == null) {
 //            listOf(WorkPeriodType.ONETIME, WorkPeriodType.REGULAR)
@@ -76,8 +76,8 @@ class CareDataRepository @Inject constructor(
 //            listOf(workPeriodType)
 //        }
 //
-//        val getJobOpeningListRequest =
-//            com.mommydndn.app.data.network.service.care.request.GetJobOpeningListRequest(
+//        val getCareJobListRequest =
+//            com.mommydndn.app.data.network.service.care.request.GetCareJobListRequest(
 //                caringTypeCodeList = caringTypeList,
 //                days = days,
 //                emdId = emdId,
@@ -95,8 +95,8 @@ class CareDataRepository @Inject constructor(
 //                pageSize = 5, enablePlaceholders = false
 //            ),
 //            pagingSourceFactory = {
-//                JobOpeningSummaryPagingSource(
-//                    getJobOpeningListRequest,
+//                CareJobSummaryPagingSource(
+//                    getCareJobListRequest,
 //                    careService
 //                )
 //            }
@@ -110,9 +110,9 @@ class CareDataRepository @Inject constructor(
         emdId: Int,
         neighborhoodScope: Int,
         caringTypeList: List<CaringType>
-    ): Flow<PagingData<CareProviderSummaryApiModel>> {
+    ): Flow<PagingData<CareWorkerSummaryApiModel>> {
 //        val jobsSeekerListRequest =
-//            com.mommydndn.app.data.network.service.care.request.GetCareProviderListRequest(
+//            com.mommydndn.app.data.network.service.care.request.GetCareWorkerListRequest(
 //                caringTypeCodeList = caringTypeList,
 //                emdId = emdId,
 //                keyword = keyword,
@@ -126,7 +126,7 @@ class CareDataRepository @Inject constructor(
 //                pageSize = 5, enablePlaceholders = false
 //            ),
 //            pagingSourceFactory = {
-//                CareProviderSummaryPagingSource(
+//                CareWorkerSummaryPagingSource(
 //                    jobsSeekerListRequest,
 //                    careService
 //                )
@@ -141,9 +141,9 @@ class CareDataRepository @Inject constructor(
         emdId: Int,
         neighborhoodScope: Int,
         caringTypeList: List<CaringType>
-    ): Flow<PagingData<AgencyCareProviderSummaryApiModel>> {
+    ): Flow<PagingData<AgencyCareWorkerSummaryApiModel>> {
 //        val companyListRequest =
-//            com.mommydndn.app.data.network.service.care.request.GetAgencyCareProviderListRequest(
+//            com.mommydndn.app.data.network.service.care.request.GetAgencyCareWorkerListRequest(
 //                caringTypeCodeList = caringTypeList,
 //                emdId = emdId,
 //                keyword = keyword,
@@ -159,7 +159,7 @@ class CareDataRepository @Inject constructor(
 //                pageSize = 5, enablePlaceholders = false
 //            ),
 //            pagingSourceFactory = {
-//                AgencyCareProviderSummaryPagingSource(
+//                AgencyCareWorkerSummaryPagingSource(
 //                    companyListRequest,
 //                    careService
 //                )
@@ -197,7 +197,7 @@ class CareDataRepository @Inject constructor(
         salary: Int,
         etcCheckedList: List<EtcCheckItem>,
         imageList: List<MultipartBody.Part>
-    ): Flow<com.mommydndn.app.data.network.service.care.response.CreateJobOpeningResponse> {
+    ): Flow<com.mommydndn.app.data.network.service.care.response.CreateCareJobResponse> {
         TODO("Not yet implemented")
     }
 
@@ -209,7 +209,7 @@ class CareDataRepository @Inject constructor(
         salaryType: SalaryType,
         salary: Int,
         etcCheckedList: List<EtcCheckItem>
-    ): Flow<com.mommydndn.app.data.network.service.care.response.CreateCareProviderResponse> {
+    ): Flow<com.mommydndn.app.data.network.service.care.response.CreateCareWorkerResponse> {
         TODO("Not yet implemented")
     }
 
@@ -223,7 +223,7 @@ class CareDataRepository @Inject constructor(
         maxSalary: Int,
         etcCheckedList: List<EtcCheckItem>,
         commission: Int
-    ): Flow<com.mommydndn.app.data.network.service.care.response.CreateAgencyCareProviderResponse> {
+    ): Flow<com.mommydndn.app.data.network.service.care.response.CreateAgencyCareWorkerResponse> {
         TODO("Not yet implemented")
     }
 
@@ -371,15 +371,15 @@ class CareDataRepository @Inject constructor(
 private val careService: CareService
 ) : CareRepository {
 
-override fun getNearbyCareJobOpenings(
+override fun getNearbyCareCareJobs(
     latitude: Double,
     longitude: Double
-): Flow<PagingData<CareJobOpening>> {
+): Flow<PagingData<CareCareJob>> {
     val page = 1
 
     val pageSize = 20
 
-    val request = GetCareJobOpeningListRequest(
+    val request = GetCareCareJobListRequest(
         pageMeta = PageMeta(
             page = page,
             size = pageSize,
@@ -399,7 +399,7 @@ override fun getNearbyCareJobOpenings(
     return Pager(
         config = PagingConfig(pageSize = 20),
         pagingSourceFactory = {
-            JobOpeningListPagingSource(
+            CareJobListPagingSource(
                 request = request,
                 careService = careService
             )

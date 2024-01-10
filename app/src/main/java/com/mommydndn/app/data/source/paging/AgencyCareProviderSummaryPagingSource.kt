@@ -3,22 +3,22 @@ package com.mommydndn.app.data.source.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.mommydndn.app.data.network.service.care.CareService
-import com.mommydndn.app.data.network.service.care.request.GetAgencyCareProviderListRequest
-import com.mommydndn.app.data.network.service.care.response.AgencyCareProviderSummaryApiModel
+import com.mommydndn.app.data.network.service.care.request.GetAgencyCareWorkerListRequest
+import com.mommydndn.app.data.network.service.care.response.AgencyCareWorkerSummaryApiModel
 import com.mommydndn.app.data.network.service.common.model.PaginationApiModel
 import javax.inject.Inject
 
 private const val STARTING_PAGE_INDEX = 1
 
-class AgencyCareProviderSummaryPagingSource @Inject constructor(
-    private val companyListRequest: GetAgencyCareProviderListRequest,
+class AgencyCareWorkerSummaryPagingSource @Inject constructor(
+    private val companyListRequest: GetAgencyCareWorkerListRequest,
     private val careService: CareService
-) : PagingSource<Int, AgencyCareProviderSummaryApiModel>() {
+) : PagingSource<Int, AgencyCareWorkerSummaryApiModel>() {
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, AgencyCareProviderSummaryApiModel> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, AgencyCareWorkerSummaryApiModel> {
         return try {
             val position = params.key ?: STARTING_PAGE_INDEX
-            val result = careService.getAgencyCareProviderSummaryList(
+            val result = careService.getAgencyCareWorkerSummaryList(
                 companyListRequest.copy(
                     pageMeta = PaginationApiModel(
                         page = position,
@@ -43,7 +43,7 @@ class AgencyCareProviderSummaryPagingSource @Inject constructor(
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, AgencyCareProviderSummaryApiModel>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, AgencyCareWorkerSummaryApiModel>): Int? {
         return state.anchorPosition
     }
 }

@@ -9,7 +9,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CreateJobOpeningRequest(
+data class CreateCareJobRequest(
     @SerialName("dateList")
     val oneTimeWorkDates: List<Long>?,
     @SerialName("startDate")
