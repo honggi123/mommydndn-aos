@@ -5,7 +5,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class PostCareJobOpeningViewModel @Inject constructor(
+class PostCareJobViewModel @Inject constructor(
 ) : ViewModel(), PostCareJobOpeningDelegate by PostCareJobOpeningViewModelDelegate {
 
 }

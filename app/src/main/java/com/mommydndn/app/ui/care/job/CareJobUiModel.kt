@@ -7,7 +7,7 @@ import java.time.DayOfWeek
 import java.time.LocalTime
 import java.time.ZonedDateTime
 
-data class CareJobOpeningUiModel(
+data class CareJobUiModel(
     val workPeriod: WorkPeriod,
     val careTypes: List<CareType>,
     val isClosed: Boolean,
@@ -22,9 +22,9 @@ data class CareJobOpeningUiModel(
     val pay: Int,
 )
 
-val mockCareJobOpeningUiModels = buildList(capacity = 4) {
+val mockCareJobUiModels = buildList(capacity = 4) {
     add(
-        CareJobOpeningUiModel(
+        CareJobUiModel(
             workPeriod = WorkPeriod.REGULAR,
             careTypes = listOf(
                 CareType.SENIOR_CARE,
@@ -48,7 +48,7 @@ val mockCareJobOpeningUiModels = buildList(capacity = 4) {
     )
 
     add(
-        CareJobOpeningUiModel(
+        CareJobUiModel(
             workPeriod = WorkPeriod.REGULAR,
             careTypes = listOf(
                 CareType.CHILD_CARE,
@@ -73,7 +73,7 @@ val mockCareJobOpeningUiModels = buildList(capacity = 4) {
     )
 
     add(
-        CareJobOpeningUiModel(
+        CareJobUiModel(
             workPeriod = WorkPeriod.ONE_TIME,
             careTypes = listOf(
                 CareType.CHILD_CARE,
@@ -97,7 +97,7 @@ val mockCareJobOpeningUiModels = buildList(capacity = 4) {
     )
 
     add(
-        CareJobOpeningUiModel(
+        CareJobUiModel(
             workPeriod = WorkPeriod.ONE_TIME,
             careTypes = listOf(CareType.CHILD_CARE),
             isClosed = false,

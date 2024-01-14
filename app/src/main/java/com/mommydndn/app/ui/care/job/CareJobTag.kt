@@ -27,11 +27,11 @@ import com.mommydndn.app.ui.theme.Orange100
 import com.mommydndn.app.ui.theme.caption100
 
 @Composable
-fun CareJobOpeningWorkPeriod(
+fun WorkPeriodTag(
     workPeriod: WorkPeriod,
     modifier: Modifier = Modifier,
 ) {
-    CareJobOpeningTag(
+    CareJobTag(
         text = workPeriod.displayName(),
         backgroundColor = Blue50,
         textColor = Blue600,
@@ -40,11 +40,11 @@ fun CareJobOpeningWorkPeriod(
 }
 
 @Composable
-fun CareJobOpeningCareType(
+fun CareTypeTag(
     careType: CareType,
     modifier: Modifier = Modifier,
 ) {
-    CareJobOpeningTag(
+    CareJobTag(
         text = careType.displayName(),
         backgroundColor = Orange100,
         textColor = DeepOrange,
@@ -53,10 +53,10 @@ fun CareJobOpeningCareType(
 }
 
 @Composable
-internal fun ClosedCareJobOpening(
+fun ClosedCareJobTag(
     modifier: Modifier = Modifier,
 ) {
-    CareJobOpeningTag(
+    CareJobTag(
         text = stringResource(R.string.closed),
         backgroundColor = Grey100,
         textColor = Grey600,
@@ -65,7 +65,7 @@ internal fun ClosedCareJobOpening(
 }
 
 @Composable
-fun CareJobOpeningTag(
+fun CareJobTag(
     text: String,
     backgroundColor: Color,
     textColor: Color,
@@ -85,19 +85,19 @@ fun CareJobOpeningTag(
 
 @Preview
 @Composable
-private fun CareJobOpeningTagsPreview() {
+private fun CareJobTagsPreview() {
     Row(horizontalArrangement = Arrangement.spacedBy(3.dp)) {
-        CareJobOpeningWorkPeriod(
+        WorkPeriodTag(
             workPeriod = WorkPeriod.REGULAR,
             modifier = Modifier,
         )
 
-        CareJobOpeningCareType(
+        CareTypeTag(
             careType = CareType.SENIOR_CARE,
             modifier = Modifier,
         )
 
-        CareJobOpeningCareType(
+        CareTypeTag(
             careType = CareType.SCHOOL_TRANSPORTATION,
             modifier = Modifier,
         )
@@ -106,6 +106,6 @@ private fun CareJobOpeningTagsPreview() {
 
 @Preview
 @Composable
-private fun ClosedCareJobOpeningTagPreview() {
-    ClosedCareJobOpening(modifier = Modifier)
+private fun ClosedCareJobTagPreview() {
+    ClosedCareJobTag(modifier = Modifier)
 }

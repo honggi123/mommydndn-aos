@@ -47,15 +47,15 @@ import java.time.format.TextStyle
 import java.util.Locale
 
 @Composable
-fun CareJobOpeningList(
-    items: List<CareJobOpeningUiModel>,
+fun CareJobList(
+    items: List<CareJobUiModel>,
     modifier: Modifier = Modifier,
 ) {
     // TODO: empty, background?
     LazyColumn(modifier = modifier.background(Color.White)) {
         itemsIndexed(items) { index, jobOpening ->
             with(jobOpening) {
-                CareJobOpeningListItem(
+                CareJobListItem(
                     workPeriod = workPeriod,
                     careTypes = careTypes,
                     isClosed = isClosed,
@@ -75,7 +75,7 @@ fun CareJobOpeningList(
                 )
 
                 if (index != items.lastIndex) {
-                    CareJobOpeningListDivider(
+                    CareJobListDivider(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 28.dp),
@@ -87,7 +87,7 @@ fun CareJobOpeningList(
 }
 
 @Composable
-internal fun CareJobOpeningListItem(
+fun CareJobListItem(
     workPeriod: WorkPeriod,
     careTypes: List<CareType>,
     isClosed: Boolean,
@@ -115,7 +115,7 @@ internal fun CareJobOpeningListItem(
                 verticalArrangement = Arrangement.spacedBy(2.dp),
                 horizontalAlignment = Alignment.Start,
             ) {
-                CareJobOpeningTags(
+                CareJobTags(
                     workPeriod = workPeriod,
                     careTypes = careTypes,
                     isClosed = isClosed,
@@ -181,7 +181,7 @@ internal fun CareJobOpeningListItem(
 private val payFormatter = DecimalFormat("#,###")
 
 @Composable
-private fun CareJobOpeningTags(
+private fun CareJobTags(
     workPeriod: WorkPeriod,
     careTypes: List<CareType>,
     isClosed: Boolean,
@@ -192,16 +192,16 @@ private fun CareJobOpeningTags(
         horizontalArrangement = Arrangement.spacedBy(3.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        CareJobOpeningWorkPeriod(
+        WorkPeriodTag(
             workPeriod = workPeriod,
             modifier = Modifier
         )
 
         if (isClosed) {
-            ClosedCareJobOpening(modifier = Modifier)
+            ClosedCareJobTag(modifier = Modifier)
         } else {
             careTypes.sorted().forEach { careType ->
-                CareJobOpeningCareType(
+                CareTypeTag(
                     careType = careType,
                     modifier = Modifier,
                 )
@@ -311,7 +311,7 @@ private fun List<DayOfWeek>.displayName(): String {
 }
 
 @Composable
-private fun CareJobOpeningListDivider(modifier: Modifier = Modifier) {
+private fun CareJobListDivider(modifier: Modifier = Modifier) {
     Divider(
         modifier = modifier.background(Color.Transparent),
         color = Grey50,
@@ -321,8 +321,8 @@ private fun CareJobOpeningListDivider(modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-private fun CareJobOpeningListItemPreview() {
-    CareJobOpeningListItem(
+private fun CareJobListItemPreview() {
+    CareJobListItem(
         workPeriod = WorkPeriod.REGULAR,
         careTypes = listOf(
             CareType.CHILD_CARE,
@@ -354,9 +354,9 @@ private fun CareJobOpeningListItemPreview() {
 
 @Preview
 @Composable
-private fun CareJobOpeningListPreview() {
-    CareJobOpeningList(
-        items = mockCareJobOpeningUiModels,
+private fun CareJobListPreview() {
+    CareJobList(
+        items = mockCareJobUiModels,
         modifier = Modifier.fillMaxSize().background(Color.White),
     )
 }

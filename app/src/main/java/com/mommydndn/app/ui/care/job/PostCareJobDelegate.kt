@@ -11,7 +11,7 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalTime
 
-data class CareJobOpeningWorkDateTimes(
+data class CareJobWorkDateTimesUiModel(
     val workPeriod: WorkPeriod = WorkPeriod.ONE_TIME,
     val dates: List<LocalDate> = emptyList(),
     val daysOfWeek: List<DayOfWeek> = emptyList(),
@@ -22,8 +22,8 @@ data class CareJobOpeningWorkDateTimes(
     val negotiable: Boolean = false,
 )
 
-// todo
-data class CareJobOpeningWorkPlace(
+// TODO
+data class CareJobWorkPlaceUiModel(
     val address: String? = null,
 )
 
@@ -31,8 +31,8 @@ interface PostCareJobOpeningDelegate {
     val title: StateFlow<String>
     val content: StateFlow<String>
     val careTypes: StateFlow<List<CareType>>
-    val workDateTimes: StateFlow<CareJobOpeningWorkDateTimes>
-    val workPlace: StateFlow<CareJobOpeningWorkPlace>
+    val workDateTimes: StateFlow<CareJobWorkDateTimesUiModel>
+    val workPlace: StateFlow<CareJobWorkPlaceUiModel>
     val payPeriod: StateFlow<PayPeriod>
     val pay: StateFlow<Int>
     val photoUris: StateFlow<List<String>>
@@ -41,8 +41,8 @@ interface PostCareJobOpeningDelegate {
     fun setTitle(title: String)
     fun setContent(content: String)
     fun setCareTypes(careTypes: List<CareType>)
-    fun setWorkDateTimes(dateTimes: CareJobOpeningWorkDateTimes)
-    fun setWorkPlace(workPlace: CareJobOpeningWorkPlace)
+    fun setWorkDateTimes(dateTimes: CareJobWorkDateTimesUiModel)
+    fun setWorkPlace(workPlace: CareJobWorkPlaceUiModel)
     fun setPayPeriod(payPeriod: PayPeriod)
     fun setPay(pay: Int)
     fun setPhotoUris(photoUris: List<String>)
@@ -60,15 +60,15 @@ object PostCareJobOpeningViewModelDelegate : PostCareJobOpeningDelegate {
     private val _careTypes: MutableStateFlow<List<CareType>> = MutableStateFlow(emptyList())
     override val careTypes: StateFlow<List<CareType>> = _careTypes.asStateFlow()
 
-    private val _workHours: MutableStateFlow<CareJobOpeningWorkDateTimes> = MutableStateFlow(
-        CareJobOpeningWorkDateTimes()
+    private val _workHours: MutableStateFlow<CareJobWorkDateTimesUiModel> = MutableStateFlow(
+        CareJobWorkDateTimesUiModel()
     )
-    override val workDateTimes: StateFlow<CareJobOpeningWorkDateTimes> = _workHours.asStateFlow()
+    override val workDateTimes: StateFlow<CareJobWorkDateTimesUiModel> = _workHours.asStateFlow()
 
-    private val _workPlace: MutableStateFlow<CareJobOpeningWorkPlace> = MutableStateFlow(
-        CareJobOpeningWorkPlace()
+    private val _workPlace: MutableStateFlow<CareJobWorkPlaceUiModel> = MutableStateFlow(
+        CareJobWorkPlaceUiModel()
     )
-    override val workPlace: StateFlow<CareJobOpeningWorkPlace> = _workPlace.asStateFlow()
+    override val workPlace: StateFlow<CareJobWorkPlaceUiModel> = _workPlace.asStateFlow()
 
     private val _payPeriod: MutableStateFlow<PayPeriod> = MutableStateFlow(PayPeriod.HOURLY)
     override val payPeriod: StateFlow<PayPeriod> = _payPeriod.asStateFlow()
@@ -94,11 +94,11 @@ object PostCareJobOpeningViewModelDelegate : PostCareJobOpeningDelegate {
         _careTypes.value = careTypes
     }
 
-    override fun setWorkDateTimes(dateTimes: CareJobOpeningWorkDateTimes) {
+    override fun setWorkDateTimes(dateTimes: CareJobWorkDateTimesUiModel) {
         _workHours.value = dateTimes
     }
 
-    override fun setWorkPlace(workPlace: CareJobOpeningWorkPlace) {
+    override fun setWorkPlace(workPlace: CareJobWorkPlaceUiModel) {
         _workPlace.value = workPlace
     }
 

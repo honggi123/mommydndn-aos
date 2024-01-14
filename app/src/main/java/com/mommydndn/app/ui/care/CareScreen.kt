@@ -50,9 +50,9 @@ import com.mommydndn.app.ui.care.filter.NeighborhoodFilter
 import com.mommydndn.app.ui.care.filter.WorkHoursFilter
 import com.mommydndn.app.ui.care.filter.WorkPeriodFilter
 import com.mommydndn.app.ui.care.filter.displayName
-import com.mommydndn.app.ui.care.job.CareJobOpeningList
-import com.mommydndn.app.ui.care.job.CareJobOpeningUiModel
-import com.mommydndn.app.ui.care.job.mockCareJobOpeningUiModels
+import com.mommydndn.app.ui.care.job.CareJobList
+import com.mommydndn.app.ui.care.job.CareJobUiModel
+import com.mommydndn.app.ui.care.job.mockCareJobUiModels
 import com.mommydndn.app.ui.components.tab.MediumTab
 import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.GreyOpacity400
@@ -136,7 +136,7 @@ private fun CareContent(
     onOrderClick: () -> Unit,
     filters: List<CareFilters<*>>,
     onFilterClick: (CareFilters<*>) -> Unit,
-    jobOpeningListItems: List<CareJobOpeningUiModel>,
+    jobOpeningListItems: List<CareJobUiModel>,
     selectedFilter: CareFilters<*>?,
     sheetState: ModalBottomSheetState,
     onSheetCloseClick: () -> Unit,
@@ -187,7 +187,7 @@ private fun CareContent(
                         .padding(vertical = 12.dp),
                 )
 
-                CareJobOpeningList(
+                CareJobList(
                     items = jobOpeningListItems,
                     modifier = Modifier.fillMaxSize(),
                 )
@@ -337,7 +337,7 @@ private fun CareScreenPreview() {
             add(WorkPeriodFilter(workPeriod = WorkPeriod.REGULAR))
         },
         onFilterClick = {},
-        jobOpeningListItems = mockCareJobOpeningUiModels,
+        jobOpeningListItems = mockCareJobUiModels,
         selectedFilter = null,
         sheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden),
         onSheetCloseClick = {},

@@ -31,7 +31,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mommydndn.app.R
 import com.mommydndn.app.domain.model.care.CareType
 import com.mommydndn.app.domain.model.care.WorkPeriod
-import com.mommydndn.app.ui.components.date.PostDatePicker
 import com.mommydndn.app.ui.care.components.post.CareTypesPostSection
 import com.mommydndn.app.ui.care.components.post.ContentTextField
 import com.mommydndn.app.ui.care.components.post.GetPhotosPostSection
@@ -40,6 +39,7 @@ import com.mommydndn.app.ui.care.components.post.PostTopAppBar
 import com.mommydndn.app.ui.care.components.post.TitleTextField
 import com.mommydndn.app.ui.care.components.post.WorkDateTimesPostSection
 import com.mommydndn.app.ui.care.components.post.WorkPlacePostSection
+import com.mommydndn.app.ui.components.date.PostDatePicker
 import com.mommydndn.app.ui.theme.Grey300
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
@@ -49,11 +49,11 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 
 @Composable
-internal fun PostCareJobOpeningScreen(
+fun PostCareJobScreen(
     onCloseClick: () -> Unit,
     onNextClick: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: PostCareJobOpeningViewModel = hiltViewModel(),
+    viewModel: PostCareJobViewModel = hiltViewModel(),
 ) {
     val title by viewModel.title.collectAsStateWithLifecycle()
     val content by viewModel.content.collectAsStateWithLifecycle()
@@ -66,7 +66,7 @@ internal fun PostCareJobOpeningScreen(
         mutableStateOf(false)
     }
 
-    PostCareJobOpeningContent(
+    PostCareJobContent(
         onCloseClick = onCloseClick,
         onLoadClick = {},
         title = title,
@@ -156,7 +156,7 @@ internal fun PostCareJobOpeningScreen(
 }
 
 @Composable
-internal fun PostCareJobOpeningContent(
+internal fun PostCareJobContent(
     onCloseClick: () -> Unit,
     onLoadClick: () -> Unit,
     title: String,
@@ -165,7 +165,7 @@ internal fun PostCareJobOpeningContent(
     onContentChange: (String) -> Unit,
     careTypes: List<CareType>,
     onCareTypeClick: (CareType) -> Unit,
-    workDateTimes: CareJobOpeningWorkDateTimes,
+    workDateTimes: CareJobWorkDateTimesUiModel,
     onWorkPeriodSelected: (WorkPeriod) -> Unit,
     onAddDateClick: () -> Unit,
     openDatePicker: Boolean,
@@ -178,7 +178,7 @@ internal fun PostCareJobOpeningContent(
     onStartTimeClick: () -> Unit,
     onEndTimeClick: () -> Unit,
     onNegotiableClick: () -> Unit,
-    workPlace: CareJobOpeningWorkPlace,
+    workPlace: CareJobWorkPlaceUiModel,
     photoUris: List<Uri>,
     onPhotosChange: (List<Uri>) -> Unit,
     onRemovePhotoClick: (Uri) -> Unit,
@@ -339,11 +339,11 @@ internal fun PostCareJobOpeningContent(
 
 @Preview
 @Composable
-private fun PostCareJobOpeningScreen_Preview() {
-    PostCareJobOpeningScreen(
+private fun PostCareJobScreenPreview() {
+    PostCareJobScreen(
         onCloseClick = {},
         onNextClick = {},
         modifier = Modifier.fillMaxSize(),
-        viewModel = PostCareJobOpeningViewModel()
+        viewModel = PostCareJobViewModel()
     )
 }

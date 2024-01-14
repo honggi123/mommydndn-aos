@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.care.provider
+package com.mommydndn.app.ui.care.worker
 
 import com.mommydndn.app.domain.model.care.CareType
 import com.mommydndn.app.domain.model.care.OtherOption
@@ -6,7 +6,7 @@ import com.mommydndn.app.domain.model.user.Neighborhood
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-interface PostCareProviderProfileDelegate {
+interface PostCareWorkerProfileDelegate {
     val photoUri: StateFlow<String?>
     val bio: StateFlow<String>
     val neighborhood: StateFlow<Neighborhood>
@@ -22,7 +22,7 @@ interface PostCareProviderProfileDelegate {
     fun setOptions(options: List<OtherOption>)
 }
 
-object PostCareProviderProfileViewModelDelegate : PostCareProviderProfileDelegate {
+object PostCareWorkerProfileViewModelDelegate : PostCareWorkerProfileDelegate {
 
     private val _photoUri = MutableStateFlow<String?>(null)
     override val photoUri: StateFlow<String?> = _photoUri

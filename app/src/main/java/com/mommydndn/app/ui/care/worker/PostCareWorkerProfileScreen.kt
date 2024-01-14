@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.care.provider
+package com.mommydndn.app.ui.care.worker
 
 import android.net.Uri
 import androidx.compose.foundation.background
@@ -36,11 +36,11 @@ import com.mommydndn.app.ui.theme.Grey300
 import com.mommydndn.app.ui.theme.Grey50
 
 @Composable
-internal fun PostCareProviderProfileRoute(
+internal fun PostCareWorkerProfileScreen(
     onCloseClick: () -> Unit,
     onNextClick: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: PostCareProviderProfileViewModel = hiltViewModel()
+    viewModel: PostCareWorkerProfileViewModel = hiltViewModel()
 ) {
     val photoUri by viewModel.photoUri.collectAsStateWithLifecycle()
     val bio by viewModel.bio.collectAsStateWithLifecycle()
@@ -58,7 +58,7 @@ internal fun PostCareProviderProfileRoute(
         }
     }
 
-    PostCareProviderProfileScreen(
+    PostCareWorkerProfileContent(
         onCloseClick = onCloseClick,
         photoUri = photoUri?.let(Uri::parse),
         onPhotoChange = { uri ->
@@ -105,7 +105,7 @@ internal fun PostCareProviderProfileRoute(
 }
 
 @Composable
-internal fun PostCareProviderProfileScreen(
+internal fun PostCareWorkerProfileContent(
     onCloseClick: () -> Unit,
     photoUri: Uri?,
     onPhotoChange: (Uri?) -> Unit,

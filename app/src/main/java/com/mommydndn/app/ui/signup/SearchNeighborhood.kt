@@ -43,13 +43,13 @@ import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
 
-data class NeighborhoodSearchResult(
+data class NeighborhoodSearchResultUiModel(
     val id: Int,
     val address: String,
 )
 
 @Composable
-internal fun NeighborhoodSearchScreen(
+fun SearchNeighborhoodScreen(
     query: String,
     onValueChange: (String) -> Unit,
     onBackClick: () -> Unit,
@@ -57,9 +57,9 @@ internal fun NeighborhoodSearchScreen(
     onClearQueryClick: () -> Unit,
     onGetCurrentLocationResult: (Coordinates) -> Unit,
     headerText: String,
-    searchResults: List<NeighborhoodSearchResult>,
-    selectedSearchResult: NeighborhoodSearchResult?,
-    onSearchResultClick: (NeighborhoodSearchResult) -> Unit,
+    searchResults: List<NeighborhoodSearchResultUiModel>,
+    selectedSearchResult: NeighborhoodSearchResultUiModel?,
+    onSearchResultClick: (NeighborhoodSearchResultUiModel) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
@@ -118,7 +118,7 @@ internal fun NeighborhoodSearchScreen(
             // todo: empty_result
             items(searchResults) { searchResult ->
                 with(searchResult) {
-                    NeighborhoodSearchResult(
+                    NeighborhoodSearchResultItem(
                         selected = selectedSearchResult?.id == id,
                         address = address,
                         onClick = {
@@ -132,7 +132,7 @@ internal fun NeighborhoodSearchScreen(
 }
 
 @Composable
-private fun NeighborhoodSearchResult(
+private fun NeighborhoodSearchResultItem(
     selected: Boolean,
     address: String,
     onClick: () -> Unit,
@@ -184,9 +184,9 @@ private fun NeighborhoodSearchResult(
 
 @Preview
 @Composable
-private fun NeighborhoodSearchScreen_Preview() {
+private fun SearchNeighborhoodScreenPreview() {
     var selectedSearchResult by remember {
-        mutableStateOf(NeighborhoodSearchResult(id = 0, address = "서울 서초구 서초1동"))
+        mutableStateOf(NeighborhoodSearchResultUiModel(id = 0, address = "서울 서초구 서초1동"))
     }
 
     val searchResults = buildList {
@@ -194,13 +194,13 @@ private fun NeighborhoodSearchScreen_Preview() {
 
         repeat(3) {
             add(
-                NeighborhoodSearchResult(id = it + 1, address = "서울 서초구 서초${it + 2}동")
+                NeighborhoodSearchResultUiModel(id = it + 1, address = "서울 서초구 서초${it + 2}동")
             )
         }
 
         repeat(4) {
             add(
-                NeighborhoodSearchResult(id = it + 4, address = "서울 서초구 반포${it + 1}동")
+                NeighborhoodSearchResultUiModel(id = it + 4, address = "서울 서초구 반포${it + 1}동")
             )
 
         }
@@ -214,7 +214,7 @@ private fun NeighborhoodSearchScreen_Preview() {
         mutableStateOf<Coordinates?>(null)
     }
 
-    NeighborhoodSearchScreen(
+    SearchNeighborhoodScreen(
         query = query,
         onValueChange = {
             query = it

@@ -47,7 +47,7 @@ import com.mommydndn.app.ui.theme.paragraph300
 import kotlinx.coroutines.launch
 
 @Composable
-internal fun UserTypeSelectionScreen(
+fun SelectUserTypeScreen(
     onBackClick: () -> Unit,
     userType: UserType?,
     onUserTypeClick: (UserType) -> Unit,
@@ -169,12 +169,12 @@ private fun TopAppBar(onBackClick: () -> Unit, modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-private fun UserTypeSelectionScreen_Preview() {
+private fun SelectUserTypeScreenPreview() {
     var userType by remember {
         mutableStateOf<UserType?>(null)
     }
 
-    UserTypeSelectionScreen(
+    SelectUserTypeScreen(
         onBackClick = {},
         userType = userType,
         onUserTypeClick = {

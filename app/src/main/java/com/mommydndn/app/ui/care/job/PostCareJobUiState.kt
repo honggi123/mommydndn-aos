@@ -12,7 +12,7 @@ import java.time.LocalTime
 sealed interface PostCareJobOpeningUiState {
 }
 
-data class PostCareJobOpening(
+data class PostCareJobUiModel(
     val title: String,
     val description: String,
     val careTypes: List<CareType>,
