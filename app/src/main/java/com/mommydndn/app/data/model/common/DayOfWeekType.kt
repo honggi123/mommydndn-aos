@@ -22,16 +22,5 @@ data class DayOfWeekItem(
     var isSelected: Boolean = false
 )
 
-object DayOfWeekTypeSerializer : KSerializer<DayOfWeekType> {
-    override val descriptor: SerialDescriptor =
-        PrimitiveSerialDescriptor("DayOfWeekType", PrimitiveKind.STRING)
 
-    override fun serialize(encoder: Encoder, value: DayOfWeekType) {
-        encoder.encodeString(value.name)
-    }
-
-    override fun deserialize(decoder: Decoder): DayOfWeekType {
-        return DayOfWeekType.valueOf(decoder.decodeString())
-    }
-}
 

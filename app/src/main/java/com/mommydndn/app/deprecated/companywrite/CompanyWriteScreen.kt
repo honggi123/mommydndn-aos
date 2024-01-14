@@ -51,13 +51,13 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.mommydndn.app.R
 import com.mommydndn.app.data.model.care.CaringTypeItem
-import com.mommydndn.app.data.model.care.MinHourlySalary
 import com.mommydndn.app.data.model.common.ButtonColor
 import com.mommydndn.app.data.model.common.ButtonColorType
 import com.mommydndn.app.data.model.common.ButtonSizeType
 import com.mommydndn.app.data.model.common.ImageInputFieldType
 import com.mommydndn.app.data.model.common.MinMaxRange
-import com.mommydndn.app.data.model.location.EmdItem
+import com.mommydndn.app.deprecated.NumberCommaVisualTransformation
+import com.mommydndn.app.deprecated.PermissionUtils
 import com.mommydndn.app.deprecated.components.box.SubtextBox
 import com.mommydndn.app.deprecated.components.box.SubtextBoxSize
 import com.mommydndn.app.deprecated.components.button.MommyDndnButton
@@ -75,8 +75,6 @@ import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption200
 import com.mommydndn.app.ui.theme.paragraph400
-import com.mommydndn.app.deprecated.NumberCommaVisualTransformation
-import com.mommydndn.app.deprecated.PermissionUtils
 import com.mommydndn.app.utils.extensions.addFocusCleaner
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -95,7 +93,7 @@ fun CompanyWriteScreen(
 
     val focusManager = LocalFocusManager.current
 
-    val emdItem by viewModel.emdItem.collectAsState()
+    // val emdItem by viewModel.emdItem.collectAsState()
     val locationInfo by viewModel.neighborhood.collectAsState()
 
     val careTypes by viewModel.careTypes.collectAsState()
@@ -111,7 +109,7 @@ fun CompanyWriteScreen(
 
     val commission by viewModel.commission.collectAsState()
 
-    val minHourlySalary by viewModel.minHourlySalary.collectAsState()
+    // val minHourlySalary by viewModel.minHourlySalary.collectAsState()
 
     val etcCheckList by viewModel.etcCheckList.collectAsState()
 
@@ -361,14 +359,14 @@ fun CompanyWriteScreen(
                     SelectField(
                         modifier = Modifier.fillMaxWidth(),
                         label = "내 동네",
-                        value = emdItem?.fullName ?: "",
-                        isSelected = emdItem != null,
+                        value = "",
+                        isSelected = false,
                         onClickSelection = {
 
                         }
                     )
                     Text(
-                        text = "${emdItem?.name} 외 근처 동네 24개",
+                        text = " 외 근처 동네 24개",
                         style = MaterialTheme.typography.caption200.copy(
                             fontWeight = FontWeight.Medium,
                             color = Grey600
@@ -533,7 +531,9 @@ fun CompanyWriteScreen(
                     rangeType = MinMaxRange.MAX,
                     onClick = {
 
-                        val isSuccessful = isValidationSuccessful(
+                        val isSuccessful = true
+                            /*
+                            isValidationSuccessful(
                             coverImageList = photos,
                             introduce = introduce,
                             careTypes = careTypes.filter { it.isSelected },
@@ -546,6 +546,8 @@ fun CompanyWriteScreen(
                             coroutineScope = coroutineScope,
                             scaffoldState = scaffoldState,
                         )
+                             */
+
 
                         if (isSuccessful) {
                             /*
@@ -583,12 +585,12 @@ private fun isValidationSuccessful(
     coverImageList: List<Uri>,
     introduce: String?,
     careTypes: List<CaringTypeItem>,
-    emdItem: EmdItem?,
+    emdItem: String?,
     startSalary: Int?,
     endSalary: Int?,
     commission: Int?,
     profileImage: Uri?,
-    minHourlySalary: MinHourlySalary?,
+    minHourlySalary: Int?,
     coroutineScope: CoroutineScope,
     scaffoldState: ScaffoldState,
 ): Boolean {

@@ -17,15 +17,3 @@ enum class CaringType(
     HOUSEKEEPING("가사")
 }
 
-object CaringTypeSerializer : KSerializer<CaringType> {
-    override val descriptor: SerialDescriptor =
-        PrimitiveSerialDescriptor("CaringType", PrimitiveKind.STRING)
-
-    override fun serialize(encoder: Encoder, value: CaringType) {
-        encoder.encodeString(value.name)
-    }
-
-    override fun deserialize(decoder: Decoder): CaringType {
-        return CaringType.valueOf(decoder.decodeString())
-    }
-}

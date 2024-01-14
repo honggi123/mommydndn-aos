@@ -17,15 +17,3 @@ data class WorkPeriodTypeItem(
     var isSelected: Boolean = false
 )
 
-object WorkPeriodTypeSerializer : KSerializer<WorkPeriodType> {
-    override val descriptor: SerialDescriptor =
-        PrimitiveSerialDescriptor("WorkPeriodType", PrimitiveKind.STRING)
-
-    override fun serialize(encoder: Encoder, value: WorkPeriodType) {
-        encoder.encodeString(value.name)
-    }
-
-    override fun deserialize(decoder: Decoder): WorkPeriodType {
-        return WorkPeriodType.valueOf(decoder.decodeString())
-    }
-}

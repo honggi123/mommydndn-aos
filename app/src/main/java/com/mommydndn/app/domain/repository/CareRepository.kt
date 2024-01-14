@@ -4,19 +4,15 @@ import androidx.paging.PagingData
 import com.mommydndn.app.data.model.care.CaringType
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.EtcCheckItem
-import com.mommydndn.app.data.model.care.MinHourlySalary
 import com.mommydndn.app.data.model.care.SalaryType
 import com.mommydndn.app.data.model.care.SortingType
 import com.mommydndn.app.data.model.care.WorkPeriodType
-import com.mommydndn.app.data.model.care.summary.CompanySummaryListItem
-import com.mommydndn.app.data.model.care.summary.JobOfferSummaryListItem
-import com.mommydndn.app.data.model.care.summary.JobSeekerSummaryItem
 import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.common.DayOfWeekType
-import com.mommydndn.app.data.network.model.response.CompanyCreationResponse
-import com.mommydndn.app.data.network.model.response.JobOfferCreationResponse
-import com.mommydndn.app.data.network.model.response.JobOfferResponse
-import com.mommydndn.app.data.network.model.response.JobSeekerCreationResponse
+import com.mommydndn.app.data.network.service.care.response.AgencyCareWorkerSummaryApiModel
+import com.mommydndn.app.data.network.service.care.response.CareWorkerSummaryApiModel
+import com.mommydndn.app.data.network.service.care.response.GetMinimumWageResponse
+import com.mommydndn.app.data.network.service.care.response.CareJobSummaryApiModel
 import com.mommydndn.app.domain.model.care.JobOffer
 import com.mommydndn.app.domain.model.care.JobSeeker
 import kotlinx.coroutines.flow.Flow
@@ -26,7 +22,7 @@ import java.time.LocalTime
 
 interface CareRepository {
 
-    fun fetchJobOffer(jobOfferId: Int): Flow<JobOfferResponse>
+    fun fetchJobOffer(jobOfferId: Int): Flow<JobOffer>
 
     suspend fun fetchNearestJobSeekers(): List<JobSeeker>
 
@@ -46,7 +42,7 @@ interface CareRepository {
         startTime: LocalTime?,
         endTime: LocalTime?,
         workPeriodType: WorkPeriodType?
-    ): Flow<PagingData<JobOfferSummaryListItem>>
+    ): Flow<PagingData<CareJobSummaryApiModel>>
 
     fun fetchJobSeekerSummary(
         keyword: String?,
@@ -54,7 +50,7 @@ interface CareRepository {
         emdId: Int,
         neighborhoodScope: Int,
         caringTypeList: List<CaringType>,
-    ): Flow<PagingData<JobSeekerSummaryItem>>
+    ): Flow<PagingData<CareWorkerSummaryApiModel>>
 
     fun fetchCompanySummary(
         keyword: String?,
@@ -62,11 +58,11 @@ interface CareRepository {
         emdId: Int,
         neighborhoodScope: Int,
         caringTypeList: List<CaringType>,
-    ): Flow<PagingData<CompanySummaryListItem>>
+    ): Flow<PagingData<AgencyCareWorkerSummaryApiModel>>
 
     fun fetchCaringTypeItems(): Flow<List<CaringTypeItem>>
 
-    fun fetchMinHourlySalary(): Flow<MinHourlySalary>
+    fun fetchMinHourlySalary(): Flow<GetMinimumWageResponse>
 
     fun createJobOffer(
         title: String,
@@ -86,7 +82,7 @@ interface CareRepository {
         salary: Int,
         etcCheckedList: List<EtcCheckItem>,
         imageList: List<MultipartBody.Part>,
-    ): Flow<JobOfferCreationResponse>
+    ): Flow<com.mommydndn.app.data.network.service.care.response.CreateCareJobResponse>
 
     fun createJobSeeker(
         introduce: String,
@@ -97,7 +93,7 @@ interface CareRepository {
         salaryType: SalaryType,
         salary: Int,
         etcCheckedList: List<EtcCheckItem>
-    ): Flow<JobSeekerCreationResponse>
+    ): Flow<com.mommydndn.app.data.network.service.care.response.CreateCareWorkerResponse>
 
     fun createCompany(
         introduce: String,
@@ -110,5 +106,5 @@ interface CareRepository {
         maxSalary: Int,
         etcCheckedList: List<EtcCheckItem>,
         commission: Int
-    ): Flow<CompanyCreationResponse>
+    ): Flow<com.mommydndn.app.data.network.service.care.response.CreateAgencyCareWorkerResponse>
 }

@@ -3,16 +3,16 @@ package com.mommydndn.app.di
 import android.content.SharedPreferences
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.mommydndn.app.BuildConfig
-import com.mommydndn.app.data.api.service.NotificationService
+import com.mommydndn.app.data.network.service.notification.NotificationService
 import com.mommydndn.app.data.network.interceptor.AuthenticationInterceptor
-import com.mommydndn.app.data.network.service.AuthenticationService
-import com.mommydndn.app.data.network.service.BabyItemService
-import com.mommydndn.app.data.network.service.CareService
-import com.mommydndn.app.data.network.service.CommonService
-import com.mommydndn.app.data.network.service.GoogleApiService
-import com.mommydndn.app.data.network.service.KakaoApiService
-import com.mommydndn.app.data.network.service.TermsOfServiceService
-import com.mommydndn.app.data.network.service.UserService
+import com.mommydndn.app.data.network.service.auth.AuthService
+import com.mommydndn.app.data.network.service.babyitem.BabyItemService
+import com.mommydndn.app.data.network.service.care.CareService
+import com.mommydndn.app.data.network.service.common.CommonService
+import com.mommydndn.app.data.network.service.google.GoogleApiService
+import com.mommydndn.app.data.network.service.kakao.KakaoApiService
+import com.mommydndn.app.data.network.service.tos.TosService
+import com.mommydndn.app.data.network.service.user.UserService
 import com.mommydndn.app.data.preferences.TokenManager
 import dagger.Module
 import dagger.Provides
@@ -77,8 +77,8 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideAuthService(retrofit: Retrofit): AuthenticationService {
-        return retrofit.create(AuthenticationService::class.java)
+    fun provideAuthService(retrofit: Retrofit): AuthService {
+        return retrofit.create(AuthService::class.java)
     }
 
     /*
@@ -91,8 +91,8 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideTermsService(retrofit: Retrofit): TermsOfServiceService {
-        return retrofit.create(TermsOfServiceService::class.java)
+    fun provideTermsService(retrofit: Retrofit): TosService {
+        return retrofit.create(TosService::class.java)
     }
 
     @Singleton
