@@ -5,18 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mommydndn.app.data.model.care.CaringTypeItem
 import com.mommydndn.app.data.model.care.EtcCheckItem
-import com.mommydndn.app.data.model.care.MinHourlySalary
-import com.mommydndn.app.data.model.location.EmdItem
+import com.mommydndn.app.deprecated.NumberUtils
 import com.mommydndn.app.domain.model.location.Neighborhood
 import com.mommydndn.app.domain.repository.CareRepository
 import com.mommydndn.app.domain.repository.LocationRepository
 import com.mommydndn.app.domain.repository.UserRepository
-import com.mommydndn.app.deprecated.NumberUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -48,8 +44,8 @@ class CompanyWriteViewModel @Inject constructor(
     private val _etcCheckList: MutableStateFlow<List<EtcCheckItem>> = MutableStateFlow(emptyList())
     val etcCheckList: StateFlow<List<EtcCheckItem>> = _etcCheckList
 
-    private val _emdItem: MutableStateFlow<EmdItem?> = MutableStateFlow<EmdItem?>(null)
-    val emdItem: StateFlow<EmdItem?> = _emdItem
+//    private val _emdItem: MutableStateFlow<EmdItem?> = MutableStateFlow<EmdItem?>(null)
+//    val emdItem: StateFlow<EmdItem?> = _emdItem
 
     private val _commission: MutableStateFlow<Int?> = MutableStateFlow<Int?>(null)
     val commission: StateFlow<Int?> = _commission
@@ -58,12 +54,12 @@ class CompanyWriteViewModel @Inject constructor(
         MutableStateFlow<Neighborhood?>(null)
     val neighborhood: StateFlow<Neighborhood?> = _neighborhood
 
-    val minHourlySalary: StateFlow<MinHourlySalary?> =
-        caringRepository.fetchMinHourlySalary().stateIn(
-            viewModelScope,
-            started = SharingStarted.Lazily,
-            initialValue = null
-        )
+//    val minHourlySalary: StateFlow<MinHourlySalary?> =
+//        caringRepository.fetchMinHourlySalary().stateIn(
+//            viewModelScope,
+//            started = SharingStarted.Lazily,
+//            initialValue = null
+//        )
 
     init {
         fetchEtcCheckList()

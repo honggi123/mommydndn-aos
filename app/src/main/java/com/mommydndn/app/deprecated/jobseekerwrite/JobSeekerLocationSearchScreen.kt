@@ -41,7 +41,7 @@ fun JobSeekerLocationSearchScreen(
                         MyJavaScriptInterface(
                             onReceivedData = { address ->
                                 address?.let {
-                                    viewModel.searchLocationByAddress(it)
+                                    // viewModel.searchLocationByAddress(it)
                                 }
                                 Handler(Looper.getMainLooper()).post {
                                     navController.popBackStack()
