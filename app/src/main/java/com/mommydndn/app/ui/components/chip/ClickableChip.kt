@@ -6,11 +6,9 @@ import androidx.compose.material.ChipColors
 import androidx.compose.material.ChipDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,25 +40,23 @@ fun ClickableChip(
         }
     ),
 ) {
-    CompositionLocalProvider(LocalRippleTheme.provides(NoRippleTheme)) {
-        Chip(
-            onClick = onClick,
-            modifier = modifier,
-            border = BorderStroke(
-                width = 1.dp,
-                brush = SolidColor(Grey100),
-            ).takeIf { !selected },
-            colors = chipColors,
-        ) {
-            Text(
-                text = text,
-                modifier = Modifier.align(Alignment.CenterVertically),
-                color = textColor,
-                style = MaterialTheme.typography.caption200.merge(
-                    fontWeight = FontWeight.Medium,
-                )
+    Chip(
+        onClick = onClick,
+        modifier = modifier,
+        border = BorderStroke(
+            width = 1.dp,
+            brush = SolidColor(Grey100),
+        ).takeIf { !selected },
+        colors = chipColors,
+    ) {
+        Text(
+            text = text,
+            modifier = Modifier.align(Alignment.CenterVertically),
+            color = textColor,
+            style = MaterialTheme.typography.caption200.merge(
+                fontWeight = FontWeight.Medium,
             )
-        }
+        )
     }
 }
 
