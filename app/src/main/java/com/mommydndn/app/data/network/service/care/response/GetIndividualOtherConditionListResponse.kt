@@ -1,6 +1,6 @@
 package com.mommydndn.app.data.network.service.care.response
 
-import com.mommydndn.app.data.network.service.care.model.IndividualOtherConditionApiModel
+import com.mommydndn.app.data.network.service.care.model.NetworkWorkerOtherCondition
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -11,6 +11,6 @@ data class OtherIndividualConditionApiModel(
     @SerialName("indOtherConditionId")
     val id: Int,
     @SerialName("indOtherConditionCode")
-    val otherCondition: IndividualOtherConditionApiModel,
+    val otherCondition: NetworkWorkerOtherCondition,
     val displayName: String
 )

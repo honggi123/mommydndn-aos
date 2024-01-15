@@ -1,12 +1,11 @@
 package com.mommydndn.app.data.repository
 
-import com.mommydndn.app.data.network.service.user.UserService
+import com.mommydndn.app.data.network.service.UserService
 import com.mommydndn.app.domain.model.user.NearbyNeighborhoods
 import com.mommydndn.app.domain.model.user.Neighborhood
 import com.mommydndn.app.domain.model.user.NeighborhoodDistance
 import com.mommydndn.app.domain.model.user.OAuthProvider
 import com.mommydndn.app.domain.model.user.OAuthToken
-import com.mommydndn.app.domain.model.user.UserType
 import com.mommydndn.app.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

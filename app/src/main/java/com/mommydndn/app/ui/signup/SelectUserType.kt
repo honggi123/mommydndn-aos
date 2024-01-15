@@ -34,7 +34,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
-import com.mommydndn.app.domain.model.user.UserType
 import com.mommydndn.app.ui.care.components.post.TopAppBarHeight
 import com.mommydndn.app.ui.signup.components.AboutAgencyUser
 import com.mommydndn.app.ui.signup.components.UserTypeButton
@@ -97,21 +96,21 @@ fun SelectUserTypeScreen(
         ) {
             UserTypeButton(
                 onClick = {
-                    onUserTypeClick(UserType.COMPANY)
+                    onUserTypeClick(UserType.Agency)
                 },
                 iconDrawableId = R.drawable.icon_building,
                 text = stringResource(id = R.string.agency_user),
-                selected = userType == UserType.COMPANY,
+                selected = userType == UserType.Agency,
                 modifier = Modifier.weight(1F),
             )
 
             UserTypeButton(
                 onClick = {
-                    onUserTypeClick(UserType.INDIVIDUAL)
+                    onUserTypeClick(UserType.Individual)
                 },
                 iconDrawableId = R.drawable.icon_person,
                 text = stringResource(id = R.string.individual_user),
-                selected = userType == UserType.INDIVIDUAL,
+                selected = userType == UserType.Individual,
                 modifier = Modifier.weight(1F),
             )
         }

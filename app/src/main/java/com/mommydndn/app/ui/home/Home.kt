@@ -11,14 +11,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.mommydndn.app.ui.home.components.BannerUiModel
 import com.mommydndn.app.ui.home.components.BannerPager
+import com.mommydndn.app.ui.home.components.BannerUiModel
 import com.mommydndn.app.ui.home.components.HomeFooter
 import com.mommydndn.app.ui.home.components.HomeTopAppBar
-import com.mommydndn.app.ui.home.components.NearbyJobOpening
-import com.mommydndn.app.ui.home.components.NearbyJobOpeningsSection
-import com.mommydndn.app.ui.home.components.NearestCareProvider
-import com.mommydndn.app.ui.home.components.NearestCareProvidersSection
+import com.mommydndn.app.ui.home.components.NearbyCareJobUiModel
+import com.mommydndn.app.ui.home.components.NearbyCareJobs
+import com.mommydndn.app.ui.home.components.NearestCareWorkerUiModel
+import com.mommydndn.app.ui.home.components.NearestCareWorkers
 import com.mommydndn.app.ui.home.components.ReviewSection
 import com.mommydndn.app.ui.home.components.nearbyJobOpenings
 import com.mommydndn.app.ui.home.components.nearestCareProviders
@@ -30,9 +30,9 @@ internal fun Home(
     onInquiryClick: () -> Unit,
     onNotificationClick: () -> Unit,
     banners: List<BannerUiModel>,
-    nearestCareProviders: List<NearestCareProvider>,
+    nearestCareProviders: List<NearestCareWorkerUiModel>,
     onAllCareProvidersClick: () -> Unit,
-    nearbyJobOpenings: List<NearbyJobOpening>,
+    nearbyJobOpenings: List<NearbyCareJobUiModel>,
     onMoreJobOpeningsClick: () -> Unit,
     onReviewClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -51,13 +51,13 @@ internal fun Home(
             BannerPager(banners = banners)
 
             Column(verticalArrangement = Arrangement.spacedBy(24.dp)) {
-                NearestCareProvidersSection(
-                    nearestCareProviders = nearestCareProviders,
-                    onAllClick = onAllCareProvidersClick,
+                NearestCareWorkers(
+                    nearestCareWorkers = nearestCareProviders,
+                    onSeeAllClick = onAllCareProvidersClick,
                     modifier = Modifier.background(White),
                 )
 
-                NearbyJobOpeningsSection(
+                NearbyCareJobs(
                     nearbyJobOpenings = nearbyJobOpenings,
                     onMoreClick = onMoreJobOpeningsClick,
                     modifier = Modifier.background(White),

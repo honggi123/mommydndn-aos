@@ -1,9 +1,8 @@
 package com.mommydndn.app.domain.repository
 
-import com.mommydndn.app.domain.model.banner.Banner
+import com.mommydndn.app.domain.model.Banner
 
 interface CommonRepositoy {
 
-    suspend fun fetchBanners(): List<Banner>
-
+    suspend fun getBanners(): List<Banner>
 }

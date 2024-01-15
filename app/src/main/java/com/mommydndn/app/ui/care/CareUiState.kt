@@ -14,7 +14,8 @@ sealed interface CareUiState {
         val neighborhood: Neighborhood,
         val order: CareOrderBy,
         val filters: List<CareFilters<*>>,
-        val jobOpeningListItems: List<CareJobUiModel>,
+        val jobs: List<CareJobUiModel>,
+        // val workers: List<CareWorkerUiModel>
         // todo: care_provider_list, agency_list
     ) : CareUiState
 

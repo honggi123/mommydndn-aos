@@ -2,10 +2,10 @@ package com.mommydndn.app.data.source.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.mommydndn.app.data.network.service.care.CareService
-import com.mommydndn.app.data.network.service.care.request.GetCareWorkerListRequest
+import com.mommydndn.app.data.network.service.CareService
+import com.mommydndn.app.data.network.service.request.GetCareWorkerListRequest
 import com.mommydndn.app.data.network.service.care.response.CareWorkerSummaryApiModel
-import com.mommydndn.app.data.network.service.common.model.PaginationApiModel
+import com.mommydndn.app.data.network.model.NetworkPage
 import javax.inject.Inject
 
 private const val STARTING_PAGE_INDEX = 1
@@ -21,7 +21,7 @@ class CareWorkerSummaryPagingSource @Inject constructor(
             val result = careService.getCareWorkerSummaryList(
                 getCareWorkerListRequest.map {
                     it.copy(
-                        pageMeta = PaginationApiModel(
+                        pageMeta = NetworkPage(
                             page = position,
                             size = 5,
                             requestedAt = System.currentTimeMillis()

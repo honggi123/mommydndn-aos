@@ -1,19 +1,16 @@
 package com.mommydndn.app.di
 
-import android.content.SharedPreferences
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.mommydndn.app.BuildConfig
-import com.mommydndn.app.data.network.service.notification.NotificationService
 import com.mommydndn.app.data.network.interceptor.AuthenticationInterceptor
-import com.mommydndn.app.data.network.service.auth.AuthService
-import com.mommydndn.app.data.network.service.babyitem.BabyItemService
-import com.mommydndn.app.data.network.service.care.CareService
-import com.mommydndn.app.data.network.service.common.CommonService
-import com.mommydndn.app.data.network.service.google.GoogleApiService
-import com.mommydndn.app.data.network.service.kakao.KakaoApiService
-import com.mommydndn.app.data.network.service.tos.TosService
-import com.mommydndn.app.data.network.service.user.UserService
-import com.mommydndn.app.data.preferences.TokenManager
+import com.mommydndn.app.data.network.service.AuthenticationService
+import com.mommydndn.app.data.network.service.CareService
+import com.mommydndn.app.data.network.service.CommonService
+import com.mommydndn.app.data.network.service.GoogleService
+import com.mommydndn.app.data.network.service.NotificationService
+import com.mommydndn.app.data.network.service.TermsService
+import com.mommydndn.app.data.network.service.UserService
+import com.mommydndn.app.data.preferences.PreferencesStorage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,18 +27,12 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class NetworkModule {
+object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideTokenManager(sharedPreferences: SharedPreferences): TokenManager {
-        return TokenManager(sharedPreferences)
-    }
-
-    @Provides
-    @Singleton
-    fun provideAuthenticationInterceptor(tokenManager: TokenManager): Interceptor {
-        return AuthenticationInterceptor(tokenManager)
+    fun provideAuthenticationInterceptor(preferencesStorage: PreferencesStorage): Interceptor {
+        return AuthenticationInterceptor(preferencesStorage)
     }
 
     @Provides
@@ -51,7 +42,9 @@ class NetworkModule {
             .addInterceptor(interceptor)
             .apply {
                 if (BuildConfig.DEBUG) {
-                    val loggingInterceptor = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
+                    val loggingInterceptor = HttpLoggingInterceptor().apply {
+                        level = HttpLoggingInterceptor.Level.BODY
+                    }
 
                     addInterceptor(loggingInterceptor)
                 }
@@ -77,43 +70,9 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideAuthService(retrofit: Retrofit): AuthService {
-        return retrofit.create(AuthService::class.java)
+    fun provideAuthenticationService(retrofit: Retrofit): AuthenticationService {
+        return retrofit.create(AuthenticationService::class.java)
     }
-
-    /*
-    @Singleton
-    @Provides
-    fun provideMapService(retrofit: Retrofit): MapService {
-        return retrofit.create(MapService::class.java)
-    }
-     */
-
-    @Singleton
-    @Provides
-    fun provideTermsService(retrofit: Retrofit): TosService {
-        return retrofit.create(TosService::class.java)
-    }
-
-    @Singleton
-    @Provides
-    fun provideNoticeService(retrofit: Retrofit): NotificationService {
-        return retrofit.create(NotificationService::class.java)
-    }
-
-    @Singleton
-    @Provides
-    fun provideBabyItemService(retrofit: Retrofit): BabyItemService {
-        return retrofit.create(BabyItemService::class.java)
-    }
-
-    /*
-    @Singleton
-    @Provides
-    fun provideCaringService(retrofit: Retrofit): CareService {
-        return retrofit.create(CareService::class.java)
-    }
-     */
 
     @Provides
     @Singleton
@@ -129,30 +88,30 @@ class NetworkModule {
 
     @Singleton
     @Provides
+    fun provideNoticeService(retrofit: Retrofit): NotificationService {
+        return retrofit.create(NotificationService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideTermsService(retrofit: Retrofit): TermsService {
+        return retrofit.create(TermsService::class.java)
+    }
+
+    @Singleton
+    @Provides
     fun provideUserService(retrofit: Retrofit): UserService {
         return retrofit.create(UserService::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideGoogleApiService(client: OkHttpClient): GoogleApiService {
+    fun provideGoogleService(client: OkHttpClient): GoogleService {
         return Retrofit.Builder()
             .baseUrl("https://www.googleapis.com")
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(GoogleApiService::class.java)
+            .create(GoogleService::class.java)
     }
-
-    @Provides
-    @Singleton
-    fun provideKakaoApiService(client: OkHttpClient): KakaoApiService {
-        return Retrofit.Builder()
-            .baseUrl("https://dapi.kakao.com/")
-            .client(client)
-            .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
-            .build()
-            .create(KakaoApiService::class.java)
-    }
-
 }

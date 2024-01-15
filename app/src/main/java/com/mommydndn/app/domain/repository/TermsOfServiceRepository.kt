@@ -1,6 +1,6 @@
 package com.mommydndn.app.domain.repository
 
-import com.mommydndn.app.domain.model.tos.TermsOfService
+import com.mommydndn.app.domain.model.TermsOfService
 
 interface TermsOfServiceRepository {
 

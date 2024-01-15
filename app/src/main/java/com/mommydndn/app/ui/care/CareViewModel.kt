@@ -117,7 +117,7 @@ class CareViewModel @Inject constructor(
                 neighborhood = neighborhood,
                 order = order,
                 filters = filters.values.toList(),
-                jobOpeningListItems = emptyList() // todo
+                jobs = emptyList() // todo
             )
         }.stateIn(viewModelScope, SharingStarted.Eagerly, CareUiState.Loading)
 

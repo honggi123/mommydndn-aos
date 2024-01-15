@@ -1,9 +1,8 @@
 package com.mommydndn.app.data.network.service.care.response
 
-
+import com.mommydndn.app.data.network.model.NetworkCareType
+import com.mommydndn.app.data.network.model.NetworkNeighborhood
 import com.mommydndn.app.data.network.service.care.model.AgencyOtherConditionApiModel
-import com.mommydndn.app.data.network.service.care.model.CareTypeApiModel
-import com.mommydndn.app.data.network.service.location.model.LocationApiModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -16,7 +15,7 @@ data class GetAgencyCareWorkerResponse(
     @SerialName("coverImageList")
     val coverImages: List<AgencyCareWorkerCoverImageApiModel>,
     @SerialName("emd")
-    val neighborhood: LocationApiModel,
+    val neighborhood: NetworkNeighborhood,
     @SerialName("introLine")
     val introduction: String,
     @SerialName("maxMonthlySalary")
@@ -24,7 +23,7 @@ data class GetAgencyCareWorkerResponse(
     @SerialName("minMonthlySalary")
     val minSalary: Int,
     @SerialName("caringTypeCodeList")
-    val careTypes: List<CareTypeApiModel>,
+    val careTypes: List<NetworkCareType>,
     @SerialName("comOtherConditionList")
     val otherConditions: List<AgencyOtherConditionApiModel>,
     val isLiked: Boolean,
@@ -59,7 +58,7 @@ data class AgencyCareWorkerReviewApiModel(
     @SerialName("caringReviewId")
     val id: Int,
     @SerialName("caringTypeCodeList")
-    val careTypes: List<CareTypeApiModel>,
+    val careTypes: List<NetworkCareType>,
     @SerialName("rate")
     val rate: Int,
     val content: String,

@@ -1,11 +1,5 @@
 package com.mommydndn.app.domain.model.user
 
-data class User(
-    val id: Int,
-    val name: String,
-    val profileUrl: String?,
-)
-
 data class Neighborhood(
     val id: Int = 0,
     val name: String = "",

@@ -5,7 +5,6 @@ import com.mommydndn.app.domain.model.user.Neighborhood
 import com.mommydndn.app.domain.model.user.NeighborhoodDistance
 import com.mommydndn.app.domain.model.user.OAuthProvider
 import com.mommydndn.app.domain.model.user.OAuthToken
-import com.mommydndn.app.domain.model.user.UserType
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {

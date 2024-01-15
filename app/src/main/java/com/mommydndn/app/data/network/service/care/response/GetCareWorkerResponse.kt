@@ -1,10 +1,10 @@
 package com.mommydndn.app.data.network.service.care.response
 
 
-import com.mommydndn.app.data.network.service.care.model.CareTypeApiModel
-import com.mommydndn.app.data.network.service.care.model.IndividualOtherConditionApiModel
+import com.mommydndn.app.data.network.model.NetworkCareType
+import com.mommydndn.app.data.network.model.NetworkNeighborhood
+import com.mommydndn.app.data.network.service.care.model.NetworkWorkerOtherCondition
 import com.mommydndn.app.data.network.service.care.model.SalaryTypeApiModel
-import com.mommydndn.app.data.network.service.location.model.LocationApiModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -13,7 +13,7 @@ data class GetCareWorkerResponse(
     @SerialName("jobSeekerId")
     val id: Int,
     @SerialName("emd")
-    val location: LocationApiModel,
+    val location: NetworkNeighborhood,
     @SerialName("introLine")
     val introduction: String,
     @SerialName("jobSeekerAuthor")
@@ -21,9 +21,9 @@ data class GetCareWorkerResponse(
     @SerialName("salaryTypeCode")
     val salaryType: SalaryTypeApiModel,
     @SerialName("caringTypeCodeList")
-    val careTypes: List<CareTypeApiModel>,
+    val careTypes: List<NetworkCareType>,
     @SerialName("indOtherConditionList")
-    val otherConditionList: List<IndividualOtherConditionApiModel>,
+    val otherConditionList: List<NetworkWorkerOtherCondition>,
     val latitude: Int,
     val longitude: Int,
     val salary: Int,

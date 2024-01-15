@@ -21,7 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
-import com.mommydndn.app.domain.model.tos.TermsOfService
+import com.mommydndn.app.domain.model.TermsOfService
 import com.mommydndn.app.ui.components.check.CheckListItem
 import com.mommydndn.app.ui.components.check.CheckboxListItem
 import com.mommydndn.app.ui.components.modal.MommydndnModal
@@ -41,7 +41,7 @@ internal fun TermsOfServiceModal(
     modifier: Modifier = Modifier,
 ) {
     val enabled = termsOfService.keys
-        .filter { it.isRequired }
+        .filter { it.required }
         .all { termsOfService.getValue(it) }
 
     MommydndnModal(
@@ -87,7 +87,7 @@ internal fun TermsOfServiceModal(
             termsOfService.forEach { entry ->
                 val tos = entry.key
 
-                val prefix = if (tos.isRequired) {
+                val prefix = if (tos.required) {
                     stringResource(id = R.string.required_square_brackets)
                 } else {
                     stringResource(id = R.string.optional_square_brackets)
@@ -124,7 +124,7 @@ private fun ToSModalBottomSheet_Preview() {
                     id = index,
                     name = name,
                     url = "",
-                    isRequired = index != 4
+                    required = index != 4
                 )
             }.associateWith { true }
         )

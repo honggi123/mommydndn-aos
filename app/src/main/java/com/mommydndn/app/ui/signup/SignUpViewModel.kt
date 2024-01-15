@@ -6,8 +6,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.mommydndn.app.domain.model.location.Coordinates
 import com.mommydndn.app.domain.model.location.Neighborhood
-import com.mommydndn.app.domain.model.tos.TermsOfService
-import com.mommydndn.app.domain.model.user.UserType
+import com.mommydndn.app.domain.model.TermsOfService
 import com.mommydndn.app.domain.usecase.invoke
 import com.mommydndn.app.domain.usecase.location.SearchNeighborhoodByCoordinatesUseCase
 import com.mommydndn.app.domain.usecase.location.SearchNeighborhoodByQueryUseCase

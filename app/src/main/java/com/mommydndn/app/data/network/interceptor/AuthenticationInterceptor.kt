@@ -1,24 +1,27 @@
 package com.mommydndn.app.data.network.interceptor
 
-import com.mommydndn.app.data.preferences.TokenManager
+import com.mommydndn.app.data.preferences.PreferencesStorage
 import okhttp3.Interceptor
-import okhttp3.Request
 import okhttp3.Response
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class AuthenticationInterceptor constructor(
-    private val tokenManager: TokenManager
+@Singleton
+class AuthenticationInterceptor @Inject constructor(
+    private val preferencesStorage: PreferencesStorage
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         return chain.request().let { request ->
-            val accessToken = tokenManager.getAccessToken()
+            val accessToken = preferencesStorage.getAccessToken()
+
             val urlString = request.url.toString()
 
-            if (shouldSkipAuthentication(urlString, accessToken)) {
+            if (accessToken == null || shouldSkipAuthentication(urlString)) {
                 request
             } else {
                 request.newBuilder()
-                    .addAuthHeader(accessToken)
+                    .header("Authorization", "Bearer $accessToken")
                     .build()
             }
         }.let { request ->
@@ -26,7 +29,7 @@ class AuthenticationInterceptor constructor(
         }
     }
 
-    private fun shouldSkipAuthentication(urlString: String, accessToken: String?): Boolean {
+    private fun shouldSkipAuthentication(urlString: String): Boolean {
         val endpoints = listOf(
             "/api/terms",
             "/api/auth/signup",
@@ -35,10 +38,6 @@ class AuthenticationInterceptor constructor(
             "/api/map/nearest"
         )
 
-        return accessToken == null || endpoints.any { urlString.endsWith(it) }
-    }
-
-    private fun Request.Builder.addAuthHeader(accessToken: String?): Request.Builder {
-        return this.header("Authorization", "Bearer $accessToken")
+        return endpoints.any { urlString.endsWith(it) }
     }
 }

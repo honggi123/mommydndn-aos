@@ -1,25 +1,22 @@
 package com.mommydndn.app.data.repository
 
 import com.mommydndn.app.BuildConfig
-import com.mommydndn.app.data.network.service.google.request.GetGoogleAccessTokenRequest
-import com.mommydndn.app.data.network.service.user.request.SignInRequest
-import com.mommydndn.app.data.network.service.user.request.SignUpRequest
-import com.mommydndn.app.data.network.service.google.response.GetGoogleAccessTokenResponse
+import com.mommydndn.app.data.network.service.GoogleService
+import com.mommydndn.app.data.network.service.UserService
+import com.mommydndn.app.data.network.service.request.GetGoogleAccessTokenRequest
+import com.mommydndn.app.data.network.service.response.GetGoogleAccessTokenResponse
 import com.mommydndn.app.data.network.service.user.response.SignInResponse
-import com.mommydndn.app.data.network.service.auth.AuthService
-import com.mommydndn.app.data.network.service.google.GoogleApiService
-import com.mommydndn.app.data.network.service.user.UserService
 import com.mommydndn.app.data.network.service.user.response.SignUpResponse
-import com.mommydndn.app.data.preferences.TokenManager
+import com.mommydndn.app.data.preferences.PreferencesStorage
+import com.mommydndn.app.domain.model.UserType
 import com.mommydndn.app.domain.model.user.OAuthProvider
-import com.mommydndn.app.domain.model.user.UserType
 import com.mommydndn.app.domain.repository.AccountRepository
 import javax.inject.Inject
 
 class AccountDataRepository @Inject constructor(
     private val userService: UserService,
-    private val googleApiService: GoogleApiService,
-    private val tokenManager: TokenManager
+    private val googleService: GoogleService,
+    private val preferencesStorage: PreferencesStorage
 ) : AccountRepository {
 
     override suspend fun signIn(
@@ -53,13 +50,13 @@ class AccountDataRepository @Inject constructor(
     }
 
     override suspend fun saveUserToken(accessToken: String, refreshToken: String) {
-        tokenManager.putAccessToken(accessToken)
-        tokenManager.putRefreshToken(refreshToken)
+        preferencesStorage.setAccessToken(accessToken)
+        preferencesStorage.setRefreshToken(refreshToken)
     }
 
     override suspend fun getGoogleAccessToken(
         authCode: String
-    ): GetGoogleAccessTokenResponse = googleApiService.getAccessToken(
+    ): GetGoogleAccessTokenResponse = googleService.getAccessToken(
         GetGoogleAccessTokenRequest(
             grantType = "authorization_code",
             clientId = BuildConfig.GOOGLE_CLIENT_ID,

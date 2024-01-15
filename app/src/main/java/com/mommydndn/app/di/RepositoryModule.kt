@@ -1,14 +1,12 @@
 package com.mommydndn.app.di
 
 import com.mommydndn.app.data.repository.AccountDataRepository
-import com.mommydndn.app.data.repository.BabyItemDataRepository
 import com.mommydndn.app.data.repository.CareDataRepository
 import com.mommydndn.app.data.repository.CommonDataRepository
 import com.mommydndn.app.data.repository.LocationDataRepository
 import com.mommydndn.app.data.repository.TermsOfServiceDataRepository
 import com.mommydndn.app.data.repository.UserDataRepository
 import com.mommydndn.app.domain.repository.AccountRepository
-import com.mommydndn.app.domain.repository.BabyItemRepository
 import com.mommydndn.app.domain.repository.CareRepository
 import com.mommydndn.app.domain.repository.CommonRepositoy
 import com.mommydndn.app.domain.repository.LocationRepository
@@ -49,10 +47,6 @@ interface RepositoryModule {
     @Binds
     @Singleton
     fun bindCommonRepository(repository: CommonDataRepository): CommonRepositoy
-
-    @Binds
-    @Singleton
-    fun bindBabyItemRepository(repository: BabyItemDataRepository): BabyItemRepository
 
     @Binds
     @Singleton

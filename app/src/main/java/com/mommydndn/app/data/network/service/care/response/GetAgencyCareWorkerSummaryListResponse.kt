@@ -1,7 +1,7 @@
 package com.mommydndn.app.data.network.service.care.response
 
-import com.mommydndn.app.data.network.service.care.model.CareTypeApiModel
-import com.mommydndn.app.data.network.service.common.model.MetaApiModel
+import com.mommydndn.app.data.network.model.NetworkCareType
+import com.mommydndn.app.data.network.model.NetworkMeta
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -10,7 +10,7 @@ data class GetAgencyCareWorkerSummaryListResponse(
     @SerialName("companySummaryList")
     val items: List<AgencyCareWorkerSummaryApiModel>,
     @SerialName("meta")
-    val meta: MetaApiModel
+    val meta: NetworkMeta
 )
 
 @Serializable
@@ -22,7 +22,7 @@ data class AgencyCareWorkerSummaryApiModel(
     @SerialName("neighborhood")
     val neighborhoodName: String,
     @SerialName("caringTypeCodeList")
-    val careTypes: List<CareTypeApiModel>,
+    val careTypes: List<NetworkCareType>,
     val matchingCount: Int,
     val reviewCount: Int,
     val responseRate: String,

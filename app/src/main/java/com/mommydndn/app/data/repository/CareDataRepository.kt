@@ -9,12 +9,12 @@ import com.mommydndn.app.data.model.care.SortingType
 import com.mommydndn.app.data.model.care.WorkPeriodType
 import com.mommydndn.app.data.model.common.DayOfWeekItem
 import com.mommydndn.app.data.model.common.DayOfWeekType
-import com.mommydndn.app.data.network.service.care.CareService
+import com.mommydndn.app.data.network.service.CareService
 import com.mommydndn.app.data.network.service.care.response.AgencyCareWorkerSummaryApiModel
 import com.mommydndn.app.data.network.service.care.response.CareWorkerSummaryApiModel
 import com.mommydndn.app.data.network.service.care.response.GetMinimumWageResponse
 import com.mommydndn.app.data.network.service.care.response.CareJobSummaryApiModel
-import com.mommydndn.app.data.network.service.common.CommonService
+import com.mommydndn.app.data.network.service.CommonService
 import com.mommydndn.app.domain.model.care.JobOffer
 import com.mommydndn.app.domain.model.care.JobSeeker
 import com.mommydndn.app.domain.repository.CareRepository

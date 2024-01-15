@@ -3,7 +3,6 @@ package com.mommydndn.app.domain.usecase.user
 import com.mommydndn.app.di.IODispatcher
 import com.mommydndn.app.domain.model.user.OAuthProvider
 import com.mommydndn.app.domain.model.user.OAuthToken
-import com.mommydndn.app.domain.model.user.UserType
 import com.mommydndn.app.domain.repository.UserRepository
 import com.mommydndn.app.domain.usecase.UseCase
 import kotlinx.coroutines.CoroutineDispatcher

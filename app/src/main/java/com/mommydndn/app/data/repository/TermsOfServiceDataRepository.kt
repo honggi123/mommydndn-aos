@@ -1,15 +1,14 @@
 package com.mommydndn.app.data.repository
 
-import com.mommydndn.app.data.network.service.user.request.UpdateTosAgreementRequest
-import com.mommydndn.app.data.network.service.tos.TosService
-import com.mommydndn.app.domain.model.tos.TermsOfService
+import com.mommydndn.app.data.network.service.TermsService
+import com.mommydndn.app.domain.model.TermsOfService
 import com.mommydndn.app.domain.repository.TermsOfServiceRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class TermsOfServiceDataRepository @Inject constructor(
-    private val service: TosService,
+    private val service: TermsService,
 ) : TermsOfServiceRepository {
 
     override suspend fun getTermsOfService(): List<TermsOfService> {
