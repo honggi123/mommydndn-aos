@@ -18,8 +18,9 @@ object DayOfWeekSerializer : KSerializer<DayOfWeek> {
     override fun deserialize(decoder: Decoder): DayOfWeek {
         val displayName = decoder.decodeString()
 
-        return DayOfWeek.entries
-            .first { it.name.take(3) == displayName }
+        return DayOfWeek.entries.first {
+            it.name.take(3) == displayName
+        }
     }
 
     override fun serialize(encoder: Encoder, value: DayOfWeek) {

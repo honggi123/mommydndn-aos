@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.mommydndn.app.domain.model.location.Coordinates
-import com.mommydndn.app.domain.model.location.Neighborhood
+import com.mommydndn.app.domain.model.Coordinates
+import com.mommydndn.app.domain.model.Neighborhood
 import com.mommydndn.app.domain.model.TermsOfService
 import com.mommydndn.app.domain.usecase.invoke
 import com.mommydndn.app.domain.usecase.location.SearchNeighborhoodByCoordinatesUseCase

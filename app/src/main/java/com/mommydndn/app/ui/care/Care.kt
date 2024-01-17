@@ -37,9 +37,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mommydndn.app.R
-import com.mommydndn.app.domain.model.care.CareType
-import com.mommydndn.app.domain.model.care.WorkPeriod
-import com.mommydndn.app.domain.model.user.Neighborhood
+import com.mommydndn.app.domain.model.NearbyNeighborhoodDistance
+import com.mommydndn.app.domain.model.CareType
+import com.mommydndn.app.domain.model.WorkPeriod
 import com.mommydndn.app.ui.care.components.filter.FilterChip
 import com.mommydndn.app.ui.care.components.post.TopAppBarHeight
 import com.mommydndn.app.ui.care.filter.CareFilters
@@ -49,7 +49,6 @@ import com.mommydndn.app.ui.care.filter.DaysOfWeekFilter
 import com.mommydndn.app.ui.care.filter.NeighborhoodFilter
 import com.mommydndn.app.ui.care.filter.WorkHoursFilter
 import com.mommydndn.app.ui.care.filter.WorkPeriodFilter
-import com.mommydndn.app.ui.care.filter.displayName
 import com.mommydndn.app.ui.care.job.CareJobList
 import com.mommydndn.app.ui.care.job.CareJobUiModel
 import com.mommydndn.app.ui.care.job.mockCareJobUiModels
@@ -125,9 +124,16 @@ internal fun Care(
     }
 }
 
+data class NeighborhoodUiModel(
+    val id: Long,
+    val name: String,
+    val address: String,
+    val nearbyDistance: NearbyNeighborhoodDistance,
+)
+
 @Composable
 private fun CareContent(
-    neighborhood: Neighborhood,
+    neighborhood: NeighborhoodUiModel,
     onNeighborhoodClick: () -> Unit,
     onSearchClick: () -> Unit,
     selectedTabIndex: Int,
@@ -275,7 +281,7 @@ private fun CareOrderAndFilters(
     ) {
         FilterChip(
             selected = true,
-            text = orderBy.displayName(),
+            text = "orderBy.displayName()",
             onClick = onOrderClick,
             modifier = Modifier.padding(start = 24.dp)
         )
@@ -313,12 +319,11 @@ private fun CareFilterModalBottomSheet(
 @Preview
 @Composable
 private fun CareScreenPreview() {
-    val fakeNeighborhood = Neighborhood(
+    val fakeNeighborhood = NeighborhoodUiModel(
         id = 0,
         name = "서초동",
         address = "서울 서초구 서초중앙로 15",
-        latitude = 0.0,
-        longitude = 0.0,
+        nearbyDistance = NearbyNeighborhoodDistance.DISTANT
     )
 
     CareContent(
@@ -330,11 +335,11 @@ private fun CareScreenPreview() {
         orderBy = CareOrderBy.LATEST,
         onOrderClick = {},
         filters = buildList {
-            add(NeighborhoodFilter(neighborhood = fakeNeighborhood))
-            add(CareTypesFilter())
-            add(DaysOfWeekFilter())
-            add(WorkHoursFilter())
-            add(WorkPeriodFilter(workPeriod = WorkPeriod.REGULAR))
+//            add(NeighborhoodFilter(neighborhood = fakeNeighborhood))
+//            add(CareTypesFilter())
+//            add(DaysOfWeekFilter())
+//            add(WorkHoursFilter())
+//            add(WorkPeriodFilter(workPeriod = WorkPeriod.REGULAR))
         },
         onFilterClick = {},
         jobOpeningListItems = mockCareJobUiModels,
@@ -361,9 +366,9 @@ private fun CareTypesFilterChipPreview() {
         }
 
         val careTypes = listOf(
-            CareType.CHILD_CARE,
-            CareType.SCHOOL_TRANSPORTATION,
-            CareType.HOUSEKEEPING,
+            CareType.ChildCare,
+            CareType.SchoolTransportation,
+            CareType.Housekeeping,
         )
 
         with(CareTypesFilter(careTypes = careTypes)) {
@@ -444,7 +449,7 @@ private fun WorkPeriodFilterChipPreview() {
             )
         }
 
-        with(WorkPeriodFilter(WorkPeriod.ONE_TIME)) {
+        with(WorkPeriodFilter(WorkPeriod.OneTime)) {
             FilterChip(
                 selected = selected,
                 text = displayName(),
@@ -452,7 +457,7 @@ private fun WorkPeriodFilterChipPreview() {
             )
         }
 
-        with(WorkPeriodFilter(WorkPeriod.REGULAR)) {
+        with(WorkPeriodFilter(WorkPeriod.Regular)) {
             FilterChip(
                 selected = selected,
                 text = displayName(),

@@ -25,9 +25,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
-import com.mommydndn.app.domain.model.care.CareType
-import com.mommydndn.app.domain.model.care.PayPeriod
-import com.mommydndn.app.domain.model.care.WorkPeriod
+import com.mommydndn.app.domain.model.CareType
+import com.mommydndn.app.domain.model.PayPeriod
+import com.mommydndn.app.domain.model.WorkPeriod
 import com.mommydndn.app.ui.care.displayName
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
@@ -323,10 +323,10 @@ private fun CareJobListDivider(modifier: Modifier = Modifier) {
 @Composable
 private fun CareJobListItemPreview() {
     CareJobListItem(
-        workPeriod = WorkPeriod.REGULAR,
+        workPeriod = WorkPeriod.Regular,
         careTypes = listOf(
-            CareType.CHILD_CARE,
-            CareType.HOUSEKEEPING,
+            CareType.ChildCare,
+            CareType.Housekeeping,
         ),
         isClosed = false,
         title = "2일간 풀타임으로 아이 둘 맡아주실 분 구해요",
@@ -342,7 +342,7 @@ private fun CareJobListItemPreview() {
         ),
         startTime = LocalTime.of(17, 0),
         endTime = LocalTime.of(22, 0),
-        payPeriod = PayPeriod.HOURLY,
+        payPeriod = PayPeriod.Hourly,
         pay = 12000,
         modifier = Modifier
             .fillMaxWidth()

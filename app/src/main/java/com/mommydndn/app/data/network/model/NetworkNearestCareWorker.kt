@@ -5,9 +5,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class NetworkNearestCareWorker(
-    @SerialName("jobSeekerId") val id: Int,
-    @SerialName("caringType") val careType: NetworkCareType,
+    @SerialName("jobSeekerId")
+    val id: Long,
+    @SerialName("caringType")
+    val careType: NetworkCareType,
     val nickname: String,
-    @SerialName("profileUrl") val imageUrl: String,
-    val ageAndGender: String
+    @SerialName("profileUrl")
+    val profileImageUrl: String,
+    val ageAndGender: String,
 )

@@ -1,16 +1,13 @@
 package com.mommydndn.app.data.repository
 
-import com.mommydndn.app.data.model.notification.Notification
-import com.mommydndn.app.data.network.service.UserService
 import com.mommydndn.app.domain.repository.NotificationRepository
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class NotificationDataRepository constructor(
-    private val service: UserService
+@Singleton
+class NotificationDataRepository @Inject constructor(
+
 ) : NotificationRepository {
 
-    override suspend fun fetchUserNotificationSettings(): List<Notification> {
-//       return service.fetchNotificationSettings().toDomain()
-        return emptyList()
-    }
 }
 

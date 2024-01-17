@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mommydndn.app.R
-import com.mommydndn.app.domain.model.care.CareType
-import com.mommydndn.app.domain.model.care.OtherOption
+import com.mommydndn.app.domain.model.CareType
+import com.mommydndn.app.domain.model.OtherOption
 import com.mommydndn.app.domain.model.user.NeighborhoodDistance
 import com.mommydndn.app.ui.care.components.post.AuthenticationPostSection
 import com.mommydndn.app.ui.care.components.post.BioPostSection
@@ -199,7 +199,7 @@ internal fun PostCareWorkerProfileContent(
                     options = listOf(
                         OtherOption.Pets,
                         OtherOption.CCTV,
-                        OtherOption.Occupancy,
+                        OtherOption.Residential,
                         OtherOption.NonSmoker,
                         OtherOption.NoReligion,
                     )

@@ -6,5 +6,5 @@ interface TermsOfServiceRepository {
 
     suspend fun getTermsOfService(): List<TermsOfService>
 
-    suspend fun updateTermsOfServiceState(termsOfService: Map<TermsOfService, Boolean>)
+    suspend fun updateTermsOfServiceAgreement(termsOfService: Map<TermsOfService, Boolean>)
 }

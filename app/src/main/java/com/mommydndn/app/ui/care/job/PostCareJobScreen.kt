@@ -29,8 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mommydndn.app.R
-import com.mommydndn.app.domain.model.care.CareType
-import com.mommydndn.app.domain.model.care.WorkPeriod
+import com.mommydndn.app.domain.model.CareType
+import com.mommydndn.app.domain.model.WorkPeriod
 import com.mommydndn.app.ui.care.components.post.CareTypesPostSection
 import com.mommydndn.app.ui.care.components.post.ContentTextField
 import com.mommydndn.app.ui.care.components.post.GetPhotosPostSection

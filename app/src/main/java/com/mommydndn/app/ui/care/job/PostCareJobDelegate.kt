@@ -1,9 +1,9 @@
 package com.mommydndn.app.ui.care.job
 
-import com.mommydndn.app.domain.model.care.CareType
-import com.mommydndn.app.domain.model.care.OtherOption
-import com.mommydndn.app.domain.model.care.PayPeriod
-import com.mommydndn.app.domain.model.care.WorkPeriod
+import com.mommydndn.app.domain.model.CareType
+import com.mommydndn.app.domain.model.OtherOption
+import com.mommydndn.app.domain.model.PayPeriod
+import com.mommydndn.app.domain.model.WorkPeriod
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,7 +12,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 
 data class CareJobWorkDateTimesUiModel(
-    val workPeriod: WorkPeriod = WorkPeriod.ONE_TIME,
+    val workPeriod: WorkPeriod = WorkPeriod.OneTime,
     val dates: List<LocalDate> = emptyList(),
     val daysOfWeek: List<DayOfWeek> = emptyList(),
     val startDate: LocalDate? = null,
@@ -70,7 +70,7 @@ object PostCareJobOpeningViewModelDelegate : PostCareJobOpeningDelegate {
     )
     override val workPlace: StateFlow<CareJobWorkPlaceUiModel> = _workPlace.asStateFlow()
 
-    private val _payPeriod: MutableStateFlow<PayPeriod> = MutableStateFlow(PayPeriod.HOURLY)
+    private val _payPeriod: MutableStateFlow<PayPeriod> = MutableStateFlow(PayPeriod.Hourly)
     override val payPeriod: StateFlow<PayPeriod> = _payPeriod.asStateFlow()
 
     private val _pay: MutableStateFlow<Int> = MutableStateFlow(0)

@@ -1,16 +1,20 @@
 package com.mommydndn.app.domain.model.care
 
+import com.mommydndn.app.domain.model.CareType
+import com.mommydndn.app.domain.model.PayPeriod
+import com.mommydndn.app.domain.model.User
+import com.mommydndn.app.domain.model.WorkHours
+import com.mommydndn.app.domain.model.WorkPeriod
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-// todo
 data class CareJobOpening(
-    val id: Int,
+    val id: Long,
+    val employer: User,
     val title: String,
     val careTypes: List<CareType>,
     val createdAt: LocalDateTime,
-    val payPeriod: PayPeriod,
-    val pay: Int,
+    val pay: Pay,
     val workPeriod: WorkPeriod,
     val onetimeWorkDates: List<LocalDate>,
     val regularWorkStartDate: LocalDate,
@@ -23,6 +27,16 @@ data class CareJobOpening(
     val likesCount: Int,
     val viewsCount: Int,
     val location: Location
+)
+
+data class Pay(
+    val period: PayPeriod,
+    val pay: Int,
+)
+
+data class Work(
+    val period: WorkPeriod,
+
 )
 
 data class Image(

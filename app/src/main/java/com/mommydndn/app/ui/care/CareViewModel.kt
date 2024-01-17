@@ -2,16 +2,14 @@ package com.mommydndn.app.ui.care
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mommydndn.app.domain.model.NearbyNeighborhoodDistance
+import com.mommydndn.app.domain.model.Neighborhood
 import com.mommydndn.app.domain.model.care.CareJobOpening
-import com.mommydndn.app.domain.model.user.NearbyNeighborhoods
-import com.mommydndn.app.domain.model.user.Neighborhood
-import com.mommydndn.app.domain.model.user.NeighborhoodDistance
 import com.mommydndn.app.domain.usecase.care.GetNearbyCareJobOpeningsParams
 import com.mommydndn.app.domain.usecase.care.GetNearbyCareJobOpeningsUseCase
 import com.mommydndn.app.domain.usecase.invoke
-import com.mommydndn.app.domain.usecase.user.GetNearbyNeighborhoodsParams
+import com.mommydndn.app.domain.usecase.user.GetNearbyNeighborhoodDistanceUseCase
 import com.mommydndn.app.domain.usecase.user.GetNearbyNeighborhoodsUseCase
-import com.mommydndn.app.domain.usecase.user.GetNeighborhoodDistanceUseCase
 import com.mommydndn.app.domain.usecase.user.GetNeighborhoodUseCase
 import com.mommydndn.app.ui.care.filter.CareFilters
 import com.mommydndn.app.ui.care.filter.CareOrderBy
@@ -30,10 +28,11 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
+// TODO
 @HiltViewModel
 class CareViewModel @Inject constructor(
     getNeighborhoodUseCase: GetNeighborhoodUseCase,
-    getNeighborhoodDistanceUseCase: GetNeighborhoodDistanceUseCase,
+    getNearbyNeighborhoodDistanceUseCase: GetNearbyNeighborhoodDistanceUseCase,
     getNearbyNeighborhoodsUseCase: GetNearbyNeighborhoodsUseCase,
     private val getNearbyCareJobOpeningsUseCase: GetNearbyCareJobOpeningsUseCase,
 ) : ViewModel() {
@@ -58,21 +57,24 @@ class CareViewModel @Inject constructor(
         .filterNotNull()
         .stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
-    private val neighborhoodDistance: StateFlow<NeighborhoodDistance> =
-        getNeighborhoodDistanceUseCase()
+    private val neighborhoodDistance: StateFlow<NearbyNeighborhoodDistance> =
+        getNearbyNeighborhoodDistanceUseCase()
             .map { result -> result.data }
             .filterNotNull()
-            .stateIn(viewModelScope, SharingStarted.Eagerly, NeighborhoodDistance.VERY_DISTANT)
+            .stateIn(viewModelScope, SharingStarted.Eagerly, NearbyNeighborhoodDistance.VERY_DISTANT)
 
-    private val nearbyNeighborhoods = neighborhood.filterNotNull()
+    private val nearbyNeighborhoods: StateFlow<Map<NearbyNeighborhoodDistance, List<Neighborhood>>> = TODO()
+    /*
+    neighborhood.filterNotNull()
         .map { neighborhood ->
-            with(neighborhood) {
+            with(neighborhood.coordinates) {
                 getNearbyNeighborhoodsUseCase(
                     GetNearbyNeighborhoodsParams(latitude, longitude)
                 )
             }
         }
         .stateIn(viewModelScope, SharingStarted.Eagerly, NearbyNeighborhoods())
+     */
 
     private val _filters =
         MutableStateFlow<Map<Class<out CareFilters<*>>, CareFilters<*>>>(emptyMap())
@@ -87,7 +89,7 @@ class CareViewModel @Inject constructor(
 
     private val jobOpenings: StateFlow<List<CareJobOpening>> = neighborhood.filterNotNull()
         .flatMapLatest { neighborhood ->
-            with(neighborhood) {
+            with(neighborhood.coordinates) {
                 getNearbyCareJobOpeningsUseCase(
                     GetNearbyCareJobOpeningsParams(latitude, longitude)
                 )
@@ -98,14 +100,6 @@ class CareViewModel @Inject constructor(
         .filterNot { it.isEmpty() }
         .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
-    /*
-    private val filteredJobOpenings = jobOpenings.combine(filters) { jobOpenings, filters ->
-        jobOpenings.filter {
-
-        }
-    }
-     */
-
     val uiState: StateFlow<CareUiState> =
         combine(
             neighborhood.filterNotNull(),
@@ -114,7 +108,9 @@ class CareViewModel @Inject constructor(
             jobOpenings,
         ) { neighborhood, order, filters, jobOpenings ->
             CareUiState.Success(
-                neighborhood = neighborhood,
+                neighborhood = with(neighborhood) {
+                    TODO()
+                },
                 order = order,
                 filters = filters.values.toList(),
                 jobs = emptyList() // todo

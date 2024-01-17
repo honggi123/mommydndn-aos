@@ -1,7 +1,7 @@
 package com.mommydndn.app.ui.care.worker
 
-import com.mommydndn.app.domain.model.care.CareType
-import com.mommydndn.app.domain.model.care.OtherOption
+import com.mommydndn.app.domain.model.CareType
+import com.mommydndn.app.domain.model.OtherOption
 import com.mommydndn.app.domain.model.user.Neighborhood
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

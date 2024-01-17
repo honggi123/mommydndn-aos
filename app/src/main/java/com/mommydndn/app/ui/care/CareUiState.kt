@@ -1,6 +1,5 @@
 package com.mommydndn.app.ui.care
 
-import com.mommydndn.app.domain.model.user.Neighborhood
 import com.mommydndn.app.ui.care.filter.CareFilters
 import com.mommydndn.app.ui.care.filter.CareOrderBy
 import com.mommydndn.app.ui.care.job.CareJobUiModel
@@ -11,7 +10,7 @@ sealed interface CareUiState {
     data object Loading : CareUiState
 
     data class Success(
-        val neighborhood: Neighborhood,
+        val neighborhood: NeighborhoodUiModel,
         val order: CareOrderBy,
         val filters: List<CareFilters<*>>,
         val jobs: List<CareJobUiModel>,

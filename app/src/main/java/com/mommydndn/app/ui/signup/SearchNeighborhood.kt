@@ -34,7 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
-import com.mommydndn.app.domain.model.location.Coordinates
+import com.mommydndn.app.domain.model.Coordinates
 import com.mommydndn.app.ui.signup.components.SearchBar
 import com.mommydndn.app.ui.signup.components.SearchByCurrentLocationButton
 import com.mommydndn.app.ui.theme.Grey100

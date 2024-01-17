@@ -18,7 +18,7 @@ interface LocationService {
     @GET("/api/map/search")
     suspend fun searchLocationByKeyword(
         @Query("keyword") keyword: String,
-        @Query("skip") page: Int = 0,
+        @Query("skip") skip: Int = 0,
         @Query("limit") size: Int = 20,
         @Query("requestTimestamp") requestedAt: Long = System.currentTimeMillis()
     ): SearchLocationByKeywordResponse

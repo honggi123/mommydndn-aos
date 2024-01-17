@@ -13,10 +13,6 @@ data class NetworkCertification(
     val updatedAt: Long,
 )
 
-enum class NetworkCertificationType {
+enum class NetworkCertificationType
 
-}
-
-enum class NetworkCertificationStatus {
-
-}
+enum class NetworkCertificationStatus

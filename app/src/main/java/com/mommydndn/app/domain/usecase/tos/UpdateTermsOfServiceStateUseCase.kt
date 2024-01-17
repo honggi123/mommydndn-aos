@@ -15,7 +15,7 @@ class UpdateTermsOfServiceStateUseCase @Inject constructor(
 ) : UseCase<UpdateTermsOfServiceStateParams, Unit>(coroutineDispatcher) {
 
     override suspend fun execute(parameters: UpdateTermsOfServiceStateParams) {
-        return repository.updateTermsOfServiceState(parameters)
+        return repository.updateTermsOfServiceAgreement(parameters)
     }
 }
 

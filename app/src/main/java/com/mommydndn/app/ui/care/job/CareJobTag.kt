@@ -15,8 +15,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
-import com.mommydndn.app.domain.model.care.CareType
-import com.mommydndn.app.domain.model.care.WorkPeriod
+import com.mommydndn.app.domain.model.CareType
+import com.mommydndn.app.domain.model.WorkPeriod
 import com.mommydndn.app.ui.care.displayName
 import com.mommydndn.app.ui.theme.Blue50
 import com.mommydndn.app.ui.theme.Blue600
@@ -88,17 +88,17 @@ fun CareJobTag(
 private fun CareJobTagsPreview() {
     Row(horizontalArrangement = Arrangement.spacedBy(3.dp)) {
         WorkPeriodTag(
-            workPeriod = WorkPeriod.REGULAR,
+            workPeriod = WorkPeriod.Regular,
             modifier = Modifier,
         )
 
         CareTypeTag(
-            careType = CareType.SENIOR_CARE,
+            careType = CareType.SeniorCare,
             modifier = Modifier,
         )
 
         CareTypeTag(
-            careType = CareType.SCHOOL_TRANSPORTATION,
+            careType = CareType.SchoolTransportation,
             modifier = Modifier,
         )
     }

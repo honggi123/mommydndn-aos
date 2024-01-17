@@ -6,6 +6,4 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PostCareWorkerProfileViewModel @Inject constructor() : ViewModel(),
-    PostCareWorkerProfileDelegate by PostCareWorkerProfileViewModelDelegate {
-
-}
+    PostCareWorkerProfileDelegate by PostCareWorkerProfileViewModelDelegate

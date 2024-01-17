@@ -1,16 +1,15 @@
 package com.mommydndn.app.ui.care.job
 
 import android.net.Uri
-import com.mommydndn.app.domain.model.care.CareType
-import com.mommydndn.app.domain.model.care.OtherOption
-import com.mommydndn.app.domain.model.care.PayPeriod
-import com.mommydndn.app.domain.model.care.WorkPeriod
+import com.mommydndn.app.domain.model.CareType
+import com.mommydndn.app.domain.model.OtherOption
+import com.mommydndn.app.domain.model.PayPeriod
+import com.mommydndn.app.domain.model.WorkPeriod
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalTime
 
-sealed interface PostCareJobOpeningUiState {
-}
+sealed interface PostCareJobOpeningUiState
 
 data class PostCareJobUiModel(
     val title: String,

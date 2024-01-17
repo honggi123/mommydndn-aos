@@ -1,8 +1,8 @@
 package com.mommydndn.app.data.repository
 
 import androidx.paging.PagingData
-import com.mommydndn.app.domain.model.location.Coordinates
-import com.mommydndn.app.domain.model.location.Neighborhood
+import com.mommydndn.app.domain.model.Coordinates
+import com.mommydndn.app.domain.model.Neighborhood
 import com.mommydndn.app.domain.repository.LocationRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

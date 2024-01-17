@@ -16,7 +16,7 @@ class TermsOfServiceDataRepository @Inject constructor(
         TODO()
     }
 
-    override suspend fun updateTermsOfServiceState(termsOfService: Map<TermsOfService, Boolean>) {
+    override suspend fun updateTermsOfServiceAgreement(termsOfService: Map<TermsOfService, Boolean>) {
 //        termsOfService.map { entry ->
 //            UpdateTosAgreementRequest(entry.key.id, entry.value)
 //        }.let {

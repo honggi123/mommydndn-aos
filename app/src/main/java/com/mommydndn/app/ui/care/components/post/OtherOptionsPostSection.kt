@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import com.mommydndn.app.R
-import com.mommydndn.app.domain.model.care.OtherOption
+import com.mommydndn.app.domain.model.OtherOption
 import com.mommydndn.app.ui.components.check.CheckboxListItem
 import java.util.Collections
 
@@ -65,7 +65,7 @@ fun OtherOptionsPostSection(
 @Composable
 fun OtherOption.displayName() = when (this) {
     OtherOption.CCTV -> stringResource(R.string.cctv_okay)
-    OtherOption.Occupancy -> stringResource(R.string.occupancy_available)
+    OtherOption.Residential -> stringResource(R.string.occupancy_available)
     OtherOption.Pets -> stringResource(R.string.pets_okay)
     OtherOption.NoReligion -> stringResource(R.string.atheism)
     OtherOption.NonSmoker -> stringResource(R.string.non_smoker)

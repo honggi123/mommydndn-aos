@@ -1,8 +1,8 @@
 package com.mommydndn.app.domain.repository
 
 import androidx.paging.PagingData
-import com.mommydndn.app.domain.model.location.Coordinates
-import com.mommydndn.app.domain.model.location.Neighborhood
+import com.mommydndn.app.domain.model.Coordinates
+import com.mommydndn.app.domain.model.Neighborhood
 import kotlinx.coroutines.flow.Flow
 
 interface LocationRepository {

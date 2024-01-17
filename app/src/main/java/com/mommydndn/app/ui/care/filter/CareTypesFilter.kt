@@ -3,7 +3,7 @@ package com.mommydndn.app.ui.care.filter
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.mommydndn.app.R
-import com.mommydndn.app.domain.model.care.CareType
+import com.mommydndn.app.domain.model.CareType
 import com.mommydndn.app.ui.care.displayName
 
 data class CareTypesFilter(

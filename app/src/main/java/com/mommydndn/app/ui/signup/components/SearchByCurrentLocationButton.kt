@@ -34,7 +34,7 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.mommydndn.app.R
-import com.mommydndn.app.domain.model.location.Coordinates
+import com.mommydndn.app.domain.model.Coordinates
 import com.mommydndn.app.ui.theme.Salmon200
 import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.paragraph300

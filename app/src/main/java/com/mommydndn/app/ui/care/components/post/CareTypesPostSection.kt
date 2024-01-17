@@ -9,7 +9,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
-import com.mommydndn.app.domain.model.care.CareType
+import com.mommydndn.app.domain.model.CareType
 import com.mommydndn.app.ui.care.displayName
 import com.mommydndn.app.ui.components.chip.ClickableChip
 
@@ -73,8 +73,8 @@ private fun EmptySelectedCareTypes() {
 private fun SelectedCareTypes() {
     CareTypesPostSection(
         selectedCareTypes = listOf(
-            CareType.SCHOOL_TRANSPORTATION,
-            CareType.HOUSEKEEPING
+            CareType.SchoolTransportation,
+            CareType.Housekeeping
         ),
         onCareTypeClick = {},
         modifier = Modifier,

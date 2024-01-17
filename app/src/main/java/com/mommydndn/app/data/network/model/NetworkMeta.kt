@@ -5,7 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class NetworkMeta(
-    @SerialName("totalCount")
     val totalCount: Long,
     @SerialName("currentPageNum")
     val page: Int,

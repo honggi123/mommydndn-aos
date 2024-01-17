@@ -42,7 +42,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import com.mommydndn.app.R
-import com.mommydndn.app.domain.model.care.WorkPeriod
+import com.mommydndn.app.domain.model.WorkPeriod
 import com.mommydndn.app.ui.components.chip.ClickableChip
 import com.mommydndn.app.ui.components.range.RangeBox
 import com.mommydndn.app.ui.theme.Grey200
@@ -104,7 +104,7 @@ fun WorkDateTimesPostSection(
             )
 
             when (selectedWorkPeriod) {
-                WorkPeriod.ONE_TIME -> {
+                WorkPeriod.OneTime -> {
                     OneTimeWorkDates(
                         onAddDateClick = onAddDateClick,
                         selectedDates = selectedDates,
@@ -113,7 +113,7 @@ fun WorkDateTimesPostSection(
                     )
                 }
 
-                WorkPeriod.REGULAR -> {
+                WorkPeriod.Regular -> {
                     RegularWorkDates(
                         selectedDaysOfWeek = selectedDaysOfWeek,
                         onDayOfWeekClick = onDayOfWeekClick,
@@ -161,7 +161,7 @@ private fun WorkPeriods(
             }
         }
 
-        val description = if (selectedWorkPeriod == WorkPeriod.REGULAR) {
+        val description = if (selectedWorkPeriod == WorkPeriod.Regular) {
             stringResource(R.string.regular_work_description)
         } else {
             stringResource(R.string.one_time_work_description)
@@ -179,8 +179,8 @@ private fun WorkPeriods(
 
 @Composable
 private fun WorkPeriod.displayName(): String = when (this) {
-    WorkPeriod.ONE_TIME -> stringResource(R.string.short_term)
-    WorkPeriod.REGULAR -> stringResource(R.string.regular)
+    WorkPeriod.OneTime -> stringResource(R.string.short_term)
+    WorkPeriod.Regular -> stringResource(R.string.regular)
 }
 
 @Composable
@@ -460,7 +460,7 @@ fun Negotiable(
 @Composable
 private fun WorkDateTimes_OneTime() {
     WorkDateTimesPostSection(
-        selectedWorkPeriod = WorkPeriod.ONE_TIME,
+        selectedWorkPeriod = WorkPeriod.OneTime,
         onWorkPeriodSelected = {},
         selectedDates = emptyList(),
         onAddDateClick = {},
@@ -485,7 +485,7 @@ private fun WorkDateTimes_OneTime() {
 @Composable
 private fun WorkDateTimes_OneTime_SelectedDates() {
     WorkDateTimesPostSection(
-        selectedWorkPeriod = WorkPeriod.ONE_TIME,
+        selectedWorkPeriod = WorkPeriod.OneTime,
         onWorkPeriodSelected = {},
         selectedDates = buildList {
             add(LocalDate.now().plusDays(1))
@@ -514,7 +514,7 @@ private fun WorkDateTimes_OneTime_SelectedDates() {
 @Composable
 private fun WorkDateTimes_Regular() {
     WorkDateTimesPostSection(
-        selectedWorkPeriod = WorkPeriod.REGULAR,
+        selectedWorkPeriod = WorkPeriod.Regular,
         onWorkPeriodSelected = {},
         selectedDates = emptyList(),
         onAddDateClick = {},
