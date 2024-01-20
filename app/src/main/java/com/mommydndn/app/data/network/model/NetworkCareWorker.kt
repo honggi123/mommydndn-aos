@@ -13,7 +13,7 @@ data class NetworkCareWorker(
     val isDnDnAuthenticated: Boolean,
     val dndnScore: Double,
     @SerialName("certificationList")
-    val certifications: List<NetworkCertification>,
+    val certifications: List<NetworkVerification>,
     val createdAt: Long,
     val matchingCount: Int,
     val reviewCount: Int,

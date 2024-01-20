@@ -21,8 +21,8 @@ class NearbyNeighborhoodPagingSource @Inject constructor(
             val page = params.key ?: START_PAGE
 
             val result = locationService.getNearestNeighborhoods(
-                latitude = coordinates.latitude,
-                longitude = coordinates.longitude,
+                latitude = coordinates.latitude.value,
+                longitude = coordinates.longitude.value,
                 skip = (page - 1) * params.loadSize,
                 limit = params.loadSize
             )

@@ -1,7 +1,7 @@
 package com.mommydndn.app.data.network.service
 
-import com.mommydndn.app.data.network.model.NetworkNearestCareJobOpening
-import com.mommydndn.app.data.network.model.NetworkNearestCareWorker
+import com.mommydndn.app.data.network.model.NetworkNearbyCareJobOpening
+import com.mommydndn.app.data.network.model.NetworkNearbyCareWorker
 import com.mommydndn.app.data.network.service.request.GetCareAgenciesRequest
 import com.mommydndn.app.data.network.service.request.GetCareJobOpeningsRequest
 import com.mommydndn.app.data.network.service.request.GetCareWorkersRequest
@@ -29,10 +29,10 @@ import retrofit2.http.Path
 interface CareService {
 
     @GET("/api/caring/job-seeker/nearest")
-    suspend fun getNearestCareWorkers(): List<NetworkNearestCareWorker>
+    suspend fun getNearbyCareWorkers(): List<NetworkNearbyCareWorker>
 
     @GET("/api/caring/job-offer/nearest")
-    suspend fun getNearestCareJobOpenings(): List<NetworkNearestCareJobOpening>
+    suspend fun getNearbyCareJobOpenings(): List<NetworkNearbyCareJobOpening>
 
     @POST("/api/caring/job-offer/list")
     suspend fun getCareJobOpenings(

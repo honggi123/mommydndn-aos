@@ -3,7 +3,7 @@ package com.mommydndn.app.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mommydndn.app.domain.usecase.care.GetNearbyCareJobOpeningsUseCase
-import com.mommydndn.app.domain.usecase.care.GetNearestCareProvidersUseCase
+import com.mommydndn.app.domain.usecase.care.GetNearbyCareWorkersUseCase
 import com.mommydndn.app.domain.usecase.common.GetBannersUseCase
 import com.mommydndn.app.domain.usecase.notification.GetNotificationsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 class HomeViewModel(
     private val getNotificationsUseCase: GetNotificationsUseCase,
     private val getBannersUseCase: GetBannersUseCase,
-    private val getNearestCareProvidersUseCase: GetNearestCareProvidersUseCase,
+    private val getNearbyCareWorkersUseCase: GetNearbyCareWorkersUseCase,
     private val getNearbyCareJobOpeningsUseCase: GetNearbyCareJobOpeningsUseCase,
 ) : ViewModel() {
 

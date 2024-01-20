@@ -7,17 +7,11 @@ import javax.inject.Singleton
 
 @Singleton
 class SaveUserTokenUseCase @Inject constructor(
-    private val repository: AccountDataRepository,
     private val coroutineDispatcher: CoroutineDispatcher
 ) : UseCase<SaveTokenParams, Unit>(coroutineDispatcher) {
 
     override suspend fun execute(parameters: SaveTokenParams) {
-        return with(parameters) {
-            repository.saveUserToken(
-                accessToken = accessToken,
-                refreshToken = refreshToken
-            )
-        }
+        TODO()
     }
 }
 

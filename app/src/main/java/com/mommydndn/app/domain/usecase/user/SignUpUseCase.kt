@@ -1,8 +1,9 @@
 package com.mommydndn.app.domain.usecase.user
 
 import com.mommydndn.app.di.IODispatcher
-import com.mommydndn.app.domain.model.user.OAuthProvider
-import com.mommydndn.app.domain.model.user.OAuthToken
+import com.mommydndn.app.domain.model.OAuthProvider
+import com.mommydndn.app.domain.model.OAuthToken
+import com.mommydndn.app.domain.model.UserType
 import com.mommydndn.app.domain.repository.UserRepository
 import com.mommydndn.app.domain.usecase.UseCase
 import kotlinx.coroutines.CoroutineDispatcher
@@ -16,14 +17,7 @@ class SignUpUseCase @Inject constructor(
 ) : UseCase<SignUpParams, OAuthToken>(coroutineDispatcher) {
 
     override suspend fun execute(parameters: SignUpParams): OAuthToken {
-        return with(parameters) {
-            repository.signUp(
-                oAuthProvider = oAuthProvider,
-                accessToken = accessToken,
-                userType = userType,
-                neighborhoodId = neighborhoodId,
-            )
-        }
+        TODO()
     }
 }
 

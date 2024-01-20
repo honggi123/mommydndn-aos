@@ -10,9 +10,8 @@ import kotlinx.coroutines.flow.onStart
 
 abstract class FlowUseCase<in P, R>(private val coroutineDispatcher: CoroutineDispatcher) {
 
-    @Suppress("USELESS_CAST")
     operator fun invoke(parameters: P): Flow<Result<R>> = execute(parameters)
-        .map { Result.Success(it) as Result<R> }
+        .map<R, Result<R>> { Result.Success(it) }
         .onStart { emit(Result.Loading) }
         .catch { throwable -> emit(Result.Failure(Exception(throwable))) }
         .flowOn(coroutineDispatcher)

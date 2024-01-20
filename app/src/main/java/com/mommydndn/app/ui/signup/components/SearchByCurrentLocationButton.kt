@@ -30,11 +30,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.mommydndn.app.R
 import com.mommydndn.app.domain.model.Coordinates
+import com.mommydndn.app.domain.model.Latitude
+import com.mommydndn.app.domain.model.Longitude
 import com.mommydndn.app.ui.theme.Salmon200
 import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.paragraph300
@@ -57,11 +59,16 @@ internal fun SearchByCurrentLocationButton(
         if (result.values.any()) {
             with(fusedLocationClient) {
                 getCurrentLocation(
-                    LocationRequest.PRIORITY_HIGH_ACCURACY,
+                    Priority.PRIORITY_HIGH_ACCURACY,
                     CancellationTokenSource().token
                 ).addOnSuccessListener { location ->
                     with(location) {
-                        onResult(Coordinates(latitude, longitude))
+                        onResult(
+                            Coordinates(
+                                latitude = Latitude(latitude),
+                                longitude = Longitude(longitude),
+                            )
+                        )
                     }
                 }.addOnFailureListener { exception ->
                     // todo

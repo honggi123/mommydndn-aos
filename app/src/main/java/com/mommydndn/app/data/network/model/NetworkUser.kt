@@ -26,6 +26,6 @@ data class NetworkUser(
     val reviewCount: Int,
     val responseRate: String,
     @SerialName("caringReviewList") val reviews: List<NetworkCareReview>,
-    @SerialName("certificationList") val certifications: List<NetworkCertification>,
+    @SerialName("certificationList") val certifications: List<NetworkVerification>,
     val createdAt: Long,
 )

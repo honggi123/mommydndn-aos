@@ -14,7 +14,7 @@ class GetAccessTokenUseCase @Inject constructor(
 ) : UseCase<GetAccessTokenParams, String>(coroutineDispatcher) {
 
     override suspend fun execute(parameters: GetAccessTokenParams): String {
-        return repository.getAccessToken(parameters.authCode)
+        TODO()
     }
 }
 

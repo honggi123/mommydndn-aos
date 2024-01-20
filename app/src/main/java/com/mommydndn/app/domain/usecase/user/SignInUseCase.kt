@@ -1,7 +1,7 @@
 package com.mommydndn.app.domain.usecase.user
 
 import com.mommydndn.app.di.IODispatcher
-import com.mommydndn.app.domain.model.user.OAuthProvider
+import com.mommydndn.app.domain.model.OAuthProvider
 import com.mommydndn.app.domain.repository.UserRepository
 import com.mommydndn.app.domain.usecase.UseCase
 import kotlinx.coroutines.CoroutineDispatcher
@@ -15,9 +15,7 @@ class SignInUseCase @Inject constructor(
 ) : UseCase<SignInParams, Unit>(coroutineDispatcher) { // todo: return ..?
 
     override suspend fun execute(parameters: SignInParams) {
-        return with(parameters) {
-            repository.signIn(oAuthProvider, accessToken)
-        }
+        TODO()
     }
 }
 

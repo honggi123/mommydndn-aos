@@ -1,7 +1,7 @@
 package com.mommydndn.app.domain.usecase.care
 
 import com.mommydndn.app.di.IODispatcher
-import com.mommydndn.app.domain.model.care.CareJobOpening
+import com.mommydndn.app.domain.model.CareJobOpening
 import com.mommydndn.app.domain.repository.CareRepository
 import com.mommydndn.app.domain.usecase.FlowUseCase
 import kotlinx.coroutines.CoroutineDispatcher
@@ -13,19 +13,9 @@ import javax.inject.Singleton
 class GetNearbyCareJobOpeningsUseCase @Inject constructor(
     @IODispatcher coroutineDispatcher: CoroutineDispatcher,
     private val repository: CareRepository,
-) : FlowUseCase<GetNearbyCareJobOpeningsParams, List<CareJobOpening>>(coroutineDispatcher) {
+) : FlowUseCase<Unit, List<CareJobOpening>>(coroutineDispatcher) {
 
-    override fun execute(parameters: GetNearbyCareJobOpeningsParams): Flow<List<CareJobOpening>> {
-        with(parameters) {
-            // repository.getNearbyCareJobOpenings(latitude, longitude)
-        }
-
+    override fun execute(parameters: Unit): Flow<List<CareJobOpening>> {
         TODO()
     }
 }
-
-// todo
-data class GetNearbyCareJobOpeningsParams(
-    val latitude: Double,
-    val longitude: Double,
-)

@@ -41,7 +41,7 @@ internal fun Home(
         Column(
             modifier = Modifier
                 .background(Grey50)
-                .verticalScroll(rememberScrollState()),
+                .verticalScroll(state = rememberScrollState()),
         ) {
             HomeTopAppBar(
                 onInquiryClick = onInquiryClick,

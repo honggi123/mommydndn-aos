@@ -39,6 +39,11 @@ internal fun ReviewSection(
     onReviewClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    buildAnnotatedString {
+        withStyle(SpanStyle(color = Grey400)) {
+            append("지금까지의 마미든든에 대한")
+        }
+    }
     // TODO: STRING_RESOURCE
     val text = buildAnnotatedString {
         withStyle(SpanStyle(color = Grey400)) {

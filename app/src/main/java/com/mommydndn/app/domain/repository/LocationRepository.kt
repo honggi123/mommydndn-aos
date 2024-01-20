@@ -9,5 +9,5 @@ interface LocationRepository {
 
     fun searchNeighborhoodByCoordinates(coordinates: Coordinates): Flow<PagingData<Neighborhood>>
 
-    fun searchNeighborhoodByQuery(keyword: String): Flow<PagingData<Neighborhood>>
+    fun searchNeighborhoodByQuery(query: String): Flow<PagingData<Neighborhood>>
 }

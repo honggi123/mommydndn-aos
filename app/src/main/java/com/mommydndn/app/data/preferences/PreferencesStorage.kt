@@ -6,6 +6,7 @@ import androidx.core.content.edit
 import javax.inject.Inject
 import javax.inject.Singleton
 
+// TODO
 @Singleton
 class PreferencesStorage @Inject constructor(context: Context) {
 

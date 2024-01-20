@@ -34,7 +34,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
-import com.mommydndn.app.ui.care.components.post.TopAppBarHeight
+import com.mommydndn.app.domain.model.UserType
+import com.mommydndn.app.ui.care.post.components.TopAppBarHeight
 import com.mommydndn.app.ui.signup.components.AboutAgencyUser
 import com.mommydndn.app.ui.signup.components.UserTypeButton
 import com.mommydndn.app.ui.theme.Grey400

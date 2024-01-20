@@ -1,6 +1,6 @@
 package com.mommydndn.app.ui.signin
 
-import com.mommydndn.app.domain.model.user.OAuthProvider
+import com.mommydndn.app.domain.model.OAuthProvider
 
 // TODO
 sealed interface SignInUiState {

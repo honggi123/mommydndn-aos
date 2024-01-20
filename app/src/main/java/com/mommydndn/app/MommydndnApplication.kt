@@ -25,7 +25,7 @@ class MommydndnApplication : Application() {
         Timber.plant(object : Timber.DebugTree() {
 
             override fun createStackElementTag(element: StackTraceElement): String {
-                return "Mommydndn_Debug_Tag"
+                return "MommydndnDebugTag"
             }
         })
     }

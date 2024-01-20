@@ -7,11 +7,12 @@ import androidx.paging.cachedIn
 import com.mommydndn.app.domain.model.Coordinates
 import com.mommydndn.app.domain.model.Neighborhood
 import com.mommydndn.app.domain.model.TermsOfService
+import com.mommydndn.app.domain.model.UserType
 import com.mommydndn.app.domain.usecase.invoke
 import com.mommydndn.app.domain.usecase.location.SearchNeighborhoodByCoordinatesUseCase
 import com.mommydndn.app.domain.usecase.location.SearchNeighborhoodByQueryUseCase
-import com.mommydndn.app.domain.usecase.tos.GetTermsOfServiceUseCase
-import com.mommydndn.app.domain.usecase.tos.UpdateTermsOfServiceStateUseCase
+import com.mommydndn.app.domain.usecase.terms.GetTermsOfServiceUseCase
+import com.mommydndn.app.domain.usecase.terms.UpdateTermsOfServiceStateUseCase
 import com.mommydndn.app.domain.usecase.user.SignUpUseCase
 import com.mommydndn.app.utils.result.Result
 import dagger.hilt.android.lifecycle.HiltViewModel

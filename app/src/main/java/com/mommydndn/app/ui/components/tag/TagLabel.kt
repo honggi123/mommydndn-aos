@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.mommydndn.app.ui.theme.Green100
 import com.mommydndn.app.ui.theme.Green600
 import com.mommydndn.app.ui.theme.Typography
-import com.mommydndn.app.ui.theme.caption200
+import com.mommydndn.app.ui.theme.caption100
 
 @Composable
 fun TagLabel(
@@ -28,7 +28,8 @@ fun TagLabel(
     Box(
         modifier = modifier
             .background(
-                color = backgroundColor, shape = RoundedCornerShape(6.dp)
+                color = backgroundColor,
+                shape = RoundedCornerShape(6.dp),
             )
             .padding(horizontal = 8.dp, vertical = 4.dp),
         contentAlignment = Alignment.Center,
@@ -39,7 +40,7 @@ fun TagLabel(
             color = textColor,
             textAlign = TextAlign.Center,
             maxLines = 1,
-            style = Typography.caption200.merge(
+            style = Typography.caption100.merge(
                 fontWeight = FontWeight.Medium,
             ),
         )

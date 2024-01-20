@@ -34,7 +34,7 @@ import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.mommydndn.app.BuildConfig
 import com.mommydndn.app.R
-import com.mommydndn.app.domain.model.user.OAuthProvider
+import com.mommydndn.app.domain.model.OAuthProvider
 import com.mommydndn.app.ui.signin.components.SignInTopAppBar
 import com.mommydndn.app.ui.signin.components.SocialLogin
 import com.mommydndn.app.ui.theme.Grey500

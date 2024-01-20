@@ -2,7 +2,7 @@ package com.mommydndn.app.ui.signin
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mommydndn.app.domain.model.user.OAuthProvider
+import com.mommydndn.app.domain.model.OAuthProvider
 import com.mommydndn.app.domain.usecase.user.GetAccessTokenParams
 import com.mommydndn.app.domain.usecase.user.GetAccessTokenUseCase
 import com.mommydndn.app.domain.usecase.user.SignInParams
@@ -39,9 +39,9 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    fun signIn(oAuthProvider: OAuthProvider, accessToken: String) {
+    fun signIn(oauthProvider: OAuthProvider, accessToken: String) {
         viewModelScope.launch {
-            signInUseCase(SignInParams(oAuthProvider, accessToken)).let { result ->
+            signInUseCase(SignInParams(oauthProvider, accessToken)).let { result ->
                 val uiState = if (result is Result.Failure) {
                     // todo: not signed up yet
                     /*

@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
-import com.mommydndn.app.ui.care.components.post.TopAppBarHeight
+import com.mommydndn.app.ui.care.post.components.TopAppBarHeight
 import com.mommydndn.app.ui.theme.White
 
 @Composable

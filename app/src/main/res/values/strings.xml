@@ -126,9 +126,17 @@
     <string name="mommydndn_address">서울시 송파구 오금로 306</string>
     <string name="mommydndn_email">cs@mommydndn.com</string>
     <string name="one_on_one_inquiry">1:1 문의하기</string>
-    <string name="review">의견 남기기</string>
+    <string name="write_review">의견 남기기</string>
     <string name="start">시작하기</string>
     <string name="only_necessary_notifications">꼭 필요한 알림만 보내드릴게요</string>
     <string name="street_address">도로명</string>
     <string name="land_lot_address">지번</string>
+    <string name="times">%1$s회</string>
+    <string name="count">%1$s건</string>
+    <string name="percent">%1$s\%%</string>
+    <string name="matching">매칭</string>
+    <string name="review">후기</string>
+    <string name="response_rate">응답률</string>
+    <string name="trustworthy_agency_cetification">안심업체 인증</string>
+    <string name="hour_hours_between">%1$s시-%2$s시</string>
 </resources>
