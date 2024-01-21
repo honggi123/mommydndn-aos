@@ -83,14 +83,14 @@ internal fun Home(
 @Composable
 private fun HomePreview() {
     Home(
-        onInquiryClick = { /*TODO*/ },
-        onNotificationClick = { /*TODO*/ },
+        onInquiryClick = {},
+        onNotificationClick = {},
         banners = emptyList(),
         nearestCareProviders = nearestCareProviders,
-        onAllCareProvidersClick = { /*TODO*/ },
+        onAllCareProvidersClick = {},
         nearbyJobOpenings = nearbyJobOpenings,
-        onMoreJobOpeningsClick = { /*TODO*/ },
-        onReviewClick = { /*TODO*/ },
+        onMoreJobOpeningsClick = {},
+        onReviewClick = {},
         modifier = Modifier.background(Grey50),
     )
 }

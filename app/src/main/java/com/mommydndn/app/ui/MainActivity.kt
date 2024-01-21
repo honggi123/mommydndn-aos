@@ -14,15 +14,12 @@ import com.mommydndn.app.ui.home.components.nearestCareProviders
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.MommydndnTheme
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        Timber.d("MainActivity::onCreate")
 
         setContent {
             MommydndnTheme {
