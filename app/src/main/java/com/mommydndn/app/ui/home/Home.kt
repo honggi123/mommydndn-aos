@@ -19,7 +19,7 @@ import com.mommydndn.app.ui.home.components.NearbyCareJobUiModel
 import com.mommydndn.app.ui.home.components.NearbyCareJobs
 import com.mommydndn.app.ui.home.components.NearestCareWorkerUiModel
 import com.mommydndn.app.ui.home.components.NearestCareWorkers
-import com.mommydndn.app.ui.home.components.ReviewSection
+import com.mommydndn.app.ui.home.components.WriteReviewSection
 import com.mommydndn.app.ui.home.components.nearbyJobOpenings
 import com.mommydndn.app.ui.home.components.nearestCareProviders
 import com.mommydndn.app.ui.theme.Grey50
@@ -63,7 +63,7 @@ internal fun Home(
                     modifier = Modifier.background(White),
                 )
 
-                ReviewSection(
+                WriteReviewSection(
                     onReviewClick = onReviewClick,
                     modifier = Modifier
                         .background(White)

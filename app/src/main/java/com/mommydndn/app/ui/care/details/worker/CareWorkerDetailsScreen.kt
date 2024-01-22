@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.care.worker
+package com.mommydndn.app.ui.care.details.worker
 
 import androidx.compose.runtime.Composable
 

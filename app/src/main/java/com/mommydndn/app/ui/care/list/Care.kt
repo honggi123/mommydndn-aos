@@ -45,6 +45,8 @@ import com.mommydndn.app.ui.care.list.filter.NeighborhoodFilter
 import com.mommydndn.app.ui.care.list.filter.WorkHoursFilter
 import com.mommydndn.app.ui.care.list.filter.WorkPeriodFilter
 import com.mommydndn.app.ui.care.list.filter.displayName
+import com.mommydndn.app.ui.care.list.job.CareJobList
+import com.mommydndn.app.ui.care.list.job.CareJobUiModel
 import com.mommydndn.app.ui.care.post.components.TopAppBarHeight
 import com.mommydndn.app.ui.components.tab.MediumTab
 import com.mommydndn.app.ui.theme.Grey300
@@ -54,7 +56,7 @@ import com.mommydndn.app.ui.theme.GreyOpacity400
 import com.mommydndn.app.ui.theme.heading600
 
 @Composable
-internal fun Care(
+fun Care(
     onNeighborhoodClick: () -> Unit,
     onSearchClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -103,7 +105,7 @@ data class NeighborhoodUiModel(
 )
 
 @Composable
-private fun CareContent(
+internal fun CareContent(
     neighborhood: NeighborhoodUiModel,
     onNeighborhoodClick: () -> Unit,
     onSearchClick: () -> Unit,
@@ -345,7 +347,7 @@ private fun CareScreenPreview() {
             WorkPeriodFilter()
         ),
         onFilterClick = {},
-        jobOpeningListItems = jobListDummy,
+        jobOpeningListItems = jobs,
         selectedFilter = null,
         sheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden),
         onSheetCloseClick = {},

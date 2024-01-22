@@ -52,7 +52,7 @@ internal fun NearbyCareJobs(
     Column(modifier = modifier) {
         SectionHeader(
             title = stringResource(id = R.string.nearby_care_job_openings),
-            trailingText = stringResource(id = R.string.see_more),
+            trailingText = stringResource(id = R.string.view_more),
             onTrailingClick = onMoreClick,
         )
 

@@ -3,11 +3,14 @@ package com.mommydndn.app.ui.care.list
 import com.mommydndn.app.domain.model.CareType
 import com.mommydndn.app.domain.model.PayPeriod
 import com.mommydndn.app.domain.model.WorkPeriod
+import com.mommydndn.app.ui.care.list.agency.CareAgencyUiModel
+import com.mommydndn.app.ui.care.list.job.CareJobUiModel
+import com.mommydndn.app.ui.care.list.worker.CareWorkerUiModel
 import java.time.DayOfWeek
 import java.time.LocalTime
 import java.time.ZonedDateTime
 
-val jobListDummy = listOf(
+internal val jobs = listOf(
     CareJobUiModel(
         workPeriod = WorkPeriod.Regular,
         careTypes = setOf(CareType.SeniorCare),
@@ -84,7 +87,7 @@ val jobListDummy = listOf(
     )
 )
 
-val workerListDummy = listOf(
+internal val workers = listOf(
     CareWorkerUiModel(
         profileImageUrl = "http://www.bing.com/search?q=menandri",
         dndnCertified = true,
@@ -119,7 +122,7 @@ val workerListDummy = listOf(
     )
 )
 
-val agencyListDummy = listOf(
+internal val agencies = listOf(
     CareAgencyUiModel(
         dndnCertified = true,
         name = "피카부 베이비시터",

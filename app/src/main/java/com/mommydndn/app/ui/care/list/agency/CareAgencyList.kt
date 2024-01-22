@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.care.list
+package com.mommydndn.app.ui.care.list.agency
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -45,8 +45,21 @@ import com.mommydndn.app.ui.theme.Orange100
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
 
+data class CareAgencyUiModel(
+    val dndnCertified: Boolean,
+    val name: String,
+    val neighborhood: String,
+    val dndnScore: Double,
+    val careTypes: Set<CareType>,
+    val profileImageUrl: String,
+    val isLiked: Boolean,
+    val matchingCount: Int,
+    val reviewCount: Int,
+    val responseRate: Int,
+)
+
 @Composable
-fun CareAgencyList(
+internal fun CareAgencyList(
     careAgencies: List<CareAgencyUiModel>,
     modifier: Modifier = Modifier,
 ) {
@@ -76,21 +89,8 @@ fun CareAgencyList(
     }
 }
 
-data class CareAgencyUiModel(
-    val dndnCertified: Boolean,
-    val name: String,
-    val neighborhood: String,
-    val dndnScore: Double,
-    val careTypes: Set<CareType>,
-    val profileImageUrl: String,
-    val isLiked: Boolean,
-    val matchingCount: Int,
-    val reviewCount: Int,
-    val responseRate: Int,
-)
-
 @Composable
-private fun CareAgencyListItem(
+internal fun CareAgencyListItem(
     dndnCertified: Boolean,
     name: String,
     neighborhood: String,
@@ -178,7 +178,7 @@ private fun CareAgencyListItem(
 }
 
 @Composable
-private fun CertifiedAgency(modifier: Modifier = Modifier) {
+internal fun CertifiedAgency(modifier: Modifier = Modifier) {
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically

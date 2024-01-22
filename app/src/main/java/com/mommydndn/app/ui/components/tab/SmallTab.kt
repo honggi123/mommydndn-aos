@@ -3,6 +3,7 @@ package com.mommydndn.app.ui.components.tab
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -51,46 +52,48 @@ fun SmallTab(
         tabWidthStateList
     }
 
-    TabRow(
-        modifier = modifier,
-        divider = {
-            Divider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(1.dp), color = Grey100
-            )
-        },
-        selectedTabIndex = selectedTabIndex,
-        backgroundColor = White,
-        contentColor = Grey500,
-        indicator = { tabPositions ->
-            TabRowDefaults.Indicator(
-                modifier = Modifier.tabIndicatorOffset(
-                    currentTabPosition = tabPositions[selectedTabIndex],
-                    tabWidth = tabWidths[selectedTabIndex]
+    Box(modifier = modifier) {
+        TabRow(
+            selectedTabIndex = selectedTabIndex,
+            modifier = Modifier,
+            divider = {
+                Divider(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(1.dp), color = Grey100
                 )
-            )
-        }
-    ) {
-        tabs.forEachIndexed { index, title ->
-            Tab(
-                selected = selectedTabIndex == index,
-                onClick = {
-                    onTabClick(index)
-                },
-                text = {
-                    Text(
-                        text = title,
-                        onTextLayout = { textLayoutResult ->
-                            tabWidths[index] =
-                                with(density) { textLayoutResult.size.width.toDp() }
-                        },
-                        style = MaterialTheme.typography.paragraph300.merge(
-                            fontWeight = FontWeight.Medium
-                        ),
+            },
+            backgroundColor = White,
+            contentColor = Grey500,
+            indicator = { tabPositions ->
+                TabRowDefaults.Indicator(
+                    modifier = Modifier.tabIndicatorOffset(
+                        currentTabPosition = tabPositions[selectedTabIndex],
+                        tabWidth = tabWidths[selectedTabIndex]
                     )
-                },
-            )
+                )
+            }
+        ) {
+            tabs.forEachIndexed { index, title ->
+                Tab(
+                    selected = selectedTabIndex == index,
+                    onClick = {
+                        onTabClick(index)
+                    },
+                    text = {
+                        Text(
+                            text = title,
+                            onTextLayout = { textLayoutResult ->
+                                tabWidths[index] =
+                                    with(density) { textLayoutResult.size.width.toDp() }
+                            },
+                            style = MaterialTheme.typography.paragraph300.merge(
+                                fontWeight = FontWeight.Medium
+                            ),
+                        )
+                    },
+                )
+            }
         }
     }
 }

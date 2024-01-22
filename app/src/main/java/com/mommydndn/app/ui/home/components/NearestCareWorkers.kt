@@ -54,7 +54,7 @@ internal fun NearestCareWorkers(
     Column(modifier = modifier) {
         SectionHeader(
             title = stringResource(id = R.string.nearest_care_providers),
-            trailingText = stringResource(id = R.string.see_all),
+            trailingText = stringResource(id = R.string.view_all),
             onTrailingClick = onSeeAllClick,
         )
 

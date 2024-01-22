@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.care.list
+package com.mommydndn.app.ui.care.list.worker
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -42,6 +42,20 @@ import com.mommydndn.app.ui.theme.Orange100
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
 
+data class CareWorkerUiModel(
+    val profileImageUrl: String,
+    val dndnCertified: Boolean,
+    val nickname: String,
+    val neighborhood: String,
+    val dndnScore: Double,
+    val isLiked: Boolean,
+    val ageRangeAndGender: String,
+    val careTypes: Set<CareType>,
+    val matchingCount: Int,
+    val reviewCount: Int,
+    val responseRate: Int,
+)
+
 @Composable
 fun CareWorkerList(
     careWorkers: List<CareWorkerUiModel>,
@@ -73,20 +87,6 @@ fun CareWorkerList(
         }
     }
 }
-
-data class CareWorkerUiModel(
-    val profileImageUrl: String,
-    val dndnCertified: Boolean,
-    val nickname: String,
-    val neighborhood: String,
-    val dndnScore: Double,
-    val isLiked: Boolean,
-    val ageRangeAndGender: String,
-    val careTypes: Set<CareType>,
-    val matchingCount: Int,
-    val reviewCount: Int,
-    val responseRate: Int,
-)
 
 @Composable
 private fun CareWorkerListItem(

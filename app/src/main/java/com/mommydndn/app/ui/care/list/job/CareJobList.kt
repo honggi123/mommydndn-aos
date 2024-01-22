@@ -1,4 +1,4 @@
-package com.mommydndn.app.ui.care.list
+package com.mommydndn.app.ui.care.list.job
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -33,6 +33,7 @@ import com.mommydndn.app.ui.care.list.components.ClosedCareJobTag
 import com.mommydndn.app.ui.care.list.components.WorkPeriodTag
 import com.mommydndn.app.ui.care.list.components.asTimeAgo
 import com.mommydndn.app.ui.care.list.components.displayName
+import com.mommydndn.app.ui.care.list.jobs
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey700
@@ -47,6 +48,21 @@ import java.time.LocalTime
 import java.time.ZonedDateTime
 import java.time.format.TextStyle
 import java.util.Locale
+
+data class CareJobUiModel(
+    val workPeriod: WorkPeriod,
+    val careTypes: Set<CareType>,
+    val isClosed: Boolean,
+    val title: String,
+    val isLiked: Boolean,
+    val neighborhoodName: String,
+    val createdAt: ZonedDateTime,
+    val daysOfWeek: List<DayOfWeek>,
+    val startTime: LocalTime,
+    val endTime: LocalTime,
+    val payPeriod: PayPeriod,
+    val pay: Int,
+)
 
 @Composable
 fun CareJobList(
@@ -87,21 +103,6 @@ fun CareJobList(
         }
     }
 }
-
-data class CareJobUiModel(
-    val workPeriod: WorkPeriod,
-    val careTypes: Set<CareType>,
-    val isClosed: Boolean,
-    val title: String,
-    val isLiked: Boolean,
-    val neighborhoodName: String,
-    val createdAt: ZonedDateTime,
-    val daysOfWeek: List<DayOfWeek>,
-    val startTime: LocalTime,
-    val endTime: LocalTime,
-    val payPeriod: PayPeriod,
-    val pay: Int,
-)
 
 @Composable
 fun CareJobListItem(
@@ -327,7 +328,7 @@ private fun CareJobListItemPreview() {
 @Composable
 private fun CareJobListPreview() {
     CareJobList(
-        jobs = jobListDummy,
+        jobs = jobs,
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White),

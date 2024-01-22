@@ -35,15 +35,10 @@ import com.mommydndn.app.ui.theme.paragraph300
 import com.mommydndn.app.ui.theme.paragraph400
 
 @Composable
-internal fun ReviewSection(
+internal fun WriteReviewSection(
     onReviewClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    buildAnnotatedString {
-        withStyle(SpanStyle(color = Grey400)) {
-            append("지금까지의 마미든든에 대한")
-        }
-    }
     // TODO: STRING_RESOURCE
     val text = buildAnnotatedString {
         withStyle(SpanStyle(color = Grey400)) {
@@ -61,7 +56,7 @@ internal fun ReviewSection(
         Row(modifier = Modifier.padding(horizontal = 32.dp, vertical = 56.dp)) {
             Icon(
                 painter = painterResource(id = R.drawable.icon_heart_letter),
-                contentDescription = "ReviewSection_HeartLetter",
+                contentDescription = null,
                 tint = Color.Unspecified,
             )
 
@@ -79,7 +74,7 @@ internal fun ReviewSection(
                 Spacer(modifier = Modifier.height(14.dp))
 
                 Text(
-                    text = stringResource(R.string.review),
+                    text = stringResource(R.string.write_review),
                     modifier = Modifier
                         .background(Grey100, RoundedCornerShape(12.dp))
                         .clip(RoundedCornerShape(12.dp))
@@ -98,7 +93,7 @@ internal fun ReviewSection(
 @Preview
 @Composable
 private fun ReviewSectionPreview() {
-    ReviewSection(
+    WriteReviewSection(
         onReviewClick = {},
         modifier = Modifier
             .background(White)
