@@ -1,9 +1,11 @@
 package com.mommydndn.app.di
 
+import com.mommydndn.app.data.repository.CareJobDataRepository
 import com.mommydndn.app.data.repository.CommonDataRepository
 import com.mommydndn.app.data.repository.LocationDataRepository
 import com.mommydndn.app.data.repository.TermsOfServiceDataRepository
 import com.mommydndn.app.data.repository.UserDataRepository
+import com.mommydndn.app.domain.repository.CareJobRepository
 import com.mommydndn.app.domain.repository.CommonRepositoy
 import com.mommydndn.app.domain.repository.LocationRepository
 import com.mommydndn.app.domain.repository.TermsOfServiceRepository
@@ -21,6 +23,10 @@ interface RepositoryModule {
     @Binds
     @Singleton
     fun bindLocationRepository(repository: LocationDataRepository): LocationRepository
+
+    @Binds
+    @Singleton
+    fun bindCareJobRepository(repository: CareJobDataRepository): CareJobRepository
 
     @Binds
     @Singleton

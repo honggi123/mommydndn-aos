@@ -2,6 +2,7 @@ package com.mommydndn.app.data.repository
 
 import com.mommydndn.app.data.network.service.CommonService
 import com.mommydndn.app.domain.model.Banner
+import com.mommydndn.app.domain.model.Image
 import com.mommydndn.app.domain.repository.CommonRepositoy
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -15,6 +16,10 @@ class CommonDataRepository @Inject constructor(
 
     override suspend fun getBanners(): List<Banner> {
         TODO()
+    }
+
+    override suspend fun uploadFiles(files: List<File>): List<Image> {
+        TODO("Not yet implemented")
     }
 
     suspend fun uploadImage(fileName: String) {
