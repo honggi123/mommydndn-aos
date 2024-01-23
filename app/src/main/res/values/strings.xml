@@ -146,6 +146,19 @@
     <string name="confidently_help_care_types">자신있게 도와드릴 수 있는 분야는</string>
     <string name="reviews_of">%1$s님이 받은 후기</string>
     <string name="year_month">%1$s년 %2$s월</string>
-    <string name="looking_for_more_agency">경력을 인증한 업체를 찾으시나요?</string>
-    <string name="view_more_agency">우리동네 안심업체 더 보기</string>
+    <string name="looking_for_more_agencies">경력을 인증한 업체를 찾으시나요?</string>
+    <string name="view_more_care_agencies">우리동네 안심업체 더 보기</string>
+    <string name="apply_to">지원하기</string>
+    <string name="start_chat">채팅하기</string>
+    <string name="looking_for_more_care_jobs">육아 구인글을 찾으시나요?</string>
+    <string name="view_more_care_jobs">동네 구인글 더 보기</string>
+    <string name="view_more_care_workers">우리동네 시터님 더 보기</string>
+    <string name="looking_for_teacher_care_worker">선생님 경력을 인증한 시터쌤을 찾으시나요?</string>
+    <string name="applicants_count">지원자 %1$s명</string>
+    <string name="likes_count">관심 %1$s명</string>
+    <string name="views_count">조회 %1$s회</string>
+    <string name="registered_date">가입일 %1$s년 %2$s월 %3$s일</string>
+    <string name="latest_review">가장 최근 후기</string>
+    <string name="view_profile">프로필 보러 가기</string>
+    <string name="about_employer">%1$s님은 이런 분이에요</string>
 </resources>

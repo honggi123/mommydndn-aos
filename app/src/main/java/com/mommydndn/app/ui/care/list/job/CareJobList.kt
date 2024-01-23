@@ -56,7 +56,7 @@ data class CareJobUiModel(
     val title: String,
     val isLiked: Boolean,
     val neighborhoodName: String,
-    val createdAt: ZonedDateTime,
+    val createdAt: ZonedDateTime, // TODO
     val daysOfWeek: List<DayOfWeek>,
     val startTime: LocalTime,
     val endTime: LocalTime,
@@ -105,7 +105,7 @@ fun CareJobList(
 }
 
 @Composable
-fun CareJobListItem(
+internal fun CareJobListItem(
     workPeriod: WorkPeriod,
     careTypes: Set<CareType>,
     isClosed: Boolean,
@@ -201,7 +201,7 @@ fun CareJobListItem(
             )
 
             Text(
-                text = "${payPeriod.displayName()} ${payFormatter.format(pay)}",
+                text = "${payPeriod.displayName} ${payFormatter.format(pay)}",
                 style = MaterialTheme.typography.paragraph400.merge(
                     color = Grey800,
                     fontWeight = FontWeight.Bold,
@@ -211,7 +211,8 @@ fun CareJobListItem(
     }
 }
 
-private val payFormatter = DecimalFormat("#,###")
+// TODO
+internal val payFormatter = DecimalFormat("#,###")
 
 @Composable
 private fun NeighborhoodNameAndCreationTime(

@@ -20,7 +20,7 @@ import com.mommydndn.app.ui.theme.Grey300
 import com.mommydndn.app.ui.theme.Grey400
 
 @Composable
-internal fun DetailsTopAppBar(
+internal fun CareDetailsTopAppBar(
     onBackClick: () -> Unit,
     onInquiryClick: () -> Unit,
     onBlockClick: () -> Unit,

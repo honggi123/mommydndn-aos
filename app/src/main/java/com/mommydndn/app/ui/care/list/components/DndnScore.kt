@@ -18,7 +18,10 @@ import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.caption200
 
 @Composable
-fun DndnScore(score: Double, modifier: Modifier = Modifier) {
+fun DndnScore(
+    score: Float,
+    modifier: Modifier = Modifier,
+) {
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(4.dp),

@@ -3,6 +3,7 @@ package com.mommydndn.app.ui.care.details.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -38,7 +39,7 @@ data class DetailsReviewUiModel(
     val reviewedAt: LocalDate,
     val dndnScore: Float,
     val careTypes: List<CareType>,
-    val review: String,
+    val content: String,
 )
 
 @Composable
@@ -48,35 +49,34 @@ internal fun DetailsReviews(
     onViewAllClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(36.dp),
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.Bottom,
-        ) {
-            DetailsSectionTitle(title = stringResource(R.string.reviews_of, name))
+    Box(modifier = modifier) {
+        Column(verticalArrangement = Arrangement.spacedBy(36.dp)) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.Bottom,
+            ) {
+                DetailsSectionTitle(title = stringResource(R.string.reviews_of, name))
 
-            Text(
-                text = stringResource(id = R.string.view_all),
-                modifier = Modifier.clickable(onClick = onViewAllClick),
-                color = Grey400,
-                style = MaterialTheme.typography.caption200
-            )
-        }
+                Text(
+                    text = stringResource(id = R.string.view_all),
+                    modifier = Modifier.clickable(onClick = onViewAllClick),
+                    color = Grey400,
+                    style = MaterialTheme.typography.caption200
+                )
+            }
 
-        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            reviews.forEach { review ->
-                with(review) {
-                    Review(
-                        nickname = nickname,
-                        reviewedAt = reviewedAt,
-                        dndnScore = dndnScore,
-                        careTypes = careTypes,
-                        review = review.review,
-                    )
+            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                reviews.forEach { review ->
+                    with(review) {
+                        DetailsReview(
+                            nickname = nickname,
+                            reviewedAt = reviewedAt,
+                            dndnScore = dndnScore,
+                            careTypes = careTypes,
+                            content = review.content,
+                        )
+                    }
                 }
             }
         }
@@ -84,12 +84,12 @@ internal fun DetailsReviews(
 }
 
 @Composable
-private fun Review(
+internal fun DetailsReview(
     nickname: String,
     reviewedAt: LocalDate,
     dndnScore: Float,
     careTypes: List<CareType>,
-    review: String,
+    content: String,
 ) {
     Column(
         modifier = Modifier
@@ -146,7 +146,7 @@ private fun Review(
         }
 
         Text(
-            text = review,
+            text = content,
             modifier = Modifier.fillMaxWidth(),
             color = Grey600,
             style = MaterialTheme.typography.caption200,

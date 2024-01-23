@@ -93,7 +93,7 @@ internal val workers = listOf(
         dndnCertified = true,
         nickname = "세아쌤",
         neighborhood = "반포동 외 24개 동네",
-        dndnScore = 5.0,
+        dndnScore = 5.0F,
         isLiked = true,
         ageRangeAndGender = "30대 여성",
         careTypes = setOf(
@@ -109,7 +109,7 @@ internal val workers = listOf(
         dndnCertified = false,
         nickname = "수아",
         neighborhood = "반포동 외 9개 동네",
-        dndnScore = 5.0,
+        dndnScore = 5.0F,
         isLiked = true,
         ageRangeAndGender = "20대 여성",
         careTypes = setOf(
@@ -127,7 +127,7 @@ internal val agencies = listOf(
         dndnCertified = true,
         name = "피카부 베이비시터",
         neighborhood = "서초동 외 9개 동네",
-        dndnScore = 5.0,
+        dndnScore = 5.0F,
         careTypes = CareType.entries.toSet(),
         profileImageUrl = "http://www.bing.com/search?q=leo",
         isLiked = true,
@@ -139,7 +139,7 @@ internal val agencies = listOf(
         dndnCertified = true,
         name = "피카부 베이비시터",
         neighborhood = "서초동 외 9개 동네",
-        dndnScore = 5.0,
+        dndnScore = 5.0F,
         careTypes = setOf(
             CareType.ChildCare,
             CareType.Housekeeping,

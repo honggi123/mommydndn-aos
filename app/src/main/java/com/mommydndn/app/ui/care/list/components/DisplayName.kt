@@ -19,14 +19,16 @@ val CareType.displayName: String
         CareType.Housekeeping -> stringResource(R.string.housekeeping)
     }
 
-@Composable
-internal fun PayPeriod.displayName(): String = when (this) {
-    PayPeriod.Hourly -> stringResource(R.string.hourly_pay)
-    PayPeriod.Daily -> stringResource(R.string.daily_pay)
-    PayPeriod.Weekly -> stringResource(R.string.weekly_pay)
-    PayPeriod.Monthly -> stringResource(R.string.monthly_pay)
-    PayPeriod.Negotiable -> stringResource(R.string.negotiation)
-}
+
+internal val PayPeriod.displayName: String
+    @Composable
+    get() = when (this) {
+        PayPeriod.Hourly -> stringResource(R.string.hourly_pay)
+        PayPeriod.Daily -> stringResource(R.string.daily_pay)
+        PayPeriod.Weekly -> stringResource(R.string.weekly_pay)
+        PayPeriod.Monthly -> stringResource(R.string.monthly_pay)
+        PayPeriod.Negotiable -> stringResource(R.string.negotiation)
+    }
 
 @Composable
 internal fun WorkPeriod.displayName(): String = when (this) {

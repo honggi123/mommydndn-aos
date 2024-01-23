@@ -62,7 +62,7 @@ fun OtherConditionsPostSection(
     }
 }
 
-val OtherCondition.displayName: String
+private val OtherCondition.displayName: String
     @Composable
     get() = when (this) {
         CareWorkerOtherCondition.CCTV -> stringResource(R.string.cctv_okay)

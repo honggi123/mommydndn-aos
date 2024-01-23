@@ -8,11 +8,13 @@ sealed interface WorkAvailability {
 
     val startTime: LocalTime
     val endTime: LocalTime
+    val negotiable: Boolean
 
     data class OneTime(
         val dates: List<LocalDate>,
         override val startTime: LocalTime,
         override val endTime: LocalTime,
+        override val negotiable: Boolean,
     ) : WorkAvailability
 
     data class Regular(
@@ -21,5 +23,6 @@ sealed interface WorkAvailability {
         val endDate: LocalDate,
         override val startTime: LocalTime,
         override val endTime: LocalTime,
+        override val negotiable: Boolean,
     ) : WorkAvailability
 }

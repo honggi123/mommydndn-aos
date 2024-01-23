@@ -53,7 +53,11 @@ internal fun WriteReviewSection(
     }
 
     Box(modifier = modifier) {
-        Row(modifier = Modifier.padding(horizontal = 32.dp, vertical = 56.dp)) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 32.dp, vertical = 56.dp)
+        ) {
             Icon(
                 painter = painterResource(id = R.drawable.icon_heart_letter),
                 contentDescription = null,
@@ -78,8 +82,8 @@ internal fun WriteReviewSection(
                     modifier = Modifier
                         .background(Grey100, RoundedCornerShape(12.dp))
                         .clip(RoundedCornerShape(12.dp))
-                        .padding(horizontal = 16.dp, vertical = 12.dp)
-                        .clickable(onClick = onReviewClick),
+                        .clickable(onClick = onReviewClick)
+                        .padding(horizontal = 16.dp, vertical = 12.dp),
                     color = Grey600,
                     style = Typography.paragraph300.merge(
                         fontWeight = FontWeight.Medium

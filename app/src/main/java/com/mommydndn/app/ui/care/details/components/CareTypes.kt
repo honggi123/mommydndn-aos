@@ -38,34 +38,33 @@ internal fun DetailsCareTypes(
     careTypes: List<CareType>,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(36.dp)
-    ) {
-        DetailsSectionTitle(title = stringResource(R.string.confidently_help_care_types))
+    Box(modifier = modifier) {
+        Column(verticalArrangement = Arrangement.spacedBy(36.dp)) {
+            DetailsSectionTitle(title = stringResource(R.string.confidently_help_care_types))
 
-        BoxWithConstraints {
-            val cellSize = (maxWidth - 12.dp) / 3
+            BoxWithConstraints {
+                val cellSize = (maxWidth - 12.dp) / 3
 
-            val height = if (careTypes.size > 3) {
-                cellSize * 2 + 6.dp
-            } else {
-                cellSize
-            }
+                val height = if (careTypes.size > 3) {
+                    cellSize * 2 + 6.dp
+                } else {
+                    cellSize
+                }
 
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(3),
-                modifier = Modifier.height(height),
-                verticalArrangement = Arrangement.spacedBy(6.dp),
-                horizontalArrangement = Arrangement.spacedBy(6.dp),
-            ) {
-                items(careTypes) { careType ->
-                    with(careType) {
-                        CareTypeGridItem(
-                            drawableId = drawableId,
-                            name = displayName,
-                            modifier = Modifier.size(cellSize),
-                        )
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(3),
+                    modifier = Modifier.height(height),
+                    verticalArrangement = Arrangement.spacedBy(6.dp),
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                ) {
+                    items(careTypes) { careType ->
+                        with(careType) {
+                            CareTypeGridItem(
+                                drawableId = drawableId,
+                                name = displayName,
+                                modifier = Modifier.size(cellSize),
+                            )
+                        }
                     }
                 }
             }

@@ -4,7 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -23,7 +25,7 @@ import com.mommydndn.app.ui.theme.caption100
 import com.mommydndn.app.ui.theme.caption200
 
 @Composable
-internal fun DetailsBio(
+internal fun CareDetailsBio(
     name: String,
     bio: String,
     modifier: Modifier = Modifier
@@ -43,6 +45,8 @@ internal fun DetailsBio(
                     ),
                     RoundedCornerShape(12.dp)
                 )
+                .fillMaxWidth()
+                .wrapContentHeight()
                 .padding(horizontal = 24.dp, vertical = 16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
