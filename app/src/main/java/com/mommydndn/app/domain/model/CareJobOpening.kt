@@ -17,11 +17,6 @@ data class CareJobOpening(
     val createdAt: Long,
 )
 
-data class Image(
-    val id: Long,
-    val url: String
-)
-
 data class Location(
     val neighborhoodName: String,
     val address: String,

@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class UpdateImageResponse(
+data class UploadImageResponse(
     @SerialName("imageId") val id: Int,
     val url: String,
 )

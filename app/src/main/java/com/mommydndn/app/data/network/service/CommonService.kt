@@ -1,7 +1,7 @@
 package com.mommydndn.app.data.network.service
 
 import com.mommydndn.app.data.network.model.NetworkBanner
-import com.mommydndn.app.data.network.service.response.UpdateImageResponse
+import com.mommydndn.app.data.network.service.response.UploadImageResponse
 import okhttp3.MultipartBody
 import retrofit2.http.GET
 import retrofit2.http.Multipart
@@ -15,5 +15,5 @@ interface CommonService {
 
     @POST("/api/image")
     @Multipart
-    suspend fun updateImage(@Part image: MultipartBody.Part): UpdateImageResponse
+    suspend fun uploadImage(@Part image: MultipartBody.Part): UploadImageResponse
 }
