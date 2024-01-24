@@ -1,9 +1,9 @@
 package com.mommydndn.app.data.network.service
 
-import com.mommydndn.app.data.network.model.NetworkNearbyCareJobOpening
+import com.mommydndn.app.data.network.model.NetworkNearbyCareJob
 import com.mommydndn.app.data.network.model.NetworkNearbyCareWorker
 import com.mommydndn.app.data.network.service.request.GetCareAgenciesRequest
-import com.mommydndn.app.data.network.service.request.GetCareJobOpeningsRequest
+import com.mommydndn.app.data.network.service.request.GetCareJobsRequest
 import com.mommydndn.app.data.network.service.request.GetCareWorkersRequest
 import com.mommydndn.app.data.network.service.request.PostCareAgencyProfileRequest
 import com.mommydndn.app.data.network.service.request.PostCareJobOpeningRequest
@@ -11,8 +11,8 @@ import com.mommydndn.app.data.network.service.request.PostCareWorkerProfileReque
 import com.mommydndn.app.data.network.service.response.GetCareAgenciesResponse
 import com.mommydndn.app.data.network.service.response.GetCareAgencyDetailsResponse
 import com.mommydndn.app.data.network.service.response.GetCareAgencyOtherConditionsResponse
-import com.mommydndn.app.data.network.service.response.GetCareJobOpeningDetailsResponse
-import com.mommydndn.app.data.network.service.response.GetCareJobOpeningsResponse
+import com.mommydndn.app.data.network.service.response.GetCareJobDetailsResponse
+import com.mommydndn.app.data.network.service.response.GetCareJobsResponse
 import com.mommydndn.app.data.network.service.response.GetCareTypesResponse
 import com.mommydndn.app.data.network.service.response.GetCareWorkerDetailsResponse
 import com.mommydndn.app.data.network.service.response.GetCareWorkerOtherConditionsResponse
@@ -32,12 +32,12 @@ interface CareService {
     suspend fun getNearbyCareWorkers(): List<NetworkNearbyCareWorker>
 
     @GET("/api/caring/job-offer/nearest")
-    suspend fun getNearbyCareJobOpenings(): List<NetworkNearbyCareJobOpening>
+    suspend fun getNearbyCareJobs(): List<NetworkNearbyCareJob>
 
     @POST("/api/caring/job-offer/list")
-    suspend fun getCareJobOpenings(
-        @Body request: GetCareJobOpeningsRequest
-    ): GetCareJobOpeningsResponse
+    suspend fun getCareJobs(
+        @Body request: GetCareJobsRequest
+    ): GetCareJobsResponse
 
     @POST("/api/caring/job-seeker/list")
     suspend fun getCareWorkers(
@@ -50,9 +50,9 @@ interface CareService {
     ): GetCareAgenciesResponse
 
     @GET("/api/caring/job-offer/{jobOfferId}")
-    suspend fun getCareJobOpeningDetails(
+    suspend fun getCareJobDetails(
         @Path("jobOfferId") id: Int
-    ): GetCareJobOpeningDetailsResponse
+    ): GetCareJobDetailsResponse
 
     @GET("/api/caring/job-seeker/{jobSeekerId}")
     suspend fun getCareWorkerDetails(

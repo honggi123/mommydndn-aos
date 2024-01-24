@@ -8,12 +8,11 @@ data class CareWorker(
     val dndnCertified: Boolean,
     val dndnScore: Double,
     val careTypes: List<CareType>,
-    val ageRange: String,
+    val ageRange: String, // TODO
     val gender: Gender,
     val matchingCount: Int,
     val reviewsCount: Int,
     val responseRate: Int,
-    val isLiked: Boolean,
 )
 
 enum class Gender {
@@ -22,5 +21,9 @@ enum class Gender {
 
 data class CareWorkerDetails(
     val id: Long,
-
+    val worker: CareWorker,
+    val bio: String,
+    val verifications: List<Verification>,
+    val otherConditions: List<CareWorkerOtherCondition>,
+    val careTypes: List<CareType>,
 )

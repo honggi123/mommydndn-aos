@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
 import com.mommydndn.app.ui.theme.Grey300
 import com.mommydndn.app.ui.theme.Grey50
-import com.mommydndn.app.utils.extensions.checkImagesPermission
+import com.mommydndn.app.utils.extensions.isMediaImagesPermissionGranted
 
 @Composable
 fun GetPhotoPostSection(
@@ -75,7 +75,7 @@ fun GetPhotoPostSection(
                     shape = RoundedCornerShape(6.dp),
                 )
                 .clickable {
-                    if (checkImagesPermission(context)) {
+                    if (isMediaImagesPermissionGranted(context)) {
                         getContent.launch("image/*")
                     } else {
                         requestPermissions.launch(permissions)

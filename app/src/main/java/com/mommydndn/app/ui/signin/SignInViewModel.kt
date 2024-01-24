@@ -3,10 +3,10 @@ package com.mommydndn.app.ui.signin
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mommydndn.app.domain.model.OAuthProvider
-import com.mommydndn.app.domain.usecase.user.GetAccessTokenParams
-import com.mommydndn.app.domain.usecase.user.GetAccessTokenUseCase
 import com.mommydndn.app.domain.usecase.user.SignInParams
 import com.mommydndn.app.domain.usecase.user.SignInUseCase
+import com.mommydndn.app.domain.usecase.user.SignInWithGoogleParams
+import com.mommydndn.app.domain.usecase.user.SignInWithGoogleUseCase
 import com.mommydndn.app.utils.result.Result
 import com.mommydndn.app.utils.result.data
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SignInViewModel @Inject constructor(
     private val signInUseCase: SignInUseCase,
-    private val getAccessTokenUseCase: GetAccessTokenUseCase
+    private val signInWithGoogleUseCase: SignInWithGoogleUseCase
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<SignInUiState> = MutableStateFlow(SignInUiState.Loading)
@@ -27,12 +27,12 @@ class SignInViewModel @Inject constructor(
 
     fun signInWithGoogle(authCode: String) {
         viewModelScope.launch {
-            getAccessTokenUseCase(GetAccessTokenParams(authCode)).let { result ->
+            signInWithGoogleUseCase(SignInWithGoogleParams(authCode)).let { result ->
                 if (result is Result.Failure) {
                     _uiState.emit(SignInUiState.Failure(result.exception))
                 } else {
                     result.data?.let { accessToken ->
-                        signIn(OAuthProvider.GOOGLE, accessToken)
+                        signIn(OAuthProvider.Google, accessToken)
                     }
                 }
             }
@@ -56,4 +56,16 @@ class SignInViewModel @Inject constructor(
             }
         }
     }
+}
+
+sealed interface SignInUiState {
+
+    data object Loading : SignInUiState
+
+    data object Success : SignInUiState
+
+    data class Failure(val exception: Exception) : SignInUiState
+
+    data class NotSignedUpYet(val accessToken: String, val oAuthProvider: OAuthProvider) :
+        SignInUiState
 }

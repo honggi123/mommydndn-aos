@@ -21,7 +21,7 @@ import com.mommydndn.app.ui.theme.Salmon600
 import com.mommydndn.app.ui.theme.paragraph300
 
 @Composable
-internal fun DetailsViewMore(
+internal fun CareDetailsViewMore(
     title: String,
     content: @Composable ColumnScope.() -> Unit,
     contentSpacing: Dp,
@@ -30,7 +30,7 @@ internal fun DetailsViewMore(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
-        DetailsSectionTitle(
+        CareDetailsSectionTitle(
             title = title,
             modifier = Modifier.padding(
                 start = 24.dp,

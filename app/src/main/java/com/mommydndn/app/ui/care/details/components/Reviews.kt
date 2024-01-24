@@ -56,7 +56,7 @@ internal fun DetailsReviews(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.Bottom,
             ) {
-                DetailsSectionTitle(title = stringResource(R.string.reviews_of, name))
+                CareDetailsSectionTitle(title = stringResource(R.string.reviews_of, name))
 
                 Text(
                     text = stringResource(id = R.string.view_all),

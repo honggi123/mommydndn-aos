@@ -21,7 +21,7 @@ import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.caption200
 
 @Composable
-internal fun DetailsOtherConditionTags(
+internal fun CareDetailsOtherConditionTags(
     otherConditions: List<OtherCondition>,
     modifier: Modifier = Modifier,
 ) {

@@ -5,7 +5,7 @@ data class User(
     val type: UserType,
     val profileImageUrl: String?,
     val name: String,
-    val displayName: String,
+    val nickname: String,
     val createdAt: Long,
 )
 
@@ -14,9 +14,7 @@ enum class UserType {
 }
 
 enum class OAuthProvider {
-    NAVER,
-    KAKAO,
-    GOOGLE,
+    Naver, Kakao, Google
 }
 
 data class OAuthToken(

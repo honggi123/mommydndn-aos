@@ -1,5 +1,6 @@
 package com.mommydndn.app.ui.home.components
 
+import com.mommydndn.app.ui.components.banner.BannerUiModel
 import com.mommydndn.app.ui.components.notification.NotificationSetting
 
 val banners: List<BannerUiModel> = listOf(

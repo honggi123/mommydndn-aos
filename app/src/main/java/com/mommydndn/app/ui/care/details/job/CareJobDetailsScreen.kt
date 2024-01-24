@@ -47,14 +47,14 @@ import com.mommydndn.app.domain.model.PayPeriod
 import com.mommydndn.app.domain.model.WorkAvailability
 import com.mommydndn.app.ui.care.details.components.CareDetailsDndnScore
 import com.mommydndn.app.ui.care.details.components.CareDetailsTopAppBar
-import com.mommydndn.app.ui.care.details.components.DetailsOtherConditionTags
+import com.mommydndn.app.ui.care.details.components.CareDetailsOtherConditionTags
 import com.mommydndn.app.ui.care.details.components.DetailsRegisteredAt
 import com.mommydndn.app.ui.care.details.components.DetailsReview
 import com.mommydndn.app.ui.care.details.components.DetailsReviewUiModel
-import com.mommydndn.app.ui.care.details.components.DetailsSectionTitle
+import com.mommydndn.app.ui.care.details.components.CareDetailsSectionTitle
 import com.mommydndn.app.ui.care.details.components.DetailsVerification
-import com.mommydndn.app.ui.care.details.components.DetailsViewMore
-import com.mommydndn.app.ui.care.details.components.LikeAndActionButton
+import com.mommydndn.app.ui.care.details.components.CareDetailsViewMore
+import com.mommydndn.app.ui.care.details.components.CareDetailsLikeAndActionButton
 import com.mommydndn.app.ui.care.list.components.CareStatistics
 import com.mommydndn.app.ui.care.list.components.displayName
 import com.mommydndn.app.ui.care.list.job.CareJobListItem
@@ -227,7 +227,7 @@ internal fun CareJobDetailsContent(
                 }
 
 
-                DetailsViewMore(
+                CareDetailsViewMore(
                     title = stringResource(R.string.looking_for_more_care_jobs),
                     content = {
                         moreJobs.forEachIndexed { index, job ->
@@ -268,7 +268,7 @@ internal fun CareJobDetailsContent(
                 )
             }
 
-            LikeAndActionButton(
+            CareDetailsLikeAndActionButton(
                 isLiked = isLiked,
                 onLikeClick = onLikeClick,
                 actionName = stringResource(R.string.apply_to),
@@ -432,7 +432,7 @@ private fun Content(
             style = MaterialTheme.typography.paragraph300
         )
 
-        DetailsOtherConditionTags(otherConditions)
+        CareDetailsOtherConditionTags(otherConditions)
 
         if (imageUrls.isNotEmpty()) {
             BoxWithConstraints {
@@ -520,7 +520,7 @@ private fun AboutEmployer(
                 bottom = 24.dp,
             )
         ) {
-            DetailsSectionTitle(
+            CareDetailsSectionTitle(
                 title = stringResource(R.string.about_employer, nickname),
                 modifier = Modifier.padding(vertical = 28.dp),
             )

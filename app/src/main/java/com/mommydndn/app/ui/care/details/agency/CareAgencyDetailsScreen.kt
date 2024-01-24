@@ -35,8 +35,8 @@ import com.mommydndn.app.ui.care.details.components.CareDetailsTopAppBar
 import com.mommydndn.app.ui.care.details.components.DetailsCareTypes
 import com.mommydndn.app.ui.care.details.components.DetailsReviewUiModel
 import com.mommydndn.app.ui.care.details.components.DetailsReviews
-import com.mommydndn.app.ui.care.details.components.DetailsViewMore
-import com.mommydndn.app.ui.care.details.components.LikeAndActionButton
+import com.mommydndn.app.ui.care.details.components.CareDetailsViewMore
+import com.mommydndn.app.ui.care.details.components.CareDetailsLikeAndActionButton
 import com.mommydndn.app.ui.care.details.components.divider
 import com.mommydndn.app.ui.care.list.agency.CareAgencyListItem
 import com.mommydndn.app.ui.care.list.agency.CareAgencyUiModel
@@ -44,8 +44,8 @@ import com.mommydndn.app.ui.care.list.agency.CertifiedAgency
 import com.mommydndn.app.ui.care.list.components.AvailableNeighborhood
 import com.mommydndn.app.ui.care.list.components.CareStatistics
 import com.mommydndn.app.ui.components.tab.SmallTab
-import com.mommydndn.app.ui.home.components.BannerPager
-import com.mommydndn.app.ui.home.components.BannerUiModel
+import com.mommydndn.app.ui.components.banner.BannerPager
+import com.mommydndn.app.ui.components.banner.BannerUiModel
 import com.mommydndn.app.ui.home.components.WriteReviewSection
 import com.mommydndn.app.ui.theme.Grey100
 import com.mommydndn.app.ui.theme.Grey50
@@ -197,7 +197,7 @@ internal fun CareAgencyDetailsContent(
                 divider()
 
                 item {
-                    DetailsViewMore(
+                    CareDetailsViewMore(
                         title = stringResource(R.string.looking_for_more_agencies),
                         content = {
                             moreAgencies.forEach { agency ->
@@ -232,7 +232,7 @@ internal fun CareAgencyDetailsContent(
                 }
             }
 
-            LikeAndActionButton(
+            CareDetailsLikeAndActionButton(
                 isLiked = isLiked,
                 onLikeClick = onLikeClick,
                 actionName = stringResource(R.string.start_chat),

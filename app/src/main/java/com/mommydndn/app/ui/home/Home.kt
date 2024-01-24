@@ -11,8 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.mommydndn.app.ui.home.components.BannerPager
-import com.mommydndn.app.ui.home.components.BannerUiModel
+import com.mommydndn.app.ui.components.banner.BannerPager
+import com.mommydndn.app.ui.components.banner.BannerUiModel
 import com.mommydndn.app.ui.home.components.HomeFooter
 import com.mommydndn.app.ui.home.components.HomeTopAppBar
 import com.mommydndn.app.ui.home.components.NearbyCareJobUiModel

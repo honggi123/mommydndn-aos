@@ -66,21 +66,21 @@ internal fun SocialLoginButtonsRow(
     ) {
         SocialLoginIconButton(
             onClick = {
-                onClick(OAuthProvider.NAVER)
+                onClick(OAuthProvider.Naver)
             },
             painter = painterResource(id = R.drawable.icon_naver)
         )
 
         SocialLoginIconButton(
             onClick = {
-                onClick(OAuthProvider.KAKAO)
+                onClick(OAuthProvider.Kakao)
             },
             painter = painterResource(id = R.drawable.icon_kakao)
         )
 
         SocialLoginIconButton(
             onClick = {
-                onClick(OAuthProvider.GOOGLE)
+                onClick(OAuthProvider.Google)
             },
             painter = painterResource(id = R.drawable.icon_google),
         )

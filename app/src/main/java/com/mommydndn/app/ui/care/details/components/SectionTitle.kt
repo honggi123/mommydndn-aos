@@ -9,7 +9,7 @@ import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.paragraph300
 
 @Composable
-internal fun DetailsSectionTitle(
+internal fun CareDetailsSectionTitle(
     title: String,
     modifier: Modifier = Modifier,
 ) {

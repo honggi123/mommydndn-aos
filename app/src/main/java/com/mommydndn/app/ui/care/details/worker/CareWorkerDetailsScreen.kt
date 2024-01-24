@@ -24,12 +24,12 @@ import com.mommydndn.app.domain.model.CareWorkerOtherCondition
 import com.mommydndn.app.ui.care.details.agency.reviews
 import com.mommydndn.app.ui.care.details.components.CareDetailsAbout
 import com.mommydndn.app.ui.care.details.components.CareDetailsBio
+import com.mommydndn.app.ui.care.details.components.CareDetailsLikeAndActionButton
 import com.mommydndn.app.ui.care.details.components.CareDetailsTopAppBar
+import com.mommydndn.app.ui.care.details.components.CareDetailsViewMore
 import com.mommydndn.app.ui.care.details.components.DetailsCareTypes
 import com.mommydndn.app.ui.care.details.components.DetailsReviewUiModel
 import com.mommydndn.app.ui.care.details.components.DetailsReviews
-import com.mommydndn.app.ui.care.details.components.DetailsViewMore
-import com.mommydndn.app.ui.care.details.components.LikeAndActionButton
 import com.mommydndn.app.ui.care.details.components.divider
 import com.mommydndn.app.ui.care.list.components.AvailableNeighborhood
 import com.mommydndn.app.ui.care.list.components.CareStatistics
@@ -165,7 +165,7 @@ internal fun CareWorkerDetailsContent(
                 divider()
 
                 item {
-                    DetailsViewMore(
+                    CareDetailsViewMore(
                         title = stringResource(R.string.looking_for_teacher_care_worker),
                         content = {
                             moreWorkers.forEach { worker -> 
@@ -200,7 +200,7 @@ internal fun CareWorkerDetailsContent(
                 }
             }
 
-            LikeAndActionButton(
+            CareDetailsLikeAndActionButton(
                 isLiked = isLiked,
                 onLikeClick = onLikeClick,
                 actionName = stringResource(R.string.apply_to),

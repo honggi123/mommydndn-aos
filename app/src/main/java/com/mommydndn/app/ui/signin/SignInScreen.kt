@@ -76,11 +76,11 @@ internal fun SignInScreen(
 
     val onSocialLoginClick: (OAuthProvider) -> Unit = { oAuthProvider ->
         when (oAuthProvider) {
-            OAuthProvider.NAVER -> {
+            OAuthProvider.Naver -> {
                 NaverIdLoginSDK.authenticate(context, object : OAuthLoginCallback {
                     override fun onSuccess() {
                         NaverIdLoginSDK.getAccessToken()?.let { accessToken ->
-                            viewModel.signIn(OAuthProvider.NAVER, accessToken)
+                            viewModel.signIn(OAuthProvider.Naver, accessToken)
                         }
                     }
 
@@ -93,11 +93,11 @@ internal fun SignInScreen(
                     }
                 })
             }
-            OAuthProvider.KAKAO -> {
+            OAuthProvider.Kakao -> {
                 val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
                     if (token != null) {
                         token.accessToken.let { accessToken ->
-                            viewModel.signIn(OAuthProvider.KAKAO, accessToken)
+                            viewModel.signIn(OAuthProvider.Kakao, accessToken)
                         }
                     } else {
                         if (error !is ClientError || error.reason == ClientErrorCause.Cancelled) {
@@ -114,7 +114,7 @@ internal fun SignInScreen(
                     }
                 }
             }
-            OAuthProvider.GOOGLE -> {
+            OAuthProvider.Google -> {
                 val options =
                     GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                         .requestEmail()

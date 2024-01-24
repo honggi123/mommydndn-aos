@@ -47,7 +47,7 @@ import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph300
-import com.mommydndn.app.utils.extensions.checkImagesPermission
+import com.mommydndn.app.utils.extensions.isMediaImagesPermissionGranted
 import kotlin.math.max
 
 @Composable
@@ -108,7 +108,7 @@ fun GetPhotosPostSection(
                 item {
                     AddPhotoCell(
                         onClick = {
-                            if (checkImagesPermission(context)) {
+                            if (isMediaImagesPermissionGranted(context)) {
                                 getMultipleContents.launch("image/*")
                             } else {
                                 requestPermissions.launch(permissions)

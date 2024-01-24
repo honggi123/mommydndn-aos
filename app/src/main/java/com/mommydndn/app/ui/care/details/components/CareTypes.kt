@@ -40,7 +40,7 @@ internal fun DetailsCareTypes(
 ) {
     Box(modifier = modifier) {
         Column(verticalArrangement = Arrangement.spacedBy(36.dp)) {
-            DetailsSectionTitle(title = stringResource(R.string.confidently_help_care_types))
+            CareDetailsSectionTitle(title = stringResource(R.string.confidently_help_care_types))
 
             BoxWithConstraints {
                 val cellSize = (maxWidth - 12.dp) / 3

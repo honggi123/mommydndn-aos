@@ -40,7 +40,7 @@ internal fun CareDetailsAbout(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        DetailsSectionTitle(title = stringResource(R.string.about, name))
+        CareDetailsSectionTitle(title = stringResource(R.string.about, name))
 
         if (verifications.isNotEmpty()) {
             Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
@@ -75,7 +75,7 @@ internal fun CareDetailsAbout(
         }
 
         if (otherConditions.isNotEmpty()) {
-            DetailsOtherConditionTags(otherConditions)
+            CareDetailsOtherConditionTags(otherConditions)
         }
     }
 }

@@ -27,7 +27,7 @@ import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.paragraph400
 
 @Composable
-internal fun LikeAndActionButton(
+internal fun CareDetailsLikeAndActionButton(
     isLiked: Boolean,
     onLikeClick: () -> Unit,
     actionName: String,
