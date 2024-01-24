@@ -161,4 +161,6 @@
     <string name="latest_review">가장 최근 후기</string>
     <string name="view_profile">프로필 보러 가기</string>
     <string name="about_employer">%1$s님은 이런 분이에요</string>
+    <string name="default_notification_channel_id">default_notificaiton_channel_id</string>
+    <string name="default_notification_channel_name">알림</string>
 </resources>

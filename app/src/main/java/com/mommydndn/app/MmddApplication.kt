@@ -7,7 +7,7 @@ import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
 @HiltAndroidApp
-class MommydndnApplication : Application() {
+class MmddApplication : Application() {
 
     // TODO
     override fun onCreate() {
