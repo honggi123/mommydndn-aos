@@ -22,11 +22,10 @@ data class GetCareAgencyDetailsResponse(
     val neighborhood: NetworkNeighborhood,
     @SerialName("caringTypeCodeList")
     val careTypes: List<NetworkCareType>,
-    @SerialName("minMonthlySalary")
-    val minSalary: Int,
-    @SerialName("maxMonthlySalary")
-    val maxSalary: Int,
-    val commission: Int,
+    val minMonthlySalary: Int,
+    val maxMonthlySalary: Int,
+    @SerialName("commision")
+    val commissionRate: Int,
     @SerialName("comOtherConditionList")
     val otherConditions: List<NetworkAgencyOtherCondition>,
     val isLiked: Boolean,

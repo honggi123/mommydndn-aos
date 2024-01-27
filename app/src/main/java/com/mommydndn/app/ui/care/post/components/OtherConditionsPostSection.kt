@@ -15,16 +15,69 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import com.mommydndn.app.R
 import com.mommydndn.app.domain.model.CareAgencyOtherCondition
-import com.mommydndn.app.domain.model.CareWorkerOtherCondition
-import com.mommydndn.app.domain.model.OtherCondition
+import com.mommydndn.app.domain.model.CaregiverPreference
 import com.mommydndn.app.ui.components.check.CheckboxListItem
+import java.util.Collections
+
+@Composable
+fun PreferencesPostSection(
+    preferences: List<CaregiverPreference>,
+    selectedPreferences: List<CaregiverPreference>,
+    onClick: (CaregiverPreference) -> Unit,
+    modifier: Modifier = Modifier,
+    title: String = stringResource(R.string.other_conditions),
+    subtitle: String = stringResource(id = R.string.optional),
+) {
+    PostSection(
+        title = title,
+        subtitle = subtitle,
+        modifier = modifier,
+    ) {
+        val rowCount = (preferences.size + 1) / 2
+        val height = rowCount * 32.dp + (rowCount - 1) * 8.dp
+
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(height),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            items(preferences) { condition ->
+                val checked = selectedPreferences.contains(condition)
+
+                CheckboxListItem(
+                    checked = checked,
+                    onClick = {
+                        onClick(condition)
+                    },
+                    text = condition.displayName,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(),
+                )
+            }
+        }
+    }
+}
+
+private val CaregiverPreference.displayName: String
+    @Composable
+    get() = when (this) {
+        CaregiverPreference.PetFriendly -> stringResource(R.string.pets_okay)
+        CaregiverPreference.CctvAllowed -> stringResource(R.string.cctv_okay)
+        CaregiverPreference.MoveInAvailable -> stringResource(R.string.occupancy_available)
+        CaregiverPreference.NonSmoker -> stringResource(R.string.non_smoker)
+        CaregiverPreference.NonReligious -> stringResource(R.string.atheism)
+    }
 
 @Composable
 fun OtherConditionsPostSection(
-    otherConditions: List<OtherCondition>,
-    selectedConditions: List<OtherCondition>,
-    onClick: (OtherCondition) -> Unit,
+    selectedConditions: List<CareAgencyOtherCondition>,
+    onClick: (CareAgencyOtherCondition) -> Unit,
     modifier: Modifier = Modifier,
+    otherConditions: List<CareAgencyOtherCondition> = Collections.singletonList(CareAgencyOtherCondition.AfterSalesGuranteed),
     title: String = stringResource(R.string.other_conditions),
     subtitle: String = stringResource(id = R.string.optional),
 ) {
@@ -62,23 +115,22 @@ fun OtherConditionsPostSection(
     }
 }
 
-private val OtherCondition.displayName: String
+private val CareAgencyOtherCondition.displayName: String
     @Composable
     get() = when (this) {
-        CareWorkerOtherCondition.CCTV -> stringResource(R.string.cctv_okay)
-        CareWorkerOtherCondition.Residential -> stringResource(R.string.occupancy_available)
-        CareWorkerOtherCondition.Pets -> stringResource(R.string.pets_okay)
-        CareWorkerOtherCondition.NoReligion -> stringResource(R.string.atheism)
-        CareWorkerOtherCondition.NonSmoker -> stringResource(R.string.non_smoker)
-        CareAgencyOtherCondition.AS -> stringResource(R.string.guarantee_as)
+        CareAgencyOtherCondition.AfterSalesGuranteed -> stringResource(R.string.guarantee_as)
     }
 
 @Preview
 @Composable
-private fun EmptyOtherConditionsPreview() {
-    OtherConditionsPostSection(
-        otherConditions = CareWorkerOtherCondition.entries,
-        selectedConditions = emptyList(),
+private fun PreferencesPreview() {
+    PreferencesPostSection(
+        preferences = CaregiverPreference.entries,
+        selectedPreferences = listOf(
+            CaregiverPreference.CctvAllowed,
+            CaregiverPreference.PetFriendly,
+            CaregiverPreference.MoveInAvailable,
+        ),
         onClick = {},
         modifier = Modifier,
     )
@@ -88,23 +140,8 @@ private fun EmptyOtherConditionsPreview() {
 @Composable
 private fun OtherConditionsPreview() {
     OtherConditionsPostSection(
-        otherConditions = CareWorkerOtherCondition.entries,
-        selectedConditions = listOf(
-            CareWorkerOtherCondition.Pets,
-            CareWorkerOtherCondition.NonSmoker,
-            CareWorkerOtherCondition.NoReligion,
-        ),
-        onClick = {},
-        modifier = Modifier,
-    )
-}
-
-@Preview
-@Composable
-private fun SingleOtherConditionPreview() {
-    OtherConditionsPostSection(
-        otherConditions = CareAgencyOtherCondition.entries,
-        selectedConditions = listOf(CareAgencyOtherCondition.AS),
+        otherConditions = listOf(CareAgencyOtherCondition.AfterSalesGuranteed),
+        selectedConditions = listOf(CareAgencyOtherCondition.AfterSalesGuranteed),
         onClick = {},
         modifier = Modifier,
     )

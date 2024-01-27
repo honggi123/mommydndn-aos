@@ -9,7 +9,8 @@ data class NetworkCareReview(
     val id: Int,
     @SerialName("nickname")
     val reviewerNickname: String,
-    val rate: Double,
+    @SerialName("rate")
+    val rating: Double,
     @SerialName("caringTypeCodeList")
     val careTypes: List<NetworkCareType>,
     val content: String,

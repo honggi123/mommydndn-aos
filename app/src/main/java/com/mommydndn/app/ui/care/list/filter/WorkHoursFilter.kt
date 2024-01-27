@@ -16,7 +16,7 @@ data class WorkHoursFilter(
     override fun displayName(): String {
         return if (workHours != null) {
             with(workHours) {
-                stringResource(R.string.hour_hours_between, start.hour, end.hour)
+                stringResource(R.string.hour_hours_between, startTime.hour, endTime.hour)
             }
         } else {
             stringResource(R.string.time)

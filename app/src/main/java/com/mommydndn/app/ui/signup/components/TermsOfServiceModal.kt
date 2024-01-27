@@ -41,7 +41,7 @@ internal fun TermsOfServiceModal(
     modifier: Modifier = Modifier,
 ) {
     val enabled = termsOfService.keys
-        .filter { it.required }
+        .filter { it.isRequired }
         .all { termsOfService.getValue(it) }
 
     MommydndnModal(
@@ -87,7 +87,7 @@ internal fun TermsOfServiceModal(
             termsOfService.forEach { entry ->
                 val tos = entry.key
 
-                val prefix = if (tos.required) {
+                val prefix = if (tos.isRequired) {
                     stringResource(id = R.string.required_square_brackets)
                 } else {
                     stringResource(id = R.string.optional_square_brackets)
@@ -95,7 +95,7 @@ internal fun TermsOfServiceModal(
 
                 CheckListItem(
                     checked = entry.value,
-                    text = "$prefix ${tos.name}",
+                    text = "$prefix ${tos.title}",
                     onClick = {
                         onTermsOfServiceClick(tos)
                     },
@@ -119,12 +119,12 @@ private fun ToSModalBottomSheet_Preview() {
                 "위치기반 서비스 약관 동의",
                 "취소 및 환불규정 동의",
                 "이벤트 및 광고 수신 동의",
-            ).mapIndexed { index, name ->
+            ).mapIndexed { index, title ->
                 TermsOfService(
-                    id = index,
-                    name = name,
+                    id = "$index",
+                    title = title,
                     url = "",
-                    required = index != 4
+                    isRequired = index != 4
                 )
             }.associateWith { true }
         )

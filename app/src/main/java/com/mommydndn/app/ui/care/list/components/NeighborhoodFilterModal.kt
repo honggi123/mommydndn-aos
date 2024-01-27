@@ -53,8 +53,8 @@ import com.mommydndn.app.R
 import com.mommydndn.app.domain.model.NearbyNeighborhoodDistance
 import com.mommydndn.app.domain.model.NearbyNeighborhoodDistance.Distant
 import com.mommydndn.app.domain.model.NearbyNeighborhoodDistance.Immediate
-import com.mommydndn.app.domain.model.NearbyNeighborhoodDistance.Nearby
-import com.mommydndn.app.domain.model.NearbyNeighborhoodDistance.VeryDistant
+import com.mommydndn.app.domain.model.NearbyNeighborhoodDistance.Close
+import com.mommydndn.app.domain.model.NearbyNeighborhoodDistance.Far
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey600
@@ -79,9 +79,9 @@ data class NeighborhoodFilterUiModel(
 ) {
     val neighborhoodsCount: Int = when (nearbyNeighborhoodDistance) {
         Immediate -> immediateNeighborhoodsCount
-        Nearby -> nearbyNeighborhoodsCount
+        Close -> nearbyNeighborhoodsCount
         Distant -> distantNeighborhoodsCount
-        VeryDistant -> veryDistantNeighborhoodsCount
+        Far -> veryDistantNeighborhoodsCount
     }
 }
 
@@ -192,14 +192,14 @@ private fun NearbyNeighborhoodDistance(
     Box(
         modifier = modifier
             .run {
-                if (neighborhoodDistance == VeryDistant) {
+                if (neighborhoodDistance == Far) {
                     border(1.dp, Salmon300, RoundedCornerShape(12.dp))
                 } else {
                     this
                 }
             }
             .background(
-                if (neighborhoodDistance == VeryDistant) {
+                if (neighborhoodDistance == Far) {
                     Salmon100
                 } else {
                     Grey50
@@ -229,13 +229,13 @@ private fun NearbyNeighborhoodDistance(
                 )
             }
 
-            if (neighborhoodDistance >= Nearby) {
+            if (neighborhoodDistance >= Close) {
                 Box(
                     modifier = Modifier
                         .size(138.dp)
                         .background(Salmon100, CircleShape)
                         .run {
-                            if (neighborhoodDistance == Nearby) {
+                            if (neighborhoodDistance == Close) {
                                 border(1.dp, Salmon300, CircleShape)
                             } else {
                                 this
@@ -422,7 +422,7 @@ private fun NeighborhoodFilterModalImmediate() {
 private fun NeighborhoodFilterModalNearby() {
     NeighborhoodFilterModal(
         neighborhood = neighborhoodDummy.copy(
-            nearbyNeighborhoodDistance = Nearby
+            nearbyNeighborhoodDistance = Close
         ),
         onCloseClick = {},
         onApplyClick = {},
@@ -448,7 +448,7 @@ private fun NeighborhoodFilterModalDistant() {
 private fun NeighborhoodFilterModalVeryDistant() {
     NeighborhoodFilterModal(
         neighborhood = neighborhoodDummy.copy(
-            nearbyNeighborhoodDistance = VeryDistant
+            nearbyNeighborhoodDistance = Far
         ),
         onCloseClick = {},
         onApplyClick = {},

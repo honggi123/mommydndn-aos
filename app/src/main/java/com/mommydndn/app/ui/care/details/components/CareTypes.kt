@@ -34,7 +34,7 @@ import com.mommydndn.app.ui.theme.White
 import com.mommydndn.app.ui.theme.caption100
 
 @Composable
-internal fun DetailsCareTypes(
+internal fun CareDetailsCareTypes(
     careTypes: List<CareType>,
     modifier: Modifier = Modifier
 ) {
@@ -113,8 +113,8 @@ private fun CareTypeGridItem(
 
 @Preview
 @Composable
-private fun DetailsCareTypesPreview() {
-    DetailsCareTypes(
+private fun CareTypesPreview() {
+    CareDetailsCareTypes(
         careTypes = CareType.entries,
         modifier = Modifier
             .background(White)

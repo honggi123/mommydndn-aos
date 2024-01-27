@@ -9,7 +9,8 @@ data class NetworkCareAgency(
     val id: Long,
     @SerialName("authorId")
     val managerId: Long,
-    val nickname: String,
+    @SerialName("nickname")
+    val name: String,
     @SerialName("neighborhood")
     val neighborhoodName: String,
     @SerialName("profileUrl")

@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
 import com.mommydndn.app.domain.model.CareAgencyOtherCondition
 import com.mommydndn.app.domain.model.CareType
-import com.mommydndn.app.domain.model.CareWorkerOtherCondition
 import com.mommydndn.app.ui.care.post.components.BioPostSection
 import com.mommydndn.app.ui.care.post.components.CareTypesPostSection
 import com.mommydndn.app.ui.care.post.components.GetPhotoPostSection
@@ -30,7 +29,6 @@ import com.mommydndn.app.ui.care.post.components.OtherConditionsPostSection
 import com.mommydndn.app.ui.care.post.components.PostTopAppBar
 import com.mommydndn.app.ui.theme.Grey300
 import com.mommydndn.app.ui.theme.Grey50
-import java.util.Collections
 
 data class PostCareAgencyProfileUiModel(
     val coverPhotos: List<Uri>,
@@ -38,7 +36,7 @@ data class PostCareAgencyProfileUiModel(
     val bio: String,
     val neighborhood: NeighborhoodUiModel,
     val careTypes: List<CareType>,
-    val otherConditions: List<CareWorkerOtherCondition>,
+    val otherConditions: List<CareAgencyOtherCondition>,
 )
 
 @Composable
@@ -56,7 +54,7 @@ fun RegisterCareAgencyScreen(
     onNearbyNeighborhoodsClick: () -> Unit,
     careTypes: List<CareType>,
     onCareTypeClick: (CareType) -> Unit,
-    otherConditions: List<CareAgencyOtherCondition>,
+    selectedConditions: List<CareAgencyOtherCondition>,
     onOtherConditionClick: (CareAgencyOtherCondition) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -127,11 +125,8 @@ fun RegisterCareAgencyScreen(
             )
 
             OtherConditionsPostSection(
-                otherConditions = Collections.singletonList(CareAgencyOtherCondition.AS),
-                selectedConditions = otherConditions,
-                onClick = {
-
-                },
+                selectedConditions = selectedConditions,
+                onClick = onOtherConditionClick,
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight(),
@@ -161,7 +156,7 @@ private fun PostCareAgencyProfilePreview() {
         onNearbyNeighborhoodsClick = {},
         careTypes = emptyList(),
         onCareTypeClick = {},
-        otherConditions = emptyList(),
+        selectedConditions = emptyList(),
         onOtherConditionClick = {},
         modifier = Modifier,
     )

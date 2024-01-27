@@ -9,7 +9,7 @@ data class NetworkCareJobEmployer(
     val id: Int,
     val nickname: String,
     @SerialName("profileUrl")
-    val imageUrl: String?,
+    val profileImageUrl: String?,
     @SerialName("neighborhood")
     val neighborhoodName: String,
     val isDnDnAuthenticated: Boolean,

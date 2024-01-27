@@ -45,8 +45,8 @@ import com.mommydndn.app.ui.care.list.filter.NeighborhoodFilter
 import com.mommydndn.app.ui.care.list.filter.WorkHoursFilter
 import com.mommydndn.app.ui.care.list.filter.WorkPeriodFilter
 import com.mommydndn.app.ui.care.list.filter.displayName
-import com.mommydndn.app.ui.care.list.job.CareJobList
-import com.mommydndn.app.ui.care.list.job.CareJobUiModel
+import com.mommydndn.app.ui.care.list.jobposting.CaregiverJobPostingList
+import com.mommydndn.app.ui.care.list.jobposting.CaregiverJobPostingUiModel
 import com.mommydndn.app.ui.care.post.components.TopAppBarHeight
 import com.mommydndn.app.ui.components.tab.MediumTab
 import com.mommydndn.app.ui.theme.Grey300
@@ -105,7 +105,7 @@ data class NeighborhoodUiModel(
 )
 
 @Composable
-internal fun CareContent(
+private fun CareContent(
     neighborhood: NeighborhoodUiModel,
     onNeighborhoodClick: () -> Unit,
     onSearchClick: () -> Unit,
@@ -115,7 +115,7 @@ internal fun CareContent(
     onOrderClick: () -> Unit,
     filters: List<CareFilter>,
     onFilterClick: (CareFilter) -> Unit,
-    jobOpeningListItems: List<CareJobUiModel>,
+    jobOpeningListItems: List<CaregiverJobPostingUiModel>,
     selectedFilter: CareFilter?,
     sheetState: ModalBottomSheetState,
     onSheetCloseClick: () -> Unit,
@@ -166,8 +166,8 @@ internal fun CareContent(
                         .padding(vertical = 12.dp),
                 )
 
-                CareJobList(
-                    jobs = jobOpeningListItems,
+                CaregiverJobPostingList(
+                    jobPostings = jobOpeningListItems,
                     modifier = Modifier.fillMaxSize(),
                 )
             }
@@ -299,21 +299,23 @@ private fun CareFilterModalBottomSheet(
 
 @Preview
 @Composable
-private fun CareScreenPreview() {
+private fun CarePreview() {
     val fakeNeighborhood = Neighborhood(
-        id = 5264,
-        name = "Miranda Russo",
-        address = "option"
+        id = "",
+        address = "",
+        province = "",
+        city = "",
+        name = "",
     )
 
     val neighborhoodDummy = NeighborhoodUiModel(
         id = 0,
         name = "서초동",
         address = "서울 서초구 서초중앙로 15",
-        nearbyDistance = NearbyNeighborhoodDistance.VeryDistant,
+        nearbyDistance = NearbyNeighborhoodDistance.Far,
         nearbyNeighborhoods = mapOf(
             NearbyNeighborhoodDistance.Immediate to emptyList(),
-            NearbyNeighborhoodDistance.Nearby to buildList {
+            NearbyNeighborhoodDistance.Close to buildList {
                 repeat(5) {
                     add(fakeNeighborhood)
                 }
@@ -323,7 +325,7 @@ private fun CareScreenPreview() {
                     add(fakeNeighborhood)
                 }
             },
-            NearbyNeighborhoodDistance.VeryDistant to buildList {
+            NearbyNeighborhoodDistance.Far to buildList {
                 repeat(24) {
                     add(fakeNeighborhood)
                 }

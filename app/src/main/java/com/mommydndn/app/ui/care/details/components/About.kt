@@ -19,8 +19,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.R
-import com.mommydndn.app.domain.model.CareWorkerOtherCondition
-import com.mommydndn.app.domain.model.OtherCondition
 import com.mommydndn.app.ui.theme.Grey300
 import com.mommydndn.app.ui.theme.Grey700
 import com.mommydndn.app.ui.theme.White
@@ -33,7 +31,7 @@ internal fun CareDetailsAbout(
     verifications: List<String>,
     registeredAt: LocalDate,
     pay: String,
-    otherConditions: List<OtherCondition>,
+    tags: List<String>,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -45,13 +43,13 @@ internal fun CareDetailsAbout(
         if (verifications.isNotEmpty()) {
             Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 verifications.forEach {
-                    DetailsVerification(it)
+                    CareDetailsVerification(it)
                 }
             }
         }
 
         Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-            DetailsRegisteredAt(registeredAt = registeredAt)
+            CareDetailsRegisteredAt(registeredAt = registeredAt)
 
             Row(
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
@@ -74,14 +72,14 @@ internal fun CareDetailsAbout(
             }
         }
 
-        if (otherConditions.isNotEmpty()) {
-            CareDetailsOtherConditionTags(otherConditions)
+        if (tags.isNotEmpty()) {
+            CareDetailsTags(tags)
         }
     }
 }
 
 @Composable
-internal fun DetailsRegisteredAt(
+internal fun CareDetailsRegisteredAt(
     registeredAt: LocalDate
 ) {
     Row(
@@ -108,7 +106,7 @@ internal fun DetailsRegisteredAt(
 }
 
 @Composable
-internal fun DetailsVerification(verification: String) {
+internal fun CareDetailsVerification(verification: String) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -132,7 +130,7 @@ internal fun DetailsVerification(verification: String) {
 
 @Preview
 @Composable
-private fun AbountPreview() {
+private fun AboutPreview() {
     CareDetailsAbout(
         name = "세아쌤",
         verifications = listOf(
@@ -143,11 +141,7 @@ private fun AbountPreview() {
         ),
         registeredAt = LocalDate.now(),
         pay = "희망시급 12,000원 ~ 14,000원",
-        otherConditions = listOf(
-            CareWorkerOtherCondition.CCTV,
-            CareWorkerOtherCondition.NoReligion,
-            CareWorkerOtherCondition.NonSmoker,
-        ),
+        tags = emptyList(),
         modifier = Modifier
             .background(White)
             .padding(horizontal = 24.dp, vertical = 28.dp)

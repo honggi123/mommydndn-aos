@@ -14,15 +14,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mommydndn.app.domain.model.CareAgencyOtherCondition
-import com.mommydndn.app.domain.model.CareWorkerOtherCondition
-import com.mommydndn.app.domain.model.OtherCondition
+import com.mommydndn.app.domain.model.CaregiverPreference
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey600
 import com.mommydndn.app.ui.theme.caption200
 
 @Composable
-internal fun CareDetailsOtherConditionTags(
-    otherConditions: List<OtherCondition>,
+internal fun CareDetailsTags(
+    tags: List<String>,
     modifier: Modifier = Modifier,
 ) {
     Box(modifier = modifier) {
@@ -33,24 +32,10 @@ internal fun CareDetailsOtherConditionTags(
             horizontalArrangement = Arrangement.spacedBy(6.dp),
             verticalArrangement = Arrangement.spacedBy(6.dp),
         ) {
-            otherConditions
-                .map { it.displayName }
-                .forEach { TagChip(tag = it) }
+            tags.forEach { TagChip(tag = it) }
         }
     }
 }
-
-private val OtherCondition.displayName: String
-    // TODO: 순서에 따라 접미어
-    @Composable
-    get() = when (this) {
-        CareAgencyOtherCondition.AS -> "A/S 보장해요"
-        CareWorkerOtherCondition.Pets -> "반려동물을 좋아하고"
-        CareWorkerOtherCondition.CCTV -> "CCTV가 괜찮고"
-        CareWorkerOtherCondition.Residential -> "입주가 가능하고"
-        CareWorkerOtherCondition.NonSmoker -> "비흡연자이고"
-        CareWorkerOtherCondition.NoReligion -> "무교이신 분"
-    }
 
 @Composable
 private fun TagChip(tag: String) {
@@ -63,3 +48,20 @@ private fun TagChip(tag: String) {
         style = MaterialTheme.typography.caption200
     )
 }
+
+internal val CaregiverPreference.tagName: String
+    // TODO: 순서에 따라 접미어
+    @Composable
+    get() = when (this) {
+        CaregiverPreference.PetFriendly -> "반려동물을 좋아하고"
+        CaregiverPreference.CctvAllowed -> "CCTV가 괜찮고"
+        CaregiverPreference.MoveInAvailable -> "입주가 가능하고"
+        CaregiverPreference.NonSmoker -> "비흡연자이고"
+        CaregiverPreference.NonReligious -> "무교이신 분"
+    }
+
+internal val CareAgencyOtherCondition.tagName: String
+    @Composable
+    get() = when (this) {
+        CareAgencyOtherCondition.AfterSalesGuranteed -> "A/S 보장해요"
+    }

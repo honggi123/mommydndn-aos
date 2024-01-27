@@ -8,10 +8,10 @@ import com.mommydndn.app.domain.model.Coordinates
 import com.mommydndn.app.domain.model.Neighborhood
 import com.mommydndn.app.domain.model.TermsOfService
 import com.mommydndn.app.domain.model.UserType
-import com.mommydndn.app.domain.usecase.neighborhood.SearchNeighborhoodByCoordinates
-import com.mommydndn.app.domain.usecase.neighborhood.SearchNeighborhoodByQuery
-import com.mommydndn.app.domain.usecase.terms.GetTermsOfService
-import com.mommydndn.app.domain.usecase.terms.UpdateTermsOfServiceState
+import com.mommydndn.app.domain.usecase.neighborhood.SearchNeighborhoodByCoordinatesUseCase
+import com.mommydndn.app.domain.usecase.neighborhood.SearchNeighborhoodByQueryUseCase
+import com.mommydndn.app.domain.usecase.tos.GetTermsOfServiceUseCase
+import com.mommydndn.app.domain.usecase.tos.UpdateTermsOfServiceConsentUseCase
 import com.mommydndn.app.domain.usecase.user.SignUp
 import com.mommydndn.app.utils.result.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,10 +32,10 @@ import kotlin.time.Duration.Companion.milliseconds
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val searchNeighborhoodByQuery: SearchNeighborhoodByQuery,
-    private val searchNeighborhoodByCoordinates: SearchNeighborhoodByCoordinates,
-    private val getTermsOfService: GetTermsOfService,
-    private val updateTermsOfServiceState: UpdateTermsOfServiceState,
+    private val searchNeighborhoodByQueryUseCase: SearchNeighborhoodByQueryUseCase,
+    private val searchNeighborhoodByCoordinatesUseCase: SearchNeighborhoodByCoordinatesUseCase,
+    private val getTermsOfServiceUseCase: GetTermsOfServiceUseCase,
+    private val updateTermsOfServiceConsentUseCase: UpdateTermsOfServiceConsentUseCase,
     private val signUp: SignUp,
 ) : ViewModel() {
 
@@ -52,13 +52,13 @@ class SignUpViewModel @Inject constructor(
         .filter { it.isNotEmpty() }
         // TODO
         .debounce(500.milliseconds)
-        .flatMapLatest { query -> searchNeighborhoodByQuery(query) }
+        .flatMapLatest { query -> searchNeighborhoodByQueryUseCase(query) }
         .conflate()
 
     private val coordinates = MutableStateFlow<Coordinates?>(null)
 
     private val searchByCoordinatesResult = coordinates.filterNotNull()
-        .flatMapConcat { coordinates -> searchNeighborhoodByCoordinates(coordinates) }
+        .flatMapConcat { coordinates -> searchNeighborhoodByCoordinatesUseCase(coordinates) }
 
     // TODO
     val searchResults = flowOf(searchByQueryResult, searchByCoordinatesResult)

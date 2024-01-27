@@ -104,7 +104,7 @@ fun WorkDateTimesPostSection(
             )
 
             when (selectedWorkPeriod) {
-                WorkPeriod.OneTime -> {
+                WorkPeriod.ShortTerm -> {
                     OneTimeWorkDates(
                         onAddDateClick = onAddDateClick,
                         selectedDates = selectedDates,
@@ -179,7 +179,7 @@ private fun WorkPeriods(
 
 @Composable
 private fun WorkPeriod.displayName(): String = when (this) {
-    WorkPeriod.OneTime -> stringResource(R.string.short_term)
+    WorkPeriod.ShortTerm -> stringResource(R.string.short_term)
     WorkPeriod.Regular -> stringResource(R.string.regular)
 }
 
@@ -460,7 +460,7 @@ fun Negotiable(
 @Composable
 private fun WorkDateTimes_OneTime() {
     WorkDateTimesPostSection(
-        selectedWorkPeriod = WorkPeriod.OneTime,
+        selectedWorkPeriod = WorkPeriod.ShortTerm,
         onWorkPeriodSelected = {},
         selectedDates = emptyList(),
         onAddDateClick = {},
@@ -485,7 +485,7 @@ private fun WorkDateTimes_OneTime() {
 @Composable
 private fun WorkDateTimes_OneTime_SelectedDates() {
     WorkDateTimesPostSection(
-        selectedWorkPeriod = WorkPeriod.OneTime,
+        selectedWorkPeriod = WorkPeriod.ShortTerm,
         onWorkPeriodSelected = {},
         selectedDates = buildList {
             add(LocalDate.now().plusDays(1))

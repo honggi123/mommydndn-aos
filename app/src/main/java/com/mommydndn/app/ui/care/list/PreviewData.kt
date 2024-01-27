@@ -4,14 +4,14 @@ import com.mommydndn.app.domain.model.CareType
 import com.mommydndn.app.domain.model.PayPeriod
 import com.mommydndn.app.domain.model.WorkPeriod
 import com.mommydndn.app.ui.care.list.agency.CareAgencyUiModel
-import com.mommydndn.app.ui.care.list.job.CareJobUiModel
-import com.mommydndn.app.ui.care.list.worker.CareWorkerUiModel
+import com.mommydndn.app.ui.care.list.jobposting.CaregiverJobPostingUiModel
+import com.mommydndn.app.ui.care.list.jobapplication.CaregiverJobApplicationUiModel
 import java.time.DayOfWeek
 import java.time.LocalTime
 import java.time.ZonedDateTime
 
 internal val jobs = listOf(
-    CareJobUiModel(
+    CaregiverJobPostingUiModel(
         workPeriod = WorkPeriod.Regular,
         careTypes = setOf(CareType.SeniorCare),
         isClosed = false,
@@ -29,7 +29,7 @@ internal val jobs = listOf(
         payPeriod = PayPeriod.Hourly,
         pay = 12000,
     ),
-    CareJobUiModel(
+    CaregiverJobPostingUiModel(
         workPeriod = WorkPeriod.Regular,
         careTypes = setOf(
             CareType.ChildCare,
@@ -51,8 +51,8 @@ internal val jobs = listOf(
         payPeriod = PayPeriod.Hourly,
         pay = 12000,
     ),
-    CareJobUiModel(
-        workPeriod = WorkPeriod.OneTime,
+    CaregiverJobPostingUiModel(
+        workPeriod = WorkPeriod.ShortTerm,
         careTypes = setOf(CareType.ChildCare),
         isClosed = true,
         title = "담주 화목 봐주실 분 구해요!",
@@ -70,8 +70,8 @@ internal val jobs = listOf(
         payPeriod = PayPeriod.Hourly,
         pay = 10000,
     ),
-    CareJobUiModel(
-        workPeriod = WorkPeriod.OneTime,
+    CaregiverJobPostingUiModel(
+        workPeriod = WorkPeriod.ShortTerm,
         careTypes = setOf(CareType.ChildCare),
         isClosed = false,
         title = "오늘 당장 구해요",
@@ -88,7 +88,7 @@ internal val jobs = listOf(
 )
 
 internal val workers = listOf(
-    CareWorkerUiModel(
+    CaregiverJobApplicationUiModel(
         profileImageUrl = "http://www.bing.com/search?q=menandri",
         dndnCertified = true,
         nickname = "세아쌤",
@@ -104,7 +104,7 @@ internal val workers = listOf(
         reviewCount = 14,
         responseRate = 100,
     ),
-    CareWorkerUiModel(
+    CaregiverJobApplicationUiModel(
         profileImageUrl = "http://www.bing.com/search?q=menandri",
         dndnCertified = false,
         nickname = "수아",

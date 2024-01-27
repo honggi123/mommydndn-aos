@@ -32,7 +32,7 @@ internal val PayPeriod.displayName: String
 
 @Composable
 internal fun WorkPeriod.displayName(): String = when (this) {
-    WorkPeriod.OneTime -> stringResource(R.string.one_time)
+    WorkPeriod.ShortTerm -> stringResource(R.string.one_time)
     WorkPeriod.Regular -> stringResource(R.string.regular)
 }
 
