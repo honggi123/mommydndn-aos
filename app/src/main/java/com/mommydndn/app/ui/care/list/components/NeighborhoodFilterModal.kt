@@ -50,11 +50,11 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mommydndn.app.R
-import com.mommydndn.app.domain.model.NearbyNeighborhoodDistance
-import com.mommydndn.app.domain.model.NearbyNeighborhoodDistance.Distant
-import com.mommydndn.app.domain.model.NearbyNeighborhoodDistance.Immediate
-import com.mommydndn.app.domain.model.NearbyNeighborhoodDistance.Close
-import com.mommydndn.app.domain.model.NearbyNeighborhoodDistance.Far
+import com.mommydndn.app.domain.model.NeighborhoodVicinityLevel
+import com.mommydndn.app.domain.model.NeighborhoodVicinityLevel.Distant
+import com.mommydndn.app.domain.model.NeighborhoodVicinityLevel.Immediate
+import com.mommydndn.app.domain.model.NeighborhoodVicinityLevel.Nearby
+import com.mommydndn.app.domain.model.NeighborhoodVicinityLevel.VeryDistant
 import com.mommydndn.app.ui.theme.Grey50
 import com.mommydndn.app.ui.theme.Grey500
 import com.mommydndn.app.ui.theme.Grey600
@@ -71,17 +71,17 @@ import com.mommydndn.app.ui.theme.paragraph400
 data class NeighborhoodFilterUiModel(
     val neighborhoodId: Int,
     val neighborhoodName: String,
-    val nearbyNeighborhoodDistance: NearbyNeighborhoodDistance,
+    val neighborhoodVicinityLevel: NeighborhoodVicinityLevel,
     val immediateNeighborhoodsCount: Int,
     val nearbyNeighborhoodsCount: Int,
     val distantNeighborhoodsCount: Int,
     val veryDistantNeighborhoodsCount: Int,
 ) {
-    val neighborhoodsCount: Int = when (nearbyNeighborhoodDistance) {
+    val neighborhoodsCount: Int = when (neighborhoodVicinityLevel) {
         Immediate -> immediateNeighborhoodsCount
-        Close -> nearbyNeighborhoodsCount
+        Nearby -> nearbyNeighborhoodsCount
         Distant -> distantNeighborhoodsCount
-        Far -> veryDistantNeighborhoodsCount
+        VeryDistant -> veryDistantNeighborhoodsCount
     }
 }
 
@@ -93,7 +93,7 @@ fun NeighborhoodFilterModal(
     modifier: Modifier = Modifier,
 ) {
     val nearbyNeighborhoodDistance by remember {
-        mutableStateOf(neighborhood.nearbyNeighborhoodDistance)
+        mutableStateOf(neighborhood.neighborhoodVicinityLevel)
     }
 
     val sliderPosition = remember {
@@ -105,7 +105,7 @@ fun NeighborhoodFilterModal(
         onApplyClick = {
             onApplyClick(
                 neighborhood.copy(
-                    nearbyNeighborhoodDistance = nearbyNeighborhoodDistance,
+                    neighborhoodVicinityLevel = nearbyNeighborhoodDistance,
                 )
             )
         },
@@ -186,20 +186,20 @@ private fun NeighborhoodFilterTitle(
 @Composable
 private fun NearbyNeighborhoodDistance(
     neighborhoodName: String,
-    neighborhoodDistance: NearbyNeighborhoodDistance,
+    neighborhoodDistance: NeighborhoodVicinityLevel,
     modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier
             .run {
-                if (neighborhoodDistance == Far) {
+                if (neighborhoodDistance == VeryDistant) {
                     border(1.dp, Salmon300, RoundedCornerShape(12.dp))
                 } else {
                     this
                 }
             }
             .background(
-                if (neighborhoodDistance == Far) {
+                if (neighborhoodDistance == VeryDistant) {
                     Salmon100
                 } else {
                     Grey50
@@ -229,13 +229,13 @@ private fun NearbyNeighborhoodDistance(
                 )
             }
 
-            if (neighborhoodDistance >= Close) {
+            if (neighborhoodDistance >= Nearby) {
                 Box(
                     modifier = Modifier
                         .size(138.dp)
                         .background(Salmon100, CircleShape)
                         .run {
-                            if (neighborhoodDistance == Close) {
+                            if (neighborhoodDistance == Nearby) {
                                 border(1.dp, Salmon300, CircleShape)
                             } else {
                                 this
@@ -399,7 +399,7 @@ private fun NearbyNeighborhoodDistanceSliderTrack(
 private val neighborhoodDummy = NeighborhoodFilterUiModel(
     neighborhoodId = 0,
     neighborhoodName = "방배동",
-    nearbyNeighborhoodDistance = Immediate,
+    neighborhoodVicinityLevel = Immediate,
     immediateNeighborhoodsCount = 0,
     nearbyNeighborhoodsCount = 5,
     distantNeighborhoodsCount = 9,
@@ -422,7 +422,7 @@ private fun NeighborhoodFilterModalImmediate() {
 private fun NeighborhoodFilterModalNearby() {
     NeighborhoodFilterModal(
         neighborhood = neighborhoodDummy.copy(
-            nearbyNeighborhoodDistance = Close
+            neighborhoodVicinityLevel = Nearby
         ),
         onCloseClick = {},
         onApplyClick = {},
@@ -435,7 +435,7 @@ private fun NeighborhoodFilterModalNearby() {
 private fun NeighborhoodFilterModalDistant() {
     NeighborhoodFilterModal(
         neighborhood = neighborhoodDummy.copy(
-            nearbyNeighborhoodDistance = Distant
+            neighborhoodVicinityLevel = Distant
         ),
         onCloseClick = {},
         onApplyClick = {},
@@ -448,7 +448,7 @@ private fun NeighborhoodFilterModalDistant() {
 private fun NeighborhoodFilterModalVeryDistant() {
     NeighborhoodFilterModal(
         neighborhood = neighborhoodDummy.copy(
-            nearbyNeighborhoodDistance = Far
+            neighborhoodVicinityLevel = VeryDistant
         ),
         onCloseClick = {},
         onApplyClick = {},

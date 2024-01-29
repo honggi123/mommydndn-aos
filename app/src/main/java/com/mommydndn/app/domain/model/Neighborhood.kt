@@ -8,11 +8,11 @@ data class Neighborhood(
     val name: String, // 동 이름
 )
 
-enum class NearbyNeighborhoodDistance {
+enum class NeighborhoodVicinityLevel {
     Immediate,
-    Close,
+    Nearby,
     Distant,
-    Far
+    VeryDistant
 }
 
 data class AvailableNeighborhoods(

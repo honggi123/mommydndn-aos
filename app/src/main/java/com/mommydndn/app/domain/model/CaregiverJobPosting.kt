@@ -4,15 +4,15 @@ import java.util.Date
 
 data class CaregiverJobPosting(
     val id: String,
-    val employer: User, // TODO
+    val employer: User,
     val title: String,
     val content: String,
     val careTypes: List<CareType>,
     val pay: Pay,
     val workTime: WorkTime,
     val location: Location,
-    val images: List<Image>,
     val preferences: List<CaregiverPreference>,
+    val images: List<Image>,
     val applicantsCount: Int,
     val likesCount: Int,
     val viewsCount: Int,

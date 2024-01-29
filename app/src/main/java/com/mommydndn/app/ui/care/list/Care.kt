@@ -34,7 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mommydndn.app.R
-import com.mommydndn.app.domain.model.NearbyNeighborhoodDistance
+import com.mommydndn.app.domain.model.NeighborhoodVicinityLevel
 import com.mommydndn.app.domain.model.Neighborhood
 import com.mommydndn.app.ui.care.list.components.FilterChip
 import com.mommydndn.app.ui.care.list.filter.CareFilter
@@ -100,8 +100,8 @@ data class NeighborhoodUiModel(
     val id: Long,
     val name: String,
     val address: String,
-    val nearbyDistance: NearbyNeighborhoodDistance,
-    val nearbyNeighborhoods: Map<NearbyNeighborhoodDistance, List<Neighborhood>>,
+    val nearbyDistance: NeighborhoodVicinityLevel,
+    val nearbyNeighborhoods: Map<NeighborhoodVicinityLevel, List<Neighborhood>>,
 )
 
 @Composable
@@ -312,20 +312,20 @@ private fun CarePreview() {
         id = 0,
         name = "서초동",
         address = "서울 서초구 서초중앙로 15",
-        nearbyDistance = NearbyNeighborhoodDistance.Far,
+        nearbyDistance = NeighborhoodVicinityLevel.VeryDistant,
         nearbyNeighborhoods = mapOf(
-            NearbyNeighborhoodDistance.Immediate to emptyList(),
-            NearbyNeighborhoodDistance.Close to buildList {
+            NeighborhoodVicinityLevel.Immediate to emptyList(),
+            NeighborhoodVicinityLevel.Nearby to buildList {
                 repeat(5) {
                     add(fakeNeighborhood)
                 }
             },
-            NearbyNeighborhoodDistance.Distant to buildList {
+            NeighborhoodVicinityLevel.Distant to buildList {
                 repeat(17) {
                     add(fakeNeighborhood)
                 }
             },
-            NearbyNeighborhoodDistance.Far to buildList {
+            NeighborhoodVicinityLevel.VeryDistant to buildList {
                 repeat(24) {
                     add(fakeNeighborhood)
                 }
