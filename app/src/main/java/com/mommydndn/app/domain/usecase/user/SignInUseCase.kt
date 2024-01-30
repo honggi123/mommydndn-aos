@@ -15,11 +15,18 @@ class SignInUseCase @Inject constructor(
 ) : UseCase<SignInParams, Unit>(coroutineDispatcher) {
 
     override suspend fun execute(parameters: SignInParams) {
-        TODO()
+        parameters.apply {
+            repository.signIn(
+                oauthProvider = oauthProvider,
+                accessToken = accessToken,
+                deviceToken = deviceToken
+            )
+        }
     }
 }
 
 data class SignInParams(
     val oauthProvider: OAuthProvider,
-    val accessToken: String
+    val accessToken: String,
+    val deviceToken: String
 )

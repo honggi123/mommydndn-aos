@@ -8,13 +8,13 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SignInWithGoogleUseCase @Inject constructor(
+class GetGoogleAccessTokenUseCase @Inject constructor(
     @IODispatcher coroutineDispatcher: CoroutineDispatcher,
     private val repository: UserRepository,
 ) : UseCase<SignInWithGoogleParams, String>(coroutineDispatcher) {
 
     override suspend fun execute(parameters: SignInWithGoogleParams): String {
-        TODO()
+       return repository.getGoogleAccessToken(parameters.authCode)
     }
 }
 
