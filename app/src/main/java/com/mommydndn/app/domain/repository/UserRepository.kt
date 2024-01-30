@@ -1,5 +1,15 @@
 package com.mommydndn.app.domain.repository
 
-interface UserRepository {
+import com.mommydndn.app.domain.model.OAuthProvider
 
+interface UserRepository {
+    suspend fun signIn(
+        oauthProvider: OAuthProvider,
+        accessToken: String,
+        deviceToken: String
+    )
+
+    suspend fun getGoogleAccessToken(
+        authCode: String
+    ): String
 }
