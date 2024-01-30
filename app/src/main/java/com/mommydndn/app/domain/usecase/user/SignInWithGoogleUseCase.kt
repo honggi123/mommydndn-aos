@@ -27,5 +27,5 @@ class SignInWithGoogleUseCase @Inject constructor(
 }
 
 data class SignInWithGoogleParams(
-    val authCode: String,
+    val authCode: String
 )

@@ -26,5 +26,5 @@ class SignInWithNaverUseCase @Inject constructor(
 }
 
 data class SignInWithNaverParams(
-    val accessToken: String,
+    val accessToken: String
 )
