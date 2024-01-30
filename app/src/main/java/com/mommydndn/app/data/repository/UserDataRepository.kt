@@ -8,6 +8,7 @@ import com.mommydndn.app.data.network.service.request.SignInRequest
 import com.mommydndn.app.domain.model.OAuthProvider
 import com.mommydndn.app.domain.repository.UserRepository
 import com.mommydndn.app.BuildConfig
+import com.mommydndn.app.data.mapper.toNetwork
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,7 +21,7 @@ class UserDataRepository @Inject constructor(
     override suspend fun signIn(
         oauthProvider: OAuthProvider,
         accessToken: String,
-        deviceToken: String
+        deviceToken: String?
     ) {
         userService.signIn(
             SignInRequest(
@@ -44,15 +45,5 @@ class UserDataRepository @Inject constructor(
         )
         return result.accessToken
     }
-
-    private fun OAuthProvider.toNetwork(): NetworkOAuthProvider {
-        return when (this) {
-            OAuthProvider.Google -> NetworkOAuthProvider.GOOGLE
-            OAuthProvider.Naver -> NetworkOAuthProvider.NAVER
-            OAuthProvider.Kakao -> NetworkOAuthProvider.KAKAO
-            // TODO add enum apple provider
-        }
-    }
-
 }
 
