@@ -1,5 +1,7 @@
 package com.mommydndn.app.data.repository
 
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.mommydndn.app.data.network.model.NetworkOAuthProvider
 import com.mommydndn.app.data.network.service.GoogleService
 import com.mommydndn.app.data.network.service.UserService
@@ -9,8 +11,10 @@ import com.mommydndn.app.domain.model.OAuthProvider
 import com.mommydndn.app.domain.repository.UserRepository
 import com.mommydndn.app.BuildConfig
 import com.mommydndn.app.data.mapper.toNetwork
+import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.coroutines.resume
 
 @Singleton
 class UserDataRepository @Inject constructor(
@@ -44,6 +48,20 @@ class UserDataRepository @Inject constructor(
             )
         )
         return result.accessToken
+    }
+
+    override suspend fun getFirebaseFcmToken(): String? {
+        return suspendCancellableCoroutine { continuation ->
+            FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    continuation.resume(null)
+                    return@OnCompleteListener
+                }
+                continuation.resume(task.result)
+            }).addOnFailureListener { exception ->
+                continuation.resume(null)
+            }
+        }
     }
 }
 

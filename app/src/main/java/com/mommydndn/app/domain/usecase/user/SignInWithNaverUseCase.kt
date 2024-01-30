@@ -9,24 +9,22 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SignInUseCase @Inject constructor(
+class SignInWithNaverUseCase @Inject constructor(
     @IODispatcher coroutineDispatcher: CoroutineDispatcher,
     private val repository: UserRepository,
-) : UseCase<SignInParams, Unit>(coroutineDispatcher) {
+) : UseCase<SignInWithNaverParams, Unit>(coroutineDispatcher) {
 
-    override suspend fun execute(parameters: SignInParams) {
-        parameters.apply {
-            repository.signIn(
-                oauthProvider = oauthProvider,
-                accessToken = accessToken,
-                deviceToken = deviceToken
-            )
-        }
+    override suspend fun execute(parameters: SignInWithNaverParams) {
+        val deviceToken = repository.getFirebaseFcmToken()
+
+        repository.signIn(
+            oauthProvider = OAuthProvider.Naver,
+            accessToken = parameters.accessToken,
+            deviceToken = deviceToken
+        )
     }
 }
 
-data class SignInParams(
-    val oauthProvider: OAuthProvider,
+data class SignInWithNaverParams(
     val accessToken: String,
-    val deviceToken: String?
 )

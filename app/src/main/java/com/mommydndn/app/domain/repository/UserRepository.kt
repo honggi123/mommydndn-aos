@@ -14,4 +14,6 @@ interface UserRepository {
         authCode: String
     ): String
 
+    suspend fun getFirebaseFcmToken(): String?
+
 }
