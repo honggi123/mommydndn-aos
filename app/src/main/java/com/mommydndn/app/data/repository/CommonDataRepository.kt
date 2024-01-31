@@ -1,5 +1,6 @@
 package com.mommydndn.app.data.repository
 
+import com.mommydndn.app.data.mapper.toDomain
 import com.mommydndn.app.data.network.service.CommonService
 import com.mommydndn.app.domain.model.Banner
 import com.mommydndn.app.domain.model.Image
@@ -15,7 +16,7 @@ class CommonDataRepository @Inject constructor(
 ) : CommonRepositoy {
 
     override suspend fun getBanners(): List<Banner> {
-        TODO()
+       return commonService.getBanners().toDomain()
     }
 
     override suspend fun uploadFiles(files: List<File>): List<Image> {
