@@ -15,12 +15,9 @@ class SignInWithKakaoUseCase @Inject constructor(
 ) : UseCase<SignInWithKakaoParams, Unit>(coroutineDispatcher) {
 
     override suspend fun execute(parameters: SignInWithKakaoParams) {
-        val deviceToken = repository.getFirebaseFcmToken()
-
         repository.signIn(
             oauthProvider = OAuthProvider.Kakao,
             accessToken = parameters.accessToken,
-            deviceToken = deviceToken
         )
     }
 }

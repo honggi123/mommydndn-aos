@@ -10,11 +10,9 @@ import com.mommydndn.app.data.network.service.request.SignInRequest
 import com.mommydndn.app.domain.model.OAuthProvider
 import com.mommydndn.app.domain.repository.UserRepository
 import com.mommydndn.app.BuildConfig
-import com.mommydndn.app.data.mapper.toNetwork
-import kotlinx.coroutines.suspendCancellableCoroutine
+import com.mommydndn.app.data.mapper.transformToOAuthProvider
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.coroutines.resume
 
 @Singleton
 class UserDataRepository @Inject constructor(
@@ -25,13 +23,11 @@ class UserDataRepository @Inject constructor(
     override suspend fun signIn(
         oauthProvider: OAuthProvider,
         accessToken: String,
-        deviceToken: String?
     ) {
         userService.signIn(
             SignInRequest(
                 accessToken = accessToken,
-                oauthProvider = oauthProvider.toNetwork(),
-                deviceToken = deviceToken
+                oauthProvider = oauthProvider.transformToOAuthProvider(),
             )
         )
     }
@@ -50,18 +46,5 @@ class UserDataRepository @Inject constructor(
         return result.accessToken
     }
 
-    override suspend fun getFirebaseFcmToken(): String? {
-        return suspendCancellableCoroutine { continuation ->
-            FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-                if (!task.isSuccessful) {
-                    continuation.resume(null)
-                    return@OnCompleteListener
-                }
-                continuation.resume(task.result)
-            }).addOnFailureListener { exception ->
-                continuation.resume(null)
-            }
-        }
-    }
 }
 

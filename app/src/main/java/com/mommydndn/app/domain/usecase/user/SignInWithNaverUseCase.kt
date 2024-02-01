@@ -15,12 +15,9 @@ class SignInWithNaverUseCase @Inject constructor(
 ) : UseCase<SignInWithNaverParams, Unit>(coroutineDispatcher) {
 
     override suspend fun execute(parameters: SignInWithNaverParams) {
-        val deviceToken = repository.getFirebaseFcmToken()
-
         repository.signIn(
             oauthProvider = OAuthProvider.Naver,
             accessToken = parameters.accessToken,
-            deviceToken = deviceToken
         )
     }
 }

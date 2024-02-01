@@ -16,12 +16,10 @@ class SignInWithGoogleUseCase @Inject constructor(
 
     override suspend fun execute(parameters: SignInWithGoogleParams): Unit {
         val accessToken = repository.getGoogleAccessToken(parameters.authCode)
-        val deviceToken = repository.getFirebaseFcmToken()
 
         repository.signIn(
             oauthProvider = OAuthProvider.Google,
-            accessToken = accessToken,
-            deviceToken = deviceToken
+            accessToken = accessToken
         )
     }
 }

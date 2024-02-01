@@ -3,7 +3,7 @@ package com.mommydndn.app.data.mapper
 import com.mommydndn.app.data.network.model.NetworkOAuthProvider
 import com.mommydndn.app.domain.model.OAuthProvider
 
-fun OAuthProvider.toNetwork(): NetworkOAuthProvider {
+fun OAuthProvider.transformToOAuthProvider(): NetworkOAuthProvider {
     return when (this) {
         OAuthProvider.Google -> NetworkOAuthProvider.GOOGLE
         OAuthProvider.Naver -> NetworkOAuthProvider.NAVER
