@@ -6,7 +6,15 @@ data class Neighborhood(
     val province: String, // 도
     val city: String, // 시, 군, 구
     val name: String, // 동 이름
-)
+) {
+    constructor() : this(
+        id = "",
+        address = "",
+        province = "",
+        city = "",
+        name = ""
+    )
+}
 
 enum class NeighborhoodVicinityLevel {
     Immediate,
@@ -18,7 +26,12 @@ enum class NeighborhoodVicinityLevel {
 data class AvailableNeighborhoods(
     val neighborhood: Neighborhood,
     val nearbyNeighborhoods: List<Neighborhood>,
-)
+) {
+    constructor() : this(
+        neighborhood = Neighborhood(),
+        nearbyNeighborhoods = emptyList()
+    )
+}
 
 data class Coordinates(
     val latitude: Latitude,

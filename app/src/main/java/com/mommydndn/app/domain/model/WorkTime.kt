@@ -11,7 +11,14 @@ data class ShortTermWorkTime(
     val startTime: LocalTime,
     val endTime: LocalTime,
     val flexible: Boolean,
-) : WorkTime
+) : WorkTime {
+    constructor() : this(
+        dates = emptyList(),
+        startTime = LocalTime.now(),
+        endTime = LocalTime.now(),
+        flexible = false
+    )
+}
 
 data class RegularWorkTime(
     val daysOfWeek: List<DayOfWeek>,
