@@ -1,5 +1,6 @@
 package com.mommydndn.app.data.repository
 
+import com.mommydndn.app.data.mapper.toDomain
 import com.mommydndn.app.data.network.service.CareService
 import com.mommydndn.app.domain.model.CaregiverJobPosting
 import com.mommydndn.app.domain.repository.CaregiverJobPostingRepository
@@ -12,6 +13,7 @@ class CaregiverJobPostingDataRepository @Inject constructor(
 ) : CaregiverJobPostingRepository {
 
     override suspend fun getNearbyCaregiverJobPostings(): List<CaregiverJobPosting> {
-       TODO()
+        return careService.getNearbyCareJobs()
+            .toDomain()
     }
 }

@@ -1,6 +1,8 @@
 package com.mommydndn.app.data.repository
 
 import androidx.paging.PagingData
+import com.mommydndn.app.data.mapper.toDomain
+import com.mommydndn.app.data.mapper.transformToDomainCaregiverJobApplication
 import com.mommydndn.app.data.network.service.CareService
 import com.mommydndn.app.domain.model.CaregiverJobApplication
 import com.mommydndn.app.domain.repository.CaregiverJobApplicationRepository
@@ -30,8 +32,8 @@ class CaregiverJobApplicationDataRepository @Inject constructor(
     }
 
     override suspend fun getNearestCaregiverJobApplication(): List<CaregiverJobApplication> {
-//        return careService.getNearbyCareJobs()
-        TODO()
+        return careService.getNearbyCareWorkers()
+            .transformToDomainCaregiverJobApplication()
     }
 
 }

@@ -16,7 +16,8 @@ class CommonDataRepository @Inject constructor(
 ) : CommonRepositoy {
 
     override suspend fun getBanners(): List<Banner> {
-       return commonService.getBanners().toDomain()
+       return commonService.getBanners()
+           .toDomain()
     }
 
     override suspend fun uploadFiles(files: List<File>): List<Image> {
