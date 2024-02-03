@@ -3,10 +3,9 @@ package com.mommydndn.app.ui.signin
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mommydndn.app.domain.model.OAuthProvider
-import com.mommydndn.app.domain.usecase.user.SignInParams
-import com.mommydndn.app.domain.usecase.user.SignInUseCase
-import com.mommydndn.app.domain.usecase.user.SignInWithGoogleParams
 import com.mommydndn.app.domain.usecase.user.SignInWithGoogleUseCase
+import com.mommydndn.app.domain.usecase.user.SignInWithKakaoUseCase
+import com.mommydndn.app.domain.usecase.user.SignInWithNaverUseCase
 import com.mommydndn.app.utils.result.Result
 import com.mommydndn.app.utils.result.data
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,44 +13,51 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
-    private val signInUseCase: SignInUseCase,
-    private val signInWithGoogleUseCase: SignInWithGoogleUseCase
+    private val signInWithKakaoUseCase: SignInWithKakaoUseCase,
+    private val signInWithNaverUseCase: SignInWithNaverUseCase,
+    private val signInWithGoogleUseCase: SignInWithGoogleUseCase,
 ) : ViewModel() {
 
-    private val _uiState: MutableStateFlow<SignInUiState> = MutableStateFlow(SignInUiState.Loading)
+    private val _uiState: MutableStateFlow<SignInUiState> =
+        MutableStateFlow(SignInUiState.LoadSuccess)
     val uiState: StateFlow<SignInUiState> = _uiState.asStateFlow()
 
-    fun signInWithGoogle(authCode: String) {
+    fun signIn(
+        oauthProvider: OAuthProvider,
+        accessToken: String,
+        googleAuthCode: String? = null
+    ) {
         viewModelScope.launch {
-            signInWithGoogleUseCase(SignInWithGoogleParams(authCode)).let { result ->
-                if (result is Result.Failure) {
-                    _uiState.emit(SignInUiState.Failure(result.exception))
-                } else {
-                    result.data?.let { accessToken ->
-                        signIn(OAuthProvider.Google, accessToken)
+            when (oauthProvider) {
+                OAuthProvider.Naver -> signInWithNaverUseCase(accessToken)
+                OAuthProvider.Kakao -> signInWithKakaoUseCase(accessToken)
+                OAuthProvider.Google -> {
+                    if (googleAuthCode != null) {
+                        signInWithGoogleUseCase(googleAuthCode)
+                    } else {
+                        TODO()
                     }
                 }
-            }
-        }
-    }
+            }.let { result ->
+                val uiState = when (result) {
+                    is Result.Success -> SignInUiState.SignInSuccess
+                    is Result.Loading -> SignInUiState.SignInLoading
+                    is Result.Failure -> {
+                        val exception = result.exception
+                        when {
+                            exception is HttpException && exception.code() == 403 ->
+                                SignInUiState.NotSignedUpYet(accessToken, oauthProvider)
 
-    fun signIn(oauthProvider: OAuthProvider, accessToken: String) {
-        viewModelScope.launch {
-            signInUseCase(SignInParams(oauthProvider, accessToken)).let { result ->
-                val uiState = if (result is Result.Failure) {
-                    // todo: not signed up yet
-                    /*
-                    SignInUiState.NotSignedUpYet(accessToken, oAuthProvider)
-                     */
-                    SignInUiState.Failure(result.exception)
-                } else {
-                    SignInUiState.Success
+                            else ->
+                                SignInUiState.SignInFailure(exception)
+                        }
+                    }
                 }
-
                 _uiState.emit(uiState)
             }
         }
@@ -60,12 +66,15 @@ class SignInViewModel @Inject constructor(
 
 sealed interface SignInUiState {
 
-    data object Loading : SignInUiState
+    data object LoadSuccess : SignInUiState
 
-    data object Success : SignInUiState
+    data object SignInLoading : SignInUiState
 
-    data class Failure(val exception: Exception) : SignInUiState
+    data class SignInFailure(val exception: Exception) : SignInUiState
+
+    data object SignInSuccess : SignInUiState
 
     data class NotSignedUpYet(val accessToken: String, val oAuthProvider: OAuthProvider) :
         SignInUiState
+
 }
