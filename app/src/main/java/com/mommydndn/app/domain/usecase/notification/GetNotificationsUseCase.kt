@@ -15,6 +15,6 @@ class GetNotificationsUseCase @Inject constructor(
 ) : UseCase<Unit, List<Notification>>(coroutineDispatcher) {
 
     override suspend fun execute(parameters: Unit): List<Notification> {
-        TODO()
+        return repository.getNotifications()
     }
 }
