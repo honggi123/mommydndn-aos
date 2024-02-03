@@ -14,5 +14,5 @@ interface CaregiverJobApplicationRepository {
 
     suspend fun updateCareWorkerProfile()
 
-    suspend fun getNearestCaregiverJobApplication() : List<CaregiverJobApplication>
+    suspend fun getNearbytCaregiverJobApplication() : List<CaregiverJobApplication>
 }
