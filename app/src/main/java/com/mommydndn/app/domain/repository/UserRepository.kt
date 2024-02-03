@@ -1,15 +1,8 @@
 package com.mommydndn.app.domain.repository
 
-import com.mommydndn.app.domain.model.OAuthProvider
+import com.mommydndn.app.domain.model.Notification
 
 interface UserRepository {
-    suspend fun signIn(
-        oauthProvider: OAuthProvider,
-        accessToken: String,
-        deviceToken: String
-    )
 
-    suspend fun getGoogleAccessToken(
-        authCode: String
-    ): String
+    suspend fun updateNotificationsAllowed(list: List<Notification>)
 }
