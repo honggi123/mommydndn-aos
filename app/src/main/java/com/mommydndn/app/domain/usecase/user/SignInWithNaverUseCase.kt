@@ -8,20 +8,19 @@ import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 import javax.inject.Singleton
 
+typealias NaverAccessToken = String
+
 @Singleton
 class SignInWithNaverUseCase @Inject constructor(
     @IODispatcher coroutineDispatcher: CoroutineDispatcher,
     private val repository: UserRepository,
-) : UseCase<SignInWithNaverParams, Unit>(coroutineDispatcher) {
+) : UseCase<NaverAccessToken, Unit>(coroutineDispatcher) {
 
-    override suspend fun execute(parameters: SignInWithNaverParams) {
+    override suspend fun execute(accessToken: NaverAccessToken) {
         repository.signIn(
             oauthProvider = OAuthProvider.Naver,
-            accessToken = parameters.accessToken,
+            accessToken = accessToken,
         )
     }
 }
 
-data class SignInWithNaverParams(
-    val accessToken: String
-)
