@@ -1,23 +1,26 @@
 package com.mommydndn.app.domain.usecase.user
 
 import com.mommydndn.app.di.IODispatcher
+import com.mommydndn.app.domain.model.OAuthProvider
 import com.mommydndn.app.domain.repository.UserRepository
 import com.mommydndn.app.domain.usecase.UseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 import javax.inject.Singleton
 
+typealias NaverAccessToken = String
+
 @Singleton
-class SignInWithGoogleUseCase @Inject constructor(
+class SignInWithNaverUseCase @Inject constructor(
     @IODispatcher coroutineDispatcher: CoroutineDispatcher,
     private val repository: UserRepository,
-) : UseCase<SignInWithGoogleParams, String>(coroutineDispatcher) {
+) : UseCase<NaverAccessToken, Unit>(coroutineDispatcher) {
 
-    override suspend fun execute(parameters: SignInWithGoogleParams): String {
-        TODO()
+    override suspend fun execute(accessToken: NaverAccessToken) {
+        repository.signIn(
+            oauthProvider = OAuthProvider.Naver,
+            accessToken = accessToken,
+        )
     }
 }
 
-data class SignInWithGoogleParams(
-    val authCode: String
-)

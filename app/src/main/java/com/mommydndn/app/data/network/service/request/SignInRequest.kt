@@ -7,5 +7,4 @@ import kotlinx.serialization.Serializable
 data class SignInRequest(
     val accessToken: String,
     val oauthProvider: NetworkOAuthProvider,
-    val deviceToken: String
 )

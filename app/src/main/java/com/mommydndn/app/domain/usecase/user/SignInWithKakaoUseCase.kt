@@ -8,18 +8,18 @@ import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 import javax.inject.Singleton
 
+typealias KakaoAccessToken = String
+
 @Singleton
-class SignInUseCase @Inject constructor(
+class SignInWithKakaoUseCase @Inject constructor(
     @IODispatcher coroutineDispatcher: CoroutineDispatcher,
     private val repository: UserRepository,
-) : UseCase<SignInParams, Unit>(coroutineDispatcher) {
+) : UseCase<KakaoAccessToken, Unit>(coroutineDispatcher) {
 
-    override suspend fun execute(parameters: SignInParams) {
-        TODO()
+    override suspend fun execute(accessToken: KakaoAccessToken) {
+        repository.signIn(
+            oauthProvider = OAuthProvider.Kakao,
+            accessToken = accessToken,
+        )
     }
 }
-
-data class SignInParams(
-    val oauthProvider: OAuthProvider,
-    val accessToken: String
-)

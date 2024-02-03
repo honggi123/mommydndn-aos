@@ -1,5 +1,7 @@
 package com.mommydndn.app.data.repository
 
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.mommydndn.app.data.network.model.NetworkOAuthProvider
 import com.mommydndn.app.data.network.service.GoogleService
 import com.mommydndn.app.data.network.service.UserService
@@ -8,6 +10,7 @@ import com.mommydndn.app.data.network.service.request.SignInRequest
 import com.mommydndn.app.domain.model.OAuthProvider
 import com.mommydndn.app.domain.repository.UserRepository
 import com.mommydndn.app.BuildConfig
+import com.mommydndn.app.data.mapper.transformToOAuthProvider
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,13 +23,11 @@ class UserDataRepository @Inject constructor(
     override suspend fun signIn(
         oauthProvider: OAuthProvider,
         accessToken: String,
-        deviceToken: String
     ) {
         userService.signIn(
             SignInRequest(
                 accessToken = accessToken,
-                oauthProvider = oauthProvider.toNetwork(),
-                deviceToken = deviceToken
+                oauthProvider = oauthProvider.transformToOAuthProvider(),
             )
         )
     }
@@ -43,15 +44,6 @@ class UserDataRepository @Inject constructor(
             )
         )
         return result.accessToken
-    }
-
-    private fun OAuthProvider.toNetwork(): NetworkOAuthProvider {
-        return when (this) {
-            OAuthProvider.Google -> NetworkOAuthProvider.GOOGLE
-            OAuthProvider.Naver -> NetworkOAuthProvider.NAVER
-            OAuthProvider.Kakao -> NetworkOAuthProvider.KAKAO
-            // TODO add enum apple provider
-        }
     }
 
 }

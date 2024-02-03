@@ -7,7 +7,6 @@ interface UserRepository {
     suspend fun signIn(
         oauthProvider: OAuthProvider,
         accessToken: String,
-        deviceToken: String
     )
 
     suspend fun getGoogleAccessToken(
