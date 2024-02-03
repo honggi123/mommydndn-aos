@@ -13,8 +13,8 @@ class UserDataRepository @Inject constructor(
     private val userService: UserService
 ) : UserRepository {
 
-    override suspend fun updateNotificationsAllowed(list: List<Notification>) {
-        val requset = list.map {
+    override suspend fun updateNotificationsAllowed(notifications: List<Notification>) {
+        val requset = notifications.map {
             UpdateNotificationAllowed(
                 id = it.type.id.toInt(),
                 isAllowed = it.isAllowed

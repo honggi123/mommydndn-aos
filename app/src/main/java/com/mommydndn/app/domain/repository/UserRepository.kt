@@ -4,5 +4,5 @@ import com.mommydndn.app.domain.model.Notification
 
 interface UserRepository {
 
-    suspend fun updateNotificationsAllowed(list: List<Notification>)
+    suspend fun updateNotificationsAllowed(notifications: List<Notification>)
 }
