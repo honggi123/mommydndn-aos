@@ -3,6 +3,7 @@ package com.mommydndn.app.data.network.service
 import com.mommydndn.app.data.network.model.NetworkUser
 import com.mommydndn.app.data.network.service.request.SignInRequest
 import com.mommydndn.app.data.network.service.request.SignUpRequest
+import com.mommydndn.app.data.network.service.request.UpdateNotificationsAllowedRequest
 import com.mommydndn.app.data.network.service.request.UpdateProfileImageRequest
 import com.mommydndn.app.data.network.service.response.RefreshAccessTokenResponse
 import com.mommydndn.app.data.network.service.response.SignInResponse
@@ -28,5 +29,8 @@ interface UserService {
 
     @PUT("/api/user/profile-image")
     suspend fun updateProfileImage(@Body request: UpdateProfileImageRequest)
+
+    @PUT("/api/notice/setting")
+    suspend fun updateNotificationsAllowed(@Body request: UpdateNotificationsAllowedRequest)
 }
 
