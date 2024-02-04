@@ -20,7 +20,7 @@ class GetGoogleTokenUseCase @Inject constructor(
 
     override suspend fun execute(authCode: GoogleAuthCode): String {
         if (authCode.isNullOrBlank()) {
-            throw Exception("token null")
+            throw Exception("authCode null")
         } else {
             return repository.getGoogleAccessToken(authCode)
         }
