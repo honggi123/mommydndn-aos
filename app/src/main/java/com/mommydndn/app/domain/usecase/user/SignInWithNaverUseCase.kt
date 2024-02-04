@@ -5,10 +5,11 @@ import com.mommydndn.app.domain.model.OAuthProvider
 import com.mommydndn.app.domain.repository.UserRepository
 import com.mommydndn.app.domain.usecase.UseCase
 import kotlinx.coroutines.CoroutineDispatcher
+import java.lang.Exception
 import javax.inject.Inject
 import javax.inject.Singleton
 
-typealias NaverAccessToken = String
+typealias NaverAccessToken = String?
 
 @Singleton
 class SignInWithNaverUseCase @Inject constructor(
@@ -16,11 +17,15 @@ class SignInWithNaverUseCase @Inject constructor(
     private val repository: UserRepository,
 ) : UseCase<NaverAccessToken, Unit>(coroutineDispatcher) {
 
-    override suspend fun execute(accessToken: NaverAccessToken) {
-        repository.signIn(
-            oauthProvider = OAuthProvider.Naver,
-            accessToken = accessToken,
-        )
+    override suspend fun execute(token: NaverAccessToken) {
+        if (token == null) {
+            throw Exception("token null")
+        } else {
+            repository.signIn(
+                oauthProvider = OAuthProvider.Naver,
+                accessToken = token,
+            )
+        }
     }
 }
 

@@ -3,6 +3,7 @@ package com.mommydndn.app.ui.signin
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mommydndn.app.domain.model.OAuthProvider
+import com.mommydndn.app.domain.usecase.user.GetGoogleTokenUseCase
 import com.mommydndn.app.domain.usecase.user.GoogleAuthCode
 import com.mommydndn.app.domain.usecase.user.SignInWithGoogleUseCase
 import com.mommydndn.app.domain.usecase.user.SignInWithKakaoUseCase
@@ -19,6 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
+    private val getGoogleTokenUseCase: GetGoogleTokenUseCase,
     private val signInWithKakaoUseCase: SignInWithKakaoUseCase,
     private val signInWithNaverUseCase: SignInWithNaverUseCase,
     private val signInWithGoogleUseCase: SignInWithGoogleUseCase,
@@ -28,41 +30,26 @@ class SignInViewModel @Inject constructor(
         MutableStateFlow(SignInUiState.LoadSuccess)
     val uiState: StateFlow<SignInUiState> = _uiState.asStateFlow()
 
-    fun signInWithAuthCode(
-        oauthProvider: OAuthProvider,
-        authCode: String?
-    ) {
-        viewModelScope.launch {
-            signInWithGoogle(authCode).let { result ->
-                val uiState = when (result) {
-                    is Result.Loading -> SignInUiState.SignInLoading
-                    is Result.Success -> SignInUiState.SignInSuccess
-                    is Result.Failure -> {
-                        val exception = result.exception
-                        when {
-                            exception is HttpException && exception.code() == 403 ->
-                                // SignInUiState.NotSignedUpYet(socialToken, oauthProvider)
-                                TODO()
-
-                            else ->
-                                SignInUiState.SignInFailure(exception)
-                        }
-                    }
-                }
-                _uiState.emit(uiState)
+    // usecase 안에 가야하지 않나?
+    private suspend fun signInWithGoogle(authCode: String?): Result<Unit> {
+       return getGoogleTokenUseCase(authCode).let { result ->
+            when (result) {
+                is Result.Success -> signInWithGoogleUseCase(result.data)
+                else -> TODO()
             }
         }
     }
 
-    fun signInWithSocialToken(
+    fun signIn(
         oauthProvider: OAuthProvider,
-        socialToken: String?,
+        socialToken: String? = null,
+        authCode: String? = null
     ) {
         viewModelScope.launch {
             when (oauthProvider) {
-                OAuthProvider.Naver -> signInWithNaver(socialToken)
-                OAuthProvider.Kakao -> signInWithKakao(socialToken)
-                else -> Result.Failure(Exception("not need token"))
+                OAuthProvider.Naver -> signInWithNaverUseCase(socialToken)
+                OAuthProvider.Kakao -> signInWithKakaoUseCase(socialToken)
+                OAuthProvider.Google -> signInWithGoogle(authCode)
             }.let { result ->
                 val uiState = when (result) {
                     is Result.Loading -> SignInUiState.SignInLoading
@@ -80,30 +67,6 @@ class SignInViewModel @Inject constructor(
                 }
                 _uiState.emit(uiState)
             }
-        }
-    }
-
-    private suspend fun signInWithKakao(token: String?): Result<Unit> {
-        return if (token != null) {
-            signInWithKakaoUseCase(token)
-        } else {
-            Result.Failure(Exception(message = "token null"))
-        }
-    }
-
-    private suspend fun signInWithNaver(token: String?): Result<Unit> {
-        return if (token != null) {
-            signInWithNaverUseCase(token)
-        } else {
-            Result.Failure(Exception(message = "token null"))
-        }
-    }
-
-    private suspend fun signInWithGoogle(authCode: String?): Result<Unit> {
-        return if (authCode != null) {
-            signInWithGoogleUseCase(authCode)
-        } else {
-            Result.Failure(Exception(message = "authCode null"))
         }
     }
 }

@@ -9,22 +9,20 @@ import java.lang.Exception
 import javax.inject.Inject
 import javax.inject.Singleton
 
-typealias KakaoAccessToken = String?
+// 구글 auth server를 통해 응답 받은 인증 코드 (authorization code)
+typealias GoogleAuthCode = String?
 
 @Singleton
-class SignInWithKakaoUseCase @Inject constructor(
+class GetGoogleTokenUseCase @Inject constructor(
     @IODispatcher coroutineDispatcher: CoroutineDispatcher,
     private val repository: UserRepository,
-) : UseCase<KakaoAccessToken, Unit>(coroutineDispatcher) {
+) : UseCase<GoogleAuthCode, String>(coroutineDispatcher) {
 
-    override suspend fun execute(token: KakaoAccessToken) {
-        if (token == null) {
+    override suspend fun execute(authCode: GoogleAuthCode): String {
+        if (authCode.isNullOrBlank()) {
             throw Exception("token null")
         } else {
-            repository.signIn(
-                oauthProvider = OAuthProvider.Kakao,
-                accessToken = token,
-            )
+            return repository.getGoogleAccessToken(authCode)
         }
     }
 }

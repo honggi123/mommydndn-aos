@@ -5,26 +5,27 @@ import com.mommydndn.app.domain.model.OAuthProvider
 import com.mommydndn.app.domain.repository.UserRepository
 import com.mommydndn.app.domain.usecase.UseCase
 import kotlinx.coroutines.CoroutineDispatcher
+import java.lang.Exception
 import javax.inject.Inject
 import javax.inject.Singleton
 
-
-// 구글 auth server를 통해 응답 받은 인증 코드 (authorization code)
-typealias GoogleAuthCode = String
+typealias GoogleAccessToken = String?
 
 @Singleton
 class SignInWithGoogleUseCase @Inject constructor(
     @IODispatcher coroutineDispatcher: CoroutineDispatcher,
     private val repository: UserRepository,
-) : UseCase<GoogleAuthCode, Unit>(coroutineDispatcher) {
+) : UseCase<GoogleAccessToken, Unit>(coroutineDispatcher) {
 
-    override suspend fun execute(authCode: GoogleAuthCode): Unit {
-        val accessToken = repository.getGoogleAccessToken(authCode)
-
-        repository.signIn(
-            oauthProvider = OAuthProvider.Google,
-            accessToken = accessToken
-        )
+    override suspend fun execute(token: GoogleAccessToken): Unit {
+        if (token == null) {
+            throw Exception("token null")
+        } else {
+            repository.signIn(
+                oauthProvider = OAuthProvider.Google,
+                accessToken = token
+            )
+        }
     }
 }
 
