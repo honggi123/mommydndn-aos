@@ -1,24 +1,19 @@
 package com.mommydndn.app.data.repository
 
-import com.mommydndn.app.data.mapper.mapToDomainBanners
 import com.mommydndn.app.data.network.service.CommonService
-import com.mommydndn.app.domain.model.Banner
+import com.mommydndn.app.data.network.service.ImageService
 import com.mommydndn.app.domain.model.Image
-import com.mommydndn.app.domain.repository.CommonRepositoy
+import com.mommydndn.app.domain.repository.BannerRepository
+import com.mommydndn.app.domain.repository.ImageRepository
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import javax.inject.Inject
 
-class CommonDataRepository @Inject constructor(
-    private val commonService: CommonService
-) : CommonRepositoy {
-
-    override suspend fun getBanners(): List<Banner> {
-       return commonService.getBanners()
-           .mapToDomainBanners()
-    }
+class ImageDataRepository @Inject constructor(
+    private val imageService: ImageService
+) : ImageRepository {
 
     override suspend fun uploadFiles(files: List<File>): List<Image> {
         TODO("Not yet implemented")
@@ -28,7 +23,6 @@ class CommonDataRepository @Inject constructor(
         File(fileName)
             .asRequestBody("image/*".toMediaType())
             .let { request -> MultipartBody.Part.create(request) }
-            .let { commonService.uploadImage(it) }
+            .let { imageService.uploadImage(it) }
     }
 }
-

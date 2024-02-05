@@ -15,6 +15,6 @@ class GetNearbyCaregiverJobApplicationsUseCase @Inject constructor(
 ) : UseCase<Unit, List<CaregiverJobApplication>>(coroutineDispatcher) {
 
     override suspend fun execute(parameters: Unit): List<CaregiverJobApplication> {
-        return repository.getNearbytCaregiverJobApplication()
+        return repository.getNearbyCaregiverJobApplication()
     }
 }

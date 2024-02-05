@@ -30,9 +30,8 @@ class CaregiverJobApplicationDataRepository @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun getNearbytCaregiverJobApplication(): List<CaregiverJobApplication> {
+    override suspend fun getNearbyCaregiverJobApplication(): List<CaregiverJobApplication> {
         return careService.getNearbyCareWorkers()
             .mapToDomainCaregiverJobApplications()
     }
-
 }

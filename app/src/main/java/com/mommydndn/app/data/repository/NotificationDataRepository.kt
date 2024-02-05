@@ -2,6 +2,7 @@ package com.mommydndn.app.data.repository
 
 import com.mommydndn.app.data.mapper.mapToDomainNotifications
 import com.mommydndn.app.data.network.service.NotificationService
+import com.mommydndn.app.data.network.service.request.UpdateNotificationAllowed
 import com.mommydndn.app.domain.model.Notification
 import com.mommydndn.app.domain.repository.NotificationRepository
 import javax.inject.Inject
@@ -17,5 +18,14 @@ class NotificationDataRepository @Inject constructor(
            .mapToDomainNotifications()
     }
 
+    override suspend fun updateNotificationsAllowed(notifications: List<Notification>) {
+        val request = notifications.map {
+            UpdateNotificationAllowed(
+                id = it.type.id.toInt(),
+                isAllowed = it.isAllowed
+            )
+        }
+        return notificationService.updateNotificationsAllowed(request)
+    }
 }
 
