@@ -19,7 +19,7 @@ class SignInWithKakaoUseCase @Inject constructor(
 
     override suspend fun execute(token: KakaoAccessToken) {
         if (token == null) {
-            throw Exception("token null")
+            throw TokenNullException()
         } else {
             repository.signIn(
                 oauthProvider = OAuthProvider.Kakao,

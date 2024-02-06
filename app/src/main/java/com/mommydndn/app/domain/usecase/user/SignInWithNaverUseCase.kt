@@ -19,7 +19,7 @@ class SignInWithNaverUseCase @Inject constructor(
 
     override suspend fun execute(token: NaverAccessToken) {
         if (token == null) {
-            throw Exception("token null")
+            throw TokenNullException()
         } else {
             repository.signIn(
                 oauthProvider = OAuthProvider.Naver,

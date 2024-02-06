@@ -19,7 +19,7 @@ class SignInWithGoogleUseCase @Inject constructor(
 
     override suspend fun execute(token: GoogleAccessToken): Unit {
         if (token == null) {
-            throw Exception("token null")
+            throw TokenNullException()
         } else {
             repository.signIn(
                 oauthProvider = OAuthProvider.Google,
