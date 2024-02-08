@@ -92,7 +92,6 @@ internal fun SocialLoginIconButton(
     onClick: () -> Unit,
     painter: Painter,
     modifier: Modifier = Modifier,
-    contentDescription: String = "SocialLoginIconButton",
 ) {
     IconButton(
         onClick = onClick,
@@ -100,7 +99,7 @@ internal fun SocialLoginIconButton(
     ) {
         Icon(
             painter = painter,
-            contentDescription = contentDescription,
+            contentDescription = "SocialLoginIconButton",
             modifier = Modifier.size(72.dp),
             tint = Color.Unspecified,
         )
