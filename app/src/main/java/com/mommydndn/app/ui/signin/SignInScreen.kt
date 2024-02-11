@@ -38,9 +38,8 @@ import com.mommydndn.app.ui.theme.White
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.OAuthLoginCallback
 
-// TODO: sign_in -> sign_up 플로우 정리 + navigation
 @Composable
-internal fun SignInScreenRoute(
+internal fun SignInRoute(
     onExploreClick: () -> Unit,
     onSignInSuccess: () -> Unit,
     onSignUpNeeded: (accessToken: String, oAuthProvider: OAuthProvider) -> Unit,
@@ -72,7 +71,7 @@ internal fun SignInScreenRoute(
 
     when (val uiState = uiState.value) {
         is SignInUiState.SignInFailure -> TODO()
-        is SignInUiState.SignInSuccess -> {
+        is SignInUiState.LoadSuccess -> {
             SignInScreen(
                 onExploreClick = onExploreClick,
                 onSocialLoginClick = onSocialLoginClick,
@@ -80,17 +79,20 @@ internal fun SignInScreenRoute(
             )
         }
 
+        is SignInUiState.SignInSuccess ->
+            onSignInSuccess()
+
         is SignInUiState.NotSignedUpYet ->
             onSignUpNeeded(uiState.accessToken, uiState.oAuthProvider)
-
-        is SignInUiState.SignInSuccess -> onSignInSuccess
 
         else -> TODO()
     }
 }
 
 @Composable
-fun rememberLauncherForGoogleActivityResult(viewModel: SignInViewModel): ManagedActivityResultLauncher<Intent, ActivityResult> {
+fun rememberLauncherForGoogleActivityResult(
+    viewModel: SignInViewModel,
+): ManagedActivityResultLauncher<Intent, ActivityResult> {
     return rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult(),
     ) { result ->
@@ -162,7 +164,8 @@ private fun getGoogleSignInIntent(
 
 private fun authenticateWithNaver(
     context: Context,
-    onAuthSuccess: (String?) -> Unit
+    onAuthSuccess: (String?) -> Unit,
+    onAuthFailure: () -> Unit = {}  // todo: crashlytics_report
 ) {
     NaverIdLoginSDK.authenticate(context, object : OAuthLoginCallback {
         override fun onSuccess() {
@@ -172,7 +175,7 @@ private fun authenticateWithNaver(
         }
 
         override fun onFailure(httpStatus: Int, message: String) {
-            // todo: crashlytics_report
+            onAuthFailure()
         }
 
         override fun onError(errorCode: Int, message: String) {
@@ -183,7 +186,8 @@ private fun authenticateWithNaver(
 
 private fun authenticateWithKakao(
     context: Context,
-    onAuthSuccess: (String?) -> Unit
+    onAuthSuccess: (String?) -> Unit,
+    onAuthFailure: () -> Unit = {}   // todo: crashlytics_report
 ) {
     val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (token != null) {
@@ -192,7 +196,7 @@ private fun authenticateWithKakao(
             }
         } else {
             if (error !is ClientError || error.reason == ClientErrorCause.Cancelled) {
-                // todo: crashlytics_report
+                onAuthFailure()
             }
         }
     }
