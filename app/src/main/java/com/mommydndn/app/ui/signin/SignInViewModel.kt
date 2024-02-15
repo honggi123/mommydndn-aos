@@ -23,8 +23,7 @@ class SignInViewModel @Inject constructor(
     private val signInWithGoogleUseCase: SignInWithGoogleUseCase,
 ) : ViewModel() {
 
-    private val _uiState: MutableStateFlow<SignInUiState> =
-        MutableStateFlow(SignInUiState.LoadSuccess)
+    private val _uiState = MutableStateFlow(SignInUiState.Success())
     val uiState: StateFlow<SignInUiState> = _uiState.asStateFlow()
 
     fun signIn(
@@ -40,7 +39,7 @@ class SignInViewModel @Inject constructor(
             }.let { result ->
                 val uiState = when (result) {
                     is Result.Loading -> SignInUiState.SignInLoading
-                    is Result.Success -> SignInUiState.SignInSuccess
+                    is Result.Success -> SignInUiState.Success(isSignInSuccessful = true)
                     is Result.Failure -> {
                         val exception = result.exception
                         when (exception) {
@@ -63,13 +62,13 @@ class SignInViewModel @Inject constructor(
 
 sealed interface SignInUiState {
 
-    data object LoadSuccess : SignInUiState
+    data class Success(
+        val isSignInSuccessful: Boolean = false
+    ) : SignInUiState
 
     data object SignInLoading : SignInUiState
 
     data class SignInFailure(val errorMessage: String) : SignInUiState
-
-    data object SignInSuccess : SignInUiState
 
     data class NotSignedUpYet(val accessToken: String, val oAuthProvider: OAuthProvider) :
         SignInUiState
