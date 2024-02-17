@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class GetGoogleAccessTokenResponse(
     @SerialName("access_token")
-    val accessToken: String,
+    val accessToken: String
 )

@@ -1,5 +1,6 @@
 package com.mommydndn.app.domain.usecase.user
 
+import android.util.Log
 import com.mommydndn.app.di.IODispatcher
 import com.mommydndn.app.domain.model.OAuthProvider
 import com.mommydndn.app.domain.repository.UserRepository
@@ -9,18 +10,19 @@ import java.lang.Exception
 import javax.inject.Inject
 import javax.inject.Singleton
 
-typealias GoogleAccessToken = String?
+typealias GoogleAuthCode = String?
 
 @Singleton
 class SignInWithGoogleUseCase @Inject constructor(
     @IODispatcher coroutineDispatcher: CoroutineDispatcher,
     private val repository: UserRepository,
-) : UseCase<GoogleAccessToken, Unit>(coroutineDispatcher) {
+) : UseCase<GoogleAuthCode, Unit>(coroutineDispatcher) {
 
-    override suspend fun execute(token: GoogleAccessToken): Unit {
-        if (token == null) {
-            throw TokenNullException()
+    override suspend fun execute(parameters: GoogleAuthCode?): Unit {
+        if (parameters == null) {
+            throw AuthCodeNullException()
         } else {
+            val token = repository.getGoogleAccessToken(parameters)
             repository.signIn(
                 oauthProvider = OAuthProvider.Google,
                 accessToken = token

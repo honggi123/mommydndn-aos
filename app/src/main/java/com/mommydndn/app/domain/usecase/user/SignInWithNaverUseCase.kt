@@ -17,13 +17,13 @@ class SignInWithNaverUseCase @Inject constructor(
     private val repository: UserRepository,
 ) : UseCase<NaverAccessToken, Unit>(coroutineDispatcher) {
 
-    override suspend fun execute(token: NaverAccessToken) {
-        if (token == null) {
+    override suspend fun execute(parameters: NaverAccessToken) {
+        if (parameters == null) {
             throw TokenNullException()
         } else {
             repository.signIn(
                 oauthProvider = OAuthProvider.Naver,
-                accessToken = token,
+                accessToken = parameters,
             )
         }
     }

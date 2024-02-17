@@ -3,6 +3,7 @@ package com.mommydndn.app.ui.signin
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResult
@@ -48,43 +49,45 @@ internal fun SignInRoute(
 ) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
-    when (val uiState = uiState.value) {
-        is SignInUiState.SignInFailure -> TODO()
-        is SignInUiState.Success -> {
-            SignInRoute(
-                onExploreClick = onExploreClick,
-                onAuthSuccess = { oAuthProvider, token -> viewModel.signIn(oAuthProvider, token) },
-                modifier = modifier,
-            )
-            if (uiState.isSignInSuccessful) onSignInSuccess()
+    SignInRoute(
+        onExploreClick = onExploreClick,
+        onNaverAuthSuccess = { token -> viewModel.signIn(NaverSignInParams(token)) },
+        onKakaoAuthSuccess = { token -> viewModel.signIn(KakaoSignInParams(token)) },
+        onGoogleAuthSuccess = { authCode -> viewModel.signIn(GoogleSignInParams(authCode)) },
+        modifier = modifier,
+    )
+
+    when (val state = uiState.value) {
+        is SignInUiState.SignInSuccess -> onSignInSuccess()
+        is SignInUiState.NotSignedUpYet -> onSignUpNeeded(state.accessToken, state.oAuthProvider)
+        else -> {
+            // todo
         }
-
-        is SignInUiState.NotSignedUpYet ->
-            onSignUpNeeded(uiState.accessToken, uiState.oAuthProvider)
-
-        else -> TODO()
     }
 }
 
 @Composable
 fun SignInRoute(
     onExploreClick: () -> Unit,
-    onAuthSuccess: (OAuthProvider, String?) -> Unit,
+    onNaverAuthSuccess: (String?) -> Unit,
+    onKakaoAuthSuccess: (String?) -> Unit,
+    onGoogleAuthSuccess: (String?) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    val launcherForGoogleActivityResult = rememberLauncherForGoogleActivityResult(onAuthSuccess)
+    val launcherForGoogleActivityResult =
+        rememberLauncherForGoogleActivityResult(onGoogleAuthSuccess)
 
     val onSocialLoginClick: (OAuthProvider) -> Unit = { oAuthProvider ->
         when (oAuthProvider) {
             OAuthProvider.Naver -> authenticateWithNaver(
                 context = context,
-                onAuthSuccess = { onAuthSuccess(OAuthProvider.Naver, it) }
+                onAuthSuccess = { onNaverAuthSuccess(it) }
             )
 
             OAuthProvider.Kakao -> authenticateWithKakao(
                 context = context,
-                onAuthSuccess = { onAuthSuccess(OAuthProvider.Kakao, it) }
+                onAuthSuccess = { onKakaoAuthSuccess(it) }
             )
 
             OAuthProvider.Google -> {
@@ -103,7 +106,7 @@ fun SignInRoute(
 
 @Composable
 fun rememberLauncherForGoogleActivityResult(
-    onAuthSuccess: (OAuthProvider, String?) -> Unit,
+    onAuthSuccess: (String?) -> Unit,
 ): ManagedActivityResultLauncher<Intent, ActivityResult> {
     return rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult(),
@@ -112,7 +115,7 @@ fun rememberLauncherForGoogleActivityResult(
             GoogleSignIn.getSignedInAccountFromIntent(result.data)
                 .addOnSuccessListener { account ->
                     account.serverAuthCode.let { authCode ->
-                        onAuthSuccess(OAuthProvider.Google, authCode)
+                        onAuthSuccess(authCode)
                     }
                 }.addOnFailureListener {
                     // todo: crashlytics_report
