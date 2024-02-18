@@ -18,16 +18,15 @@ class SignInWithGoogleUseCase @Inject constructor(
     private val repository: UserRepository,
 ) : UseCase<GoogleAuthCode, Unit>(coroutineDispatcher) {
 
-    override suspend fun execute(parameters: GoogleAuthCode?): Unit {
+    override suspend fun execute(parameters: GoogleAuthCode) {
         if (parameters == null) {
             throw AuthCodeNullException()
         } else {
             val token = repository.getGoogleAccessToken(parameters)
             repository.signIn(
                 oauthProvider = OAuthProvider.Google,
-                accessToken = token
+                accessToken = token ?: throw TokenNullException()
             )
         }
     }
 }
-

@@ -18,14 +18,10 @@ class SignInWithNaverUseCase @Inject constructor(
 ) : UseCase<NaverAccessToken, Unit>(coroutineDispatcher) {
 
     override suspend fun execute(parameters: NaverAccessToken) {
-        if (parameters == null) {
-            throw TokenNullException()
-        } else {
-            repository.signIn(
-                oauthProvider = OAuthProvider.Naver,
-                accessToken = parameters,
-            )
-        }
+        repository.signIn(
+            oauthProvider = OAuthProvider.Naver,
+            accessToken = parameters ?: throw TokenNullException(),
+        )
     }
 }
 

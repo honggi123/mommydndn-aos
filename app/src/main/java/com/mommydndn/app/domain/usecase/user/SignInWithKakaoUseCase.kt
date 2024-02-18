@@ -17,14 +17,10 @@ class SignInWithKakaoUseCase @Inject constructor(
     private val repository: UserRepository,
 ) : UseCase<KakaoAccessToken, Unit>(coroutineDispatcher) {
 
-    override suspend fun execute(token: KakaoAccessToken) {
-        if (token == null) {
-            throw TokenNullException()
-        } else {
-            repository.signIn(
-                oauthProvider = OAuthProvider.Kakao,
-                accessToken = token,
-            )
-        }
+    override suspend fun execute(parameters: KakaoAccessToken) {
+        repository.signIn(
+            oauthProvider = OAuthProvider.Kakao,
+            accessToken = parameters ?: throw TokenNullException(),
+        )
     }
 }

@@ -11,6 +11,6 @@ interface UserRepository {
 
     suspend fun getGoogleAccessToken(
         authCode: String
-    ): String
+    ): String?
 
 }

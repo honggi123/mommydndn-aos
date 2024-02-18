@@ -49,7 +49,7 @@ class UserDataRepository @Inject constructor(
 
     override suspend fun getGoogleAccessToken(
         authCode: String
-    ): String {
+    ): String? {
         val result = googleService.getAccessToken(
             GetGoogleAccessTokenRequest(
                 clientId = BuildConfig.GOOGLE_CLIENT_ID,
