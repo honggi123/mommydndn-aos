@@ -75,8 +75,7 @@ fun SignInRoute(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    val launcherForGoogleActivityResult =
-        rememberLauncherForGoogleActivityResult(onGoogleAuthSuccess)
+    val launcherForGoogleActivityResult = rememberLauncherForGoogleActivityResult(onGoogleAuthSuccess)
 
     val onSocialLoginClick: (OAuthProvider) -> Unit = { oAuthProvider ->
         when (oAuthProvider) {
@@ -181,7 +180,7 @@ private fun getGoogleSignInIntent(
 private fun authenticateWithNaver(
     context: Context,
     onAuthSuccess: (String?) -> Unit,
-    onAuthFailure: () -> Unit = {}  // todo: crashlytics_report
+    onAuthFailure: () -> Unit = {}
 ) {
     NaverIdLoginSDK.authenticate(context, object : OAuthLoginCallback {
         override fun onSuccess() {
@@ -191,7 +190,7 @@ private fun authenticateWithNaver(
         }
 
         override fun onFailure(httpStatus: Int, message: String) {
-            onAuthFailure()
+            onAuthFailure() // todo: crashlytics_report
         }
 
         override fun onError(errorCode: Int, message: String) {
@@ -203,7 +202,7 @@ private fun authenticateWithNaver(
 private fun authenticateWithKakao(
     context: Context,
     onAuthSuccess: (String?) -> Unit,
-    onAuthFailure: () -> Unit = {}   // todo: crashlytics_report
+    onAuthFailure: () -> Unit = {}
 ) {
     val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (token != null) {
@@ -212,7 +211,7 @@ private fun authenticateWithKakao(
             }
         } else {
             if (error !is ClientError || error.reason == ClientErrorCause.Cancelled) {
-                onAuthFailure()
+                onAuthFailure() // todo: crashlytics_report
             }
         }
     }

@@ -26,14 +26,17 @@ class UserDataRepository @Inject constructor(
         accessToken: String,
     ) {
         try {
-            val result = userService.signIn(
+            userService.signIn(
                 SignInRequest(
                     accessToken = accessToken,
                     oauthProvider = oauthProvider.toOAuthProvider(),
                 )
-            )
-            preferencesStorage.setAccessToken(result.accessToken)
-            preferencesStorage.setRefreshToken(result.refreshToken)
+            ).let { result ->
+                preferencesStorage.run {
+                    setAccessToken(result.accessToken)
+                    setRefreshToken(result.refreshToken)
+                }
+            }
         } catch (exception: Exception) {
             val transformedException = when (exception) {
                 is HttpException -> when (exception.code()) {
