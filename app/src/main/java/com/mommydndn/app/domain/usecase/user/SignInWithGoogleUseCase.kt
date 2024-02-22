@@ -10,7 +10,7 @@ import java.lang.Exception
 import javax.inject.Inject
 import javax.inject.Singleton
 
-typealias GoogleAuthCode = String?
+typealias GoogleAuthCode = String
 
 @Singleton
 class SignInWithGoogleUseCase @Inject constructor(
@@ -19,14 +19,10 @@ class SignInWithGoogleUseCase @Inject constructor(
 ) : UseCase<GoogleAuthCode, Unit>(coroutineDispatcher) {
 
     override suspend fun execute(parameters: GoogleAuthCode) {
-        if (parameters == null) {
-            throw AuthCodeNullException()
-        } else {
-            val token = repository.getGoogleAccessToken(parameters)
-            repository.signIn(
-                oauthProvider = OAuthProvider.Google,
-                accessToken = token ?: throw TokenNullException()
-            )
-        }
+        val token = repository.getGoogleAccessToken(parameters)
+        repository.signIn(
+            oauthProvider = OAuthProvider.Google,
+            accessToken = token
+        )
     }
 }

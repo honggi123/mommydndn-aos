@@ -9,7 +9,7 @@ import java.lang.Exception
 import javax.inject.Inject
 import javax.inject.Singleton
 
-typealias NaverAccessToken = String?
+typealias NaverAccessToken = String
 
 @Singleton
 class SignInWithNaverUseCase @Inject constructor(
@@ -20,7 +20,7 @@ class SignInWithNaverUseCase @Inject constructor(
     override suspend fun execute(parameters: NaverAccessToken) {
         repository.signIn(
             oauthProvider = OAuthProvider.Naver,
-            accessToken = parameters ?: throw TokenNullException(),
+            accessToken = parameters
         )
     }
 }

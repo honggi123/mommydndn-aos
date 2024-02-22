@@ -9,7 +9,7 @@ import java.lang.Exception
 import javax.inject.Inject
 import javax.inject.Singleton
 
-typealias KakaoAccessToken = String?
+typealias KakaoAccessToken = String
 
 @Singleton
 class SignInWithKakaoUseCase @Inject constructor(
@@ -20,7 +20,7 @@ class SignInWithKakaoUseCase @Inject constructor(
     override suspend fun execute(parameters: KakaoAccessToken) {
         repository.signIn(
             oauthProvider = OAuthProvider.Kakao,
-            accessToken = parameters ?: throw TokenNullException(),
+            accessToken = parameters
         )
     }
 }

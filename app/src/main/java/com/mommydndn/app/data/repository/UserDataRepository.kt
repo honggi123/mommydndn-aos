@@ -9,6 +9,7 @@ import com.mommydndn.app.domain.repository.UserRepository
 import com.mommydndn.app.BuildConfig
 import com.mommydndn.app.data.mapper.toOAuthProvider
 import com.mommydndn.app.data.preferences.PreferencesStorage
+import com.mommydndn.app.domain.usecase.user.TokenNullException
 import com.mommydndn.app.domain.usecase.user.UserNotFoundException
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -51,7 +52,7 @@ class UserDataRepository @Inject constructor(
 
     override suspend fun getGoogleAccessToken(
         authCode: String
-    ): String? {
+    ): String {
         val result = googleService.getAccessToken(
             GetGoogleAccessTokenRequest(
                 clientId = BuildConfig.GOOGLE_CLIENT_ID,
@@ -60,7 +61,7 @@ class UserDataRepository @Inject constructor(
                 code = authCode
             )
         )
-        return result.accessToken
+        return result.accessToken ?: throw TokenNullException()
     }
 
 }
