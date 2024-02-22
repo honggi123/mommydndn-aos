@@ -51,6 +51,7 @@ class SignInViewModel @Inject constructor(
             }
 
             is TokenNullException -> SignInUiState.Failure(errorMessage = "토큰을 찾을 수 없습니다.")
+            is AuthCodeNullException -> SignInUiState.Failure(errorMessage = "인증 코드를 찾을 수 없습니다.")
             else -> SignInUiState.Failure(errorMessage = "로그인에 실패했습니다.")
         }
     }
@@ -60,8 +61,8 @@ class SignInViewModel @Inject constructor(
 
     fun signIn(params: SignInParams) {
         viewModelScope.launch(signInExceptionHandler) {
-            _uiState.value = if (checkSignInParamsValid(params)) {
-                when (params) {
+            if (checkSignInParamsValid(params)) {
+                _uiState.value = when (params) {
                     is KakaoSignInParams -> signInWithKakaoUseCase(params.accessToken!!)
                     is NaverSignInParams -> signInWithNaverUseCase(params.accessToken!!)
                     is GoogleSignInParams -> signInWithGoogleUseCase(params.authCode!!)
@@ -73,7 +74,11 @@ class SignInViewModel @Inject constructor(
                     }
                 }
             } else {
-                throw NullPointerException()
+                if (params is GoogleSignInParams) {
+                    throw AuthCodeNullException()
+                } else {
+                    throw TokenNullException()
+                }
             }
         }
     }
