@@ -49,7 +49,7 @@ internal fun SignInRoute(
 ) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
-    SignInRoute(
+    SignInScreen(
         onExploreClick = onExploreClick,
         onNaverAuthSuccess = { token -> viewModel.signIn(NaverSignInParams(token)) },
         onKakaoAuthSuccess = { token -> viewModel.signIn(KakaoSignInParams(token)) },
@@ -58,7 +58,7 @@ internal fun SignInRoute(
     )
 
     when (val state = uiState.value) {
-        is SignInUiState.SignInSuccess -> onSignInSuccess()
+        is SignInUiState.Success -> onSignInSuccess()
         is SignInUiState.NotSignedUpYet -> onSignUpNeeded(state.accessToken, state.oAuthProvider)
         else -> {
             // todo
@@ -67,7 +67,7 @@ internal fun SignInRoute(
 }
 
 @Composable
-fun SignInRoute(
+fun SignInScreen(
     onExploreClick: () -> Unit,
     onNaverAuthSuccess: (String?) -> Unit,
     onKakaoAuthSuccess: (String?) -> Unit,
@@ -127,7 +127,7 @@ fun rememberLauncherForGoogleActivityResult(
 
 
 @Composable
-internal fun SignInScreen(
+private fun SignInScreen(
     onExploreClick: () -> Unit,
     onSocialLoginClick: (OAuthProvider) -> Unit,
     modifier: Modifier = Modifier,

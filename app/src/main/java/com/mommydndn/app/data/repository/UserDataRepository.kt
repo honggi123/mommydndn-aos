@@ -38,14 +38,13 @@ class UserDataRepository @Inject constructor(
                 }
             }
         } catch (exception: Exception) {
-            val transformedException = when (exception) {
-                is HttpException -> when (exception.code()) {
-                    403 -> UserNotFoundException(accessToken, oauthProvider)
-                    else -> exception
+            val transformedException =
+                if (exception is HttpException && exception.code() == 403) {
+                    UserNotFoundException(accessToken, oauthProvider)
+                } else {
+                    exception
                 }
 
-                else -> exception
-            }
             throw (transformedException)
         }
     }

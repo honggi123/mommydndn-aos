@@ -4,7 +4,7 @@ import com.mommydndn.app.domain.model.OAuthProvider
 
 sealed class SignInException : Exception()
 
-class UserNotFoundException(val token: String, val oAuthProvider: OAuthProvider) : SignInException()
+class UserNotFoundException(val accessToken: String, val oAuthProvider: OAuthProvider) : SignInException()
 
 class TokenNullException : SignInException()
 

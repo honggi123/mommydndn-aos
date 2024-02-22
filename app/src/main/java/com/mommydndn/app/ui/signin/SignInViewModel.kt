@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.mommydndn.app.domain.usecase.user.UserNotFoundException
 import com.mommydndn.app.domain.model.OAuthProvider
 import com.mommydndn.app.domain.usecase.user.AuthCodeNullException
+import com.mommydndn.app.domain.usecase.user.SignInException
 import com.mommydndn.app.domain.usecase.user.SignInWithGoogleUseCase
 import com.mommydndn.app.domain.usecase.user.SignInWithKakaoUseCase
 import com.mommydndn.app.domain.usecase.user.SignInWithNaverUseCase
@@ -24,12 +25,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-sealed interface signInParams
-
-data class KakaoSignInParams(val token: String? = null) : signInParams
-data class GoogleSignInParams(val authCode: String? = null) : signInParams
-data class NaverSignInParams(val token: String? = null) : signInParams
-
 @HiltViewModel
 class SignInViewModel @Inject constructor(
     private val signInWithKakaoUseCase: SignInWithKakaoUseCase,
@@ -37,63 +32,81 @@ class SignInViewModel @Inject constructor(
     private val signInWithGoogleUseCase: SignInWithGoogleUseCase,
 ) : ViewModel() {
 
-    private val signInParams = MutableStateFlow<signInParams?>(null)
+    private val signInResult = MutableStateFlow<Result<Unit>?>(null)
 
-    val uiState: StateFlow<SignInUiState> = signInParams
+    val uiState: StateFlow<SignInUiState> = signInResult
         .filterNotNull()
-        .map { params ->
-            when (params) {
-                is KakaoSignInParams -> signInWithKakaoUseCase(params.token)
-                is NaverSignInParams -> signInWithNaverUseCase(params.token)
-                is GoogleSignInParams -> signInWithGoogleUseCase(params.authCode)
-            }
-        }.map { result ->
+        .map { result ->
             when (result) {
-                is Result.Success -> SignInUiState.SignInSuccess
+                is Result.Success -> SignInUiState.Success
                 is Result.Failure -> {
                     val exception = result.exception
                     when (exception) {
                         is UserNotFoundException ->
-                            SignInUiState.NotSignedUpYet(exception.token, exception.oAuthProvider)
+                            SignInUiState.NotSignedUpYet(
+                                exception.accessToken,
+                                exception.oAuthProvider
+                            )
 
                         is TokenNullException ->
-                            SignInUiState.SignInFailure(errorMessage = "토큰을 찾을 수 없습니다.")
-
-                        is AuthCodeNullException ->
-                            SignInUiState.SignInFailure(errorMessage = "인증코드를 찾을 수 없습니다.")
+                            SignInUiState.Failure(errorMessage = "토큰을 찾을 수 없습니다.")
 
                         else ->
-                            SignInUiState.SignInFailure(errorMessage = "로그인에 실패했습니다.")
+                            SignInUiState.Failure(errorMessage = "로그인에 실패했습니다.")
 
                     }
                 }
 
                 is Result.Loading -> {
-                    SignInUiState.SignInLoading
+                    SignInUiState.Loading
                 }
             }
         }.stateIn(
             viewModelScope,
             SharingStarted.Eagerly,
-            SignInUiState.SignInLoading
+            SignInUiState.Loading
         )
 
-    fun signIn(
-        signInParams: signInParams
-    ) {
-        this.signInParams.value = signInParams
+    fun signIn(params: SignInParams) {
+        viewModelScope.launch {
+            if (params.isSignInValid()) {
+                signInResult.value = when (params) {
+                    is KakaoSignInParams -> signInWithKakaoUseCase(params.accessToken)
+                    is NaverSignInParams -> signInWithNaverUseCase(params.accessToken)
+                    is GoogleSignInParams -> signInWithGoogleUseCase(params.authCode)
+                }
+            } else {
+                // todo failure
+            }
+        }
     }
 }
 
 sealed interface SignInUiState {
 
-    data object SignInLoading : SignInUiState
+    data object Loading : SignInUiState
 
-    data object SignInSuccess : SignInUiState
+    data object Success : SignInUiState
 
-    data class SignInFailure(val errorMessage: String) : SignInUiState
+    data class Failure(val errorMessage: String) : SignInUiState
 
     data class NotSignedUpYet(val accessToken: String, val oAuthProvider: OAuthProvider) :
         SignInUiState
 
+}
+
+sealed interface SignInParams {
+    fun isSignInValid(): Boolean
+}
+
+data class KakaoSignInParams(val accessToken: String? = null) : SignInParams {
+    override fun isSignInValid(): Boolean = accessToken != null
+}
+
+data class GoogleSignInParams(val authCode: String? = null) : SignInParams {
+    override fun isSignInValid(): Boolean = authCode != null
+}
+
+data class NaverSignInParams(val accessToken: String? = null) : SignInParams {
+    override fun isSignInValid(): Boolean = accessToken != null
 }
