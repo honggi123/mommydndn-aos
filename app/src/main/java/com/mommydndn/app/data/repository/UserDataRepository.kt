@@ -7,7 +7,7 @@ import com.mommydndn.app.data.network.service.request.SignInRequest
 import com.mommydndn.app.domain.model.OAuthProvider
 import com.mommydndn.app.domain.repository.UserRepository
 import com.mommydndn.app.BuildConfig
-import com.mommydndn.app.data.mapper.toOAuthProvider
+import com.mommydndn.app.data.mapper.toNetworkOAuthProvider
 import com.mommydndn.app.data.preferences.PreferencesStorage
 import com.mommydndn.app.domain.usecase.user.TokenNullException
 import com.mommydndn.app.domain.usecase.user.UserNotFoundException
@@ -30,7 +30,7 @@ class UserDataRepository @Inject constructor(
             userService.signIn(
                 SignInRequest(
                     accessToken = accessToken,
-                    oauthProvider = oauthProvider.toOAuthProvider(),
+                    oauthProvider = oauthProvider.toNetworkOAuthProvider(),
                 )
             ).let { response ->
                 preferencesStorage.run {
@@ -63,6 +63,5 @@ class UserDataRepository @Inject constructor(
         )
         return response.accessToken ?: throw TokenNullException()
     }
-
 }
 
