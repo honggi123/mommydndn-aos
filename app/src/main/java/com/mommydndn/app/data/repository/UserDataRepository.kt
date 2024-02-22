@@ -32,10 +32,10 @@ class UserDataRepository @Inject constructor(
                     accessToken = accessToken,
                     oauthProvider = oauthProvider.toOAuthProvider(),
                 )
-            ).let { result ->
+            ).let { response ->
                 preferencesStorage.run {
-                    setAccessToken(result.accessToken)
-                    setRefreshToken(result.refreshToken)
+                    setAccessToken(response.accessToken)
+                    setRefreshToken(response.refreshToken)
                 }
             }
         } catch (exception: Exception) {
@@ -53,7 +53,7 @@ class UserDataRepository @Inject constructor(
     override suspend fun getGoogleAccessToken(
         authCode: String
     ): String {
-        val result = googleService.getAccessToken(
+        val response = googleService.getAccessToken(
             GetGoogleAccessTokenRequest(
                 clientId = BuildConfig.GOOGLE_CLIENT_ID,
                 clientSecret = BuildConfig.GOOGLE_CLIENT_SECRET,
@@ -61,7 +61,7 @@ class UserDataRepository @Inject constructor(
                 code = authCode
             )
         )
-        return result.accessToken ?: throw TokenNullException()
+        return response.accessToken ?: throw TokenNullException()
     }
 
 }
