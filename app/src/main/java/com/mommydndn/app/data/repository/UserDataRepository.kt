@@ -9,7 +9,7 @@ import com.mommydndn.app.domain.repository.UserRepository
 import com.mommydndn.app.BuildConfig
 import com.mommydndn.app.data.mapper.toNetworkOAuthProvider
 import com.mommydndn.app.data.preferences.PreferencesStorage
-import com.mommydndn.app.domain.usecase.user.TokenNullException
+import com.mommydndn.app.domain.usecase.user.GoogleAuthCodeNullException
 import com.mommydndn.app.domain.usecase.user.UserNotFoundException
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -39,14 +39,11 @@ class UserDataRepository @Inject constructor(
                 }
             }
         } catch (exception: Exception) {
-            val transformedException =
-                if (exception is HttpException && exception.code() == 403) {
-                    UserNotFoundException(accessToken, oauthProvider)
-                } else {
-                    exception
-                }
-
-            throw (transformedException)
+            throw if (exception is HttpException && exception.code() == 403) {
+                UserNotFoundException(accessToken, oauthProvider)
+            } else {
+                exception
+            }
         }
     }
 
@@ -61,7 +58,7 @@ class UserDataRepository @Inject constructor(
                 code = authCode
             )
         )
-        return response.accessToken ?: throw TokenNullException()
+        return response.accessToken ?: throw GoogleAuthCodeNullException()
     }
 }
 
