@@ -4,28 +4,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mommydndn.app.domain.usecase.user.UserNotFoundException
 import com.mommydndn.app.domain.model.OAuthProvider
-import com.mommydndn.app.domain.usecase.user.AuthCodeNullException
-import com.mommydndn.app.domain.usecase.user.SignInException
+import com.mommydndn.app.domain.usecase.user.GoogleAuthCodeNullException
 import com.mommydndn.app.domain.usecase.user.SignInWithGoogleUseCase
 import com.mommydndn.app.domain.usecase.user.SignInWithKakaoUseCase
 import com.mommydndn.app.domain.usecase.user.SignInWithNaverUseCase
-import com.mommydndn.app.domain.usecase.user.TokenNullException
+import com.mommydndn.app.domain.usecase.user.AccessTokenNullException
 import com.mommydndn.app.utils.result.Result
-import com.mommydndn.app.utils.result.data
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.lang.NullPointerException
 import javax.inject.Inject
 
 sealed interface SignInParams
@@ -50,8 +39,8 @@ class SignInViewModel @Inject constructor(
                 )
             }
 
-            is TokenNullException -> SignInUiState.Failure(errorMessage = "토큰을 찾을 수 없습니다.")
-            is AuthCodeNullException -> SignInUiState.Failure(errorMessage = "인증 코드를 찾을 수 없습니다.")
+            is AccessTokenNullException -> SignInUiState.Failure(errorMessage = "토큰을 찾을 수 없습니다.")
+            is GoogleAuthCodeNullException -> SignInUiState.Failure(errorMessage = "인증 코드를 찾을 수 없습니다.")
             else -> SignInUiState.Failure(errorMessage = "로그인에 실패했습니다.")
         }
     }
@@ -60,34 +49,24 @@ class SignInViewModel @Inject constructor(
     val uiState: StateFlow<SignInUiState> = _uiState
 
     fun signIn(params: SignInParams) {
+        _uiState.value = SignInUiState.Loading
         viewModelScope.launch(signInExceptionHandler) {
-            if (checkSignInParamsValid(params)) {
-                _uiState.value = when (params) {
-                    is KakaoSignInParams -> signInWithKakaoUseCase(params.accessToken!!)
-                    is NaverSignInParams -> signInWithNaverUseCase(params.accessToken!!)
-                    is GoogleSignInParams -> signInWithGoogleUseCase(params.authCode!!)
-                }.let { result ->
-                    when (result) {
-                        is Result.Success -> SignInUiState.Success
-                        is Result.Loading -> SignInUiState.Loading
-                        is Result.Failure -> throw result.exception
-                    }
-                }
-            } else {
-                if (params is GoogleSignInParams) {
-                    throw AuthCodeNullException()
-                } else {
-                    throw TokenNullException()
+            _uiState.value = when (params) {
+                is KakaoSignInParams -> params.accessToken?.let { signInWithKakaoUseCase(it) }
+                    ?: throw AccessTokenNullException()
+
+                is NaverSignInParams -> params.accessToken?.let { signInWithNaverUseCase(it) }
+                    ?: throw AccessTokenNullException()
+
+                is GoogleSignInParams -> params.authCode?.let { signInWithGoogleUseCase(it) }
+                    ?: throw GoogleAuthCodeNullException()
+            }.let { result ->
+                when (result) {
+                    is Result.Success -> SignInUiState.Success
+                    is Result.Loading -> SignInUiState.Loading
+                    is Result.Failure -> throw result.exception
                 }
             }
-        }
-    }
-
-    private fun checkSignInParamsValid(params: SignInParams): Boolean {
-        return when (params) {
-            is KakaoSignInParams -> params.accessToken != null
-            is NaverSignInParams -> params.accessToken != null
-            is GoogleSignInParams -> params.authCode != null
         }
     }
 }

@@ -6,6 +6,6 @@ sealed class SignInException : Exception()
 
 class UserNotFoundException(val accessToken: String, val oAuthProvider: OAuthProvider) : SignInException()
 
-class TokenNullException : SignInException()
+class AccessTokenNullException : SignInException()
 
-class AuthCodeNullException : SignInException()
+class GoogleAuthCodeNullException : SignInException()

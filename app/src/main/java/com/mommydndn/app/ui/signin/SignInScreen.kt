@@ -3,7 +3,6 @@ package com.mommydndn.app.ui.signin
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResult
@@ -16,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -31,73 +31,48 @@ import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.mommydndn.app.BuildConfig
 import com.mommydndn.app.domain.model.OAuthProvider
-import com.mommydndn.app.ui.signin.components.LogoWithIntroduction
 import com.mommydndn.app.ui.signin.components.SignInTopAppBar
 import com.mommydndn.app.ui.signin.components.SocialLogin
+import com.mommydndn.app.ui.signin.components.WelcomeLogoWithMessage
 import com.mommydndn.app.ui.theme.MommydndnTheme
 import com.mommydndn.app.ui.theme.White
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.OAuthLoginCallback
 
 @Composable
-internal fun SignInRoute(
+internal fun SignInScreen(
     onExploreClick: () -> Unit,
     onSignInSuccess: () -> Unit,
     onSignUpNeeded: (accessToken: String, oAuthProvider: OAuthProvider) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SignInViewModel = hiltViewModel(),
 ) {
-    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
-    SignInScreen(
-        onExploreClick = onExploreClick,
-        onNaverAuthSuccess = { token -> viewModel.signIn(NaverSignInParams(token)) },
-        onKakaoAuthSuccess = { token -> viewModel.signIn(KakaoSignInParams(token)) },
-        onGoogleAuthSuccess = { authCode -> viewModel.signIn(GoogleSignInParams(authCode)) },
-        modifier = modifier,
-    )
-
-    when (val state = uiState.value) {
+    when (val state = uiState) {
         is SignInUiState.Success -> onSignInSuccess()
         is SignInUiState.NotSignedUpYet -> onSignUpNeeded(state.accessToken, state.oAuthProvider)
         else -> {
             // todo
         }
     }
-}
 
-@Composable
-fun SignInScreen(
-    onExploreClick: () -> Unit,
-    onNaverAuthSuccess: (String?) -> Unit,
-    onKakaoAuthSuccess: (String?) -> Unit,
-    onGoogleAuthSuccess: (String?) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    val context = LocalContext.current
-    val launcherForGoogleActivityResult = rememberLauncherForGoogleActivityResult(onGoogleAuthSuccess)
-
-    val onSocialLoginClick: (OAuthProvider) -> Unit = { oAuthProvider ->
-        when (oAuthProvider) {
-            OAuthProvider.Naver -> authenticateWithNaver(
-                context = context,
-                onAuthSuccess = { onNaverAuthSuccess(it) }
-            )
-
-            OAuthProvider.Kakao -> authenticateWithKakao(
-                context = context,
-                onAuthSuccess = { onKakaoAuthSuccess(it) }
-            )
-
-            OAuthProvider.Google -> {
-                val intent = getGoogleSignInIntent(context)
-                launcherForGoogleActivityResult.launch(intent)
-            }
-        }
-    }
+    val googleActivityResultLauncher =
+        rememberLauncherForGoogleActivityResult(onAuthSuccess = viewModel::signIn)
 
     SignInScreen(
-        onSocialLoginClick = onSocialLoginClick,
+        onKakakSignInClick = {
+            authenticateKakao(context = context, onAuthSuccess = viewModel::signIn)
+        },
+        onNaverSignInClick = {
+            authenticateNaver(context = context, onAuthSuccess = viewModel::signIn)
+        },
+        onGoogleSignInClick = {
+            getGoogleSignInIntent(context).let { intent ->
+                googleActivityResultLauncher.launch(intent)
+            }
+        },
         onExploreClick = onExploreClick,
         modifier = modifier,
     )
@@ -105,7 +80,7 @@ fun SignInScreen(
 
 @Composable
 fun rememberLauncherForGoogleActivityResult(
-    onAuthSuccess: (String?) -> Unit,
+    onAuthSuccess: (GoogleSignInParams) -> Unit,
 ): ManagedActivityResultLauncher<Intent, ActivityResult> {
     return rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult(),
@@ -113,9 +88,7 @@ fun rememberLauncherForGoogleActivityResult(
         if (result.resultCode == Activity.RESULT_OK) {
             GoogleSignIn.getSignedInAccountFromIntent(result.data)
                 .addOnSuccessListener { account ->
-                    account.serverAuthCode.let { authCode ->
-                        onAuthSuccess(authCode)
-                    }
+                    onAuthSuccess(GoogleSignInParams(account.serverAuthCode))
                 }.addOnFailureListener {
                     // todo: crashlytics_report
                 }
@@ -129,7 +102,9 @@ fun rememberLauncherForGoogleActivityResult(
 @Composable
 private fun SignInScreen(
     onExploreClick: () -> Unit,
-    onSocialLoginClick: (OAuthProvider) -> Unit,
+    onKakakSignInClick: () -> Unit,
+    onNaverSignInClick: () -> Unit,
+    onGoogleSignInClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
@@ -141,7 +116,9 @@ private fun SignInScreen(
         },
         bottomBar = {
             SocialLogin(
-                onClick = onSocialLoginClick,
+                onKakakSignInClick = onKakakSignInClick,
+                onNaverSignInClick = onNaverSignInClick,
+                onGoogleSignInClick = onGoogleSignInClick,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 96.dp),
@@ -156,7 +133,7 @@ private fun SignInScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            LogoWithIntroduction(
+            WelcomeLogoWithMessage(
                 modifier = modifier.fillMaxWidth()
             )
         }
@@ -177,15 +154,15 @@ private fun getGoogleSignInIntent(
     return client.signInIntent
 }
 
-private fun authenticateWithNaver(
+private fun authenticateNaver(
     context: Context,
-    onAuthSuccess: (String?) -> Unit,
+    onAuthSuccess: (NaverSignInParams) -> Unit,
     onAuthFailure: () -> Unit = {}
 ) {
     NaverIdLoginSDK.authenticate(context, object : OAuthLoginCallback {
         override fun onSuccess() {
             NaverIdLoginSDK.getAccessToken().let { accessToken ->
-                onAuthSuccess(accessToken)
+                onAuthSuccess(NaverSignInParams(accessToken))
             }
         }
 
@@ -199,16 +176,14 @@ private fun authenticateWithNaver(
     })
 }
 
-private fun authenticateWithKakao(
+private fun authenticateKakao(
     context: Context,
-    onAuthSuccess: (String?) -> Unit,
+    onAuthSuccess: (KakaoSignInParams) -> Unit,
     onAuthFailure: () -> Unit = {}
 ) {
     val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (token != null) {
-            token.accessToken.let { accessToken ->
-                onAuthSuccess(accessToken)
-            }
+            onAuthSuccess(KakaoSignInParams(token.accessToken))
         } else {
             if (error !is ClientError || error.reason == ClientErrorCause.Cancelled) {
                 onAuthFailure() // todo: crashlytics_report
@@ -231,7 +206,9 @@ private fun SignInScreen_Preview() {
     MommydndnTheme {
         SignInScreen(
             onExploreClick = {},
-            onSocialLoginClick = {},
+            onKakakSignInClick = {},
+            onNaverSignInClick = {},
+            onGoogleSignInClick = {},
             modifier = Modifier
                 .background(White)
                 .fillMaxSize(),

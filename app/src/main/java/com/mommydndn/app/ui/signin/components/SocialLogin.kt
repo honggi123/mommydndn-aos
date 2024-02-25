@@ -31,7 +31,9 @@ import com.mommydndn.app.ui.theme.paragraph300
 
 @Composable
 internal fun SocialLogin(
-    onClick: (OAuthProvider) -> Unit,
+    onKakakSignInClick: () -> Unit,
+    onNaverSignInClick: () -> Unit,
+    onGoogleSignInClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -42,13 +44,14 @@ internal fun SocialLogin(
         Text(
             text = stringResource(id = R.string.social_login),
             color = Grey700,
-            style = MaterialTheme.typography.paragraph300.copy(
-                fontWeight = FontWeight.Medium,
-            ),
+            style = MaterialTheme.typography.paragraph300,
+            fontWeight = FontWeight.Medium
         )
 
         SocialLoginButtonsRow(
-            onClick = onClick,
+            onKakakSignInClick = onKakakSignInClick,
+            onNaverSignInClick = onNaverSignInClick,
+            onGoogleSignInClick = onGoogleSignInClick,
             modifier = Modifier.wrapContentSize(),
         )
     }
@@ -56,7 +59,9 @@ internal fun SocialLogin(
 
 @Composable
 internal fun SocialLoginButtonsRow(
-    onClick: (OAuthProvider) -> Unit,
+    onKakakSignInClick: () -> Unit,
+    onNaverSignInClick: () -> Unit,
+    onGoogleSignInClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -65,23 +70,17 @@ internal fun SocialLoginButtonsRow(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         SocialLoginIconButton(
-            onClick = {
-                onClick(OAuthProvider.Naver)
-            },
+            onClick = onNaverSignInClick,
             painter = painterResource(id = R.drawable.icon_naver)
         )
 
         SocialLoginIconButton(
-            onClick = {
-                onClick(OAuthProvider.Kakao)
-            },
+            onClick = onKakakSignInClick,
             painter = painterResource(id = R.drawable.icon_kakao)
         )
 
         SocialLoginIconButton(
-            onClick = {
-                onClick(OAuthProvider.Google)
-            },
+            onClick = onGoogleSignInClick,
             painter = painterResource(id = R.drawable.icon_google),
         )
     }
@@ -110,7 +109,9 @@ internal fun SocialLoginIconButton(
 @Composable
 private fun SocialLoginPreview() {
     SocialLogin(
-        onClick = {},
+        onKakakSignInClick = {},
+        onNaverSignInClick = {},
+        onGoogleSignInClick = {},
         modifier = Modifier
             .background(White)
             .fillMaxWidth()

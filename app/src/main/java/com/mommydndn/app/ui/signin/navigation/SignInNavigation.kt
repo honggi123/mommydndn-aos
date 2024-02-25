@@ -5,7 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.mommydndn.app.domain.model.OAuthProvider
-import com.mommydndn.app.ui.signin.SignInRoute
+import com.mommydndn.app.ui.signin.SignInScreen
 
 const val SIGN_IN_ROUTE = "signin_route"
 
@@ -19,7 +19,7 @@ fun NavGraphBuilder.signInScreen(
     composable(
         route = SIGN_IN_ROUTE,
     ) {
-        SignInRoute(
+        SignInScreen(
             onSignUpNeeded = onSignUpNeeded,
             onSignInSuccess = onSignInSuccess,
             onExploreClick = onExploreClick

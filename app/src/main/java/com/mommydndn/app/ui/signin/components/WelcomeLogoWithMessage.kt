@@ -1,7 +1,6 @@
 package com.mommydndn.app.ui.signin.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -27,7 +26,7 @@ import com.mommydndn.app.ui.theme.heading800
 import com.mommydndn.app.ui.theme.paragraph300
 
 @Composable
-fun LogoWithIntroduction(
+fun WelcomeLogoWithMessage(
     modifier: Modifier
 ) {
     Column(
@@ -46,9 +45,8 @@ fun LogoWithIntroduction(
         Text(
             text = stringResource(id = R.string.find_babysitters_near_me),
             color = Salmon600,
-            style = MaterialTheme.typography.heading800.merge(
-                fontWeight = FontWeight.Bold,
-            ),
+            style = MaterialTheme.typography.heading800,
+            fontWeight = FontWeight.Bold
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -57,9 +55,8 @@ fun LogoWithIntroduction(
             text = stringResource(id = R.string.find_babysitters_near_me_description),
             color = Grey500,
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.paragraph300.merge(
-                fontWeight = FontWeight.Normal,
-            )
+            style = MaterialTheme.typography.paragraph300,
+            fontWeight = FontWeight.Normal
         )
     }
 }
@@ -68,7 +65,7 @@ fun LogoWithIntroduction(
 @Composable
 private fun LogoWithIntroduction_Preview() {
     MommydndnTheme {
-        LogoWithIntroduction(
+        WelcomeLogoWithMessage(
             modifier = Modifier
                 .fillMaxWidth()
         )
