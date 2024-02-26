@@ -16,6 +16,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -50,32 +53,33 @@ internal fun SignInScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
-    when (val state = uiState) {
-        is SignInUiState.Success -> onSignInSuccess()
-        is SignInUiState.NotSignedUpYet -> onSignUpNeeded(state.accessToken, state.oAuthProvider)
-        else -> {
-            // todo
-        }
-    }
-
     val googleActivityResultLauncher =
         rememberLauncherForGoogleActivityResult(onAuthSuccess = viewModel::signIn)
 
-    SignInScreen(
-        onKakakSignInClick = {
-            authenticateKakao(context = context, onAuthSuccess = viewModel::signIn)
-        },
-        onNaverSignInClick = {
-            authenticateNaver(context = context, onAuthSuccess = viewModel::signIn)
-        },
-        onGoogleSignInClick = {
-            getGoogleSignInIntent(context).let { intent ->
-                googleActivityResultLauncher.launch(intent)
-            }
-        },
-        onExploreClick = onExploreClick,
-        modifier = modifier,
-    )
+    when (val state = uiState) {
+        is SignInUiState.Success -> onSignInSuccess()
+        is SignInUiState.NotSignedUpYet -> onSignUpNeeded(state.accessToken, state.oAuthProvider)
+        is SignInUiState.NotSignedInYet -> {
+            SignInScreen(
+                onKakakSignInClick = {
+                    if (!state.isLoading)
+                        authenticateKakao(context = context, onAuthSuccess = viewModel::signIn)
+                },
+                onNaverSignInClick = {
+                    if (!state.isLoading)
+                        authenticateNaver(context = context, onAuthSuccess = viewModel::signIn)
+                },
+                onGoogleSignInClick = {
+                    if (!state.isLoading)
+                        getGoogleSignInIntent(context).let { intent ->
+                            googleActivityResultLauncher.launch(intent)
+                        }
+                },
+                onExploreClick = onExploreClick,
+                modifier = modifier,
+            )
+        }
+    }
 }
 
 @Composable

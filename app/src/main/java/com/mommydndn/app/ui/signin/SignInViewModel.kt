@@ -39,17 +39,17 @@ class SignInViewModel @Inject constructor(
                 )
             }
 
-            is AccessTokenNullException -> SignInUiState.Failure(errorMessage = "토큰을 찾을 수 없습니다.")
-            is GoogleAuthCodeNullException -> SignInUiState.Failure(errorMessage = "인증 코드를 찾을 수 없습니다.")
-            else -> SignInUiState.Failure(errorMessage = "로그인에 실패했습니다.")
+            is AccessTokenNullException -> SignInUiState.NotSignedInYet(errorMessage = "토큰을 찾을 수 없습니다.")
+            is GoogleAuthCodeNullException -> SignInUiState.NotSignedInYet(errorMessage = "인증 코드를 찾을 수 없습니다.")
+            else -> SignInUiState.NotSignedInYet(errorMessage = "로그인에 실패했습니다.")
         }
     }
 
-    private val _uiState = MutableStateFlow<SignInUiState>(SignInUiState.Loading)
+    private val _uiState = MutableStateFlow<SignInUiState>(SignInUiState.NotSignedInYet())
     val uiState: StateFlow<SignInUiState> = _uiState
 
     fun signIn(params: SignInParams) {
-        _uiState.value = SignInUiState.Loading
+        _uiState.value = SignInUiState.NotSignedInYet(isLoading = true)
         viewModelScope.launch(signInExceptionHandler) {
             _uiState.value = when (params) {
                 is KakaoSignInParams -> params.accessToken?.let { signInWithKakaoUseCase(it) }
@@ -63,7 +63,7 @@ class SignInViewModel @Inject constructor(
             }.let { result ->
                 when (result) {
                     is Result.Success -> SignInUiState.Success
-                    is Result.Loading -> SignInUiState.Loading
+                    is Result.Loading -> SignInUiState.NotSignedInYet(isLoading = true)
                     is Result.Failure -> throw result.exception
                 }
             }
@@ -73,11 +73,12 @@ class SignInViewModel @Inject constructor(
 
 sealed interface SignInUiState {
 
-    data object Loading : SignInUiState
+    data class NotSignedInYet(
+        val isLoading: Boolean = false,
+        val errorMessage: String = ""
+    ) : SignInUiState
 
     data object Success : SignInUiState
-
-    data class Failure(val errorMessage: String) : SignInUiState
 
     data class NotSignedUpYet(val accessToken: String, val oAuthProvider: OAuthProvider) :
         SignInUiState
