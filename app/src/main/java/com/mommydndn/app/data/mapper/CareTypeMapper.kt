@@ -3,7 +3,7 @@ package com.mommydndn.app.data.mapper
 import com.mommydndn.app.data.network.model.NetworkCareType
 import com.mommydndn.app.domain.model.CareType
 
-internal fun NetworkCareType.transformToDomainCareType(): CareType {
+internal fun NetworkCareType.toCareType(): CareType {
     return when (this) {
         NetworkCareType.PARENTING -> CareType.ChildCare
         NetworkCareType.NURSING -> CareType.SeniorCare
