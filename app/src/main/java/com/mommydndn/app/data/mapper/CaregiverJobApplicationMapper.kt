@@ -5,7 +5,7 @@ import com.mommydndn.app.domain.model.CaregiverJobApplication
 import com.mommydndn.app.domain.model.Gender
 import com.mommydndn.app.domain.model.User
 
-fun List<NetworkNearbyCareWorker>.mapToDomainCaregiverJobApplications(): List<CaregiverJobApplication> =
+fun List<NetworkNearbyCareWorker>.toCaregiverJobApplications(): List<CaregiverJobApplication> =
     map {
         val (ageRange, gender) = with(it.ageAndGender.split(" ")) {
             parseAgeRange(get(0)) to parseGender(get(1))
@@ -17,7 +17,7 @@ fun List<NetworkNearbyCareWorker>.mapToDomainCaregiverJobApplications(): List<Ca
                 age = ageRange,
                 gender = gender
             ),
-            careTypes = listOf(it.careType.transformToDomainCareType()),
+            careTypes = listOf(it.careType.toCareType()),
         )
     }
 
