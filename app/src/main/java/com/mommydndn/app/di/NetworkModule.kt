@@ -4,13 +4,16 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import com.mommydndn.app.BuildConfig
 import com.mommydndn.app.data.network.interceptor.AuthenticationInterceptor
 import com.mommydndn.app.data.network.service.AuthenticationService
+import com.mommydndn.app.data.network.service.BannerService
 import com.mommydndn.app.data.network.service.CareService
 import com.mommydndn.app.data.network.service.CommonService
 import com.mommydndn.app.data.network.service.GoogleService
+import com.mommydndn.app.data.network.service.ImageService
 import com.mommydndn.app.data.network.service.NotificationService
 import com.mommydndn.app.data.network.service.TermsService
 import com.mommydndn.app.data.network.service.UserService
 import com.mommydndn.app.data.preferences.PreferencesStorage
+import com.mommydndn.app.domain.model.Banner
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -82,12 +85,6 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideCommonService(retrofit: Retrofit): CommonService {
-        return retrofit.create(CommonService::class.java)
-    }
-
-    @Singleton
-    @Provides
     fun provideNoticeService(retrofit: Retrofit): NotificationService {
         return retrofit.create(NotificationService::class.java)
     }
@@ -102,6 +99,24 @@ object NetworkModule {
     @Provides
     fun provideUserService(retrofit: Retrofit): UserService {
         return retrofit.create(UserService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideBannerService(retrofit: Retrofit): BannerService {
+        return retrofit.create(BannerService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideNotificationService(retrofit: Retrofit): NotificationService {
+        return retrofit.create(NotificationService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideImageService(retrofit: Retrofit): ImageService {
+        return retrofit.create(ImageService::class.java)
     }
 
     @Provides

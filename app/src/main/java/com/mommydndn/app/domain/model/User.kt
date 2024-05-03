@@ -3,6 +3,7 @@ package com.mommydndn.app.domain.model
 import java.time.LocalDate
 import java.util.Date
 
+// TODO: 구인, 구직, 업체 글 복수형?, Optional Fields
 data class User(
     val id: String,
     val email: String,
@@ -19,16 +20,41 @@ data class User(
     val isDndnCertified: Boolean,
     val verifications: List<Verification>,
     val reviews: List<Review>,
-    // TODO: 구인, 구직 또는 업체 글 복수
     val jobApplicationId: String?,
-    val jobPostingId: String?,
+    val jobPostingId: List<String>,
     val agencyId: String?,
     val dndnScore: Double,
     val matchingCount: Int,
     val reviewsCount: Int,
     val responseRate: Int,
     val createdAt: Date,
-)
+) {
+    constructor() : this(
+        id = "",
+        email = "",
+        profileImageUrl = null,
+        name = "",
+        nickname = "",
+        neighborhood = Neighborhood(),
+        neighborhoodVicinityLevel = NeighborhoodVicinityLevel.VeryDistant,
+        nearbyNeighborhoods = emptyMap(),
+        status = UserStatus.Active,
+        gender = Gender.Male,
+        age = 0,
+        birthday = LocalDate.MIN,
+        isDndnCertified = false,
+        verifications = emptyList(),
+        reviews = emptyList(),
+        jobApplicationId = null,
+        jobPostingId = emptyList(),
+        agencyId = null,
+        dndnScore = 0.0,
+        matchingCount = 0,
+        reviewsCount = 0,
+        responseRate = 0,
+        createdAt = Date()
+    )
+}
 
 enum class UserType {
     Individual, Agency

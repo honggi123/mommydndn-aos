@@ -2,6 +2,8 @@ package com.mommydndn.app.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mommydndn.app.domain.usecase.banner.GetHomeBannersUseCase
+import com.mommydndn.app.domain.usecase.notification.GetNotificationsUseCase
 import com.mommydndn.app.ui.components.banner.BannerUiModel
 import com.mommydndn.app.ui.home.components.NearbyCareJobUiModel
 import com.mommydndn.app.ui.home.components.NearestCareWorkerUiModel
@@ -13,7 +15,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor() : ViewModel() {
+class HomeViewModel @Inject constructor(
+    private val getHomeBannersUseCase: GetHomeBannersUseCase,
+    private val getNotificationUseCase: GetNotificationsUseCase,
+    private val
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
