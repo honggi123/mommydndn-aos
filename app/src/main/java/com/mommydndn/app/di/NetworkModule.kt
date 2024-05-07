@@ -25,7 +25,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -121,11 +120,11 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideGoogleService(client: OkHttpClient): GoogleService {
+    fun provideGoogleService(client: OkHttpClient, converterFactory: Converter.Factory): GoogleService {
         return Retrofit.Builder()
             .baseUrl("https://www.googleapis.com")
             .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(converterFactory)
             .build()
             .create(GoogleService::class.java)
     }

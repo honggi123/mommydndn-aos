@@ -37,9 +37,8 @@ internal fun SignInTopAppBar(
                 text = stringResource(id = R.string.explore),
                 modifier = Modifier,
                 color = Grey500,
-                style = MaterialTheme.typography.paragraph300.copy(
-                    fontWeight = FontWeight.Medium,
-                )
+                style = MaterialTheme.typography.paragraph300,
+                fontWeight = FontWeight.Medium
             )
         }
     }
